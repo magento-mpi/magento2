@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File;
 
-use Magento\App\Filesystem;
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Class Storage
@@ -21,17 +20,20 @@ class Storage extends AbstractModel
     /**
      * Storage systems ids
      */
-    const STORAGE_MEDIA_FILE_SYSTEM         = 0;
-    const STORAGE_MEDIA_DATABASE            = 1;
+    const STORAGE_MEDIA_FILE_SYSTEM = 0;
+
+    const STORAGE_MEDIA_DATABASE = 1;
 
     /**
      * Config paths for storing storage configuration
      */
-    const XML_PATH_STORAGE_MEDIA            = 'system/media_storage_configuration/media_storage';
-    const XML_PATH_STORAGE_MEDIA_DATABASE   = 'system/media_storage_configuration/media_database';
-    const XML_PATH_MEDIA_RESOURCE_WHITELIST = 'system/media_storage_configuration/allowed_resources';
-    const XML_PATH_MEDIA_UPDATE_TIME        = 'system/media_storage_configuration/configuration_update_time';
+    const XML_PATH_STORAGE_MEDIA = 'system/media_storage_configuration/media_storage';
 
+    const XML_PATH_STORAGE_MEDIA_DATABASE = 'system/media_storage_configuration/media_database';
+
+    const XML_PATH_MEDIA_RESOURCE_WHITELIST = 'system/media_storage_configuration/allowed_resources';
+
+    const XML_PATH_MEDIA_UPDATE_TIME = 'system/media_storage_configuration/configuration_update_time';
 
     /**
      * Prefix of model events names
@@ -50,12 +52,12 @@ class Storage extends AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -81,40 +83,40 @@ class Storage extends AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
      * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Model\File\Storage\Flag $fileFlag,
         \Magento\Core\Model\File\Storage\FileFactory $fileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_coreConfig = $coreConfig;
         $this->_fileFlag = $fileFlag;
         $this->_fileFactory = $fileFactory;
@@ -126,8 +128,8 @@ class Storage extends AbstractModel
     /**
      * Show if there were errors while synchronize process
      *
-     * @param AbstractModel $sourceModel
-     * @param AbstractModel $destinationModel
+     * @param \Magento\Framework\Model\AbstractModel $sourceModel
+     * @param \Magento\Framework\Model\AbstractModel $destinationModel
      * @return bool
      */
     protected function _synchronizeHasErrors($sourceModel, $destinationModel)
@@ -173,7 +175,7 @@ class Storage extends AbstractModel
                 $model = $this->_fileFactory->create();
                 break;
             case self::STORAGE_MEDIA_DATABASE:
-                $connection = (isset($params['connection'])) ? $params['connection'] : null;
+                $connection = isset($params['connection']) ? $params['connection'] : null;
                 $model = $this->_databaseFactory->create(array('connectionName' => $connection));
                 break;
             default:
@@ -200,22 +202,19 @@ class Storage extends AbstractModel
     public function synchronize($storage)
     {
         if (is_array($storage) && isset($storage['type'])) {
-            $storageDest    = (int) $storage['type'];
-            $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = $this->_coreFileStorage;
+            $storageDest = (int)$storage['type'];
+            $connection = isset($storage['connection']) ? $storage['connection'] : null;
+            $helper = $this->_coreFileStorage;
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {
                 return $this;
             }
 
-            $sourceModel        = $this->getStorageModel();
-            $destinationModel   = $this->getStorageModel(
+            $sourceModel = $this->getStorageModel();
+            $destinationModel = $this->getStorageModel(
                 $storageDest,
-                array(
-                    'connection'    => $connection,
-                    'init'          => true
-                )
+                array('connection' => $connection, 'init' => true)
             );
 
             if (!$sourceModel || !$destinationModel) {
@@ -225,12 +224,12 @@ class Storage extends AbstractModel
             $hasErrors = false;
             $flag = $this->getSyncFlag();
             $flagData = array(
-                'source'                        => $sourceModel->getStorageName(),
-                'destination'                   => $destinationModel->getStorageName(),
-                'destination_storage_type'      => $storageDest,
-                'destination_connection_name'   => (string) $destinationModel->getConnectionName(),
-                'has_errors'                    => false,
-                'timeout_reached'               => false
+                'source' => $sourceModel->getStorageName(),
+                'destination' => $destinationModel->getStorageName(),
+                'destination_storage_type' => $storageDest,
+                'destination_connection_name' => (string)$destinationModel->getConnectionName(),
+                'has_errors' => false,
+                'timeout_reached' => false
             );
             $flag->setFlagData($flagData);
 
@@ -246,8 +245,7 @@ class Storage extends AbstractModel
                     }
                 }
 
-                $flag->setFlagData($flagData)
-                    ->save();
+                $flag->setFlagData($flagData)->save();
 
                 $destinationModel->importDirectories($dirs);
                 $offset += count($dirs);
@@ -264,8 +262,7 @@ class Storage extends AbstractModel
                     }
                 }
 
-                $flag->setFlagData($flagData)
-                    ->save();
+                $flag->setFlagData($flagData)->save();
 
                 $destinationModel->importFiles($files);
                 $offset += count($files);
@@ -291,7 +288,7 @@ class Storage extends AbstractModel
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = $this->_coreStoreConfig->getConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
+        $config['update_time'] = $this->_scopeConfig->getValue(self::XML_PATH_MEDIA_UPDATE_TIME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         return $config;
     }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
@@ -24,7 +23,7 @@ class CatalogProductReview extends Page
     /**
      * URL for catalog product review
      */
-    const MCA = 'catalog/product_review';
+    const MCA = 'review/product';
 
     /**
      * Review grid selector
@@ -72,7 +71,9 @@ class CatalogProductReview extends Page
      */
     public function getEditForm()
     {
-        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlEdit($this->_browser->find($this->editFormSelector));
+        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlEdit(
+            $this->_browser->find($this->editFormSelector)
+        );
     }
 
     /**

@@ -9,15 +9,15 @@
  */
 namespace Magento\Paypal\Block\Standard;
 
-class Redirect extends \Magento\View\Element\AbstractBlock
+class Redirect extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -32,17 +32,17 @@ class Redirect extends \Magento\View\Element\AbstractBlock
     protected $mathRandom;
 
     /**
-     * @param \Magento\View\Element\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\View\Element\Context $context
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\View\Element\Context $context,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
         \Magento\Math\Random $mathRandom,
         array $data = array()
@@ -62,18 +62,25 @@ class Redirect extends \Magento\View\Element\AbstractBlock
         $standard = $this->_paypalStandardFactory->create();
 
         $form = $this->_formFactory->create();
-        $form->setAction($standard->getConfig()->getPaypalUrl())
-            ->setId('paypal_standard_checkout')
-            ->setName('paypal_standard_checkout')
-            ->setMethod('POST')
-            ->setUseContainer(true);
+        $form->setAction(
+            $standard->getConfig()->getPaypalUrl()
+        )->setId(
+            'paypal_standard_checkout'
+        )->setName(
+            'paypal_standard_checkout'
+        )->setMethod(
+            'POST'
+        )->setUseContainer(
+            true
+        );
         foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
         $idSuffix = $this->mathRandom->getUniqueHash();
-        $submitButton = $this->_elementFactory->create('submit', array('data' => array(
-            'value' => __('Click here if you are not redirected within 10 seconds.'),
-        )));
+        $submitButton = $this->_elementFactory->create(
+            'submit',
+            array('data' => array('value' => __('Click here if you are not redirected within 10 seconds.')))
+        );
         $id = "submit_to_paypal_button_{$idSuffix}";
         $submitButton->setId($id);
         $form->addElement($submitButton);

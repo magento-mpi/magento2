@@ -9,18 +9,12 @@
  */
 namespace Magento\Weee\Block\Renderer\Weee;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Adminhtml weee tax item renderer
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tax
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @var AbstractElement|null
@@ -45,9 +39,9 @@ class Tax
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Directory\Model\Config\Source\Country
@@ -63,14 +57,14 @@ class Tax
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Model\Config\Source\Country $sourceCountry
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Model\Config\Source\Country $sourceCountry,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_sourceCountry = $sourceCountry;
@@ -105,11 +99,7 @@ class Tax
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
-                'label' => __('Add Tax'),
-                'data_attribute' => array('action' => 'add-fpt-item'),
-                'class' => 'add'
-            )
+            array('label' => __('Add Tax'), 'data_attribute' => array('action' => 'add-fpt-item'), 'class' => 'add')
         );
         $this->addChild(
             'delete_button',
@@ -157,17 +147,17 @@ class Tax
     }
 
     /**
-     * @param array $a
-     * @param array $b
+     * @param array $firstItem
+     * @param array $secondItem
      * @return int
      */
-    protected function _sortWeeeTaxes($a, $b)
+    protected function _sortWeeeTaxes($firstItem, $secondItem)
     {
-        if ($a['website_id'] != $b['website_id']) {
-            return $a['website_id'] < $b['website_id'] ? -1 : 1;
+        if ($firstItem['website_id'] != $secondItem['website_id']) {
+            return $firstItem['website_id'] < $secondItem['website_id'] ? -1 : 1;
         }
-        if ($a['country'] != $b['country']) {
-            return $a['country'] < $b['country'] ? -1 : 1;
+        if ($firstItem['country'] != $secondItem['country']) {
+            return $firstItem['country'] < $secondItem['country'] ? -1 : 1;
         }
         return 0;
     }
@@ -193,7 +183,7 @@ class Tax
      */
     public function getCountries()
     {
-        if (is_null($this->_countries)) {
+        if (null === $this->_countries) {
             $this->_countries = $this->_sourceCountry->toOptionArray();
         }
 
@@ -205,12 +195,12 @@ class Tax
      */
     public function getWebsites()
     {
-        if (!is_null($this->_websites)) {
+        if (null !== $this->_websites) {
             return $this->_websites;
         }
         $websites = array();
         $websites[0] = array(
-            'name'     => __('All Websites'),
+            'name' => __('All Websites'),
             'currency' => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
@@ -218,8 +208,8 @@ class Tax
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
-                    'name'     => $website->getName(),
-                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                    'name' => $website->getName(),
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                 );
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
@@ -227,8 +217,8 @@ class Tax
                         continue;
                     }
                     $websites[$website->getId()] = array(
-                        'name'     => $website->getName(),
-                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                        'name' => $website->getName(),
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                     );
                 }
             }

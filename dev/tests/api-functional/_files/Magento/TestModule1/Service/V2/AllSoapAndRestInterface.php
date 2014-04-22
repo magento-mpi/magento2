@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V2;
 
 use Magento\TestModule1\Service\V2\Entity\Item;
@@ -39,9 +38,11 @@ interface AllSoapAndRestInterface
     /**
      * Retrieve a list of items.
      *
+     * @param \Magento\Service\V1\Data\Filter[] $filters
+     * @param string $sortOrder
      * @return \Magento\TestModule1\Service\V2\Entity\Item[]
      */
-    public function items();
+    public function items($filters = array(), $sortOrder = 'ASC');
 
     /**
      * Delete an item.

@@ -14,28 +14,27 @@ namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Update
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Update extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Core system store model
      *
-     * @var \Magento\Core\Model\System\StoreFactory
+     * @var \Magento\Store\Model\System\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\StoreFactory $storeFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\StoreFactory $storeFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Store\Model\System\StoreFactory $storeFactory,
         array $data = array()
     ) {
         $this->_storeFactory = $storeFactory;
@@ -59,53 +58,65 @@ class Update
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('reward_');
         $form->setFieldNameSuffix('reward');
-        $fieldset = $form->addFieldset('update_fieldset', array(
-            'legend' => __('Update Reward Points Balance')
-        ));
+        $fieldset = $form->addFieldset('update_fieldset', array('legend' => __('Update Reward Points Balance')));
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $fieldset->addField('store', 'select', array(
-                'name'  => 'store_id',
-                'title' => __('Store'),
-                'label' => __('Store'),
-                'values' => $this->_getStoreValues()
-            ));
+            $fieldset->addField(
+                'store',
+                'select',
+                array(
+                    'name' => 'store_id',
+                    'title' => __('Store'),
+                    'label' => __('Store'),
+                    'values' => $this->_getStoreValues()
+                )
+            );
         }
 
-        $fieldset->addField('points_delta', 'text', array(
-            'name'  => 'points_delta',
-            'title' => __('Update Points'),
-            'label' => __('Update Points'),
-            'note'  => __('Enter a negative number to subtract from the balance.')
-        ));
+        $fieldset->addField(
+            'points_delta',
+            'text',
+            array(
+                'name' => 'points_delta',
+                'title' => __('Update Points'),
+                'label' => __('Update Points'),
+                'note' => __('Enter a negative number to subtract from the balance.')
+            )
+        );
 
-        $fieldset->addField('comment', 'text', array(
-            'name'  => 'comment',
-            'title' => __('Comment'),
-            'label' => __('Comment')
-        ));
+        $fieldset->addField(
+            'comment',
+            'text',
+            array('name' => 'comment', 'title' => __('Comment'), 'label' => __('Comment'))
+        );
 
-        $fieldset = $form->addFieldset('notification_fieldset', array(
-            'legend' => __('Reward Points Notifications')
-        ));
+        $fieldset = $form->addFieldset('notification_fieldset', array('legend' => __('Reward Points Notifications')));
 
-        $fieldset->addField('update_notification', 'checkbox', array(
-            'name'    => 'reward_update_notification',
-            'label'   => __('Subscribe for balance updates'),
-            'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
-            'value'   => 1
-        ));
+        $fieldset->addField(
+            'update_notification',
+            'checkbox',
+            array(
+                'name' => 'reward_update_notification',
+                'label' => __('Subscribe for balance updates'),
+                'checked' => (bool)$this->getCustomer()->getRewardUpdateNotification(),
+                'value' => 1
+            )
+        );
 
-        $fieldset->addField('warning_notification', 'checkbox', array(
-            'name'    => 'reward_warning_notification',
-            'label'   => __('Subscribe for points expiration notifications'),
-            'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
-            'value' => 1
-        ));
+        $fieldset->addField(
+            'warning_notification',
+            'checkbox',
+            array(
+                'name' => 'reward_warning_notification',
+                'label' => __('Subscribe for points expiration notifications'),
+                'checked' => (bool)$this->getCustomer()->getRewardWarningNotification(),
+                'value' => 1
+            )
+        );
 
         $this->setForm($form);
         return parent::_prepareForm();
@@ -119,22 +130,24 @@ class Update
     protected function _getStoreValues()
     {
         $customer = $this->getCustomer();
-        if (!$customer->getWebsiteId()
-            || $this->_storeManager->hasSingleStore()
-            || $customer->getSharingConfig()->isGlobalScope())
-        {
+        if (!$customer->getWebsiteId() ||
+            $this->_storeManager->hasSingleStore() ||
+            $customer->getSharingConfig()->isGlobalScope()
+        ) {
             return $this->_storeFactory->create()->getStoreValuesForForm();
         }
 
-        $stores = $this->_storeFactory->create()->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
+        $stores = $this->_storeFactory->create()->getStoresStructure(
+            false,
+            array(),
+            array(),
+            array($customer->getWebsiteId())
+        );
         $values = array();
 
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         foreach ($stores as $websiteId => $website) {
-            $values[] = array(
-                'label' => $website['label'],
-                'value' => array()
-            );
+            $values[] = array('label' => $website['label'], 'value' => array());
             if (isset($website['children']) && is_array($website['children'])) {
                 foreach ($website['children'] as $groupId => $group) {
                     if (isset($group['children']) && is_array($group['children'])) {

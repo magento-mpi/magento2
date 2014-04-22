@@ -18,8 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Product\Index\Collection;
 
-abstract class AbstractCollection
-    extends \Magento\Catalog\Model\Resource\Product\Collection
+abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Customer id
@@ -36,20 +35,20 @@ abstract class AbstractCollection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Log\Model\Visitor $logVisitor
@@ -60,20 +59,20 @@ abstract class AbstractCollection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Log\Model\Visitor $logVisitor,
@@ -91,11 +90,11 @@ abstract class AbstractCollection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
-            $coreStoreConfig,
+            $catalogProductFlatState,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -121,11 +120,7 @@ abstract class AbstractCollection
             $this->joinTable(
                 array('idx_table' => $this->_getTableName()),
                 'product_id=entity_id',
-                array(
-                    'product_id'    => 'product_id',
-                    'item_store_id' => 'store_id',
-                    'added_at'      => 'added_at'
-                ),
+                array('product_id' => 'product_id', 'item_store_id' => 'store_id', 'added_at' => 'added_at'),
                 $this->_getWhereCondition()
             );
             $this->setFlag('is_idx_table_joined', true);

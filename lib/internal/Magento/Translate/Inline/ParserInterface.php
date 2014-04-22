@@ -10,9 +10,9 @@ namespace Magento\Translate\Inline;
 interface ParserInterface
 {
     /**
-     * Default state for jason flag
+     * Regular Expression for detected and replace translate
      */
-    const JSON_FLAG_DEFAULT_STATE = false;
+    const REGEXP_TOKEN = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
 
     /**
      * Parse and save edited translation
@@ -41,6 +41,7 @@ interface ParserInterface
      * Sets the body content that is being parsed passed upon the passed in string.
      *
      * @param $content string
+     * @return void
      */
     public function setContent($content);
 

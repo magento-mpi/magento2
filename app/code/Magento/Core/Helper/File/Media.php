@@ -7,35 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper\File;
 
 /**
  * Class Media
  */
-class Media extends \Magento\App\Helper\AbstractHelper
+class Media extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
-    
+
     /**
      * Constructor
      *
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Date $date
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Date $date,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         parent::__construct($context);
         $this->_date = $date;
@@ -54,20 +53,20 @@ class Media extends \Magento\App\Helper\AbstractHelper
      * @param string $mediaDirectory
      * @param string $path
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function collectFileInfo($mediaDirectory, $path)
     {
         $path = ltrim($path, '\\/');
         $fullPath = $mediaDirectory . '/' . $path;
 
-        $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $relativePath = $dir->getRelativePath($fullPath);
         if (!$dir->isFile($relativePath)) {
-            throw new \Magento\Core\Exception(__('File %1 does not exist', $fullPath));
+            throw new \Magento\Framework\Model\Exception(__('File %1 does not exist', $fullPath));
         }
         if (!$dir->isReadable($relativePath)) {
-            throw new \Magento\Core\Exception(__('File %1 is not readable', $fullPath));
+            throw new \Magento\Framework\Model\Exception(__('File %1 is not readable', $fullPath));
         }
 
         $path = str_replace(array('/', '\\'), '/', $path);
@@ -77,10 +76,10 @@ class Media extends \Magento\App\Helper\AbstractHelper
         }
 
         return array(
-            'filename'      => basename($path),
-            'content'       => $dir->readFile($relativePath),
-            'update_time'   => $this->_date->date(),
-            'directory'     => $directory
+            'filename' => basename($path),
+            'content' => $dir->readFile($relativePath),
+            'update_time' => $this->_date->date(),
+            'directory' => $directory
         );
     }
 }

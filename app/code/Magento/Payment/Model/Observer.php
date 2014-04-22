@@ -45,6 +45,7 @@ class Observer
         $this->_paymentConfig = $paymentConfig;
         $this->_resourceConfig = $resourceConfig;
     }
+
     /**
      * Set forced canCreditmemo flag
      *
@@ -76,22 +77,6 @@ class Observer
     }
 
     /**
-     * Sets current instructions for bank transfer account
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
-    {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() === \Magento\Payment\Model\Method\Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
-            $payment->setAdditionalInformation('instructions',
-                $payment->getMethodInstance()->getInstructions());
-        }
-    }
-
-    /**
      * @param \Magento\Event\Observer $observer
      * @return void
      */
@@ -106,7 +91,10 @@ class Observer
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
                 $this->_resourceConfig->saveConfig(
-                    'payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0
+                    'payment/' . $method->getCode() . '/order_status',
+                    $defaultStatus,
+                    'default',
+                    0
                 );
             }
         }

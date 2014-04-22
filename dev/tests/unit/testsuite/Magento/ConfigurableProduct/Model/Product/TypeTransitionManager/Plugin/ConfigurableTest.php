@@ -17,7 +17,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $invocationChainMock;
+    protected $closureMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -29,15 +29,14 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
-        $this->requestMock = $this->getMock(
-            'Magento\App\Request\Http',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->model = new Configurable($this->requestMock);
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
@@ -46,26 +45,51 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->invocationChainMock = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $this->subjectMock = $this->getMock(
+            'Magento\Catalog\Model\Product\TypeTransitionManager',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->closureMock = function () {
+            return 'Expected';
+        };
     }
 
     public function testAroundProcessProductWithProductThatCanBeTransformedToConfigurable()
     {
-        $this->requestMock->expects($this->any())->method('getParam')->with('attributes')
-            ->will($this->returnValue('not_empty_attribute_data'));
-        $this->productMock->expects($this->once())->method('setTypeId')
-            ->with(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
-        $this->invocationChainMock->expects($this->never())->method('proceed');
-        $this->model->aroundProcessProduct(array($this->productMock), $this->invocationChainMock);
+        $this->requestMock->expects(
+            $this->any()
+        )->method(
+            'getParam'
+        )->with(
+            'attributes'
+        )->will(
+            $this->returnValue('not_empty_attribute_data')
+        );
+        $this->productMock->expects(
+            $this->once()
+        )->method(
+            'setTypeId'
+        )->with(
+            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
+        );
+        $this->model->aroundProcessProduct($this->subjectMock, $this->closureMock, $this->productMock);
     }
 
     public function testAroundProcessProductWithProductThatCannotBeTransformedToConfigurable()
     {
-        $this->requestMock->expects($this->any())->method('getParam')->with('attributes')
-            ->will($this->returnValue(null));
+        $this->requestMock->expects(
+            $this->any()
+        )->method(
+            'getParam'
+        )->with(
+            'attributes'
+        )->will(
+            $this->returnValue(null)
+        );
         $this->productMock->expects($this->never())->method('setTypeId');
-        $arguments = array($this->productMock);
-        $this->invocationChainMock->expects($this->once())->method('proceed')->with($arguments);
-        $this->model->aroundProcessProduct($arguments, $this->invocationChainMock);
+        $this->model->aroundProcessProduct($this->subjectMock, $this->closureMock, $this->productMock);
     }
 }

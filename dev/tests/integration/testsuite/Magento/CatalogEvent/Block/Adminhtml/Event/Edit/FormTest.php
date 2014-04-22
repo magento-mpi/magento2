@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
 /**
@@ -19,20 +18,28 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->setDefaultDesignTheme();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\DesignInterface'
+        )->setArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->setDefaultDesignTheme();
         /** @var $event \Magento\CatalogEvent\Model\Event */
-        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogEvent\Model\Event');
+        $event = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogEvent\Model\Event'
+        );
         $event->setCategoryId(1)->setId(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('magento_catalogevent_event', $event);
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
+        $objectManager->get('Magento\Registry')->register('magento_catalogevent_event', $event);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form'
+        );
         $prepareFormMethod = new \ReflectionMethod(
-            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
+            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form',
+            '_prepareForm'
+        );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

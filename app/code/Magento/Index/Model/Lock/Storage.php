@@ -15,8 +15,8 @@ namespace Magento\Index\Model\Lock;
 
 use Magento\Index\Model\Process\File;
 use Magento\Index\Model\Process\FileFactory;
-use Magento\App\Filesystem;
-use Magento\Filesystem\Directory\WriteInterface;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 class Storage
 {
@@ -43,11 +43,9 @@ class Storage
      * @param FileFactory $fileFactory
      * @param Filesystem $filesystem
      */
-    public function __construct(
-        FileFactory $fileFactory,
-        Filesystem $filesystem
-    ) {
-        $this->_fileFactory   = $fileFactory;
+    public function __construct(FileFactory $fileFactory, Filesystem $filesystem)
+    {
+        $this->_fileFactory = $fileFactory;
         $this->_varDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
     }
 

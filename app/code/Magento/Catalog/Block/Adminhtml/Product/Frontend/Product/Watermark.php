@@ -17,14 +17,13 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Frontend\Product;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class Watermark
-    extends \Magento\Backend\Block\AbstractBlock
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Watermark extends \Magento\Backend\Block\AbstractBlock implements
+    \Magento\Framework\Data\Form\Element\Renderer\RendererInterface
 {
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -47,7 +46,7 @@ class Watermark
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition
      * @param \Magento\Backend\Block\System\Config\Form\Field $formField
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param array $imageTypes
      * @param array $data
      */
@@ -55,7 +54,7 @@ class Watermark
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Model\Config\Source\Watermark\Position $watermarkPosition,
         \Magento\Backend\Block\System\Config\Form\Field $formField,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         array $imageTypes = array(),
         array $data = array()
     ) {
@@ -77,36 +76,52 @@ class Watermark
             /**
              * Watermark size field
              */
-            /** @var \Magento\Data\Form\Element\Text $field */
+            /** @var \Magento\Framework\Data\Form\Element\Text $field */
             $field = $this->_elementFactory->create('text');
-            $field->setName("groups[watermark][fields][{$key}_size][value]")
-                ->setForm($this->getForm())
-                ->setLabel(__('Size for %1', $attribute['title']))
-                ->setRenderer($this->_formField);
-            $html.= $field->toHtml();
+            $field->setName(
+                "groups[watermark][fields][{$key}_size][value]"
+            )->setForm(
+                $this->getForm()
+            )->setLabel(
+                __('Size for %1', $attribute['title'])
+            )->setRenderer(
+                $this->_formField
+            );
+            $html .= $field->toHtml();
 
             /**
              * Watermark upload field
              */
-            /** @var \Magento\Data\Form\Element\Imagefile $field */
+            /** @var \Magento\Framework\Data\Form\Element\Imagefile $field */
             $field = $this->_elementFactory->create('imagefile');
-            $field->setName("groups[watermark][fields][{$key}_image][value]")
-                ->setForm($this->getForm())
-                ->setLabel(__('Watermark File for %1', $attribute['title']))
-                ->setRenderer($this->_formField);
-            $html.= $field->toHtml();
+            $field->setName(
+                "groups[watermark][fields][{$key}_image][value]"
+            )->setForm(
+                $this->getForm()
+            )->setLabel(
+                __('Watermark File for %1', $attribute['title'])
+            )->setRenderer(
+                $this->_formField
+            );
+            $html .= $field->toHtml();
 
             /**
              * Watermark position field
              */
-            /** @var \Magento\Data\Form\Element\Select $field */
+            /** @var \Magento\Framework\Data\Form\Element\Select $field */
             $field = $this->_elementFactory->create('select');
-            $field->setName("groups[watermark][fields][{$key}_position][value]")
-                ->setForm($this->getForm())
-                ->setLabel(__('Position of Watermark for %1', $attribute['title']))
-                ->setRenderer($this->_formField)
-                ->setValues($this->_watermarkPosition->toOptionArray());
-            $html.= $field->toHtml();
+            $field->setName(
+                "groups[watermark][fields][{$key}_position][value]"
+            )->setForm(
+                $this->getForm()
+            )->setLabel(
+                __('Position of Watermark for %1', $attribute['title'])
+            )->setRenderer(
+                $this->_formField
+            )->setValues(
+                $this->_watermarkPosition->toOptionArray()
+            );
+            $html .= $field->toHtml();
         }
 
         $html .= $this->_getFooterHtml($element);
@@ -123,16 +138,16 @@ class Watermark
         $id = $element->getHtmlId();
         $default = !$this->getRequest()->getParam('website') && !$this->getRequest()->getParam('store');
 
-        $html = '<h4 class="icon-head head-edit-form">'.$element->getLegend().'</h4>';
-        $html.= '<fieldset class="config" id="'.$element->getHtmlId().'">';
-        $html.= '<legend>'.$element->getLegend().'</legend>';
+        $html = '<h4 class="icon-head head-edit-form">' . $element->getLegend() . '</h4>';
+        $html .= '<fieldset class="config" id="' . $element->getHtmlId() . '">';
+        $html .= '<legend>' . $element->getLegend() . '</legend>';
 
         // field label column
-        $html.= '<table cellspacing="0"><colgroup class="label" /><colgroup class="value" />';
+        $html .= '<table cellspacing="0"><colgroup class="label" /><colgroup class="value" />';
         if (!$default) {
-            $html.= '<colgroup class="use-default" />';
+            $html .= '<colgroup class="use-default" />';
         }
-        $html.= '<tbody>';
+        $html .= '<tbody>';
 
         return $html;
     }

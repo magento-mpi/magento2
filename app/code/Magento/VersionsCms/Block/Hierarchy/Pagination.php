@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Block\Hierarchy;
 /**
  * Cms Widget Pagination Block
  */
-class Pagination extends \Magento\View\Element\Template
+class Pagination extends \Magento\Framework\View\Element\Template
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -24,7 +24,7 @@ class Pagination extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -34,14 +34,14 @@ class Pagination extends \Magento\View\Element\Template
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
@@ -83,16 +83,18 @@ class Pagination extends \Magento\View\Element\Template
     {
         $this->setPaginationEnabled(false);
 
-        if ($this->_node instanceof \Magento\Core\Model\AbstractModel) {
+        if ($this->_node instanceof \Magento\Framework\Model\AbstractModel) {
             $params = $this->_node->getMetadataPagerParams();
-            if ($params !== null
-                && isset($params['pager_visibility'])
-                && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES
+            if ($params !== null && isset(
+                $params['pager_visibility']
+            ) && $params['pager_visibility'] == \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES
             ) {
-                $this->addData(array(
-                    'jump' => isset($params['pager_jump']) ? $params['pager_jump'] : 0,
-                    'frame' => isset($params['pager_frame']) ? $params['pager_frame'] : 0,
-                ));
+                $this->addData(
+                    array(
+                        'jump' => isset($params['pager_jump']) ? $params['pager_jump'] : 0,
+                        'frame' => isset($params['pager_frame']) ? $params['pager_frame'] : 0
+                    )
+                );
 
                 $this->setPaginationEnabled(true);
             }
@@ -308,20 +310,15 @@ class Pagination extends \Magento\View\Element\Template
         if (!$this->hasData('_nodes')) {
 
             // initialize nodes
-            $nodes    = $this->_node
-                ->setCollectActivePagesOnly(true)
-                ->getParentNodeChildren();
+            $nodes = $this->_node->setCollectActivePagesOnly(true)->getParentNodeChildren();
 
-            $flags    = array(
-                'previous' => false,
-                'next'     => false
-            );
-            $count    = count($nodes);
+            $flags = array('previous' => false, 'next' => false);
+            $count = count($nodes);
             $previous = null;
-            $next     = null;
-            $first    = null;
-            $last     = null;
-            $current  = 0;
+            $next = null;
+            $first = null;
+            $last = null;
+            $current = 0;
             foreach ($nodes as $k => $node) {
                 $node->setPageNumber($k + 1);
                 $node->setIsCurrent(false);
@@ -358,7 +355,7 @@ class Pagination extends \Magento\View\Element\Template
                     $start = 0;
                 } else {
                     $start = $current - $middleFrame + 1;
-                    if (($start + 1 + $this->getFrame()) > $count) {
+                    if ($start + 1 + $this->getFrame() > $count) {
                         $start = $count - $this->getFrame();
                     }
                 }
@@ -377,7 +374,7 @@ class Pagination extends \Magento\View\Element\Template
                 $this->setCanShowFirst(false);
                 $this->setCanShowLast(false);
                 $start = 0;
-                $end   = $count;
+                $end = $count;
             }
 
             $this->setCanShowPreviousJump(false);
@@ -394,7 +391,7 @@ class Pagination extends \Magento\View\Element\Template
             if ($count - 1 > $end) {
                 $this->setCanShowNextJump(true);
                 $difference = $count - $end - 1;
-                if ($difference < ($this->getJump() * 2)) {
+                if ($difference < $this->getJump() * 2) {
                     $jump = $end + ceil($difference / 2) - 1;
                 } else {
                     $jump = $end + $this->getJump() - 1;

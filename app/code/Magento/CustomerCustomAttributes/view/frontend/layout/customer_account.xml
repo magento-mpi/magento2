@@ -7,9 +7,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="customer_account_navigation">
-        <block class="Magento\View\Element\Html\Link\Current" name="customer-account-navigation-customer-balance-link">
+        <block class="Magento\Framework\View\Element\Html\Link\Current" name="customer-account-navigation-customer-balance-link">
             <arguments>
                 <argument name="name" xsi:type="string">magento_customerbalance</argument>
                 <argument name="label" xsi:type="string">Store Credit</argument>

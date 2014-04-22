@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Mapper\Factory
@@ -28,7 +27,7 @@ class Converter implements \Magento\Config\ConverterInterface
         \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_DEPENDENCIES,
         \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_ATTRIBUTE_INHERITANCE,
         \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_IGNORE,
-        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_SORTING,
+        \Magento\Backend\Model\Config\Structure\Mapper\Factory::MAPPER_SORTING
     );
 
     /**
@@ -39,10 +38,10 @@ class Converter implements \Magento\Config\ConverterInterface
      * @var array
      */
     protected $_nameMap = array(
-        'system' => array('tab' => 'tabs', 'section'=> 'sections'),
+        'system' => array('tab' => 'tabs', 'section' => 'sections'),
         'section' => array('group' => 'children'),
         'group' => array('field' => 'children', 'group' => 'children'),
-        'depends' => array('field' => 'fields'),
+        'depends' => array('field' => 'fields')
     );
 
     /**
@@ -117,8 +116,14 @@ class Converter implements \Magento\Config\ConverterInterface
                     break;
             }
 
-            if (array_key_exists($root->nodeName, $this->_nameMap)
-                && array_key_exists($child->nodeName, $this->_nameMap[$root->nodeName])) {
+            if (array_key_exists(
+                $root->nodeName,
+                $this->_nameMap
+            ) && array_key_exists(
+                $child->nodeName,
+                $this->_nameMap[$root->nodeName]
+            )
+            ) {
                 $childName = $this->_nameMap[$root->nodeName][$child->nodeName];
                 $processedSubLists[] = $childName;
                 $convertedChild['_elementType'] = $child->nodeName;

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 /**
@@ -20,10 +19,11 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->model = $this->getMockBuilder('Magento\Message\AbstractMessage')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getType'))
-            ->getMockForAbstractClass();
+        $this->model = $this->getMockBuilder(
+            'Magento\Message\AbstractMessage'
+        )->disableOriginalConstructor()->setMethods(
+            array('getType')
+        )->getMockForAbstractClass();
     }
 
     /**
@@ -42,10 +42,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setTextGetTextProvider()
     {
-        return array(
-            array(''),
-            array('some text'),
-        );
+        return array(array(''), array('some text'));
     }
 
     /**
@@ -64,10 +61,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdentifierGetIdentifierProvider()
     {
-        return array(
-            array(''),
-            array('some identifier'),
-        );
+        return array(array(''), array('some identifier'));
     }
 
     /**
@@ -89,10 +83,13 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
         $someText = 'some text';
         $expectedString = MessageInterface::TYPE_SUCCESS . ': ' . $someText;
 
-        $this->model
-            ->expects($this->atLeastOnce())
-            ->method('getType')
-            ->will($this->returnValue(MessageInterface::TYPE_SUCCESS));
+        $this->model->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getType'
+        )->will(
+            $this->returnValue(MessageInterface::TYPE_SUCCESS)
+        );
 
         $this->model->setText($someText);
         $this->assertEquals($expectedString, $this->model->toString());

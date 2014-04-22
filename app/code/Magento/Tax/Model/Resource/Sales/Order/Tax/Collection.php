@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Tax\Model\Resource\Sales\Order\Tax;
 
 /**
  * Order Tax Collection
@@ -16,12 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Resource\Sales\Order\Tax;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -37,9 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function loadByOrder($order)
     {
         $orderId = $order->getId();
-        $this->getSelect()
-            ->where('main_table.order_id = ?', (int)$orderId)
-            ->order('process');
+        $this->getSelect()->where('main_table.order_id = ?', (int)$orderId)->order('process');
         return $this->load();
     }
 }

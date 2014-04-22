@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Group;
 
-class Proxy
-    extends \Magento\Backend\Model\Config\Structure\Element\Group
+class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
 {
     /**
      * Object manager
@@ -140,7 +138,6 @@ class Proxy
         return $this->_getSubject()->getClass();
     }
 
-
     /**
      * Check whether element has visible child elements
      *
@@ -174,7 +171,7 @@ class Proxy
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getCloneModel()
     {
@@ -184,10 +181,10 @@ class Proxy
     /**
      * Populate form fieldset with group data
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @return void
      */
-    public function populateFieldset(\Magento\Data\Form\Element\Fieldset $fieldset)
+    public function populateFieldset(\Magento\Framework\Data\Form\Element\Fieldset $fieldset)
     {
         $this->_getSubject()->populateFieldset($fieldset);
     }
@@ -244,4 +241,3 @@ class Proxy
         return $this->_getSubject()->getDependencies($storeCode);
     }
 }
-

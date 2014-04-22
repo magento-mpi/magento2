@@ -28,7 +28,7 @@ use Magento\Oauth\ConsumerInterface;
  * @method string getRejectedCallbackUrl()
  * @method Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInterface
+class Consumer extends \Magento\Framework\Model\AbstractModel implements ConsumerInterface
 {
     /**
      * @var \Magento\Url\Validator
@@ -41,21 +41,21 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     protected $_keyLengthFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_keyLengthFactory = $keyLengthFactory;
@@ -99,10 +99,10 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
             if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Callback URL'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid Rejected Callback URL'));
             }
         }
 
@@ -114,14 +114,14 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
             $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
+            throw new \Magento\Framework\Model\Exception(array_shift($messages));
         }
 
         $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
+            throw new \Magento\Framework\Model\Exception(array_shift($messages));
         }
         return true;
     }

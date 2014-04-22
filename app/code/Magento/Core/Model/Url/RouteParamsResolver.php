@@ -5,23 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Url;
 
-class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\RouteParamsResolverInterface
+class RouteParamsResolver extends \Magento\Object implements \Magento\Url\RouteParamsResolverInterface
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,22 +30,22 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
     protected $_queryParamsResolver;
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_request = $request;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_queryParamsResolver = $queryParamsResolver;
     }
@@ -110,10 +109,14 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
         }
 
         if (isset($data['_scope_to_url']) && (bool)$data['_scope_to_url'] === true) {
-            if (!$this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $this->getScope())
-                && !$this->_storeManager->hasSingleStore()
+            $store = $this->getScope() ? : $this->_storeManager->getStore();
+            if (!$this->_scopeConfig->getValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->getScope()
+            ) && !$this->_storeManager->hasSingleStore()
             ) {
-                $this->_queryParamsResolver->setQueryParam('___store', $this->getScope()->getCode());
+                $this->_queryParamsResolver->setQueryParam('___store', $store->getCode());
             }
         }
         unset($data['_scope_to_url']);

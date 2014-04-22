@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Sales\Order\Item\Renderer;
+
+use Magento\Downloadable\Model\Link\Purchased;
 
 /**
  * Downloadable order item render block
@@ -16,7 +17,7 @@ namespace Magento\Downloadable\Block\Sales\Order\Item\Renderer;
 class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
     /**
-     * @var \Magento\Downloadable\Model\Link\Purchased
+     * @var Purchased
      */
     protected $_purchasedLinks;
 
@@ -31,7 +32,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
     protected $_itemsFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
@@ -39,7 +40,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
@@ -51,12 +52,19 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
         parent::__construct($context, $string, $productOptionFactory, $data);
     }
 
+    /**
+     * @return Purchased
+     */
     public function getLinks()
     {
-        $this->_purchasedLinks = $this->_purchasedFactory->create()
-            ->load($this->getOrderItem()->getOrder()->getId(), 'order_id');
-        $purchasedItems = $this->_itemsFactory->create()
-            ->addFieldToFilter('order_item_id', $this->getOrderItem()->getId());
+        $this->_purchasedLinks = $this->_purchasedFactory->create()->load(
+            $this->getOrderItem()->getOrder()->getId(),
+            'order_id'
+        );
+        $purchasedItems = $this->_itemsFactory->create()->addFieldToFilter(
+            'order_item_id',
+            $this->getOrderItem()->getId()
+        );
         $this->_purchasedLinks->setPurchasedItems($purchasedItems);
 
         return $this->_purchasedLinks;
@@ -70,6 +78,6 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
         if ($this->_purchasedLinks->getLinkSectionTitle()) {
             return $this->_purchasedLinks->getLinkSectionTitle();
         }
-        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

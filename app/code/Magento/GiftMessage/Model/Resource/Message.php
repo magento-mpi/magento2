@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Model\Resource;
 
 /**
  * Gift Message resource model
@@ -16,13 +16,12 @@
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Model\Resource;
-
-class Message extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Message extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {

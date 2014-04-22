@@ -23,18 +23,16 @@ class Variable extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -47,8 +45,12 @@ class Variable extends Action
     protected function _initLayout()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Backend::system_variable')
-            ->_addBreadcrumb(__('Custom Variables'), __('Custom Variables'));
+        $this->_setActiveMenu(
+            'Magento_Backend::system_variable'
+        )->_addBreadcrumb(
+            __('Custom Variables'),
+            __('Custom Variables')
+        );
         return $this;
     }
 
@@ -66,8 +68,7 @@ class Variable extends Action
         /* @var $variable \Magento\Core\Model\Variable */
         $variable = $this->_objectManager->create('Magento\Core\Model\Variable');
         if ($variableId) {
-            $variable->setStoreId($storeId)
-                ->load($variableId);
+            $variable->setStoreId($storeId)->load($variableId);
         }
         $this->_coreRegistry->register('current_variable', $variable);
         return $variable;
@@ -107,13 +108,15 @@ class Variable extends Action
 
         $this->_title->add($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
-        $this->_initLayout()
-            ->_addContent(
-                $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
+        $this->_initLayout()->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
+        )->_addJs(
+            $this->_view->getLayout()->createBlock(
+                'Magento\Framework\View\Element\Template',
+                '',
+                array('data' => array('template' => 'Magento_Backend::system/variable/js.phtml'))
             )
-            ->_addJs($this->_view->getLayout()->createBlock('Magento\View\Element\Template', '', array(
-                'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
-            )));
+        );
         $this->_view->renderLayout();
     }
 
@@ -152,18 +155,19 @@ class Variable extends Action
             $variable->setData($data);
             try {
                 $variable->save();
-                $this->messageManager->addSuccess(
-                    __('You saved the custom variable.')
-                );
+                $this->messageManager->addSuccess(__('You saved the custom variable.'));
                 if ($back) {
-                    $this->_redirect('adminhtml/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('_current' => true, 'variable_id' => $variable->getId())
+                    );
                 } else {
                     $this->_redirect('adminhtml/*/', array());
                 }
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current' => true, ));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
         }
@@ -182,12 +186,10 @@ class Variable extends Action
         if ($variable->getId()) {
             try {
                 $variable->delete();
-                $this->messageManager->addSuccess(
-                    __('You deleted the customer.')
-                );
+                $this->messageManager->addSuccess(__('You deleted the customer.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current' => true, ));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
         }
@@ -203,7 +205,11 @@ class Variable extends Action
     public function wysiwygPluginAction()
     {
         $customVariables = $this->_objectManager->create('Magento\Core\Model\Variable')->getVariablesOptionArray(true);
-        $storeContactVariabls = $this->_objectManager->create('Magento\Email\Model\Source\Variables')->toOptionArray(true);
+        $storeContactVariabls = $this->_objectManager->create(
+            'Magento\Email\Model\Source\Variables'
+        )->toOptionArray(
+            true
+        );
         $variables = array($storeContactVariabls, $customVariables);
         $this->getResponse()->setBody(\Zend_Json::encode($variables));
     }

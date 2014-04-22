@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
 /**
  * Product inventory data
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
-
 class Inventory extends \Magento\Backend\Block\Widget
 {
     /**
@@ -32,7 +31,7 @@ class Inventory extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -51,7 +50,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
      * @param \Magento\CatalogInventory\Model\Source\Stock $stock
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -59,7 +58,7 @@ class Inventory extends \Magento\Backend\Block\Widget
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
         \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_stock = $stock;
@@ -115,13 +114,17 @@ class Inventory extends \Magento\Backend\Block\Widget
         return $this->getProduct()->getStockItem();
     }
 
+    /**
+     * @param string $field
+     * @return string|null
+     */
     public function getFieldValue($field)
     {
         if ($this->getStockItem()) {
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -136,7 +139,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             }
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -145,7 +148,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_scopeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Integration\Service\IntegrationV1Interface" type="Magento\Integration\Service\IntegrationV1" />
     <preference for="Magento\Integration\Service\OauthV1Interface" type="Magento\Integration\Service\OauthV1" />
     <preference for="Magento\Oauth\ConsumerInterface" type="Magento\Integration\Model\Oauth\Consumer"/>
@@ -15,12 +15,12 @@
     <preference for="Magento\Oauth\TokenProviderInterface" type="Magento\Integration\Model\Oauth\Token\Provider"/>
     <type name="Magento\Integration\Model\Oauth\Nonce\Generator">
         <arguments>
-            <argument name="date" xsi:type="object">Magento\Core\Model\Date\Proxy</argument>
+            <argument name="date" xsi:type="object">Magento\Stdlib\DateTime\DateTime\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Integration\Model\Oauth\Token\Provider">
         <arguments>
-            <argument name="date" xsi:type="object">Magento\Core\Model\Date\Proxy</argument>
+            <argument name="date" xsi:type="object">Magento\Stdlib\DateTime\DateTime\Proxy</argument>
         </arguments>
     </type>
 </config>

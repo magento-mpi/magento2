@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Service;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Region;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\RegionBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -33,11 +32,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     private $_customerBuilder;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -52,20 +46,24 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $_customerAddressBuilder;
 
+    /**
+     * @var CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
 
     public function setUp()
     {
-        $this->_addressBuilder = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\Dto\AddressBuilder'
+        $this->_customerAddressBuilder = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\Data\AddressBuilder'
         );
         $this->_customerBuilder = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\Dto\CustomerBuilder'
+            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+        );
+        $this->_customerDetailsBuilder = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
         $this->_customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountService'
-        );
-        $this->_customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerService'
         );
         $this->_customerAddressService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressService'
@@ -80,7 +78,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(true);
         /** @var $order \Magento\Sales\Model\Order */
-        $order = $this->_serviceQuote->submitOrderWithDto();
+        $order = $this->_serviceQuote->submitOrderWithDataObject();
         //Makes sure that the customer for guest checkout is not saved
         $this->assertNull($order->getCustomerId());
     }
@@ -94,7 +92,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
         /** @var $order \Magento\Sales\Model\Order */
-        $this->_serviceQuote->submitOrderWithDto();
+        $this->_serviceQuote->submitOrderWithDataObject();
     }
 
     /**
@@ -104,30 +102,28 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_prepareQuote(false);
 
-        $response = $this->_customerAccountService->createAccount(
-            $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer(
+            $this->getSampleCustomerEntity()
+        )->setAddresses(
+            $this->getSampleAddressEntity()
+        )->create();
+        $customerData = $this->_customerAccountService->createCustomer($customerDetails, 'password');
 
-        $this->assertEquals('registered', $response->getStatus());
-
-        $existingCustomerId = $response->getCustomerId();
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-            $customerDto,
-            [CustomerDto::EMAIL => 'new@example.com']
+        $existingCustomerId = $customerData->getId();
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
+            $customerData,
+            array(CustomerData::EMAIL => 'new@example.com')
         );
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
+        $this->_serviceQuote->getQuote()->setCustomerData($customerData);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
-        $this->_serviceQuote->submitOrderWithDto();
-        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getCustomerId();
+        $this->_serviceQuote->submitOrderWithDataObject();
+        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
         //Make sure no new customer is created
         $this->assertEquals($existingCustomerId, $customerId);
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $this->assertEquals('new@example.com', $customerDto->getEmail());
+        $customerData = $this->_customerAccountService->getCustomer($existingCustomerId);
+        $this->assertEquals('new@example.com', $customerData->getEmail());
     }
 
     /**
@@ -139,64 +135,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_prepareQuote(false);
         $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
         $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
-        $this->_serviceQuote->submitOrderWithDto();
-        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getCustomerId();
+        $this->_serviceQuote->submitOrderWithDataObject();
+        $customerId = $this->_serviceQuote->getQuote()->getCustomerData()->getId();
         $this->assertNotNull($customerId);
         foreach ($this->_serviceQuote->getQuote()->getCustomerAddressData() as $address) {
             $this->assertNotNull($address->getId());
             $this->assertEquals($customerId, $address->getCustomerId());
         }
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoDbIsolation enabled
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackNewCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $this->_serviceQuote->getQuote()->setCustomerData($this->getSampleCustomerEntity());
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
-        try {
-            $this->_serviceQuote->submitOrderWithDto();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertNull($this->_serviceQuote->getQuote()->getCustomerData()->getCustomerId());
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Sales/_files/quote.php
-     */
-    public function testSubmitOrderRollbackExistingCustomer()
-    {
-        $this->_prepareQuoteWithMockTransaction();
-        $response = $this->_customerAccountService->createAccount(
-            $this->getSampleCustomerEntity(),
-            $this->getSampleAddressEntity(),
-            'password'
-        );
-        $this->assertEquals('registered', $response->getStatus());
-
-        $existingCustomerId = $response->getCustomerId();
-        $customerDto = $this->_customerService->getCustomer($existingCustomerId);
-        $customerDto = $this->_customerBuilder->mergeDtoWithArray(
-            $customerDto,
-            [CustomerDto::EMAIL => 'new@example.com']
-        );
-        $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-        $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
-        try {
-            $this->_serviceQuote->submitOrderWithDto();
-        } catch (\Exception $e) {
-            $this->assertEquals('submitorder exception', $e->getMessage());
-        }
-        $this->assertEquals('email@example.com', $this->_customerService->getCustomer($existingCustomerId)->getEmail());
     }
 
     /**
@@ -236,7 +181,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * Sample customer data
      *
-     * @return CustomerDto
+     * @return CustomerData
      */
     private function getSampleCustomerEntity()
     {
@@ -246,11 +191,17 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
 
-        $this->_customerBuilder->setStoreId($storeId)
-            ->setEmail($email)
-            ->setFirstname($firstname)
-            ->setLastname($lastname)
-            ->setGroupId($groupId);
+        $this->_customerBuilder->setStoreId(
+            $storeId
+        )->setEmail(
+            $email
+        )->setFirstname(
+            $firstname
+        )->setLastname(
+            $lastname
+        )->setGroupId(
+            $groupId
+        );
         return $this->_customerBuilder->create();
     }
 
@@ -261,73 +212,52 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     private function getSampleAddressEntity()
     {
-        $this->_addressBuilder
-            ->setCountryId('US')
-            ->setDefaultBilling(true)
-            ->setDefaultShipping(true)
-            ->setPostcode('75477')
-            ->setRegion(
-                new Region([
-                    'region_code' => 'AL',
-                    'region' => 'Alabama',
-                    'region_id' => 1
-                ])
-            )
-            ->setStreet(['Green str, 67'])
-            ->setTelephone('3468676')
-            ->setCity('CityM')
-            ->setFirstname('John')
-            ->setLastname('Smith');
-        $address1 = $this->_addressBuilder->create();
-
-        $this->_addressBuilder
-            ->setCountryId('US')
-            ->setDefaultBilling(false)
-            ->setDefaultShipping(false)
-            ->setPostcode('47676')
-            ->setRegion(
-                new Region([
-                    'region_code' => 'AL',
-                    'region' => 'Alabama',
-                    'region_id' => 1
-                ])
-            )
-            ->setStreet(['Black str, 48'])
-            ->setCity('CityX')
-            ->setTelephone('3234676')
-            ->setFirstname('John')
-            ->setLastname('Smith');
-        $address2 = $this->_addressBuilder->create();
-
-        return [$address1, $address2];
-    }
-
-    /**
-     * Setup $this->_serviceQuote with mock transaction object
-     */
-    private function _prepareQuoteWithMockTransaction()
-    {
-        $mockTransactionFactory = $this->getMockBuilder('\Magento\Core\Model\Resource\TransactionFactory')
-            ->disableOriginalConstructor()->setMethods(['create'])->getMock();
-        $mockTransaction = $this->getMockBuilder('\Magento\Core\Model\Resource\TransactionFactory')
-            ->disableOriginalConstructor()->setMethods(['addObject', 'addCommitCallback', 'save'])->getMock();
-
-        $mockTransactionFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockTransaction));
-
-        $mockTransaction->expects($this->any())
-            ->method('addObject');
-        $mockTransaction->expects($this->any())
-            ->method('addCommitCallback');
-        $mockTransaction->expects($this->once())
-            ->method('save')
-            ->will($this->throwException(new \Exception('submitorder exception')));
-
-        $quoteFixture = $this->_prepareQuoteFixture(false);
-        $this->_serviceQuote = Bootstrap::getObjectManager()->create(
-            '\Magento\Sales\Model\Service\Quote',
-            array('quote' => $quoteFixture, 'transactionFactory' => $mockTransactionFactory)
+        $this->_customerAddressBuilder->setCountryId(
+            'US'
+        )->setDefaultBilling(
+            true
+        )->setDefaultShipping(
+            true
+        )->setPostcode(
+            '75477'
+        )->setRegion(
+            (new RegionBuilder())->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create()
+        )->setStreet(
+            array('Green str, 67')
+        )->setTelephone(
+            '3468676'
+        )->setCity(
+            'CityM'
+        )->setFirstname(
+            'John'
+        )->setLastname(
+            'Smith'
         );
+        $address1 = $this->_customerAddressBuilder->create();
+
+        $this->_customerAddressBuilder->setCountryId(
+            'US'
+        )->setDefaultBilling(
+            false
+        )->setDefaultShipping(
+            false
+        )->setPostcode(
+            '47676'
+        )->setRegion(
+            (new RegionBuilder())->setRegion('Alabama')->setRegionId(1)->setRegionCode('AL')->create()
+        )->setStreet(
+            array('Black str, 48')
+        )->setCity(
+            'CityX'
+        )->setTelephone(
+            '3234676'
+        )->setFirstname(
+            'John'
+        )->setLastname(
+            'Smith'
+        );
+        $address2 = $this->_customerAddressBuilder->create();
+
+        return array($address1, $address2);
     }
-} 
+}

@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Model\Config\Source;
 
-class Basedon implements \Magento\Core\Model\Option\ArrayInterface
+class Basedon implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,10 +17,9 @@ class Basedon implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>'shipping', 'label'=>__('Shipping Address')),
-            array('value'=>'billing', 'label'=>__('Billing Address')),
-            array('value'=>'origin', 'label'=>__("Shipping Origin")),
+            array('value' => 'shipping', 'label' => __('Shipping Address')),
+            array('value' => 'billing', 'label' => __('Billing Address')),
+            array('value' => 'origin', 'label' => __("Shipping Origin"))
         );
     }
-
 }

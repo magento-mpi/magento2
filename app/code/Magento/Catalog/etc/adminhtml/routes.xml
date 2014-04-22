@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/App/etc/routes.xsd">
     <router id="admin">
         <route id="catalog" frontName="catalog">
             <module name="Magento_Catalog_Adminhtml" before="Magento_Adminhtml" />

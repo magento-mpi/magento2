@@ -9,9 +9,12 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Filesystem\Directory\Write $rootDirectory */
-$rootDirectory =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\App\Filesystem')->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+/** @var \Magento\Framework\Filesystem\Directory\Write $rootDirectory */
+$rootDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Filesystem'
+)->getDirectoryWrite(
+    \Magento\Framework\App\Filesystem::ROOT_DIR
+);
 if ($rootDirectory->isExist('robots.txt')) {
     $rootDirectory->delete('robots.txt');
 }

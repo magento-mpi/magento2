@@ -35,9 +35,9 @@
  */
 namespace Magento\CatalogRule\Model\Rule\Product;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
-class Price extends \Magento\Core\Model\AbstractModel
+class Price extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -61,12 +61,25 @@ class Price extends \Magento\Core\Model\AbstractModel
      * @param string $websiteDate
      * @return $this
      */
-    public function applyPriceRuleToIndexTable(Select $select, $indexTable, $entityId, $customerGroupId,
-        $websiteId, $updateFields, $websiteDate)
-    {
+    public function applyPriceRuleToIndexTable(
+        Select $select,
+        $indexTable,
+        $entityId,
+        $customerGroupId,
+        $websiteId,
+        $updateFields,
+        $websiteDate
+    ) {
 
-        $this->_getResource()->applyPriceRuleToIndexTable($select, $indexTable, $entityId, $customerGroupId, $websiteId,
-            $updateFields, $websiteDate);
+        $this->_getResource()->applyPriceRuleToIndexTable(
+            $select,
+            $indexTable,
+            $entityId,
+            $customerGroupId,
+            $websiteId,
+            $updateFields,
+            $websiteDate
+        );
 
         return $this;
     }

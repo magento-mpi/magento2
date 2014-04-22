@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -26,10 +25,12 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Action\Row');
     }
 
-
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Could not rebuild index for undefined product
+     */
     public function testEmptyId()
     {
-        $this->setExpectedException('\Magento\Core\Exception', 'Could not rebuild index for undefined product');
         $this->_model->execute(null);
     }
 }

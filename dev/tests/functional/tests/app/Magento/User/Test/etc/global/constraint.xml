@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <loginSuccess module="Magento_User">
+        <severeness>low</severeness>
+        <require>
+            <dashboard class="Magento\Backend\Test\Page\Dashboard" />
+        </require>
+    </loginSuccess>
+    <invalidCredentials module="Magento_User">
+        <severeness>low</severeness>
+        <require>
+            <loginPage class="Magento\Backend\Test\Page\AdminAuthLogin" />
+        </require>
+    </invalidCredentials>
+</constraint>

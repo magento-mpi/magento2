@@ -20,31 +20,35 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_converter;
 
     /**
-     * @var \Magento\Core\Model\Config\FileResolver|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\FileResolver|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     protected function setUp()
     {
         $this->_fileResolverMock = $this->getMock(
-            'Magento\Core\Model\Config\FileResolver', array('get'), array(), '', false
+            'Magento\Framework\App\Config\FileResolver',
+            array('get'),
+            array(),
+            '',
+            false
         );
 
-        $this->_converter = $this->getMock(
-            'Magento\Mview\Config\Converter', array('convert')
-        );
+        $this->_converter = $this->getMock('Magento\Mview\Config\Converter', array('convert'));
 
-        $fsDirList = $this->getMock(
-            '\Magento\Filesystem\DirectoryList', array('getDir'), array(), '', false
+        $fsDirList = $this->getMock('\Magento\Framework\Filesystem\DirectoryList', array('getDir'), array(), '', false);
+        $fsDirList->expects(
+            $this->once()
+        )->method(
+            'getDir'
+        )->with(
+            \Magento\Framework\App\Filesystem::LIB_DIR
+        )->will(
+            $this->returnValue('stub')
         );
-        $fsDirList->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Filesystem::LIB_INTERNAL)
-            ->will($this->returnValue('stub'))
-        ;
         $schemaLocator = new \Magento\Mview\Config\SchemaLocator($fsDirList);
 
-        $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationState = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
         $this->_model = new \Magento\Mview\Config\Reader(
@@ -60,10 +64,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadValidConfig($files, $expectedFile)
     {
-        $this->_fileResolverMock->expects($this->once())
-            ->method('get')
-            ->with('mview.xml', 'scope')
-            ->will($this->returnValue($files));
+        $this->_fileResolverMock->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'mview.xml',
+            'scope'
+        )->will(
+            $this->returnValue($files)
+        );
 
         $constraint = function (\DOMDocument $actual) use ($expectedFile) {
             try {
@@ -75,12 +85,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             }
         };
         $expectedResult = new \stdClass();
-        $this->_converter
-            ->expects($this->once())
-            ->method('convert')
-            ->with($this->callback($constraint))
-            ->will($this->returnValue($expectedResult))
-        ;
+        $this->_converter->expects(
+            $this->once()
+        )->method(
+            'convert'
+        )->with(
+            $this->callback($constraint)
+        )->will(
+            $this->returnValue($expectedResult)
+        );
 
         $this->assertSame($expectedResult, $this->_model->read('scope'));
     }
@@ -94,17 +107,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'mview_merged_one' => array(
                 array(
                     'mview_one.xml' => file_get_contents(__DIR__ . '/../_files/mview_one.xml'),
-                    'mview_two.xml' => file_get_contents(__DIR__ . '/../_files/mview_two.xml'),
+                    'mview_two.xml' => file_get_contents(__DIR__ . '/../_files/mview_two.xml')
                 ),
-                'mview_merged_one.xml',
+                'mview_merged_one.xml'
             ),
             'mview_merged_two' => array(
                 array(
                     'mview_one.xml' => file_get_contents(__DIR__ . '/../_files/mview_one.xml'),
-                    'mview_three.xml' => file_get_contents(__DIR__ . '/../_files/mview_three.xml'),
+                    'mview_three.xml' => file_get_contents(__DIR__ . '/../_files/mview_three.xml')
                 ),
-                'mview_merged_two.xml',
-            ),
+                'mview_merged_two.xml'
+            )
         );
     }
 }

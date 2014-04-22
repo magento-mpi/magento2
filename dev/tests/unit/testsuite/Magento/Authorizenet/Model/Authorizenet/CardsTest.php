@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Model\Authorizenet;
 
 class CardsTest extends \PHPUnit_Framework_TestCase
@@ -33,25 +32,29 @@ class CardsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetPayment($cardId, $cardsData, $additionalInfo, $expectedResult)
     {
-        $paymentsMock = $this->getMockBuilder('\Magento\Payment\Model\Info')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $paymentsMock = $this->getMockBuilder('\Magento\Payment\Model\Info')->disableOriginalConstructor()->getMock();
 
-        $paymentsMock->expects($this->at(0))
-            ->method('getAdditionalInformation')
-            ->with('authorize_cards')
-            ->will($this->returnValue(array($cardId => $cardsData)));
+        $paymentsMock->expects(
+            $this->at(0)
+        )->method(
+            'getAdditionalInformation'
+        )->with(
+            'authorize_cards'
+        )->will(
+            $this->returnValue(array($cardId => $cardsData))
+        );
 
-        $paymentsMock->expects($this->at(1))
-            ->method('getAdditionalInformation')
-            ->will($this->returnValue($additionalInfo));
+        $paymentsMock->expects(
+            $this->at(1)
+        )->method(
+            'getAdditionalInformation'
+        )->will(
+            $this->returnValue($additionalInfo)
+        );
 
         $this->_object->setPayment($paymentsMock);
 
-        $this->assertEquals(
-            $this->_object->getCard($cardId),
-            $expectedResult
-        );
+        $this->assertEquals($this->_object->getCard($cardId), $expectedResult);
     }
 
     /**
@@ -61,31 +64,22 @@ class CardsTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'cardId', array('key' => 'value'), array('key' => 'value'),
-                new \Magento\Object(
-                    array(
-                        'key' => 'value',
-                        'additional_information' => array('key' => 'value')
-                    )
-                ),
+                'cardId',
+                array('key' => 'value'),
+                array('key' => 'value'),
+                new \Magento\Object(array('key' => 'value', 'additional_information' => array('key' => 'value')))
             ),
             array(
-                'cardId', array('key' => 'value'), array('key2' => 'value2'),
-                new \Magento\Object(
-                    array(
-                        'key' => 'value',
-                        'additional_information' => array('key2' => 'value2')
-                    )
-                ),
+                'cardId',
+                array('key' => 'value'),
+                array('key2' => 'value2'),
+                new \Magento\Object(array('key' => 'value', 'additional_information' => array('key2' => 'value2')))
             ),
             array(
-                'cardId', array('key' => 'value'), array(),
-                new \Magento\Object(
-                    array(
-                        'key' => 'value',
-                        'additional_information' => array()
-                    )
-                ),
+                'cardId',
+                array('key' => 'value'),
+                array(),
+                new \Magento\Object(array('key' => 'value', 'additional_information' => array()))
             )
         );
     }

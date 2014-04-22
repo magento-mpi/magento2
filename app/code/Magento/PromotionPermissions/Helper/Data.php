@@ -17,7 +17,7 @@
  */
 namespace Magento\PromotionPermissions\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Path to node in ACL that specifies edit permissions for catalog rules
@@ -46,10 +46,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_authorization;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -62,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditCatalogRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
     }
 
     /**
@@ -72,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditSalesRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
     }
 
     /**
@@ -82,6 +82,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditReminderRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
     }
 }

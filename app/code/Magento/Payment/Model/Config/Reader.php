@@ -9,7 +9,7 @@
  */
 namespace Magento\Payment\Model\Config;
 
-class Reader extends \Magento\Config\Reader\Filesystem
+class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging
@@ -19,6 +19,6 @@ class Reader extends \Magento\Config\Reader\Filesystem
     protected $_idAttributes = array(
         '/payment/credit_cards/type' => 'id',
         '/payment/groups/group' => 'id',
-        '/payment/methods/method' => 'name',
+        '/payment/methods/method' => 'name'
     );
 }

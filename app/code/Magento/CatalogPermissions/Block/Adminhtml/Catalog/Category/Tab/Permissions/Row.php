@@ -18,16 +18,22 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permis
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Catalog\Model\Resource\Category\Tree;
-use Magento\Core\Model\Resource\Website\Collection as WebsiteCollection;
-use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
+use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
-use Magento\View\Element\AbstractBlock;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Framework\View\Element\AbstractBlock;
 
 class Row extends AbstractCategory
 {
+    /**
+     * Index of option for all values
+     */
+    const FORM_SELECT_ALL_VALUES = -1;
+
     /**
      * @var string
      */
@@ -47,6 +53,7 @@ class Row extends AbstractCategory
      * @param Context $context
      * @param Tree $categoryTree
      * @param Registry $registry
+     * @param CategoryFactory $categoryFactory
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
      * @param array $data
@@ -55,13 +62,14 @@ class Row extends AbstractCategory
         Context $context,
         Tree $categoryTree,
         Registry $registry,
+        CategoryFactory $categoryFactory,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {
         $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_groupCollectionFactory = $groupCollectionFactory;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
     }
 
     /**
@@ -69,13 +77,17 @@ class Row extends AbstractCategory
      */
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
-            //'label' => __('Remove Permission'),
-            'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
-            'disabled' => $this->isReadonly(),
-            'type'  => 'button',
-            'id'    => '{{html_id}}_delete_button'
-        ));
+        $this->addChild(
+            'delete_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                //'label' => __('Remove Permission'),
+                'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
+                'disabled' => $this->isReadonly(),
+                'type' => 'button',
+                'id' => '{{html_id}}_delete_button'
+            )
+        );
 
         return parent::_prepareLayout();
     }
@@ -169,5 +181,13 @@ class Row extends AbstractCategory
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
+    }
+
+    /**
+     * @return int
+     */
+    public function getOptionForSelectAll()
+    {
+        return self::FORM_SELECT_ALL_VALUES;
     }
 }

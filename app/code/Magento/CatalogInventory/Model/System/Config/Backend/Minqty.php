@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogInventory\Model\System\Config\Backend;
 
-class Minqty extends \Magento\Core\Model\Config\Value
+class Minqty extends \Magento\Framework\App\Config\Value
 {
     /**
      * Validate minimum product qty value
@@ -28,7 +28,7 @@ class Minqty extends \Magento\Core\Model\Config\Value
     {
         parent::_beforeSave();
         $minQty = (int)$this->getValue() >= 0 ? (int)$this->getValue() : (int)$this->getOldValue();
-        $this->setValue((string) $minQty);
+        $this->setValue((string)$minQty);
         return $this;
     }
 }

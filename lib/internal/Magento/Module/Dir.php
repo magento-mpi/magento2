@@ -9,8 +9,8 @@
  */
 namespace Magento\Module;
 
-use Magento\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 
 class Dir
 {
@@ -49,7 +49,7 @@ class Dir
         $path = $this->_string->upperCaseWords($moduleName, '_', '/');
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
-                throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
+                throw new \InvalidArgumentException("Directory type '{$type}' is not recognized.");
             }
             $path .= '/' . $type;
         }

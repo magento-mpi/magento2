@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Event\Observer as EventObserver;
 
 /**
@@ -18,7 +18,7 @@ use Magento\Event\Observer as EventObserver;
 class Observer
 {
     /**
-     * @var \Magento\View\Design\Theme\ImageFactory
+     * @var \Magento\Framework\View\Design\Theme\ImageFactory
      */
     protected $_themeImageFactory;
 
@@ -38,13 +38,13 @@ class Observer
     protected $_eventDispatcher;
 
     /**
-     * @param \Magento\View\Design\Theme\ImageFactory $themeImageFactory
+     * @param \Magento\Framework\View\Design\Theme\ImageFactory $themeImageFactory
      * @param \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection
      * @param \Magento\Theme\Model\Config\Customization $themeConfig
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      */
     public function __construct(
-        \Magento\View\Design\Theme\ImageFactory $themeImageFactory,
+        \Magento\Framework\View\Design\Theme\ImageFactory $themeImageFactory,
         \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection,
         \Magento\Theme\Model\Config\Customization $themeConfig,
         \Magento\Event\ManagerInterface $eventDispatcher
@@ -65,10 +65,10 @@ class Observer
     public function cleanThemeRelatedContent(EventObserver $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
+        if ($theme instanceof \Magento\Framework\View\Design\ThemeInterface) {
             return;
         }
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
             throw new Exception(__('Theme isn\'t deletable.'));
         }
@@ -85,8 +85,8 @@ class Observer
     public function checkThemeIsAssigned(EventObserver $observer)
     {
         $theme = $observer->getEvent()->getData('theme');
-        if ($theme instanceof \Magento\View\Design\ThemeInterface) {
-            /** @var $theme \Magento\View\Design\ThemeInterface */
+        if ($theme instanceof \Magento\Framework\View\Design\ThemeInterface) {
+            /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
             if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
                 $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
             }

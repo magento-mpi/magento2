@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Image\Adapter;
 
-use \Magento\TestFramework\Helper\ObjectManager;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Mocking crucial for this adapter global functions
+ * Mocking global functions crucial for this adapter
  */
 
 /**
@@ -59,7 +58,6 @@ function call_user_func($callable, $param)
 {
     return false;
 }
-
 /**
  * \Magento\Image\Adapter\Gd2 class test
  */
@@ -75,7 +73,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
     /**
      * @var array simulation of getimagesize()
      */
-    public static $imageData = array();
+    public static $imageData = [];
 
     /**
      * Adapter for testing
@@ -108,9 +106,9 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
     /**
      * Test open() method
      *
-     * @param $fileData array
-     * @param $exception string|bool|null
-     * @param $limit string
+     * @param array $fileData
+     * @param string|bool|null $exception
+     * @param string $limit
      * @dataProvider filesProvider
      */
     public function testOpen($fileData, $exception, $limit)
@@ -127,30 +125,32 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
 
     public function filesProvider()
     {
-        $smallFile = array(
+        $smallFile = [
             0 => 480,
             1 => 320,
             2 => 2,
             3 => 'width="480" height="320"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg',
-        );
+            'mime' => 'image/jpeg'
+        ];
 
-        $bigFile = array(
+        $bigFile = [
             0 => 3579,
             1 => 2398,
             2 => 2,
             3 => 'width="3579" height="2398"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg',
-        );
+            'mime' => 'image/jpeg'
+        ];
 
-        return array(
-            'positive_M' => array($smallFile, false, '2M'),
-            'positive_KB' => array($smallFile, false, '2048KB'),
-            'negative_bytes' => array($bigFile, 'OverflowException', '2048000')
-        );
+        return [
+            'positive_M' => [$smallFile, false, '2M'],
+            'positive_KB' => [$smallFile, false, '2048K'],
+            'negative_KB' => [$bigFile, 'OverflowException', '2048K'],
+            'negative_bytes' => [$bigFile, 'OverflowException', '2048000'],
+            'no_limit' => [$bigFile, false, '-1'],
+        ];
     }
 }

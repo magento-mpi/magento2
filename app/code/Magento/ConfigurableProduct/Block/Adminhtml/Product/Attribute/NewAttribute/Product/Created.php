@@ -27,7 +27,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -51,7 +51,7 @@ class Created extends \Magento\Backend\Block\Widget
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -59,7 +59,7 @@ class Created extends \Magento\Backend\Block\Widget
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -108,8 +108,7 @@ class Created extends \Magento\Backend\Block\Widget
         $result = array();
         if ($this->getRequest()->getParam('product_tab') == 'variations') {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $attribute =
-                $this->_attributeFactory->create()->load($this->getRequest()->getParam('attribute'));
+            $attribute = $this->_attributeFactory->create()->load($this->getRequest()->getParam('attribute'));
             $result = array(
                 'tab' => $this->getRequest()->getParam('product_tab'),
                 'attribute' => array(
@@ -124,10 +123,7 @@ class Created extends \Magento\Backend\Block\Widget
         if ($newAttributeSetId) {
             /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
             $attributeSet = $this->_setFactory->create()->load($newAttributeSetId);
-            $result['set'] = array(
-                'id' => $attributeSet->getId(),
-                'label' => $attributeSet->getAttributeSetName(),
-            );
+            $result['set'] = array('id' => $attributeSet->getId(), 'label' => $attributeSet->getAttributeSetName());
         }
 
         return $this->_jsonEncoder->encode($result);

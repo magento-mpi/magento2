@@ -9,9 +9,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-use Magento\Core\Model\Option\ArrayInterface;
-
-class ListMode implements ArrayInterface
+class ListMode implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -19,10 +17,10 @@ class ListMode implements ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>'grid', 'label'=>__('Grid Only')),
-            array('value'=>'list', 'label'=>__('List Only')),
-            array('value'=>'grid-list', 'label'=>__('Grid (default) / List')),
-            array('value'=>'list-grid', 'label'=>__('List (default) / Grid')),
+            array('value' => 'grid', 'label' => __('Grid Only')),
+            array('value' => 'list', 'label' => __('List Only')),
+            array('value' => 'grid-list', 'label' => __('Grid (default) / List')),
+            array('value' => 'list-grid', 'label' => __('List (default) / Grid'))
         );
     }
 }

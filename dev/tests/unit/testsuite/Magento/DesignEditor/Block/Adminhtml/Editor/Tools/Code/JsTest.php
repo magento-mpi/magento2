@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
 
 class JsTest extends \PHPUnit_Framework_TestCase
@@ -55,10 +54,20 @@ class JsTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::TEST_THEME_ID));
-        $this->_themeContext->expects($this->any())->method('getEditableTheme')
-            ->will($this->returnValue($this->_theme));
-        $this->_themeContext->expects($this->any())->method('getStagingTheme')
-            ->will($this->returnValue($this->_theme));
+        $this->_themeContext->expects(
+            $this->any()
+        )->method(
+            'getEditableTheme'
+        )->will(
+            $this->returnValue($this->_theme)
+        );
+        $this->_themeContext->expects(
+            $this->any()
+        )->method(
+            'getStagingTheme'
+        )->will(
+            $this->returnValue($this->_theme)
+        );
 
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
@@ -69,7 +78,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             array(
                 'urlBuilder' => $this->_urlBuilder,
                 'themeContext' => $this->_themeContext,
-                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
                 'coreHelper' => $this->_helperMock
             )
         );
@@ -89,10 +98,16 @@ class JsTest extends \PHPUnit_Framework_TestCase
     public function testGetDownloadCustomCssUrl()
     {
         $expectedUrl = 'some_url';
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/system_design_editor_tools/uploadjs', array('theme_id' => self::TEST_THEME_ID))
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/system_design_editor_tools/uploadjs',
+            array('theme_id' => self::TEST_THEME_ID)
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_model->getJsUploadUrl());
     }
@@ -103,10 +118,16 @@ class JsTest extends \PHPUnit_Framework_TestCase
     public function testGetJsReorderUrl()
     {
         $expectedUrl = 'some_url';
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/system_design_editor_tools/reorderjs', array('theme_id' => self::TEST_THEME_ID))
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/system_design_editor_tools/reorderjs',
+            array('theme_id' => self::TEST_THEME_ID)
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_model->getJsReorderUrl());
     }
@@ -124,21 +145,44 @@ class JsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJsFiles()
     {
-        $customization = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
+        $customization = $this->getMock(
+            'Magento\Framework\View\Design\Theme\Customization',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        $customization->expects($this->once())
-            ->method('getFilesByType')
-            ->with(\Magento\View\Design\Theme\Customization\File\Js::TYPE)
-            ->will($this->returnValue(array()));
+        $customization->expects(
+            $this->once()
+        )->method(
+            'getFilesByType'
+        )->with(
+            \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE
+        )->will(
+            $this->returnValue(array())
+        );
 
-        $customization->expects($this->once())
-            ->method('generateFileInfo')
-            ->with(array())
-            ->will($this->returnValue(array('js' => 'files')));
+        $customization->expects(
+            $this->once()
+        )->method(
+            'generateFileInfo'
+        )->with(
+            array()
+        )->will(
+            $this->returnValue(array('js' => 'files'))
+        );
 
-        $this->_helperMock->expects($this->once())
-            ->method('jsonEncode')->with(array('js' => 'files'))->will($this->returnValue('someData'));
+        $this->_helperMock->expects(
+            $this->once()
+        )->method(
+            'jsonEncode'
+        )->with(
+            array('js' => 'files')
+        )->will(
+            $this->returnValue('someData')
+        );
 
         $this->assertEquals('someData', $this->_model->getFiles());
     }

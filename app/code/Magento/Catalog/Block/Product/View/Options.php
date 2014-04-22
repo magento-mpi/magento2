@@ -20,7 +20,7 @@ namespace Magento\Catalog\Block\Product\View;
 
 use Magento\Catalog\Model\Product;
 
-class Options extends \Magento\View\Element\Template
+class Options extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Product
@@ -37,7 +37,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -66,22 +66,22 @@ class Options extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
@@ -165,12 +165,12 @@ class Options extends \Magento\View\Element\Template
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = $this->_coreData->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = $this->_coreData->currency($option->getPrice(false), false, false);
+        $data['price'] = $this->_coreData->currency($option->getPrice(true), false, false);
+        $data['oldPrice'] = $this->_coreData->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
-        $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
+        $data['type'] = $option->getPriceType();
+        $data['exclTaxPrice'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
+        $data['inclTaxPrice'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 
@@ -213,8 +213,7 @@ class Options extends \Magento\View\Element\Template
         $type = $this->getGroupOfOption($option->getType());
         $renderer = $this->getChildBlock($type);
 
-        $renderer->setProduct($this->getProduct())
-            ->setOption($option);
+        $renderer->setProduct($this->getProduct())->setOption($option);
 
         return $this->getChildHtml($type, false);
     }

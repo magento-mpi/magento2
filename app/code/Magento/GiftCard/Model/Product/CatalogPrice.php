@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Product;
 
 /**
@@ -17,7 +16,7 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
      * Minimal price for "regular" user
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|\Magento\Core\Model\Store $store Store view
+     * @param null|\Magento\Store\Model\Store $store Store view
      * @param bool $inclTax
      * @return null|float
      */

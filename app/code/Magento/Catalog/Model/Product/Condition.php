@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
 
-use Magento\DB\Adapter\AdapterInterface;
-use Magento\DB\Select;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Select;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 class Condition extends \Magento\Object implements \Magento\Catalog\Model\Product\Condition\ConditionInterface
@@ -25,8 +24,8 @@ class Condition extends \Magento\Object implements \Magento\Catalog\Model\Produc
         if ($this->getTable() && $this->getPkFieldName()) {
             $collection->joinTable(
                 $this->getTable(),
-                $this->getPkFieldName().'=entity_id',
-                array('affected_product_id'=>$this->getPkFieldName())
+                $this->getPkFieldName() . '=entity_id',
+                array('affected_product_id' => $this->getPkFieldName())
             );
         }
         return $this;
@@ -39,8 +38,7 @@ class Condition extends \Magento\Object implements \Magento\Catalog\Model\Produc
     public function getIdsSelect($dbAdapter)
     {
         if ($this->getTable() && $this->getPkFieldName()) {
-            $select = $dbAdapter->select()
-                ->from($this->getTable(), $this->getPkFieldName());
+            $select = $dbAdapter->select()->from($this->getTable(), $this->getPkFieldName());
             return $select;
         }
         return '';

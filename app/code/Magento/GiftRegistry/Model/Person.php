@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
 
 /**
  * Entity registrants data model
@@ -29,12 +30,10 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
-class Person extends \Magento\Core\Model\AbstractModel
+class Person extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var \Magento\GiftRegistry\Model\Entity
+     * @var Entity
      */
     protected $entity;
 
@@ -46,21 +45,21 @@ class Person extends \Magento\Core\Model\AbstractModel
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\Resource\Person $resource
-     * @param \Magento\GiftRegistry\Model\Entity $entity
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param Entity $entity
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\Resource\Person $resource,
-        \Magento\GiftRegistry\Model\Entity $entity,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        Entity $entity,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
@@ -68,6 +67,9 @@ class Person extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftRegistry\Model\Resource\Person');

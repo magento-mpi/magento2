@@ -15,21 +15,17 @@ namespace Magento\Backend\Model\Config;
 
 class ScopeDefiner
 {
-    const SCOPE_WEBSITE = 'website';
-    const SCOPE_STORE = 'store';
-    const SCOPE_DEFAULT = 'default';
-
     /**
      * Request object
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
-    public function __construct(\Magento\App\RequestInterface $request)
+    public function __construct(\Magento\Framework\App\RequestInterface $request)
     {
         $this->_request = $request;
     }
@@ -41,8 +37,10 @@ class ScopeDefiner
      */
     public function getScope()
     {
-        return $this->_request->getParam('store')
-            ? self::SCOPE_STORE
-            : ($this->_request->getParam('website') ? self::SCOPE_WEBSITE : self::SCOPE_DEFAULT);
+        return $this->_request->getParam(
+            'store'
+        ) ? \Magento\Store\Model\ScopeInterface::SCOPE_STORE : ($this->_request->getParam(
+            'website'
+        ) ? \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE : \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT);
     }
 }

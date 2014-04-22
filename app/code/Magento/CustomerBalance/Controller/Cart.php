@@ -7,24 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Controller;
+
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Customer balance controller for shopping cart
- *
  */
-namespace Magento\CustomerBalance\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
-class Cart extends \Magento\App\Action\Action
+class Cart extends \Magento\Framework\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -37,6 +34,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Remove Store Credit from current quote
      *
+     * @return void
      */
     public function removeAction()
     {

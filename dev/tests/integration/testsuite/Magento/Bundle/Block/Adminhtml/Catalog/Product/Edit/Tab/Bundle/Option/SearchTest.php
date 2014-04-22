@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
-class SearchTest
-    extends \PHPUnit_Framework_TestCase
+class SearchTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -20,8 +18,8 @@ class SearchTest
      */
     public function testToHtmlHasIndex()
     {
-        /** @var $layout \Magento\View\LayoutInterface */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Layout');
         $block = $layout->createBlock(
             'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search',
             'block2'

@@ -7,7 +7,7 @@
  */
 namespace Magento\Indexer\Model\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -29,7 +29,7 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir('etc', 'Magento_Indexer');
-        $this->_schema =  $etcDir . '/indexer.xsd';
+        $this->_schema = $etcDir . '/indexer.xsd';
         $this->_perFileSchema = $etcDir . '/indexer.xsd';
     }
 

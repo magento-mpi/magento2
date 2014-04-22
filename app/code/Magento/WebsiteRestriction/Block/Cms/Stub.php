@@ -19,28 +19,28 @@ class Stub extends \Magento\Cms\Block\Page
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Construct
      *
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $data);
@@ -72,7 +72,7 @@ class Stub extends \Magento\Cms\Block\Page
         $page = $this->getPage();
 
         if ($root = $this->getLayout()->getBlock('root')) {
-            $root->addBodyClass('cms-'.$page->getIdentifier());
+            $root->addBodyClass('cms-' . $page->getIdentifier());
         }
 
         if ($head = $this->getLayout()->getBlock('head')) {
@@ -84,7 +84,7 @@ class Stub extends \Magento\Cms\Block\Page
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
             // Setting empty page title if content heading is absent
-            $cmsTitle = $page->getContentHeading() ? : ' ';
+            $cmsTitle = $page->getContentHeading() ?: ' ';
             $pageMainTitle->setPageTitle($this->escapeHtml($cmsTitle));
         }
     }

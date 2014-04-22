@@ -45,7 +45,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->_collection, $this->_collection->addItemFilter(99));
         $this->_collection->addItemFilter(array(100, 101));
         $this->assertStringMatchesFormat(
-            '%AWHERE%S(%Sitem_id%S = %S99%S)%SAND%S(%Sitem_id%S IN(%S100%S,%S101%S))%A', (string)$select
+            '%AWHERE%S(%Sitem_id%S = %S99%S)%SAND%S(%Sitem_id%S IN(%S100%S,%S101%S))%A',
+            (string)$select
         );
     }
 
@@ -58,21 +59,22 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGiftCollection()
     {
-        $gr      = $this->objectManager->get('Magento\Core\Model\Registry')->registry('test_gift_registry');
-        $product = $this->objectManager->get('Magento\Core\Model\Registry')->registry('test_product');
+        $gr = $this->objectManager->get('Magento\Registry')->registry('test_gift_registry');
+        $product = $this->objectManager->get('Magento\Registry')->registry('test_product');
 
         $collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
-        $collection->addRegistryFilter($gr->getId())
-            ->addWebsiteFilter();
+        $collection->addRegistryFilter($gr->getId())->addWebsiteFilter();
 
         $this->assertTrue($collection->getSize() > 0);
 
         $relation = $this->objectManager->create('Magento\Catalog\Model\Product\Website');
         $relation->removeProducts(array(1), array($product->getId()));
 
-        $collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection')
-            ->addRegistryFilter($gr->getId())
-            ->addWebsiteFilter();
+        $collection = $this->objectManager->create(
+            'Magento\GiftRegistry\Model\Resource\Item\Collection'
+        )->addRegistryFilter(
+            $gr->getId()
+        )->addWebsiteFilter();
 
         $this->assertTrue($collection->getSize() == 0);
     }

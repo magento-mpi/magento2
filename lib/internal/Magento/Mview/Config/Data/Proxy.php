@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\Config\Data;
 
 /**
@@ -66,14 +65,18 @@ class Proxy extends \Magento\Mview\Config\Data
 
     /**
      * Retrieve ObjectManager from global scope
+     *
+     * @return void
      */
     public function __wakeup()
     {
-        $this->objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
 
     /**
      * Clone proxied instance
+     *
+     * @return void
      */
     public function __clone()
     {
@@ -88,9 +91,11 @@ class Proxy extends \Magento\Mview\Config\Data
     protected function _getSubject()
     {
         if (!$this->subject) {
-            $this->subject = true === $this->isShared
-                ? $this->objectManager->get($this->instanceName)
-                : $this->objectManager->create($this->instanceName);
+            $this->subject = true === $this->isShared ? $this->objectManager->get(
+                $this->instanceName
+            ) : $this->objectManager->create(
+                $this->instanceName
+            );
         }
         return $this->subject;
     }

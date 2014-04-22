@@ -24,7 +24,7 @@ class Observer
     protected $_processor;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -46,7 +46,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -73,8 +73,8 @@ class Observer
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
      * @param \Magento\Logging\Model\Processor $processor
-     * @param \Magento\App\ConfigInterface $coreConfig
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
@@ -84,8 +84,8 @@ class Observer
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
         \Magento\Logging\Model\Processor $processor,
-        \Magento\App\ConfigInterface $coreConfig,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
@@ -192,16 +192,18 @@ class Observer
         if (!$userId) {
             $userId = $this->_user->loadByUsername($username)->getId();
         }
-        $this->_event->setData(array(
-            'ip'         => $this->_remoteAddress->getRemoteAddress(),
-            'user'       => $username,
-            'user_id'    => $userId,
-            'is_success' => $success,
-            'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}"
-                . "_{$this->_request->getActionName()}",
-            'event_code' => $eventCode,
-            'action'     => 'login',
-        ));
+        $this->_event->setData(
+            array(
+                'ip' => $this->_remoteAddress->getRemoteAddress(),
+                'user' => $username,
+                'user_id' => $userId,
+                'is_success' => $success,
+                'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}" .
+                "_{$this->_request->getActionName()}",
+                'event_code' => $eventCode,
+                'action' => 'login'
+            )
+        );
         return $this->_event->save();
     }
 
@@ -215,9 +217,9 @@ class Observer
         $lastRotationFlag = $this->_flagFactory->create()->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
-        if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
+        if (!$lastRotationTime || $lastRotationTime < time() - $rotationFrequency) {
             $this->eventFactory->create()->rotate(
-                3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
+                3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

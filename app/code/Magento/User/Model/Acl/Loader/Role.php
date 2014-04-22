@@ -13,7 +13,7 @@ use Magento\User\Model\Acl\Role\User as RoleUser;
 class Role implements \Magento\Acl\LoaderInterface
 {
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -30,12 +30,12 @@ class Role implements \Magento\Acl\LoaderInterface
     /**
      * @param \Magento\User\Model\Acl\Role\GroupFactory $groupFactory
      * @param \Magento\User\Model\Acl\Role\UserFactory $roleFactory
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
         \Magento\User\Model\Acl\Role\GroupFactory $groupFactory,
         \Magento\User\Model\Acl\Role\UserFactory $roleFactory,
-        \Magento\App\Resource $resource
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->_resource = $resource;
         $this->_groupFactory = $groupFactory;
@@ -53,26 +53,18 @@ class Role implements \Magento\Acl\LoaderInterface
         $roleTableName = $this->_resource->getTableName('admin_role');
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()
-            ->from($roleTableName)
-            ->order('tree_level');
+        $select = $adapter->select()->from($roleTableName)->order('tree_level');
 
         foreach ($adapter->fetchAll($select) as $role) {
-            $parent = ($role['parent_id'] > 0) ? $role['parent_id'] : null;
+            $parent = $role['parent_id'] > 0 ? $role['parent_id'] : null;
             switch ($role['role_type']) {
                 case RoleGroup::ROLE_TYPE:
-                    $acl->addRole(
-                        $this->_groupFactory->create(array('roleId' => $role['role_id'])),
-                        $parent
-                    );
+                    $acl->addRole($this->_groupFactory->create(array('roleId' => $role['role_id'])), $parent);
                     break;
 
                 case RoleUser::ROLE_TYPE:
                     if (!$acl->hasRole($role['role_id'])) {
-                        $acl->addRole(
-                            $this->_roleFactory->create(array('roleId' => $role['role_id'])),
-                            $parent
-                        );
+                        $acl->addRole($this->_roleFactory->create(array('roleId' => $role['role_id'])), $parent);
                     } else {
                         $acl->addRoleParent($role['role_id'], $parent);
                     }

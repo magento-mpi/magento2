@@ -15,10 +15,10 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
-use Magento\Core\Model\Registry;
-use Magento\Core\Model\StoreManagerInterface;
-use Magento\Data\Collection;
-use Magento\Data\Tree\Node;
+use Magento\Registry;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Data\Collection;
+use Magento\Framework\Data\Tree\Node;
 use Magento\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote;
 
@@ -68,7 +68,7 @@ class Observer
 
     /**
      * Construct
-     * 
+     *
      * @param Data $catalogEventData
      * @param Registry $coreRegistry
      * @param StoreManagerInterface $storeManager
@@ -103,7 +103,7 @@ class Observer
 
         $category = $observer->getEvent()->getCategory();
         $categoryIds = $this->_parseCategoryPath($category->getPath());
-        if (! empty($categoryIds)) {
+        if (!empty($categoryIds)) {
             $eventCollection = $this->_getEventCollection($categoryIds);
             $this->_applyEventToCategory($category, $eventCollection);
         }
@@ -127,15 +127,13 @@ class Observer
         $categoryIds = array();
 
         foreach ($categoryCollection->getColumnValues('path') as $path) {
-            $categoryIds = array_merge($categoryIds,
-                $this->_parseCategoryPath($path));
+            $categoryIds = array_merge($categoryIds, $this->_parseCategoryPath($path));
         }
 
         if (!empty($categoryIds)) {
             $eventCollection = $this->_getEventCollection($categoryIds);
             foreach ($categoryCollection as $category) {
-                $this->_applyEventToCategory($category,
-                    $eventCollection);
+                $this->_applyEventToCategory($category, $eventCollection);
             }
         }
     }
@@ -165,10 +163,7 @@ class Observer
     public function applyIsSalableToProduct(EventObserver $observer)
     {
         $event = $observer->getEvent()->getProduct()->getEvent();
-        if ($event && in_array($event->getStatus(), array(
-            Event::STATUS_CLOSED,
-            Event::STATUS_UPCOMING
-        ))) {
+        if ($event && in_array($event->getStatus(), array(Event::STATUS_CLOSED, Event::STATUS_UPCOMING))) {
             $observer->getEvent()->getSalable()->setIsSalable(false);
         }
         return $this;
@@ -240,14 +235,12 @@ class Observer
             $event = $item->getEvent();
             if ($event) {
                 if ($event->getStatus() !== Event::STATUS_OPEN) {
-                    $item->setHasError(true)
-                        ->setMessage(
-                            __('The sale for this product is closed.')
-                        );
-                    $item->getQuote()->setHasError(true)
-                        ->addMessage(
-                            __('Some of these products can no longer be sold.')
-                        );
+                    $item->setHasError(true)->setMessage(__('The sale for this product is closed.'));
+                    $item->getQuote()->setHasError(
+                        true
+                    )->addMessage(
+                        __('Some of these products can no longer be sold.')
+                    );
                 }
             } else {
                 /*
@@ -315,9 +308,8 @@ class Observer
             $product->setEventNoTicker(true);
         }
 
-        return ($event ? $event : $noOpenEvent);
+        return $event ? $event : $noOpenEvent;
     }
-
 
     /**
      * Get event in store
@@ -327,8 +319,12 @@ class Observer
      */
     protected function _getEventInStore($categoryId)
     {
-        if ($this->_coreRegistry->registry('current_category')
-            && $this->_coreRegistry->registry('current_category')->getId() == $categoryId) {
+        if ($this->_coreRegistry->registry(
+            'current_category'
+        ) && $this->_coreRegistry->registry(
+            'current_category'
+        )->getId() == $categoryId
+        ) {
             // If category already loaded for page, we don't need to load categories tree
             return $this->_coreRegistry->registry('current_category')->getEvent();
         }
@@ -365,10 +361,7 @@ class Observer
         /** @var EventCollection $collection */
         $collection = $this->_eventCollectionFactory->create();
         if ($categoryIds !== null) {
-            $collection->addFieldToFilter('category_id',
-                array(
-                    'in' => $categoryIds
-                ));
+            $collection->addFieldToFilter('category_id', array('in' => $categoryIds));
         }
 
         return $collection;
@@ -384,18 +377,16 @@ class Observer
     {
         if (!$quote->getEventInitialized()) {
             $quote->setEventInitialized(true);
-            $eventIds = array_diff(
-                $quote->getItemsCollection()->getColumnValues('event_id'),
-                array(0)
-            );
+            $eventIds = array_diff($quote->getItemsCollection()->getColumnValues('event_id'), array(0));
 
             if (!empty($eventIds)) {
                 $collection = $this->_getEventCollection();
                 $collection->addFieldToFilter('event_id', array('in' => $eventIds));
                 foreach ($collection as $event) {
                     foreach ($quote->getItemsCollection()->getItemsByColumnValue(
-                                 'event_id', $event->getId()
-                             ) as $quoteItem) {
+                        'event_id',
+                        $event->getId()
+                    ) as $quoteItem) {
                         $quoteItem->setEvent($event);
                     }
                 }
@@ -425,9 +416,9 @@ class Observer
      */
     protected function _applyEventToCategory($category, Collection $eventCollection)
     {
-        foreach (array_reverse($this->_parseCategoryPath($category->getPath())) as $categoryId) { // Walk through category path, search event for category
-            $event = $eventCollection->getItemByColumnValue(
-                'category_id', $categoryId);
+        foreach (array_reverse($this->_parseCategoryPath($category->getPath())) as $categoryId) {
+            // Walk through category path, search event for category
+            $event = $eventCollection->getItemByColumnValue('category_id', $categoryId);
             if ($event) {
                 $category->setEvent($event);
                 return $this;

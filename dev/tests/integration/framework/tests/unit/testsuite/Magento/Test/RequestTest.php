@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +20,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\TestFramework\Request(
-            $this->getMock('Magento\App\Route\ConfigInterface', array(), array(), '', false),
-            $this->getMock('Magento\App\Request\PathInfoProcessorInterface', array(), array(), '', false)
+            $this->getMock('Magento\Framework\App\Route\ConfigInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface', array(), array(), '', false)
         );
     }
 
@@ -43,4 +42,3 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $this->_model->getServer('null'));
     }
 }
-

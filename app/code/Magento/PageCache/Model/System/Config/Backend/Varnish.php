@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model\System\Config\Backend;
 
 /**
@@ -14,7 +13,7 @@ namespace Magento\PageCache\Model\System\Config\Backend;
  * Class Varnish
  * @package Magento\PageCache\Model\System\Config\Backend
  */
-class Varnish extends \Magento\Core\Model\Config\Value
+class Varnish extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var array
@@ -24,14 +23,14 @@ class Varnish extends \Magento\Core\Model\Config\Value
     /**
      * Set default data if empty fields have been left
      *
-     * @return $this|\Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return $this|\Magento\Framework\Model\AbstractModel
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         $data = $this->_getDefaultValues();
         $currentValue = $this->getValue();
-        if(!$currentValue) {
+        if (!$currentValue) {
             $replaceValue = isset($data[$this->getField()]) ? $data[$this->getField()] : false;
             $this->setValue($replaceValue);
         }
@@ -54,15 +53,15 @@ class Varnish extends \Magento\Core\Model\Config\Value
     /**
      * If fields are empty fill them with default data
      *
-     * @return $this|\Magento\Core\Model\AbstractModel
+     * @return $this|\Magento\Framework\Model\AbstractModel
      */
     protected function _afterLoad()
     {
         $data = $this->_getDefaultValues();
         $currentValue = $this->getValue();
-        if(!$currentValue) {
+        if (!$currentValue) {
             foreach ($data as $field => $value) {
-                if(strstr($this->getPath(), $field)) {
+                if (strstr($this->getPath(), $field)) {
                     $this->setValue($value);
                     $this->save();
                     break;

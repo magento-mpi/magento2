@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
 
 /**
@@ -24,8 +23,11 @@ class IpTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Logging\Block\Adminhtml\Grid\Filter\Ip');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Logging\Block\Adminhtml\Grid\Filter\Ip'
+        );
     }
 
     public function testGetCondition()
@@ -39,7 +41,7 @@ class IpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setValue('127');
         $condition = $this->_block->getCondition();
-        $this->assertContains('127', (string) $condition['like']);
-        $this->assertNotEquals('127', (string) $condition['like']); // DB-depended placeholder symbols were added
+        $this->assertContains('127', (string)$condition['like']);
+        $this->assertNotEquals('127', (string)$condition['like']); // DB-depended placeholder symbols were added
     }
 }

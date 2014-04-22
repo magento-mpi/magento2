@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Gdata\Gshopping;
 
 /**
  * \Exception class parse google responses to human readble format
@@ -14,8 +15,6 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping;
-
 class HttpException extends \Zend_Gdata_App_HttpException
 {
     /**
@@ -58,7 +57,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
         'validation/missing_required' => "A required attribute is missing.",
         'validation/other' => "Generic validation error.",
         'validation/policy' => "One of the policies has been violated.",
-        'validation/warning' => "We found this attribute problematic for some reason and recommend checking it.",
+        'validation/warning' => "We found this attribute problematic for some reason and recommend checking it."
     );
 
     /**
@@ -130,7 +129,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
      * Parse error response XML and fill arrays of codes and messages.
      *
      * @param \Zend_Http_Response $response
-     * @return $this
+     * @return $this|void
      */
     protected function _parseResponse($response)
     {
@@ -139,18 +138,16 @@ class HttpException extends \Zend_Gdata_App_HttpException
         }
         $body = $response->getBody();
 
-        if ($body &&
-            ($errors = @simplexml_load_string($body)) &&
-            'errors' == $errors->getName()) {
+        if ($body && ($errors = @simplexml_load_string($body)) && 'errors' == $errors->getName()) {
 
             $this->_messages = array();
             $this->_codes = array();
             foreach ($errors as $error) {
-                $reason = isset($this->_errors["$error->code"])
-                    ? $this->_errors["$error->code"]
-                    : "Error code: $error->code.";
-                $this->_messages[] = "$reason Internal reason: $error->internalReason @ $error->location\n";
-                $this->_codes[] = "$error->code";
+                $reason = isset(
+                    $this->_errors["{$error->code}"]
+                ) ? $this->_errors["{$error->code}"] : "Error code: {$error->code}.";
+                $this->_messages[] = "{$reason} Internal reason: {$error->internalReason} @ {$error->location}\n";
+                $this->_codes[] = "{$error->code}";
             }
             $this->message = implode("\n", $this->_messages);
             $this->code = implode(';', $this->_codes);

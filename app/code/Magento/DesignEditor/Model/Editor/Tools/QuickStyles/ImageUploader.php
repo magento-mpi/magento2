@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 
 /**
@@ -28,7 +27,7 @@ class ImageUploader extends \Magento\Object
     protected $_storagePath;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -44,17 +43,16 @@ class ImageUploader extends \Magento\Object
      */
     protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
 
-
     /**
      * Generic constructor of change instance
      *
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_uploaderFactory = $uploaderFactory;
@@ -70,8 +68,9 @@ class ImageUploader extends \Magento\Object
     public function getStoragePath()
     {
         if (null === $this->_storagePath) {
-            $this->_storagePath = $this->_getTheme()->getCustomization()->getCustomizationPath() . '/'
-                . self::PATH_PREFIX_QUICK_STYLE;
+            $this->_storagePath = $this->_getTheme()->getCustomization()->getCustomizationPath() .
+                '/' .
+                self::PATH_PREFIX_QUICK_STYLE;
         }
         return $this->_storagePath;
     }
@@ -96,7 +95,7 @@ class ImageUploader extends \Magento\Object
      */
     protected function _getTheme()
     {
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         $theme = $this->getTheme();
         if (!$theme->getId()) {
             throw new \InvalidArgumentException('Theme was not found.');
@@ -121,10 +120,11 @@ class ImageUploader extends \Magento\Object
 
         if (!$uploader->save($this->getStoragePath())) {
             /** @todo add translator */
-            throw new \Magento\Core\Exception('Cannot upload file.');
+            throw new \Magento\Framework\Model\Exception('Cannot upload file.');
         }
         $result['css_path'] = implode(
-            '/', array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
+            '/',
+            array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
         );
         $result['name'] = $uploader->getUploadedFileName();
         return $result;
@@ -138,7 +138,7 @@ class ImageUploader extends \Magento\Object
      */
     public function removeFile($file)
     {
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $path = $directory->getRelativePath($this->getStoragePath() . '/' . $file);
         if ($directory->isExist($path)) {
             $directory->delete($path);

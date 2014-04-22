@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Customer\Checkout;
 
 /**
@@ -19,7 +18,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
     protected $typeMultiShipping;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
@@ -27,7 +26,7 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,

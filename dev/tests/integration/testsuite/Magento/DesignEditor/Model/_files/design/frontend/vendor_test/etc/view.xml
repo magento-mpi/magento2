@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<view>
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../lib/Magento/Framework/Config/etc/view.xsd">
     <vars module="Magento_DesignEditor">
         <var name="test_var_key1">test_value1</var>
         <var name="test_var_key2">test_value2</var>

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 use Magento\Logger;
@@ -42,9 +41,14 @@ class Manager implements ManagerInterface
     protected $logger;
 
     /**
-     * @var $string
+     * @var string
      */
     protected $defaultGroup;
+
+    /**
+     * @var bool
+     */
+    protected $hasMessages = false;
 
     /**
      * @param Session $session
@@ -108,7 +112,7 @@ class Manager implements ManagerInterface
         if ($clear) {
             $messages = clone $this->session->getData($group);
             $this->session->getData($group)->clear();
-            $this->eventManager->dispatch('core_session_abstract_clear_messages');
+            $this->eventManager->dispatch('session_abstract_clear_messages');
             return $messages;
         }
         return $this->session->getData($group);
@@ -123,8 +127,9 @@ class Manager implements ManagerInterface
      */
     public function addMessage(MessageInterface $message, $group = null)
     {
+        $this->hasMessages = true;
         $this->getMessages(false, $group)->addMessage($message);
-        $this->eventManager->dispatch('core_session_abstract_add_message');
+        $this->eventManager->dispatch('session_abstract_add_message');
         return $this;
     }
 
@@ -224,7 +229,8 @@ class Manager implements ManagerInterface
             if ($message instanceof MessageInterface) {
                 $text = $message->getText();
             } else {
-                continue; // Some unknown object, add it anyway
+                // Some unknown object, add it anyway
+                continue;
             }
 
             // Check for duplication
@@ -258,5 +264,15 @@ class Manager implements ManagerInterface
         $this->logger->logFile($message, \Zend_Log::DEBUG, Logger::LOGGER_EXCEPTION);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $alternativeText), $group);
         return $this;
+    }
+
+    /**
+     * Returns false if there are any messages for customer, true - in other case
+     *
+     * @return bool
+     */
+    public function hasMessages()
+    {
+        return $this->hasMessages;
     }
 }

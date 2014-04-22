@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Controller\Adminhtml;
 
 /**
@@ -31,10 +30,10 @@ class ExportTest extends \Magento\Backend\Utility\Controller
     public function getEntityTypesDataProvider()
     {
         return array(
-            'products'                    => array('$entityType' => 'catalog_product'),
-            'customers'                   => array('$entityType' => 'customer'),
+            'products' => array('$entityType' => 'catalog_product'),
+            'customers' => array('$entityType' => 'customer'),
             // customer entities
-            'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer'),
+            'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer')
         );
     }
 

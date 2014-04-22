@@ -21,14 +21,14 @@ class Config implements ConfigInterface
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->storeManager = $storeManager;
     }
@@ -68,8 +68,7 @@ class Config implements ConfigInterface
      */
     public function getBaseMediaUrl()
     {
-        return $this->storeManager->getStore()
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
+        return $this->storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
     }
 
     /**
@@ -88,8 +87,9 @@ class Config implements ConfigInterface
      */
     public function getBaseTmpMediaUrl()
     {
-        return $this->storeManager->getStore()
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'tmp/' . $this->getBaseMediaUrlAddition();
+        return $this->storeManager->getStore()->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_MEDIA
+        ) . 'tmp/' . $this->getBaseMediaUrlAddition();
     }
 
     /**

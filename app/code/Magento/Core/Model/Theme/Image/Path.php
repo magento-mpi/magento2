@@ -13,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Theme Image Path
  */
-class Path implements \Magento\View\Design\Theme\Image\PathInterface
+class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
 {
     /**
      * Default theme preview image
@@ -23,7 +23,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * Media Directory
      *
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $mediaDirectory;
 
@@ -33,21 +33,21 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     protected $assetRepo;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * Initialize dependencies
-     *
-     * @param \Magento\App\Filesystem $filesystem
+     * 
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\View\Asset\Repository $assetRepo
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\View\Asset\Repository $assetRepo,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->mediaDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->assetRepo = $assetRepo;

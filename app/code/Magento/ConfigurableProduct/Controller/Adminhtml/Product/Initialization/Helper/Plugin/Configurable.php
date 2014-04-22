@@ -13,11 +13,11 @@ class Configurable
 {
     /**
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->productType = $productType;
         $this->request = $request;
@@ -26,11 +26,16 @@ class Configurable
     /**
      * Initialize data for configurable product
      *
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
      * @param \Magento\Catalog\Model\Product $product
+     *
      * @return \Magento\Catalog\Model\Product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitialize(\Magento\Catalog\Model\Product $product)
-    {
+    public function afterInitialize(
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject,
+        \Magento\Catalog\Model\Product $product
+    ) {
         $attributes = $this->request->getParam('attributes');
         if (!empty($attributes)) {
             $this->productType->setUsedProductAttributeIds($attributes, $product);
@@ -38,8 +43,10 @@ class Configurable
             $product->setNewVariationsAttributeSetId($this->request->getPost('new-variations-attribute-set-id'));
             $associatedProductIds = $this->request->getPost('associated_product_ids', array());
             if ($this->request->getActionName() != 'generateVariations') {
-                $generatedProductIds = $this->productType
-                    ->generateSimpleProducts($product, $this->request->getPost('variations-matrix', array()));
+                $generatedProductIds = $this->productType->generateSimpleProducts(
+                    $product,
+                    $this->request->getPost('variations-matrix', array())
+                );
                 $associatedProductIds = array_merge($associatedProductIds, $generatedProductIds);
             }
             $product->setAssociatedProductIds(array_filter($associatedProductIds));
@@ -51,4 +58,4 @@ class Configurable
 
         return $product;
     }
-} 
+}

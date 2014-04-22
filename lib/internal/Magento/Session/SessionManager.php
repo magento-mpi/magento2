@@ -23,10 +23,7 @@ class SessionManager implements SessionManagerInterface
      *
      * @var array
      */
-    protected $defaultDestroyOptions = array(
-        'send_expire_cookie' => true,
-        'clear_storage'      => true,
-    );
+    protected $defaultDestroyOptions = array('send_expire_cookie' => true, 'clear_storage' => true);
 
     /**
      * URL host cache
@@ -45,7 +42,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\Request\Http
      */
     protected $request;
 
@@ -80,7 +77,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * Constructor
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param SidResolverInterface $sidResolver
      * @param Config\ConfigInterface $sessionConfig
      * @param SaveHandlerInterface $saveHandler
@@ -88,7 +85,7 @@ class SessionManager implements SessionManagerInterface
      * @param StorageInterface $storage
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Request\Http $request,
         SidResolverInterface $sidResolver,
         Config\ConfigInterface $sessionConfig,
         SaveHandlerInterface $saveHandler,
@@ -361,7 +358,7 @@ class SessionManager implements SessionManagerInterface
     {
         $hostArr = explode(':', $host);
         $hosts = $this->_getHosts();
-        return (!empty($hosts[$hostArr[0]]));
+        return !empty($hosts[$hostArr[0]]);
     }
 
     /**

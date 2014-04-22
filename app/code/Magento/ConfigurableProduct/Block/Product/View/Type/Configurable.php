@@ -10,6 +10,8 @@
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
 use Magento\Catalog\Model\Product\PriceModifierInterface;
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -21,14 +23,14 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      *
      * @var array
      */
-    protected $_prices      = array();
+    protected $_prices = array();
 
     /**
      * Prepared prices
      *
      * @var array
      */
-    protected $_resPrices   = array();
+    protected $_resPrices = array();
 
     /**
      * Catalog product
@@ -43,14 +45,14 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Product\Price
      */
     protected $priceHelper;
+
+    /**
+     * @var CustomerAccountService
+     */
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Catalog\Model\Product\PriceModifierInterface
@@ -58,21 +60,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $priceModifier;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
+     * @param CustomerAccountService $customerAccountService
      * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
      * @param array $data
      * @param array $priceBlockTypes
@@ -80,47 +73,27 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
+        CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_imageHelper = $imageHelper;
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
         $this->priceModifier = $priceModifier;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $arrayUtils,
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**
@@ -130,8 +103,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAllowAttributes()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getConfigurableAttributes($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getConfigurableAttributes($this->getProduct());
     }
 
     /**
@@ -163,8 +135,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         if (!$this->hasAllowProducts()) {
             $products = array();
             $skipSaleableCheck = $this->_catalogProduct->getSkipSaleableCheck();
-            $allProducts = $this->getProduct()->getTypeInstance()
-                ->getUsedProducts($this->getProduct(), null);
+            $allProducts = $this->getProduct()->getTypeInstance()->getUsedProducts($this->getProduct(), null);
             foreach ($allProducts as $product) {
                 if ($product->isSaleable() || $skipSaleableCheck) {
                     $products[] = $product;
@@ -178,7 +149,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * Retrieve current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {
@@ -206,26 +177,27 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     public function getJsonConfig()
     {
         $attributes = array();
-        $options    = array();
-        $store      = $this->getCurrentStore();
-        $taxHelper  = $this->_taxData;
+        $options = array();
+        $store = $this->getCurrentStore();
+        $taxHelper = $this->_taxData;
         $currentProduct = $this->getProduct();
+        $baseImageUrl = (string)$this->_imageHelper->init($currentProduct, 'image');
         $preConfiguredValues = null;
 
         $preConfiguredFlag = $currentProduct->hasPreconfiguredValues();
         if ($preConfiguredFlag) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
-            $defaultValues       = array();
+            $defaultValues = array();
         }
 
         foreach ($this->getAllowProducts() as $product) {
-            $productId  = $product->getId();
-            $image = $this->_imageHelper->init($product, 'image');
+            $productId = $product->getId();
+            $this->_imageHelper->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
-                $productAttribute   = $attribute->getProductAttribute();
+                $productAttribute = $attribute->getProductAttribute();
                 $productAttributeId = $productAttribute->getId();
-                $attributeValue     = $product->getData($productAttribute->getAttributeCode());
+                $attributeValue = $product->getData($productAttribute->getAttributeCode());
                 if (!isset($options[$productAttributeId])) {
                     $options[$productAttributeId] = array();
                 }
@@ -234,24 +206,25 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     $options[$productAttributeId][$attributeValue] = array();
                 }
                 $options[$productAttributeId][$attributeValue][] = $productId;
-                !$product->getImage() || $product->getImage() === 'no_selection'
-                    ? $options['images'][$productAttributeId][$attributeValue][$productId] = null
-                    : $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image;
+
+                if (!$product->getImage() || $product->getImage() === 'no_selection') {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = $baseImageUrl;
+                } else {
+                    $options['images'][$productAttributeId][$attributeValue][$productId] = (string)$this->_imageHelper;
+                }
             }
         }
 
-        $this->_resPrices = array(
-            $this->_preparePrice($currentProduct->getFinalPrice())
-        );
+        $this->_resPrices = array($this->_preparePrice($currentProduct->getFinalPrice()));
 
         foreach ($this->getAllowAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();
             $info = array(
-                'id'        => $productAttribute->getId(),
-                'code'      => $productAttribute->getAttributeCode(),
-                'label'     => $attribute->getLabel(),
-                'options'   => array()
+                'id' => $productAttribute->getId(),
+                'code' => $productAttribute->getAttributeCode(),
+                'label' => $attribute->getLabel(),
+                'options' => array()
             );
 
             $optionPrices = array();
@@ -265,9 +238,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    $currentProduct->setConfigurablePrice($this->priceModifier->modifyPrice(
-                        $currentProduct->getConfigurablePrice(), $currentProduct
-                    ));
+                    $currentProduct->setConfigurablePrice(
+                        $this->priceModifier->modifyPrice($currentProduct->getConfigurablePrice(), $currentProduct)
+                    );
                     $configurablePrice = $currentProduct->getConfigurablePrice();
 
                     if (isset($options[$attributeId][$value['value_index']])) {
@@ -276,22 +249,30 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         $productsIndex = array();
                     }
 
+                    // @todo resolve issue with weee specifics
                     $info['options'][] = array(
-                        'id'        => $value['value_index'],
-                        'label'     => $value['label'],
-                        'price'     => $configurablePrice,
-                        'oldPrice'  => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
-                        'products'  => $productsIndex,
+                        'id' => $value['value_index'],
+                        'label' => $value['label'],
+                        'price' => $configurablePrice,
+                        'oldPrice' => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
+                        'inclTaxPrice' => $currentProduct
+                            ->getPriceInfo()
+                            ->getPrice('final_price')
+                            ->getCustomAmount($configurablePrice, 'weee')
+                            ->getValue(),
+                        'exclTaxPrice' => $configurablePrice,
+                        'products' => $productsIndex
                     );
                     $optionPrices[] = $configurablePrice;
                 }
             }
+
             /**
              * Prepare formatted values for options choose
              */
             foreach ($optionPrices as $optionPrice) {
                 foreach ($optionPrices as $additional) {
-                    $this->_preparePrice(abs($additional-$optionPrice));
+                    $this->_preparePrice(abs($additional - $optionPrice));
                 }
             }
             if ($this->_validateAttributeInfo($info)) {
@@ -307,8 +288,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+
+        if (is_null($this->priceHelper->getCustomer()->getId())
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
+            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
         }
 
         $_request = $this->priceHelper->getRateRequest(false, false, false);
@@ -320,23 +305,23 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $currentTax = $this->priceHelper->getRate($_request);
 
         $taxConfig = array(
-            'includeTax'        => $taxHelper->priceIncludesTax(),
-            'showIncludeTax'    => $taxHelper->displayPriceIncludingTax(),
-            'showBothPrices'    => $taxHelper->displayBothPrices(),
-            'defaultTax'        => $defaultTax,
-            'currentTax'        => $currentTax,
-            'inclTaxTitle'      => __('Incl. Tax')
+            'includeTax' => $taxHelper->priceIncludesTax(),
+            'showIncludeTax' => $taxHelper->displayPriceIncludingTax(),
+            'showBothPrices' => $taxHelper->displayBothPrices(),
+            'defaultTax' => $defaultTax,
+            'currentTax' => $currentTax,
+            'inclTaxTitle' => __('Incl. Tax')
         );
 
         $config = array(
-            'attributes'        => $attributes,
-            'template'          => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
-            'basePrice'         => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
-            'oldPrice'          => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
-            'productId'         => $currentProduct->getId(),
-            'chooseText'        => __('Choose an Option...'),
-            'taxConfig'         => $taxConfig,
-            'images'            => $options['images'],
+            'attributes' => $attributes,
+            'template' => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
+            'basePrice' => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
+            'oldPrice' => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
+            'productId' => $currentProduct->getId(),
+            'chooseText' => __('Choose an Option...'),
+            'taxConfig' => $taxConfig,
+            'images' => $options['images']
         );
 
         if ($preConfiguredFlag && !empty($defaultValues)) {

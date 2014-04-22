@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model;
 
 class AreaEmulator
@@ -25,16 +24,14 @@ class AreaEmulator
 
     /**
      * @param string $areaCode
+     * @return void
      */
     public function emulateLayoutArea($areaCode)
     {
         $configuration = array(
-            'Magento\Core\Model\Layout' => array(
+            'Magento\Framework\View\Layout' => array(
                 'arguments' => array(
-                    'area' => array(
-                        \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'string',
-                        'value' => $areaCode
-                    )
+                    'area' => $areaCode
                 )
             )
         );

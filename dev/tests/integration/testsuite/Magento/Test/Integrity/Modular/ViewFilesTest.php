@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
@@ -17,20 +16,29 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $application
-             * @param string $file
-             */
+        /**
+         * @param string $application
+         * @param string $file
+         */
             function ($application, $file) {
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+                \Magento\TestFramework\Helper\Bootstrap::getInstance()
                     ->loadArea($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\DesignInterface')
+                    ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
                 /** @var \Magento\View\Asset\Repository $assetRepo */
                 $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
                     ->get('Magento\View\Asset\Repository');
                 $result = $assetRepo->createAsset($file)->getSourceFile();
+
+                $fileInfo = pathinfo($result);
+                if ($fileInfo['extension'] === 'css') {
+                    if (!file_exists($result)) {
+                        $file = str_replace('.css', '.less', $file);
+                        $result = $assetRepo->createAsset($file)->getSourceFile();
+                    };
+                }
+
                 $this->assertFileExists($result);
             },
             $this->viewFilesFromModulesViewDataProvider()
@@ -46,8 +54,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $files = array();
         /** @var $configModelReader \Magento\Module\Dir\Reader */
-        $configModelReader =
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Module\Dir\Reader');
+        $configModelReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Module\Dir\Reader'
+        );
         foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = $configModelReader->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
@@ -79,8 +88,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 continue;
             }
             foreach (new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($viewAppDir->getRealPath())
-            ) as $fileInfo) {
+                         new \RecursiveDirectoryIterator($viewAppDir->getRealPath())
+                     ) as $fileInfo) {
                 $references = $this->_findReferencesToViewFile($fileInfo);
                 if (!isset($files[$area])) {
                     $files[$area] = $references;
@@ -121,15 +130,15 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $application
-             * @param string $file
-             */
+        /**
+         * @param string $application
+         * @param string $file
+         */
             function ($application, $file) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
                     ->setAreaCode($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\View\DesignInterface')
+                    ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
                 /** @var \Magento\View\Asset\Repository $assetRepo */
                 $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
@@ -147,7 +156,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $allFiles = array();
         foreach (glob(__DIR__ . '/_files/view_files*.php') as $file) {
-            $allFiles = array_merge($allFiles, include($file));
+            $allFiles = array_merge($allFiles, include $file);
         }
         return $this->_removeDisabledModulesFiles($allFiles);
     }

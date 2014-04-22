@@ -5,10 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code;
 
-use  Magento\Tools\I18n\Code\Locale;
+use Magento\Tools\I18n\Code\Locale;
 
 class LocaleTest extends \PHPUnit_Framework_TestCase
 {

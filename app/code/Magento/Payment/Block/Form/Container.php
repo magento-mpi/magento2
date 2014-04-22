@@ -10,6 +10,7 @@
 namespace Magento\Payment\Block\Form;
 
 use Magento\Payment\Model\Method\AbstractMethod;
+
 /**
  * Base container block for payment methods forms
  *
@@ -19,24 +20,30 @@ use Magento\Payment\Model\Method\AbstractMethod;
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Container extends \Magento\View\Element\Template
+class Container extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Payment\Helper\Data
      */
     protected $_paymentHelper;
 
+    /** @var  \Magento\Payment\Model\Checks\SpecificationFactory */
+    protected $methodSpecificationFactory;
+
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         array $data = array()
     ) {
         $this->_paymentHelper = $paymentHelper;
+        $this->methodSpecificationFactory = $methodSpecificationFactory;
         parent::__construct($context, $data);
     }
 
@@ -52,8 +59,8 @@ class Container extends \Magento\View\Element\Template
          */
         foreach ($this->getMethods() as $method) {
             $this->setChild(
-               'payment.method.'.$method->getCode(),
-               $this->_paymentHelper->getMethodFormBlock($method)
+                'payment.method.' . $method->getCode(),
+                $this->_paymentHelper->getMethodFormBlock($method)
             );
         }
 
@@ -63,14 +70,20 @@ class Container extends \Magento\View\Element\Template
     /**
      * Check payment method model
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return bool
      */
     protected function _canUseMethod($method)
     {
-        return $method->isApplicableToQuote($this->getQuote(), AbstractMethod::CHECK_USE_FOR_COUNTRY
-            | AbstractMethod::CHECK_USE_FOR_CURRENCY
-            | AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
+        return $this->methodSpecificationFactory->create(
+            array(
+                AbstractMethod::CHECK_USE_FOR_COUNTRY,
+                AbstractMethod::CHECK_USE_FOR_CURRENCY,
+                AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
+            )
+        )->isApplicable(
+            $method,
+            $this->getQuote()
         );
     }
 
@@ -79,7 +92,7 @@ class Container extends \Magento\View\Element\Template
      *
      * Redeclare this method in child classes for declaring method info instance
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return $this
      */
     protected function _assignMethod($method)
@@ -95,10 +108,10 @@ class Container extends \Magento\View\Element\Template
      * @param string $template
      * @return $this
      */
-    public function setMethodFormTemplate($method='', $template='')
+    public function setMethodFormTemplate($method = '', $template = '')
     {
         if (!empty($method) && !empty($template)) {
-            if ($block = $this->getChildBlock('payment.method.'.$method)) {
+            if ($block = $this->getChildBlock('payment.method.' . $method)) {
                 $block->setTemplate($template);
             }
         }
@@ -117,11 +130,9 @@ class Container extends \Magento\View\Element\Template
             $quote = $this->getQuote();
             $store = $quote ? $quote->getStoreId() : null;
             $methods = array();
+            $specification = $this->methodSpecificationFactory->create(array(AbstractMethod::CHECK_ZERO_TOTAL));
             foreach ($this->_paymentHelper->getStoreMethods($store, $quote) as $method) {
-                if ($this->_canUseMethod($method) && $method->isApplicableToQuote(
-                    $quote,
-                    AbstractMethod::CHECK_ZERO_TOTAL
-                )) {
+                if ($this->_canUseMethod($method) && $specification->isApplicable($method, $this->getQuote())) {
                     $this->_assignMethod($method);
                     $methods[] = $method;
                 }

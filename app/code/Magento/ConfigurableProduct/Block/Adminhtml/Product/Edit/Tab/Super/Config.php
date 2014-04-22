@@ -7,22 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
+
+use Magento\Backend\Block\Widget;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Catalog\Model\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 /**
  * Adminhtml catalog super product configurable tab
  */
-namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
-
-use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-
-use Magento\Catalog\Model\Product;
-use Magento\Core\Model\App;
-use Magento\Core\Model\LocaleInterface;
-
-class Config
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Config extends Widget implements TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
@@ -35,14 +34,19 @@ class Config
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     * @var Configurable
      */
     protected $_configurableType;
+
+    /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -52,23 +56,26 @@ class Config
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
+     * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
+        Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
         $this->_jsonEncoder = $jsonEncoder;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $data);
     }
 
@@ -104,7 +111,7 @@ class Config
      */
     public function isReadonly()
     {
-        return (bool) $this->getProduct()->getCompositeReadonly();
+        return (bool)$this->getProduct()->getCompositeReadonly();
     }
 
     /**
@@ -125,7 +132,7 @@ class Config
     public function isAttributesPricesReadonly()
     {
         return $this->getProduct()->getAttributesConfigurationReadonly() ||
-            ($this->_catalogData->isPriceGlobal() && $this->isReadonly());
+            $this->_catalogData->isPriceGlobal() && $this->isReadonly();
     }
 
     /**
@@ -135,13 +142,15 @@ class Config
      */
     protected function _prepareLayout()
     {
-        $this->addChild('create_empty', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Create Empty'),
-            'class' => 'add',
-            'onclick' => 'superProduct.createEmptyProduct()'
-        ));
-        $this->addChild('super_settings',
-            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings');
+        $this->addChild(
+            'create_empty',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Create Empty'), 'class' => 'add', 'onclick' => 'superProduct.createEmptyProduct()')
+        );
+        $this->addChild(
+            'super_settings',
+            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings'
+        );
 
         $this->addChild(
             'generate',
@@ -158,12 +167,12 @@ class Config
                                 'url' => $this->getUrl(
                                     'catalog/product_generateVariations/index',
                                     array('_current' => true)
-                                ),
-                            ),
-                        ),
+                                )
+                            )
+                        )
                     ),
-                    'action' => 'generate',
-                ),
+                    'action' => 'generate'
+                )
             )
         );
         $this->addChild(
@@ -186,13 +195,13 @@ class Config
                                             'is_global' => 1,
                                             'frontend_input' => 'select',
                                             'is_configurable' => 1
-                                        ),
+                                        )
                                     )
                                 )
                             )
                         )
                     )
-                ),
+                )
             )
         );
         $this->addChild(
@@ -202,11 +211,9 @@ class Config
                 'label' => __('Add Option'),
                 'class' => 'action- scalable add',
                 'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'add-option'),
-                    ),
-                    'action' => 'add-option',
-                ),
+                    'mage-init' => array('button' => array('event' => 'add-option')),
+                    'action' => 'add-option'
+                )
             )
         );
 
@@ -240,9 +247,11 @@ class Config
                     if (isset($configurableData[$key])) {
                         $attribute['values'] = array_merge(
                             isset($attribute['values']) ? $attribute['values'] : array(),
-                            isset($configurableData[$key]['values'])
-                                ? array_filter($configurableData[$key]['values'])
-                                : array()
+                            isset(
+                                $configurableData[$key]['values']
+                            ) ? array_filter(
+                                $configurableData[$key]['values']
+                            ) : array()
                         );
                     }
                 }
@@ -272,8 +281,7 @@ class Config
      */
     public function getLinksJson()
     {
-        $products = $this->_configurableType
-            ->getUsedProducts($this->getProduct());
+        $products = $this->_configurableType->getUsedProducts($this->getProduct());
         if (!$products) {
             return '{}';
         }
@@ -293,13 +301,12 @@ class Config
     public function getConfigurableSettings($product)
     {
         $data = array();
-        $attributes = $this->_configurableType
-            ->getUsedProductAttributes($this->getProduct());
+        $attributes = $this->_configurableType->getUsedProductAttributes($this->getProduct());
         foreach ($attributes as $attribute) {
             $data[] = array(
                 'attribute_id' => $attribute->getId(),
-                'label'        => $product->getAttributeText($attribute->getAttributeCode()),
-                'value_index'  => $product->getData($attribute->getAttributeCode())
+                'label' => $product->getAttributeText($attribute->getAttributeCode()),
+                'value_index' => $product->getData($attribute->getAttributeCode())
             );
         }
 
@@ -373,9 +380,9 @@ class Config
      */
     public function getSelectedAttributes()
     {
-        return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE
-            ? array_filter($this->_configurableType->getUsedProductAttributes($this->getProduct()))
-            : array();
+        return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE ? array_filter(
+            $this->_configurableType->getUsedProductAttributes($this->getProduct())
+        ) : array();
     }
 
     /**
@@ -389,28 +396,14 @@ class Config
     }
 
     /**
-     * @return App
-     */
-    public function getApp()
-    {
-        return $this->_app;
-    }
-
-    /**
-     * @return LocaleInterface
-     */
-    public function getLocale()
-    {
-        return $this->_locale;
-    }
-
-    /**
      * Get base application currency
      *
      * @return \Zend_Currency
      */
     public function getBaseCurrency()
     {
-        return $this->getLocale()->currency($this->getApp()->getBaseCurrencyCode());
+        return $this->_localeCurrency->getCurrency(
+            $this->_scopeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default')
+        );
     }
 }

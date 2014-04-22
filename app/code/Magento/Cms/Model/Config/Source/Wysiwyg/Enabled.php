@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 /**
  * Configuration source model for Wysiwyg toggling
  */
-class Enabled implements \Magento\Core\Model\Option\ArrayInterface
+class Enabled implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -20,18 +20,9 @@ class Enabled implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_ENABLED,
-                'label' => __('Enabled by Default')
-            ),
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_HIDDEN,
-                'label' => __('Disabled by Default')
-            ),
-            array(
-                'value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_DISABLED,
-                'label' => __('Disabled Completely')
-            )
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_ENABLED, 'label' => __('Enabled by Default')),
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_HIDDEN, 'label' => __('Disabled by Default')),
+            array('value' => \Magento\Cms\Model\Wysiwyg\Config::WYSIWYG_DISABLED, 'label' => __('Disabled Completely'))
         );
     }
 }

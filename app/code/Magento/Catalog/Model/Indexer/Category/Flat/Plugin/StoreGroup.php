@@ -47,25 +47,29 @@ class StoreGroup
     /**
      * Validate changes for invalidating indexer
      *
-     * @param \Magento\Core\Model\AbstractModel $group
+     * @param \Magento\Framework\Model\AbstractModel $group
      * @return bool
      */
-    protected function validate(\Magento\Core\Model\AbstractModel $group)
+    protected function validate(\Magento\Framework\Model\AbstractModel $group)
     {
         return $group->dataHasChangedFor('root_category_id') && !$group->isObjectNew();
     }
 
     /**
-     * Process to invalidate indexer
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $subject
+     * @param callable $proceed
+     * @param \Magento\Framework\Model\AbstractModel $group
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $needInvalidating = $this->validate($arguments[0]);
-        $objectResource = $invocationChain->proceed($arguments);
+    public function aroundSave(
+        \Magento\Framework\Model\Resource\Db\AbstractDb $subject,
+        \Closure $proceed,
+        \Magento\Framework\Model\AbstractModel $group
+    ) {
+        $needInvalidating = $this->validate($group);
+        $objectResource = $proceed($group);
         if ($needInvalidating && $this->state->isFlatEnabled()) {
             $this->getIndexer()->invalidate();
         }

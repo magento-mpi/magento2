@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Magento\Webapi\Model\Soap\Wsdl;
@@ -116,8 +115,7 @@ class Generator
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceClass);
             $serviceName = $this->getServiceName($serviceClass);
-            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS
-                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($serviceClass, $methodName);
@@ -401,13 +399,28 @@ class Generator
                 )
             )
         );
+        $wrappedErrorComplexType = Fault::NODE_DETAIL_WRAPPED_ERROR;
+        $wrappedErrorData = array(
+            'parameters' => array(
+                Fault::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERROR_CODE => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+            )
+        );
         $genericFaultTypeData = array(
             'parameters' => array(
-                Fault::NODE_DETAIL_CODE => array(
-                    'type' => 'int',
-                    'required' => true,
-                    'documentation' => 'SOAP fault code, unique for each type of exceptions.',
-                ),
                 Fault::NODE_DETAIL_TRACE => array(
                     'type' => 'string',
                     'required' => false,
@@ -417,10 +430,16 @@ class Generator
                     'type' => "{$faultParamsComplexType}[]",
                     'required' => false,
                     'documentation' => 'Additional exception parameters.',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERRORS => array(
+                    'type' => "{$wrappedErrorComplexType}[]",
+                    'required' => false,
+                    'documentation' => 'Additional wrapped errors.',
                 )
             )
         );
         $this->_typeProcessor->setTypeData($faultParamsComplexType, $faultParamsData);
+        $this->_typeProcessor->setTypeData($wrappedErrorComplexType, $wrappedErrorData);
         $this->_typeProcessor->setTypeData($complexTypeName, $genericFaultTypeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(

@@ -14,10 +14,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Widget\Model\Resource\Widget\Instance\Options;
 
-class ThemeId implements \Magento\Core\Model\Option\ArrayInterface
+class ThemeId implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Widget\Model\Widget\Instance

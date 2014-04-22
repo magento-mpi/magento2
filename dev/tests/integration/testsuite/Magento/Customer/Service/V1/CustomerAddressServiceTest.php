@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
@@ -25,13 +27,13 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager */
     private $_objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Dto\Address[] */
+    /** @var \Magento\Customer\Service\V1\Data\Address[] */
     private $_expectedAddresses;
 
-    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\AddressBuilder */
     private $_addressBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
     protected function setUp()
@@ -39,51 +41,56 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
-        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
 
-        $this->_addressBuilder->setId(1)
+        $region = (new \Magento\Customer\Service\V1\Data\RegionBuilder())
+            ->setRegionCode('AL')
+            ->setRegion('Alabama')
+            ->setRegionId(1)
+            ->create();
+        $this->_addressBuilder
+            ->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(
-                new V1\Dto\Region([
-                    'region_code' => 'AL',
-                    'region'      => 'Alabama',
-                    'region_id'   => 1
-                ])
-            )
-            ->setStreet(['Green str, 67'])
+            ->setRegion($region)
+            ->setStreet(array('Green str, 67'))
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
-            ->setLastname('Smith');
+            ->setLastname('Smith')
+            ->setCompany('CompanyName');
         $address = $this->_addressBuilder->create();
 
         /* XXX: would it be better to have a clear method for this? */
-        $this->_addressBuilder->setId(2)
+        $this->_addressBuilder
+            ->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(
-                new V1\Dto\Region([
-                    'region_code' => 'AL',
-                    'region'      => 'Alabama',
-                    'region_id'   => 1
-                ])
-            )
-            ->setStreet(['Black str, 48'])
+            ->setRegion($region)
+            ->setStreet(array('Black str, 48'))
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')
             ->setLastname('Smith');
+
         $address2 = $this->_addressBuilder->create();
 
-        $this->_expectedAddresses = [$address, $address2];
+        $this->_expectedAddresses = array($address, $address2);
+    }
+
+    protected function tearDown()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Customer\Model\AddressRegistry $addressRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry->remove(1);
     }
 
     /**
@@ -95,12 +102,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveAddressChanges()
     {
         $customerId = 1;
-        $address = $this->_service->getAddressById(2);
+        $address = $this->_service->getAddress(2);
         $proposedAddressBuilder = $this->_addressBuilder->populate($address);
         $proposedAddressBuilder->setTelephone('555' . $address->getTelephone());
         $proposedAddress = $proposedAddressBuilder->create();
 
-        $this->_service->saveAddresses($customerId, [$proposedAddress]);
+        $this->_service->saveAddresses($customerId, array($proposedAddress));
 
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals(2, count($addresses));
@@ -116,13 +123,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressesIdSetButNotAlreadyExisting()
     {
-        $proposedAddressBuilder = $this->_createSecondAddressBuilder()
-            ->setFirstname('Jane')
-            ->setId(4200);
+        $proposedAddressBuilder = $this->_createSecondAddressBuilder()->setFirstname('Jane')->setId(4200);
         $proposedAddress = $proposedAddressBuilder->create();
 
         $customerId = 1;
-        $this->_service->saveAddresses($customerId, [$proposedAddress]);
+        $this->_service->saveAddresses($customerId, array($proposedAddress));
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
         $this->assertEquals($this->_expectedAddresses[1], $addresses[1]);
@@ -178,7 +183,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressById()
     {
         $addressId = 2;
-        $addresses = $this->_service->getAddressById($addressId);
+        $addresses = $this->_service->getAddress($addressId);
         $this->assertEquals($this->_expectedAddresses[1], $addresses);
     }
 
@@ -189,16 +194,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         // Should throw the address not found exception
         try {
-            $this->_service->getAddressById(12345);
+            $this->_service->getAddress(12345);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    'addressId' => 12345
-                ]
-            );
+            $this->assertSame($exception->getParams(), array('addressId' => 12345));
         }
     }
 
@@ -213,14 +213,16 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $proposedAddress = $proposedAddressBuilder->create();
         $customerId = 1;
 
-        $this->_service->saveAddresses($customerId, [$proposedAddress]);
+        $this->_service->saveAddresses($customerId, array($proposedAddress));
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
         $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
-        $expectedNewAddressBuilder
-            ->setId($addresses[1]->getId());
+        $expectedNewAddressBuilder->setId($addresses[1]->getId());
         $expectedNewAddress = $expectedNewAddressBuilder->create();
-        $this->assertEquals($expectedNewAddress->__toArray(), $addresses[1]->__toArray());
+        $this->assertEquals(
+            AddressConverter::toFlatArray($expectedNewAddress),
+            AddressConverter::toFlatArray($addresses[1])
+        );
     }
 
     /**
@@ -232,29 +234,30 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_addressBuilder->populateWithArray(
             array_merge(
-                $this->_expectedAddresses[1]->__toArray(),
-                [
-                    'firstname' => 'Jane',
-                    'id'        => 4200,
-                    'weird'     => 'something_strange_with_hair'
-                ]
+                AddressConverter::toFlatArray($this->_expectedAddresses[1]),
+                array('firstname' => 'Jane', 'id' => 4200, 'weird' => 'something_strange_with_hair')
             )
-        )->setId(null);
+        )->setId(
+            null
+        );
         $proposedAddress = $this->_addressBuilder->create();
 
         $customerId = 1;
-        $this->_service->saveAddresses($customerId, [$proposedAddress]);
+        $this->_service->saveAddresses($customerId, array($proposedAddress));
 
         $addresses = $this->_service->getAddresses($customerId);
-        $this->assertNotEquals($proposedAddress->getAttributes(), $addresses[1]->getAttributes());
+        $this->assertNotEquals(
+            V1\Data\AddressConverter::toFlatArray($proposedAddress),
+            V1\Data\AddressConverter::toFlatArray($addresses[1])
+        );
         $this->assertArrayNotHasKey(
             'weird',
-            $proposedAddress->getAttributes(),
+            V1\Data\AddressConverter::toFlatArray($proposedAddress),
             'Only valid attributes should be available.'
         );
         $this->assertArrayNotHasKey(
             'weird',
-            $addresses[1]->getAttributes(),
+            V1\Data\AddressConverter::toFlatArray($addresses[1]),
             'Only valid attributes should be available.'
         );
     }
@@ -267,45 +270,29 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveNewInvalidAddresses()
     {
         $firstAddressBuilder = $this->_addressBuilder->populateWithArray(
-            array_merge(
-                $this->_expectedAddresses[0]->__toArray(),
-                [
-                    'firstname' => null
-                ]
-            )
-        )->setId(null);
+            array_merge(AddressConverter::toFlatArray($this->_expectedAddresses[0]), array('firstname' => null))
+        )->setId(
+            null
+        );
         $firstAddress = $firstAddressBuilder->create();
         $secondAddressBuilder = $this->_addressBuilder->populateWithArray(
-            array_merge(
-                $this->_expectedAddresses[0]->__toArray(),
-                [
-                    'lastname' => null
-                ]
-            )
-        )->setId(null);
+            array_merge(AddressConverter::toFlatArray($this->_expectedAddresses[0]), array('lastname' => null))
+        )->setId(
+            null
+        );
         $secondAddress = $secondAddressBuilder->create();
         $customerId = 1;
         try {
-            $this->_service->saveAddresses($customerId, [$firstAddress, $secondAddress]);
+            $this->_service->saveAddresses($customerId, array($firstAddress, $secondAddress));
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (InputException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
             $this->assertSame(
                 $exception->getParams(),
-                [
-                    [
-                        'index' => 0,
-                        'fieldName' => 'firstname',
-                        'code'      => 'REQUIRED_FIELD',
-                        'value'     => null
-                    ],
-                    [
-                        'index' => 1,
-                        'fieldName' => 'lastname',
-                        'code'      => 'REQUIRED_FIELD',
-                        'value'     => null
-                    ]
-                ]
+                array(
+                    array('index' => 0, 'fieldName' => 'firstname', 'code' => 'REQUIRED_FIELD', 'value' => null),
+                    array('index' => 1, 'fieldName' => 'lastname', 'code' => 'REQUIRED_FIELD', 'value' => null)
+                )
             );
         }
     }
@@ -324,7 +311,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false);
         $addressBilling = $addressBillingBuilder->create();
         $customerId = 1;
-        $this->_service->saveAddresses($customerId, [$addressShipping, $addressBilling]);
+        $this->_service->saveAddresses($customerId, array($addressShipping, $addressBilling));
 
         $shipping = $this->_service->getDefaultShippingAddress($customerId);
         /* XXX: cannot reuse addressShippingBuilder; actually all of this code
@@ -355,24 +342,20 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressFour = $addressFourBuilder->create();
 
         $addressDefaultBuilder = $this->_addressBuilder->populate($addressTwo);
-        $addressDefaultBuilder->setDefaultBilling(true)->setDefaultShipping(true)
-            ->setFirstname('Dirty Garry');
+        $addressDefaultBuilder->setDefaultBilling(true)->setDefaultShipping(true)->setFirstname('Dirty Garry');
         $addressDefault = $addressDefaultBuilder->create();
 
         $customerId = 1;
-        $this->_service->saveAddresses(
-            $customerId,
-            [$addressTwo, $addressThree, $addressFour, $addressDefault]
-        );
+        $this->_service->saveAddresses($customerId, array($addressTwo, $addressThree, $addressFour, $addressDefault));
 
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals(5, count($addresses));
 
         // retrieve defaults
-        $addresses = [
+        $addresses = array(
             $this->_service->getDefaultBillingAddress($customerId),
-            $this->_service->getDefaultShippingAddress($customerId),
-        ];
+            $this->_service->getDefaultShippingAddress($customerId)
+        );
         // Same address is returned twice
         $this->assertEquals($addresses[0], $addresses[1]);
         $this->assertEquals($addressDefault->getFirstname(), $addresses[1]->getFirstname());
@@ -400,31 +383,43 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressThree = $addressThreeBuilder->create();
 
         $defaultShippingBuilder = $this->_addressBuilder->populate($addressTwo);
-        $defaultShippingBuilder->setFirstname('Shippy')
-            ->setLastname('McShippington')
-            ->setDefaultBilling(false)
-            ->setDefaultShipping(true);
+        $defaultShippingBuilder->setFirstname(
+            'Shippy'
+        )->setLastname(
+            'McShippington'
+        )->setDefaultBilling(
+            false
+        )->setDefaultShipping(
+            true
+        );
         $defaultShipping = $defaultShippingBuilder->create();
 
         $defaultBillingBuilder = $this->_addressBuilder->populate($addressTwo);
-        $defaultBillingBuilder
-            ->setFirstname('Billy')
-            ->setLastname('McBillington')
-            ->setDefaultBilling(true)
-            ->setDefaultShipping(false);
+        $defaultBillingBuilder->setFirstname(
+            'Billy'
+        )->setLastname(
+            'McBillington'
+        )->setDefaultBilling(
+            true
+        )->setDefaultShipping(
+            false
+        );
         $defaultBilling = $defaultBillingBuilder->create();
 
         $customerId = 1;
 
-        $this->_service->saveAddresses($customerId, [$addressTwo, $addressThree, $defaultShipping, $defaultBilling]);
+        $this->_service->saveAddresses(
+            $customerId,
+            array($addressTwo, $addressThree, $defaultShipping, $defaultBilling)
+        );
         $addresses = $this->_service->getAddresses($customerId);
 
         $this->assertEquals(5, count($addresses));
 
-        $addresses = [
+        $addresses = array(
             $this->_service->getDefaultBillingAddress($customerId),
-            $this->_service->getDefaultShippingAddress($customerId),
-        ];
+            $this->_service->getDefaultShippingAddress($customerId)
+        );
         $this->assertNotEquals($addresses[0], $addresses[1]);
         $this->assertTrue($addresses[0]->isDefaultBilling());
         $this->assertTrue($addresses[1]->isDefaultShipping());
@@ -449,7 +444,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressesNoAddresses()
     {
-        $addressIds = $this->_service->saveAddresses(1, []);
+        $addressIds = $this->_service->saveAddresses(1, array());
         $this->assertEmpty($addressIds);
         $customerId = 1;
         $addresses = $this->_service->getAddresses($customerId);
@@ -460,14 +455,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
         try {
-            $this->_service->saveAddresses(4200, [$proposedAddress]);
+            $this->_service->saveAddresses(4200, array($proposedAddress));
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
+        } catch (NoSuchEntityException $e) {
             $expectedParams = [
                 'customerId' => '4200',
             ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = 4200', $e->getMessage());
         }
     }
 
@@ -475,14 +470,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
         try {
-            $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
+            $this->_service->saveAddresses('this_is_not_a_valid_id', array($proposedAddress));
             $this->fail('Expected exception not thrown');
-        } catch (NoSuchEntityException $nsee) {
-            $expectedParams = [
-                'customerId' => 'this_is_not_a_valid_id',
-            ];
-            $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+        } catch (NoSuchEntityException $e) {
+            $expectedParams = array('customerId' => 'this_is_not_a_valid_id');
+            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $e->getMessage());
         }
     }
 
@@ -494,24 +487,19 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDto = $this->_service->getAddressById($addressId);
-        $this->assertEquals($addressDto->getId(), $addressId);
+        $addressDataObject = $this->_service->getAddress($addressId);
+        $this->assertEquals($addressDataObject->getId(), $addressId);
 
         // Delete the address from the customer
         $this->_service->deleteAddress($addressId);
 
         // See that address is deleted
         try {
-            $addressDto = $this->_service->getAddressById($addressId);
+            $addressDataObject = $this->_service->getAddress($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    'addressId' => $addressId
-                ]
-            );
+            $this->assertSame($exception->getParams(), array('addressId' => $addressId));
         }
     }
 
@@ -526,19 +514,75 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    'addressId' => 12345
-                ]
+            $this->assertSame($exception->getParams(), array('addressId' => 12345));
+        }
+    }
+
+    public function testValidateAddresses()
+    {
+        $this->assertTrue($this->_service->validateAddresses($this->_expectedAddresses));
+    }
+
+    public function testValidateAddressesOneInvalid()
+    {
+        $invalidAddress = $this->_addressBuilder->setCity('Miami')->create();
+
+        try {
+            $this->_service->validateAddresses(array_merge(array($invalidAddress), $this->_expectedAddresses));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', array('index' => 0));
+            $expectedException->addError('REQUIRED_FIELD', 'lastname', '', array('index' => 0));
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 0));
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 0));
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 0));
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 0));
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
+
+    public function testValidateAddressesOneInvalidNonNumericKeys()
+    {
+        $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')->setLastname('Mercury')->create();
+
+        try {
+            $this->_service->validateAddresses(
+                array_merge($this->_expectedAddresses, array('addr_3' => $invalidAddress))
             );
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 'addr_3'));
+            $expectedException->addError('REQUIRED_FIELD', 'city', '', array('index' => 'addr_3'));
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 'addr_3'));
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 'addr_3'));
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 'addr_3'));
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+        }
+    }
+
+    public function testValidateAddressesOneInvalidNoKeys()
+    {
+        $invalidAddress = $this->_addressBuilder->setFirstname('Freddy')->setLastname('Mercury')->create();
+        try {
+            $this->_service->validateAddresses(array_merge($this->_expectedAddresses, array($invalidAddress)));
+            $this->fail("InputException was expected but not thrown");
+        } catch (InputException $actualException) {
+            $expectedException = new InputException();
+            $expectedException->addError('REQUIRED_FIELD', 'street', '', array('index' => 2));
+            $expectedException->addError('REQUIRED_FIELD', 'city', '', array('index' => 2));
+            $expectedException->addError('REQUIRED_FIELD', 'telephone', '', array('index' => 2));
+            $expectedException->addError('REQUIRED_FIELD', 'postcode', '', array('index' => 2));
+            $expectedException->addError('REQUIRED_FIELD', 'countryId', '', array('index' => 2));
+            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
         }
     }
 
     /**
-     * Helper function that returns an Address DTO that matches the data from customer_address fixture
+     * Helper function that returns an Address Data Object that matches the data from customer_address fixture
      *
-     * @return \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @return \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     private function _createFirstAddressBuilder()
     {
@@ -548,14 +592,13 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper function that returns an Address DTO that matches the data from customer_two_address fixture
+     * Helper function that returns an Address Data Object that matches the data from customer_two_address fixture
      *
-     * @return \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @return \Magento\Customer\Service\V1\Data\AddressBuilder
      */
     private function _createSecondAddressBuilder()
     {
-        return $this->_addressBuilder->populate($this->_expectedAddresses[1])
-            ->setId(null);
+        return $this->_addressBuilder->populate($this->_expectedAddresses[1])->setId(null);
     }
 
     /**
@@ -567,12 +610,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     protected function _assertAddressAndRegionArrayEquals($expectedArray, $actualArray)
     {
         if (array_key_exists('region', $expectedArray)) {
-            /** @var \Magento\Customer\Service\V1\Dto\Region $expectedRegion */
+            /** @var \Magento\Customer\Service\V1\Data\Region $expectedRegion */
             $expectedRegion = $expectedArray['region'];
             unset($expectedArray['region']);
         }
         if (array_key_exists('region', $actualArray)) {
-            /** @var \Magento\Customer\Service\V1\Dto\Region $actualRegion */
+            /** @var \Magento\Customer\Service\V1\Data\Region $actualRegion */
             $actualRegion = $actualArray['region'];
             unset($actualArray['region']);
         }

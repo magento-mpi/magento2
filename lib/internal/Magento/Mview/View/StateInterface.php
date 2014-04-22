@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\View;
 
 interface StateInterface
@@ -14,15 +13,20 @@ interface StateInterface
      * View modes
      */
     const MODE_ENABLED = 'enabled';
+
     const MODE_DISABLED = 'disabled';
+
     /**#@-*/
 
     /**#@+
      * View statuses
      */
     const STATUS_IDLE = 'idle';
+
     const STATUS_WORKING = 'working';
+
     const STATUS_SUSPENDED = 'suspended';
+
     /**#@-*/
 
     /**
@@ -111,7 +115,7 @@ interface StateInterface
     /**
      * Set state updated time
      *
-     * @param string|int|\Zend_Date $updated
+     * @param string|int|\Magento\Stdlib\DateTime\DateInterface $updated
      * @return \Magento\Mview\View\StateInterface
      */
     public function setUpdated($updated);

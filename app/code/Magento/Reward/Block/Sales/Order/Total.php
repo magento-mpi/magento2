@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Block\Sales\Order;
 
-class Total extends \Magento\View\Element\Template
+class Total extends \Magento\Framework\View\Element\Template
 {
     /**
      * Reward data
@@ -19,12 +19,12 @@ class Total extends \Magento\View\Element\Template
     protected $_rewardData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
@@ -79,16 +79,20 @@ class Total extends \Magento\View\Element\Template
      */
     public function initTotals()
     {
-        if ((float) $this->getOrder()->getBaseRewardCurrencyAmount()) {
+        if ((double)$this->getOrder()->getBaseRewardCurrencyAmount()) {
             $source = $this->getSource();
-            $value  = - $source->getRewardCurrencyAmount();
+            $value = -$source->getRewardCurrencyAmount();
 
-            $this->getParentBlock()->addTotal(new \Magento\Object(array(
-                'code'   => 'reward_points',
-                'strong' => false,
-                'label'  => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
-                'value'  => $source instanceof \Magento\Sales\Model\Order\Creditmemo  ? - $value : $value
-            )));
+            $this->getParentBlock()->addTotal(
+                new \Magento\Object(
+                    array(
+                        'code' => 'reward_points',
+                        'strong' => false,
+                        'label' => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
+                        'value' => $source instanceof \Magento\Sales\Model\Order\Creditmemo ? -$value : $value
+                    )
+                )
+            );
         }
 
         return $this;

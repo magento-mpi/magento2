@@ -4,56 +4,48 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Address extends \Magento\View\Element\Template
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data\AddressConverter;
+
+class Address extends \Magento\Framework\View\Element\Template
 {
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
-     */
-    protected $_addressService;
-
     /**
      * @var \Magento\Customer\Model\Address\Config
      */
     protected $_addressConfig;
-    
+
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $customerCurrentService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface
+     */
+    protected $customerAddressCurrentService;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
+        \Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface $customerAddressCurrentService,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
-        $this->_addressService = $addressService;
+        $this->customerCurrentService = $customerCurrentService;
+        $this->customerAddressCurrentService = $customerAddressCurrentService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -62,13 +54,13 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
         try {
-            return $this->_customerService->getCustomer($this->_customerSession->getId());
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return $this->customerCurrentService->getCustomer();
+        } catch (NoSuchEntityException $e) {
             return null;
         }
     }
@@ -81,8 +73,8 @@ class Address extends \Magento\View\Element\Template
     public function getPrimaryShippingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $address = $this->customerAddressCurrentService->getDefaultShippingAddress();
+        } catch (NoSuchEntityException $e) {
             return __('You have not set a default shipping address.');
         }
 
@@ -101,8 +93,8 @@ class Address extends \Magento\View\Element\Template
     public function getPrimaryBillingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $address = $this->customerAddressCurrentService->getDefaultBillingAddress();
+        } catch (NoSuchEntityException $e) {
             return __('You have not set a default billing address.');
         }
 
@@ -113,24 +105,39 @@ class Address extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return string
+     */
     public function getPrimaryShippingAddressEditUrl()
     {
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+            return $this->_urlBuilder->getUrl(
+                'customer/address/edit',
+                array('id' => $this->getCustomer()->getDefaultShipping())
+            );
         }
     }
 
+    /**
+     * @return string
+     */
     public function getPrimaryBillingAddressEditUrl()
     {
         if (is_null($this->getCustomer())) {
             return '';
         } else {
-            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+            return $this->_urlBuilder->getUrl(
+                'customer/address/edit',
+                array('id' => $this->getCustomer()->getDefaultBilling())
+            );
         }
     }
 
+    /**
+     * @return string
+     */
     public function getAddressBookUrl()
     {
         return $this->getUrl('customer/address/');
@@ -139,14 +146,13 @@ class Address extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     protected function _getAddressHtml($address)
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray($address->getAttributes());
+        return $renderer->renderArray(AddressConverter::toFlatArray($address));
     }
 }
-

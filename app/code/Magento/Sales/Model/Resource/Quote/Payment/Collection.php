@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Quote\Payment;
 
 /**
  * Quote payments collection
  */
-namespace Magento\Sales\Model\Resource\Quote\Payment;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter
@@ -23,20 +22,20 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Payment\Method\Converter $converter
-     * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Payment\Method\Converter $converter,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_converter = $converter;
@@ -44,6 +43,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -54,7 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Setquote filter to result
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Resource\Quote\Payment\Collection
+     * @return $this
      */
     public function setQuoteFilter($quoteId)
     {
@@ -64,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Unserialize additional_information in each item
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -82,4 +83,3 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         return parent::_afterLoad();
     }
 }
-

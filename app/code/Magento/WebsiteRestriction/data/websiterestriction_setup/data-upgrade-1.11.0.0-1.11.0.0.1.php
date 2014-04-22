@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 
@@ -16,5 +16,5 @@ $connection = $installer->getConnection();
 $connection->update(
     $installer->getTable('cms_page'),
     array('root_template' => 'one_column'),
-    array('identifier IN (?)' => array('service-unavailable','private-sales'), 'root_template IS NULL')
+    array('identifier IN (?)' => array('service-unavailable', 'private-sales'), 'root_template IS NULL')
 );

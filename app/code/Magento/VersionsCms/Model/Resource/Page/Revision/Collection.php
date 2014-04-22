@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Model\Resource\Page\Revision;
 /**
  * Cms page revision collection
  */
-class Collection
-    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
@@ -92,7 +91,7 @@ class Collection
      * @param string $dir
      * @return $this
      */
-    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\Framework\DB\Select::SQL_DESC)
     {
         $this->setOrder('revision_number', $dir);
         return $this;

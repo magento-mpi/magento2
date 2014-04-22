@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget;
 
 /**
@@ -22,14 +21,17 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     public function testAddTab()
     {
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Widget\Model\Widget\Instance'
+        );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_widget_instance', $widgetInstance);
+        $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);
 
-        /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        /** @var $layout \Magento\Framework\View\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var $block \Magento\Backend\Block\Widget\Tabs */
         $block = $layout->createBlock('Magento\Backend\Block\Widget\Tabs', 'block');
         $layout->addBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main', 'child_tab', 'block');

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
 /**
  * Website attribute backend
@@ -15,24 +16,19 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Backend;
-
-class Website
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Logger $logger, \Magento\Store\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
         parent::__construct($logger);
     }
@@ -41,7 +37,7 @@ class Website
      * Before save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Customer\Model\Customer\Attribute\Backend\Website
+     * @return $this
      */
     public function beforeSave($object)
     {

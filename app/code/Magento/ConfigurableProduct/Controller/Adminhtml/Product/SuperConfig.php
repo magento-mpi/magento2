@@ -23,18 +23,19 @@ class SuperConfig extends Action
      * @param Action\Context $context
      * @param Product\Builder $productBuilder
      */
-    public function __construct(
-        Action\Context $context,
-        Product\Builder $productBuilder
-    ) {
+    public function __construct(Action\Context $context, Product\Builder $productBuilder)
+    {
         $this->productBuilder = $productBuilder;
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->productBuilder->build($this->getRequest());
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
-} 
+}

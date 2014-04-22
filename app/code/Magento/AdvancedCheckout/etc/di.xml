@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\AdvancedCheckout\Helper\Data">
         <arguments>
             <argument name="cart" xsi:type="object">Magento\AdvancedCheckout\Model\Cart\Proxy</argument>
@@ -15,7 +15,7 @@
             <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-            <argument name="coreStoreConfig" xsi:type="object">Magento\Core\Model\Store\Config\Proxy</argument>
+            <argument name="scopeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface\Proxy</argument>
         </arguments>
     </type>
 </config>

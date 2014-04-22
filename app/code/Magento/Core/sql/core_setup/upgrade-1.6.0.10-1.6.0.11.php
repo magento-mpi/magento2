@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer \Magento\Core\Model\Resource\Setup */
+/* @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -17,11 +17,15 @@ $connection = $installer->getConnection();
 /**
  * Add column 'type' to 'core_theme'
  */
-$connection->addColumn($installer->getTable('core_theme'), 'type', array(
-    'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-    'nullable' => false,
-    'comment'  => 'Theme type: 0:physical, 1:virtual, 2:staging'
-));
+$connection->addColumn(
+    $installer->getTable('core_theme'),
+    'type',
+    array(
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+        'nullable' => false,
+        'comment' => 'Theme type: 0:physical, 1:virtual, 2:staging'
+    )
+);
 
 /**
  * Rename table

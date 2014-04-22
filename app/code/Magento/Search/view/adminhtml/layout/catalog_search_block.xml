@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="related_grid_edit">
         <block class="Magento\Search\Block\Adminhtml\Search\Grid" name="search.edit.grid" as="grid">
             <arguments>
@@ -34,18 +34,17 @@
                     <arguments>
                         <argument name="index" xsi:type="string">query_id</argument>
                         <argument name="id" xsi:type="string">query_id_selected</argument>
-                        <argument name="header_css_class" xsi:type="string">a-center</argument>
                         <argument name="type" xsi:type="string">checkbox</argument>
                         <argument name="name" xsi:type="string">query_id_selected</argument>
                         <argument name="values" xsi:type="options" model="Magento\Search\Model\Adminhtml\Search\Grid\Options"/>
-                        <argument name="align" xsi:type="string">center</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="query_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="index" xsi:type="string">query_id</argument>
-                        <argument name="width" xsi:type="string">50px</argument>
+                        <argument name="column_css_class" xsi:type="string">col-id</argument>
+                        <argument name="header_css_class" xsi:type="string">col-id</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="search_query">
@@ -81,16 +80,12 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Synonym</argument>
                         <argument name="index" xsi:type="string">synonym_for</argument>
-                        <argument name="align" xsi:type="string">left</argument>
-                        <argument name="width" xsi:type="string">160px</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="redirect">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Redirect URL</argument>
                         <argument name="index" xsi:type="string">redirect</argument>
-                        <argument name="align" xsi:type="string">left</argument>
-                        <argument name="width" xsi:type="string">200px</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="display_in_terms">
@@ -99,8 +94,6 @@
                         <argument name="sortable" xsi:type="string">1</argument>
                         <argument name="index" xsi:type="string">display_in_terms</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="width" xsi:type="string">100px</argument>
-                        <argument name="align" xsi:type="string">left</argument>
                         <argument name="options" xsi:type="array">
                             <item name="yes" xsi:type="array">
                                 <item name="value" xsi:type="string">1</item>
@@ -117,7 +110,6 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
                         <argument name="index" xsi:type="string">catalog</argument>
-                        <argument name="width" xsi:type="string">100px</argument>
                         <argument name="type" xsi:type="string">action</argument>
                         <argument name="getter" xsi:type="string">getId</argument>
                         <argument name="filter" xsi:type="string">0</argument>

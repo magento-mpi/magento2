@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Helper;
 
-class Image extends \Magento\Data\Form\Element\Image
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * Get url for image
@@ -46,5 +46,4 @@ class Image extends \Magento\Data\Form\Element\Image
         }
         return $name;
     }
-
 }

@@ -7,26 +7,24 @@
  */
 namespace Magento\Acl\Resource;
 
-class Provider implements \Magento\Acl\Resource\ProviderInterface
+class Provider implements ProviderInterface
 {
     /**
-     * @var \Magento\Config\ReaderInterface
+     * @var \Magento\Framework\Config\ReaderInterface
      */
     protected $_configReader;
 
     /**
-     * @var \Magento\Acl\Resource\TreeBuilder
+     * @var TreeBuilder
      */
     protected $_resourceTreeBuilder;
 
     /**
-     * @param \Magento\Config\ReaderInterface $configReader
-     * @param \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
+     * @param \Magento\Framework\Config\ReaderInterface $configReader
+     * @param TreeBuilder $resourceTreeBuilder
      */
-    public function __construct(
-        \Magento\Config\ReaderInterface $configReader,
-        \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
-    ) {
+    public function __construct(\Magento\Framework\Config\ReaderInterface $configReader, TreeBuilder $resourceTreeBuilder)
+    {
         $this->_configReader = $configReader;
         $this->_resourceTreeBuilder = $resourceTreeBuilder;
     }
@@ -43,5 +41,4 @@ class Provider implements \Magento\Acl\Resource\ProviderInterface
         }
         return array();
     }
-
 }

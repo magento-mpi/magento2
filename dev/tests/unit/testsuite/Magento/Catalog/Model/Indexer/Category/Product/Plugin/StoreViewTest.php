@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +15,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     protected $indexerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
+     * @var \PHPUnit_Framework_MockObject_MockObject|
      */
     protected $pluginMock;
 
@@ -24,60 +24,83 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subject;
+
     protected function setUp()
     {
-        $this->pluginMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getId', 'getState', '__wakeup')
         );
-        $this->model = new StoreView(
-            $this->indexerMock
-        );
+        $this->model = new StoreView($this->indexerMock);
+        $this->subject = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
     }
 
     public function testAroundSaveNewObject()
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $storeMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(true));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $storeMock->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            'group_id'
+        )->will(
+            $this->returnValue(true)
+        );
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store',
+            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $storeMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('group_id')
-            ->will($this->returnValue(false));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+        $storeMock->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            'group_id'
+        )->will(
+            $this->returnValue(false)
+        );
+        $proceed = $this->mockPluginProceed();
+        $this->assertFalse($this->model->aroundSave($this->subject, $proceed, $storeMock));
     }
 
     /**
@@ -86,33 +109,28 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     protected function getStateMock()
     {
         $stateMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer\State', array('setStatus', 'save', '__wakeup'), array(), '', false
+            'Magento\Indexer\Model\Indexer\State',
+            array('setStatus', 'save', '__wakeup'),
+            array(),
+            '',
+            false
         );
-        $stateMock->expects($this->once())
-            ->method('setStatus')
-            ->with('invalid')
-            ->will($this->returnSelf());
-        $stateMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('setStatus')->with('invalid')->will($this->returnSelf());
+        $stateMock->expects($this->once())->method('save')->will($this->returnSelf());
 
         return $stateMock;
     }
 
     protected function mockIndexerMethods()
     {
-        $this->indexerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->indexerMock->expects($this->once())->method('invalidate');
     }
 
-    protected function mockPluginProceed($arguments, $returnValue = false)
+    protected function mockPluginProceed($returnValue = false)
     {
-        $this->pluginMock->expects($this->once())
-            ->method('proceed')
-            ->with($arguments)
-            ->will($this->returnValue($returnValue));
+        return function () use ($returnValue) {
+            return $returnValue;
+        };
     }
 }

@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 /**
  * Form element button
  */
-class Button extends \Magento\Data\Form\Element\AbstractElement
+class Button extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
      * Additional html attributes
@@ -31,7 +31,9 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
         $html = '';
         if ($this->getBeforeElementHtml()) {
             $html .= sprintf(
-                '<label class="addbefore" for="%s">%s</label>', $this->getHtmlId(), $this->getBeforeElementHtml()
+                '<label class="addbefore" for="%s">%s</label>',
+                $this->getHtmlId(),
+                $this->getBeforeElementHtml()
             );
         }
         $html .= sprintf(
@@ -44,7 +46,9 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
 
         if ($this->getAfterElementHtml()) {
             $html .= sprintf(
-                '<label class="addafter" for="%s">%s</label>', $this->getHtmlId(), $this->getBeforeElementHtml()
+                '<label class="addafter" for="%s">%s</label>',
+                $this->getHtmlId(),
+                $this->getBeforeElementHtml()
             );
         }
         return $html;

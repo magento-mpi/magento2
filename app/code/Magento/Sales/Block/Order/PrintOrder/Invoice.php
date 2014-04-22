@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order\PrintOrder;
+
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Sales order details block
  */
-namespace Magento\Sales\Block\Order\PrintOrder;
-
 class Invoice extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -28,14 +29,14 @@ class Invoice extends \Magento\Sales\Block\Items\AbstractItems
     protected $_paymentHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
@@ -44,16 +45,16 @@ class Invoice extends \Magento\Sales\Block\Items\AbstractItems
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -80,17 +81,27 @@ class Invoice extends \Magento\Sales\Block\Items\AbstractItems
         return $this->getChildHtml('payment_info');
     }
 
+    /**
+     * @return array|null
+     */
     public function getOrder()
     {
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * @return array|null
+     */
     public function getInvoice()
     {
         return $this->_coreRegistry->registry('current_invoice');
     }
 
-    protected function _prepareItem(\Magento\View\Element\AbstractBlock $renderer)
+    /**
+     * @param AbstractBlock $renderer
+     * @return $this
+     */
+    protected function _prepareItem(AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
         return parent::_prepareItem($renderer);
@@ -113,4 +124,3 @@ class Invoice extends \Magento\Sales\Block\Items\AbstractItems
         return $html;
     }
 }
-

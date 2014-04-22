@@ -22,7 +22,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -68,12 +68,12 @@ class Observer
 
     /**
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
      */
     public function __construct(
         \Magento\PromotionPermissions\Helper\Data $promoPermData,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
     ) {
         $this->_request = $request;
@@ -94,12 +94,12 @@ class Observer
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
             // Handle General Tab on Edit Reminder Rule page
-            case 'adminhtml_reminder_edit_tab_general' :
+            case 'adminhtml_reminder_edit_tab_general':
                 if (!$this->_canEditReminderRules) {
                     $block->setCanEditReminderRule(false);
                 }
@@ -120,13 +120,13 @@ class Observer
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
             // Handle blocks related to \Magento\CatalogRule module
-            case 'promo_catalog' :
+            case 'promo_catalog':
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('add');
                     $block->removeButton('apply_rules');
                 }
                 break;
-            case 'promo_catalog_edit' :
+            case 'promo_catalog_edit':
                 if (!$this->_canEditCatalogRules) {
                     $block->removeButton('delete');
                     $block->removeButton('save');
@@ -135,20 +135,20 @@ class Observer
                     $block->removeButton('reset');
                 }
                 break;
-            case 'promo_catalog_edit_tab_main' :
-            case 'promo_catalog_edit_tab_actions' :
-            case 'promo_catalog_edit_tab_conditions' :
+            case 'promo_catalog_edit_tab_main':
+            case 'promo_catalog_edit_tab_actions':
+            case 'promo_catalog_edit_tab_conditions':
                 if (!$this->_canEditCatalogRules) {
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to \Magento\SalesRule module
-            case 'promo_quote' :
+                // Handle blocks related to \Magento\SalesRule module
+            case 'promo_quote':
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('add');
                 }
                 break;
-            case 'promo_quote_edit' :
+            case 'promo_quote_edit':
                 if (!$this->_canEditSalesRules) {
                     $block->removeButton('delete');
                     $block->removeButton('save');
@@ -160,21 +160,21 @@ class Observer
                 if (!$this->_canEditSalesRules) {
                     $block->unsetChild('form_after');
                 }
-            // no break needed
-            case 'promo_quote_edit_tab_actions' :
-            case 'promo_quote_edit_tab_conditions' :
-            case 'promo_quote_edit_tab_labels' :
+                // no break needed
+            case 'promo_quote_edit_tab_actions':
+            case 'promo_quote_edit_tab_conditions':
+            case 'promo_quote_edit_tab_labels':
                 if (!$this->_canEditSalesRules) {
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to \Magento\Reminder module
-            case 'magento_reminder' :
+                // Handle blocks related to \Magento\Reminder module
+            case 'magento_reminder':
                 if (!$this->_canEditReminderRules) {
                     $block->removeButton('add');
                 }
                 break;
-            case 'adminhtml_reminder_edit' :
+            case 'adminhtml_reminder_edit':
                 if (!$this->_canEditReminderRules) {
                     $block->removeButton('save');
                     $block->removeButton('delete');
@@ -183,36 +183,34 @@ class Observer
                     $block->removeButton('run_now');
                 }
                 break;
-            case 'adminhtml_reminder_edit_tab_conditions' :
-            case 'adminhtml_reminder_edit_tab_templates' :
+            case 'adminhtml_reminder_edit_tab_conditions':
+            case 'adminhtml_reminder_edit_tab_templates':
                 if (!$this->_canEditReminderRules) {
                     $block->getForm()->setReadonly(true, true);
                 }
                 break;
-            // Handle blocks related to \Magento\Banner module
-            case 'related_catalogrule_banners_grid' :
+                // Handle blocks related to \Magento\Banner module
+            case 'related_catalogrule_banners_grid':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
-                    $block->getColumn('in_banners')
-                        ->setDisabledValues($this->_bannerCollection->getAllIds());
+                    $block->getColumn('in_banners')->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
-            case 'related_salesrule_banners_grid' :
+            case 'related_salesrule_banners_grid':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
-                    $block->getColumn('in_banners')
-                        ->setDisabledValues($this->_bannerCollection->getAllIds());
+                    $block->getColumn('in_banners')->setDisabledValues($this->_bannerCollection->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
-            case 'promo_quote_edit_tabs' :
+            case 'promo_quote_edit_tabs':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $relatedBannersBlock = $block->getChildBlock('salesrule.related.banners');
-                    if ($relatedBannersBlock instanceof \Magento\View\Element\AbstractBlock) {
+                    if ($relatedBannersBlock instanceof \Magento\Framework\View\Element\AbstractBlock) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
                 }
                 break;
-            case 'promo_catalog_edit_tabs' :
+            case 'promo_catalog_edit_tabs':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $relatedBannersBlock = $block->getChildBlock('catalogrule.related.banners');
                     if ($relatedBannersBlock) {
@@ -235,13 +233,17 @@ class Observer
         $controllerActionName = $this->_request->getActionName();
         $forbiddenActionNames = array('new', 'applyRules', 'save', 'delete', 'run');
 
-        if (in_array($controllerActionName, $forbiddenActionNames)
-            && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Quote)
-            || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog)
-            || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
-            && $controllerAction instanceof \Magento\Reminder\Controller\Adminhtml\Reminder))
+        if (in_array(
+            $controllerActionName,
+            $forbiddenActionNames
+        ) &&
+            (!$this->_canEditSalesRules &&
+            $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Quote ||
+            !$this->_canEditCatalogRules &&
+            $controllerAction instanceof \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog ||
+            $this->_isEnterpriseReminderEnabled &&
+            !$this->_canEditReminderRules &&
+            $controllerAction instanceof \Magento\Reminder\Controller\Adminhtml\Reminder)
         ) {
             $this->_forward();
         }
@@ -257,9 +259,9 @@ class Observer
      */
     protected function _forward($action = 'denied', $module = null, $controller = null)
     {
-        if ($this->_request->getActionName() === $action
-            && (null === $module || $this->_request->getModuleName() === $module)
-            && (null === $controller || $this->_request->getControllerName() === $controller)
+        if ($this->_request->getActionName() === $action && (null === $module ||
+            $this->_request->getModuleName() === $module) && (null === $controller ||
+            $this->_request->getControllerName() === $controller)
         ) {
             return;
         }

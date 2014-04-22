@@ -7,7 +7,7 @@
  */
 namespace Magento\ImportExport\Model\Export\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -18,11 +18,7 @@ class Converter implements \Magento\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array(
-            'entities' => array(),
-            'productTypes' => array(),
-            'fileFormats' => array(),
-        );
+        $output = array('entities' => array(), 'productTypes' => array(), 'fileFormats' => array());
         /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
         /** @var DOMNode $entityConfig */
@@ -32,11 +28,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $label = $attributes->getNamedItem('label')->nodeValue;
             $model = $attributes->getNamedItem('model')->nodeValue;
 
-            $output['entities'][$name] = array(
-                'name' => $name,
-                'label' => $label,
-                'model' => $model,
-            );
+            $output['entities'][$name] = array('name' => $name, 'label' => $label, 'model' => $model);
         }
 
         /** @var \DOMNodeList $productTypes */
@@ -47,10 +39,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $model = $attributes->getNamedItem('model')->nodeValue;
             $name = $attributes->getNamedItem('name')->nodeValue;
 
-            $output['productTypes'][$name] = array(
-                'name' => $name,
-                'model' => $model,
-            );
+            $output['productTypes'][$name] = array('name' => $name, 'model' => $model);
         }
 
         /** @var \DOMNodeList $fileFormats */
@@ -62,11 +51,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $model = $attributes->getNamedItem('model')->nodeValue;
             $label = $attributes->getNamedItem('label')->nodeValue;
 
-            $output['fileFormats'][$name] = array(
-                'name' => $name,
-                'model' => $model,
-                'label' => $label,
-            );
+            $output['fileFormats'][$name] = array('name' => $name, 'model' => $model, 'label' => $label);
         }
         return $output;
     }

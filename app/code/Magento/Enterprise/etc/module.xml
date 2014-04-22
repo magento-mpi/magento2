@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Enterprise" version="1.11.0.3" active="false">
         <sequence>
             <module name="Magento_Cms"/>
@@ -22,22 +22,18 @@
             <module name="Magento_AdminNotification"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
-            <module name="Magento_AdminGws"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>
-            <module name="Magento_CustomerBalance"/>
             <module name="Magento_CustomerSegment"/>
             <module name="Magento_GiftCard"/>
             <module name="Magento_GiftCardAccount"/>
             <module name="Magento_GiftRegistry"/>
             <module name="Magento_GiftWrapping"/>
             <module name="Magento_ScheduledImportExport"/>
-            <module name="Magento_FullPageCache"/>
             <module name="Magento_PricePermissions"/>
             <module name="Magento_PromotionPermissions"/>
             <module name="Magento_SalesArchive"/>
             <module name="Magento_TargetRule"/>
-            <module name="Magento_WebsiteRestriction"/>
             <module name="Magento_Rma"/>
             <module name="Magento_Banner"/>
             <module name="Magento_AdvancedCheckout"/>

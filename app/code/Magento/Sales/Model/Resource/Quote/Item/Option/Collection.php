@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Quote\Item\Option;
 
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Item option collection
@@ -16,27 +18,26 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Item\Option;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of option ids grouped by item id
      *
      * @var array
      */
-    protected $_optionsByItem        = array();
+    protected $_optionsByItem = array();
 
     /**
      * Array of option ids grouped by product id
      *
      * @var array
      */
-    protected $_optionsByProduct     = array();
+    protected $_optionsByProduct = array();
 
     /**
      * Define resource model for collection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,16 +47,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Fill array of options by item and product
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Option\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
 
         foreach ($this as $option) {
-            $optionId   = $option->getId();
-            $itemId     = $option->getItemId();
-            $productId  = $option->getProductId();
+            $optionId = $option->getId();
+            $itemId = $option->getItemId();
+            $productId = $option->getProductId();
             if (isset($this->_optionsByItem[$itemId])) {
                 $this->_optionsByItem[$itemId][] = $optionId;
             } else {
@@ -74,8 +75,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Apply quote item(s) filter to collection
      *
-     * @param int | array $item
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Option\Collection
+     * @param int|array|Item $item
+     * @return $this
      */
     public function addItemFilter($item)
     {
@@ -85,7 +86,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             //$this->addFieldToFilter('item_id', '');
         } elseif (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in' => $item));
-        } elseif ($item instanceof \Magento\Sales\Model\Quote\Item) {
+        } elseif ($item instanceof Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -102,7 +103,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function getProductIds()
     {
         $this->load();
-        
+
         return array_keys($this->_optionsByProduct);
     }
 
@@ -114,7 +115,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function getOptionsByItem($item)
     {
-        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+        if ($item instanceof Item) {
             $itemId = $item->getId();
         } else {
             $itemId = $item;

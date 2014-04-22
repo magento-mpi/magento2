@@ -11,7 +11,6 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form
 {
-
     /**
      * Adminhtml data
      *
@@ -20,19 +19,19 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected $_backendData = null;
 
     /**
-     * @var \Magento\Data\FormFactory|null
+     * @var \Magento\Framework\Data\FormFactory|null
      */
     protected $_formFactory = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Helper\Data $backendData,
         array $data = array()
     ) {
@@ -56,12 +55,14 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = $this->_formFactory->create(array(
-            'data'=> array(
-                'id' => 'edit_form',
-                'action' => $this->_backendData->getUrl('adminhtml/*/save'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->_backendData->getUrl('adminhtml/*/save'),
+                    'method' => 'post'
+                )
+            )
         );
         $form->setUseContainer(true);
         $this->setForm($form);

@@ -44,18 +44,13 @@ configuration_menu_default:
         customer_support: ~
         custom_email_1: ~
         custom_email_2: ~
-    general_contacts:
+    general_contact:
         contact_us: ~
         email_options: ~
     general_google_api:
         google_analytics: ~
         google_shopping: ~
-        google_checkout: ~
         #google_website_optimizer: ~
-        google_checkout_shipping_merchant_calculated: ~
-        google_checkout_shipping_carrier_calculated: ~
-        google_checkout_shipping_flat_rate: ~
-        google_checkout_shipping_digital_delivery: ~
     general_reports:
         dashboard_report: ~
     general_content_management:
@@ -267,18 +262,13 @@ configuration_menu_website:
         customer_support: ~
         custom_email_1: ~
         custom_email_2: ~
-    general_contacts:
+    general_contact:
         contact_us: ~
         email_options: ~
     general_google_api:
         google_analytics: ~
         google_shopping: ~
-        google_checkout: ~
         #google_website_optimizer: ~
-        google_checkout_shipping_merchant_calculated: ~
-        google_checkout_shipping_carrier_calculated: ~
-        google_checkout_shipping_flat_rate: ~
-        google_checkout_shipping_digital_delivery: ~
     general_content_management:
         wysiwyg_options: ~
     catalog_catalog:

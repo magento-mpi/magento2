@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
 
 /**
  * Link page block
  */
-class Link extends \Magento\View\Element\Template implements AssetBlockInterface
+class Link extends \Magento\Framework\View\Element\Template implements AssetBlockInterface
 {
     /**
      * Virtual content type
@@ -21,7 +20,7 @@ class Link extends \Magento\View\Element\Template implements AssetBlockInterface
     /**
      * Get block asset
      *
-     * @return \Magento\View\Asset\AssetInterface
+     * @return \Magento\Framework\View\Asset\AssetInterface
      */
     public function getAsset()
     {

@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
-use Magento\View\Element\BlockInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Catalog category widgets controller for CMS WYSIWYG
@@ -23,18 +23,16 @@ class Widget extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -46,9 +44,7 @@ class Widget extends \Magento\Backend\App\Action
      */
     public function chooserAction()
     {
-        $this->getResponse()->setBody(
-            $this->_getCategoryTreeBlock()->toHtml()
-        );
+        $this->getResponse()->setBody($this->_getCategoryTreeBlock()->toHtml());
     }
 
     /**
@@ -66,9 +62,7 @@ class Widget extends \Magento\Backend\App\Action
                 $this->_coreRegistry->register('category', $category);
                 $this->_coreRegistry->register('current_category', $category);
             }
-            $this->getResponse()->setBody(
-                $this->_getCategoryTreeBlock()->getTreeJson($category)
-            );
+            $this->getResponse()->setBody($this->_getCategoryTreeBlock()->getTreeJson($category));
         }
     }
 
@@ -77,11 +71,15 @@ class Widget extends \Magento\Backend\App\Action
      */
     protected function _getCategoryTreeBlock()
     {
-        return $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', '', array(
-            'data' => array(
-                'id' => $this->getRequest()->getParam('uniq_id'),
-                'use_massaction' => $this->getRequest()->getParam('use_massaction', false)
+        return $this->_view->getLayout()->createBlock(
+            'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser',
+            '',
+            array(
+                'data' => array(
+                    'id' => $this->getRequest()->getParam('uniq_id'),
+                    'use_massaction' => $this->getRequest()->getParam('use_massaction', false)
+                )
             )
-        ));
+        );
     }
 }

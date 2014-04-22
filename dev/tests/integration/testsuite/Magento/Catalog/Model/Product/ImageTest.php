@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Model\Product;
 
 /**
@@ -24,8 +22,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testSetBaseFilePlaceholder()
     {
         /** @var $model \Magento\Catalog\Model\Product\Image */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Image');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Image'
+        );
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;

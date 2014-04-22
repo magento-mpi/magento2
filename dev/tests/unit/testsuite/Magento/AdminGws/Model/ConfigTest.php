@@ -32,8 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\AdminGws\Model\Config\Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cacheId = null;
 
         $this->_model = new \Magento\AdminGws\Model\Config(
@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'generic_key_exist' => array(array('callbacks' => array('group' => 'value')), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 
@@ -76,7 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'generic_key_exist' => array(array('acl' => array('level' => 'value')), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Model\Config;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
@@ -15,47 +14,41 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->create(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array(
                 'directoryList' => $objectManager->create(
-                    'Magento\App\Filesystem\DirectoryList',
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
-                            \Magento\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files'),
+                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
+                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files')
                         )
                     )
                 )
             )
         );
 
-        $moduleDirs = $objectManager->create('Magento\Module\Dir',
-            array('filesystem' => $filesystem)
-        );
+        $moduleDirs = $objectManager->create('Magento\Module\Dir', array('filesystem' => $filesystem));
 
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento\Module\Dir\Reader', array(
-                'moduleDirs' => $moduleDirs,
-                'filesystem' => $filesystem
-            )
+            'Magento\Module\Dir\Reader',
+            array('moduleDirs' => $moduleDirs, 'filesystem' => $filesystem)
         );
 
-        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
+        /** @var \Magento\Framework\App\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento\Core\Model\Config\FileResolver', array(
-                'moduleReader' => $moduleReader,
-            )
+            'Magento\Framework\App\Config\FileResolver',
+            array('moduleReader' => $moduleReader)
         );
 
         /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = $objectManager->create(
-            'Magento\GiftRegistry\Model\Config\Reader', array(
-                'fileResolver' => $fileResolver,
-            )
+            'Magento\GiftRegistry\Model\Config\Reader',
+            array('fileResolver' => $fileResolver)
         );
 
         $result = $model->read('global');

@@ -16,11 +16,12 @@ namespace Magento\User\Model\Resource\User;
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
      *
+     * @return void
      */
     protected function _construct()
     {

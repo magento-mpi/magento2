@@ -19,18 +19,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -50,23 +50,22 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         parent::_construct();
 
-        $this->_addButton('generate', array(
-            'label'   => __('Save & Generate'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array(
-                        'event' => 'save',
-                        'target' => '#edit_form',
-                        'eventData' => array(
-                            'action' => array('args' => array(
-                                'generate' => '1'
-                            )),
-                        ),
-                    ),
+        $this->_addButton(
+            'generate',
+            array(
+                'label' => __('Save & Generate'),
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array(
+                            'event' => 'save',
+                            'target' => '#edit_form',
+                            'eventData' => array('action' => array('args' => array('generate' => '1')))
+                        )
+                    )
                 ),
-            ),
-            'class'   => 'add',
-        ));
+                'class' => 'add'
+            )
+        );
     }
 
     /**

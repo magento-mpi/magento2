@@ -11,28 +11,24 @@ namespace Magento\Cms\Block\Adminhtml\Block;
 
 /**
  * CMS block edit form container
- *
- * @category   Magento
- * @package    Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -53,15 +49,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Block'));
         $this->_updateButton('delete', 'label', __('Delete Block'));
 
-        $this->_addButton('saveandcontinue', array(
-            'label'     => __('Save and Continue Edit'),
-            'class'     => 'save',
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'saveandcontinue',
+            array(
+                'label' => __('Save and Continue Edit'),
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), -100);
+            -100
+        );
 
         $this->_formScripts[] = "
             function toggleEditor() {

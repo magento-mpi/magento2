@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-use \Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Logging extends \Magento\Backend\App\Action
@@ -19,7 +19,7 @@ class Logging extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,7 +38,7 @@ class Logging extends \Magento\Backend\App\Action
     protected $_archiveFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -46,17 +46,17 @@ class Logging extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -99,8 +99,7 @@ class Logging extends \Magento\Backend\App\Action
     {
         $eventId = $this->getRequest()->getParam('event_id');
         /** @var \Magento\Logging\Model\Event $model */
-        $model = $this->_eventFactory->create()
-            ->load($eventId);
+        $model = $this->_eventFactory->create()->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('adminhtml/*/');
             return;
@@ -128,7 +127,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -146,7 +145,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -182,14 +181,12 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function downloadAction()
     {
-        $archive = $this->_archiveFactory->create()->loadByBaseName(
-            $this->getRequest()->getParam('basename')
-        );
+        $archive = $this->_archiveFactory->create()->loadByBaseName($this->getRequest()->getParam('basename'));
         if ($archive->getFilename()) {
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
-                \Magento\App\Filesystem::VAR_DIR,
+                \Magento\Framework\App\Filesystem::VAR_DIR,
                 $archive->getMimeType()
             );
         }

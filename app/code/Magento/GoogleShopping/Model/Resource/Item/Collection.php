@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model\Resource\Item;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Config
@@ -28,29 +28,29 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Eav\Model\Config $config
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Eav\Model\Config $config,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
         $this->_eavConfig = $config;
@@ -109,13 +109,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @return $this
      * @see self::_getConditionSql for $condition
      */
-    public function addFieldToFilter($field, $condition=null)
+    public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'name') {
             $conditionSql = $this->_getConditionSql(
-                $this->getConnection()->getIfNullSql('p.value', 'p_d.value'), $condition
+                $this->getConnection()->getIfNullSql('p.value', 'p_d.value'),
+                $condition
             );
-            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\Framework\DB\Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);
@@ -130,35 +131,35 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _joinTables()
     {
         $entityType = $this->_eavConfig->getEntityType('catalog_product');
-        $attribute = $this->_eavConfig->getAttribute($entityType->getEntityTypeId(),'name');
+        $attribute = $this->_eavConfig->getAttribute($entityType->getEntityTypeId(), 'name');
 
-        $joinConditionDefault =
-            sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
-                $attribute->getAttributeId()
-            );
-        $joinCondition =
-            sprintf("p.attribute_id=%d AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id",
-                $attribute->getAttributeId()
-            );
+        $joinConditionDefault = sprintf(
+            "p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
+            $attribute->getAttributeId()
+        );
+        $joinCondition = sprintf(
+            "p.attribute_id=%d AND p.store_id=main_table.store_id AND main_table.product_id=p.entity_id",
+            $attribute->getAttributeId()
+        );
 
-        $this->getSelect()
-            ->joinLeft(
-                array('p_d' => $attribute->getBackend()->getTable()),
-                $joinConditionDefault,
-                array());
+        $this->getSelect()->joinLeft(
+            array('p_d' => $attribute->getBackend()->getTable()),
+            $joinConditionDefault,
+            array()
+        );
 
-        $this->getSelect()
-            ->joinLeft(
-                array('p' => $attribute->getBackend()->getTable()),
-                $joinCondition,
-                array('name' => $this->getConnection()->getIfNullSql('p.value', 'p_d.value')));
+        $this->getSelect()->joinLeft(
+            array('p' => $attribute->getBackend()->getTable()),
+            $joinCondition,
+            array('name' => $this->getConnection()->getIfNullSql('p.value', 'p_d.value'))
+        );
 
-        $this->getSelect()
-            ->joinLeft(
-                array('types' => $this->getTable('googleshopping_types')),
-                'main_table.type_id=types.type_id'
-            );
-        $this->_resourceHelper->prepareColumnsList($this->getSelect()); // avoid column name collision
+        $this->getSelect()->joinLeft(
+            array('types' => $this->getTable('googleshopping_types')),
+            'main_table.type_id=types.type_id'
+        );
+        $this->_resourceHelper->prepareColumnsList($this->getSelect());
+        // avoid column name collision
 
         return $this;
     }

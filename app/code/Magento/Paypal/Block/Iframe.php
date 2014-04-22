@@ -64,14 +64,14 @@ class Iframe extends \Magento\Payment\Block\Form
     protected $_hssHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Paypal\Helper\Hss $hssHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
@@ -86,20 +86,19 @@ class Iframe extends \Magento\Payment\Block\Form
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
-        $paymentCode = $this->_getCheckout()
-            ->getQuote()
-            ->getPayment()
-            ->getMethod();
+        $paymentCode = $this->_getCheckout()->getQuote()->getPayment()->getMethod();
         if (in_array($paymentCode, $this->_hssHelper->getHssMethods())) {
             $this->_paymentMethodCode = $paymentCode;
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";
 
-            $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+            $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
             $file = $this->_viewFileSystem->getTemplateFileName($templateFile, array('module' => 'Magento_Paypal'));
             if ($directory->isExist($directory->getRelativePath($file))) {
                 $this->setTemplate($templateFile);
@@ -112,19 +111,21 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Get current block instance
      *
-     * @return \Magento\Paypal\Block\Iframe
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Payment\Block\Form
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getBlock()
     {
         if (!$this->_block) {
             $this->_block = $this->getLayout()->createBlock(
-                'Magento\\Paypal\\Block\\' . str_replace(' ',
-                \Magento\Autoload\IncludePath::NS_SEPARATOR,
-                ucwords(str_replace('_', ' ', $this->_paymentMethodCode))) . '\\Iframe'
+                'Magento\\Paypal\\Block\\' . str_replace(
+                    ' ',
+                    \Magento\Autoload\IncludePath::NS_SEPARATOR,
+                    ucwords(str_replace('_', ' ', $this->_paymentMethodCode))
+                ) . '\\Iframe'
             );
             if (!$this->_block instanceof \Magento\Paypal\Block\Iframe) {
-                throw new \Magento\Core\Exception('Invalid block type');
+                throw new \Magento\Framework\Model\Exception('Invalid block type');
             }
         }
 
@@ -158,13 +159,13 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Before rendering html, check if is block rendering needed
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        if ($this->_getOrder()->getId()
-            && $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId()
-            && $this->_paymentMethodCode
+        if ($this->_getOrder()->getId() &&
+            $this->_getOrder()->getQuoteId() == $this->_getCheckout()->getLastQuoteId() &&
+            $this->_paymentMethodCode
         ) {
             $this->_shouldRender = true;
         }
@@ -201,10 +202,10 @@ class Iframe extends \Magento\Payment\Block\Form
     protected function _isAfterPaymentSave()
     {
         $quote = $this->_getCheckout()->getQuote();
-        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode
-            && $quote->getIsActive()
-            && $this->getTemplate()
-            && $this->getRequest()->getActionName() == 'savePayment'
+        if ($quote->getPayment()->getMethod() == $this->_paymentMethodCode &&
+            $quote->getIsActive() &&
+            $this->getTemplate() &&
+            $this->getRequest()->getActionName() == 'savePayment'
         ) {
             return true;
         }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Block\Express;
 
 class ShortcutTest extends \PHPUnit_Framework_TestCase

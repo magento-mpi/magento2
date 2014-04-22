@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-        \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/design')
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+    array(
+        \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+            \Magento\Framework\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/design')
+        )
     )
-));
+);
 $objectManger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+$objectManger->get('Magento\Framework\App\State')
+    ->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
 
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = $objectManger->create('Magento\Core\Model\Theme\Registration');

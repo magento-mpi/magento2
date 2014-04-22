@@ -39,9 +39,10 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\GoogleOptimizer\Model\Observer\Category\Delete', array(
-            'modelCode' => $this->_codeMock,
-        ));
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\GoogleOptimizer\Model\Observer\Category\Delete',
+            array('modelCode' => $this->_codeMock)
+        );
     }
 
     public function testDeleteFromCategoryGoogleExperimentScriptSuccess()
@@ -52,8 +53,15 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
         $this->_category->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $this->_category->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
 
-        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($entityId, \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY, $storeId);
+        $this->_codeMock->expects(
+            $this->once()
+        )->method(
+            'loadByEntityIdAndType'
+        )->with(
+            $entityId,
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
+            $storeId
+        );
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
         $this->_codeMock->expects($this->once())->method('delete');
 
@@ -68,8 +76,15 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
         $this->_category->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $this->_category->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
 
-        $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($entityId, \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY, $storeId);
+        $this->_codeMock->expects(
+            $this->once()
+        )->method(
+            'loadByEntityIdAndType'
+        )->with(
+            $entityId,
+            \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
+            $storeId
+        );
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(0));
         $this->_codeMock->expects($this->never())->method('delete');
 

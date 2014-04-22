@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
 
 /**
  * "Add by SKU" error block
@@ -18,8 +19,6 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
-
 abstract class AbstractErrors extends \Magento\Backend\Block\Widget
 {
     /*
@@ -41,6 +40,9 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      */
     protected $_cart;
 
+    /**
+     * @var string
+     */
     protected $_template = 'sku/errors.phtml';
 
     /**
@@ -66,11 +68,12 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
 
     /**
      * Define ID
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->setListType(self::LIST_TYPE);
-
     }
 
     /**
@@ -80,7 +83,10 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      */
     public function getHeaderText()
     {
-        return __('<span id="sku-attention-num">%1</span> product(s) require attention.', count($this->getFailedItems()));
+        return __(
+            '<span id="sku-attention-num">%1</span> product(s) require attention.',
+            count($this->getFailedItems())
+        );
     }
 
     /**
@@ -96,14 +102,14 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     /**
      * Retrieve "Add to order" button
      *
-     * @return mixed
+     * @return string
      */
     public function getButtonsHtml()
     {
         $buttonData = array(
-            'label'   => __('Remove All'),
+            'label' => __('Remove All'),
             'onclick' => 'addBySku.removeAllFailed()',
-            'class'   => 'action-delete',
+            'class' => 'action-delete'
         );
         return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
     }
@@ -160,7 +166,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     public function getCart()
     {
         if (!isset($this->_cart)) {
-            $this->_cart =  $this->_cartFactory->create();
+            $this->_cart = $this->_cartFactory->create();
         }
         return $this->_cart;
     }
@@ -169,7 +175,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      * Retrieve current store instance
      *
      * @abstract
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     abstract public function getStore();
 

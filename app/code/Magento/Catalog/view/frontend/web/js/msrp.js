@@ -11,7 +11,8 @@
 (function($) {
     $.widget('mage.addToCart', {
         options: {
-            showAddToCart: true
+            showAddToCart: true,
+            cartForm: '.form.map.checkout'
         },
 
         _create: function() {
@@ -33,12 +34,12 @@
                     this.element.trigger('reloadPrice');
                     var width = $('#map-popup').width();
                     var offsetX = e.pageX - (width / 2) + "px";
-                    $('#map-popup').css({left: offsetX, top: e.pageY}).show();
+                    $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
                     if (!this.options.showAddToCart) {
                         $('#map-popup-content > .map-popup-checkout').hide();
                     }
                     $('#map-popup-content').show();
-                    $('#map-popup-text').addClass('map-popup-only-text').show();
+                    $('#map-popup-text').show();
                     $('#map-popup-text-what-this').hide();
                     return false;
                 }
@@ -48,7 +49,7 @@
                 $('#map-popup-heading').text(this.options.productName);
                 var width = $('#map-popup').width();
                 var offsetX = e.pageX - (width / 2) + "px";
-                $('#map-popup').css({left: offsetX, top: e.pageY}).show();
+                $('#map-popup').addClass('active').css({left: offsetX, top: e.pageY}).show();
                 $('#map-popup-content').hide();
                 $('#map-popup-text').hide();
                 $('#map-popup-text-what-this').show();
@@ -56,7 +57,7 @@
             }, this));
 
             $(this.options.closeButtonId).on('click', $.proxy(function() {
-                $('#map-popup').hide();
+                $('#map-popup').removeClass('active').hide();
                 return false;
             }, this));
 
@@ -65,16 +66,9 @@
         _addToCartSubmit: function() {
             this.element.trigger('addToCart', this.element);
             if (this.options.addToCartUrl) {
-                $('#map-popup').hide();
-                if (opener) {
-                    opener.location.href = this.options.addToCartUrl;
-                } else {
-                    location.href = this.options.addToCartUrl;
-                }
-
-            } else if (this.options.cartForm) {
-                $(this.options.cartForm).submit();
+                $(this.options.cartForm).attr('action', this.options.addToCartUrl);
             }
+            $(this.options.cartForm).submit();
         }
     });
 })(jQuery);

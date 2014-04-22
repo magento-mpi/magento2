@@ -9,12 +9,12 @@
  */
 namespace Magento\Exception;
 
-abstract class Exception extends \Exception
+abstract class Exception extends \Magento\Webapi\ServiceException
 {
     /**
      * @var array
      */
-    protected $_params = [];
+    protected $_params = array();
 
     /**
      * Returns the parameters detailing specifics of this Exception

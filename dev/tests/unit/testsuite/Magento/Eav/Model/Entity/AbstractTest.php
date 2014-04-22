@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
@@ -24,12 +23,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\AbstractEntity',
             array(
-                $this->getMock('Magento\App\Resource', array(), array(), '', false),
+                $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
                 $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
                 $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\LocaleInterface'),
+                $this->getMock('\Magento\Locale\FormatInterface'),
                 $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
-                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
+                $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false)
             )
         );
     }
@@ -59,38 +58,20 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'attribute1 bigger than attribute2' => array(
-                'attribute1Sort' => array(
-                    'group_sort' => 7,
-                    'sort' => 5
-                ),
-                'attribute2Sort' => array(
-                    'group_sort' => 5,
-                    'sort' => 10
-                ),
+                'attribute1Sort' => array('group_sort' => 7, 'sort' => 5),
+                'attribute2Sort' => array('group_sort' => 5, 'sort' => 10),
                 'expected' => 1
             ),
             'attribute1 smaller than attribute2' => array(
-                'attribute1Sort' => array(
-                    'group_sort' => 7,
-                    'sort' => 5
-                ),
-                'attribute2Sort' => array(
-                    'group_sort' => 7,
-                    'sort' => 10
-                ),
+                'attribute1Sort' => array('group_sort' => 7, 'sort' => 5),
+                'attribute2Sort' => array('group_sort' => 7, 'sort' => 10),
                 'expected' => -1
             ),
             'attribute1 equals to attribute2' => array(
-                'attribute1Sort' => array(
-                    'group_sort' => 7,
-                    'sort' => 5
-                ),
-                'attribute2Sort' => array(
-                    'group_sort' => 7,
-                    'sort' => 5
-                ),
+                'attribute1Sort' => array('group_sort' => 7, 'sort' => 5),
+                'attribute2Sort' => array('group_sort' => 7, 'sort' => 5),
                 'expected' => 0
-            ),
+            )
         );
     }
 
@@ -123,13 +104,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
             $backendModel->setAttribute($mock);
 
-            $mock->expects($this->any())
-                ->method('getBackend')
-                ->will($this->returnValue($backendModel));
+            $mock->expects($this->any())->method('getBackend')->will($this->returnValue($backendModel));
 
-            $mock->expects($this->any())
-                ->method('getBackendTable')
-                ->will($this->returnValue($code . '_table'));
+            $mock->expects($this->any())->method('getBackendTable')->will($this->returnValue($code . '_table'));
 
             $attributes[$code] = $mock;
         }
@@ -139,15 +116,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * Get adapter mock
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\DB\Adapter\Pdo\Mysql
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\DB\Adapter\Pdo\Mysql
      */
     private function _getAdapterMock()
     {
         $adapter = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
-            array(
-                'describeTable', 'lastInsertId', 'insert', 'prepareColumnValue', 'query', 'delete'
-            ),
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
+            array('describeTable', 'lastInsertId', 'insert', 'prepareColumnValue', 'query', 'delete'),
             array(),
             '',
             false
@@ -160,22 +135,27 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $adapter->expects($this->any())
-            ->method('query')
-            ->will($this->returnValue($statement));
+        $adapter->expects($this->any())->method('query')->will($this->returnValue($statement));
 
-        $adapter->expects($this->any())
-            ->method('describeTable')
-            ->will($this->returnValue(array('value' => array('test'))));
+        $adapter->expects(
+            $this->any()
+        )->method(
+            'describeTable'
+        )->will(
+            $this->returnValue(array('value' => array('test')))
+        );
 
-        $adapter->expects($this->any())
-            ->method('prepareColumnValue')
-            ->will($this->returnArgument(2));
+        $adapter->expects($this->any())->method('prepareColumnValue')->will($this->returnArgument(2));
 
-        $adapter->expects($this->once())
-            ->method('delete')
-            ->with($this->equalTo('test_table'))
-            ->will($this->returnValue(true));
+        $adapter->expects(
+            $this->once()
+        )->method(
+            'delete'
+        )->with(
+            $this->equalTo('test_table')
+        )->will(
+            $this->returnValue(true)
+        );
 
         return $adapter;
     }
@@ -198,18 +178,25 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $attribute->setAttributeId($attributeCode);
 
-        $attribute->expects($this->any())
-            ->method('getBackendTable')
-            ->will($this->returnValue($attributeCode . '_table'));
+        $attribute->expects(
+            $this->any()
+        )->method(
+            'getBackendTable'
+        )->will(
+            $this->returnValue($attributeCode . '_table')
+        );
 
-        $attribute->expects($this->any())
-            ->method('isInSet')
-            ->with($this->equalTo($attributeSetId))
-            ->will($this->returnValue(false));
+        $attribute->expects(
+            $this->any()
+        )->method(
+            'isInSet'
+        )->with(
+            $this->equalTo($attributeSetId)
+        )->will(
+            $this->returnValue(false)
+        );
 
-        $attribute->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
+        $attribute->expects($this->any())->method('getAttributeCode')->will($this->returnValue($attributeCode));
 
         return $attribute;
     }
@@ -224,12 +211,16 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave($attributeCode, $attributeSetId, $productData, $productOrigData)
     {
-        $object = $this->getMock('Magento\Catalog\Model\Product', array('getOrigData', '__wakeup'), array(), '', false);
+        $object = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('getOrigData', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $object->setEntityTypeId(1);
         $object->setData($productData);
-        $object->expects($this->any())
-            ->method('getOrigData')
-            ->will($this->returnValue($productOrigData));
+        $object->expects($this->any())->method('getOrigData')->will($this->returnValue($productOrigData));
 
         $entityType = new \Magento\Object();
         $entityType->setEntityTypeCode('test');
@@ -255,48 +246,40 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array($logger)
         );
 
-        $backendModel->expects($this->once())
-            ->method('getAffectedFields')
-            ->will($this->returnValue(array(
-                'test_table' => array(
-                    array(
-                        'value_id' => 0,
-                        'attribute_id' => $attributeCode,
-                    )
-                )
-            )));
+        $backendModel->expects(
+            $this->once()
+        )->method(
+            'getAffectedFields'
+        )->will(
+            $this->returnValue(array('test_table' => array(array('value_id' => 0, 'attribute_id' => $attributeCode))))
+        );
 
-        $backendModel->expects($this->any())
-            ->method('isStatic')
-            ->will($this->returnValue(false));
+        $backendModel->expects($this->any())->method('isStatic')->will($this->returnValue(false));
 
-        $backendModel->expects($this->never())
-            ->method('getEntityValueId');
+        $backendModel->expects($this->never())->method('getEntityValueId');
 
-        $backendModel->expects((isset($productData['entity_id']) ? $this->never() : $this->once()))
-            ->method('getEntityIdField')
-            ->will($this->returnValue('entity_id'));
+        $backendModel->expects(
+            isset($productData['entity_id']) ? $this->never() : $this->once()
+        )->method(
+            'getEntityIdField'
+        )->will(
+            $this->returnValue('entity_id')
+        );
 
         $backendModel->setAttribute($attribute);
 
-        $attribute->expects($this->any())
-            ->method('getBackend')
-            ->will($this->returnValue($backendModel));
+        $attribute->expects($this->any())->method('getBackend')->will($this->returnValue($backendModel));
 
         $attributes[$attributeCode] = $attribute;
 
         $data = array(
-            $this->getMock('Magento\App\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\LocaleInterface'),
+            $this->getMock('Magento\Locale\FormatInterface'),
             $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
-            array(
-                'type' => $entityType,
-                'entityTable' => 'entityTable',
-                'attributesByCode' => $attributes
-            )
+            array('type' => $entityType, 'entityTable' => 'entityTable', 'attributesByCode' => $attributes)
         );
         /** @var $model \PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
@@ -306,11 +289,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             true,
             true,
             true,
-            array('_getConfig')
+            array('_getValue')
         );
 
         $configMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
-        $model->expects($this->any())->method('_getConfig')->will($this->returnValue($configMock));
+        $model->expects($this->any())->method('_getValue')->will($this->returnValue($configMock));
 
         $model->setConnection($this->_getAdapterMock());
         $model->isPartialSave(true);
@@ -325,38 +308,21 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 'test_attr',
                 $attributeSetId,
-                array(
-                    'test_attr' => 'test_attr',
-                    'attribute_set_id' => $attributeSetId,
-                    'entity_id' => null,
-                ),
-                null,
+                array('test_attr' => 'test_attr', 'attribute_set_id' => $attributeSetId, 'entity_id' => null),
+                null
             ),
             array(
                 'test_attr',
                 $attributeSetId,
-                array(
-                    'test_attr' => 'test_attr',
-                    'attribute_set_id' => $attributeSetId,
-                    'entity_id' => 12345,
-                ),
-                array(
-                    'test_attr' => 'test_attr',
-                ),
+                array('test_attr' => 'test_attr', 'attribute_set_id' => $attributeSetId, 'entity_id' => 12345),
+                array('test_attr' => 'test_attr')
             ),
             array(
                 'test_attr',
                 $attributeSetId,
-                array(
-                    'test_attr' => '99.99',
-                    'attribute_set_id' => $attributeSetId,
-                    'entity_id' => 12345,
-                ),
-                array(
-                    'test_attr' => '99.9900',
-                ),
-            ),
+                array('test_attr' => '99.99', 'attribute_set_id' => $attributeSetId, 'entity_id' => 12345),
+                array('test_attr' => '99.9900')
+            )
         );
     }
-
 }

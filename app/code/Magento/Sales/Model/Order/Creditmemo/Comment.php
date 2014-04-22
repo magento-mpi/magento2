@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Creditmemo;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment _getResource()
@@ -22,8 +23,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Creditmemo\Comment setCreatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order\Creditmemo;
-
 class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -34,38 +33,38 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     protected $_creditmemo;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data
-        );
+        parent::__construct($context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
     }
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,8 +74,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare Creditmemo instance
      *
-     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -97,7 +96,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Get store object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -110,7 +109,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @return $this
      */
     protected function _beforeSave()
     {

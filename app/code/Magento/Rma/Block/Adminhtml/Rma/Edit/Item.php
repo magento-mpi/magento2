@@ -39,8 +39,8 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
@@ -48,8 +48,8 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
@@ -68,7 +68,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
@@ -82,27 +82,23 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
         /* @var $customerForm \Magento\Rma\Model\Item\Form */
         $customerForm = $this->_itemFormFactory->create();
-        $customerForm->setEntity($item)
-            ->setFormCode('default')
-            ->initDefaultValues();
+        $customerForm->setEntity($item)->setFormCode('default')->initDefaultValues();
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('RMA Item Details'))
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('RMA Item Details')));
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('OK'),
-                'class'   => 'ok_button',
-            ));
+        $okButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('OK'), 'class' => 'ok_button')
+        );
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('Cancel'),
-                'class'   => 'cancel_button',
-            ));
+        $cancelButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Cancel'), 'class' => 'cancel_button')
+        );
         $fieldset->setCancelButton($cancelButton->toHtml());
 
 
@@ -127,19 +123,19 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareLayout()
     {
-        \Magento\Data\Form::setElementRenderer(
+        \Magento\Framework\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
-        \Magento\Data\Form::setFieldsetRenderer(
+        \Magento\Framework\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer\Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
-        \Magento\Data\Form::setFieldsetElementRenderer(
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
@@ -159,7 +155,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         return array(
             'text' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
             'textarea' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
-            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image',
+            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image'
         );
     }
 

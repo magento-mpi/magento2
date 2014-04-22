@@ -12,41 +12,45 @@ namespace Magento\VersionsCms\Helper;
 /**
  * CMS Hierarchy data helper
  */
-class Hierarchy extends \Magento\App\Helper\AbstractHelper
+class Hierarchy extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
-    const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
+    const XML_PATH_HIERARCHY_ENABLED = 'cms/hierarchy/enabled';
 
-    const METADATA_VISIBILITY_PARENT    = '0';
-    const METADATA_VISIBILITY_YES       = '1';
-    const METADATA_VISIBILITY_NO        = '2';
+    const XML_PATH_METADATA_ENABLED = 'cms/hierarchy/metadata_enabled';
 
-    const SCOPE_PREFIX_STORE            = 'store_';
-    const SCOPE_PREFIX_WEBSITE          = 'website_';
+    const METADATA_VISIBILITY_PARENT = '0';
+
+    const METADATA_VISIBILITY_YES = '1';
+
+    const METADATA_VISIBILITY_NO = '2';
+
+    const SCOPE_PREFIX_STORE = 'store_';
+
+    const SCOPE_PREFIX_WEBSITE = 'website_';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
@@ -58,7 +62,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_HIERARCHY_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -68,7 +72,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
      */
     public function isMetadataEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_METADATA_ENABLED);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_METADATA_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -140,7 +144,6 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
         return $target;
     }
 
-
     /**
      * Copy metadata fields that don't depend on isMetadataEnabled
      *
@@ -163,7 +166,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
             'menu_excluded',
             'menu_levels_down',
             'menu_ordered',
-            'menu_list_type',
+            'menu_list_type'
         );
         foreach ($forced as $element) {
             if (array_key_exists($element, $source)) {
@@ -183,22 +186,23 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getDefaultMetadataValues($field, $value)
     {
-        $paginationDefault = array(
-            'pager_frame' => '0',
-            'pager_jump' => '0',
-        );
+        $paginationDefault = array('pager_frame' => '0', 'pager_jump' => '0');
 
         $menuDefault = array(
             'menu_levels_down' => '0',
             'menu_brief' => '0',
             'menu_layout' => '',
             'menu_ordered' => '0',
-            'menu_list_type' => '',
+            'menu_list_type' => ''
         );
 
-        $default = array('pager_visibility' => array(self::METADATA_VISIBILITY_PARENT => $paginationDefault,
-                                                     self::METADATA_VISIBILITY_NO => $paginationDefault),
-                         'menu_visibility' => array('0' => $menuDefault));
+        $default = array(
+            'pager_visibility' => array(
+                self::METADATA_VISIBILITY_PARENT => $paginationDefault,
+                self::METADATA_VISIBILITY_NO => $paginationDefault
+            ),
+            'menu_visibility' => array('0' => $menuDefault)
+        );
 
         return isset($default[$field][$value]) ? $default[$field][$value] : null;
     }
@@ -215,12 +219,12 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
         if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
             return array(
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
-                $this->_storeManager->getStore($scopeId)->getWebsiteId(),
+                $this->_storeManager->getStore($scopeId)->getWebsiteId()
             );
         } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
             return array(
                 \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT,
-                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID
             );
         }
 

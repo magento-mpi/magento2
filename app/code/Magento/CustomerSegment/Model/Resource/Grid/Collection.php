@@ -18,13 +18,12 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Grid;
 
-class Collection
-    extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
+class Collection extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
 {
     /**
      * Add websites for load
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\CustomerSegment\Model\Resource\Grid\Collection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection|\Magento\CustomerSegment\Model\Resource\Grid\Collection
      */
     protected function _initSelect()
     {

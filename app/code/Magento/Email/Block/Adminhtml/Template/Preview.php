@@ -20,7 +20,7 @@ namespace Magento\Email\Block\Adminhtml\Template;
 class Preview extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Core\Model\Input\Filter\MaliciousCode
+     * @var \Magento\Filter\Input\MaliciousCode
      */
     protected $_maliciousCode;
 
@@ -31,13 +31,13 @@ class Preview extends \Magento\Backend\Block\Widget
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode
+     * @param \Magento\Filter\Input\MaliciousCode $maliciousCode
      * @param \Magento\Email\Model\TemplateFactory $emailFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode,
+        \Magento\Filter\Input\MaliciousCode $maliciousCode,
         \Magento\Email\Model\TemplateFactory $emailFactory,
         array $data = array()
     ) {
@@ -66,18 +66,13 @@ class Preview extends \Magento\Backend\Block\Widget
             $template->setTemplateStyles($this->getRequest()->getParam('styles'));
         }
 
-        $template->setTemplateText(
-            $this->_maliciousCode->filter($template->getTemplateText())
-        );
+        $template->setTemplateText($this->_maliciousCode->filter($template->getTemplateText()));
 
         \Magento\Profiler::start("email_template_proccessing");
         $vars = array();
 
         $template->setDesignConfig(
-            array(
-                'area' => $this->_design->getArea(),
-                'store' => $this->_storeManager->getDefaultStoreView()->getId()
-            )
+            array('area' => $this->_design->getArea(), 'store' => $this->_storeManager->getDefaultStoreView()->getId())
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 

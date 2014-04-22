@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerCustomAttributes\Block\Account;
 
 /**
@@ -14,12 +13,12 @@ namespace Magento\CustomerCustomAttributes\Block\Account;
 class RegisterLink extends \Magento\Customer\Block\Account\RegisterLink
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {
         $key = 'magento_invitation/general/registration_required_invitation';
-        if ($this->_storeConfig->getConfigFlag($key)) {
+        if ($this->_scopeConfig->isSetFlag($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return '';
         }
         return parent::_toHtml();

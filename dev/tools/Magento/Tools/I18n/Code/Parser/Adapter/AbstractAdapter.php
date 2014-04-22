@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 use Magento\Tools\I18n\Code\Context;
@@ -43,6 +42,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Template method
+     *
+     * @return void
      */
     abstract protected function _parse();
 
@@ -59,13 +60,15 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param string $phrase
      * @param string|int $line
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _addPhrase($phrase, $line = '')
     {
         if (!$phrase) {
-            throw new \InvalidArgumentException(sprintf('Phrase cannot be empty. File: "%s" Line: "%s"',
-                $this->_file, $line));
+            throw new \InvalidArgumentException(
+                sprintf('Phrase cannot be empty. File: "%s" Line: "%s"', $this->_file, $line)
+            );
         }
         if (!isset($this->_phrases[$phrase])) {
             $quote = '';
@@ -102,7 +105,9 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function _isFirstAndLastCharIsQuote($phrase)
     {
-        return ($phrase[0] == Phrase::QUOTE_DOUBLE || $phrase[0] == Phrase::QUOTE_SINGLE)
-            && $phrase[0] == $phrase[strlen($phrase) - 1];
+        return ($phrase[0] == Phrase::QUOTE_DOUBLE ||
+            $phrase[0] == Phrase::QUOTE_SINGLE) && $phrase[0] == $phrase[strlen(
+                $phrase
+            ) - 1];
     }
 }

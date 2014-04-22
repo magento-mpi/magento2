@@ -16,7 +16,7 @@ namespace Magento\Persistent\Block\Form;
  * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Remember extends \Magento\View\Element\Template
+class Remember extends \Magento\Framework\View\Element\Template
 {
     /**
      * Persistent data
@@ -31,13 +31,13 @@ class Remember extends \Magento\View\Element\Template
     protected $mathRandom;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Math\Random $mathRandom,
         array $data = array()
@@ -54,8 +54,8 @@ class Remember extends \Magento\View\Element\Template
      */
     protected function _toHtml()
     {
-        return ($this->_persistentData->isEnabled() && $this->_persistentData->isRememberMeEnabled())
-            ? parent::_toHtml() : '';
+        return $this->_persistentData->isEnabled() &&
+            $this->_persistentData->isRememberMeEnabled() ? parent::_toHtml() : '';
     }
 
     /**
@@ -65,9 +65,9 @@ class Remember extends \Magento\View\Element\Template
      */
     public function isRememberMeChecked()
     {
-        return $this->_persistentData->isEnabled()
-            && $this->_persistentData->isRememberMeEnabled()
-            && $this->_persistentData->isRememberMeCheckedDefault();
+        return $this->_persistentData->isEnabled() &&
+            $this->_persistentData->isRememberMeEnabled() &&
+            $this->_persistentData->isRememberMeCheckedDefault();
     }
 
     /**

@@ -11,9 +11,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend;
 
-class Encrypted
-    extends \Magento\Core\Model\Config\Value
-    implements \Magento\App\Config\Data\ProcessorInterface
+class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\Framework\App\Config\Data\ProcessorInterface
 {
     /**
      * @var \Magento\Encryption\EncryptorInterface
@@ -21,27 +19,25 @@ class Encrypted
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,8 +59,7 @@ class Encrypted
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_encryptor = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Encryption\EncryptorInterface');
+        $this->_encryptor = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Encryption\EncryptorInterface');
     }
 
     /**

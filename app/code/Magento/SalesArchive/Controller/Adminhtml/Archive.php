@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Controller\Adminhtml;
+
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Archive controller
- *
  */
-namespace Magento\SalesArchive\Controller\Adminhtml;
-
 class Archive extends \Magento\Backend\App\Action
 {
     /**
@@ -22,19 +22,19 @@ class Archive extends \Magento\Backend\App\Action
     protected $_archiveModel;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\SalesArchive\Model\Archive $archiveModel,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_archiveModel = $archiveModel;
         $this->_fileFactory = $fileFactory;
@@ -44,7 +44,7 @@ class Archive extends \Magento\Backend\App\Action
     /**
      * Render archive grid
      *
-     * @return \Magento\SalesArchive\Controller\Adminhtml\Archive
+     * @return $this
      */
     protected function _renderGrid()
     {
@@ -55,6 +55,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Orders view page
+     *
+     * @return void
      */
     public function ordersAction()
     {
@@ -67,6 +69,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Orders grid
+     *
+     * @return void
      */
     public function ordersGridAction()
     {
@@ -75,6 +79,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Invoices view page
+     *
+     * @return void
      */
     public function invoicesAction()
     {
@@ -87,15 +93,18 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Invoices grid
+     *
+     * @return void
      */
     public function invoicesGridAction()
     {
         $this->_renderGrid();
     }
 
-
     /**
      * Creditmemos view page
+     *
+     * @return void
      */
     public function creditmemosAction()
     {
@@ -108,6 +117,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Creditmemos grid
+     *
+     * @return void
      */
     public function creditmemosGridAction()
     {
@@ -116,6 +127,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Shipments view page
+     *
+     * @return void
      */
     public function shipmentsAction()
     {
@@ -128,40 +141,48 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Shipments grid
+     *
+     * @return void
      */
     public function shipmentsGridAction()
     {
         $this->_renderGrid();
     }
 
-
     /**
      * Cancel orders mass action
+     *
+     * @return void
      */
     public function massCancelAction()
     {
-        $this->_forward('massCancel', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massCancel', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Hold orders mass action
+     *
+     * @return void
      */
     public function massHoldAction()
     {
-        $this->_forward('massHold', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massHold', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Unhold orders mass action
+     *
+     * @return void
      */
     public function massUnholdAction()
     {
-        $this->_forward('massUnhold', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('massUnhold', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Massaction for removing orders from archive
      *
+     * @return void
      */
     public function massRemoveAction()
     {
@@ -169,17 +190,20 @@ class Archive extends \Magento\Backend\App\Action
         $removedFromArchive = $this->_archiveModel->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
-        if ($removedFromArchiveCount>0) {
-            $this->messageManager->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
+        if ($removedFromArchiveCount > 0) {
+            $this->messageManager->addSuccess(
+                __('We removed %1 order(s) from the archive.', $removedFromArchiveCount)
+            );
         } else {
             // selected orders is not available for removing from archive
         }
-        $this->_redirect('adminhtml/*/orders');
+        $this->_redirect('sales/archive/orders');
     }
 
     /**
      * Massaction for adding orders to archive
      *
+     * @return void
      */
     public function massAddAction()
     {
@@ -187,7 +211,7 @@ class Archive extends \Magento\Backend\App\Action
         $archivedIds = $this->_archiveModel->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
-        if ($archivedCount>0) {
+        if ($archivedCount > 0) {
             $this->messageManager->addSuccess(__('We archived %1 order(s).', $archivedCount));
         } else {
             $this->messageManager->addWarning(__("We can't archive the selected order(s)."));
@@ -197,6 +221,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Archive order action
+     *
+     * @return void
      */
     public function addAction()
     {
@@ -204,7 +230,7 @@ class Archive extends \Magento\Backend\App\Action
         if ($orderId) {
             $this->_archiveModel->archiveOrdersById($orderId);
             $this->messageManager->addSuccess(__('We have archived the order.'));
-            $this->_redirect('sales/order/view', array('order_id'=>$orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } else {
             $this->messageManager->addError(__('Please specify the order ID to be archived.'));
             $this->_redirect('sales/order');
@@ -213,6 +239,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Unarchive order action
+     *
+     * @return void
      */
     public function removeAction()
     {
@@ -220,7 +248,7 @@ class Archive extends \Magento\Backend\App\Action
         if ($orderId) {
             $this->_archiveModel->removeOrdersFromArchiveById($orderId);
             $this->messageManager->addSuccess(__('We have removed the order from the archive.'));
-            $this->_redirect('sales/order/view', array('order_id'=>$orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } else {
             $this->messageManager->addError(__('Please specify the order ID to be removed from archive.'));
             $this->_redirect('sales/order');
@@ -229,46 +257,58 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      * Print invoices mass action
+     *
+     * @return void
      */
     public function massPrintInvoicesAction()
     {
-        $this->_forward('pdfinvoices', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfinvoices', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Print Credit Memos mass action
+     *
+     * @return void
      */
     public function massPrintCreditMemosAction()
     {
-        $this->_forward('pdfcreditmemos', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfcreditmemos', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Print all documents mass action
+     *
+     * @return void
      */
     public function massPrintAllDocumentsAction()
     {
-        $this->_forward('pdfdocs', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfdocs', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Print packing slips mass action
+     *
+     * @return void
      */
     public function massPrintPackingSlipsAction()
     {
-        $this->_forward('pdfshipments', 'sales_order', null, array('origin' => 'archive'));
+        $this->_forward('pdfshipments', 'order', null, array('origin' => 'archive'));
     }
 
     /**
      * Print shipping labels mass action
+     *
+     * @return void
      */
     public function massPrintShippingLabelAction()
     {
-        $this->_forward('massPrintShippingLabel', 'sales_order_shipment', null, array('origin' => 'archive'));
+        $this->_forward('massPrintShippingLabel', 'order_shipment', 'admin', array('origin' => 'archive'));
     }
 
     /**
      * Export order grid to CSV format
+     *
+     * @return void
      */
     public function exportCsvAction()
     {
@@ -277,6 +317,8 @@ class Archive extends \Magento\Backend\App\Action
 
     /**
      *  Export order grid to Excel XML format
+     *
+     * @return void
      */
     public function exportExcelAction()
     {
@@ -287,44 +329,32 @@ class Archive extends \Magento\Backend\App\Action
      * Declare headers and content file in response for file download
      *
      * @param string $type
+     * @return ResponseInterface
      */
     protected function _export($type)
     {
-        $action = strtolower((string)$this->getRequest()->getParam('action'));
         $this->_view->loadLayout(false);
         $layout = $this->_view->getLayout();
 
-        switch ($action) {
-            case 'invoice':
-                $fileName = 'invoice_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
-                break;
-            case 'shipment':
-                $fileName = 'shipment_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
-                break;
-            case 'creditmemo':
-                $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
-                break;
-            default:
-                $fileName = 'orders_archive.' . $type;
-                /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid  */
-                $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
-                break;
-        }
+        $fileName = 'orders_archive.' . $type;
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid */
+        $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
 
         if ($type == 'csv') {
-            return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+            return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
         } else {
-            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+            return $this->_fileFactory->create(
+                $fileName,
+                $grid->getExcelFile($fileName),
+                \Magento\Framework\App\Filesystem::VAR_DIR
+            );
         }
     }
 
     /**
      * Check ACL permissions
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -365,5 +395,98 @@ class Archive extends \Magento\Backend\App\Action
         }
 
         return $this->_authorization->isAllowed($acl);
+    }
+
+    /**
+     * Export credit memo grid archive grid to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportCreditmemoCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'creditmemo_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export credit memo grid  archive grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportCreditmemoExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'creditmemo_archive.xml';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $grid->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
+    }
+
+    /**
+     * Export archive invoice to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportInvoiceCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'invoice_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export archive invoice grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportInvoiceExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'invoice_archive.xml';
+        $exportBlock = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
+    }
+
+    /**
+     * Export archive shipment grid to CSV format
+     *
+     * @return ResponseInterface
+     */
+    public function exportShipmentCsvAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'shipment_archive.csv';
+        $grid = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
+        $csvFile = $grid->getCsvFile();
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
+    }
+
+    /**
+     * Export archive shipment grid to Excel XML format
+     *
+     * @return ResponseInterface
+     */
+    public function exportShipmentExcelAction()
+    {
+        $this->_view->loadLayout(false);
+        $fileName = 'shipment_archive.xml';
+        $exportBlock = $this->_view->getLayout()->getChildBlock('sales.shipment.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 }

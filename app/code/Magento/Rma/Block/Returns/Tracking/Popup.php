@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns\Tracking;
 
 class Popup extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $data);
@@ -38,5 +37,4 @@ class Popup extends \Magento\Shipping\Block\Tracking\Popup
 
         return $info->getTrackingInfo();
     }
-
 }

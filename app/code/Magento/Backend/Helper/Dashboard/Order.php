@@ -20,30 +20,30 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
     protected $_orderCollection;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,
         $dbCompatibleMode = true
     ) {
         $this->_orderCollection = $orderCollection;
         parent::__construct(
             $context,
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
-            $locale,
             $appState,
+            $priceCurrency,
             $dbCompatibleMode
         );
     }
@@ -59,21 +59,18 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 
         if ($this->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getParam('store'));
-        } else if ($this->getParam('website')){
+        } elseif ($this->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } else if ($this->getParam('group')){
+        } elseif ($this->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } elseif (!$this->_collection->isLive()) {
-            $this->_collection->addFieldToFilter('store_id',
-                array('eq' => $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
+            $this->_collection->addFieldToFilter(
+                'store_id',
+                array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
             );
         }
-
-
-
         $this->_collection->load();
     }
-
 }

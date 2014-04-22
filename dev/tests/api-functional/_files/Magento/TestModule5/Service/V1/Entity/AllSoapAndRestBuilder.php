@@ -5,24 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
- * Some DTO short description.
+ * Some Data Object short description.
  *
- * DTO long
+ * Data Object long
  * multi line description.
  */
-class AllSoapAndRestBuilder extends AbstractDtoBuilder
+class AllSoapAndRestBuilder extends AbstractObjectBuilder
 {
     const ID = 'id';
     const NAME = 'name';
-    const IS_ENABLED = 'isEnabled';
-    const HAS_NAME = 'hasName';
+    const ENABLED = 'enabled';
+    const HAS_ORDERS = 'orders';
 
     /**
      * @param int $id
@@ -50,17 +49,17 @@ class AllSoapAndRestBuilder extends AbstractDtoBuilder
      */
     public function setIsEnabled($isEnabled)
     {
-        return $this->_set(self::IS_ENABLED, $isEnabled);
+        return $this->_set(self::ENABLED, $isEnabled);
     }
 
     /**
-     * Set flag if entity has name
+     * Set flag if entity has orders
      *
-     * @param bool $hasName
+     * @param bool $hasOrders
      * @return AllSoapAndRestBuilder
      */
-    public function setHasName($hasName)
+    public function setHasOrders($hasOrders)
     {
-        return $this->_set(self::HAS_NAME, $hasName);
+        return $this->_set(self::HAS_ORDERS, $hasOrders);
     }
 }

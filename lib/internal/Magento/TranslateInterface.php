@@ -1,7 +1,5 @@
 <?php
 /**
- * Translator interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -20,51 +18,40 @@ interface TranslateInterface
     const DEFAULT_STRING = 'Translate String';
 
     /**
-     * Determine if translation is enabled and allowed.
+     * Initialize translation data
      *
-     * @param mixed $scope
-     * @return bool
-     */
-    public function isAllowed($scope = null);
-
-    /**
-     * Initialization translation data
-     *
-     * @param string $area
-     * @param \Magento\Object $initParams
+     * @param string|null $area
      * @param bool $forceReload
      * @return \Magento\TranslateInterface
      */
-    public function init($area = null, $initParams = null, $forceReload = false);
+    public function loadData($area = null, $forceReload = false);
 
     /**
-     * Retrieve active translate mode
+     * Retrieve translation data
      *
-     * @return bool
+     * @return array
      */
-    public function getTranslateInline();
+    public function getData();
 
     /**
-     * Set Translate inline mode
+     * Retrieve locale
      *
-     * @param bool $flag
-     * @return \Magento\TranslateInterface
+     * @return string
      */
-    public function setTranslateInline($flag);
+    public function getLocale();
 
     /**
      * Set locale
      *
-     * @param $locale
+     * @param string $locale
      * @return \Magento\TranslateInterface
      */
     public function setLocale($locale);
 
     /**
-     * Translate
+     * Retrieve theme code
      *
-     * @param array $args
      * @return string
      */
-    public function translate($args);
+    public function getTheme();
 }

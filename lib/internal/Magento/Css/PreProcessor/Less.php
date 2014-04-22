@@ -51,12 +51,19 @@ class Less implements PreProcessorInterface
         try {
             $chain->setContentType('less');
             $tmpLessFile = $this->fileGenerator->generateLessFileTree($chain);
-            $chain->setContent($this->adapter->process($tmpLessFile));
-            $chain->setContentType('css');
+            $cssContent = $this->adapter->process($tmpLessFile);
+            $cssTrimmedContent = trim($cssContent);
+            if (!empty($cssTrimmedContent)) {
+                $chain->setContent($cssContent);
+                $chain->setContentType('css');
+            }
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $chain->setContentType($contentType);
             $this->logger->logException($e);
         } catch (Adapter\AdapterException $e) {
+            $chain->setContentType($contentType);
+            $this->logger->logException($e);
+        } catch (\Less_Exception_Compiler $e) {
             $chain->setContentType($contentType);
             $this->logger->logException($e);
         }

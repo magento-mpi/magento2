@@ -6,36 +6,47 @@
  * @license     {license_link}
  */
 namespace Magento\Payment\Model\Method;
+
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment;
 
 /**
  * Payment method abstract model
  */
-abstract class AbstractMethod extends \Magento\Object
+abstract class AbstractMethod extends \Magento\Object implements \Magento\Payment\Model\MethodInterface
 {
-    const ACTION_ORDER             = 'order';
-    const ACTION_AUTHORIZE         = 'authorize';
+    const ACTION_ORDER = 'order';
+
+    const ACTION_AUTHORIZE = 'authorize';
+
     const ACTION_AUTHORIZE_CAPTURE = 'authorize_capture';
 
-    const STATUS_UNKNOWN    = 'UNKNOWN';
-    const STATUS_APPROVED   = 'APPROVED';
-    const STATUS_ERROR      = 'ERROR';
-    const STATUS_DECLINED   = 'DECLINED';
-    const STATUS_VOID       = 'VOID';
-    const STATUS_SUCCESS    = 'SUCCESS';
+    const STATUS_UNKNOWN = 'UNKNOWN';
+
+    const STATUS_APPROVED = 'APPROVED';
+
+    const STATUS_ERROR = 'ERROR';
+
+    const STATUS_DECLINED = 'DECLINED';
+
+    const STATUS_VOID = 'VOID';
+
+    const STATUS_SUCCESS = 'SUCCESS';
 
     /**
-     * Bit masks to specify different payment method checks.
-     * @see \Magento\Payment\Model\Method\AbstractMethod::isApplicableToQuote
+     * Different payment method checks.
      */
-    const CHECK_USE_FOR_COUNTRY       = 1;
-    const CHECK_USE_FOR_CURRENCY      = 2;
-    const CHECK_USE_CHECKOUT          = 4;
-    const CHECK_USE_INTERNAL          = 16;
-    const CHECK_ORDER_TOTAL_MIN_MAX   = 32;
-    const CHECK_RECURRING_PROFILES    = 64;
-    const CHECK_ZERO_TOTAL            = 128;
+    const CHECK_USE_FOR_COUNTRY = 'country';
+
+    const CHECK_USE_FOR_CURRENCY = 'currency';
+
+    const CHECK_USE_CHECKOUT = 'checkout';
+
+    const CHECK_USE_INTERNAL = 'internal';
+
+    const CHECK_ORDER_TOTAL_MIN_MAX = 'total';
+
+    const CHECK_ZERO_TOTAL = 'zero_total';
 
     /**
      * @var string
@@ -57,105 +68,98 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @var bool
      */
-    protected $_isGateway                   = false;
+    protected $_isGateway = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canOrder                    = false;
+    protected $_canOrder = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canAuthorize                = false;
+    protected $_canAuthorize = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canCapture                  = false;
+    protected $_canCapture = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canCapturePartial           = false;
+    protected $_canCapturePartial = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canRefund                   = false;
+    protected $_canRefund = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canRefundInvoicePartial     = false;
+    protected $_canRefundInvoicePartial = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canVoid                     = false;
+    protected $_canVoid = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canUseInternal              = true;
+    protected $_canUseInternal = true;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canUseCheckout              = true;
+    protected $_canUseCheckout = true;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_isInitializeNeeded          = false;
+    protected $_isInitializeNeeded = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canFetchTransactionInfo     = false;
+    protected $_canFetchTransactionInfo = false;
 
     /**
      * Payment Method feature
      *
      * @var bool
      */
-    protected $_canReviewPayment            = false;
-
-    /**
-     * Payment Method feature
-     *
-     * @var bool
-     */
-    protected $_canManageRecurringProfiles  = true;
+    protected $_canReviewPayment = false;
 
     /**
      * TODO: whether a captured transaction may be voided by this gateway
      * This may happen when amount is captured, but not settled
      * @var bool
      */
-    protected $_canCancelInvoice        = false;
+    protected $_canCancelInvoice = false;
 
     /**
      * Fields that should be replaced in debug with '***'
@@ -174,9 +178,9 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Core event manager proxy
@@ -188,7 +192,7 @@ abstract class AbstractMethod extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -197,21 +201,21 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_logAdapterFactory = $logAdapterFactory;
     }
 
@@ -226,7 +230,7 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Check authorise availability
+     * Check authorize availability
      *
      * @return bool
      */
@@ -375,7 +379,6 @@ abstract class AbstractMethod extends \Magento\Object
             if (!in_array($country, $availableCountries)) {
                 return false;
             }
-
         }
         return true;
     }
@@ -392,26 +395,15 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Whether can manage recurring profiles
-     *
-     * @return bool
-     */
-    public function canManageRecurringProfiles()
-    {
-        return $this->_canManageRecurringProfiles
-               && ($this instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface);
-    }
-
-    /**
      * Retrieve payment method code
      *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getCode()
     {
         if (empty($this->_code)) {
-            throw new \Magento\Core\Exception(__('We cannot retrieve the payment method code.'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot retrieve the payment method code.'));
         }
         return $this->_code;
     }
@@ -437,16 +429,16 @@ abstract class AbstractMethod extends \Magento\Object
     }
 
     /**
-     * Retrieve payment iformation model object
+     * Retrieve payment information model object
      *
      * @return \Magento\Payment\Model\Info
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getInfoInstance()
     {
         $instance = $this->getData('info_instance');
-        if (!($instance instanceof \Magento\Payment\Model\Info)) {
-            throw new \Magento\Core\Exception(__('We cannot retrieve the payment information object instance.'));
+        if (!$instance instanceof \Magento\Payment\Model\Info) {
+            throw new \Magento\Framework\Model\Exception(__('We cannot retrieve the payment information object instance.'));
         }
         return $instance;
     }
@@ -455,25 +447,25 @@ abstract class AbstractMethod extends \Magento\Object
      * Validate payment method information object
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
-         /**
-          * to validate payment method is allowed for billing country or not
-          */
-         $paymentInfo = $this->getInfoInstance();
-         if ($paymentInfo instanceof Payment) {
-             $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
-         } else {
-             $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
-         }
-         if (!$this->canUseForCountry($billingCountry)) {
-             throw new \Magento\Core\Exception(
-                 __('You can\'t use the payment type you selected to make payments to the billing country.')
-             );
-         }
-         return $this;
+        /**
+         * to validate payment method is allowed for billing country or not
+         */
+        $paymentInfo = $this->getInfoInstance();
+        if ($paymentInfo instanceof Payment) {
+            $billingCountry = $paymentInfo->getOrder()->getBillingAddress()->getCountryId();
+        } else {
+            $billingCountry = $paymentInfo->getQuote()->getBillingAddress()->getCountryId();
+        }
+        if (!$this->canUseForCountry($billingCountry)) {
+            throw new \Magento\Framework\Model\Exception(
+                __('You can\'t use the payment type you selected to make payments to the billing country.')
+            );
+        }
+        return $this;
     }
 
     /**
@@ -483,12 +475,12 @@ abstract class AbstractMethod extends \Magento\Object
      * @param float $amount
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function order(\Magento\Object $payment, $amount)
     {
         if (!$this->canOrder()) {
-            throw new \Magento\Core\Exception(__('The order action is not available.'));
+            throw new \Magento\Framework\Model\Exception(__('The order action is not available.'));
         }
         return $this;
     }
@@ -500,12 +492,12 @@ abstract class AbstractMethod extends \Magento\Object
      * @param float $amount
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
-            throw new \Magento\Core\Exception(__('The authorize action is not available.'));
+            throw new \Magento\Framework\Model\Exception(__('The authorize action is not available.'));
         }
         return $this;
     }
@@ -517,12 +509,12 @@ abstract class AbstractMethod extends \Magento\Object
      * @param float $amount
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function capture(\Magento\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
-            throw new \Magento\Core\Exception(__('The capture action is not available.'));
+            throw new \Magento\Framework\Model\Exception(__('The capture action is not available.'));
         }
 
         return $this;
@@ -564,12 +556,12 @@ abstract class AbstractMethod extends \Magento\Object
      * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {
         if (!$this->canRefund()) {
-            throw new \Magento\Core\Exception(__('The refund action is not available.'));
+            throw new \Magento\Framework\Model\Exception(__('The refund action is not available.'));
         }
         return $this;
     }
@@ -603,12 +595,12 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Object $payment
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function void(\Magento\Object $payment)
     {
         if (!$this->canVoid($payment)) {
-            throw new \Magento\Core\Exception(__('Void action is not available.'));
+            throw new \Magento\Framework\Model\Exception(__('Void action is not available.'));
         }
         return $this;
     }
@@ -629,12 +621,12 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Payment\Model\Info $payment
      * @return false
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function acceptPayment(\Magento\Payment\Model\Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            throw new \Magento\Core\Exception(__('The payment review action is unavailable.'));
+            throw new \Magento\Framework\Model\Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -644,12 +636,12 @@ abstract class AbstractMethod extends \Magento\Object
      *
      * @param \Magento\Payment\Model\Info $payment
      * @return false
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function denyPayment(\Magento\Payment\Model\Info $payment)
     {
         if (!$this->canReviewPayment($payment)) {
-            throw new \Magento\Core\Exception(__('The payment review action is unavailable.'));
+            throw new \Magento\Framework\Model\Exception(__('The payment review action is unavailable.'));
         }
         return false;
     }
@@ -668,7 +660,7 @@ abstract class AbstractMethod extends \Magento\Object
      * Retrieve information from payment configuration
      *
      * @param string $field
-     * @param int|string|null|\Magento\Core\Model\Store $storeId
+     * @param int|string|null|\Magento\Store\Model\Store $storeId
      *
      * @return mixed
      */
@@ -678,7 +670,7 @@ abstract class AbstractMethod extends \Magento\Object
             $storeId = $this->getStore();
         }
         $path = 'payment/' . $this->getCode() . '/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -717,74 +709,17 @@ abstract class AbstractMethod extends \Magento\Object
      */
     public function isAvailable($quote = null)
     {
-        $checkResult = new \StdClass;
+        $checkResult = new \StdClass();
         $isActive = (bool)(int)$this->getConfigData('active', $quote ? $quote->getStoreId() : null);
         $checkResult->isAvailable = $isActive;
-        $checkResult->isDeniedInConfig = !$isActive; // for future use in observers
-        $this->_eventManager->dispatch('payment_method_is_active', array(
-            'result'          => $checkResult,
-            'method_instance' => $this,
-            'quote'           => $quote,
-        ));
+        $checkResult->isDeniedInConfig = !$isActive;
+        // for future use in observers
+        $this->_eventManager->dispatch(
+            'payment_method_is_active',
+            array('result' => $checkResult, 'method_instance' => $this, 'quote' => $quote)
+        );
 
-        if ($checkResult->isAvailable && $quote) {
-            $checkResult->isAvailable = $this->isApplicableToQuote($quote, self::CHECK_RECURRING_PROFILES);
-        }
         return $checkResult->isAvailable;
-    }
-
-    /**
-     * Check whether payment method is applicable to quote
-     * Purposed to allow use in controllers some logic that was implemented in blocks only before
-     *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @param int|null $checksBitMask
-     * @return bool
-     */
-    public function isApplicableToQuote($quote, $checksBitMask)
-    {
-        if ($checksBitMask & self::CHECK_USE_FOR_COUNTRY) {
-            if (!$this->canUseForCountry($quote->getBillingAddress()->getCountry())) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_FOR_CURRENCY) {
-            if (!$this->canUseForCurrency($quote->getStore()->getBaseCurrencyCode())) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_CHECKOUT) {
-            if (!$this->canUseCheckout()) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_USE_INTERNAL) {
-            if (!$this->canUseInternal()) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_ORDER_TOTAL_MIN_MAX) {
-            $total = $quote->getBaseGrandTotal();
-            $minTotal = $this->getConfigData('min_order_total');
-            $maxTotal = $this->getConfigData('max_order_total');
-            if (!empty($minTotal) && $total < $minTotal || !empty($maxTotal) && $total > $maxTotal) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_RECURRING_PROFILES) {
-            if (!$this->canManageRecurringProfiles() && $quote->hasRecurringItems()) {
-                return false;
-            }
-        }
-        if ($checksBitMask & self::CHECK_ZERO_TOTAL) {
-            $total = $quote->getBaseSubtotal() + $quote->getShippingAddress()->getBaseShippingAmount();
-            if ($total < 0.0001 && $this->getCode() != 'free'
-                && !($this->canManageRecurringProfiles() && $quote->hasRecurringItems())
-            ) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -821,10 +756,13 @@ abstract class AbstractMethod extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            $this->_logAdapterFactory
-                ->create(array('fileName' => 'payment_' . $this->getCode() . '.log'))
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
+            $this->_logAdapterFactory->create(
+                array('fileName' => 'payment_' . $this->getCode() . '.log')
+            )->setFilterDataKeys(
+                $this->_debugReplacePrivateDataKeys
+            )->log(
+                $debugData
+            );
         }
     }
 

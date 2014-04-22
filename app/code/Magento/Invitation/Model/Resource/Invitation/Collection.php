@@ -16,19 +16,21 @@ namespace Magento\Invitation\Model\Resource\Invitation;
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields mapping 
      *
      * @var array
      */
-    protected $_map    = array('fields' => array(
-        'invitee_email'    => 'c.email',
-        'website_id'       => 'w.website_id',
-        'invitation_email' => 'main_table.email',
-        'invitee_group_id' => 'main_table.group_id'
-    ));
+    protected $_map = array(
+        'fields' => array(
+            'invitee_email' => 'c.email',
+            'website_id' => 'w.website_id',
+            'invitation_email' => 'main_table.email',
+            'invitee_group_id' => 'main_table.group_id'
+        )
+    );
 
     /**
      * Intialize collection
@@ -85,12 +87,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addWebsiteInformation()
     {
-        $this->getSelect()
-            ->joinInner(
-                array('w' => $this->getTable('core_store')),
-                'main_table.store_id = w.store_id',
-                'w.website_id'
-            );
+        $this->getSelect()->joinInner(
+            array('w' => $this->getTable('store')),
+            'main_table.store_id = w.store_id',
+            'w.website_id'
+        );
         return $this;
     }
 
@@ -103,7 +104,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->getSelect()->joinLeft(
             array('c' => $this->getTable('customer_entity')),
-            'main_table.referral_id = c.entity_id', array('invitee_email' => 'c.email')
+            'main_table.referral_id = c.entity_id',
+            array('invitee_email' => 'c.email')
         );
         return $this;
     }
@@ -125,9 +127,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addCanBeCanceledFilter()
     {
-        return $this->addFieldToFilter('status', array('nin' => array(
-            \Magento\Invitation\Model\Invitation::STATUS_CANCELED,
-            \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
-        )));
+        return $this->addFieldToFilter(
+            'status',
+            array(
+                'nin' => array(
+                    \Magento\Invitation\Model\Invitation::STATUS_CANCELED,
+                    \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
+                )
+            )
+        );
     }
 }

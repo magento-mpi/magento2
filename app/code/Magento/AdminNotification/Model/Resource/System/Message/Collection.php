@@ -7,8 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\Resource\System\Message;
 
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * System message list
@@ -27,20 +26,20 @@ class Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdminNotification\Model\System\MessageList $messageList
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdminNotification\Model\System\MessageList $messageList,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_messageList = $messageList;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -54,7 +53,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento\AdminNotification\Model\System\Message', 'Magento\AdminNotification\Model\Resource\System\Message'
+            'Magento\AdminNotification\Model\System\Message',
+            'Magento\AdminNotification\Model\Resource\System\Message'
         );
     }
 
@@ -66,8 +66,7 @@ class Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addOrder('severity', self::SORT_ORDER_ASC)
-            ->addOrder('created_at');
+        $this->addOrder('severity', self::SORT_ORDER_ASC)->addOrder('created_at');
     }
 
     /**

@@ -14,8 +14,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
 
-class CollectionTest
-    extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Returns mock for finance collection
@@ -40,7 +39,7 @@ class CollectionTest
     {
         $collection = $this->_getFinanceCollectionMock();
 
-        $first  = new \Magento\Object(array('id' => 9));
+        $first = new \Magento\Object(array('id' => 9));
         $second = new \Magento\Object(array('id' => 10));
 
         $collection->addItem($first);
@@ -49,12 +48,12 @@ class CollectionTest
         /** @var $orderFirst \Magento\Object */
         /** @var $orderSecond \Magento\Object */
 
-        $collection->setOrder('id', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $collection->setOrder('id', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
         list($orderFirst, $orderSecond) = array_values($collection->getItems());
         $this->assertEquals($first->getId(), $orderFirst->getId());
         $this->assertEquals($second->getId(), $orderSecond->getId());
 
-        $collection->setOrder('id', \Magento\Data\Collection::SORT_ORDER_DESC);
+        $collection->setOrder('id', \Magento\Framework\Data\Collection::SORT_ORDER_DESC);
         list($orderFirst, $orderSecond) = array_values($collection->getItems());
         $this->assertEquals($second->getId(), $orderFirst->getId());
         $this->assertEquals($first->getId(), $orderSecond->getId());
@@ -67,7 +66,7 @@ class CollectionTest
     {
         $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
-        $first  = new \Magento\Object(array('id' => 9));
+        $first = new \Magento\Object(array('id' => 9));
         $second = new \Magento\Object(array('id' => 10));
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));

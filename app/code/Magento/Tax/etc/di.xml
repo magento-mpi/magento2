@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Tax\Helper\Data">
         <arguments>
             <argument name="taxConfig" xsi:type="object">Magento\Tax\Model\Config\Proxy</argument>
@@ -23,6 +23,16 @@
     <type name="Magento\Tax\Model\Resource\Calculation">
         <arguments>
             <argument name="taxData" xsi:type="object">Magento\Tax\Helper\Data\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Pricing\Adjustment\Pool">
+        <arguments>
+            <argument name="adjustments" xsi:type="array">
+                <item name="tax" xsi:type="array">
+                    <item name="className" xsi:type="string">Magento\Tax\Pricing\Adjustment</item>
+                    <item name="sortOrder" xsi:type="string">20</item>
+                </item>
+            </argument>
         </arguments>
     </type>
 </config>

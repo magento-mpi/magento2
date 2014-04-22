@@ -35,7 +35,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Populate category flat tables with data
      *
-     * @param \Magento\Core\Model\Store[] $stores
+     * @param \Magento\Store\Model\Store[] $stores
      * @return Full
      */
     protected function populateFlatTables(array $stores)
@@ -43,14 +43,21 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
         $categories = array();
         $categoriesIds = array();
-        /* @var $store \Magento\Core\Model\Store */
+        /* @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             if (!isset($categories[$store->getRootCategoryId()])) {
-                $select = $this->getWriteAdapter()->select()
-                    ->from($this->getWriteAdapter()->getTableName($this->getTableName('catalog_category_entity')))
-                    ->where('path = ?', (string)$rootId)
-                    ->orWhere('path = ?', "{$rootId}/{$store->getRootCategoryId()}")
-                    ->orWhere('path LIKE ?', "{$rootId}/{$store->getRootCategoryId()}/%");
+                $select = $this->getWriteAdapter()->select()->from(
+                    $this->getWriteAdapter()->getTableName($this->getTableName('catalog_category_entity'))
+                )->where(
+                    'path = ?',
+                    (string)$rootId
+                )->orWhere(
+                    'path = ?',
+                    "{$rootId}/{$store->getRootCategoryId()}"
+                )->orWhere(
+                    'path LIKE ?',
+                    "{$rootId}/{$store->getRootCategoryId()}/%"
+                );
                 $categories[$store->getRootCategoryId()] = $this->getWriteAdapter()->fetchAll($select);
                 $categoriesIds[$store->getRootCategoryId()] = array();
                 foreach ($categories[$store->getRootCategoryId()] as $category) {
@@ -91,7 +98,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     protected function createTable($store)
     {
         $temporaryTable = $this->addTemporaryTableSuffix($this->getMainStoreTable($store));
-        $table  = $this->getFlatTableStructure($temporaryTable);
+        $table = $this->getFlatTableStructure($temporaryTable);
         $this->getWriteAdapter()->dropTable($temporaryTable);
         $this->getWriteAdapter()->createTable($table);
 
@@ -102,7 +109,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * Create category flat tables and add attributes as fields.
      * Tables are created only if DDL operations are allowed
      *
-     * @param \Magento\Core\Model\Store[] $stores if empty, create tables for all stores of the application
+     * @param \Magento\Store\Model\Store[] $stores if empty, create tables for all stores of the application
      * @return Full
      */
     protected function createTables(array $stores = array())
@@ -113,7 +120,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         if (empty($stores)) {
             $stores = $this->storeManager->getStores();
         }
-        /* @var $store \Magento\Core\Model\Store */
+        /* @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             $this->createTable($store->getId());
         }
@@ -124,12 +131,12 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Switch table (temporary becomes active, old active will be dropped)
      *
-     * @param \Magento\Core\Model\Store[] $stores
+     * @param \Magento\Store\Model\Store[] $stores
      * @return Full
      */
     protected function switchTables(array $stores = array())
     {
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             $activeTableName = $this->getMainStoreTable($store->getId());
             $temporaryTableName = $this->addTemporaryTableSuffix($this->getMainStoreTable($store->getId()));
@@ -138,16 +145,10 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             //switch tables
             $tablesToRename = array();
             if ($this->getWriteAdapter()->isTableExists($activeTableName)) {
-                $tablesToRename[] = array(
-                    'oldName' => $activeTableName,
-                    'newName' => $oldTableName
-                );
+                $tablesToRename[] = array('oldName' => $activeTableName, 'newName' => $oldTableName);
             }
 
-            $tablesToRename[] = array(
-                'oldName' => $temporaryTableName,
-                'newName' => $activeTableName
-            );
+            $tablesToRename[] = array('oldName' => $temporaryTableName, 'newName' => $activeTableName);
 
             foreach ($tablesToRename as $tableToRename) {
                 $this->getWriteAdapter()->renameTable($tableToRename['oldName'], $tableToRename['newName']);

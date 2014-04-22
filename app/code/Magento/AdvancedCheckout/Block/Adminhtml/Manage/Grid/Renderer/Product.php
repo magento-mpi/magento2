@@ -27,11 +27,11 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
      */
     public function render(\Magento\Object $row)
     {
-        $rendered       =  parent::render($row);
+        $rendered = parent::render($row);
         $listType = $this->getColumn()->getGrid()->getListType();
         if ($row instanceof \Magento\Catalog\Model\Product) {
             $product = $row;
-        } else if (($row instanceof \Magento\Wishlist\Model\Item) || ($row instanceof \Magento\Sales\Model\Order\Item)) {
+        } elseif (($row instanceof \Magento\Wishlist\Model\Item) || ($row instanceof \Magento\Sales\Model\Order\Item)) {
             $product = $row->getProduct();
         }
         if ($product->canConfigure()) {
@@ -41,7 +41,11 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
             $style = 'disabled';
             $prodAttributes = 'disabled="disabled"';
         }
-        return sprintf('<a href="javascript:void(0)" %s class="action-configure %s">%s</a>',
-            $style, $prodAttributes, __('Configure')) . $rendered;
+        return sprintf(
+            '<a href="javascript:void(0)" %s class="action-configure %s">%s</a>',
+            $style,
+            $prodAttributes,
+            __('Configure')
+        ) . $rendered;
     }
 }

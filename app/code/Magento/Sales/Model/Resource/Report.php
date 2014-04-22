@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales report resource model
@@ -16,17 +16,15 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource;
-
-class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Report extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
-        
     }
 
     /**
@@ -34,7 +32,7 @@ class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $table
      * @param string $field
-     * @return \Magento\Sales\Model\Resource\Report
+     * @return $this
      */
     public function init($table, $field = 'id')
     {

@@ -13,7 +13,6 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Block\Form as AbstractForm;
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 
 /**
@@ -29,11 +28,14 @@ class Tab extends AbstractForm
      *
      * @param array $fields
      * @param Element $element
+     * @return $this
      */
     public function fillFormTab(array $fields, Element $element)
     {
         $data = $this->dataMapping($fields);
         $this->_fill($data, $element);
+
+        return $this;
     }
 
     /**
@@ -59,13 +61,5 @@ class Tab extends AbstractForm
     public function updateFormTab(array $fields, Element $element)
     {
         $this->fillFormTab($fields, $element);
-    }
-
-    /**
-     * Open tab
-     */
-    public function open()
-    {
-        $this->_rootElement->click();
     }
 }

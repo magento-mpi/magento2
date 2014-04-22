@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Methods extends \Magento\View\Element\Template
+class Methods extends \Magento\Framework\View\Element\Template
 {
     /**
      * Tax data
@@ -22,7 +21,7 @@ class Methods extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -34,17 +33,17 @@ class Methods extends \Magento\View\Element\Template
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -74,16 +73,13 @@ class Methods extends \Magento\View\Element\Template
      */
     public function getShippingPrice($price)
     {
-        return $this->_coreRegistry->registry('current_rma')
-            ->getStore()
-            ->convertPrice(
-                $this->_taxData->getShippingPrice(
-                    $price
-                ),
-                true,
-                false
-            )
-        ;
+        return $this->_coreRegistry->registry(
+            'current_rma'
+        )->getStore()->convertPrice(
+            $this->_taxData->getShippingPrice($price),
+            true,
+            false
+        );
     }
 
     /**
@@ -95,11 +91,11 @@ class Methods extends \Magento\View\Element\Template
     public function jsonData($method)
     {
         $data = array();
-        $data['CarrierTitle']   = $method->getCarrierTitle();
-        $data['MethodTitle']    = $method->getMethodTitle();
-        $data['Price']          = $this->getShippingPrice($method->getPrice());
-        $data['PriceOriginal']  = $method->getPrice();
-        $data['Code']           = $method->getCode();
+        $data['CarrierTitle'] = $method->getCarrierTitle();
+        $data['MethodTitle'] = $method->getMethodTitle();
+        $data['Price'] = $this->getShippingPrice($method->getPrice());
+        $data['PriceOriginal'] = $method->getPrice();
+        $data['Code'] = $method->getCode();
 
         return $this->_jsonEncoder->encode($data);
     }

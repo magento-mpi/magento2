@@ -14,23 +14,23 @@
  */
 namespace Magento\Centinel\Block\Authentication;
 
-class Start extends \Magento\View\Element\Template
+class Start extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -52,4 +52,3 @@ class Start extends \Magento\View\Element\Template
         return '';
     }
 }
-

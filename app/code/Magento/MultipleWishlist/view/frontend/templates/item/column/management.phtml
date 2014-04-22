@@ -12,10 +12,9 @@
 /* @var $item \Magento\Wishlist\Model\Item  */
 $item = $this->getItem();
 ?>
-<div class="split button">
-    <span class="label" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Move to Wish List');?></span>
-    <span class="action change" title="<?php echo __('Move to:') ?>" data-toggle="dropdown"><span><?php echo __('Move to:') ?></span></span>
-    <ul class="items" data-target="dropdown">
+<div class="actions dropdown wishlist">
+    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move to Wish List');?></span></span>
+    <ul class="items dropdown" data-target="dropdown">
         <?php foreach ($this->getWishlists() as $wishlist): ?>
             <?php if ($wishlist->getId() !== $this->getWishlistInstance()->getId()): ?>
                 <li class="item"><span data-wishlist-move-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
@@ -26,10 +25,9 @@ $item = $this->getItem();
         <?php endif;?>
     </ul>
 </div>
-<div class="split button">
-    <span class="label" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><?php echo __('Copy to Wish List');?></span>
-    <span class="action change" title="<?php echo __('Copy to:') ?>" data-toggle="dropdown"><span><?php echo __('Copy to:') ?></span></span>
-    <ul class="items" data-target="dropdown">
+<div class="actions dropdown wishlist">
+    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getDefaultWishlist()->getId() != $this->getCurrentWishlist()->getId()): ?> data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Copy to Wish List');?></span></span>
+    <ul class="items dropdown" data-target="dropdown">
         <?php foreach ($this->getWishlists() as $wishlist): ?>
             <?php if ($wishlist->getId() !== $this->getWishlistInstance()->getId()): ?>
                 <li class="item"><span  data-wishlist-copy-item='{"itemId":"<?php echo $item->getId();?>", "wishlistId":"<?php echo $wishlist->getId();?>"}' title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>

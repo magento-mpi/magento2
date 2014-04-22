@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Checkout\Onepage\Success;
 
 /**
  * Billing agreement information on Order success page
  */
-namespace Magento\Paypal\Block\Checkout\Onepage\Success;
-
-class BillingAgreement extends \Magento\View\Element\Template
+class BillingAgreement extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -29,14 +28,14 @@ class BillingAgreement extends \Magento\View\Element\Template
     protected $_agreementFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
@@ -62,13 +61,15 @@ class BillingAgreement extends \Magento\View\Element\Template
         }
         $agreement = $this->_agreementFactory->create()->load($agreementReferenceId, 'reference_id');
         if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
-            $this->addData(array(
-                'agreement_ref_id' => $agreement->getReferenceId(),
-                'agreement_url'    => $this->getUrl(
-                    'paypal/billing_agreement/view',
-                    array('agreement' => $agreement->getId())
+            $this->addData(
+                array(
+                    'agreement_ref_id' => $agreement->getReferenceId(),
+                    'agreement_url' => $this->getUrl(
+                        'paypal/billing_agreement/view',
+                        array('agreement' => $agreement->getId())
+                    )
                 )
-            ));
+            );
             return parent::_toHtml();
         }
         return '';

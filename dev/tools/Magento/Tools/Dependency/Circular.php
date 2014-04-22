@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tools\Dependency;
 
-use Magento\Data\Graph;
+use Magento\Framework\Data\Graph;
 
 /**
  * Build circular dependencies by modules map
@@ -20,19 +19,19 @@ class Circular
      *
      * @var array
      */
-    protected $dependencies = [];
+    protected $dependencies = array();
 
     /**
      * Modules circular dependencies map
      *
      * @var array
      */
-    protected $circularDependencies = [];
+    protected $circularDependencies = array();
 
     /**
      * Graph object
      *
-     * @var \Magento\Data\Graph
+     * @var \Magento\Framework\Data\Graph
      */
     protected $graph;
 
@@ -63,12 +62,13 @@ class Circular
      * Init data before building
      *
      * @param array $dependencies
+     * @return void
      */
     protected function init($dependencies)
     {
         $this->dependencies = $dependencies;
-        $this->circularDependencies = [];
-        $this->graph = new Graph(array_keys($this->dependencies), []);
+        $this->circularDependencies = array();
+        $this->graph = new Graph(array_keys($this->dependencies), array());
     }
 
     /**
@@ -76,8 +76,9 @@ class Circular
      *
      * @param string $vertex
      * @param array $path nesting path
+     * @return void
      */
-    protected function expandDependencies($vertex, $path = [])
+    protected function expandDependencies($vertex, $path = array())
     {
         if (!$this->dependencies[$vertex]) {
             return;
@@ -85,6 +86,10 @@ class Circular
 
         $path[] = $vertex;
         foreach ($this->dependencies[$vertex] as $dependency) {
+            if (!isset($this->dependencies[$dependency])) {
+                // dependency vertex is not described in basic definition
+                continue;
+            }
             $relations = $this->graph->getRelations();
             if (isset($relations[$vertex][$dependency])) {
                 continue;
@@ -106,6 +111,7 @@ class Circular
      * Build all circular dependencies based on chain
      *
      * @param array $modules
+     * @return void
      */
     protected function buildCircular($modules)
     {
@@ -126,7 +132,7 @@ class Circular
      */
     protected function divideByModules($circularDependencies)
     {
-        $dependenciesByModule = [];
+        $dependenciesByModule = array();
         foreach ($circularDependencies as $circularDependency) {
             $module = $circularDependency[0];
             array_push($circularDependency, $module);

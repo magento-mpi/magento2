@@ -5,29 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 
 /**
  * Adminhtml billing agreement view
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
-
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -37,13 +36,14 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize view container
      *
+     * @return void
      */
     protected function _construct()
     {
-        $this->_objectId    = 'agreement';
-        $this->_controller  = 'adminhtml_billing_agreement';
-        $this->_mode        = 'view';
-        $this->_blockGroup  = 'Magento_Paypal';
+        $this->_objectId = 'agreement';
+        $this->_controller = 'adminhtml_billing_agreement';
+        $this->_mode = 'view';
+        $this->_blockGroup = 'Magento_Paypal';
 
         parent::_construct();
 
@@ -54,22 +54,28 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         $this->_removeButton('save');
         $this->setId('billing_agreement_view');
 
-        $this->_addButton('back', array(
-            'label'     => __('Back'),
-            'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',
-            'class'     => 'back',
-        ), -1);
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
+                'class' => 'back'
+            ),
+            -1
+        );
 
         $agreement = $this->_getBillingAgreement();
         if ($agreement && $agreement->canCancel() && $this->_isAllowed('Magento_Paypal::actions_manage')) {
             $confirmText = __('Are you sure you want to do this?');
-            $this->_addButton('cancel', array(
-                'label'     => __('Cancel'),
-                'onclick'   => "confirmSetLocation("
-                    . "'{$confirmText}', '{$this->_getCancelUrl()}'"
-                . ")",
-                'class'     => 'cancel',
-            ), -1);
+            $this->_addButton(
+                'cancel',
+                array(
+                    'label' => __('Cancel'),
+                    'onclick' => "confirmSetLocation(" . "'{$confirmText}', '{$this->_getCancelUrl()}'" . ")",
+                    'class' => 'cancel'
+                ),
+                -1
+            );
         }
     }
 
@@ -90,7 +96,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     protected function _getCancelUrl()
     {
-        return $this->getUrl('adminhtml/*/cancel', array('agreement' => $this->_getBillingAgreement()->getAgreementId()));
+        return $this->getUrl('*/*/cancel', array('agreement' => $this->_getBillingAgreement()->getAgreementId()));
     }
 
     /**

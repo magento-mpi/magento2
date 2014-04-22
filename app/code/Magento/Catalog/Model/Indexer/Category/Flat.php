@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category;
 
 class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
@@ -44,6 +43,7 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids)
     {
@@ -62,6 +62,8 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
 
     /**
      * Execute full indexation
+     *
+     * @return void
      */
     public function executeFull()
     {
@@ -72,6 +74,7 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      * Execute partial indexation by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function executeList($ids)
     {
@@ -82,6 +85,7 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      * Execute partial indexation by ID
      *
      * @param int $id
+     * @return void
      */
     public function executeRow($id)
     {

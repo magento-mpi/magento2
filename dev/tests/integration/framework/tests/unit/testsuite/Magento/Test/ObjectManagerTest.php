@@ -21,61 +21,75 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_instanceCache = array(
-        'hashShort' => array(),
-        'hashLong'  => array()
-    );
+    protected $_instanceCache = array('hashShort' => array(), 'hashLong' => array());
 
     public function testClearCache()
     {
-        $resource = new \stdClass;
+        $resource = new \stdClass();
         $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
         $verification = $this->getMock(
-            'Magento\App\Filesystem\DirectoryList\Verification', array(), array(), '', false
+            'Magento\Framework\App\Filesystem\DirectoryList\Verification',
+            array(),
+            array(),
+            '',
+            false
         );
-        $cache = $this->getMock('Magento\App\CacheInterface');
-        $configLoader = $this->getMock('Magento\App\ObjectManager\ConfigLoader', array(), array(), '', false);
-        $configCache = $this->getMock('Magento\App\ObjectManager\ConfigCache', array(), array(), '', false);
+        $cache = $this->getMock('Magento\Framework\App\CacheInterface');
+        $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false);
+        $configCache = $this->getMock('Magento\Framework\App\ObjectManager\ConfigCache', array(), array(), '', false);
         $primaryLoaderMock = $this->getMock(
-            'Magento\App\ObjectManager\ConfigLoader\Primary', array(), array(), '', false
+            'Magento\Framework\App\ObjectManager\ConfigLoader\Primary',
+            array(),
+            array(),
+            '',
+            false
         );
         $factory = $this->getMock('\Magento\ObjectManager\Factory', array(), array(), '', false);
-        $factory->expects($this->exactly(2))
-            ->method('create')
-            ->will($this->returnCallback(function ($className) {
-                if ($className === 'Magento\Object') {
-                    return $this->getMock('Magento\Object', array(), array(), '', false);
+        $factory->expects($this->exactly(2))->method('create')->will(
+            $this->returnCallback(
+                function ($className) {
+                    if ($className === 'Magento\Object') {
+                        return $this->getMock('Magento\Object', array(), array(), '', false);
+                    }
                 }
-            }));
+            )
+        );
 
         $model = new \Magento\TestFramework\ObjectManager(
-            $factory, $instanceConfig,
+            $factory,
+            $instanceConfig,
             array(
-                'Magento\App\Filesystem\DirectoryList\Verification' => $verification,
-                'Magento\App\Cache\Type\Config' => $cache,
-                'Magento\App\ObjectManager\ConfigLoader' => $configLoader,
-                'Magento\App\ObjectManager\ConfigCache' => $configCache,
-                'Magento\Config\ReaderInterface' => $this->getMock('Magento\Config\ReaderInterface'),
-                'Magento\Config\ScopeInterface' => $this->getMock('Magento\Config\ScopeInterface'),
-                'Magento\Config\CacheInterface' => $this->getMock('Magento\Config\CacheInterface'),
+                'Magento\Framework\App\Filesystem\DirectoryList\Verification' => $verification,
+                'Magento\Framework\App\Cache\Type\Config' => $cache,
+                'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,
+                'Magento\Framework\App\ObjectManager\ConfigCache' => $configCache,
+                'Magento\Framework\Config\ReaderInterface' => $this->getMock(
+                    'Magento\Framework\Config\ReaderInterface'
+                ),
+                'Magento\Framework\Config\ScopeInterface' => $this->getMock('Magento\Framework\Config\ScopeInterface'),
+                'Magento\Framework\Config\CacheInterface' => $this->getMock('Magento\Framework\Config\CacheInterface'),
                 'Magento\Cache\FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
-                'Magento\App\Resource' => $this->getMock(
-                    'Magento\App\Resource', array(), array(), '', false
-                ),
-                'Magento\App\Resource\Config' => $this->getMock(
-                    'Magento\App\Resource\Config', array(), array(), '', false
-                ),
+                'Magento\Framework\App\Resource' => $this->getMockBuilder('Magento\Framework\App\Resource')
+                        ->disableOriginalConstructor()
+                        ->getMock(),
+                'Magento\Framework\App\Resource\Config' => $this->getMock(
+                    'Magento\Framework\App\Resource\Config',
+                    array(),
+                    array(),
+                    '',
+                    false
+                )
             ),
             $primaryLoaderMock
         );
 
-        $model->addSharedInstance($resource, 'Magento\App\Resource');
+        $model->addSharedInstance($resource, 'Magento\Framework\App\Resource');
         $instance1 = $model->get('Magento\Object');
 
         $this->assertSame($instance1, $model->get('Magento\Object'));
         $this->assertSame($model, $model->clearCache());
         $this->assertSame($model, $model->get('Magento\ObjectManager'));
-        $this->assertSame($resource, $model->get('Magento\App\Resource'));
+        $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
         $this->assertNotSame($instance1, $model->get('Magento\Object'));
     }
 }

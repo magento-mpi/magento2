@@ -7,18 +7,18 @@
  */
 namespace Magento\CatalogEvent\Model;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
-use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
-use Magento\Core\Model\Context;
-use Magento\Core\Model\LocaleInterface;
-use Magento\Core\Model\Registry;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Registry;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Data\Collection\Db;
 use Magento\Stdlib\DateTime;
 use Magento\UrlInterface;
 
@@ -37,16 +37,19 @@ use Magento\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends AbstractModel
+class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
-    const DISPLAY_PRODUCT_PAGE  = 2;
 
-    const STATUS_UPCOMING       = 'upcoming';
-    const STATUS_OPEN           = 'open';
-    const STATUS_CLOSED         = 'closed';
+    const DISPLAY_PRODUCT_PAGE = 2;
 
-    const CACHE_TAG             = 'catalog_event';
+    const STATUS_UPCOMING = 'upcoming';
+
+    const STATUS_OPEN = 'open';
+
+    const STATUS_CLOSED = 'closed';
+
+    const CACHE_TAG = 'catalog_event';
 
     const IMAGE_PATH = 'enterprise/catalogevent';
 
@@ -77,11 +80,9 @@ class Event extends AbstractModel
     protected $_isReadonly = false;
 
     /**
-     * Locale model
-     *
-     * @var LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Filesystem facade
@@ -107,7 +108,7 @@ class Event extends AbstractModel
      *
      * @param Context $context
      * @param Registry $registry
-     * @param LocaleInterface $locale
+     * @param TimezoneInterface $localeDate
      * @param Filesystem $filesystem
      * @param StoreManagerInterface $storeManager
      * @param DateTime $dateTime
@@ -118,7 +119,7 @@ class Event extends AbstractModel
     public function __construct(
         Context $context,
         Registry $registry,
-        LocaleInterface $locale,
+        TimezoneInterface $localeDate,
         Filesystem $filesystem,
         StoreManagerInterface $storeManager,
         DateTime $dateTime,
@@ -130,7 +131,7 @@ class Event extends AbstractModel
 
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
     }
 
@@ -142,21 +143,6 @@ class Event extends AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\CatalogEvent\Model\Resource\Event');
-    }
-
-    /**
-     * Get cache tags associated with object id.
-     * Added category id tags support
-     *
-     * @return string[]
-     */
-    public function getCacheIdTags()
-    {
-        $tags = parent::getCacheIdTags();
-        if ($this->getCategoryId()) {
-            $tags[] = Category::CACHE_TAG . '_' . $this->getCategoryId();
-        }
-        return $tags;
     }
 
     /**
@@ -244,8 +230,9 @@ class Event extends AbstractModel
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . '/'
-                   . self::IMAGE_PATH . '/' . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . '/' . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -289,7 +276,7 @@ class Event extends AbstractModel
      */
     public function canDisplay($state)
     {
-        return ((int) $this->getDisplayState() & $state) == $state;
+        return ((int)$this->getDisplayState() & $state) == $state;
     }
 
     /**
@@ -320,8 +307,10 @@ class Event extends AbstractModel
     public function applyStatusByDates()
     {
         if ($this->getDateStart() && $this->getDateEnd()) {
-            $timeStart = $this->dateTime->toTimestamp($this->getDateStart()); // Date already in gmt, no conversion
-            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd()); // Date already in gmt, no conversion
+            $timeStart = $this->dateTime->toTimestamp($this->getDateStart());
+            // Date already in gmt, no conversion
+            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd());
+            // Date already in gmt, no conversion
             $timeNow = gmdate('U');
             if ($timeStart <= $timeNow && $timeEnd >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
@@ -355,11 +344,12 @@ class Event extends AbstractModel
     {
         parent::_beforeSave();
         $dateChanged = false;
-        $fieldTitles = array('date_start' => __('Start Date') , 'date_end' => __('End Date'));
-        foreach (array('date_start' , 'date_end') as $dateType) {
+        $fieldTitles = array('date_start' => __('Start Date'), 'date_end' => __('End Date'));
+        foreach (array('date_start', 'date_end') as $dateType) {
             $date = $this->getData($dateType);
-            if (empty($date)) { // Date fields is required.
-                throw new Exception(__('%1 is required.', $fieldTitles[$dateType]));
+            if (empty($date)) {
+                // Date fields is required.
+                throw new \Magento\Framework\Model\Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
@@ -381,12 +371,11 @@ class Event extends AbstractModel
     public function validate()
     {
         $dateStartUnixTime = strtotime($this->getData('date_start'));
-        $dateEndUnixTime   = strtotime($this->getData('date_end'));
+        $dateEndUnixTime = strtotime($this->getData('date_end'));
         $dateIsOk = $dateEndUnixTime > $dateStartUnixTime;
         if ($dateIsOk) {
             return true;
-        }
-        else {
+        } else {
             return array(__('Please make sure the end date follows the start date.'));
         }
     }
@@ -409,7 +398,7 @@ class Event extends AbstractModel
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (boolean) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 
@@ -431,7 +420,7 @@ class Event extends AbstractModel
      */
     public function setIsReadonly($value)
     {
-        $this->_isReadonly = (boolean) $value;
+        $this->_isReadonly = (bool)$value;
         return $this;
     }
 
@@ -459,7 +448,7 @@ class Event extends AbstractModel
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
+        $date = $this->_localeDate->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_start', $date->toString(DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -474,7 +463,7 @@ class Event extends AbstractModel
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
+        $date = $this->_localeDate->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_end', $date->toString(DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -494,7 +483,7 @@ class Event extends AbstractModel
             if (!$value) {
                 return null;
             }
-            $date = $this->_locale->storeDate($store, $value, true);
+            $date = $this->_localeDate->scopeDate($store, $value, true);
             return $date->toString(DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
@@ -516,10 +505,20 @@ class Event extends AbstractModel
             if (!$value) {
                 return null;
             }
-            $date = $this->_locale->storeDate($store, $value, true);
+            $date = $this->_localeDate->scopeDate($store, $value, true);
             return $date->toString(DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return $this->getData('date_end');
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

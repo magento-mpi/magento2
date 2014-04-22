@@ -18,7 +18,7 @@ use Magento\Stdlib\DateTime;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Design extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var DateTime
@@ -26,10 +26,10 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -37,6 +37,8 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Define main table and primary key
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,11 +48,11 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($date = $object->getDateFrom()) {
             $object->setDateFrom($this->dateTime->formatDate($date));
@@ -64,10 +66,17 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
             $object->setDateTo(null);
         }
 
-        if (!is_null($object->getDateFrom())
-            && !is_null($object->getDateTo())
-            && $this->dateTime->toTimestamp($object->getDateFrom()) > $this->dateTime->toTimestamp($object->getDateTo())) {
-            throw new \Magento\Core\Exception(__('Start date cannot be greater than end date.'));
+        if (!is_null(
+            $object->getDateFrom()
+        ) && !is_null(
+            $object->getDateTo()
+        ) && $this->dateTime->toTimestamp(
+            $object->getDateFrom()
+        ) > $this->dateTime->toTimestamp(
+            $object->getDateTo()
+        )
+        ) {
+            throw new \Magento\Framework\Model\Exception(__('Start date cannot be greater than end date.'));
         }
 
         $check = $this->_checkIntersection(
@@ -78,8 +87,10 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         if ($check) {
-            throw new \Magento\Core\Exception(
-                __('Your design change for the specified store intersects with another one, please specify another date range.')
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'Your design change for the specified store intersects with another one, please specify another date range.'
+                )
             );
         }
 
@@ -93,7 +104,6 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
         parent::_beforeSave($object);
     }
 
-
     /**
      * Check intersections
      *
@@ -106,10 +116,13 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(array('main_table'=>$this->getTable('design_change')))
-            ->where('main_table.store_id = :store_id')
-            ->where('main_table.design_change_id <> :current_id');
+        $select = $adapter->select()->from(
+            array('main_table' => $this->getTable('design_change'))
+        )->where(
+            'main_table.store_id = :store_id'
+        )->where(
+            'main_table.design_change_id <> :current_id'
+        );
 
         $dateConditions = array('date_to IS NULL AND date_from IS NULL');
 
@@ -150,10 +163,7 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
             $select->where($condition);
         }
 
-        $bind = array(
-            'store_id'   => (int)$storeId,
-            'current_id' => (int)$currentId,
-        );
+        $bind = array('store_id' => (int)$storeId, 'current_id' => (int)$currentId);
 
         if (!is_null($dateTo)) {
             $bind['date_to'] = $dateTo;
@@ -175,16 +185,17 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadChange($storeId, $date)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table' => $this->getTable('design_change')))
-            ->where('store_id = :store_id')
-            ->where('date_from <= :required_date or date_from IS NULL')
-            ->where('date_to >= :required_date or date_to IS NULL');
-
-        $bind = array(
-            'store_id'      => (int)$storeId,
-            'required_date' => $date
+        $select = $this->_getReadAdapter()->select()->from(
+            array('main_table' => $this->getTable('design_change'))
+        )->where(
+            'store_id = :store_id'
+        )->where(
+            'date_from <= :required_date or date_from IS NULL'
+        )->where(
+            'date_to >= :required_date or date_to IS NULL'
         );
+
+        $bind = array('store_id' => (int)$storeId, 'required_date' => $date);
 
         return $this->_getReadAdapter()->fetchRow($select, $bind);
     }

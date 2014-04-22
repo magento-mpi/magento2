@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessor\ErrorHandlerInterface;

@@ -15,7 +15,7 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCacheConfig($area)
     {
-        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -23,9 +23,7 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Cache\Config\Reader $reader */
         $reader = $objectManager->create(
             'Magento\Cache\Config\Reader',
-            array(
-                'validationState' => $validationStateMock,
-            )
+            array('validationState' => $validationStateMock)
         );
         try {
             $reader->read($area);
@@ -36,10 +34,6 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
 
     public function cacheConfigDataProvider()
     {
-        return array(
-            'global'    => array('global'),
-            'adminhtml' =>array('adminhtml'),
-            'frontend'  =>array('frontend'),
-        );
+        return array('global' => array('global'), 'adminhtml' => array('adminhtml'), 'frontend' => array('frontend'));
     }
 }

@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
 
 /**
  * Block that renders Quick Styles > Buttons & Icons tab
  *
- * @method \Magento\View\Design\ThemeInterface getTheme()
+ * @method \Magento\Framework\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Buttons
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
+class Buttons extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {
     /**
      * Tab form HTML identifier
@@ -35,5 +33,4 @@ class Buttons
      * @var string
      */
     protected $_tab = 'buttons';
-
 }

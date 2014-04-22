@@ -26,16 +26,15 @@ class Result
     protected $_error = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 
@@ -84,8 +83,7 @@ class Result
         }
         if ($result instanceof \Magento\Sales\Model\Quote\Address\RateResult\AbstractResult) {
             $this->_rates[] = $result;
-        }
-        elseif ($result instanceof \Magento\Shipping\Model\Rate\Result) {
+        } elseif ($result instanceof \Magento\Shipping\Model\Rate\Result) {
             $rates = $result->getAllRates();
             foreach ($rates as $rate) {
                 $this->append($rate);
@@ -147,7 +145,7 @@ class Result
             $rates[$rate->getCarrier()]['methods'][$rate->getMethod()] = array(
                 'title' => $rate->getMethodTitle(),
                 'price' => $rate->getPrice(),
-                'price_formatted' => $currencyFilter->filter($rate->getPrice()),
+                'price_formatted' => $currencyFilter->filter($rate->getPrice())
             );
         }
         return $rates;

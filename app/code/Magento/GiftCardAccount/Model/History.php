@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model;
 
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\History _getResource()
@@ -29,57 +29,65 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
-    const ACTION_CREATED  = 0;
-    const ACTION_USED     = 1;
-    const ACTION_SENT     = 2;
+    const ACTION_CREATED = 0;
+
+    const ACTION_USED = 1;
+
+    const ACTION_SENT = 2;
+
     const ACTION_REDEEMED = 3;
-    const ACTION_EXPIRED  = 4;
-    const ACTION_UPDATED  = 5;
+
+    const ACTION_EXPIRED = 4;
+
+    const ACTION_UPDATED = 5;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\History');
     }
 
+    /**
+     * @return array
+     */
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => __('Created'),
-            self::ACTION_UPDATED  => __('Updated'),
-            self::ACTION_SENT     => __('Sent'),
-            self::ACTION_USED     => __('Used'),
+            self::ACTION_CREATED => __('Created'),
+            self::ACTION_UPDATED => __('Updated'),
+            self::ACTION_SENT => __('Sent'),
+            self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
-            self::ACTION_EXPIRED  => __('Expired'),
+            self::ACTION_EXPIRED => __('Expired')
         );
     }
 
@@ -98,6 +106,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getUsedAdditionalInfo()
     {
         if ($this->getGiftcardaccount()->getOrder()) {
@@ -107,7 +118,6 @@ class History extends \Magento\Core\Model\AbstractModel
 
         return '';
     }
-
 
     /**
      * Get info about sent mail context
@@ -125,6 +135,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return __('Recipient: %1.', $recipient);
     }
 
+    /**
+     * @return string
+     */
     protected function _getRedeemedAdditionalInfo()
     {
         if ($customerId = $this->getGiftcardaccount()->getCustomerId()) {
@@ -143,6 +156,9 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getExpiredAdditionalInfo()
     {
         return '';
@@ -151,13 +167,13 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            throw new \Magento\Core\Exception(__('Please assign a gift card account.'));
+            throw new \Magento\Framework\Model\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -187,7 +203,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Unknown history action.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown history action.'));
                 break;
         }
 

@@ -12,13 +12,12 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page;
 /**
  * Cms page edit form revisions tab
  */
-class Edit
-    extends \Magento\Backend\Block\Template
+class Edit extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,13 +28,13 @@ class Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
@@ -62,21 +61,25 @@ class Edit
                 $page = $this->_coreRegistry->registry('cms_page');
                 if ($page) {
                     if ($page->getId()) {
-                        $editBlock->addButton('preview', array(
-                            'label'     => __('Preview'),
-                            'class'     => 'preview',
-                            'data_attribute'  => array(
-                                'mage-init' => array(
-                                    'button' => array(
-                                        'event' => 'preview',
-                                        'target' => '#edit_form',
-                                        'eventData' => array(
-                                            'action' => $this->getUrl('adminhtml/cms_page_revision/preview'),
+                        $this->getToolbar()->addChild(
+                            'preview',
+                            'Magento\Backend\Block\Widget\Button',
+                            array(
+                                'label' => __('Preview'),
+                                'class' => 'preview',
+                                'data_attribute' => array(
+                                    'mage-init' => array(
+                                        'button' => array(
+                                            'event' => 'preview',
+                                            'target' => '#edit_form',
+                                            'eventData' => array(
+                                                'action' => $this->getUrl('adminhtml/cms_page_revision/preview')
+                                            )
                                         )
-                                    ),
-                                ),
-                            ),
-                        ));
+                                    )
+                                )
+                            )
+                        );
                     }
 
                     $formBlock = $editBlock->getChildBlock('form');
@@ -85,8 +88,11 @@ class Edit
                         if ($page->getUnderVersionControl()) {
                             $tabId = $this->getRequest()->getParam('tab');
                             if ($tabId) {
-                                $formBlock->setSelectedTabId($tabsBlock->getId() . '_' . $tabId)
-                                    ->setTabJsObject($tabsBlock->getJsObjectName());
+                                $formBlock->setSelectedTabId(
+                                    $tabsBlock->getId() . '_' . $tabId
+                                )->setTabJsObject(
+                                    $tabsBlock->getJsObjectName()
+                                );
                             }
                         }
                     }
@@ -103,6 +109,6 @@ class Edit
                 }
             }
         }
-        return $this;
+        return parent::_prepareLayout();
     }
 }

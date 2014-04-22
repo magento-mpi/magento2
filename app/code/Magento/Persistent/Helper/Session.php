@@ -64,11 +64,11 @@ class Session extends \Magento\Core\Helper\Data
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -76,11 +76,11 @@ class Session extends \Magento\Core\Helper\Data
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -93,10 +93,10 @@ class Session extends \Magento\Core\Helper\Data
         $this->_sessionFactory = $sessionFactory;
         parent::__construct(
             $context,
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
-            $locale,
             $appState,
+            $priceCurrency,
             $dbCompatibleMode
         );
     }

@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns;
 
-class Returns extends \Magento\View\Element\Template
+class Returns extends \Magento\Framework\View\Element\Template
 {
     /**
      * Rma data
@@ -18,11 +17,11 @@ class Returns extends \Magento\View\Element\Template
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,27 +40,35 @@ class Returns extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Framework\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $data);
+        $this->httpContext = $httpContext;
         $this->_isScopePrivate = true;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -75,12 +82,17 @@ class Returns extends \Magento\View\Element\Template
         if ($this->_rmaData->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
             /** @var $returns \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $returns = $this->_collectionFactory->create()
-                ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
-                ->setOrder('date_requested', 'desc');
+            $returns = $this->_collectionFactory->create()->addFieldToSelect(
+                '*'
+            )->addFieldToFilter(
+                'order_id',
+                $this->_coreRegistry->registry('current_order')->getId()
+            )->setOrder(
+                'date_requested',
+                'desc'
+            );
 
-            if ($this->_customerSession->isLoggedIn()) {
+            if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
                 $returns->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId());
             }
             $this->setReturns($returns);
@@ -96,9 +108,12 @@ class Returns extends \Magento\View\Element\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()
-            ->createBlock('Magento\Theme\Block\Html\Pager', 'sales.order.history.pager')
-            ->setCollection($this->getReturns());
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'sales.order.history.pager'
+        )->setCollection(
+            $this->getReturns()
+        );
         $this->setChild('pager', $pager);
         $this->getReturns()->load();
         return $this;
@@ -154,6 +169,6 @@ class Returns extends \Magento\View\Element\Template
      */
     public function getPrintUrl($order)
     {
-         return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
     }
 }

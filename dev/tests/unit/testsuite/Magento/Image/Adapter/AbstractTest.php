@@ -22,41 +22,52 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem\Directory\Write
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWriteMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Framework\Filesystem
      */
     protected $filesystemMock;
 
-
     protected function setUp()
     {
-        $this->directoryWriteMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->directoryWriteMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->filesystemMock = $this->getMock(
-            'Magento\App\Filesystem',
+            'Magento\Framework\App\Filesystem',
             array('getDirectoryWrite', 'createDirectory'),
             array(),
             '',
             false
         );
-        $this->filesystemMock->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->directoryWriteMock));
+        $this->filesystemMock->expects(
+            $this->once()
+        )->method(
+            'getDirectoryWrite'
+        )->will(
+            $this->returnValue($this->directoryWriteMock)
+        );
 
-        $this->_model = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter',
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento\Image\Adapter\AbstractAdapter',
             array($this->filesystemMock)
         );
     }
 
     protected function tearDown()
     {
-        $this->directoryWriteMock   = null;
-        $this->_model               = null;
-        $this->filesystemMock       = null;
+        $this->directoryWriteMock = null;
+        $this->_model = null;
+        $this->filesystemMock = null;
     }
+
     /**
      * Test adaptResizeValues with null as a value one of parameters
      *
@@ -79,26 +90,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
 
         $expected = array(
-            'src' => array(
-                'x' => 0,
-                'y' => 0
-            ),
-            'dst' => array(
-                'x' => 0,
-                'y' => 0,
-                'width'  => 135,
-                'height' => 135
-            ),
-            'frame' => array(
-                'width'  => 135,
-                'height' => 135
-            )
+            'src' => array('x' => 0, 'y' => 0),
+            'dst' => array('x' => 0, 'y' => 0, 'width' => 135, 'height' => 135),
+            'frame' => array('width' => 135, 'height' => 135)
         );
 
-        return array(
-            array(135, null, $expected),
-            array(null, 135, $expected),
-        );
+        return array(array(135, null, $expected), array(null, 135, $expected));
     }
 
     /**
@@ -128,8 +125,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(__DIR__, 'name.txt', __DIR__ . '/name.txt'),
             array(__DIR__ . '/name.txt', null, __DIR__ . '/name.txt'),
             array(null, 'name.txt', '_fileSrcPath' . '/name.txt'),
-            array(null, null, '_fileSrcPath' . '/_fileSrcName'),
+            array(null, null, '_fileSrcPath' . '/_fileSrcName')
         );
     }
-
 }

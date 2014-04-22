@@ -19,14 +19,17 @@ namespace Magento\GoogleOptimizer\Model;
  * @method \Magento\GoogleOptimizer\Model\Code setExperimentScript(int $value)
  * @method string getExperimentScript()
  */
-class Code extends \Magento\Core\Model\AbstractModel
+class Code extends \Magento\Framework\Model\AbstractModel
 {
     /**#@+
      * Entity types
      */
     const ENTITY_TYPE_PRODUCT = 'product';
+
     const ENTITY_TYPE_CATEGORY = 'category';
+
     const ENTITY_TYPE_PAGE = 'cms';
+
     /**#@-*/
 
     /**

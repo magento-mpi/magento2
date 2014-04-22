@@ -17,9 +17,8 @@ class StoreGroup
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
-    public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer
-    ) {
+    public function __construct(\Magento\Indexer\Model\IndexerInterface $indexer)
+    {
         $this->indexer = $indexer;
     }
 
@@ -37,16 +36,18 @@ class StoreGroup
     }
 
     /**
-     * Process to invalidate indexer
-     *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $subject
+     * @param callable $proceed
+     * @param \Magento\Framework\Model\AbstractModel $group
+     * @return mixed
      */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $needInvalidating = $this->validate($arguments[0]);
-        $objectResource = $invocationChain->proceed($arguments);
+    public function aroundSave(
+        \Magento\Framework\Model\Resource\Db\AbstractDb $subject,
+        \Closure $proceed,
+        \Magento\Framework\Model\AbstractModel $group
+    ) {
+        $needInvalidating = $this->validate($group);
+        $objectResource = $proceed($group);
         if ($needInvalidating) {
             $this->getIndexer()->invalidate();
         }
@@ -57,12 +58,15 @@ class StoreGroup
     /**
      * Validate changes for invalidating indexer
      *
-     * @param \Magento\Core\Model\AbstractModel $group
+     * @param \Magento\Framework\Model\AbstractModel $group
      * @return bool
      */
-    protected function validate(\Magento\Core\Model\AbstractModel $group)
+    protected function validate(\Magento\Framework\Model\AbstractModel $group)
     {
-        return ($group->dataHasChangedFor('website_id') || $group->dataHasChangedFor('root_category_id'))
-            && !$group->isObjectNew();
+        return ($group->dataHasChangedFor(
+            'website_id'
+        ) || $group->dataHasChangedFor(
+            'root_category_id'
+        )) && !$group->isObjectNew();
     }
 }

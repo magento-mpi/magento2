@@ -14,19 +14,17 @@ use Magento\Eav\Exception as EavException;
 class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
-    public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale
-    ) {
-        $this->_locale = $locale;
+    public function __construct(\Magento\Logger $logger, \Magento\Stdlib\DateTime\TimezoneInterface $localeDate)
+    {
+        $this->_localeDate = $localeDate;
         parent::__construct($logger);
     }
 
@@ -43,7 +41,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     public function beforeSave($object)
     {
         $attributeName = $this->getAttribute()->getName();
-        $_formated     = $object->getData($attributeName . '_is_formated');
+        $_formated = $object->getData($attributeName . '_is_formated');
         if (!$_formated && $object->hasData($attributeName)) {
             try {
                 $value = $this->formatDate($object->getData($attributeName));
@@ -78,18 +76,16 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
         }
         // unix timestamp given - simply instantiate date object
         if (preg_match('/^[0-9]+$/', $date)) {
-            $date = new \Zend_Date((int)$date);
-        }
-        // international format
-        else if (preg_match('#^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$#', $date)) {
-            $zendDate = new \Zend_Date();
+            $date = new \Magento\Stdlib\DateTime\Date((int)$date);
+            // international format
+        } elseif (preg_match('#^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$#', $date)) {
+            $zendDate = new \Magento\Stdlib\DateTime\Date();
             $date = $zendDate->setIso($date);
-        }
-        // parse this date in current locale, do not apply GMT offset
-        else {
-            $date = $this->_locale->date(
+            // parse this date in current locale, do not apply GMT offset
+        } else {
+            $date = $this->_localeDate->date(
                 $date,
-                $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
+                $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT),
                 null,
                 false
             );

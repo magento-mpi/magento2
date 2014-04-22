@@ -66,7 +66,7 @@
                     startReplacing = true;
                 }
                 if (startReplacing) {
-                    element.remove();
+                    $(element).remove();
                 } else if (element.nodeType != 8) {
                     //due to comment tag doesn't have siblings we try to find it manually
                     prevSibling = element;
@@ -80,6 +80,8 @@
             } else {
                 $(parent).prepend(html);
             }
+            // trigger event to use mage-data-init attribute
+            $(parent).trigger('contentUpdated');
         },
         _ajax: function (placeholders, version) {
             var data = {
@@ -90,8 +92,8 @@
             for (var i = 0; i < placeholders.length; i++) {
                 data.blocks.push(placeholders[i].name);
             }
-            data.blocks.sort();
-            data.handles.sort();
+            data.blocks = JSON.stringify(data.blocks.sort());
+            data.handles = JSON.stringify(data.handles);
             $.ajax({
                 url: this.options.url,
                 data: data,

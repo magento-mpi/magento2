@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Payment\Model\Cart\SalesModel\Order" type="Magento\CustomerBalance\Model\Cart\SalesModel\Order" />
     <preference for="Magento\Payment\Model\Cart\SalesModel\Quote" type="Magento\CustomerBalance\Model\Cart\SalesModel\Quote" />
     <type name="Magento\Module\Manager">
@@ -26,6 +26,13 @@
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="customerbalance_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_customerbalance" xsi:type="string">Magento_CustomerBalance</item>
             </argument>
         </arguments>
     </type>

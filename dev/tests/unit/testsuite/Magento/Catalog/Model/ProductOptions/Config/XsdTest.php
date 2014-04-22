@@ -22,7 +22,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_xsdSchemaPath =  BP . '/app/code/Magento/Catalog/etc/';
+        $this->_xsdSchemaPath = BP . '/app/code/Magento/Catalog/etc/';
         $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
@@ -86,15 +86,14 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function schemaCorrectlyIdentifiesInvalidProductOptionsDataProvider()
     {
-        return include(__DIR__ . '/_files/invalidProductOptionsXmlArray.php');
+        return include __DIR__ . '/_files/invalidProductOptionsXmlArray.php';
     }
-
 
     /**
      * Data provider with invalid xml array according to schema
      */
     public function schemaCorrectlyIdentifiesInvalidProductOptionsMergedXmlDataProvider()
     {
-        return include(__DIR__ . '/_files/invalidProductOptionsMergedXmlArray.php');
+        return include __DIR__ . '/_files/invalidProductOptionsMergedXmlArray.php';
     }
 }

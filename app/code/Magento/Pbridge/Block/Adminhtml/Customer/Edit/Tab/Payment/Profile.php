@@ -9,16 +9,13 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
-use Magento\Core\Model\Registry;
-
 /**
  * Customer Account Payment Profiles form block
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Profile
-    extends \Magento\Pbridge\Block\Iframe\AbstractIframe
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -43,26 +40,28 @@ class Profile
     /**
      * Core registry
      *
-     * @var Registry|null
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param Registry $registry
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        Registry $registry,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -72,6 +71,7 @@ class Profile
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $data
         );
     }
@@ -124,7 +124,7 @@ class Profile
      */
     protected function _isProfileEnable()
     {
-        return $this->_storeConfig->getConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
+        return $this->_scopeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_getCurrentStore());
     }
 
     /**
@@ -148,10 +148,10 @@ class Profile
         return $helper->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
-                'css_url'         => null,
-                'customer_id'     => $this->getCustomerIdentifier(),
-                'customer_name'   => $this->getCustomerName(),
-                'customer_email'  => $this->getCustomerEmail()
+                'css_url' => null,
+                'customer_id' => $this->getCustomerIdentifier(),
+                'customer_name' => $this->getCustomerName(),
+                'customer_email' => $this->getCustomerEmail()
             )
         );
     }
@@ -173,7 +173,7 @@ class Profile
     /**
      * Return store for current context
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getCurrentStore()
     {

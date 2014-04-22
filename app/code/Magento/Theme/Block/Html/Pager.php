@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
  * Html pager block
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Pager extends \Magento\View\Element\Template
+class Pager extends \Magento\Framework\View\Element\Template
 {
     /**
      * Current template name
@@ -22,7 +21,7 @@ class Pager extends \Magento\View\Element\Template
     protected $_template = 'Magento_Theme::html/pager.phtml';
 
     /**
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_collection;
 
@@ -41,11 +40,7 @@ class Pager extends \Magento\View\Element\Template
      *
      * @var array
      */
-    protected $_availableLimit = array(
-        10 => 10,
-        20 => 20,
-        50 => 50,
-    );
+    protected $_availableLimit = array(10 => 10, 20 => 20, 50 => 50);
 
     /**
      * @var int
@@ -124,7 +119,7 @@ class Pager extends \Magento\View\Element\Template
         if (is_object($this->_collection)) {
             return $this->_collection->getCurPage();
         }
-        return (int) $this->getRequest()->getParam($this->getPageVarName(), 1);
+        return (int)$this->getRequest()->getParam($this->getPageVarName(), 1);
     }
 
     /**
@@ -164,14 +159,14 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Set collection for pagination
      *
-     * @param  \Magento\Data\Collection $collection
+     * @param  \Magento\Framework\Data\Collection $collection
      * @return $this
      */
     public function setCollection($collection)
     {
         $this->_collection = $collection->setCurPage($this->getCurrentPage());
         // If not int - then not limit
-        if ((int) $this->getLimit()) {
+        if ((int)$this->getLimit()) {
             $this->_collection->setPageSize($this->getLimit());
         }
 
@@ -181,7 +176,7 @@ class Pager extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -356,17 +351,17 @@ class Pager extends \Magento\View\Element\Template
             return range(1, $collection->getLastPageNumber());
         } else {
             $half = ceil($this->_displayPages / 2);
-            if ($collection->getCurPage() >= $half
-                && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+            if ($collection->getCurPage() >= $half &&
+                $collection->getCurPage() <= $collection->getLastPageNumber() - $half
             ) {
-                $start  = ($collection->getCurPage() - $half) + 1;
-                $finish = ($start + $this->_displayPages) - 1;
+                $start = $collection->getCurPage() - $half + 1;
+                $finish = $start + $this->_displayPages - 1;
             } elseif ($collection->getCurPage() < $half) {
-                $start  = 1;
+                $start = 1;
                 $finish = $this->_displayPages;
-            } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+            } elseif ($collection->getCurPage() > $collection->getLastPageNumber() - $half) {
                 $finish = $collection->getLastPageNumber();
-                $start  = $finish - $this->_displayPages + 1;
+                $start = $finish - $this->_displayPages + 1;
             }
             return range($start, $finish);
         }
@@ -653,17 +648,17 @@ class Pager extends \Magento\View\Element\Template
                 $end = $collection->getLastPageNumber();
             } else {
                 $half = ceil($this->getFrameLength() / 2);
-                if ($collection->getCurPage() >= $half
-                    && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
+                if ($collection->getCurPage() >= $half &&
+                    $collection->getCurPage() <= $collection->getLastPageNumber() - $half
                 ) {
-                    $start  = ($collection->getCurPage() - $half) + 1;
-                    $end = ($start + $this->getFrameLength()) - 1;
+                    $start = $collection->getCurPage() - $half + 1;
+                    $end = $start + $this->getFrameLength() - 1;
                 } elseif ($collection->getCurPage() < $half) {
-                    $start  = 1;
+                    $start = 1;
                     $end = $this->getFrameLength();
-                } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+                } elseif ($collection->getCurPage() > $collection->getLastPageNumber() - $half) {
                     $end = $collection->getLastPageNumber();
-                    $start  = $end - $this->getFrameLength() + 1;
+                    $start = $end - $this->getFrameLength() + 1;
                 }
             }
             $this->_frameStart = $start;
@@ -704,7 +699,10 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForPrevious()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_previous');
+        return $this->_scopeConfig->getValue(
+            'design/pagination/anchor_text_for_previous',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -714,7 +712,10 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForNext()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_next');
+        return $this->_scopeConfig->getValue(
+            'design/pagination/anchor_text_for_next',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

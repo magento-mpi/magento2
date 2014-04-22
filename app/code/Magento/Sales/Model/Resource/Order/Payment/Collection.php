@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order\Payment;
 
 /**
  * Flat sales order payment collection
  */
-namespace Magento\Sales\Model\Resource\Order\Payment;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
@@ -20,14 +19,14 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_payment_collection';
+    protected $_eventPrefix = 'sales_order_payment_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_payment_collection';
+    protected $_eventObject = 'order_payment_collection';
 
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter
@@ -37,27 +36,29 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Payment\Method\Converter $converter
-     * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Payment\Method\Converter $converter,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_converter = $converter;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**
-     * Model initialization
+     * Model initialization\
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +68,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Unserialize additional_information in each item
      *
-     * @return \Magento\Sales\Model\Resource\Order\Payment\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -78,9 +79,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
         /** @var \Magento\Sales\Model\Order\Payment $item */
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
-                $item->setData($fieldName,
-                    $this->_converter->decode($item, $fieldName)
-                );
+                $item->setData($fieldName, $this->_converter->decode($item, $fieldName));
             }
         }
 

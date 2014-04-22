@@ -12,10 +12,12 @@ namespace Magento\Core\Model\Resource;
 /**
  * Theme resource model
  */
-class Theme extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Theme extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

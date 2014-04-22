@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Total\Invoice;
 
 class Giftcardaccount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
@@ -16,12 +15,13 @@ class Giftcardaccount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      * Collect gift card account totals for invoice
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\GiftCardAccount\Model\Total\Invoice\Giftcardaccount
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $order = $invoice->getOrder();
-        if ($order->getBaseGiftCardsAmount() && $order->getBaseGiftCardsInvoiced() != $order->getBaseGiftCardsAmount()) {
+        if ($order->getBaseGiftCardsAmount() && $order->getBaseGiftCardsInvoiced() != $order->getBaseGiftCardsAmount()
+        ) {
             $gcaLeft = $order->getBaseGiftCardsAmount() - $order->getBaseGiftCardsInvoiced();
             $used = 0;
             $baseUsed = 0;
@@ -35,8 +35,8 @@ class Giftcardaccount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
                 $baseUsed = $order->getBaseGiftCardsAmount() - $order->getBaseGiftCardsInvoiced();
                 $used = $order->getGiftCardsAmount() - $order->getGiftCardsInvoiced();
 
-                $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal()-$baseUsed);
-                $invoice->setGrandTotal($invoice->getGrandTotal()-$used);
+                $invoice->setBaseGrandTotal($invoice->getBaseGrandTotal() - $baseUsed);
+                $invoice->setGrandTotal($invoice->getGrandTotal() - $used);
             }
 
             $invoice->setBaseGiftCardsAmount($baseUsed);

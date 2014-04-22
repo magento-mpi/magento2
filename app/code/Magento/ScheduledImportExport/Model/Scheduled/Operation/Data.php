@@ -24,6 +24,16 @@ class Data
     const STATUS_PENDING = 2;
 
     /**
+     * Storage key for FTP
+     */
+    const FTP_STORAGE = 'ftp';
+
+    /**
+     * Storage key for local filesystem
+     */
+    const FILE_STORAGE = 'file';
+
+    /**
      * @var \Magento\ImportExport\Model\Import\ConfigInterface
      */
     protected $_importConfig;
@@ -52,10 +62,7 @@ class Data
      */
     public function getStatusesOptionArray()
     {
-        return array(
-            1 => __('Enabled'),
-            0 => __('Disabled'),
-        );
+        return array(1 => __('Enabled'), 0 => __('Disabled'));
     }
 
     /**
@@ -65,10 +72,7 @@ class Data
      */
     public function getOperationsOptionArray()
     {
-        return array(
-            'import' => __('Import'),
-            'export' => __('Export')
-        );
+        return array('import' => __('Import'), 'export' => __('Export'));
     }
 
     /**
@@ -79,12 +83,9 @@ class Data
     public function getFrequencyOptionArray()
     {
         return array(
-            \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY
-                => __('Daily'),
-            \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY
-                => __('Weekly'),
-            \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY
-                => __('Monthly'),
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY => __('Daily'),
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY => __('Weekly'),
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY => __('Monthly')
         );
     }
 
@@ -95,10 +96,7 @@ class Data
      */
     public function getServerTypesOptionArray()
     {
-        return array(
-            'file'  => __('Local Server'),
-            'ftp'   => __('Remote FTP')
-        );
+        return array(self::FILE_STORAGE => __('Local Server'), self::FTP_STORAGE => __('Remote FTP'));
     }
 
     /**
@@ -108,10 +106,7 @@ class Data
      */
     public function getFileModesOptionArray()
     {
-        return array(
-            FTP_BINARY  => __('Binary'),
-            FTP_ASCII   => __('ASCII'),
-        );
+        return array(FTP_BINARY => __('Binary'), FTP_ASCII => __('ASCII'));
     }
 
     /**
@@ -121,10 +116,7 @@ class Data
      */
     public function getForcedImportOptionArray()
     {
-        return array(
-            0 => __('Stop Import'),
-            1 => __('Continue Processing'),
-        );
+        return array(0 => __('Stop Import'), 1 => __('Continue Processing'));
     }
 
     /**
@@ -134,11 +126,7 @@ class Data
      */
     public function getResultOptionArray()
     {
-        return array(
-            0  => __('Failed'),
-            1  => __('Successful'),
-            self::STATUS_PENDING  => __('Pending')
-        );
+        return array(0 => __('Failed'), 1 => __('Successful'), self::STATUS_PENDING => __('Pending'));
     }
 
     /**

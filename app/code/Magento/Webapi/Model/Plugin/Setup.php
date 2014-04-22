@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -13,7 +12,7 @@ use Magento\Integration\Model\Integration;
 use Magento\Webapi\Model\IntegrationConfig;
 
 /**
- * Plugin for Magento\Core\Model\Resource\Setup model to manage resource permissions of
+ * Plugin for Magento\Module\Setup model to manage resource permissions of
  * integration installed from config file
  */
 class Setup
@@ -46,7 +45,6 @@ class Setup
      */
     protected $_userIdentifierFactory;
 
-
     /**
      * Construct Setup plugin instance
      *
@@ -70,11 +68,16 @@ class Setup
     /**
      * Process integration resource permissions after the integration is created
      *
+     * @param \Magento\Integration\Model\Resource\Setup $subject
      * @param string[] $integrationNames Name of integrations passed as array from the invocation chain
+     *
      * @return string[]
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitIntegrationProcessing($integrationNames)
-    {
+    public function afterInitIntegrationProcessing(
+        \Magento\Integration\Model\Resource\Setup $subject,
+        $integrationNames
+    ) {
         if (empty($integrationNames)) {
             return array();
         }
@@ -88,10 +91,7 @@ class Setup
                         UserIdentifier::USER_TYPE_INTEGRATION,
                         $integration->getId()
                     );
-                    $this->_authzService->grantPermissions(
-                        $userIdentifier,
-                        $integrations[$name]['resources']
-                    );
+                    $this->_authzService->grantPermissions($userIdentifier, $integrations[$name]['resources']);
                 }
             }
         }

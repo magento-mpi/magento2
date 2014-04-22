@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model;
 
 class LoggingTest extends \PHPUnit_Framework_TestCase
@@ -18,24 +17,31 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
-        $requestMock->expects($this->atLeastOnce())
-            ->method('getParam')
-            ->with('id')
-            ->will($this->returnValue($customerSegmentId));
-        $resourceMock = $this->getMock('Magento\CustomerSegment\Model\Resource\Segment',
-            array(), array(), '', false);
-        $resourceMock->expects($this->once())
-            ->method('getSegmentCustomersQty')
-            ->with($customerSegmentId)
-            ->will($this->returnValue($qty));
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $requestMock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getParam'
+        )->with(
+            'id'
+        )->will(
+            $this->returnValue($customerSegmentId)
+        );
+        $resourceMock = $this->getMock('Magento\CustomerSegment\Model\Resource\Segment', array(), array(), '', false);
+        $resourceMock->expects(
+            $this->once()
+        )->method(
+            'getSegmentCustomersQty'
+        )->with(
+            $customerSegmentId
+        )->will(
+            $this->returnValue($qty)
+        );
 
         $model = new \Magento\CustomerSegment\Model\Logging($resourceMock, $requestMock);
         $config = new \Magento\Simplexml\Element('<config/>');
         $eventMock = $this->getMock('Magento\Logging\Model\Event', array('setInfo', '__wakeup'), array(), '', false);
-        $eventMock->expects($this->once())
-            ->method('setInfo')
-            ->with($expectedText);
+        $eventMock->expects($this->once())->method('setInfo')->with($expectedText);
 
         $model->postDispatchCustomerSegmentMatch($config, $eventMock);
     }
@@ -44,7 +50,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'specific segment' => array(10, 1, "Matched 10 Customers of Segment 1"),
-            'no segment'       => array(10, null, '-'),
+            'no segment' => array(10, null, '-')
         );
     }
 }

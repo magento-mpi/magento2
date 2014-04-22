@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Controller;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
@@ -22,24 +21,22 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $this->_model = new \Magento\Cms\Controller\Router(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\ActionFactory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\ActionFactory'),
             new \Magento\Event\ManagerInterfaceStub(
                 $this->getMockForAbstractClass('Magento\Event\InvokerInterface'),
                 $this->getMock('Magento\Event\Config', array(), array(), '', false),
                 $this->getMock('Magento\EventFactory', array(), array(), '', false),
                 $this->getMock('Magento\Event\ObserverFactory', array(), array(), '', false)
             ),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\UrlInterface'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\App\StateInterface'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Cms\Model\PageFactory'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\UrlInterface'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\StateInterface'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Model\PageFactory'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            ),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )
         );
     }
 
@@ -50,14 +47,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-3393');
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\RequestInterface');
+            ->create('Magento\Framework\App\RequestInterface');
         //Open Node
         $request->setPathInfo('parent_node');
         $controller = $this->_model->match($request);
-        $this->assertInstanceOf('Magento\App\Action\Redirect', $controller);
+        $this->assertInstanceOf('Magento\Framework\App\Action\Redirect', $controller);
     }
 }
-
 /**
  * Event manager stub
  */
@@ -70,12 +66,12 @@ class ManagerStub extends Manager
      *
      * @param string $eventName
      * @param array $params
-     * @return \Magento\Core\Model\App|null
+     * @return null
      */
     public function dispatch($eventName, array $params = array())
     {
         switch ($eventName) {
-            case 'cms_controller_router_match_before' :
+            case 'cms_controller_router_match_before':
                 $params['condition']->setRedirectUrl('http://www.example.com/');
                 break;
         }

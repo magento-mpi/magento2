@@ -5,19 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
 
 /**
  * Adminhtml billing agreement related orders tab
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
-
-class Orders extends \Magento\View\Element\Text\ListText
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Orders extends \Magento\Framework\View\Element\Text\ListText implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-
     /**
      * Initialize grid params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -26,9 +24,7 @@ class Orders extends \Magento\View\Element\Text\ListText
     }
 
     /**
-     * Return Tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -36,9 +32,7 @@ class Orders extends \Magento\View\Element\Text\ListText
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -46,9 +40,7 @@ class Orders extends \Magento\View\Element\Text\ListText
     }
 
     /**
-     * Can show tab in tabs
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -56,9 +48,7 @@ class Orders extends \Magento\View\Element\Text\ListText
     }
 
     /**
-     * Tab is hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {

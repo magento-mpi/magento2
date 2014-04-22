@@ -9,7 +9,7 @@
  */
 namespace Magento\Cache\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -25,6 +25,9 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     protected $_perFileSchema;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_schema = realpath(__DIR__ . '/../etc/cache.xsd');

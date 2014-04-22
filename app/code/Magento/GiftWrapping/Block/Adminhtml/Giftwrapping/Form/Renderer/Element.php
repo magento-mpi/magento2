@@ -16,8 +16,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer;
 
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * @var string
@@ -41,13 +40,14 @@ class Element
      */
     public function canDisplayUseDefault()
     {
-            if ($element = $this->getElement()) {
+        if ($element = $this->getElement()) {
 
-            if ($element->getScope() != 'global'
-                && $element->getScope() != null
-                && $this->getDataObject()
-                && $this->getDataObject()->getId()
-                && $this->getDataObject()->getStoreId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getStoreId()
+            ) {
                 return true;
             }
         }

@@ -9,6 +9,13 @@
  */
 namespace Magento\Catalog\Model\Resource\Category\Flat;
 
+use Magento\Core\Model\EntityFactory;
+use Magento\Event\ManagerInterface;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Logger;
+use Magento\Store\Model\StoreManagerInterface;
+
 /**
  * Catalog category flat collection
  *
@@ -16,53 +23,53 @@ namespace Magento\Catalog\Model\Resource\Category\Flat;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix    = 'catalog_category_collection';
+    protected $_eventPrefix = 'catalog_category_collection';
 
     /**
      * Event object name
      *
      * @var string
      */
-    protected $_eventObject    = 'category_collection';
+    protected $_eventObject = 'category_collection';
+
+    /**
+     * Store manager
+     *
+     * @var StoreManagerInterface
+     */
+    protected $_storeManager;
 
     /**
      * Store id of application
      *
      * @var integer
      */
-    protected $_storeId        = null;
+    protected $_storeId;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param EntityFactory $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
+     * @param StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param AbstractDb $resource
      */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        EntityFactory $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
+        StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        AbstractDb $resource = null
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -211,8 +218,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addIsActiveFilter()
     {
         $this->addFieldToFilter('is_active', 1);
-        $this->_eventManager->dispatch($this->_eventPrefix . '_add_is_active_filter',
-                            array($this->_eventObject => $this));
+        $this->_eventManager->dispatch(
+            $this->_eventPrefix . '_add_is_active_filter',
+            array($this->_eventObject => $this)
+        );
         return $this;
     }
 
@@ -317,10 +326,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $storeId = $this->_storeManager->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core_url_rewrite')),
-            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '
-            . 'AND url_rewrite.product_id IS NULL'
-            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.store_id=?', $storeId)
-            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.id_path LIKE ?', 'category/%'),
+            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 ' .
+            'AND url_rewrite.product_id IS NULL' .
+            ' AND ' .
+            $this->getConnection()->quoteInto(
+                'url_rewrite.store_id=?',
+                $storeId
+            ) . ' AND ' . $this->getConnection()->quoteInto(
+                'url_rewrite.id_path LIKE ?',
+                'category/%'
+            ),
             array('request_path')
         );
         return $this;
@@ -339,9 +354,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $orWhere = false;
         foreach ($paths as $path) {
             if ($orWhere) {
-                $select->orWhere('main_table.path LIKE ?', "$path%");
+                $select->orWhere('main_table.path LIKE ?', "{$path}%");
             } else {
-                $select->where('main_table.path LIKE ?', "$path%");
+                $select->where('main_table.path LIKE ?', "{$path}%");
                 $orWhere = true;
             }
         }
@@ -377,8 +392,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setPage($pageNum, $pageSize)
     {
-        $this->setCurPage($pageNum)
-            ->setPageSize($pageSize);
+        $this->setCurPage($pageNum)->setPageSize($pageSize);
         return $this;
     }
 }

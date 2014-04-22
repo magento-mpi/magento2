@@ -34,14 +34,17 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
-        $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
-        $this->_filesystem->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
+        $this->_filesystem =
+            $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
+        $directoryMock->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
+        $this->_filesystem->expects(
+            $this->once()
+        )->method(
+            'getDirectoryWrite'
+        )->will(
+            $this->returnValue($directoryMock)
+        );
         $this->_indexFactoryMock = $this->getMock(
             'Magento\Index\Model\IndexerFactory',
             array('create'),
@@ -49,7 +52,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
         $this->_entryPoint = new \Magento\Index\App\Indexer(
             'reportDir',
             $this->_filesystem,
@@ -71,8 +74,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $indexer = $this->getMock('Magento\Index\Model\Indexer',
-            array('getProcessesCollection'), array(), '', false);
+        $indexer = $this->getMock('Magento\Index\Model\Indexer', array('getProcessesCollection'), array(), '', false);
         $indexerInterface = $this->getMock('Magento\Index\Model\IndexerInterface');
         $this->_indexFactoryMock->expects($this->once())->method('create')->will($this->returnValue($indexer));
         $indexer->expects($this->once())->method('getProcessesCollection')->will($this->returnValue(array($process)));
@@ -93,9 +95,6 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
      */
     public function executeDataProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return array(array(true), array(false));
     }
 }

@@ -56,13 +56,17 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected $_customizableContainerTypes = array();
 
     const USA_COUNTRY_ID = 'US';
+
     const CANADA_COUNTRY_ID = 'CA';
+
     const MEXICO_COUNTRY_ID = 'MX';
 
     const HANDLING_TYPE_PERCENT = 'P';
+
     const HANDLING_TYPE_FIXED = 'F';
 
     const HANDLING_ACTION_PERPACKAGE = 'P';
+
     const HANDLING_ACTION_PERORDER = 'O';
 
     /**
@@ -75,9 +79,9 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory
@@ -90,19 +94,19 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected $_logAdapterFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_rateErrorFactory = $rateErrorFactory;
         $this->_logAdapterFactory = $logAdapterFactory;
     }
@@ -118,8 +122,12 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_coreStoreConfig->getConfig($path, $this->getStore());
+        $path = 'carriers/' . $this->_code . '/' . $field;
+        return $this->_scopeConfig->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
     }
 
     /**
@@ -133,8 +141,12 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         if (empty($this->_code)) {
             return false;
         }
-        $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_coreStoreConfig->getConfigFlag($path, $this->getStore());
+        $path = 'carriers/' . $this->_code . '/' . $field;
+        return $this->_scopeConfig->isSetFlag(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->getStore()
+        );
     }
 
     /**
@@ -196,11 +208,11 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         if (empty($params)) {
             return $containersAll;
         }
-        $containersFilter   = $this->getContainerTypesFilter();
+        $containersFilter = $this->getContainerTypesFilter();
         $containersFiltered = array();
-        $method             = $params->getMethod();
-        $countryShipper     = $params->getCountryShipper();
-        $countryRecipient   = $params->getCountryRecipient();
+        $method = $params->getMethod();
+        $countryShipper = $params->getCountryShipper();
+        $countryRecipient = $params->getCountryRecipient();
 
         if (empty($containersFilter)) {
             return $containersAll;
@@ -211,18 +223,18 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
 
         if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID) {
             $direction = 'within_us';
-        } else if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient != self::USA_COUNTRY_ID) {
-            $direction = 'from_us';
         } else {
-            return $containersAll;
+            if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient != self::USA_COUNTRY_ID) {
+                $direction = 'from_us';
+            } else {
+                return $containersAll;
+            }
         }
 
         foreach ($containersFilter as $dataItem) {
             $containers = $dataItem['containers'];
             $filters = $dataItem['filters'];
-            if (!empty($filters[$direction]['method'])
-                && in_array($method, $filters[$direction]['method'])
-            ) {
+            if (!empty($filters[$direction]['method']) && in_array($method, $filters[$direction]['method'])) {
                 foreach ($containers as $container) {
                     if (!empty($containersAll[$container])) {
                         $containersFiltered[$container] = $containersAll[$container];
@@ -257,14 +269,14 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
 
     /**
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return $this|bool|false|\Magento\Core\Model\AbstractModel
+     * @return $this|bool|false|\Magento\Framework\Model\AbstractModel
      */
     public function checkAvailableShipCountries(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         $speCountriesAllow = $this->getConfigData('sallowspecific');
         /*
-        * for specific countries, the flag will be 1
-        */
+         * for specific countries, the flag will be 1
+         */
         if ($speCountriesAllow && $speCountriesAllow == 1) {
             $showMethod = $this->getConfigData('showmethod');
             $availableCountries = array();
@@ -273,19 +285,26 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             }
             if ($availableCountries && in_array($request->getDestCountryId(), $availableCountries)) {
                 return $this;
-            } elseif ($showMethod && (!$availableCountries || ($availableCountries
-                 && !in_array($request->getDestCountryId(), $availableCountries)))) {
-                 /** @var Error $error */
-                 $error = $this->_rateErrorFactory->create();
-                 $error->setCarrier($this->_code);
-                 $error->setCarrierTitle($this->getConfigData('title'));
-                 $errorMsg = $this->getConfigData('specificerrmsg');
-                 $error->setErrorMessage($errorMsg ? $errorMsg : __('Sorry, but we can\'t deliver to the destination country with this shipping module.'));
-                 return $error;
+            } elseif ($showMethod && (!$availableCountries || $availableCountries && !in_array(
+                $request->getDestCountryId(),
+                $availableCountries
+            ))
+            ) {
+                /** @var Error $error */
+                $error = $this->_rateErrorFactory->create();
+                $error->setCarrier($this->_code);
+                $error->setCarrierTitle($this->getConfigData('title'));
+                $errorMsg = $this->getConfigData('specificerrmsg');
+                $error->setErrorMessage(
+                    $errorMsg ? $errorMsg : __(
+                        'Sorry, but we can\'t deliver to the destination country with this shipping module.'
+                    )
+                );
+                return $error;
             } else {
                 /*
-                * The admin set not to show the shipping module if the delivery country is not within specific countries
-                */
+                 * The admin set not to show the shipping module if the delivery country is not within specific countries
+                 */
                 return false;
             }
         }
@@ -311,7 +330,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     public function isActive()
     {
         $active = $this->getConfigData('active');
-        return $active==1 || $active=='true';
+        return $active == 1 || $active == 'true';
     }
 
     /**
@@ -371,7 +390,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         $freeRateId = false;
 
         if (is_object($this->_result)) {
-            foreach ($this->_result->getAllRates() as $i=>$item) {
+            foreach ($this->_result->getAllRates() as $i => $item) {
                 if ($item->getMethod() == $freeMethod) {
                     $freeRateId = $i;
                     break;
@@ -387,14 +406,14 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             $this->_setFreeMethodRequest($freeMethod);
 
             $result = $this->_getQuotes();
-            if ($result && ($rates = $result->getAllRates()) && count($rates)>0) {
-                if ((count($rates) == 1) && ($rates[0] instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method)) {
+            if ($result && ($rates = $result->getAllRates()) && count($rates) > 0) {
+                if (count($rates) == 1 && $rates[0] instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method) {
                     $price = $rates[0]->getPrice();
                 }
                 if (count($rates) > 1) {
                     foreach ($rates as $rate) {
-                        if ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method
-                            && $rate->getMethod() == $freeMethod
+                        if ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method &&
+                            $rate->getMethod() == $freeMethod
                         ) {
                             $price = $rate->getPrice();
                         }
@@ -426,11 +445,15 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
      */
     public function getMethodPrice($cost, $method = '')
     {
-        return $method == $this->getConfigData($this->_freeMethod)
-            && (!$this->getConfigFlag('free_shipping_enable')
-                || $this->getConfigData('free_shipping_subtotal') <= $this->_rawRequest->getBaseSubtotalInclTax())
-            ? '0.00'
-            : $this->getFinalPriceWithHandlingFee($cost);
+        return $method == $this->getConfigData(
+            $this->_freeMethod
+        ) && (!$this->getConfigFlag(
+            'free_shipping_enable'
+        ) || $this->getConfigData(
+            'free_shipping_subtotal'
+        ) <= $this->_rawRequest->getBaseSubtotalInclTax()) ? '0.00' : $this->getFinalPriceWithHandlingFee(
+            $cost
+        );
     }
 
     /**
@@ -451,9 +474,15 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             $handlingAction = self::HANDLING_ACTION_PERORDER;
         }
 
-        return $handlingAction == self::HANDLING_ACTION_PERPACKAGE
-            ? $this->_getPerpackagePrice($cost, $handlingType, $handlingFee)
-            : $this->_getPerorderPrice($cost, $handlingType, $handlingFee);
+        return $handlingAction == self::HANDLING_ACTION_PERPACKAGE ? $this->_getPerpackagePrice(
+            $cost,
+            $handlingType,
+            $handlingFee
+        ) : $this->_getPerorderPrice(
+            $cost,
+            $handlingType,
+            $handlingFee
+        );
     }
 
     /**
@@ -467,7 +496,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
     {
         if ($handlingType == self::HANDLING_TYPE_PERCENT) {
-            return ($cost + ($cost * $handlingFee/100)) * $this->_numBoxes;
+            return ($cost + $cost * $handlingFee / 100) * $this->_numBoxes;
         }
 
         return ($cost + $handlingFee) * $this->_numBoxes;
@@ -484,10 +513,10 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected function _getPerorderPrice($cost, $handlingType, $handlingFee)
     {
         if ($handlingType == self::HANDLING_TYPE_PERCENT) {
-            return ($cost * $this->_numBoxes) + ($cost * $this->_numBoxes * $handlingFee / 100);
+            return $cost * $this->_numBoxes + $cost * $this->_numBoxes * $handlingFee / 100;
         }
 
-        return ($cost * $this->_numBoxes) + $handlingFee;
+        return $cost * $this->_numBoxes + $handlingFee;
     }
 
     /**
@@ -516,8 +545,8 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
         $weight = $this->convertWeightToLbs($weight);
         $maxPackageWeight = $this->getConfigData('max_package_weight');
         if ($weight > $maxPackageWeight && $maxPackageWeight != 0) {
-            $this->_numBoxes = ceil($weight/$maxPackageWeight);
-            $weight = $weight/$this->_numBoxes;
+            $this->_numBoxes = ceil($weight / $maxPackageWeight);
+            $weight = $weight / $this->_numBoxes;
         }
         return $weight;
     }
@@ -562,9 +591,13 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            $this->_logAdapterFactory->create(array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log'))
-               ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
-               ->log($debugData);
+            $this->_logAdapterFactory->create(
+                array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log')
+            )->setFilterDataKeys(
+                $this->_debugReplacePrivateDataKeys
+            )->log(
+                $debugData
+            );
         }
     }
 

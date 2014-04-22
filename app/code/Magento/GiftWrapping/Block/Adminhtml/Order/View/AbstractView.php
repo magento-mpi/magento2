@@ -17,20 +17,20 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class AbstractView extends \Magento\View\Element\Template
+class AbstractView extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Gift wrapping data
      *
@@ -49,17 +49,17 @@ class AbstractView extends \Magento\View\Element\Template
     protected $_adminHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
@@ -100,10 +100,11 @@ class AbstractView extends \Magento\View\Element\Template
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore($this->getStoreId());
-            $this->_designCollection = $this->_wrappingCollectionFactory->create()
-                ->addStoreAttributesToResult($store->getId())
-                ->applyStatusFilter()
-                ->applyWebsiteFilter($store->getWebsiteId());
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()->addStoreAttributesToResult(
+                $store->getId()
+            )->applyStatusFilter()->applyWebsiteFilter(
+                $store->getWebsiteId()
+            );
         }
         return $this->_designCollection;
     }

@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="sales.order.grid.massaction">
         <arguments>
             <argument name="options" xsi:type="array">
                 <updater>Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater</updater>
                 <item name="add_order_to_archive" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Move to Archive</item>
-                    <item name="url" xsi:type="string">adminhtml/sales_archive/massAdd</item>
+                    <item name="url" xsi:type="string">sales/archive/massAdd</item>
                 </item>
             </argument>
         </arguments>

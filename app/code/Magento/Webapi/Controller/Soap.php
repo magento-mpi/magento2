@@ -9,21 +9,24 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Exception as WebapiException;
+use Magento\Webapi\Model\PathProcessor;
 
 /**
  * TODO: Consider warnings suppression removal
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Soap implements \Magento\App\FrontControllerInterface
+class Soap implements \Magento\Framework\App\FrontControllerInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
      */
     const CONTENT_TYPE_SOAP_CALL = 'application/soap+xml';
+
     const CONTENT_TYPE_WSDL_REQUEST = 'text/xml';
+
     /**#@-*/
 
     /** @var \Magento\Webapi\Model\Soap\Server */
@@ -41,26 +44,46 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\Core\Model\App */
-    protected $_application;
+    /** @var \Magento\Framework\View\LayoutInterface */
+    protected $_layout;
 
-    /** @var \Magento\Oauth\OauthInterface */
+    /**
+     * @var \Magento\Oauth\OauthInterface
+     */
     protected $_oauthService;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Webapi\Controller\Soap\Request $request
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @var PathProcessor
+     */
+    protected $_pathProcessor;
+
+    /**
+     * @var \Magento\Framework\App\AreaList
+     */
+    protected $areaList;
+
+    /**
+     * @param Soap\Request $request
      * @param Response $response
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
-     * @param \Magento\App\State $appState
-     * @param \Magento\AppInterface $application
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param PathProcessor $pathProcessor
+     * @param \Magento\Framework\App\AreaList $areaList
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -68,9 +91,12 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
-        \Magento\App\State $appState,
-        \Magento\AppInterface $application,
-        \Magento\Oauth\OauthInterface $oauthService
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        PathProcessor $pathProcessor,
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -78,19 +104,25 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_soapServer = $soapServer;
         $this->_errorProcessor = $errorProcessor;
         $this->_appState = $appState;
-        $this->_application = $application;
         $this->_oauthService = $oauthService;
+        $this->_localeResolver = $localeResolver;
+        $this->_layout = $layout;
+        $this->_pathProcessor = $pathProcessor;
+        $this->areaList = $areaList;
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * Dispatch SOAP request.
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
+        $this->areaList->getArea($this->_appState->getAreaCode())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new WebapiException(__('Magento is not yet installed'));
@@ -127,18 +159,19 @@ class Soap implements \Magento\App\FrontControllerInterface
      * Parse the Authorization header and return the access token e.g. Authorization: Bearer <access-token>
      *
      * @return string Access token
-     * @throws AuthorizationException
+     * @throws ServiceAuthorizationException
      */
     protected function _getAccessToken()
     {
-        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $token = explode(' ', $_SERVER['HTTP_AUTHORIZATION']);
+        $headers = array_change_key_case(getallheaders(), CASE_UPPER);
+        if (isset($headers['AUTHORIZATION'])) {
+            $token = explode(' ', $headers['AUTHORIZATION']);
             if (isset($token[1]) && is_string($token[1])) {
                 return $token[1];
             }
-            throw new AuthorizationException(__('Authentication header format is invalid.'));
+            throw new ServiceAuthorizationException(__('Authentication header format is invalid.'));
         }
-        throw new AuthorizationException(__('Authentication header is absent.'));
+        throw new ServiceAuthorizationException(__('Authentication header is absent.'));
     }
 
     /**
@@ -159,7 +192,13 @@ class Soap implements \Magento\App\FrontControllerInterface
         }
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
-        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $this->_soapServer, $maskedException);
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault(
+            $this->_request,
+            $this->_soapServer,
+            $maskedException,
+            $this->_localeResolver,
+            $this->_appState
+        );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
     }
@@ -172,8 +211,10 @@ class Soap implements \Magento\App\FrontControllerInterface
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
-        $this->_response->clearHeaders()
-            ->setHeader('Content-Type', "$contentType; charset={$this->_soapServer->getApiCharset()}");
+        $this->_response->clearHeaders()->setHeader(
+            'Content-Type',
+            "{$contentType}; charset={$this->_soapServer->getApiCharset()}"
+        );
         return $this;
     }
 

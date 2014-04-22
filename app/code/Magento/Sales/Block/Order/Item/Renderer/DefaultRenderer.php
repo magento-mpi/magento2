@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Order\Item\Renderer;
 
 /**
  * Order item render block
  */
-class DefaultRenderer extends \Magento\View\Element\Template
+class DefaultRenderer extends \Magento\Framework\View\Element\Template
 {
     /**
      * Magento string lib
@@ -28,13 +27,13 @@ class DefaultRenderer extends \Magento\View\Element\Template
     protected $_productOptionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         array $data = array()
@@ -44,12 +43,19 @@ class DefaultRenderer extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $item
+     * @return $this
+     */
     public function setItem(\Magento\Object $item)
     {
         $this->setData('item', $item);
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function getItem()
     {
         return $this->_getData('item');
@@ -65,7 +71,9 @@ class DefaultRenderer extends \Magento\View\Element\Template
         return $this->getOrderItem()->getOrder();
     }
 
-
+    /**
+     * @return array|null
+     */
     public function getOrderItem()
     {
         if ($this->getItem() instanceof \Magento\Sales\Model\Order\Item) {
@@ -75,6 +83,9 @@ class DefaultRenderer extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return array
+     */
     public function getItemOptions()
     {
         $result = array();
@@ -157,7 +168,7 @@ class DefaultRenderer extends \Magento\View\Element\Template
         $result = array('value' => $truncatedValue);
 
         if ($this->string->strlen($optionValue) > 55) {
-            $result['value'] = $result['value'] . ' <a href="#" class="dots" onclick="return false">...</a>';
+            $result['value'] = $result['value'] . ' <a href="#" class="dots tooltip toggle" onclick="return false">...</a>';
             $optionValue = nl2br($optionValue);
             $result = array_merge($result, array('full_view' => $optionValue));
         }
@@ -178,7 +189,7 @@ class DefaultRenderer extends \Magento\View\Element\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

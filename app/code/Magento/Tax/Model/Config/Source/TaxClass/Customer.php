@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Config\Source\TaxClass;
 
-class Customer implements \Magento\Core\Model\Option\ArrayInterface
+class Customer implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Tax\Model\TaxClass\Source\CustomerFactory

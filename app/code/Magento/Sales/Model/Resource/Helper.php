@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales Mysql resource helper model
  */
-namespace Magento\Sales\Model\Resource;
-
-class Helper extends \Magento\Core\Model\Resource\Helper
-    implements \Magento\Sales\Model\Resource\HelperInterface
+class Helper extends \Magento\Framework\DB\Helper implements HelperInterface
 {
     /**
      * @var \Magento\Reports\Model\Resource\Helper
@@ -22,12 +20,12 @@ class Helper extends \Magento\Core\Model\Resource\Helper
     protected $_reportsResourceHelper;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Reports\Model\Resource\Helper $reportsResourceHelper
      * @param string $modulePrefix
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Reports\Model\Resource\Helper $reportsResourceHelper,
         $modulePrefix = 'sales'
     ) {
@@ -42,13 +40,21 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return \Magento\Sales\Model\Resource\Helper
+     * @return $this
      */
-    public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
-        $mainTable, $aggregationTable
+    public function getBestsellersReportUpdateRatingPos(
+        $aggregation,
+        $aggregationAliases,
+        $mainTable,
+        $aggregationTable
     ) {
         if ($aggregation == $aggregationAliases['monthly']) {
-            $this->_reportsResourceHelper->updateReportRatingPos('month', 'qty_ordered', $mainTable, $aggregationTable);
+            $this->_reportsResourceHelper->updateReportRatingPos(
+                'month',
+                'qty_ordered',
+                $mainTable,
+                $aggregationTable
+            );
         } elseif ($aggregation == $aggregationAliases['yearly']) {
             $this->_reportsResourceHelper->updateReportRatingPos('year', 'qty_ordered', $mainTable, $aggregationTable);
         } else {

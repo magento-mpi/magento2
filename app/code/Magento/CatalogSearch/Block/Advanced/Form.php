@@ -18,14 +18,13 @@
 namespace Magento\CatalogSearch\Block\Advanced;
 
 use Magento\CatalogSearch\Model\Advanced;
-use Magento\Core\Model\LocaleInterface;
-use Magento\Data\Collection\Db;
+use Magento\Framework\Data\Collection\Db;
 use Magento\Directory\Model\CurrencyFactory;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\BlockInterface;
-use Magento\View\Element\Template;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\BlockInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 
 class Form extends Template
 {
@@ -67,13 +66,17 @@ class Form extends Template
     {
         // add Home breadcrumb
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
-            $breadcrumbs->addCrumb('home', array(
-                'label'=>__('Home'),
-                'title'=>__('Go to Home Page'),
-                'link' => $this->_storeManager->getStore()->getBaseUrl(),
-            ))->addCrumb('search', array(
-                'label'=>__('Catalog Advanced Search')
-            ));
+            $breadcrumbs->addCrumb(
+                'home',
+                array(
+                    'label' => __('Home'),
+                    'title' => __('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()
+                )
+            )->addCrumb(
+                'search',
+                array('label' => __('Catalog Advanced Search'))
+            );
         }
         return parent::_prepareLayout();
     }
@@ -182,8 +185,13 @@ class Form extends Template
         return $this->_storeManager->getStore()->getCurrentCurrencyCode();
 
         $baseCurrency = $this->_storeManager->getStore()->getBaseCurrency()->getCurrencyCode();
-        return $this->getAttributeValue($attribute, 'currency') ?
-            $this->getAttributeValue($attribute, 'currency') : $baseCurrency;
+        return $this->getAttributeValue(
+            $attribute,
+            'currency'
+        ) ? $this->getAttributeValue(
+            $attribute,
+            'currency'
+        ) : $baseCurrency;
     }
 
     /**
@@ -194,8 +202,8 @@ class Form extends Template
      */
     public function getAttributeInputType($attribute)
     {
-        $dataType   = $attribute->getBackend()->getType();
-        $imputType  = $attribute->getFrontend()->getInputType();
+        $dataType = $attribute->getBackend()->getType();
+        $imputType = $attribute->getFrontend()->getInputType();
         if ($imputType == 'select' || $imputType == 'multiselect') {
             return 'select';
         }
@@ -233,23 +241,28 @@ class Form extends Template
         $name = $attribute->getAttributeCode();
 
         // 2 - avoid yes/no selects to be multiselects
-        if (is_array($options) && count($options)>2) {
+        if (is_array($options) && count($options) > 2) {
             $extra = 'multiple="multiple" size="4"';
-            $name.= '[]';
-        }
-        else {
-            array_unshift($options, array('value'=>'', 'label'=>__('All')));
+            $name .= '[]';
+        } else {
+            array_unshift($options, array('value' => '', 'label' => __('All')));
         }
 
-        return $this->_getSelectBlock()
-            ->setName($name)
-            ->setId($attribute->getAttributeCode())
-            ->setTitle($this->getAttributeLabel($attribute))
-            ->setExtraParams($extra)
-            ->setValue($this->getAttributeValue($attribute))
-            ->setOptions($options)
-            ->setClass('multiselect')
-            ->getHtml();
+        return $this->_getSelectBlock()->setName(
+            $name
+        )->setId(
+            $attribute->getAttributeCode()
+        )->setTitle(
+            $this->getAttributeLabel($attribute)
+        )->setExtraParams(
+            $extra
+        )->setValue(
+            $this->getAttributeValue($attribute)
+        )->setOptions(
+            $options
+        )->setClass(
+            'multiselect'
+        )->getHtml();
     }
 
     /**
@@ -261,20 +274,25 @@ class Form extends Template
     public function getAttributeYesNoElement($attribute)
     {
         $options = array(
-            array('value' => '',  'label' => __('All')),
+            array('value' => '', 'label' => __('All')),
             array('value' => '1', 'label' => __('Yes')),
             array('value' => '0', 'label' => __('No'))
         );
 
         $name = $attribute->getAttributeCode();
-        return $this->_getSelectBlock()
-            ->setName($name)
-            ->setId($attribute->getAttributeCode())
-            ->setTitle($this->getAttributeLabel($attribute))
-            ->setExtraParams("")
-            ->setValue($this->getAttributeValue($attribute))
-            ->setOptions($options)
-            ->getHtml();
+        return $this->_getSelectBlock()->setName(
+            $name
+        )->setId(
+            $attribute->getAttributeCode()
+        )->setTitle(
+            $this->getAttributeLabel($attribute)
+        )->setExtraParams(
+            ""
+        )->setValue(
+            $this->getAttributeValue($attribute)
+        )->setOptions(
+            $options
+        )->getHtml();
     }
 
     /**
@@ -284,7 +302,7 @@ class Form extends Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento\View\Element\Html\Select');
+            $block = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -297,7 +315,7 @@ class Form extends Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento\View\Element\Html\Date');
+            $block = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Date');
             $this->setData('_date_block', $block);
         }
         return $block;
@@ -335,14 +353,20 @@ class Form extends Template
         $name = $attribute->getAttributeCode() . '[' . $part . ']';
         $value = $this->getAttributeValue($attribute, $part);
 
-        return $this->_getDateBlock()
-            ->setName($name)
-            ->setId($attribute->getAttributeCode() . ($part == 'from' ? '' : '_' . $part))
-            ->setTitle($this->getAttributeLabel($attribute))
-            ->setValue($value)
-            ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->_locale->getDateFormat(LocaleInterface::FORMAT_TYPE_SHORT))
-            ->setClass('input-text')
-            ->getHtml();
+        return $this->_getDateBlock()->setName(
+            $name
+        )->setId(
+            $attribute->getAttributeCode() . ($part == 'from' ? '' : '_' . $part)
+        )->setTitle(
+            $this->getAttributeLabel($attribute)
+        )->setValue(
+            $value
+        )->setImage(
+            $this->getViewFileUrl('Magento_Core::calendar.gif')
+        )->setDateFormat(
+            $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+        )->setClass(
+            'input-text'
+        )->getHtml();
     }
 }

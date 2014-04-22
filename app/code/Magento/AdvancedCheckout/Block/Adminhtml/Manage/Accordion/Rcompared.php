@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * Accordion grid for Recently compared products
@@ -15,13 +16,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-class Rcompared
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Rcompared extends AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'rcompared';
 
@@ -53,22 +53,22 @@ class Rcompared
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
@@ -87,33 +87,35 @@ class Rcompared
     /**
      * Initialize Grid
      *
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('source_rcompared');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Recently Compared Products (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Recently Compared Products (%1)', $this->getItemsCount()));
         }
     }
 
     /**
      * Return items collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $skipProducts = array();
-            $collection = $this->_compareListFactory->create()
-                ->getItemCollection()
-                ->useProductItem(true)
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->setCustomerId($this->_getCustomer()->getId());
+            $collection = $this->_compareListFactory->create()->getItemCollection()->useProductItem(
+                true
+            )->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->setCustomerId(
+                $this->_getCustomer()->getId()
+            );
             foreach ($collection as $_item) {
                 $skipProducts[] = $_item->getProductId();
             }
@@ -124,10 +126,13 @@ class Rcompared
                 // Status attribute is required even if it is not used in product listings
                 $attributes[] = 'status';
             }
-            $productCollection = $this->_productFactory->create()->getCollection()
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->addAttributeToSelect($attributes);
+            $productCollection = $this->_productFactory->create()->getCollection()->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->addAttributeToSelect(
+                $attributes
+            );
             $this->_reportsEventResource->applyLogToCollection(
                 $productCollection,
                 \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
@@ -155,6 +160,6 @@ class Rcompared
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current' => true));
     }
 }

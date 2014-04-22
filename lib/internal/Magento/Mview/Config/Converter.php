@@ -7,7 +7,7 @@
  */
 namespace Magento\Mview\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -75,10 +75,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     }
                     $name = $this->getAttributeValue($subscription, 'name');
                     $column = $this->getAttributeValue($subscription, 'entity_column');
-                    $data['subscriptions'][$name] = array(
-                        'name' => $name,
-                        'column' => $column,
-                    );
+                    $data['subscriptions'][$name] = array('name' => $name, 'column' => $column);
                 }
                 break;
         }

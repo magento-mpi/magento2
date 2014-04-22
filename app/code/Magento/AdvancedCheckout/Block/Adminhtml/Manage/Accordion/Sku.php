@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 /**
  * "Add by SKU" accordion
@@ -18,12 +19,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
 class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
 {
     /**
      * Define accordion header
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -39,8 +40,9 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
     public function getAdditionalJavascript()
     {
         // Origin of configure popup HTML
-        $js = $this->getJsOrderObject() . ".addSourceGrid({htmlId: \"{$this->getId()}\", "
-            . "listType: \"{$this->getListType()}\"});";
+        $js = $this->getJsOrderObject() .
+            ".addSourceGrid({htmlId: \"{$this->getId()}\", " .
+            "listType: \"{$this->getListType()}\"});";
         $js .= $this->getJsOrderObject() . ".addNoCleanSource('{$this->getId()}');";
         $js .= 'addBySku.observeAddToCart();';
         return $js;

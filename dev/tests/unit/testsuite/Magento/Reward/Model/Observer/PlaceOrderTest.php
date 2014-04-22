@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Reward\Model\Observer;
 
 class PlaceOrderTest extends \PHPUnit_Framework_TestCase
@@ -48,13 +47,28 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_restrictionMock = $this->getMock('Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface');
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $this->_modelFactoryMock
-            = $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
-        $this->_resourceFactoryMock
-            = $this->getMock('Magento\Reward\Model\Resource\RewardFactory', array('create'), array(), '', false);
-        $this->_validatorMock
-            = $this->getMock('Magento\Reward\Model\Reward\Balance\Validator', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_modelFactoryMock = $this->getMock(
+            'Magento\Reward\Model\RewardFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_resourceFactoryMock = $this->getMock(
+            'Magento\Reward\Model\Resource\RewardFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_validatorMock = $this->getMock(
+            'Magento\Reward\Model\Reward\Balance\Validator',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
@@ -63,7 +77,8 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             $this->_storeManagerMock,
             $this->_modelFactoryMock,
             $this->_resourceFactoryMock,
-            $this->_validatorMock);
+            $this->_validatorMock
+        );
     }
 
     public function testDispatchIfRestrictionNotAllowed()
@@ -86,11 +101,17 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
         $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
-        $order->expects($this->once())
-            ->method('getBaseRewardCurrencyAmount', 'getCustomerId')->will($this->returnValue(1));
+        $order->expects(
+            $this->once()
+        )->method(
+            'getBaseRewardCurrencyAmount',
+            'getCustomerId'
+        )->will(
+            $this->returnValue(1)
+        );
         $model = $this->getMock('Magento\Reward\Model\Reward', array(), array(), '', false);
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($model));
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $resource = $this->getMock('Magento\Reward\Model\Resource\Reward', array(), array(), '', false);

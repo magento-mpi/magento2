@@ -101,11 +101,13 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
             if (get_class($e) !== 'SoapFault') {
-                $this->fail(sprintf(
-                    'Expected SoapFault exception not generated for Service - "%s" and Operation - "%s"',
-                    $serviceInfo['soap']['service'],
-                    $serviceInfo['soap']['operation']
-                ));
+                $this->fail(
+                    sprintf(
+                        'Expected SoapFault exception not generated for Service - "%s" and Operation - "%s"',
+                        $serviceInfo['soap']['service'],
+                        $serviceInfo['soap']['operation']
+                    )
+                );
             }
 
             if ($expectedMessage) {
@@ -113,5 +115,4 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
             }
         }
     }
-
 }

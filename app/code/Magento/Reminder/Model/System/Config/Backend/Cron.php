@@ -9,21 +9,21 @@
  */
 namespace Magento\Reminder\Model\System\Config\Backend;
 
-use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\Model\Exception;
 
 /**
  * Reminder Cron Backend Model
  */
-class Cron extends \Magento\Core\Model\Config\Value
+class Cron extends \Magento\Framework\App\Config\Value
 {
-    const CRON_STRING_PATH  = 'crontab/default/jobs/send_notification/schedule/cron_expr';
-    const CRON_MODEL_PATH   = 'crontab/default/jobs/send_notification/run/model';
+    const CRON_STRING_PATH = 'crontab/default/jobs/send_notification/schedule/cron_expr';
+
+    const CRON_MODEL_PATH = 'crontab/default/jobs/send_notification/run/model';
 
     /**
      * Configuration Value Factory
      *
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\Framework\App\Config\ValueFactory
      */
     protected $_valueFactory;
 
@@ -33,38 +33,35 @@ class Cron extends \Magento\Core\Model\Config\Value
     protected $_runModelPath = '';
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ValueFactory $valueFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Config\ValueFactory $valueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ValueFactory $valueFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_valueFactory = $valueFactory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Cron settings after save
      *
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _afterSave()
     {
@@ -72,25 +69,22 @@ class Cron extends \Magento\Core\Model\Config\Value
 
         if ($this->getFieldsetDataValue('enabled')) {
             $minutely = \Magento\Reminder\Model\Observer::CRON_MINUTELY;
-            $hourly   = \Magento\Reminder\Model\Observer::CRON_HOURLY;
-            $daily    = \Magento\Reminder\Model\Observer::CRON_DAILY;
+            $hourly = \Magento\Reminder\Model\Observer::CRON_HOURLY;
+            $daily = \Magento\Reminder\Model\Observer::CRON_DAILY;
 
-            $frequency  = $this->getFieldsetDataValue('frequency');
+            $frequency = $this->getFieldsetDataValue('frequency');
 
             if ($frequency == $minutely) {
                 $interval = (int)$this->getFieldsetDataValue('interval');
                 $cronExprString = "*/{$interval} * * * *";
-            }
-            elseif ($frequency == $hourly) {
+            } elseif ($frequency == $hourly) {
                 $minutes = (int)$this->getFieldsetDataValue('minutes');
-                if ($minutes >= 0 && $minutes <= 59){
+                if ($minutes >= 0 && $minutes <= 59) {
                     $cronExprString = "{$minutes} * * * *";
-                }
-                else {
+                } else {
                     throw new Exception(__('Please specify a valid number of minute.'));
                 }
-            }
-            elseif ($frequency == $daily) {
+            } elseif ($frequency == $daily) {
                 $time = $this->getFieldsetDataValue('time');
                 $timeMinutes = intval($time[1]);
                 $timeHours = intval($time[0]);
@@ -99,20 +93,25 @@ class Cron extends \Magento\Core\Model\Config\Value
         }
 
         try {
-            $this->_valueFactory->create()
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
-                ->setPath(self::CRON_STRING_PATH)
-                ->save();
+            $this->_valueFactory->create()->load(
+                self::CRON_STRING_PATH,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                self::CRON_STRING_PATH
+            )->save();
 
-            $this->_valueFactory->create()
-                ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue($this->_runModelPath)
-                ->setPath(self::CRON_MODEL_PATH)
-                ->save();
-        }
+            $this->_valueFactory->create()->load(
+                self::CRON_MODEL_PATH,
+                'path'
+            )->setValue(
+                $this->_runModelPath
+            )->setPath(
+                self::CRON_MODEL_PATH
+            )->save();
 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new Exception(__('Unable to save Cron expression'));
         }
     }

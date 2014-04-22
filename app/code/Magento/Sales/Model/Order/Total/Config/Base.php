@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Total\Config;
 
 /**
  * Configuration class for totals
  */
-namespace Magento\Sales\Model\Order\Total\Config;
-
 class Base extends \Magento\Sales\Model\Config\Ordered
 {
     /**
@@ -42,14 +41,14 @@ class Base extends \Magento\Sales\Model\Config\Ordered
     protected $_orderTotalFactory;
 
     /**
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory
      * @param mixed $sourceData
      */
     public function __construct(
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory,
@@ -66,13 +65,13 @@ class Base extends \Magento\Sales\Model\Config\Ordered
      * @param string $totalCode
      * @param array $totalConfig
      * @return \Magento\Sales\Model\Order\Total\AbstractTotal
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
         $model = $this->_orderTotalFactory->create($class);
         if (!$model instanceof \Magento\Sales\Model\Order\Total\AbstractTotal) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The total model should be extended from \Magento\Sales\Model\Order\Total\AbstractTotal.')
             );
         }

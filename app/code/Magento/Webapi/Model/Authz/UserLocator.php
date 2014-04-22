@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Authz;
 
 use Magento\Authz\Model\UserLocatorInterface;
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Webapi\Controller\Request as Request;
+use Magento\Webapi\Controller\Request;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 
 /**

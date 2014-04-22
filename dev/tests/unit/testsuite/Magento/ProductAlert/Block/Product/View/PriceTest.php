@@ -16,27 +16,27 @@ namespace Magento\ProductAlert\Block\Product\View;
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ProductAlert\Helper\Data
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ProductAlert\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Registry
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Registry
      */
     protected $_registry;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\ProductAlert\Block\Product\View\Price
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ProductAlert\Block\Product\View\Price
      */
     protected $_block;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Layout
      */
     protected $_layout;
 
@@ -44,42 +44,56 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $this->getMock(
-            'Magento\ProductAlert\Helper\Data', array('isPriceAlertAllowed', 'getSaveUrl'), array(), '', false
+            'Magento\ProductAlert\Helper\Data',
+            array('isPriceAlertAllowed', 'getSaveUrl'),
+            array(),
+            '',
+            false
         );
         $this->_product = $this->getMock(
-            'Magento\Catalog\Model\Product', array('getCanShowPrice', 'getId', '__wakeup'), array(), '', false
+            'Magento\Catalog\Model\Product',
+            array('getCanShowPrice', 'getId', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->_product->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $this->_registry = $this->getMockBuilder('Magento\Core\Model\Registry')
-            ->disableOriginalConstructor()
-            ->setMethods(array('registry'))
-            ->getMock();
+        $this->_registry = $this->getMockBuilder(
+            'Magento\Registry'
+        )->disableOriginalConstructor()->setMethods(
+            array('registry')
+        )->getMock();
         $this->_block = $objectManager->getObject(
             'Magento\ProductAlert\Block\Product\View\Price',
-            array(
-                'helper' => $this->_helper,
-                'registry' => $this->_registry,
-            )
+            array('helper' => $this->_helper, 'registry' => $this->_registry)
         );
-        $this->_layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->_layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
     }
 
     public function testSetTemplatePriceAlertAllowed()
     {
         $this->_helper->expects($this->once())->method('isPriceAlertAllowed')->will($this->returnValue(true));
-        $this->_helper
-            ->expects($this->once())
-            ->method('getSaveUrl')
-            ->with('price')
-            ->will($this->returnValue('http://url'))
-        ;
+        $this->_helper->expects(
+            $this->once()
+        )->method(
+            'getSaveUrl'
+        )->with(
+            'price'
+        )->will(
+            $this->returnValue('http://url')
+        );
 
         $this->_product->expects($this->once())->method('getCanShowPrice')->will($this->returnValue(true));
 
-        $this->_registry->expects($this->once())
-            ->method('registry')
-            ->with('current_product')
-            ->will($this->returnValue($this->_product));
+        $this->_registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_product'
+        )->will(
+            $this->returnValue($this->_product)
+        );
 
         $this->_block->setLayout($this->_layout);
         $this->_block->setTemplate('path/to/template.phtml');
@@ -101,10 +115,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_product->expects($this->any())->method('getCanShowPrice')->will($this->returnValue($showProductPrice));
 
-        $this->_registry->expects($this->once())
-            ->method('registry')
-            ->with('current_product')
-            ->will($this->returnValue($this->_product));
+        $this->_registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_product'
+        )->will(
+            $this->returnValue($this->_product)
+        );
 
         $this->_block->setLayout($this->_layout);
         $this->_block->setTemplate('path/to/template.phtml');
@@ -120,8 +139,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'price alert is not allowed' => array(false, true),
-            'no product price'  => array(true, false),
-            'price alert is not allowed and no product price' => array(false, false),
+            'no product price' => array(true, false),
+            'price alert is not allowed and no product price' => array(false, false)
         );
     }
 
@@ -130,10 +149,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_helper->expects($this->once())->method('isPriceAlertAllowed')->will($this->returnValue(true));
         $this->_helper->expects($this->never())->method('getSaveUrl');
 
-        $this->_registry->expects($this->once())
-            ->method('registry')
-            ->with('current_product')
-            ->will($this->returnValue(null));
+        $this->_registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_product'
+        )->will(
+            $this->returnValue(null)
+        );
 
         $this->_block->setLayout($this->_layout);
         $this->_block->setTemplate('path/to/template.phtml');

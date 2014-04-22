@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -34,15 +33,17 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_block = $objectManager->create('Magento\Catalog\Block\Product\View');
         $this->_product = $objectManager->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('product');
-        $objectManager->get('Magento\Core\Model\Registry')->register('product', $this->_product);
+        $objectManager->get('Magento\Registry')->unregister('product');
+        $objectManager->get('Magento\Registry')->register('product', $this->_product);
     }
 
     public function testSetLayout()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        $headBlock = $layout->createBlock('Magento\View\Element\Template', 'head');
+        /** @var $layout \Magento\Framework\View\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
+        $headBlock = $layout->createBlock('Magento\Framework\View\Element\Template', 'head');
         $layout->addBlock($this->_block);
 
         $this->assertNotEmpty($headBlock->getTitle());
@@ -58,7 +59,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->unregister('product');
+        $objectManager->get('Magento\Registry')->unregister('product');
         $this->_block->setProductId(1);
         $this->assertEquals($this->_product->getId(), $this->_block->getProduct()->getId());
     }
@@ -76,7 +77,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJsonConfig()
     {
-        $config = (array) json_decode($this->_block->getJsonConfig());
+        $config = (array)json_decode($this->_block->getJsonConfig());
         $this->assertNotEmpty($config);
         $this->assertArrayHasKey('productId', $config);
         $this->assertEquals(1, $config['productId']);

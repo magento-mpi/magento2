@@ -17,9 +17,49 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-class Upsell
-    extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
+class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
+    /**
+     * @var \Magento\Checkout\Model\Cart
+     */
+    protected $_cart;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Catalog\Model\Product\Visibility $visibility
+     * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Checkout\Model\Cart $cart
+     * @param array $data
+     * @param array $priceBlockTypes
+     */
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $visibility,
+        \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\Checkout\Model\Cart $cart,
+        array $data = array(),
+        array $priceBlockTypes = array()
+    ) {
+        $this->_cart = $cart;
+        parent::__construct(
+            $context,
+            $index,
+            $targetRuleData,
+            $productCollectionFactory,
+            $visibility,
+            $indexFactory,
+            $data,
+            $priceBlockTypes
+        );
+    }
+
+
     /**
      * Default MAP renderer type
      *
@@ -40,7 +80,7 @@ class Upsell
     /**
      * Retrieve related product collection assigned to product
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getLinkCollection()
@@ -50,11 +90,14 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            $this->_eventManager->dispatch('catalog_product_upsell', array(
-                'product'       => $this->getProduct(),
-                'collection'    => $this->_linkCollection,
-                'limit'         => $this->getPositionLimit()
-            ));
+            $this->_eventManager->dispatch(
+                'catalog_product_upsell',
+                array(
+                    'product' => $this->getProduct(),
+                    'collection' => $this->_linkCollection,
+                    'limit' => $this->getPositionLimit()
+                )
+            );
         }
 
         return $this->_linkCollection;
@@ -77,16 +120,50 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            $this->_eventManager->dispatch('catalog_product_upsell', array(
-                'product'       => $this->getProduct(),
-                'collection'    => $ids,
-                'limit'         => null,
-            ));
+            $this->_eventManager->dispatch(
+                'catalog_product_upsell',
+                array('product' => $this->getProduct(), 'collection' => $ids, 'limit' => null)
+            );
 
             $this->_allProductIds = array_keys($ids->getItems());
             shuffle($this->_allProductIds);
         }
 
         return $this->_allProductIds;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        $collection = parent::getAllItems();
+        $collectionMock = new \Magento\Object(array('items' => $collection));
+        $this->_eventManager->dispatch(
+            'catalog_product_upsell',
+            array(
+                'product'       => $this->getProduct(),
+                'collection'    => $collectionMock,
+                'limit'         => null
+            )
+        );
+        return $collectionMock->getItems();
+    }
+
+    /**
+     * Retrieve array of exclude product ids
+     * Rewrite for exclude shopping cart products
+     *
+     * @return array
+     */
+    public function getExcludeProductIds()
+    {
+        if (is_null($this->_excludeProductIds)) {
+            $cartProductIds = $this->_cart->getProductIds();
+            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
+        }
+        return $this->_excludeProductIds;
     }
 }

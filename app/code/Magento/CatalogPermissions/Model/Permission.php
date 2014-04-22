@@ -32,10 +32,12 @@
  */
 namespace Magento\CatalogPermissions\Model;
 
-class Permission extends \Magento\Core\Model\AbstractModel
+class Permission extends \Magento\Framework\Model\AbstractModel
 {
     const PERMISSION_ALLOW = -1;
+
     const PERMISSION_DENY = -2;
+
     const PERMISSION_PARENT = 0;
 
     /**
@@ -46,5 +48,36 @@ class Permission extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\CatalogPermissions\Model\Resource\Permission');
+    }
+
+    /**
+     * Update permissions before save
+     *
+     * @return Permission
+     */
+    public function preparePermission()
+    {
+        $viewPermission = $this->getGrantCatalogCategoryView();
+        if (self::PERMISSION_DENY == $viewPermission) {
+            $this->setGrantCatalogProductPrice(self::PERMISSION_DENY);
+        }
+
+        $pricePermission = $this->getGrantCatalogProductPrice();
+        if (self::PERMISSION_DENY == $pricePermission) {
+            $this->setGrantCheckoutItems(self::PERMISSION_DENY);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Permission
+     */
+    protected function _beforeSave()
+    {
+        $this->preparePermission();
+        return parent::_beforeSave();
     }
 }

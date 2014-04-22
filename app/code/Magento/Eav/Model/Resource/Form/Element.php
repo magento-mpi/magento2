@@ -16,7 +16,7 @@ namespace Magento\Eav\Model\Resource\Form;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Element extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Element extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -26,10 +26,9 @@ class Element extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('eav_form_element', 'element_id');
-        $this->addUniqueField(array(
-            'field' => array('type_id', 'attribute_id'),
-            'title' => __('Form Element with the same attribute')
-        ));
+        $this->addUniqueField(
+            array('field' => array('type_id', 'attribute_id'), 'title' => __('Form Element with the same attribute'))
+        );
     }
 
     /**
@@ -38,7 +37,7 @@ class Element extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $field
      * @param mixed $value
      * @param \Magento\Eav\Model\Form\Element $object
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

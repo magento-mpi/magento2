@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
+
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Order status condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
-
-class Status
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Status extends AbstractCondition
 {
     /**
      * Any option value
@@ -60,7 +60,7 @@ class Status
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -74,10 +74,7 @@ class Status
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Order Status')
-        );
+        return array('value' => $this->getType(), 'label' => __('Order Status'));
     }
 
     /**
@@ -93,14 +90,11 @@ class Status
     /**
      * Init value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Status
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array_merge(
-            array(self::VALUE_ANY => __('Any')),
-            $this->_orderConfig->getStatuses()
-        ));
+        $this->setValueOption(array_merge(array(self::VALUE_ANY => __('Any')), $this->_orderConfig->getStatuses()));
         return $this;
     }
 
@@ -111,9 +105,11 @@ class Status
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Order Status %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Order Status %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -141,7 +137,7 @@ class Status
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|\Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)

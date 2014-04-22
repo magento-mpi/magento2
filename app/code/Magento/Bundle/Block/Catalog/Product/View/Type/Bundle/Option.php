@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Bundle option renderer
@@ -16,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle;
-
 class Option extends \Magento\Bundle\Block\Catalog\Product\Price
 {
     /**
@@ -40,26 +38,26 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     protected $_coreHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Tax\Model\Calculation $taxCalc
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\String $string,
         \Magento\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
@@ -90,10 +88,10 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function showSingle()
     {
         if (is_null($this->_showSingle)) {
-            $_option        = $this->getOption();
-            $_selections    = $_option->getSelections();
+            $_option = $this->getOption();
+            $_selections = $_option->getSelections();
 
-            $this->_showSingle = (count($_selections) == 1 && $_option->getRequired());
+            $this->_showSingle = count($_selections) == 1 && $_option->getRequired();
         }
 
         return $this->_showSingle;
@@ -106,26 +104,25 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function getDefaultValues()
     {
-        $_option            = $this->getOption();
-        $_default           = $_option->getDefaultSelection();
-        $_selections        = $_option->getSelections();
-        $selectedOptions    = $this->_getSelectedOptions();
-        $inPreConfigured    = $this->getProduct()->hasPreconfiguredValues()
-            && $this->getProduct()->getPreconfiguredValues()
-                    ->getData('bundle_option_qty/' . $_option->getId());
+        $_option = $this->getOption();
+        $_default = $_option->getDefaultSelection();
+        $_selections = $_option->getSelections();
+        $selectedOptions = $this->_getSelectedOptions();
+        $inPreConfigured = $this->getProduct()->hasPreconfiguredValues() &&
+            $this->getProduct()->getPreconfiguredValues()->getData('bundle_option_qty/' . $_option->getId());
 
         if (empty($selectedOptions) && $_default) {
-            $_defaultQty = $_default->getSelectionQty()*1;
+            $_defaultQty = $_default->getSelectionQty() * 1;
             $_canChangeQty = $_default->getSelectionCanChangeQty();
         } elseif (!$inPreConfigured && $selectedOptions && is_numeric($selectedOptions)) {
             $selectedSelection = $_option->getSelectionById($selectedOptions);
-            $_defaultQty = $selectedSelection->getSelectionQty()*1;
+            $_defaultQty = $selectedSelection->getSelectionQty() * 1;
             $_canChangeQty = $selectedSelection->getSelectionCanChangeQty();
         } elseif (!$this->showSingle() || $inPreConfigured) {
             $_defaultQty = $this->_getSelectedQty();
             $_canChangeQty = (bool)$_defaultQty;
         } else {
-            $_defaultQty = $_selections[0]->getSelectionQty()*1;
+            $_defaultQty = $_selections[0]->getSelectionQty() * 1;
             $_canChangeQty = $_selections[0]->getSelectionCanChangeQty();
         }
 
@@ -135,7 +132,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     /**
      * Collect selected options
      *
-     * @return mixed
+     * @return int|array|string
      */
     protected function _getSelectedOptions()
     {
@@ -144,8 +141,9 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $option = $this->getOption();
 
             if ($this->getProduct()->hasPreconfiguredValues()) {
-                $configValue = $this->getProduct()->getPreconfiguredValues()
-                    ->getData('bundle_option/' . $option->getId());
+                $configValue = $this->getProduct()->getPreconfiguredValues()->getData(
+                    'bundle_option/' . $option->getId()
+                );
                 if ($configValue) {
                     $this->_selectedOptions = $configValue;
                 } elseif (!$option->getRequired()) {
@@ -167,13 +165,13 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     {
         $selectedOptions = $this->_getSelectedOptions();
         if (is_numeric($selectedOptions)) {
-            return ($selection->getSelectionId() == $selectedOptions);
+            return $selection->getSelectionId() == $selectedOptions;
         } elseif (is_array($selectedOptions) && !empty($selectedOptions)) {
             return in_array($selection->getSelectionId(), $selectedOptions);
         } elseif ($selectedOptions == 'None') {
             return false;
         } else {
-            return ($selection->getIsDefault() && $selection->isSaleable());
+            return $selection->getIsDefault() && $selection->isSaleable();
         }
     }
 
@@ -185,8 +183,9 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     protected function _getSelectedQty()
     {
         if ($this->getProduct()->hasPreconfiguredValues()) {
-            $selectedQty = (float)$this->getProduct()->getPreconfiguredValues()
-                ->getData('bundle_option_qty/' . $this->getOption()->getId());
+            $selectedQty = (double)$this->getProduct()->getPreconfiguredValues()->getData(
+                'bundle_option_qty/' . $this->getOption()->getId()
+            );
             if ($selectedQty < 0) {
                 $selectedQty = 0;
             }
@@ -210,17 +209,21 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         return $this->getData('product');
     }
 
+    /**
+     * @param \Magento\Catalog\Model\Product $_selection
+     * @param bool $includeContainer
+     * @return string
+     */
     public function getSelectionQtyTitlePrice($_selection, $includeContainer = true)
     {
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection);
         $this->setFormatProduct($_selection);
         $priceTitle = $_selection->getSelectionQty() * 1 . ' x ' . $this->escapeHtml($_selection->getName());
 
-        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '')
-            . '+' . $this->formatPriceString($price, $includeContainer)
-            . ($includeContainer ? '</span>' : '');
+        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
+            $this->renderPriceString($_selection, $includeContainer) . ($includeContainer ? '</span>' : '');
 
-        return  $priceTitle;
+        return $priceTitle;
     }
 
     /**
@@ -234,8 +237,11 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $price = 0;
         $store = $this->getProduct()->getStore();
         if ($_selection) {
-            $price = $this->getProduct()->getPriceModel()
-                ->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
+            $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice(
+                $this->getProduct(),
+                $_selection,
+                1
+            );
             if (is_numeric($price)) {
                 $price = $this->_coreHelper->currencyByStore($price, $store, false);
             }
@@ -252,12 +258,9 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function getSelectionTitlePrice($_selection, $includeContainer = true)
     {
-        $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
-        $this->setFormatProduct($_selection);
         $priceTitle = $this->escapeHtml($_selection->getName());
-        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '')
-            . '+' . $this->formatPriceString($price, $includeContainer)
-            . ($includeContainer ? '</span>' : '');
+        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
+            $this->renderPriceString($_selection, $includeContainer) . ($includeContainer ? '</span>' : '');
         return $priceTitle;
     }
 
@@ -279,29 +282,34 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      * @param float $price
      * @param bool $includeContainer
      * @return string
+     * @deprecated
      */
     public function formatPriceString($price, $includeContainer = true)
     {
-        $taxHelper  = $this->_taxData;
+        $taxHelper = $this->_taxData;
         $coreHelper = $this->_coreHelper;
         $currentProduct = $this->getProduct();
-        if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
-            && $this->getFormatProduct()
+        if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC &&
+            $this->getFormatProduct()
         ) {
             $product = $this->getFormatProduct();
         } else {
             $product = $currentProduct;
         }
 
-        $priceTax    = $taxHelper->getPrice($product, $price);
+        $priceTax = $taxHelper->getPrice($product, $price);
         $priceIncTax = $taxHelper->getPrice($product, $price, true);
 
         $formated = $coreHelper->currencyByStore($priceTax, $product->getStore(), true, $includeContainer);
         if ($taxHelper->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formated .=
-                    ' (+' .
-                    $coreHelper->currencyByStore($priceIncTax, $product->getStore(), true, $includeContainer) .
-                    ' ' . __('Incl. Tax') . ')';
+            $formated .= ' (+' . $coreHelper->currencyByStore(
+                $priceIncTax,
+                $product->getStore(),
+                true,
+                $includeContainer
+            ) . ' ' . __(
+                'Incl. Tax'
+            ) . ')';
         }
 
         return $formated;
@@ -317,5 +325,30 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     {
         $this->_selectedOptions = null;
         return parent::setOption($option);
+    }
+
+    /**
+     * Format price string
+     *
+     * @param \Magento\Catalog\Model\Product $selection
+     * @param bool $includeContainer
+     * @return string
+     */
+    public function renderPriceString($selection, $includeContainer = true)
+    {
+        /** @var \Magento\Bundle\Pricing\Price\BundleOptionPrice $price */
+        $price = $this->getProduct()->getPriceInfo()->getPrice('bundle_option');
+        $amount = $price->getOptionSelectionAmount($selection);
+
+        $priceHtml = $this->getLayout()->getBlock('product.price.render.default')->renderAmount(
+            $amount,
+            $price,
+            $selection,
+            [
+                'include_container' => $includeContainer
+            ]
+        );
+
+        return $priceHtml;
     }
 }

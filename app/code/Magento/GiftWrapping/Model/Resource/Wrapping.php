@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model\Resource;
 
 /**
  * Gift Wrapping Resource Model
@@ -14,9 +15,7 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-namespace Magento\GiftWrapping\Model\Resource;
-
-class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Wrapping extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Wrapping websites table name
@@ -47,25 +46,31 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add store data to wrapping data
      *
-     * @param  \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param  \Magento\Framework\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->_storeAttributesTable, array(
+        $select = $adapter->select()->from(
+            $this->_storeAttributesTable,
+            array(
                 'scope' => $adapter->getCheckSql('store_id = 0', $adapter->quote('default'), $adapter->quote('store')),
                 'design'
-            ))
-            ->where('wrapping_id = ?', $object->getId())
-            ->where('store_id IN (0,?)', $object->getStoreId());
+            )
+        )->where(
+            'wrapping_id = ?',
+            $object->getId()
+        )->where(
+            'store_id IN (0,?)',
+            $object->getStoreId()
+        );
 
         $data = $adapter->fetchAssoc($select);
 
         if (isset($data['store']) && is_array($data['store'])) {
             foreach ($data['store'] as $key => $value) {
-                $object->setData($key, ($value !== null) ? $value : $data['default'][$key]);
+                $object->setData($key, $value !== null ? $value : $data['default'][$key]);
                 $object->setData($key . '_store', $value);
             }
         } else if (isset($data['default'])) {
@@ -84,9 +89,13 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteIds($wrappingId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_websiteTable, 'website_id')
-            ->where('wrapping_id = ?', $wrappingId);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->_websiteTable,
+            'website_id'
+        )->where(
+            'wrapping_id = ?',
+            $wrappingId
+        );
         return $this->_getReadAdapter()->fetchCol($select);
     }
 
@@ -109,17 +118,20 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (!is_null($initialDesign)) {
-            $this->_getWriteAdapter()->delete($this->_storeAttributesTable, array(
-                'wrapping_id = ?' => $wrapping->getId(),
-                'store_id = ?' => $wrapping->getStoreId()
-            ));
+            $this->_getWriteAdapter()->delete(
+                $this->_storeAttributesTable,
+                array('wrapping_id = ?' => $wrapping->getId(), 'store_id = ?' => $wrapping->getStoreId())
+            );
 
             if ($wrapping->getDesign()) {
-                $this->_getWriteAdapter()->insert($this->_storeAttributesTable, array(
-                    'wrapping_id' => $wrapping->getId(),
-                    'store_id'    => $wrapping->getStoreId(),
-                    'design'      => $wrapping->getDesign()
-                ));
+                $this->_getWriteAdapter()->insert(
+                    $this->_storeAttributesTable,
+                    array(
+                        'wrapping_id' => $wrapping->getId(),
+                        'store_id' => $wrapping->getStoreId(),
+                        'design' => $wrapping->getDesign()
+                    )
+                );
             }
         }
     }
@@ -133,15 +145,13 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function saveWrappingWebsiteData($wrapping)
     {
         $websiteIds = $wrapping->getWebsiteIds();
-        $this->_getWriteAdapter()->delete($this->_websiteTable, array(
-            'wrapping_id = ?' => $wrapping->getId(),
-        ));
+        $this->_getWriteAdapter()->delete($this->_websiteTable, array('wrapping_id = ?' => $wrapping->getId()));
 
         foreach ($websiteIds as $value) {
-            $this->_getWriteAdapter()->insert($this->_websiteTable, array(
-                'wrapping_id' => $wrapping->getId(),
-                'website_id'  => $value
-            ));
+            $this->_getWriteAdapter()->insert(
+                $this->_websiteTable,
+                array('wrapping_id' => $wrapping->getId(), 'website_id' => $value)
+            );
         }
     }
 }

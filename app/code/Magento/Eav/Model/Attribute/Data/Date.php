@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Date Data Model
@@ -41,9 +41,9 @@ class Date extends \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = $attribute->getStoreLabel();
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = $attribute->getStoreLabel();
 
         if ($value === false) {
             // try to load original value and validate it
@@ -65,15 +65,31 @@ class Date extends \Magento\Eav\Model\Attribute\Data\AbstractData
 
         //range validation
         $validateRules = $attribute->getValidateRules();
-        if ((!empty($validateRules['date_range_min']) && (strtotime($value) < $validateRules['date_range_min']))
-            || (!empty($validateRules['date_range_max']) && (strtotime($value) > $validateRules['date_range_max']))
+        if (!empty($validateRules['date_range_min']) && strtotime(
+            $value
+        ) < $validateRules['date_range_min'] || !empty($validateRules['date_range_max']) && strtotime(
+            $value
+        ) > $validateRules['date_range_max']
         ) {
             if (!empty($validateRules['date_range_min']) && !empty($validateRules['date_range_max'])) {
-                $errors[] = __('Please enter a valid date between %1 and %2 at %3.', date('d/m/Y', $validateRules['date_range_min']), date('d/m/Y', $validateRules['date_range_max']), $label);
+                $errors[] = __(
+                    'Please enter a valid date between %1 and %2 at %3.',
+                    date('d/m/Y', $validateRules['date_range_min']),
+                    date('d/m/Y', $validateRules['date_range_max']),
+                    $label
+                );
             } elseif (!empty($validateRules['date_range_min'])) {
-                $errors[] = __('Please enter a valid date equal to or greater than %1 at %2.', date('d/m/Y', $validateRules['date_range_min']), $label);
+                $errors[] = __(
+                    'Please enter a valid date equal to or greater than %1 at %2.',
+                    date('d/m/Y', $validateRules['date_range_min']),
+                    $label
+                );
             } elseif (!empty($validateRules['date_range_max'])) {
-                $errors[] = __('Please enter a valid date less than or equal to %1 at %2.', date('d/m/Y', $validateRules['date_range_max']), $label);
+                $errors[] = __(
+                    'Please enter a valid date less than or equal to %1 at %2.',
+                    date('d/m/Y', $validateRules['date_range_max']),
+                    $label
+                );
             }
         }
 
@@ -126,13 +142,13 @@ class Date extends \Magento\Eav\Model\Attribute\Data\AbstractData
                 case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT:
                 case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
                 case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_PDF:
-                    $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+                    $this->_dateFilterFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
                     break;
             }
             $value = $this->_applyOutputFilter($value);
         }
 
-        $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $this->_dateFilterFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         return $value;
     }

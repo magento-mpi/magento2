@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Account;
 
-class Redeem extends \Magento\View\Element\Template
+class Redeem extends \Magento\Framework\View\Element\Template
 {
     /**
      * Customer balance data
@@ -20,12 +19,12 @@ class Redeem extends \Magento\View\Element\Template
     protected $_customerBalanceData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {

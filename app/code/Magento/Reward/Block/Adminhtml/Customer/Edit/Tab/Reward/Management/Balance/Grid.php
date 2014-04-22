@@ -33,7 +33,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +55,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param array $data
@@ -64,7 +64,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         array $data = array()
@@ -124,24 +124,17 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = $this->_rewardData->getGeneralConfig(
-                    'min_points_balance',
-                    (int)$website
+                $minBalance = $this->_rewardData->getGeneralConfig('min_points_balance', (int)$website);
+                $maxBalance = $this->_rewardData->getGeneralConfig('max_points_balance', (int)$website);
+                $item->addData(
+                    array(
+                        'min_points_balance' => (int)$minBalance,
+                        'max_points_balance' => !(int)$maxBalance ? __('Unlimited') : $maxBalance
+                    )
                 );
-                $maxBalance = $this->_rewardData->getGeneralConfig(
-                    'max_points_balance',
-                    (int)$website
-                );
-                $item->addData(array(
-                    'min_points_balance' => (int)$minBalance,
-                    'max_points_balance' => (!((int)$maxBalance)?__('Unlimited'):$maxBalance)
-                ));
             } else {
                 $this->_customerHasOrphanPoints = true;
-                $item->addData(array(
-                    'min_points_balance' => __('No Data'),
-                    'max_points_balance' => __('No Data')
-                ));
+                $item->addData(array('min_points_balance' => __('No Data'), 'max_points_balance' => __('No Data')));
             }
             $item->setCustomer($this->getCustomer());
         }
@@ -156,42 +149,52 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareColumns()
     {
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('website_id', array(
-                'header'   => __('Website'),
-                'index'    => 'website_id',
-                'sortable' => false,
-                'type'     => 'options',
-                'options'  => $this->_websitesFactory->create()->toOptionArray(false)
-            ));
+            $this->addColumn(
+                'website_id',
+                array(
+                    'header' => __('Website'),
+                    'index' => 'website_id',
+                    'sortable' => false,
+                    'type' => 'options',
+                    'options' => $this->_websitesFactory->create()->toOptionArray(false)
+                )
+            );
         }
 
-        $this->addColumn('points_balance', array(
-            'header'   => __('Balance'),
-            'index'    => 'points_balance',
-            'sortable' => false,
-            'align'    => 'center'
-        ));
+        $this->addColumn(
+            'points_balance',
+            array('header' => __('Balance'), 'index' => 'points_balance', 'sortable' => false, 'align' => 'center')
+        );
 
-        $this->addColumn('currency_amount', array(
-            'header'   => __('Currency Amount'),
-            'getter'   => 'getFormatedCurrencyAmount',
-            'align'    => 'right',
-            'sortable' => false
-        ));
+        $this->addColumn(
+            'currency_amount',
+            array(
+                'header' => __('Currency Amount'),
+                'getter' => 'getFormatedCurrencyAmount',
+                'align' => 'right',
+                'sortable' => false
+            )
+        );
 
-        $this->addColumn('min_balance', array(
-            'header'   => __('Reward Points Threshold'),
-            'index'    => 'min_points_balance',
-            'sortable' => false,
-            'align'    => 'center'
-        ));
+        $this->addColumn(
+            'min_balance',
+            array(
+                'header' => __('Reward Points Threshold'),
+                'index' => 'min_points_balance',
+                'sortable' => false,
+                'align' => 'center'
+            )
+        );
 
-        $this->addColumn('max_balance', array(
-            'header'   => __('Reward Points Cap'),
-            'index'    => 'max_points_balance',
-            'sortable' => false,
-            'align'    => 'center'
-        ));
+        $this->addColumn(
+            'max_balance',
+            array(
+                'header' => __('Reward Points Cap'),
+                'index' => 'max_points_balance',
+                'sortable' => false,
+                'align' => 'center'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -217,12 +220,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(array(
-                    'label'     => __('Delete Orphan Points'),
-                    'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
-                    'class'     => 'scalable delete',
-                ));
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                array(
+                    'label' => __('Delete Orphan Points'),
+                    'onclick' => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() . '\')',
+                    'class' => 'scalable delete'
+                )
+            );
             $html .= $deleteOrhanPointsButton->toHtml();
         }
         return $html;

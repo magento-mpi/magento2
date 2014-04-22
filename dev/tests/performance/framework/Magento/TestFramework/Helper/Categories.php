@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Helper;
 
 /**
@@ -42,8 +41,9 @@ class Categories
     public function __construct()
     {
 
-        $rootCategoryId = $this->getObjectManager()->create('\Magento\Core\Model\StoreManager')->getDefaultStoreView()
-            ->getRootCategoryId();
+        $rootCategoryId = $this->getObjectManager()->create(
+            'Magento\Store\Model\StoreManager'
+        )->getDefaultStoreView()->getRootCategoryId();
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
@@ -62,7 +62,7 @@ class Categories
         foreach ($categories as $key => $categoryId) {
             $category->load($categoryId);
             $structure = explode('/', $category->getPath());
-            $pathSize  = count($structure);
+            $pathSize = count($structure);
             if ($pathSize > 1) {
                 $path = array();
                 for ($i = 1; $i < $pathSize; $i++) {
@@ -88,7 +88,7 @@ class Categories
     protected function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
         }
         return $this->_objectManager;

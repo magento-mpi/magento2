@@ -19,13 +19,11 @@ namespace Magento\CatalogSearch\Model\Resource;
 class Helper extends \Magento\Eav\Model\Resource\Helper
 {
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'Magento_CatalogSearch'
-    ) {
+    public function __construct(\Magento\Framework\App\Resource $resource, $modulePrefix = 'Magento_CatalogSearch')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 
@@ -34,7 +32,7 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
      *
      * @param string $table
      * @param string $alias
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return \Zend_Db_Expr
      */
     public function chooseFulltext($table, $alias, $select)
@@ -53,20 +51,9 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
      */
     public function prepareTerms($str, $maxWordLength = 0)
     {
-        $boolWords = array(
-            '+' => '+',
-            '-' => '-',
-            '|' => '|',
-            '<' => '<',
-            '>' => '>',
-            '~' => '~',
-            '*' => '*',
-        );
-        $brackets = array(
-            '('       => '(',
-            ')'       => ')'
-        );
-        $words = array(0=>"");
+        $boolWords = array('+' => '+', '-' => '-', '|' => '|', '<' => '<', '>' => '>', '~' => '~', '*' => '*');
+        $brackets = array('(' => '(', ')' => ')');
+        $words = array(0 => "");
         $terms = array();
         preg_match_all('/([\(\)]|[\"\'][^"\']*[\"\']|[^\s\"\(\)]*)/uis', $str, $matches);
         $isOpenBracket = 0;
@@ -78,7 +65,7 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
                 $isBracket = in_array($word, $brackets);
                 if (!$isBool && !$isBracket) {
                     $terms[$word] = $word;
-                    $word = '"'.$word.'"';
+                    $word = '"' . $word . '"';
                     $words[] = $word;
                 } else if ($isBracket) {
                     if ($word == '(') {

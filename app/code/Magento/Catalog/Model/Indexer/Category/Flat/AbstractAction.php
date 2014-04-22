@@ -22,12 +22,12 @@ class AbstractAction
     protected $attributeCodes;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $resource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -46,13 +46,13 @@ class AbstractAction
     protected $columns = array();
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->resource = $resource;
@@ -81,13 +81,14 @@ class AbstractAction
     {
         return $this->columns;
     }
+
     /**
      * Return name of table for given $storeId.
      *
      * @param integer $storeId
      * @return string
      */
-    public function getMainStoreTable($storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+    public function getMainStoreTable($storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID)
     {
         if (is_string($storeId)) {
             $storeId = intval($storeId);
@@ -102,7 +103,7 @@ class AbstractAction
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getReadAdapter()
     {
@@ -117,7 +118,7 @@ class AbstractAction
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getWriteAdapter()
     {
@@ -127,21 +128,22 @@ class AbstractAction
     /**
      * Return structure for flat catalog table
      *
-     * @param $tableName
-     * @return \Magento\DB\Ddl\Table
+     * @param string $tableName
+     * @return \Magento\Framework\DB\Ddl\Table
      */
     protected function getFlatTableStructure($tableName)
     {
-        $table = $this->getWriteAdapter()
-            ->newTable($tableName)
-            ->setComment(sprintf("Catalog Category Flat", $tableName));
+        $table = $this->getWriteAdapter()->newTable(
+            $tableName
+        )->setComment(
+            sprintf("Catalog Category Flat", $tableName)
+        );
 
         //Adding columns
         foreach ($this->getColumns() as $fieldName => $fieldProp) {
             $default = $fieldProp['default'];
-            if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP
-                && $default == 'CURRENT_TIMESTAMP') {
-                $default = \Magento\DB\Ddl\Table::TIMESTAMP_INIT;
+            if ($fieldProp['type'][0] == \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP && $default == 'CURRENT_TIMESTAMP') {
+                $default = \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT;
             }
             $table->addColumn(
                 $fieldName,
@@ -150,10 +152,10 @@ class AbstractAction
                 array(
                     'nullable' => $fieldProp['nullable'],
                     'unsigned' => $fieldProp['unsigned'],
-                    'default'  => $default,
-                    'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
+                    'default' => $default,
+                    'primary' => isset($fieldProp['primary']) ? $fieldProp['primary'] : false
                 ),
-                ($fieldProp['comment'] != '') ? $fieldProp['comment'] : ucwords(str_replace('_', ' ', $fieldName))
+                $fieldProp['comment'] != '' ? $fieldProp['comment'] : ucwords(str_replace('_', ' ', $fieldName))
             );
         }
 
@@ -164,26 +166,17 @@ class AbstractAction
             array('type' => 'primary')
         );
         $table->addIndex(
-            $this->getWriteAdapter()->getIndexName(
-                $tableName,
-                array('store_id')
-            ),
+            $this->getWriteAdapter()->getIndexName($tableName, array('store_id')),
             array('store_id'),
             array('type' => 'index')
         );
         $table->addIndex(
-            $this->getWriteAdapter()->getIndexName(
-                $tableName,
-                array('path')
-            ),
+            $this->getWriteAdapter()->getIndexName($tableName, array('path')),
             array('path'),
             array('type' => 'index')
         );
         $table->addIndex(
-            $this->getWriteAdapter()->getIndexName(
-                $tableName,
-                array('level')
-            ),
+            $this->getWriteAdapter()->getIndexName($tableName, array('level')),
             array('level'),
             array('type' => 'index')
         );
@@ -213,9 +206,9 @@ class AbstractAction
             $ddlType = $this->resourceHelper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'], "' ");
             switch ($ddlType) {
-                case \Magento\DB\Ddl\Table::TYPE_SMALLINT:
-                case \Magento\DB\Ddl\Table::TYPE_INTEGER:
-                case \Magento\DB\Ddl\Table::TYPE_BIGINT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_BIGINT:
                     $isUnsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
@@ -223,41 +216,40 @@ class AbstractAction
 
                     $options = null;
                     if ($column['SCALE'] > 0) {
-                        $ddlType = \Magento\DB\Ddl\Table::TYPE_DECIMAL;
+                        $ddlType = \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL;
                     } else {
                         break;
                     }
-                // fall-through intentional
-                case \Magento\DB\Ddl\Table::TYPE_DECIMAL:
+                    // fall-through intentional
+                case \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL:
                     $options = $column['PRECISION'] . ',' . $column['SCALE'];
                     $isUnsigned = null;
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_TEXT:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_TEXT:
                     $options = $column['LENGTH'];
                     $isUnsigned = null;
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_TIMESTAMP:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP:
                     $options = null;
                     $isUnsigned = null;
                     break;
-                case \Magento\DB\Ddl\Table::TYPE_DATETIME:
+                case \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME:
                     $isUnsigned = null;
                     break;
-
             }
             $columns[$column['COLUMN_NAME']] = array(
                 'type' => array($ddlType, $options),
                 'unsigned' => $isUnsigned,
                 'nullable' => $column['NULLABLE'],
-                'default' => ($column['DEFAULT'] === null ? false : $column['DEFAULT']),
+                'default' => $column['DEFAULT'] === null ? false : $column['DEFAULT'],
                 'comment' => $column['COLUMN_NAME']
             );
         }
         $columns['store_id'] = array(
-            'type' => array(\Magento\DB\Ddl\Table::TYPE_SMALLINT, 5),
+            'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT, 5),
             'unsigned' => true,
             'nullable' => false,
             'default' => '0',
@@ -283,7 +275,7 @@ class AbstractAction
             switch ($attribute['backend_type']) {
                 case 'varchar':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, 255),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 255),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -292,7 +284,7 @@ class AbstractAction
                     break;
                 case 'int':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_INTEGER, null),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -301,7 +293,7 @@ class AbstractAction
                     break;
                 case 'text':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_TEXT, '64k'),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_TEXT, '64k'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -310,7 +302,7 @@ class AbstractAction
                     break;
                 case 'datetime':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DATETIME, null),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_DATETIME, null),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -319,7 +311,7 @@ class AbstractAction
                     break;
                 case 'decimal':
                     $columns[$attribute['attribute_code']] = array(
-                        'type' => array(\Magento\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
+                        'type' => array(\Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, '12,4'),
                         'unsigned' => null,
                         'nullable' => true,
                         'default' => null,
@@ -340,21 +332,23 @@ class AbstractAction
     protected function getAttributes()
     {
         if ($this->attributeCodes === null) {
-            $select = $this->getReadAdapter()->select()
-                ->from($this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type')), array())
-                ->join(
-                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')),
-                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute'))
-                        . '.entity_type_id = '
-                        . $this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type'))
-                        . '.entity_type_id',
-                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')).'.*'
-                )
-                ->where(
-                    $this->getReadAdapter()
-                        ->getTableName($this->getTableName('eav_entity_type')) . '.entity_type_code = ?',
-                    \Magento\Catalog\Model\Category::ENTITY
-                );
+            $select = $this->getReadAdapter()->select()->from(
+                $this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type')),
+                array()
+            )->join(
+                $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')),
+                $this->getReadAdapter()->getTableName(
+                    $this->getTableName('eav_attribute')
+                ) . '.entity_type_id = ' . $this->getReadAdapter()->getTableName(
+                    $this->getTableName('eav_entity_type')
+                ) . '.entity_type_id',
+                $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')) . '.*'
+            )->where(
+                $this->getReadAdapter()->getTableName(
+                    $this->getTableName('eav_entity_type')
+                ) . '.entity_type_code = ?',
+                \Magento\Catalog\Model\Category::ENTITY
+            );
             $this->attributeCodes = array();
             foreach ($this->getReadAdapter()->fetchAll($select) as $attribute) {
                 $this->attributeCodes[$attribute['attribute_id']] = $attribute;
@@ -382,17 +376,11 @@ class AbstractAction
             $values[$entityId] = array();
         }
         $attributes = $this->getAttributes();
-        $attributesType = array(
-            'varchar',
-            'int',
-            'decimal',
-            'text',
-            'datetime'
-        );
+        $attributesType = array('varchar', 'int', 'decimal', 'text', 'datetime');
         foreach ($attributesType as $type) {
             foreach ($this->getAttributeTypeValues($type, $entityIds, $storeId) as $row) {
                 if (isset($row['entity_id']) && isset($row['attribute_id'])) {
-                    $attributeId   = $row['attribute_id'];
+                    $attributeId = $row['attribute_id'];
                     if (isset($attributes[$attributeId])) {
                         $attributeCode = $attributes[$attributeId]['attribute_code'];
                         $values[$row['entity_id']][$attributeCode] = $row['value'];
@@ -413,25 +401,34 @@ class AbstractAction
      */
     protected function getAttributeTypeValues($type, $entityIds, $storeId)
     {
-        $select = $this->getReadAdapter()->select()
-            ->from(
-                array('def' => $this->getReadAdapter()
-                        ->getTableName($this->getTableName('catalog_category_entity_' . $type))),
-                array('entity_id', 'attribute_id')
-            )
-            ->joinLeft(
-                array('store' => $this->getReadAdapter()
-                        ->getTableName($this->getTableName('catalog_category_entity_' . $type))),
-                'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id '
-                . 'AND store.store_id = ' . $storeId,
-                array('value' => $this->getReadAdapter()->getCheckSql(
+        $select = $this->getReadAdapter()->select()->from(
+            array(
+                'def' => $this->getReadAdapter()->getTableName($this->getTableName('catalog_category_entity_' . $type))
+            ),
+            array('entity_id', 'attribute_id')
+        )->joinLeft(
+            array(
+                'store' => $this->getReadAdapter()->getTableName(
+                    $this->getTableName('catalog_category_entity_' . $type)
+                )
+            ),
+            'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id ' .
+            'AND store.store_id = ' .
+            $storeId,
+            array(
+                'value' => $this->getReadAdapter()->getCheckSql(
                     'store.value_id > 0',
                     $this->getReadAdapter()->quoteIdentifier('store.value'),
                     $this->getReadAdapter()->quoteIdentifier('def.value')
-                ))
+                )
             )
-            ->where('def.entity_id IN (?)', $entityIds)
-            ->where('def.store_id IN (?)', array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $storeId));
+        )->where(
+            'def.entity_id IN (?)',
+            $entityIds
+        )->where(
+            'def.store_id IN (?)',
+            array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $storeId)
+        );
 
         return $this->getReadAdapter()->fetchAll($select);
     }

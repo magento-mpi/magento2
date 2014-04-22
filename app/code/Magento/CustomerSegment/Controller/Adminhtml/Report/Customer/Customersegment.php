@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
+
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Customer Segment reports controller
@@ -15,10 +18,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
-
-class Customersegment
-    extends \Magento\Backend\App\Action
+class Customersegment extends \Magento\Backend\App\Action
 {
     /**
      * Admin session
@@ -30,7 +30,7 @@ class Customersegment
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -40,21 +40,21 @@ class Customersegment
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -65,20 +65,20 @@ class Customersegment
     /**
      * Init layout and adding breadcrumbs
      *
-     * @return \Magento\CustomerSegment\Controller\Adminhtml\Report\Customer\Customersegment
+     * @return $this
      */
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_setActiveMenu(
+            'Magento_CustomerSegment::report_customers_segment'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
@@ -94,9 +94,11 @@ class Customersegment
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
         $segmentIds = $this->getRequest()->getParam('massaction');
         if ($segmentIds) {
-            $this->_getAdminSession()
-                ->setMassactionIds($segmentIds)
-                ->setViewMode($this->getRequest()->getParam('view_mode'));
+            $this->_getAdminSession()->setMassactionIds(
+                $segmentIds
+            )->setViewMode(
+                $this->getRequest()->getParam('view_mode')
+            );
         }
 
         /* @var $segment \Magento\CustomerSegment\Model\Segment */
@@ -131,6 +133,7 @@ class Customersegment
      * Index Action.
      * Forward to Segment Action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -140,6 +143,7 @@ class Customersegment
     /**
      * Segment Action
      *
+     * @return void
      */
     public function segmentAction()
     {
@@ -152,6 +156,7 @@ class Customersegment
     /**
      * Detail Action of customer segment
      *
+     * @return void
      */
     public function detailAction()
     {
@@ -160,13 +165,10 @@ class Customersegment
         if ($this->_initSegment()) {
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = $this->_collectionFactory->create()
-                    ->addFieldToFilter(
-                        'segment_id',
-                        array(
-                            'in' => $this->_getAdminSession()->getMassactionIds(),
-                        )
-                    );
+                $collection = $this->_collectionFactory->create()->addFieldToFilter(
+                    'segment_id',
+                    array('in' => $this->_getAdminSession()->getMassactionIds())
+                );
 
                 $segments = array();
                 foreach ($collection as $item) {
@@ -174,8 +176,11 @@ class Customersegment
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')
-                        ->getViewModeLabel($this->_getAdminSession()->getViewMode());
+                    $viewModeLabel = $this->_objectManager->get(
+                        'Magento\CustomerSegment\Helper\Data'
+                    )->getViewModeLabel(
+                        $this->_getAdminSession()->getViewMode()
+                    );
                     $this->messageManager->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
@@ -188,12 +193,14 @@ class Customersegment
             $this->_view->renderLayout();
         } else {
             $this->_redirect('*/*/segment');
-            return ;
+            return;
         }
     }
 
     /**
      * Apply segment conditions to all customers
+     *
+     * @return void
      */
     public function refreshAction()
     {
@@ -206,7 +213,7 @@ class Customersegment
                 $this->messageManager->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
         }
@@ -217,49 +224,51 @@ class Customersegment
     /**
      * Export Excel Action
      *
+     * @return ResponseInterface|void
      */
     public function exportExcelAction()
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
             $this->_view->loadLayout();
-            $content = $this->_view->getLayout()
-                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $content = $this->_view->getLayout()->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getExcelFile($fileName),
-                \Magento\App\Filesystem::VAR_DIR
+                \Magento\Framework\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
-            return ;
+            return;
         }
     }
 
     /**
      * Export Csv Action
      *
+     * @return ResponseInterface|void
      */
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
             $this->_view->loadLayout();
             $fileName = 'customersegment_customers.csv';
-            $content = $this->_view->getLayout()
-                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $content = $this->_view->getLayout()->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getCsvFile($fileName),
-                \Magento\App\Filesystem::VAR_DIR
+                \Magento\Framework\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
-            return ;
+            return;
         }
     }
 
     /**
      * Segment customer ajax grid action
+     *
+     * @return void
      */
     public function customerGridAction()
     {
@@ -286,11 +295,14 @@ class Customersegment
     /**
      * Check the permission to run it
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
-        return  $this->_authorization->isAllowed('Magento_CustomerSegment::customersegment')
-                && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
+        return $this->_authorization->isAllowed(
+            'Magento_CustomerSegment::customersegment'
+        ) && $this->_objectManager->get(
+            'Magento\CustomerSegment\Helper\Data'
+        )->isEnabled();
     }
 }

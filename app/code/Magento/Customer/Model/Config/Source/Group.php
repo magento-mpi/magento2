@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Customer\Model\Config\Source;
 
-class Group implements \Magento\Core\Model\Option\ArrayInterface
+class Group implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array
@@ -40,12 +38,15 @@ class Group implements \Magento\Core\Model\Option\ArrayInterface
         $this->_converter = $converter;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $groups = $this->_groupService->getGroups(FALSE);
+            $groups = $this->_groupService->getGroups(false);
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
-            array_unshift($this->_options, array('value'=> '', 'label'=> __('-- Please Select --')));
+            array_unshift($this->_options, array('value' => '', 'label' => __('-- Please Select --')));
         }
         return $this->_options;
     }

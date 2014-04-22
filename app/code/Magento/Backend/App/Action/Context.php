@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\App\Action;
 
 /**
  * Backend Controller context
  */
-class Context extends \Magento\App\Action\Context
+class Context extends \Magento\Framework\App\Action\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -41,14 +40,9 @@ class Context extends \Magento\App\Action\Context
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Framework\App\Action\Title
      */
     protected $_title;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
 
     /**
      * @var bool
@@ -61,14 +55,19 @@ class Context extends \Magento\App\Action\Context
     protected $_session;
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $url
-     * @param \Magento\App\Response\RedirectInterface $redirect
-     * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Framework\App\Response\RedirectInterface $redirect
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\AuthorizationInterface $authorization
@@ -76,19 +75,19 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\App\Action\Title $title
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Framework\App\Action\Title $title
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param bool $canUseBaseUrl
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        \Magento\App\ResponseInterface $response,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\ResponseInterface $response,
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $url,
-        \Magento\App\Response\RedirectInterface $redirect,
-        \Magento\App\ActionFlag $actionFlag,
-        \Magento\App\ViewInterface $view,
+        \Magento\Framework\App\Response\RedirectInterface $redirect,
+        \Magento\Framework\App\ActionFlag $actionFlag,
+        \Magento\Framework\App\ViewInterface $view,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Backend\Model\Session $session,
         \Magento\AuthorizationInterface $authorization,
@@ -96,8 +95,8 @@ class Context extends \Magento\App\Action\Context
         \Magento\Backend\Helper\Data $helper,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\App\Action\Title $title,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Framework\App\Action\Title $title,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -119,7 +118,7 @@ class Context extends \Magento\App\Action\Context
         $this->_backendUrl = $backendUrl;
         $this->_formKeyValidator = $formKeyValidator;
         $this->_title = $title;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_canUseBaseUrl = $canUseBaseUrl;
     }
 
@@ -172,15 +171,15 @@ class Context extends \Magento\App\Action\Context
     }
 
     /**
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\Locale\ResolverInterface
      */
-    public function getLocale()
+    public function getLocaleResolver()
     {
-        return $this->_locale;
+        return $this->_localeResolver;
     }
 
     /**
-     * @return \Magento\App\Action\Title
+     * @return \Magento\Framework\App\Action\Title
      */
     public function getTitle()
     {

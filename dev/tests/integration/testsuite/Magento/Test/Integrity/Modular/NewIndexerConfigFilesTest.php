@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
@@ -29,8 +28,11 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-            ->getPath(\Magento\App\Filesystem::APP_DIR) . '/code/Magento/Indexer/etc/indexer.xsd';
+        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\App\Filesystem'
+        )->getPath(
+            \Magento\Framework\App\Filesystem::APP_DIR
+        ) . '/code/Magento/Indexer/etc/indexer.xsd';
     }
 
     /**
@@ -40,11 +42,11 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIndexerConfigFile($file)
     {
-        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $domConfig = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
-            $message .= "$error\n";
+            $message .= "{$error}\n";
         }
         $this->assertTrue($result, $message);
     }
@@ -55,8 +57,11 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function indexerConfigFileDataProvider()
     {
         $fileList = glob(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::APP_DIR) . '/*/*/*/etc/indexer.xml'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\App\Filesystem'
+            )->getPath(
+                \Magento\Framework\App\Filesystem::APP_DIR
+            ) . '/*/*/*/etc/indexer.xml'
         );
         $dataProviderResult = array();
         foreach ($fileList as $file) {

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category;
 
 class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
@@ -49,6 +48,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids)
     {
@@ -57,17 +57,19 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
 
     /**
      * Execute full indexation
+     *
+     * @return void
      */
     public function executeFull()
     {
-        $this->fullActionFactory->create()
-            ->execute();
+        $this->fullActionFactory->create()->execute();
     }
 
     /**
      * Execute partial indexation by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function executeList($ids)
     {
@@ -78,10 +80,11 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
      * Execute partial indexation by ID
      *
      * @param int $id
+     * @return void
      */
     public function executeRow($id)
     {
-        $this->executeAction([$id]);
+        $this->executeAction(array($id));
     }
 
     /**

@@ -41,6 +41,7 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     public function testApplyCatalogPriceRule()
     {
+        $this->markTestSkipped('MAGETWO-22504');
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData(SimpleProduct::BASE);

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code;
 
 use Magento\Tools\I18n\Code\Context;
@@ -61,8 +60,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildPathToLocaleDirectoryByContext($path, $context)
     {
-        $this->assertEquals($path,
-            $this->_context->buildPathToLocaleDirectoryByContext($context[0], $context[1]));
+        $this->assertEquals($path, $this->_context->buildPathToLocaleDirectoryByContext($context[0], $context[1]));
     }
 
     /**

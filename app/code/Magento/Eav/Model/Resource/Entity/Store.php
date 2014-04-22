@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Object;
 
 /**
@@ -19,7 +19,7 @@ use Magento\Object;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -34,7 +34,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object by entity type and store
      *
-     * @param Object|AbstractModel $object
+     * @param Object|\Magento\Framework\Model\AbstractModel $object
      * @param int $entityTypeId
      * @param int $storeId
      * @return bool
@@ -42,15 +42,16 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadByEntityStore(AbstractModel $object, $entityTypeId, $storeId)
     {
         $adapter = $this->_getWriteAdapter();
-        $bind    = array(
-            ':entity_type_id' => $entityTypeId,
-            ':store_id'       => $storeId
+        $bind = array(':entity_type_id' => $entityTypeId, ':store_id' => $storeId);
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->forUpdate(
+            true
+        )->where(
+            'entity_type_id = :entity_type_id'
+        )->where(
+            'store_id = :store_id'
         );
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->forUpdate(true)
-            ->where('entity_type_id = :entity_type_id')
-            ->where('store_id = :store_id');
         $data = $adapter->fetchRow($select, $bind);
 
         if (!$data) {

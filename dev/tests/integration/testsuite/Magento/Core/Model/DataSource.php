@@ -8,13 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
  * Dummy layout argument data source object
  */
-class DataSource extends \Magento\Data\Collection
+class DataSource extends \Magento\Framework\Data\Collection
 {
     /**
      * Property which stores all updater calls

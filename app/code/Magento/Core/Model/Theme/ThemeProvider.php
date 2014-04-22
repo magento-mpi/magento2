@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Theme;
 
-class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
+class ThemeProvider implements \Magento\Framework\View\Design\Theme\ThemeProviderInterface
 {
     /**
      * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
@@ -46,12 +46,11 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
      */
     public function getThemeCustomizations(
         $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
-        $type = \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+        $type = \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
     ) {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
         $themeCollection = $this->collectionFactory->create();
-        $themeCollection->addAreaFilter($area)
-            ->addTypeFilter($type);
+        $themeCollection->addAreaFilter($area)->addTypeFilter($type);
         return $themeCollection;
     }
 
@@ -60,7 +59,7 @@ class ThemeProvider implements \Magento\View\Design\Theme\ThemeProviderInterface
      */
     public function getThemeById($themeId)
     {
-        /** @var $themeModel \Magento\View\Design\ThemeInterface */
+        /** @var $themeModel \Magento\Framework\View\Design\ThemeInterface */
         $themeModel = $this->themeFactory->create();
         return $themeModel->load($themeId);
     }

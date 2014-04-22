@@ -57,7 +57,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     public function providerXmlRender()
     {
         return array(
-            //Each array consists of data to render, expected XML and assert message
+            // Each array consists of data to render, expected XML and assert message
             array(
                 array('value1', 'value2'),
                 '<?xml version="1.0"?><response><item>value1</item><item>value2</item></response>',
@@ -80,7 +80,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 array('.key' => 'value'),
-                '<?xml version="1.0"?><response><item_.key>value</item_.key></response>',
+                '<?xml version="1.0"?><response><item_key>value</item_key></response>',
                 'Invalid XML render with "." symbol in data index.'
             ),
             array(
@@ -102,7 +102,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                 new \Magento\Object(array('key' => 'value')),
                 '<?xml version="1.0"?><response><key>value</key></response>',
                 'Invalid XML render with \Magento\Object data.'
-            ),
+            )
         );
     }
 }

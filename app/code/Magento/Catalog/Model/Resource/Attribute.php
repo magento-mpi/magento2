@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Resource;
 
-use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
+use Magento\Catalog\Model\Attribute\LockValidatorInterface;
 
 /**
  * Catalog attribute resource model
@@ -18,7 +18,6 @@ use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
     /**
@@ -34,15 +33,15 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     protected $attrLockValidator;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Type $eavEntityType
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param LockValidatorInterface $lockValidator
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Type $eavEntityType,
         \Magento\Eav\Model\Config $eavConfig,
         LockValidatorInterface $lockValidator
@@ -55,10 +54,10 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $applyTo = $object->getApplyTo();
         if (is_array($applyTo)) {
@@ -70,10 +69,10 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $this->_clearUselessAttributeValues($object);
         return parent::_afterSave($object);
@@ -82,23 +81,23 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Clear useless attribute values
      *
-     * @param  \Magento\Core\Model\AbstractModel $object
+     * @param  \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _clearUselessAttributeValues(\Magento\Core\Model\AbstractModel $object)
+    protected function _clearUselessAttributeValues(\Magento\Framework\Model\AbstractModel $object)
     {
         $origData = $object->getOrigData();
 
-        if ($object->isScopeGlobal()
-            && isset($origData['is_global'])
-            && \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL != $origData['is_global']
+        if ($object->isScopeGlobal() && isset(
+            $origData['is_global']
+        ) && \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL != $origData['is_global']
         ) {
             $attributeStoreIds = array_keys($this->_storeManager->getStores());
             if (!empty($attributeStoreIds)) {
                 $delCondition = array(
                     'entity_type_id=?' => $object->getEntityTypeId(),
                     'attribute_id = ?' => $object->getId(),
-                    'store_id IN(?)'   => $attributeStoreIds
+                    'store_id IN(?)' => $attributeStoreIds
                 );
                 $this->_getWriteAdapter()->delete($object->getBackendTable(), $delCondition);
             }
@@ -110,43 +109,52 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Delete entity
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
-    public function deleteEntity(\Magento\Core\Model\AbstractModel $object)
+    public function deleteEntity(\Magento\Framework\Model\AbstractModel $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;
         }
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('eav_entity_attribute'))
-            ->where('entity_attribute_id = ?', (int)$object->getEntityAttributeId());
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('eav_entity_attribute')
+        )->where(
+            'entity_attribute_id = ?',
+            (int)$object->getEntityAttributeId()
+        );
         $result = $this->_getReadAdapter()->fetchRow($select);
 
         if ($result) {
-            $attribute = $this->_eavConfig
-                ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $result['attribute_id']);
+            $attribute = $this->_eavConfig->getAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                $result['attribute_id']
+            );
 
             try {
                 $this->attrLockValidator->validate($attribute, $result['attribute_set_id']);
-            } catch (\Magento\Core\Exception $exception) {
-                throw new \Magento\Core\Exception(
+            } catch (\Magento\Framework\Model\Exception $exception) {
+                throw new \Magento\Framework\Model\Exception(
                     __("Attribute '%1' is locked. ", $attribute->getAttributeCode()) . $exception->getMessage()
                 );
             }
 
             $backendTable = $attribute->getBackend()->getTable();
             if ($backendTable) {
-                $select = $this->_getWriteAdapter()->select()
-                    ->from($attribute->getEntity()->getEntityTable(), 'entity_id')
-                    ->where('attribute_set_id = ?', $result['attribute_set_id']);
+                $select = $this->_getWriteAdapter()->select()->from(
+                    $attribute->getEntity()->getEntityTable(),
+                    'entity_id'
+                )->where(
+                    'attribute_set_id = ?',
+                    $result['attribute_set_id']
+                );
 
                 $clearCondition = array(
                     'entity_type_id =?' => $attribute->getEntityTypeId(),
-                    'attribute_id =?'   => $attribute->getId(),
-                    'entity_id IN (?)'  => $select
+                    'attribute_id =?' => $attribute->getId(),
+                    'entity_id IN (?)' => $select
                 );
                 $this->_getWriteAdapter()->delete($backendTable, $clearCondition);
             }

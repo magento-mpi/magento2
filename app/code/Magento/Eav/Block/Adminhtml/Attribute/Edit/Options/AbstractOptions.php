@@ -17,7 +17,7 @@
  */
 namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
-abstract class AbstractOptions extends \Magento\View\Element\AbstractBlock
+abstract class AbstractOptions extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * Preparing layout, adding buttons
@@ -26,14 +26,8 @@ abstract class AbstractOptions extends \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild(
-            'labels',
-            'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels'
-        );
-        $this->addChild(
-            'options',
-            'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options'
-        );
+        $this->addChild('labels', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels');
+        $this->addChild('options', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Options');
         return parent::_prepareLayout();
     }
 

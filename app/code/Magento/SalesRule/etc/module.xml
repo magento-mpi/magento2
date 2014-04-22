@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_SalesRule" version="1.6.0.4" active="true">
         <sequence>
             <module name="Magento_Rule"/>
@@ -15,6 +15,7 @@
             <module name="Magento_Sales"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Rule"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Sales"/>
@@ -29,6 +30,7 @@
             <module name="Magento_Reports"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_Widget"/>
+            <module name="Magento_Cron"/>
         </depends>
     </module>
 </config>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_CatalogEvent" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_Catalog"/>
@@ -16,6 +16,7 @@
             <module name="Magento_Checkout"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Cms"/>
             <module name="Magento_Sales"/>

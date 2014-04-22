@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftWrapping\Model\Quote;
 
 /**
@@ -35,11 +34,15 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
     public function testCollectQuote($withProduct)
     {
         $addressMock = $this->_prepareData($withProduct);
-        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
-        $factoryMock = $this->getMock('Magento\GiftWrapping\Model\WrappingFactory', ['create'], [], '', false);
-        $factoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_wrappingMock));
+        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', array(), array(), '', false);
+        $factoryMock = $this->getMock(
+            'Magento\GiftWrapping\Model\WrappingFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $factoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_wrappingMock));
 
         $model = new \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping($helperMock, $factoryMock);
         $model->collect($addressMock);
@@ -53,53 +56,44 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareData($withProduct)
     {
-        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isVirtual', '__wakeup'))
-            ->getMock();
-        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice', 'getId', '__wakeup'))
-            ->getMock();
+        $product = $this->getMockBuilder(
+            'Magento\Catalog\Model\Product'
+        )->disableOriginalConstructor()->setMethods(
+            array('isVirtual', '__wakeup')
+        )->getMock();
+        $storeMock = $this->getMockBuilder(
+            'Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->setMethods(
+            array('convertPrice', 'getId', '__wakeup')
+        )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
-            ['load', 'setStoreId', 'getBasePrice', '__wakeup'],
-            [],
+            array('load', 'setStoreId', 'getBasePrice', '__wakeup'),
+            array(),
             '',
             false
         );
         $this->_addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            [
+            array(
                 'getAddressType',
                 'getQuote',
                 'getAllNonNominalItems',
                 'setGwItemsBasePrice',
                 'setGwItemsPrice',
                 '__wakeup'
-            ],
-            [],
+            ),
+            array(),
             '',
             false
         );
 
-        $storeMock->expects($this->any())
-            ->method('convertPrice')
-            ->will($this->returnValue(10));
-        $product->expects($this->any())
-            ->method('isVirtual')
-            ->will($this->returnValue(false));
-        $quote = new \Magento\Object([
-            'isMultishipping' => false,
-            'store' => $storeMock
-        ]);
+        $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
+        $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
+        $quote = new \Magento\Object(array('isMultishipping' => false, 'store' => $storeMock));
 
-        $this->_wrappingMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_wrappingMock->expects($this->any())
-            ->method('getBasePrice')
-            ->will($this->returnValue(6));
+        $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_wrappingMock->expects($this->any())->method('getBasePrice')->will($this->returnValue(6));
 
         $item = new \Magento\Object();
         if ($withProduct) {
@@ -108,33 +102,29 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             $product->setGiftWrappingPrice(0);
             $item->setWrapping($this->_wrappingMock);
         }
-        $item->setProduct($product)
-            ->setQty(2)
-            ->setGwId(1);
-        $this->_addressMock->expects($this->any())
-            ->method('getAddressType')
-            ->will($this->returnValue(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
-        $this->_addressMock->expects($this->any())
-            ->method('getQuote')
-            ->will($this->returnValue($quote));
-        $this->_addressMock->expects($this->any())
-            ->method('getAllNonNominalItems')
-            ->will($this->returnValue([
-                $item
-            ]));
+        $item->setProduct($product)->setQty(2)->setGwId(1);
+        $this->_addressMock->expects(
+            $this->any()
+        )->method(
+            'getAddressType'
+        )->will(
+            $this->returnValue(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING)
+        );
+        $this->_addressMock->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
+        $this->_addressMock->expects(
+            $this->any()
+        )->method(
+            'getAllNonNominalItems'
+        )->will(
+            $this->returnValue(array($item))
+        );
 
         if ($withProduct) {
-            $this->_addressMock->expects($this->once())
-                ->method('setGwItemsBasePrice')
-                ->with(20);
+            $this->_addressMock->expects($this->once())->method('setGwItemsBasePrice')->with(20);
         } else {
-            $this->_addressMock->expects($this->once())
-                ->method('setGwItemsBasePrice')
-                ->with(12);
+            $this->_addressMock->expects($this->once())->method('setGwItemsBasePrice')->with(12);
         }
-        $this->_addressMock->expects($this->once())
-            ->method('setGwItemsPrice')
-            ->with(20);
+        $this->_addressMock->expects($this->once())->method('setGwItemsPrice')->with(20);
         return $this->_addressMock;
     }
 
@@ -145,9 +135,6 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     public function collectQuoteDataProvider()
     {
-        return [
-            'withProduct' => [true],
-            'withoutProduct' => [false]
-        ];
+        return array('withProduct' => array(true), 'withoutProduct' => array(false));
     }
 }

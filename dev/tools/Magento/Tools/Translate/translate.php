@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-define( 'USAGE', <<<EOT
+define(
+    'USAGE',
+<<<EOT
 
 USAGE:
 
@@ -89,16 +91,14 @@ EOT
 define('PS', PATH_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
-ini_set('include_path', ini_get('include_path')
-    . '/' . BASE_PATH . '/lib/internal'
-);
+ini_set('include_path', ini_get('include_path') . '/' . BASE_PATH . '/lib/internal');
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once BASE_PATH . '/lib/internal/Magento/File/CsvMulty.php';
+require_once BASE_PATH . '/lib/internal/internal/Magento/File/CsvMulty.php';
 require_once __DIR__ . '/DirectoryFilter.php';
 
-require_once BASE_PATH . '/lib/internal/Magento/Simplexml/Config.php';
-require_once BASE_PATH . '/lib/internal/Magento/Simplexml/Element.php';
+require_once BASE_PATH . '/lib/internal/internal/Magento/Simplexml/Config.php';
+require_once BASE_PATH . '/lib/internal/internal/Magento/Simplexml/Element.php';
 
 \Magento\Tools\Translate\TranslateTool::run($CONFIG);

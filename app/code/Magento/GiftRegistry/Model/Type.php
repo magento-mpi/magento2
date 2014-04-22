@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
+
+use Magento\Store\Model\Store;
 
 /**
  * Gift registry types processing model
@@ -22,12 +25,16 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * @var Store
+     */
     protected $_store = null;
 
+    /**
+     * @var array
+     */
     protected $_storeData = null;
 
     /**
@@ -41,17 +48,19 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected $processorFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
      * Intialize model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -59,25 +68,25 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
-        \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -89,6 +98,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Perform actions before object save.
+     *
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -103,6 +114,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Perform actions after object save.
+     *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -115,7 +128,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Perform actions after object load
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -134,7 +147,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _sortAttributes($a, $b)
     {
         if ($a['sort_order'] != $b['sort_order']) {
-            return ($a['sort_order'] > $b['sort_order']) ? 1 : -1;
+            return $a['sort_order'] > $b['sort_order'] ? 1 : -1;
         }
         return 0;
     }
@@ -142,7 +155,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Set store id
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @param null|string|bool|int|Store $storeId
+     * @return $this
      */
     public function setStoreId($storeId = null)
     {
@@ -153,7 +167,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getStore()
     {
@@ -177,7 +191,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Save registry type attribute data per store view
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this
      */
     protected function _saveAttributeStoreData()
     {
@@ -202,7 +216,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Clear object model from data that should be deleted
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     protected function _cleanupData()
     {
@@ -227,7 +241,9 @@ class Type extends \Magento\Core\Model\AbstractModel
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
                                     $this->_getResource()->deleteAttributeStoreData(
-                                        $this->getId(), $attribute['code'], $option['code']
+                                        $this->getId(),
+                                        $attribute['code'],
+                                        $option['code']
                                     );
                                 } else {
                                     $optionsToSave[] = $option;
@@ -247,7 +263,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Assign attributes store data
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     public function assignAttributesStoreData()
     {
@@ -269,7 +285,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Assign attributes store data
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @param array $attributes
+     * @return array
      */
     public function getAttributesStoreData($attributes)
     {
@@ -405,7 +422,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      *
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
-     * @param \Magento\Logging\Model\Processor
+     * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
@@ -419,23 +436,23 @@ class Type extends \Magento\Core\Model\AbstractModel
      * Filter and load post data to object
      *
      * @param array $data
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     public function loadPost(array $data)
     {
         $type = $data['type'];
         $this->setCode($type['code']);
 
-        $attributes = (isset($data['attributes'])) ? $data['attributes'] : null;
+        $attributes = isset($data['attributes']) ? $data['attributes'] : null;
         $this->setAttributes($attributes);
 
-        $label = (isset($type['label'])) ? $type['label'] : null;
+        $label = isset($type['label']) ? $type['label'] : null;
         $this->setLabel($label);
 
-        $sortOrder = (isset($type['sort_order'])) ? $type['sort_order'] : null;
+        $sortOrder = isset($type['sort_order']) ? $type['sort_order'] : null;
         $this->setSortOrder($sortOrder);
 
-        $isListed = (isset($type['is_listed'])) ? $type['is_listed'] : null;
+        $isListed = isset($type['is_listed']) ? $type['is_listed'] : null;
         $this->setIsListed($isListed);
 
         return $this;

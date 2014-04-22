@@ -13,12 +13,12 @@
  */
 namespace Magento\Core\Model\Theme\Domain;
 
-class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
+class Virtual implements \Magento\Framework\View\Design\Theme\Domain\VirtualInterface
 {
     /**
      * Virtual theme model instance
      *
-     * @var \Magento\View\Design\ThemeInterface
+     * @var \Magento\Framework\View\Design\ThemeInterface
      */
     protected $_theme;
 
@@ -30,7 +30,7 @@ class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
     /**
      * Staging theme model instance
      *
-     * @var \Magento\View\Design\ThemeInterface
+     * @var \Magento\Framework\View\Design\ThemeInterface
      */
     protected $_stagingTheme;
 
@@ -47,13 +47,13 @@ class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
     protected $_customizationConfig;
 
     /**
-     * @param \Magento\View\Design\ThemeInterface $theme
+     * @param \Magento\Framework\View\Design\ThemeInterface $theme
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Theme\Model\CopyService $themeCopyService
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
-        \Magento\View\Design\ThemeInterface $theme,
+        \Magento\Framework\View\Design\ThemeInterface $theme,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Theme\Model\CopyService $themeCopyService,
         \Magento\Theme\Model\Config\Customization $customizationConfig
@@ -67,7 +67,7 @@ class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
     /**
      * Get 'staging' theme
      *
-     * @return \Magento\View\Design\ThemeInterface
+     * @return \Magento\Framework\View\Design\ThemeInterface
      */
     public function getStagingTheme()
     {
@@ -84,11 +84,11 @@ class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
     /**
      * Get 'physical' theme
      *
-     * @return \Magento\View\Design\ThemeInterface
+     * @return \Magento\Framework\View\Design\ThemeInterface
      */
     public function getPhysicalTheme()
     {
-        /** @var $parentTheme \Magento\View\Design\ThemeInterface */
+        /** @var $parentTheme \Magento\Framework\View\Design\ThemeInterface */
         $parentTheme = $this->_theme->getParentTheme();
         while ($parentTheme && !$parentTheme->isPhysical()) {
             $parentTheme = $parentTheme->getParentTheme();
@@ -114,20 +114,22 @@ class Virtual implements \Magento\View\Design\Theme\Domain\VirtualInterface
     /**
      * Create 'staging' theme associated with current 'virtual' theme
      *
-     * @return \Magento\View\Design\ThemeInterface
+     * @return \Magento\Framework\View\Design\ThemeInterface
      */
     protected function _createStagingTheme()
     {
         $stagingTheme = $this->_themeFactory->create();
-        $stagingTheme->setData(array(
-            'parent_id'            => $this->_theme->getId(),
-            'theme_path'           => null,
-            'theme_version'        => $this->_theme->getThemeVersion(),
-            'theme_title'          => sprintf('%s - Staging', $this->_theme->getThemeTitle()),
-            'preview_image'        => $this->_theme->getPreviewImage(),
-            'is_featured'          => $this->_theme->getIsFeatured(),
-            'type'                 => \Magento\View\Design\ThemeInterface::TYPE_STAGING
-        ));
+        $stagingTheme->setData(
+            array(
+                'parent_id' => $this->_theme->getId(),
+                'theme_path' => null,
+                'theme_version' => $this->_theme->getThemeVersion(),
+                'theme_title' => sprintf('%s - Staging', $this->_theme->getThemeTitle()),
+                'preview_image' => $this->_theme->getPreviewImage(),
+                'is_featured' => $this->_theme->getIsFeatured(),
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_STAGING
+            )
+        );
         $stagingTheme->save();
         return $stagingTheme;
     }

@@ -9,14 +9,13 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Core\Exception;
-use Magento\DB\Select;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart totals amount condition
  */
-class Amount
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -32,8 +31,7 @@ class Amount
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Amount');
         $this->setValue(null);
@@ -46,8 +44,7 @@ class Amount
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Total Amount'));
+        return array('value' => $this->getType(), 'label' => __('Total Amount'));
     }
 
     /**
@@ -57,10 +54,7 @@ class Amount
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'subtotal' => __('subtotal'),
-            'grand_total' => __('grand total')
-        ));
+        $this->setAttributeOption(array('subtotal' => __('subtotal'), 'grand_total' => __('grand total')));
         return $this;
     }
 
@@ -71,9 +65,12 @@ class Amount
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping cart %1 amount %2 %3:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping cart %1 amount %2 %3:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -100,9 +97,7 @@ class Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                throw new Exception(
-                    __('Unknown quote total specified')
-                );
+                throw new Exception(__('Unknown quote total specified'));
         }
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');

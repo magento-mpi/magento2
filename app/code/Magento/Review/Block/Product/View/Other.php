@@ -7,28 +7,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Product\View;
 
 /**
  * Product view other block
  */
-class Other extends \Magento\View\Element\Template
+class Other extends \Magento\Framework\View\Element\Template
 {
     /**
-     * Core model registry
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;

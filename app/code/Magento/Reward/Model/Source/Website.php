@@ -14,19 +14,19 @@ namespace Magento\Reward\Model\Source;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Website implements \Magento\Core\Model\Option\ArrayInterface
+class Website implements \Magento\Option\ArrayInterface
 {
     /**
      * Core system store model
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      */
-    public function __construct(\Magento\Core\Model\System\Store $store)
+    public function __construct(\Magento\Store\Model\System\Store $store)
     {
         $this->_store = $store;
     }
@@ -41,8 +41,7 @@ class Website implements \Magento\Core\Model\Option\ArrayInterface
     {
         $websites = $this->_store->getWebsiteOptionHash();
         if ($withAll) {
-            $websites = array(0 => __('All Websites'))
-                      + $websites;
+            $websites = array(0 => __('All Websites')) + $websites;
         }
         return $websites;
     }

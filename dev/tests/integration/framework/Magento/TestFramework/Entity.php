@@ -14,7 +14,7 @@ namespace Magento\TestFramework;
 class Entity
 {
     /**
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_model;
 
@@ -29,12 +29,12 @@ class Entity
     protected $_modelClass;
 
     /**
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param array $updateData
      * @param string|null $modelClass Class of a model to use when creating new instances, or NULL for auto-detection
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Core\Model\AbstractModel $model, array $updateData, $modelClass = null)
+    public function __construct(\Magento\Framework\Model\AbstractModel $model, array $updateData, $modelClass = null)
     {
         $this->_model       = $model;
         $this->_updateData  = $updateData;
@@ -67,7 +67,7 @@ class Entity
     /**
      * Retrieve new instance of not yet loaded model
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _getEmptyModel()
     {
@@ -101,7 +101,9 @@ class Entity
         $model->load($this->_model->getId());
         foreach ($this->_updateData as $key => $value) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error'
+                $value,
+                $model->getDataUsingMethod($key),
+                'CRUD Update "' . $key . '" error'
             );
         }
     }

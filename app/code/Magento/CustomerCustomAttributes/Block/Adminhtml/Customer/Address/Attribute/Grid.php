@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
 
 /**
  * Customer Address Attributes Grid Block
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
-
-class Grid
-    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
+class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * @var \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory
@@ -40,6 +38,7 @@ class Grid
     /**
      * Initialize grid, set grid Id
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -51,7 +50,7 @@ class Grid
     /**
      * Prepare customer address attributes grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -65,30 +64,28 @@ class Grid
     /**
      * Prepare customer address attributes grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
         parent::_prepareColumns();
 
-        $this->addColumn('is_visible', array(
-            'header'    => __('Visible to Customer'),
-            'sortable'  => true,
-            'index'     => 'is_visible',
-            'type'      => 'options',
-            'options'   => array(
-                '0' => __('No'),
-                '1' => __('Yes'),
-            ),
-            'align'     => 'center',
-        ));
+        $this->addColumn(
+            'is_visible',
+            array(
+                'header' => __('Visible to Customer'),
+                'sortable' => true,
+                'index' => 'is_visible',
+                'type' => 'options',
+                'options' => array('0' => __('No'), '1' => __('Yes')),
+                'align' => 'center'
+            )
+        );
 
-        $this->addColumn('sort_order', array(
-            'header'    => __('Sort Order'),
-            'sortable'  => true,
-            'align'     => 'center',
-            'index'     => 'sort_order'
-        ));
+        $this->addColumn(
+            'sort_order',
+            array('header' => __('Sort Order'), 'sortable' => true, 'align' => 'center', 'index' => 'sort_order')
+        );
 
         return $this;
     }

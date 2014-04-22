@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Firstdata;
 
-class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
+class PaymentAction implements \Magento\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway
@@ -33,7 +33,7 @@ class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
             array(
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
-            ),
+            )
         );
     }
 }

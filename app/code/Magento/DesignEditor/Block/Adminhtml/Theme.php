@@ -14,8 +14,8 @@ use Magento\Backend\Block\Widget\Button;
 /**
  * Design editor theme
  *
- * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\View\Design\ThemeInterface $theme)
- * @method \Magento\View\Design\ThemeInterface getTheme()
+ * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\Framework\View\Design\ThemeInterface $theme)
+ * @method \Magento\Framework\View\Design\ThemeInterface getTheme()
  */
 class Theme extends \Magento\Backend\Block\Template
 {
@@ -91,7 +91,7 @@ class Theme extends \Magento\Backend\Block\Template
     public function getStoresTitles()
     {
         $storesTitles = array();
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         foreach ($this->getTheme()->getAssignedStores() as $store) {
             $storesTitles[] = $store->getName();
         }
@@ -106,10 +106,7 @@ class Theme extends \Magento\Backend\Block\Template
     public function getOptionsJson()
     {
         $theme = $this->getTheme();
-        $options = array(
-            'theme_id'    => $theme->getId(),
-            'theme_title' => $theme->getThemeTitle()
-        );
+        $options = array('theme_id' => $theme->getId(), 'theme_title' => $theme->getThemeTitle());
 
         /** @var $helper \Magento\Core\Helper\Data */
         $helper = $this->_coreHelper;
@@ -125,10 +122,7 @@ class Theme extends \Magento\Backend\Block\Template
     {
         /** @var $saveButton Button */
         $saveButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
-        $saveButton->setData(array(
-            'label'     => __('Save'),
-            'class'     => 'action-save',
-        ));
+        $saveButton->setData(array('label' => __('Save'), 'class' => 'action-save'));
         return $saveButton;
     }
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -26,8 +25,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Backend\Block\Template');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Backend\Block\Template'
+        );
     }
 
     /**
@@ -39,17 +41,24 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppArea adminhtml
      * @covers \Magento\Backend\Block\Template::isOutputEnabled
+     * @magentoConfigFixture current_store advanced/modules_disable_output/dummy 1
      */
-    public function testIsOutputEnabled()
+    public function testIsOutputEnabledTrue()
     {
         $this->_block->setData('module_name', 'dummy');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'true');
-        $this->assertFalse($this->_block->isOutputEnabled());
+        $this->assertFalse($this->_block->isOutputEnabled('dummy'));
+    }
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('advanced/modules_disable_output/dummy', 'false');
+    /**
+     * @magentoAppArea adminhtml
+     * @covers \Magento\Backend\Block\Template::isOutputEnabled
+     * @magentoConfigFixture current_store advanced/modules_disable_output/dummy 0
+     */
+    public function testIsOutputEnabledFalse()
+    {
+        $this->_block->setData('module_name', 'dummy');
         $this->assertTrue($this->_block->isOutputEnabled('dummy'));
     }
 }

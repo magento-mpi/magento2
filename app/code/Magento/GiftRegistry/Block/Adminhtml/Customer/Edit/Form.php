@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
-class Form
-    extends \Magento\Backend\Block\Widget\Form
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -23,25 +21,28 @@ class Form
      */
     protected $giftRegistryTypeFactory;
 
+    /**
+     * @var string
+     */
     protected $_template = 'customer/form.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
         array $data = array()
@@ -55,17 +56,18 @@ class Form
     /**
      * Prepare layout
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Form
+     * @return $this
      */
     protected function _prepareLayout()
     {
         $this->addChild('entity_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Items');
         $this->addChild('cart_items', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart');
         $this->addChild('sharing_form', 'Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Sharing');
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Update Items and Qty\'s'),
-            'type'  => 'submit'
-        ));
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Update Items and Qty\'s'), 'type' => 'submit')
+        );
 
         return parent::_prepareLayout();
     }
@@ -87,8 +89,7 @@ class Form
      */
     public function getOwnerName()
     {
-        $customer = $this->customerFactory->create()
-            ->load($this->getEntity()->getCustomerId());
+        $customer = $this->customerFactory->create()->load($this->getEntity()->getCustomerId());
 
         return $this->escapeHtml($customer->getName());
     }
@@ -110,13 +111,12 @@ class Form
      */
     public function getTypeName()
     {
-        $type = $this->giftRegistryTypeFactory->create()
-            ->load($this->getEntity()->getTypeId());
+        $type = $this->giftRegistryTypeFactory->create()->load($this->getEntity()->getTypeId());
 
         return $this->escapeHtml($type->getLabel());
     }
 
-   /**
+    /**
      * Retrieve escaped entity title
      *
      * @return string
@@ -126,7 +126,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getTitle());
     }
 
-   /**
+    /**
      * Retrieve escaped entity message
      *
      * @return string
@@ -136,7 +136,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getMessage());
     }
 
-   /**
+    /**
      * Retrieve list of registrants
      *
      * @return string
@@ -146,7 +146,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getRegistrants());
     }
 
-   /**
+    /**
      * Return gift registry entity object
      *
      * @return \Magento\GiftRegistry\Model\Entity
@@ -156,7 +156,7 @@ class Form
         return $this->_coreRegistry->registry('current_giftregistry_entity');
     }
 
-   /**
+    /**
      * Return shipping address
      *
      * @return \Magento\GiftRegistry\Model\Entity
@@ -166,15 +166,17 @@ class Form
         return $this->getEntity()->getFormatedShippingAddress();
     }
 
-   /**
+    /**
      * Return gift registry creation data
      *
      * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getCreatedAt()
     {
-        return $this->formatDate($this->getEntity()->getCreatedAt(),
-            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true
+        return $this->formatDate(
+            $this->getEntity()->getCreatedAt(),
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            true
         );
     }
 

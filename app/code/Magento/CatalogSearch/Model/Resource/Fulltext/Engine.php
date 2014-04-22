@@ -16,8 +16,8 @@ namespace Magento\CatalogSearch\Model\Resource\Fulltext;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
-    implements \Magento\CatalogSearch\Model\Resource\EngineInterface
+class Engine extends \Magento\Framework\Model\Resource\Db\AbstractDb implements
+    \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
     /**
      * Catalog product visibility
@@ -67,7 +67,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
@@ -77,7 +77,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -117,11 +117,10 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
-        $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-            'product_id'    => $entityId,
-            'store_id'      => $storeId,
-            'data_index'    => $index
-        ));
+        $this->_getWriteAdapter()->insert(
+            $this->getMainTable(),
+            array('product_id' => $entityId, 'store_id' => $storeId, 'data_index' => $index)
+        );
         return $this;
     }
 
@@ -135,14 +134,10 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
-        $data    = array();
+        $data = array();
         $storeId = (int)$storeId;
         foreach ($entityIndexes as $entityId => $index) {
-            $data[] = array(
-                'product_id'    => (int)$entityId,
-                'store_id'      => $storeId,
-                'data_index'    => $index
-            );
+            $data[] = array('product_id' => (int)$entityId, 'store_id' => $storeId, 'data_index' => $index);
         }
 
         if ($data) {

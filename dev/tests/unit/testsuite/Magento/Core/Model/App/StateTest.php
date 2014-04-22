@@ -8,13 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\App;
 
 class StateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_model;
 
@@ -24,8 +23,8 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode)
     {
-        $model = new \Magento\App\State(
-            $this->getMockForAbstractClass('Magento\Config\ScopeInterface', array(), '', false),
+        $model = new \Magento\Framework\App\State(
+            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
             time(),
             $mode
         );
@@ -38,15 +37,9 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public static function constructorDataProvider()
     {
         return array(
-            'default mode' => array(
-                \Magento\App\State::MODE_DEFAULT
-            ),
-            'production mode' => array(
-                \Magento\App\State::MODE_PRODUCTION
-            ),
-            'developer mode' => array(
-                \Magento\App\State::MODE_DEVELOPER
-            ),
+            'default mode' => array(\Magento\Framework\App\State::MODE_DEFAULT),
+            'production mode' => array(\Magento\Framework\App\State::MODE_PRODUCTION),
+            'developer mode' => array(\Magento\Framework\App\State::MODE_DEVELOPER)
         );
     }
 
@@ -56,8 +49,8 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\App\State(
-            $this->getMockForAbstractClass('Magento\Config\ScopeInterface', array(), '', false),
+        new \Magento\Framework\App\State(
+            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
             time(),
             "unknown mode"
         );

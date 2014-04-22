@@ -17,6 +17,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\FormPageActions;
 
 /**
  * Class SalesRuleNew
@@ -35,7 +36,7 @@ class SalesRuleNew extends Page
      *
      * @var string
      */
-    protected $conditionsTabId = 'promo_catalog_edit_tabs_conditions_section';
+    protected $conditionsTabId = 'conditions';
 
     /**
      * ACTIONS Tab Id
@@ -64,6 +65,13 @@ class SalesRuleNew extends Page
      * @var string
      */
     protected $promoQuoteFormSelector = 'page:main-container';
+
+    /**
+     * Form page actions block
+     *
+     * @var string
+     */
+    protected $pageActionsBlock = '.page-main-actions';
 
     /**
      * {@inheritDoc}
@@ -96,18 +104,6 @@ class SalesRuleNew extends Page
     }
 
     /**
-     * Get the Conditions Form Tab
-     *
-     * @return FormTabs
-     */
-    public function getConditionsFormTab()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find($this->conditionsTabId, Locator::SELECTOR_ID)
-        );
-    }
-
-    /**
      * Get the Actions Tab
      *
      * @return FormTabs
@@ -116,6 +112,18 @@ class SalesRuleNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
             $this->_browser->find($this->actionTabId, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get the Conditions Form Tab
+     *
+     * @return FormTabs
+     */
+    public function getConditionsFormTab()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+            $this->_browser->find($this->conditionsTabId, Locator::SELECTOR_ID)
         );
     }
 
@@ -132,22 +140,14 @@ class SalesRuleNew extends Page
     }
 
     /**
-     * Get the Conditions Tab Selector
+     * Get Form page actions block
      *
-     * @return string
+     * @return FormPageActions
      */
-    public function getConditionsTabId()
+    public function getPageActionsBlock()
     {
-        return $this->conditionsTabId;
-    }
-
-    /**
-     * Get the Actions Tab Selector
-     *
-     * @return string
-     */
-    public function getActionsTabId()
-    {
-        return $this->actionTabId;
+        return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 }

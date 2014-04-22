@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order creditmemo resource
@@ -16,41 +16,40 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Creditmemo extends AbstractOrder
 {
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix                  = 'sales_order_creditmemo_resource';
+    protected $_eventPrefix = 'sales_order_creditmemo_resource';
 
     /**
      * Is grid available
      *
      * @var bool
      */
-    protected $_grid                         = true;
+    protected $_grid = true;
 
     /**
      * Flag for using of increment id
      *
      * @var bool
      */
-    protected $_useIncrementId               = true;
+    protected $_useIncrementId = true;
 
     /**
      * Entity code for increment id (Eav entity code)
      *
      * @var string
      */
-    protected $_entityTypeForIncrementId     = 'creditmemo';
+    protected $_entityTypeForIncrementId = 'creditmemo';
 
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,29 +59,27 @@ class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Init virtual grid records for entity
      *
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo
+     * @return $this
      */
     protected function _initVirtualGridColumns()
     {
         parent::_initVirtualGridColumns();
-        $adapter          = $this->getReadConnection();
+        $adapter = $this->getReadConnection();
         $checkedFirstname = $adapter->getIfNullSql('{{table}}.firstname', $adapter->quote(''));
-        $checkedLastname  = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
-        $concatName       = $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname));
+        $checkedLastname = $adapter->getIfNullSql('{{table}}.lastname', $adapter->quote(''));
+        $concatName = $adapter->getConcatSql(array($checkedFirstname, $adapter->quote(' '), $checkedLastname));
 
         $this->addVirtualGridColumn(
             'billing_name',
             'sales_flat_order_address',
             array('billing_address_id' => 'entity_id'),
             $concatName
-        )
-        ->addVirtualGridColumn(
+        )->addVirtualGridColumn(
             'order_increment_id',
             'sales_flat_order',
             array('order_id' => 'entity_id'),
             'increment_id'
-        )
-        ->addVirtualGridColumn(
+        )->addVirtualGridColumn(
             'order_created_at',
             'sales_flat_order',
             array('order_id' => 'entity_id'),

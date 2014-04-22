@@ -14,8 +14,7 @@ namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\P
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DefaultPrice
-    extends \Magento\Core\Model\Config\Value
+class DefaultPrice extends \Magento\Framework\App\Config\Value
 {
     /**
      * Price permissions data
@@ -25,27 +24,25 @@ class DefaultPrice
     protected $_pricePermData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_pricePermData = $pricePermData;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -57,9 +54,7 @@ class DefaultPrice
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!$this->_pricePermData->getCanAdminEditProductPrice()
-            || ($defaultProductPriceValue < 0)
-        ) {
+        if (!$this->_pricePermData->getCanAdminEditProductPrice() || $defaultProductPriceValue < 0) {
             $defaultProductPriceValue = floatval($this->getOldValue());
         }
         $this->setValue((string)$defaultProductPriceValue);

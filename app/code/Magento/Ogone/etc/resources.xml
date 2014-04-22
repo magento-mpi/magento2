@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/App/etc/resources.xsd">
     <resource name="ogone_setup" extends="core_setup" />
     <resource name="ogone_write" extends="core_write" />
     <resource name="ogone_read" extends="core_read" />

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminGws\Model;
 
 /**
@@ -55,8 +54,11 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testValidateCatalogPermissionsStoreGroups()
     {
         $this->dispatch('backend/catalog/category/edit/id/3');
-        $this->assertRegExp('/title\="New Permission"\s+type\="button"\s+'
-            . 'class="action-\w*\s+scalable\s+delete\s+disabled\s+disabled"/', $this->getResponse()->getBody());
+        $this->assertRegExp(
+            '/title\="New Permission"\s+type\="button"\s+' .
+            'class="action-\w*\s+scalable\s+delete\s+disabled\s+disabled"/',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**
@@ -68,8 +70,11 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->getBlock('adminhtml.user.role.edit.gws'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->getBlock(
+                'adminhtml.user.role.edit.gws'
+            ),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws block is not loaded'
         );
 
@@ -91,8 +96,11 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->getBlock('adminhtml.user.role.grid'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\View\LayoutInterface'
+            )->getBlock(
+                'adminhtml.user.role.grid'
+            ),
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role block is not loaded'
         );
     }

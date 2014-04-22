@@ -7,32 +7,40 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
 /**
  * RMA Shipping Model
  */
-class Shipping extends \Magento\Core\Model\AbstractModel
+class Shipping extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Store address
      */
-    const XML_PATH_ADDRESS1             = 'sales/magento_rma/address';
-    const XML_PATH_ADDRESS2             = 'sales/magento_rma/address1';
-    const XML_PATH_CITY                 = 'sales/magento_rma/city';
-    const XML_PATH_REGION_ID            = 'sales/magento_rma/region_id';
-    const XML_PATH_ZIP                  = 'sales/magento_rma/zip';
-    const XML_PATH_COUNTRY_ID           = 'sales/magento_rma/country_id';
-    const XML_PATH_CONTACT_NAME         = 'sales/magento_rma/store_name';
+    const XML_PATH_ADDRESS1 = 'sales/magento_rma/address';
+
+    const XML_PATH_ADDRESS2 = 'sales/magento_rma/address1';
+
+    const XML_PATH_CITY = 'sales/magento_rma/city';
+
+    const XML_PATH_REGION_ID = 'sales/magento_rma/region_id';
+
+    const XML_PATH_ZIP = 'sales/magento_rma/zip';
+
+    const XML_PATH_COUNTRY_ID = 'sales/magento_rma/country_id';
+
+    const XML_PATH_CONTACT_NAME = 'sales/magento_rma/store_name';
 
     /**
      * Constants - value of is_admin field in table
      */
-    const IS_ADMIN_STATUS_USER_TRACKING_NUMBER          = 0;
-    const IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER         = 1;
-    const IS_ADMIN_STATUS_ADMIN_LABEL                   = 2;
-    const IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER   = 3;
+    const IS_ADMIN_STATUS_USER_TRACKING_NUMBER = 0;
+
+    const IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER = 1;
+
+    const IS_ADMIN_STATUS_ADMIN_LABEL = 2;
+
+    const IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER = 3;
 
     /**
      * Code of custom carrier
@@ -56,9 +64,9 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Sales order factory
@@ -70,7 +78,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -105,45 +113,44 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Application filesystem
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-
     ) {
         $this->_rmaData = $rmaData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->_regionFactory = $regionFactory;
@@ -181,13 +188,13 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * Prepare and do return of shipment
      *
      * @return \Magento\Object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment()
     {
         $shipmentStoreId = $this->getRma()->getStoreId();
         $storeInfo = new \Magento\Object(
-            $this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId)
+            $this->_scopeConfig->getValue('general/store_information', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $shipmentStoreId)
         );
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
@@ -199,24 +206,26 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            throw new \Magento\Core\Exception(__('Invalid carrier: %1', $carrierCode));
+            throw new \Magento\Framework\Model\Exception(__('Invalid carrier: %1', $carrierCode));
         }
         $shipperRegionCode = $this->_regionFactory->create()->load($shipperAddress->getRegionId())->getCode();
         $recipientRegionCode = $recipientAddress->getRegionId();
         $recipientContactName = $this->_rmaData->getReturnContactName($this->getRma()->getStoreId());
 
-        if (!$recipientContactName->getName()
-            || !$recipientContactName->getLastName()
-            || !$recipientAddress->getCompany()
-            || !$storeInfo->getPhone()
-            || !$recipientAddress->getStreetFull()
-            || !$recipientAddress->getCity()
-            || !$shipperRegionCode
-            || !$recipientAddress->getPostcode()
-            || !$recipientAddress->getCountryId()
+        if (!$recipientContactName->getName() ||
+            !$recipientContactName->getLastName() ||
+            !$recipientAddress->getCompany() ||
+            !$storeInfo->getPhone() ||
+            !$recipientAddress->getStreetFull() ||
+            !$recipientAddress->getCity() ||
+            !$shipperRegionCode ||
+            !$recipientAddress->getPostcode() ||
+            !$recipientAddress->getCountryId()
         ) {
-            throw new \Magento\Core\Exception(
-                __('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'We need more information to create your shipping label(s). Please verify your store information and shipping settings.'
+                )
             );
         }
 
@@ -264,7 +273,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $request->setBaseCurrencyCode($baseCurrencyCode);
         $request->setStoreId($shipmentStoreId);
 
-        $referenceData = 'RMA #'. $request->getOrderShipment()->getRma()->getIncrementId(). ' P';
+        $referenceData = 'RMA #' . $request->getOrderShipment()->getRma()->getIncrementId() . ' P';
         $request->setReferenceData($referenceData);
 
         return $shipmentCarrier->returnOfShipment($request);
@@ -280,14 +289,14 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
-            $custom['title']  = $this->getCarierTitle();
+            $custom['title'] = $this->getCarierTitle();
             $custom['number'] = $this->getTrackNumber();
             return $custom;
         } else {
             $carrierInstance->setStore($this->getStore());
         }
 
-        if (!$trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber())) {
+        if (!($trackingInfo = $carrierInstance->getTrackingInfo($this->getTrackNumber()))) {
             return __('No detail for number "%1"', $this->getTrackNumber());
         }
 
@@ -312,17 +321,20 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * Retrieves shipping label for current rma
      *
      * @param Rma|int $rma
-     * @return string
+     * @return \Magento\Object
      */
     public function getShippingLabelByRma($rma)
     {
         if (!is_int($rma)) {
             $rma = $rma->getId();
         }
-        $label = $this->getCollection()
-            ->addFieldToFilter('rma_entity_id', $rma)
-            ->addFieldToFilter('is_admin', self::IS_ADMIN_STATUS_ADMIN_LABEL)
-            ->getFirstItem();
+        $label = $this->getCollection()->addFieldToFilter(
+            'rma_entity_id',
+            $rma
+        )->addFieldToFilter(
+            'is_admin',
+            self::IS_ADMIN_STATUS_ADMIN_LABEL
+        )->getFirstItem();
 
         if ($label->getShippingLabel()) {
             $label->setShippingLabel(
@@ -351,7 +363,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);

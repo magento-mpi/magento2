@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model;
 
-class Shell extends \Magento\Core\Model\AbstractShell
+class Shell extends \Magento\Framework\App\AbstractShell
 {
     /**
      * Error status - whether errors have happened
@@ -28,13 +27,13 @@ class Shell extends \Magento\Core\Model\AbstractShell
     protected $indexerFactory;
 
     /**
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param string $entryPoint
      * @param Indexer\CollectionFactory $indexersFactory
      * @param IndexerFactory $indexerFactory
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Filesystem $filesystem,
         $entryPoint,
         Indexer\CollectionFactory $indexersFactory,
         IndexerFactory $indexerFactory
@@ -139,9 +138,9 @@ class Shell extends \Magento\Core\Model\AbstractShell
 
         foreach ($indexers as $indexer) {
             try {
-                $indexer->$method();
+                $indexer->{$method}();
                 echo $indexer->getTitle() . " indexer was successfully changed index mode" . PHP_EOL;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
                 $this->hasErrors = true;
             } catch (\Exception $e) {
@@ -169,13 +168,16 @@ class Shell extends \Magento\Core\Model\AbstractShell
 
         foreach ($indexers as $indexer) {
             try {
+                $startTime = microtime(true);
                 $indexer->reindexAll();
-                echo $indexer->getTitle() . " index has been rebuilt successfully" . PHP_EOL;
-            } catch (\Magento\Core\Exception $e) {
+                $resultTime = microtime(true) - $startTime;
+                echo $indexer->getTitle() . ' index has been rebuilt successfully in '
+                    . gmdate('H:i:s', $resultTime) . PHP_EOL;
+            } catch (\Magento\Framework\Model\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
                 $this->hasErrors = true;
             } catch (\Exception $e) {
-                echo $indexer->getTitle() . " indexer process unknown error:" . PHP_EOL;
+                echo $indexer->getTitle() . ' indexer process unknown error:' . PHP_EOL;
                 echo $e . PHP_EOL;
                 $this->hasErrors = true;
             }

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 
 class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
@@ -38,22 +37,24 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
 
     /**
      * Remove index entries before reindexation
+     *
+     * @return void
      */
     protected function removeEntries()
     {
         $this->getWriteAdapter()->delete(
             $this->getMainTable(),
-            ['product_id IN (?)' => $this->limitationByProducts]
+            array('product_id IN (?)' => $this->limitationByProducts)
         );
     }
 
     /**
      * Retrieve select for reindex products of non anchor categories
      *
-     * @param \Magento\Core\Model\Store $store
-     * @return \Magento\DB\Select
+     * @param \Magento\Store\Model\Store $store
+     * @return \Magento\Framework\DB\Select
      */
-    protected function getNonAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
+    protected function getNonAnchorCategoriesSelect(\Magento\Store\Model\Store $store)
     {
         $select = parent::getNonAnchorCategoriesSelect($store);
         return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
@@ -62,10 +63,10 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     /**
      * Retrieve select for reindex products of non anchor categories
      *
-     * @param \Magento\Core\Model\Store $store
-     * @return \Magento\DB\Select
+     * @param \Magento\Store\Model\Store $store
+     * @return \Magento\Framework\DB\Select
      */
-    protected function getAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
+    protected function getAnchorCategoriesSelect(\Magento\Store\Model\Store $store)
     {
         $select = parent::getAnchorCategoriesSelect($store);
         return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
@@ -74,10 +75,10 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     /**
      * Get select for all products
      *
-     * @param \Magento\Core\Model\Store $store
-     * @return \Magento\DB\Select
+     * @param \Magento\Store\Model\Store $store
+     * @return \Magento\Framework\DB\Select
      */
-    protected function getAllProducts(\Magento\Core\Model\Store $store)
+    protected function getAllProducts(\Magento\Store\Model\Store $store)
     {
         $select = parent::getAllProducts($store);
         return $select->where('cp.entity_id IN (?)', $this->limitationByProducts);

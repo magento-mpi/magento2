@@ -17,19 +17,18 @@
  */
 namespace Magento\Reward\Block\Customer;
 
-class Reward extends \Magento\View\Element\Template
+class Reward extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
+
     /**
      * Set template variables
      *

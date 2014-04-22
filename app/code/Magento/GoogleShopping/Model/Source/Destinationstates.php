@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model\Source;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Destinationstates implements \Magento\Core\Model\Option\ArrayInterface
+class Destinationstates implements \Magento\Option\ArrayInterface
 {
     /**
      * Retrieve option array with destinations
@@ -26,8 +26,11 @@ class Destinationstates implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value' => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_DEFAULT,  'label' => __('Default')),
-            array('value' => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_REQUIRED, 'label' => __('Required')),
+            array('value' => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_DEFAULT, 'label' => __('Default')),
+            array(
+                'value' => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_REQUIRED,
+                'label' => __('Required')
+            ),
             array('value' => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_EXCLUDED, 'label' => __('Excluded'))
         );
     }

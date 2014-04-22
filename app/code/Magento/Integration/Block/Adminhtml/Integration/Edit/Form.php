@@ -24,15 +24,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
-                    'id' => 'edit_form',
-                    'action' => $this->getData('action'),
-                    'method' => 'post',
-                )
-            )
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
         if (isset($integrationData[Info::DATA_ID])) {

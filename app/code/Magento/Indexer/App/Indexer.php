@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\App;
 
-class Indexer implements \Magento\LauncherInterface
+class Indexer implements \Magento\Framework\AppInterface
 {
     /**
      * Report directory
@@ -18,7 +17,7 @@ class Indexer implements \Magento\LauncherInterface
     protected $reportDir;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -29,12 +28,12 @@ class Indexer implements \Magento\LauncherInterface
 
     /**
      * @param string $reportDir
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Indexer\Model\Processor $processor
      */
     public function __construct(
         $reportDir,
-        \Magento\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Indexer\Model\Processor $processor
     ) {
         $this->reportDir = $reportDir;
@@ -50,7 +49,7 @@ class Indexer implements \Magento\LauncherInterface
     public function launch()
     {
         /* Clean reports */
-        $directory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $directory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
         $path = $directory->getRelativePath($this->reportDir);
         if ($directory->isExist($path)) {
             $directory->delete($path);

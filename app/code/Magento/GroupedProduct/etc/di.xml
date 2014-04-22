@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
@@ -48,5 +48,18 @@
     </type>
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="isProductConfigured" type="Magento\GroupedProduct\Model\Product\Cart\Configuration\Plugin\Grouped" />
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Configuration">
+        <plugin name="grouped_options" type="Magento\GroupedProduct\Helper\Product\Configuration\Plugin\Grouped"/>
+    </type>
+    <type name="Magento\Pricing\PriceComposite">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="grouped_final_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\GroupedProduct\Pricing\Price\FinalPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </arguments>
     </type>
 </config>

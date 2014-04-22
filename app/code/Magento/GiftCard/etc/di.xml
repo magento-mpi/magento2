@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="append_gift_card_data_to_order" type="Magento\GiftCard\Model\Plugin\QuoteItem"/>
     </type>
@@ -35,6 +35,23 @@
         <arguments>
             <argument name="priceModelPool" xsi:type="array">
                 <item name="giftcard" xsi:type="string">Magento\GiftCard\Model\Product\CatalogPrice</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\GiftCard\Model\Observer">
+        <arguments>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\LayoutInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\GiftCard\Helper\Data">
+        <arguments>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\LayoutInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Module\Setup\Migration">
+        <arguments>
+            <argument name="compositeModules" xsi:type="array">
+                <item name="magento_giftcard" xsi:type="string">Magento_GiftCard</item>
             </argument>
         </arguments>
     </type>

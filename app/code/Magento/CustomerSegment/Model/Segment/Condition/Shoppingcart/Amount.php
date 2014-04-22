@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Shopping cart totals amount condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
-
-class Amount
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Amount extends AbstractCondition
 {
     /**
      * @var string
@@ -39,7 +40,7 @@ class Amount
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -53,26 +54,30 @@ class Amount
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
+        return array(
+            'value' => $this->getType(),
             'label' => __('Shopping Cart Total'),
-            'available_in_guest_mode' => true);
+            'available_in_guest_mode' => true
+        );
     }
 
     /**
      * Init available options list
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount
+     * @return $this
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'subtotal'  => __('Subtotal'),
-            'grand_total'  => __('Grand Total'),
-            'tax'  => __('Tax'),
-            'shipping'  => __('Shipping'),
-            'store_credit'  => __('Store Credit'),
-            'gift_card'  => __('Gift Card'),
-        ));
+        $this->setAttributeOption(
+            array(
+                'subtotal' => __('Subtotal'),
+                'grand_total' => __('Grand Total'),
+                'tax' => __('Tax'),
+                'shipping' => __('Shipping'),
+                'store_credit' => __('Store Credit'),
+                'gift_card' => __('Gift Card')
+            )
+        );
         return $this;
     }
 
@@ -82,7 +87,7 @@ class Amount
      * Modify attribute_option array if needed
      *
      * @param \Magento\Rule\Model\Rule $rule
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
+     * @return $this
      */
     public function setRule($rule)
     {
@@ -111,18 +116,21 @@ class Amount
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml() . __('Shopping Cart %1 Amount %2 %3:',
-            $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml()
+        return $this->getTypeElementHtml() . __(
+            'Shopping Cart %1 Amount %2 %3:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
         ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @throws \Magento\Core\Exception
-     * @return \Magento\DB\Select
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -131,7 +139,7 @@ class Amount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
@@ -158,17 +166,14 @@ class Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Unknown quote total specified.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {
             $subSelect = $this->getResource()->createSelect();
             $subSelect->from(
-                array('address'=>$addressTable),
-                array(
-                    'quote_id' => 'quote_id',
-                    $field     => new \Zend_Db_Expr("SUM({$field})")
-                )
+                array('address' => $addressTable),
+                array('quote_id' => 'quote_id', $field => new \Zend_Db_Expr("SUM({$field})"))
             );
 
             $subSelect->group('quote_id');

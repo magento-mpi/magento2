@@ -16,7 +16,7 @@ namespace Magento\WebsiteRestriction\Controller;
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var string
@@ -24,7 +24,7 @@ class Index extends \Magento\App\Action\Action
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -43,12 +43,12 @@ class Index extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
@@ -58,39 +58,39 @@ class Index extends \Magento\App\Action\Action
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Core\Model\Locale
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Website $website,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Locale $locale
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;
         $this->_website = $website;
         $this->_pageFactory = $pageFactory;
-        $this->_storeConfig = $storeConfig;
-        $this->_locale = $locale;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_localeDate = $localeDate;
         parent::__construct($context);
         $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
     }
@@ -111,26 +111,34 @@ class Index extends \Magento\App\Action\Action
              */
             /** @var \Magento\Cms\Model\Page $page */
             $page = $this->_pageFactory->create()->load(
-                $this->_storeConfig->getConfig($this->_stubPageIdentifier),
+                $this->_scopeConfig->getValue(
+                    $this->_stubPageIdentifier,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
                 'identifier'
             );
 
             $this->_coreRegistry->register('restriction_landing_page', $page);
 
             if ($page->getCustomTheme()) {
-                if (
-                    $this->_locale->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())
+                if ($this->_localeDate->isScopeDateInInterval(
+                    null,
+                    $page->getCustomThemeFrom(),
+                    $page->getCustomThemeTo()
+                )
                 ) {
-                    $this->_objectManager->get('Magento\View\DesignInterface')
-                        ->setDesignTheme($page->getCustomTheme());
+                    $this->_objectManager->get(
+                        'Magento\Framework\View\DesignInterface'
+                    )->setDesignTheme(
+                        $page->getCustomTheme()
+                    );
                 }
             }
 
             $this->_view->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')
-                    ->applyHandle($page->getRootTemplate());
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyHandle($page->getRootTemplate());
             }
 
             $this->_view->loadLayoutUpdates();
@@ -140,14 +148,15 @@ class Index extends \Magento\App\Action\Action
             $this->_view->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Theme\Helper\Layout')
-                    ->applyTemplate($page->getRootTemplate());
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')->applyTemplate($page->getRootTemplate());
             }
 
             $this->_view->renderLayout();
 
             $this->_configCacheType->save(
-                $this->getResponse()->getBody(), $this->_cacheKey, array(\Magento\Core\Model\Website::CACHE_TAG)
+                $this->getResponse()->getBody(),
+                $this->_cacheKey,
+                array(\Magento\Store\Model\Website::CACHE_TAG)
             );
         }
     }

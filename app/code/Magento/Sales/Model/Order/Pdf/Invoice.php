@@ -7,30 +7,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf;
 
 /**
  * Sales Order Invoice PDF model
  */
-namespace Magento\Sales\Model\Order\Pdf;
-
-class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
+class Invoice extends AbstractPdf
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\TranslateInterface $translate
-     * @param \Magento\App\Filesystem $filesystem,
-     * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -38,27 +43,29 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\TranslateInterface $translate,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
+        Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
+        $this->_localeResolver = $localeResolver;
         parent::__construct(
             $paymentData,
             $string,
-            $coreStoreConfig,
-            $translate,
+            $scopeConfig,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
-            $locale,
+            $localeDate,
+            $inlineTranslation,
             $data
         );
     }
@@ -76,50 +83,24 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0.93, 0.92, 0.92));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
-        $page->drawRectangle(25, $this->y, 570, $this->y -15);
+        $page->drawRectangle(25, $this->y, 570, $this->y - 15);
         $this->y -= 10;
         $page->setFillColor(new \Zend_Pdf_Color_RGB(0, 0, 0));
 
         //columns headers
-        $lines[0][] = array(
-            'text' => __('Products'),
-            'feed' => 35
-        );
+        $lines[0][] = array('text' => __('Products'), 'feed' => 35);
 
-        $lines[0][] = array(
-            'text'  => __('SKU'),
-            'feed'  => 290,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('SKU'), 'feed' => 290, 'align' => 'right');
 
-        $lines[0][] = array(
-            'text'  => __('Qty'),
-            'feed'  => 435,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('Qty'), 'feed' => 435, 'align' => 'right');
 
-        $lines[0][] = array(
-            'text'  => __('Price'),
-            'feed'  => 360,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('Price'), 'feed' => 360, 'align' => 'right');
 
-        $lines[0][] = array(
-            'text'  => __('Tax'),
-            'feed'  => 495,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('Tax'), 'feed' => 495, 'align' => 'right');
 
-        $lines[0][] = array(
-            'text'  => __('Subtotal'),
-            'feed'  => 565,
-            'align' => 'right'
-        );
+        $lines[0][] = array('text' => __('Subtotal'), 'feed' => 565, 'align' => 'right');
 
-        $lineBlock = array(
-            'lines'  => $lines,
-            'height' => 5
-        );
+        $lineBlock = array('lines' => $lines, 'height' => 5);
 
         $this->drawLineBlocks($page, array($lineBlock), array('table_header' => true));
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
@@ -144,10 +125,10 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($invoices as $invoice) {
             if ($invoice->getStoreId()) {
-                $this->locale->emulate($invoice->getStoreId());
+                $this->_localeResolver->emulate($invoice->getStoreId());
                 $this->_storeManager->setCurrentStore($invoice->getStoreId());
             }
-            $page  = $this->newPage();
+            $page = $this->newPage();
             $order = $invoice->getOrder();
             /* Add image */
             $this->insertLogo($page, $invoice->getStore());
@@ -157,10 +138,12 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $this->insertOrder(
                 $page,
                 $order,
-                $this->_coreStoreConfig->getConfigFlag(
+                $this->_scopeConfig->isSetFlag(
                     self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()
-            ));
+                )
+            );
             /* Add document text and number */
             $this->insertDocumentNumber($page, __('Invoice # ') . $invoice->getIncrementId());
             /* Add table */
@@ -177,7 +160,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             /* Add totals */
             $this->insertTotals($page, $invoice);
             if ($invoice->getStoreId()) {
-                $this->locale->revert();
+                $this->_localeResolver->revert();
             }
         }
         $this->_afterGetPdf();

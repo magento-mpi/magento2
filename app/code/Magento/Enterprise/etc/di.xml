@@ -7,14 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">
-                <item name="frontend" xsi:type="string">magento_plushe</item>
-                <item name="adminhtml" xsi:type="string">magento_backend</item>
-                <item name="install" xsi:type="string">magento_enterprise</item>
+                <item name="frontend" xsi:type="string">Magento/blank</item>
+                <item name="adminhtml" xsi:type="string">Magento/backend</item>
+                <item name="install" xsi:type="string">Magento/enterprise</item>
             </argument>
         </arguments>
     </type>

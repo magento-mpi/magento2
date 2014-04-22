@@ -17,26 +17,25 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
 
-class General
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class General extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;
@@ -52,68 +51,68 @@ class General
     {
         $model = $this->_coreRegistry->registry('current_customer_segment');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => __('General Properties')
-        ));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General Properties')));
 
         if ($model->getId()) {
-            $fieldset->addField('segment_id', 'hidden', array(
-                'name' => 'segment_id'
-            ));
+            $fieldset->addField('segment_id', 'hidden', array('name' => 'segment_id'));
         }
 
-        $fieldset->addField('name', 'text', array(
-            'name' => 'name',
-            'label' => __('Segment Name'),
-            'required' => true
-        ));
+        $fieldset->addField(
+            'name',
+            'text',
+            array('name' => 'name', 'label' => __('Segment Name'), 'required' => true)
+        );
 
-        $fieldset->addField('description', 'textarea', array(
-            'name' => 'description',
-            'label' => __('Description'),
-            'style' => 'height: 100px;'
-        ));
+        $fieldset->addField(
+            'description',
+            'textarea',
+            array('name' => 'description', 'label' => __('Description'), 'style' => 'height: 100px;')
+        );
 
         if ($this->_storeManager->isSingleStoreMode()) {
             $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
-            $fieldset->addField('website_ids', 'hidden', array(
-                'name'     => 'website_ids[]',
-                'value'    => $websiteId
-            ));
+            $fieldset->addField('website_ids', 'hidden', array('name' => 'website_ids[]', 'value' => $websiteId));
             $model->setWebsiteIds($websiteId);
         } else {
-            $fieldset->addField('website_ids', 'multiselect', array(
-                'name'     => 'website_ids[]',
-                'label'    => __('Assigned to Website'),
-                'title'    => __('Assigned to Website'),
-                'required' => true,
-                'values'   => $this->_systemStore->getWebsiteValuesForForm(),
-                'value'    => $model->getWebsiteIds()
-            ));
+            $fieldset->addField(
+                'website_ids',
+                'multiselect',
+                array(
+                    'name' => 'website_ids[]',
+                    'label' => __('Assigned to Website'),
+                    'title' => __('Assigned to Website'),
+                    'required' => true,
+                    'values' => $this->_systemStore->getWebsiteValuesForForm(),
+                    'value' => $model->getWebsiteIds()
+                )
+            );
         }
 
-        $fieldset->addField('is_active', 'select', array(
-            'label' => __('Status'),
-            'name' => 'is_active',
-            'required' => true,
-            'options' => array(
-                '1' => __('Active'),
-                '0' => __('Inactive')
+        $fieldset->addField(
+            'is_active',
+            'select',
+            array(
+                'label' => __('Status'),
+                'name' => 'is_active',
+                'required' => true,
+                'options' => array('1' => __('Active'), '0' => __('Inactive'))
             )
-        ));
+        );
 
         $applyToFieldConfig = array(
             'label' => __('Apply To'),
             'name' => 'apply_to',
             'required' => false,
-            'disabled' => (boolean)$model->getId(),
+            'disabled' => (bool)$model->getId(),
             'options' => array(
-                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED => __(
+                    'Visitors and Registered Customers'
+                ),
                 \Magento\CustomerSegment\Model\Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
                 \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS => __('Visitors')
             )

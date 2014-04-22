@@ -5,13 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
+use Magento\Webapi\Model\PathProcessor;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Front controller for WebAPI REST area.
@@ -20,7 +22,7 @@ use Magento\Webapi\Controller\Rest\Router;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Rest implements \Magento\App\FrontControllerInterface
+class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
     /** @var Router */
     protected $_router;
@@ -34,8 +36,11 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
+
+    /** @var \Magento\Framework\View\LayoutInterface */
+    protected $_layout;
 
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
@@ -52,19 +57,30 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
+    /** @var PathProcessor */
+    protected $_pathProcessor;
+
     /**
-     * Initialize dependencies.
+     * @var \Magento\Framework\App\AreaList
+     */
+    protected $areaList;
+
+    /**
+     * Initialize dependencies
      *
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param PathProcessor $pathProcessor
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,36 +90,43 @@ class Rest implements \Magento\App\FrontControllerInterface
         RestResponse $response,
         Router $router,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
-        ErrorProcessor $errorProcessor
+        ErrorProcessor $errorProcessor,
+        PathProcessor $pathProcessor,
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
         $this->_response = $response;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
+        $this->_layout = $layout;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->_pathProcessor = $pathProcessor;
+        $this->areaList = $areaList;
     }
 
     /**
      * Handle REST request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
+        $this->areaList->getArea($this->_appState->getAreaCode())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
@@ -119,14 +142,15 @@ class Rest implements \Magento\App\FrontControllerInterface
 
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
                 // TODO: Consider passing Integration ID instead of Consumer ID
-                throw new \Magento\Service\AuthorizationException(
+                throw new \Magento\Webapi\ServiceAuthorizationException(
                     "Not Authorized.",
                     0,
                     null,
                     array(),
                     'authorization',
                     "Consumer ID = {$consumerId}",
-                    implode($route->getAclResources(), ', '));
+                    implode($route->getAclResources(), ', ')
+                );
             }
 
             if ($route->isSecure() && !$this->_request->isSecure()) {
@@ -136,9 +160,10 @@ class Rest implements \Magento\App\FrontControllerInterface
             $inputData = $this->_request->getRequestData();
             $serviceMethodName = $route->getServiceMethod();
             $serviceClassName = $route->getServiceClass();
+            $inputData = $this->_overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Service\Entity\AbstractDto $outputData */
+            /** @var \Magento\Service\Data\AbstractObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);
@@ -153,9 +178,10 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
-     * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
-     * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
-     * and convert each piece individually.
+     * assumed to be a Data Object and converted to an associative array with keys representing the properties of the
+     * Data Object.
+     * Nested Data Objects are also converted.  If the data provided is itself an array, then we iterate through the
+     * contents and convert each piece individually.
      *
      * @param mixed $data
      * @return array|int|string|bool|float Scalar or array of scalars
@@ -165,14 +191,14 @@ class Rest implements \Magento\App\FrontControllerInterface
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if (is_object($datum)) {
-                    $result[] = $this->_convertDtoToArray($datum);
+                if ($datum instanceof AbstractObject) {
+                    $result[] = $datum->__toArray();
                 } else {
                     $result[] = $datum;
                 }
             }
-        } else if (is_object($data)) {
-            $result = $this->_convertDtoToArray($data);
+        } else if ($data instanceof AbstractObject) {
+            $result = $data->__toArray();
         } else if (is_null($data)) {
             $result = [];
         } else {
@@ -183,17 +209,19 @@ class Rest implements \Magento\App\FrontControllerInterface
     }
 
     /**
-     * Convert DTO to array.
+     * Override parameter values based on webapi.xml
      *
-     * @param object $dto
-     * @return array
-     * @throws \InvalidArgumentException
+     * @param array $inputData Incoming data from request
+     * @param array $parameters Contains parameters to replace or default
+     * @return array Data in same format as $inputData with appropriate parameters added or changed
      */
-    protected function _convertDtoToArray($dto)
+    protected function _overrideParams(array $inputData, array $parameters)
     {
-        if (!is_object($dto) || !method_exists($dto, '__toArray')) {
-            throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
+        foreach ($parameters as $name => $paramData) {
+            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+                $inputData[$name] = $paramData[Converter::KEY_VALUE];
+            }
         }
-        return $dto->__toArray();
+        return $inputData;
     }
 }

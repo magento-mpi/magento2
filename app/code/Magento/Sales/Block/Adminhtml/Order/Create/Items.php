@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create;
+
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Adminhtml sales order create items block
@@ -15,19 +18,19 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order\Create;
-
 class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Contains button descriptions to be shown at the top of accordion
+     *
      * @var array
      */
     protected $_buttons = array();
 
     /**
      * Define block ID
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -48,7 +51,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Returns all visible items
      *
-     * @return array
+     * @return Item[]
      */
     public function getItems()
     {
@@ -58,7 +61,8 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Add button to the items header
      *
-     * @param $args array
+     * @param array $args
+     * @return void
      */
     public function addButton($args)
     {
@@ -76,7 +80,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         // Make buttons to be rendered in opposite order of addition. This makes "Add products" the last one.
         $this->_buttons = array_reverse($this->_buttons);
         foreach ($this->_buttons as $buttonData) {
-            $html .= $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
+            $html .= $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
+                $buttonData
+            )->toHtml();
         }
 
         return $html;
@@ -94,5 +102,4 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         }
         return '';
     }
-
 }

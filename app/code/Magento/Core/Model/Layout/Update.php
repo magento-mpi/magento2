@@ -24,7 +24,7 @@ namespace Magento\Core\Model\Layout;
  * @method \Magento\Core\Model\Layout\Update setUpdatedAt() setUpdatedAt(string $updateDateTime)
  * @method \Magento\Core\Model\Resource\Layout\Update\Collection getCollection()
  */
-class Update extends \Magento\Core\Model\AbstractModel
+class Update extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -32,19 +32,19 @@ class Update extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_dateTime = $dateTime;
@@ -53,6 +53,8 @@ class Update extends \Magento\Core\Model\AbstractModel
 
     /**
      * Layout Update model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,7 +64,7 @@ class Update extends \Magento\Core\Model\AbstractModel
     /**
      * Set current updated date
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {

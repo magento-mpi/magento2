@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
  * Accordion for different product sources for adding to shopping cart
@@ -15,12 +16,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
-
 class Accordion extends \Magento\Backend\Block\Widget\Accordion
 {
     /**
      * Add accordion items based on layout updates
+     *
+     * @return string
      */
     protected function _toHtml()
     {
@@ -28,13 +29,10 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             return parent::_toHtml();
         }
         $layout = $this->getLayout();
-        /** @var $child \Magento\View\Element\AbstractBlock  */
+        /** @var $child \Magento\Framework\View\Element\AbstractBlock  */
         foreach ($layout->getChildBlocks($this->getNameInLayout()) as $child) {
             $name = $child->getNameInLayout();
-            $data = array(
-                'title'       => $child->getHeaderText(),
-                'open'        => false
-            );
+            $data = array('title' => $child->getHeaderText(), 'open' => false);
             if ($child->hasData('open')) {
                 $data['open'] = $child->getData('open');
             }

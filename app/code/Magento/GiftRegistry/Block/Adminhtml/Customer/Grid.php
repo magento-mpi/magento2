@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -18,7 +17,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $entityFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $systemStore;
 
@@ -26,14 +25,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->entityFactory = $entityFactory;
@@ -44,6 +43,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Set default sort
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -57,7 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -73,62 +74,51 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('title', array(
-            'header' => __('Event'),
-            'index'  => 'title'
-        ));
+        $this->addColumn('title', array('header' => __('Event'), 'index' => 'title'));
 
-        $this->addColumn('registrants', array(
-            'header' => __('Recipients'),
-            'index'  => 'registrants'
-        ));
+        $this->addColumn('registrants', array('header' => __('Recipients'), 'index' => 'registrants'));
 
-        $this->addColumn('event_date', array(
-            'header'  => __('Event Date'),
-            'index'   => 'event_date',
-            'type'    => 'date',
-            'default' => '--'
-        ));
+        $this->addColumn(
+            'event_date',
+            array('header' => __('Event Date'), 'index' => 'event_date', 'type' => 'date', 'default' => '--')
+        );
 
-        $this->addColumn('qty', array(
-            'header' => __('Total Items'),
-            'index'  => 'qty',
-            'type'   => 'number'
-        ));
+        $this->addColumn('qty', array('header' => __('Total Items'), 'index' => 'qty', 'type' => 'number'));
 
-        $this->addColumn('qty_fulfilled', array(
-            'header' => __('Fulfilled'),
-            'index'  => 'qty_fulfilled',
-            'type'   => 'number',
-        ));
+        $this->addColumn(
+            'qty_fulfilled',
+            array('header' => __('Fulfilled'), 'index' => 'qty_fulfilled', 'type' => 'number')
+        );
 
-        $this->addColumn('qty_remaining', array(
-            'header' => __('Remaining'),
-            'index'  => 'qty_remaining',
-            'type'   => 'number'
-        ));
+        $this->addColumn(
+            'qty_remaining',
+            array('header' => __('Remaining'), 'index' => 'qty_remaining', 'type' => 'number')
+        );
 
-        $this->addColumn('is_public', array(
-            'header'  => __('Public'),
-            'index'   => 'is_public',
-            'type'    => 'options',
-            'options' => array(
-                '0' => __('No'),
-                '1' => __('Yes'),
+        $this->addColumn(
+            'is_public',
+            array(
+                'header' => __('Public'),
+                'index' => 'is_public',
+                'type' => 'options',
+                'options' => array('0' => __('No'), '1' => __('Yes'))
             )
-        ));
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('website_id', array(
-                'header' => __('Website'),
-                'index'  => 'website_id',
-                'type'   => 'options',
-                'options' => $this->systemStore->getWebsiteOptionHash()
-            ));
+            $this->addColumn(
+                'website_id',
+                array(
+                    'header' => __('Website'),
+                    'index' => 'website_id',
+                    'type' => 'options',
+                    'options' => $this->systemStore->getWebsiteOptionHash()
+                )
+            );
         }
 
         return parent::_prepareColumns();
@@ -137,14 +127,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array(
-            'id'       => $row->getId(),
-            'customer' => $row->getCustomerId()
-        ));
+        return $this->getUrl('adminhtml/*/edit', array('id' => $row->getId(), 'customer' => $row->getCustomerId()));
     }
 
     /**
@@ -154,6 +142,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/grid', array('_current' => true));
     }
 }

@@ -28,7 +28,7 @@ interface ServiceInterface
      * @param array $additionalParameters
      * @return UriInterface
      */
-    public function getAuthorizationUri( array $additionalParameters = array() );
+    public function getAuthorizationUri(array $additionalParameters = array());
 
     /**
      * Returns the authorization API endpoint.

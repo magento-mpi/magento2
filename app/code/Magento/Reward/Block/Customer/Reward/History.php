@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class History extends \Magento\View\Element\Template
+class History extends \Magento\Framework\View\Element\Template
 {
     /**
      * History records collection
@@ -34,9 +34,9 @@ class History extends \Magento\View\Element\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @var \Magento\Reward\Model\Resource\Reward\History\CollectionFactory
@@ -49,24 +49,24 @@ class History extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_historyFactory = $historyFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -176,7 +176,7 @@ class History extends \Magento\View\Element\Template
         if (!$this->_collection) {
             $websiteId = $this->_storeManager->getWebsite()->getId();
             $this->_collection = $this->_historyFactory->create()
-                ->addCustomerFilter($this->_customerSession->getCustomerId())
+                ->addCustomerFilter($this->currentCustomer->getCustomerId())
                 ->addWebsiteFilter($websiteId)
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->addExpirationDate($websiteId)
@@ -195,9 +195,14 @@ class History extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'reward.history.pager')
-                ->setCollection($this->_getCollection())->setIsOutputRequired(false)
-            ;
+            $pager = $this->getLayout()->createBlock(
+                'Magento\Theme\Block\Html\Pager',
+                'reward.history.pager'
+            )->setCollection(
+                $this->_getCollection()
+            )->setIsOutputRequired(
+                false
+            );
             $this->setChild('pager', $pager);
         }
         return parent::_prepareLayout();
@@ -223,7 +228,6 @@ class History extends \Magento\View\Element\Template
      */
     protected function _isEnabled()
     {
-        return $this->_rewardData->isEnabledOnFront()
-            && $this->_rewardData->getGeneralConfig('publish_history');
+        return $this->_rewardData->isEnabledOnFront() && $this->_rewardData->getGeneralConfig('publish_history');
     }
 }

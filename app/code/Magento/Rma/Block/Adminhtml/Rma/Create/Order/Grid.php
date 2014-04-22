@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
 
 /**
@@ -68,8 +67,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
-        $collection = $this->_gridCollectionFactory->create()
-            ->setOrder('entity_id');
+        $collection = $this->_gridCollectionFactory->create()->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -81,61 +79,80 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('real_order_id', array(
-            'header' => __('Order'),
-            'width' => '80px',
-            'type' => 'text',
-            'index' => 'increment_id',
-        ));
+        $this->addColumn(
+            'real_order_id',
+            array('header' => __('Order'), 'width' => '80px', 'type' => 'text', 'index' => 'increment_id')
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store_id', array(
-                'header' => __('Purchase Point'),
-                'index' => 'store_id',
-                'type' => 'store',
-                'store_view' => true,
-                'display_deleted' => true,
-            ));
+            $this->addColumn(
+                'store_id',
+                array(
+                    'header' => __('Purchase Point'),
+                    'index' => 'store_id',
+                    'type' => 'store',
+                    'store_view' => true,
+                    'display_deleted' => true
+                )
+            );
         }
 
-        $this->addColumn('created_at', array(
-            'header' => __('Purchase Date'),
-            'index' => 'created_at',
-            'type' => 'datetime',
-            'width' => '100px',
-        ));
+        $this->addColumn(
+            'created_at',
+            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
+        );
 
-        $this->addColumn('billing_name', array(
-            'header' => __('Bill-to Name'),
-            'index' => 'billing_name',
-        ));
+        $this->addColumn(
+            'billing_name',
+            array(
+                'header' => __('Bill-to Name'),
+                'index' => 'billing_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
 
-        $this->addColumn('shipping_name', array(
-            'header' => __('Ship-to Name'),
-            'index' => 'shipping_name',
-        ));
+            )
+        );
 
-        $this->addColumn('base_grand_total', array(
-            'header' => __('Grand Total (Base)'),
-            'index' => 'base_grand_total',
-            'type' => 'currency',
-            'currency' => 'base_currency_code',
-        ));
+        $this->addColumn(
+            'shipping_name',
+            array(
+                'header' => __('Ship-to Name'),
+                'index' => 'shipping_name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
-        $this->addColumn('grand_total', array(
-            'header' => __('Grand Total (Purchased)'),
-            'index' => 'grand_total',
-            'type' => 'currency',
-            'currency' => 'order_currency_code',
-        ));
+        $this->addColumn(
+            'base_grand_total',
+            array(
+                'header' => __('Grand Total (Base)'),
+                'index' => 'base_grand_total',
+                'type' => 'currency',
+                'currency' => 'base_currency_code'
+            )
+        );
 
-        $this->addColumn('status', array(
-            'header' => __('Status'),
-            'index' => 'status',
-            'type' => 'options',
-            'width' => '70px',
-            'options' => $this->_orderConfig->getStatuses(),
-        ));
+        $this->addColumn(
+            'grand_total',
+            array(
+                'header' => __('Grand Total (Purchased)'),
+                'index' => 'grand_total',
+                'type' => 'currency',
+                'currency' => 'order_currency_code'
+            )
+        );
+
+        $this->addColumn(
+            'status',
+            array(
+                'header' => __('Status'),
+                'index' => 'status',
+                'type' => 'options',
+                'width' => '70px',
+                'options' => $this->_orderConfig->getStatuses()
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -150,5 +167,4 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl('adminhtml/*/new', array('order_id' => $row->getId()));
     }
-
 }

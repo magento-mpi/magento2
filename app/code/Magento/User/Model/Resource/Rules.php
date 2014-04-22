@@ -10,12 +10,12 @@ namespace Magento\User\Model\Resource;
 /**
  * Admin rule resource model
  */
-class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource
      *
-     * @var \Magento\Core\Model\Acl\RootResource
+     * @var \Magento\Acl\RootResource
      */
     protected $_rootResource;
 
@@ -37,17 +37,17 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Logger $logger,
-        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\Acl\RootResource $rootResource,
         \Magento\Acl\CacheInterface $aclCache
     ) {
         $this->_aclBuilder = $aclBuilder;
@@ -72,7 +72,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\User\Model\Rules $rule
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveRel(\Magento\User\Model\Rules $rule)
     {
@@ -81,9 +81,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             $adapter->beginTransaction();
             $roleId = $rule->getRoleId();
 
-            $condition = array(
-                'role_id = ?' => (int) $roleId,
-            );
+            $condition = array('role_id = ?' => (int)$roleId);
 
             $adapter->delete($this->getMainTable(), $condition);
 
@@ -91,9 +89,9 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($postedResources) {
                 $row = array(
                     'resource_id' => $this->_rootResource->getId(),
-                    'privileges'  => '', // not used yet
-                    'role_id'     => $roleId,
-                    'permission'  => 'allow'
+                    'privileges' => '', // not used yet
+                    'role_id' => $roleId,
+                    'permission' => 'allow'
                 );
 
                 // If all was selected save it only and nothing else.
@@ -116,10 +114,10 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $adapter->rollBack();
             throw $e;
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $adapter->rollBack();
             $this->_logger->logException($e);
         }

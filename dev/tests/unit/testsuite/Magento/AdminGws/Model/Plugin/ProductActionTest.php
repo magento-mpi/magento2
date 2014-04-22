@@ -12,36 +12,38 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\AdminGws\Model\Plugin\ProductAction
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_roleMock;
+    protected $roleMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
 
     protected function setUp()
     {
-        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->_model = new \Magento\AdminGws\Model\Plugin\ProductAction($this->_roleMock);
+        $this->roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
+        $this->model = new \Magento\AdminGws\Model\Plugin\ProductAction($this->roleMock);
     }
 
     public function testBeforeUpdateWebsitesDoesNotCheckWebsiteAccessWhenRoleIsNotRestricted()
     {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(true));
-        $this->_roleMock->expects($this->never())
-            ->method('getIsWebsiteLevel');
-        $this->_roleMock->expects($this->never())
-            ->method('hasWebsiteAccess');
-        $this->_model->beforeUpdateWebsites(array());
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(true));
+        $this->roleMock->expects($this->never())->method('getIsWebsiteLevel');
+        $this->roleMock->expects($this->never())->method('hasWebsiteAccess');
+        $this->model->beforeUpdateWebsites($this->subjectMock, array(), array(), 'type');
     }
 
     /**
      * @param boolean $isWebsiteLevelRole
      * @param boolean $hasWebsiteAccess
      * @param string $actionType
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeUpdateWebsitesThrowsExceptionWhenAccessIsRestrictedDataProvider
      */
@@ -50,18 +52,26 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         $hasWebsiteAccess,
         $actionType
     ) {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
-        $this->_roleMock->expects($this->any())
-            ->method('getIsWebsiteLevel')
-            ->will($this->returnValue($isWebsiteLevelRole));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
+        $this->roleMock->expects(
+            $this->any()
+        )->method(
+            'getIsWebsiteLevel'
+        )->will(
+            $this->returnValue($isWebsiteLevelRole)
+        );
         $websiteIds = array(1);
-        $this->_roleMock->expects($this->any())
-            ->method('hasWebsiteAccess')
-            ->with($websiteIds, true)
-            ->will($this->returnValue($hasWebsiteAccess));
-        $this->_model->beforeUpdateWebsites(array(array(), $websiteIds, $actionType));
+        $this->roleMock->expects(
+            $this->any()
+        )->method(
+            'hasWebsiteAccess'
+        )->with(
+            $websiteIds,
+            true
+        )->will(
+            $this->returnValue($hasWebsiteAccess)
+        );
+        $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, $actionType);
     }
 
     public function beforeUpdateWebsitesThrowsExceptionWhenAccessIsRestrictedDataProvider()
@@ -72,23 +82,25 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
             array(false, false, 'remove'),
             array(true, false, 'add'),
             array(false, true, 'add'),
-            array(false, false, 'add'),
+            array(false, false, 'add')
         );
     }
 
     public function testBeforeUpdateWebsitesDoesNotThrowExceptionWhenUserHasAccessToGivenWebsites()
     {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
-        $this->_roleMock->expects($this->once())
-            ->method('getIsWebsiteLevel')
-            ->will($this->returnValue(true));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
+        $this->roleMock->expects($this->once())->method('getIsWebsiteLevel')->will($this->returnValue(true));
         $websiteIds = array(1);
-        $this->_roleMock->expects($this->once())
-            ->method('hasWebsiteAccess')
-            ->with($websiteIds, true)
-            ->will($this->returnValue(true));
-        $this->_model->beforeUpdateWebsites(array(array(), $websiteIds, 'add'));
+        $this->roleMock->expects(
+            $this->once()
+        )->method(
+            'hasWebsiteAccess'
+        )->with(
+            $websiteIds,
+            true
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, 'add');
     }
 }

@@ -7,23 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Helper;
+
+use Magento\Sales\Model\Quote\Item\AbstractItem;
 
 /**
  * SalesRule data helper
  */
-namespace Magento\SalesRule\Helper;
-
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Set store and base price which will be used during discount calculation to item object
      *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @param   float $basePrice
-     * @param   float $price
-     * @return  \Magento\SalesRule\Helper\Data
+     * @param AbstractItem $item
+     * @param float $basePrice
+     * @param float $price
+     * @return $this
      */
-    public function setItemDiscountPrices(\Magento\Sales\Model\Quote\Item\AbstractItem $item, $basePrice, $price)
+    public function setItemDiscountPrices(AbstractItem $item, $basePrice, $price)
     {
         $item->setDiscountCalculationPrice($price);
         $item->setBaseDiscountCalculationPrice($basePrice);
@@ -33,20 +34,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Add additional amounts to discount calculation prices
      *
-     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @param   float $basePrice
-     * @param   float $price
-     * @return  \Magento\SalesRule\Helper\Data
+     * @param AbstractItem $item
+     * @param float $basePrice
+     * @param float $price
+     * @return $this
      */
-    public function addItemDiscountPrices(\Magento\Sales\Model\Quote\Item\AbstractItem $item, $basePrice, $price)
+    public function addItemDiscountPrices(AbstractItem $item, $basePrice, $price)
     {
-        $discountPrice      = $item->getDiscountCalculationPrice();
-        $baseDiscountPrice  = $item->getBaseDiscountCalculationPrice();
+        $discountPrice = $item->getDiscountCalculationPrice();
+        $baseDiscountPrice = $item->getBaseDiscountCalculationPrice();
 
         if ($discountPrice || $baseDiscountPrice || $basePrice || $price) {
-            $discountPrice      = $discountPrice ? $discountPrice : $item->getCalculationPrice();
-            $baseDiscountPrice  = $baseDiscountPrice ? $baseDiscountPrice : $item->getBaseCalculationPrice();
-            $this->setItemDiscountPrices($item, $baseDiscountPrice+$basePrice, $discountPrice+$price);
+            $discountPrice = $discountPrice ? $discountPrice : $item->getCalculationPrice();
+            $baseDiscountPrice = $baseDiscountPrice ? $baseDiscountPrice : $item->getBaseCalculationPrice();
+            $this->setItemDiscountPrices($item, $baseDiscountPrice + $basePrice, $discountPrice + $price);
         }
         return $this;
     }

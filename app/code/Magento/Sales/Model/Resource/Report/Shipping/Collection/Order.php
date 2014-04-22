@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
 
 /**
  * Sales report shipping collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
-
-class Order
-    extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
+class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format
@@ -33,20 +30,20 @@ class Order
      *
      * @var array
      */
-    protected $_selectedColumns    = array();
+    protected $_selectedColumns = array();
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null
@@ -66,18 +63,21 @@ class Order
         if ('month' == $this->_period) {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m');
         } elseif ('year' == $this->_period) {
-             $this->_periodFormat = $adapter->getDateExtractSql('period', \Magento\DB\Adapter\AdapterInterface::INTERVAL_YEAR);
+            $this->_periodFormat = $adapter->getDateExtractSql(
+                'period',
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_YEAR
+            );
         } else {
             $this->_periodFormat = $adapter->getDateFormatSql('period', '%Y-%m-%d');
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
             $this->_selectedColumns = array(
-                'period'                => $this->_periodFormat,
-                'shipping_description'  => 'shipping_description',
-                'orders_count'          => 'SUM(orders_count)',
-                'total_shipping'        => 'SUM(total_shipping)',
-                'total_shipping_actual' => 'SUM(total_shipping_actual)',
+                'period' => $this->_periodFormat,
+                'shipping_description' => 'shipping_description',
+                'orders_count' => 'SUM(orders_count)',
+                'total_shipping' => 'SUM(total_shipping)',
+                'total_shipping_actual' => 'SUM(total_shipping_actual)'
             );
         }
 
@@ -95,22 +95,17 @@ class Order
     /**
      * Add selected data
      *
-     * @return \Magento\Sales\Model\Resource\Report\Shipping\Collection\Order
+     * @return $this
      */
     protected function _initSelect()
     {
         $this->getSelect()->from($this->getResource()->getMainTable(), $this->_getSelectedColumns());
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
-            $this->getSelect()->group(array(
-                $this->_periodFormat,
-                'shipping_description'
-            ));
+            $this->getSelect()->group(array($this->_periodFormat, 'shipping_description'));
         }
         if ($this->isSubTotals()) {
-            $this->getSelect()->group(array(
-                $this->_periodFormat
-            ));
+            $this->getSelect()->group(array($this->_periodFormat));
         }
         return parent::_initSelect();
     }

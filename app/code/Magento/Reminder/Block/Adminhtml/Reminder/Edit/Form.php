@@ -14,8 +14,7 @@ use Magento\Backend\Block\Widget\Form as WidgetForm;
 /**
  * Reminder rules edit form block
  */
-class Form
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Initialize form
@@ -36,13 +35,9 @@ class Form
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
         $form->setUseContainer(true);
         $this->setForm($form);

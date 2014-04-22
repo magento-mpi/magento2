@@ -17,8 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
-class Items
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
+class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Select element for choosing gift wrapping design
@@ -27,12 +26,13 @@ class Items
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'giftwrapping_design_item',
-                'class' => 'select'
-            ))
-            ->setOptions($this->getDesignCollection()->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\Framework\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'giftwrapping_design_item', 'class' => 'select')
+        )->setOptions(
+            $this->getDesignCollection()->toOptionArray()
+        );
         return $select->getHtml();
     }
 
@@ -55,7 +55,9 @@ class Items
                         $temp['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
                         $temp['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
                     } else {
-                        $temp['price'] = $this->calculatePrice(new \Magento\Object(), $price,
+                        $temp['price'] = $this->calculatePrice(
+                            new \Magento\Object(),
+                            $price,
                             $this->getDisplayWrappingPriceInclTax()
                         );
                     }
@@ -98,7 +100,6 @@ class Items
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return $this->_giftWrappingData
-            ->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
+        return $this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

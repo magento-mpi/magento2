@@ -17,22 +17,22 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Review extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
@@ -46,14 +46,8 @@ class Review extends \Magento\Backend\App\Action
     public function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_addBreadcrumb(
-            __('Reports'),
-            __('Reports')
-        );
-        $this->_addBreadcrumb(
-            __('Review'),
-            __('Reviews')
-        );
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_addBreadcrumb(__('Review'), __('Reviews'));
         return $this;
     }
 
@@ -66,13 +60,13 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Customer Reviews Report'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Review::report_review_customer')
-            ->_addBreadcrumb(
-                __('Customers Report'),
-                __('Customers Report')
-            );
-         $this->_view->renderLayout();
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Review::report_review_customer'
+        )->_addBreadcrumb(
+            __('Customers Report'),
+            __('Customers Report')
+        );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -84,10 +78,11 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $fileName = 'review_customer.csv';
-        $exportBlock = $this->_view
-            ->getLayout()
-            ->getChildBlock('adminhtml.block.report.review.customer.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.review.customer.grid',
+            'grid.export'
+        );
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -99,11 +94,11 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $fileName = 'review_customer.xml';
-        $exportBlock = $this->_view
-            ->getLayout()
-            ->getChildBlock('adminhtml.block.report.review.customer.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\App\Filesystem::VAR_DIR);
-
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.review.customer.grid',
+            'grid.export'
+        );
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -115,13 +110,13 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Product Reviews Report'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Review::report_review_product')
-            ->_addBreadcrumb(
-                __('Products Report'),
-                __('Products Report')
-            );
-            $this->_view->renderLayout();
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Review::report_review_product'
+        )->_addBreadcrumb(
+            __('Products Report'),
+            __('Products Report')
+        );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -133,10 +128,11 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $fileName = 'review_product.csv';
-        $exportBlock = $this->_view
-            ->getLayout()
-            ->getChildBlock('adminhtml.block.report.review.product.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.review.product.grid',
+            'grid.export'
+        );
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -148,10 +144,11 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $fileName = 'review_product.xml';
-        $exportBlock = $this->_view
-            ->getLayout()
-            ->getChildBlock('adminhtml.block.report.review.product.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\App\Filesystem::VAR_DIR);
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.review.product.grid',
+            'grid.export'
+        );
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -163,13 +160,17 @@ class Review extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Details'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Review::report_review')
-            ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
-            ->_addContent(
-                $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Review\Detail')
-            );
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Review::report_review'
+        )->_addBreadcrumb(
+            __('Products Report'),
+            __('Products Report')
+        )->_addBreadcrumb(
+            __('Product Reviews'),
+            __('Product Reviews')
+        )->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Review\Detail')
+        );
         $this->_view->renderLayout();
     }
 
@@ -180,11 +181,12 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportProductDetailCsvAction()
     {
-        $fileName   = 'review_product_detail.csv';
-        $content    = $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Review\Detail\Grid')
-            ->getCsv();
+        $fileName = 'review_product_detail.csv';
+        $content = $this->_view->getLayout()->createBlock(
+            'Magento\Reports\Block\Adminhtml\Review\Detail\Grid'
+        )->getCsv();
 
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -194,11 +196,14 @@ class Review extends \Magento\Backend\App\Action
      */
     public function exportProductDetailExcelAction()
     {
-        $fileName   = 'review_product_detail.xml';
-        $content    = $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Review\Detail\Grid')
-            ->getExcel($fileName);
+        $fileName = 'review_product_detail.xml';
+        $content = $this->_view->getLayout()->createBlock(
+            'Magento\Reports\Block\Adminhtml\Review\Detail\Grid'
+        )->getExcel(
+            $fileName
+        );
 
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**

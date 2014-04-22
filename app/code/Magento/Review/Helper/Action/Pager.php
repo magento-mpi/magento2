@@ -9,14 +9,14 @@
  */
 namespace Magento\Review\Helper\Action;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Action pager helper for iterating over search results
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Pager extends \Magento\App\Helper\AbstractHelper
+class Pager extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const STORAGE_PREFIX = 'search_result_ids';
 
@@ -42,13 +42,11 @@ class Pager extends \Magento\App\Helper\AbstractHelper
     protected $_backendSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Backend\Model\Session $backendSession
      */
-    public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Backend\Model\Session $backendSession
-    ) {
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Backend\Model\Session $backendSession)
+    {
         $this->_backendSession = $backendSession;
         parent::__construct($context);
     }
@@ -86,7 +84,7 @@ class Pager extends \Magento\App\Helper\AbstractHelper
     protected function _loadItems()
     {
         if (is_null($this->_items)) {
-            $this->_items = (array) $this->_backendSession->getData($this->_getStorageKey());
+            $this->_items = (array)$this->_backendSession->getData($this->_getStorageKey());
         }
     }
 
@@ -138,7 +136,7 @@ class Pager extends \Magento\App\Helper\AbstractHelper
      * Get storage key
      *
      * @return string
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getStorageKey()
     {

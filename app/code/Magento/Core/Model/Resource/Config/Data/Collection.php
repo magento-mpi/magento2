@@ -16,14 +16,16 @@ namespace Magento\Core\Model\Resource\Config\Data;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Config\Value', 'Magento\Core\Model\Resource\Config\Data');
+        $this->_init('Magento\Framework\App\Config\Value', 'Magento\Core\Model\Resource\Config\Data');
     }
 
     /**

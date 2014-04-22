@@ -33,29 +33,34 @@ class Tax extends \Magento\Backend\App\Action
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );
-            $class = $this->_objectManager->create('Magento\Tax\Model\ClassModel')
-                ->setData($classData)
-                ->save();
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => true,
-                'error_message' => '',
-                'class_id' => $class->getId(),
-                'class_name' => $class->getClassName()
-            ));
-        } catch (\Magento\Core\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => $e->getMessage(),
-                'class_id' => '',
-                'class_name' => ''
-            ));
+            $class = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->setData($classData)->save();
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array(
+                    'success' => true,
+                    'error_message' => '',
+                    'class_id' => $class->getId(),
+                    'class_name' => $class->getClassName()
+                )
+            );
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => false, 'error_message' => $e->getMessage(), 'class_id' => '', 'class_name' => '')
+            );
         } catch (\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => __('Something went wrong saving this tax class.'),
-                'class_id' => '',
-                'class_name' => ''
-            ));
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array(
+                    'success' => false,
+                    'error_message' => __('Something went wrong saving this tax class.'),
+                    'class_id' => '',
+                    'class_name' => ''
+                )
+            );
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -73,20 +78,23 @@ class Tax extends \Magento\Backend\App\Action
             $classModel = $this->_objectManager->create('Magento\Tax\Model\ClassModel')->load($classId);
             $classModel->checkClassCanBeDeleted();
             $classModel->delete();
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => true,
-                'error_message' => ''
-            ));
-        } catch (\Magento\Core\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => $e->getMessage()
-            ));
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => true, 'error_message' => '')
+            );
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => false, 'error_message' => $e->getMessage())
+            );
         } catch (\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => __('Something went wrong deleting this tax class.')
-            ));
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => false, 'error_message' => __('Something went wrong deleting this tax class.'))
+            );
         }
         $this->getResponse()->setBody($responseContent);
     }
@@ -96,7 +104,7 @@ class Tax extends \Magento\Backend\App\Action
      *
      * @param string $classType
      * @return string processed class type
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processClassType($classType)
     {
@@ -105,7 +113,7 @@ class Tax extends \Magento\Backend\App\Action
             \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
         );
         if (!in_array($classType, $validClassTypes)) {
-            throw new \Magento\Core\Exception(__('Invalid type of tax class specified.'));
+            throw new \Magento\Framework\Model\Exception(__('Invalid type of tax class specified.'));
         }
         return $classType;
     }
@@ -115,13 +123,13 @@ class Tax extends \Magento\Backend\App\Action
      *
      * @param string $className
      * @return string processed class name
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processClassName($className)
     {
         $className = trim($this->_objectManager->get('Magento\Escaper')->escapeHtml($className));
         if ($className == '') {
-            throw new \Magento\Core\Exception(__('Invalid name of tax class specified.'));
+            throw new \Magento\Framework\Model\Exception(__('Invalid name of tax class specified.'));
         }
         return $className;
     }

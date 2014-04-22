@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
@@ -39,9 +38,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getBlockArguments()
     {
-        return array(
-            'urlBuilder'    => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-        );
+        return array('urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false));
     }
 
     /**
@@ -50,9 +47,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSetFrameUrl()
     {
-        $arguments = array(
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-        );
+        $arguments = array('urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false));
 
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
@@ -74,16 +69,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
 
-        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $block->setLayout($layout);
 
         $expectedButtonData = array(
-            'back_button'    => array(
-                'label'      => $buttonTitle,
-                'onclick'    => 'setLocation(\'\')',
-                'class'      => 'back',
-                'id'         => 'back_button',
-                'region'     => 'header',
+            'back_button' => array(
+                'label' => $buttonTitle,
+                'onclick' => 'setLocation(\'\')',
+                'class' => 'back',
+                'id' => 'back_button',
+                'region' => 'toolbar',
                 'sort_order' => 10
             )
         );

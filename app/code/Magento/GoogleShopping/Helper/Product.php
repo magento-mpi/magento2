@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Helper;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Product extends \Magento\App\Helper\AbstractHelper
+class Product extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Product attributes cache
@@ -48,9 +48,9 @@ class Product extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        return isset($this->_productAttributes[$product->getId()][$attributeId])
-            ? $this->_productAttributes[$product->getId()][$attributeId]
-            : null;
+        return isset(
+            $this->_productAttributes[$product->getId()][$attributeId]
+        ) ? $this->_productAttributes[$product->getId()][$attributeId] : null;
     }
 
     /**

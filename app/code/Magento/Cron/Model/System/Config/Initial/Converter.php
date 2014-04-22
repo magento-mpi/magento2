@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\System\Config\Initial;
 
 class Converter
@@ -28,10 +27,13 @@ class Converter
     /**
      * Modify global configuration for cron
      *
+     * @param \Magento\Framework\App\Config\Initial\Converter $subject
      * @param array $result
+     *
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterConvert(array $result)
+    public function afterConvert(\Magento\Framework\App\Config\Initial\Converter $subject, array $result)
     {
         if (isset($result['data']['default']['system'])) {
             $result['data']['default']['system']['cron'] = $this->groupsConfig->get();

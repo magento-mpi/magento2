@@ -28,7 +28,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function testExemplarXml($fixtureXml, array $expectedErrors)
     {
-        $dom = new \Magento\Config\Dom($fixtureXml, array(), null, null, '%message%');
+        $dom = new \Magento\Framework\Config\Dom($fixtureXml, array(), null, null, '%message%');
         $actualResult = $dom->validate($this->_schemaFile, $actualErrors);
         $this->assertEquals(empty($expectedErrors), $actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -37,10 +37,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function exemplarXmlDataProvider()
     {
         return array(
-            'valid' => array(
-                '<config><group name="test"><attribute name="attr"/></group></config>',
-                array()
-            ),
+            'valid' => array('<config><group name="test"><attribute name="attr"/></group></config>', array()),
             'empty root node' => array(
                 '<config/>',
                 array("Element 'config': Missing child element(s). Expected is ( group ).")
@@ -76,7 +73,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             'node "attribute" with invalid attribute' => array(
                 '<config><group name="test"><attribute name="attr" invalid="true"/></group></config>',
                 array("Element 'attribute', attribute 'invalid': The attribute 'invalid' is not allowed.")
-            ),
+            )
         );
     }
 }

@@ -7,18 +7,17 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\User\Model\Role" shared="false" />
-    <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <type name="Magento\User\Model\Resource\Rules">
         <arguments>
-            <argument name="rootResource" xsi:type="object">Magento\Core\Model\Acl\RootResource\Proxy</argument>
-            <argument name="aclCache" xsi:type="object">Magento\Core\Model\Acl\Cache\Proxy</argument>
+            <argument name="rootResource" xsi:type="object">Magento\Acl\RootResource\Proxy</argument>
+            <argument name="aclCache" xsi:type="object">Magento\Acl\Cache\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\User\Model\Resource\User">
         <arguments>
-            <argument name="aclCache" xsi:type="object">Magento\Core\Model\Acl\Cache\Proxy</argument>
+            <argument name="aclCache" xsi:type="object">Magento\Acl\Cache\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">

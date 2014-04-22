@@ -9,7 +9,7 @@
  */
 namespace Magento\Module\Declaration\Converter;
 
-class Dom implements \Magento\Config\ConverterInterface
+class Dom implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -37,13 +37,10 @@ class Dom implements \Magento\Config\ConverterInterface
             if (is_null($activeNode)) {
                 throw new \Exception('Attribute "active" is required for module node.');
             }
-            $moduleData['active'] = ($activeNode->nodeValue == 'false') ? false : true;
-            $moduleData['dependencies'] =array(
+            $moduleData['active'] = $activeNode->nodeValue == 'false' ? false : true;
+            $moduleData['dependencies'] = array(
                 'modules' => array(),
-                'extensions' => array(
-                    'strict' => array(),
-                    'alternatives' => array(),
-                ),
+                'extensions' => array('strict' => array(), 'alternatives' => array())
             );
             /** @var $childNode \DOMNode */
             foreach ($moduleNode->childNodes as $childNode) {
@@ -77,12 +74,7 @@ class Dom implements \Magento\Config\ConverterInterface
      */
     protected function _convertExtensionDependencies(\DOMNode $dependsNode)
     {
-        $dependencies = array(
-            'extensions' => array(
-                'strict' => array(),
-                'alternatives' => array(),
-            ),
-        );
+        $dependencies = array('extensions' => array('strict' => array(), 'alternatives' => array()));
         /** @var $childNode \DOMNode */
         foreach ($dependsNode->childNodes as $childNode) {
             switch ($childNode->nodeName) {
@@ -140,9 +132,7 @@ class Dom implements \Magento\Config\ConverterInterface
      */
     protected function _convertModuleDependencies(\DOMNode $dependsNode)
     {
-        $dependencies = array(
-            'modules' => array(),
-        );
+        $dependencies = array('modules' => array());
         /** @var $childNode \DOMNode */
         foreach ($dependsNode->childNodes as $childNode) {
             switch ($childNode->nodeName) {

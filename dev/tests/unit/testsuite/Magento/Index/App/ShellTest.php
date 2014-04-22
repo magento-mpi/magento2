@@ -30,13 +30,8 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_shellFactory = $this->getMock('Magento\Index\Model\ShellFactory', array('create'), array(), '', false);
-        $this->_responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
-        $this->_entryPoint = new \Magento\Index\App\Shell(
-            'indexer.php',
-            $this->_shellFactory,
-            $this->_responseMock
-
-        );
+        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
+        $this->_entryPoint = new \Magento\Index\App\Shell('indexer.php', $this->_shellFactory, $this->_responseMock);
     }
 
     /**
@@ -46,23 +41,14 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequest($shellHasErrors)
     {
         $shell = $this->getMock('Magento\Index\Model\Shell', array(), array(), '', false);
-        $shell->expects($this->once())
-            ->method('hasErrors')
-            ->will($this->returnValue($shellHasErrors));
+        $shell->expects($this->once())->method('hasErrors')->will($this->returnValue($shellHasErrors));
         $shell->expects($this->once())->method('run');
         if ($shellHasErrors) {
-            $this->_responseMock->expects($this->once())
-                ->method('setCode')
-                ->with(-1);
+            $this->_responseMock->expects($this->once())->method('setCode')->with(-1);
         } else {
-            $this->_responseMock->expects($this->once())
-                ->method('setCode')
-                ->with(0);
+            $this->_responseMock->expects($this->once())->method('setCode')->with(0);
         }
-        $this->_shellFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($shell)
-            );
+        $this->_shellFactory->expects($this->any())->method('create')->will($this->returnValue($shell));
 
         $this->_entryPoint->launch();
     }
@@ -72,9 +58,6 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function processRequestDataProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return array(array(true), array(false));
     }
 }

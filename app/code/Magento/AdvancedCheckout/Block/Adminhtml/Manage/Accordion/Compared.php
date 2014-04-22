@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for products in compared list
@@ -15,15 +18,12 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
-
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-
-class Compared
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
+class Compared extends AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
+     *
+     * @var string
      */
     protected $_listType = 'compared';
 
@@ -50,8 +50,8 @@ class Compared
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
@@ -61,8 +61,8 @@ class Compared
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Registry $coreRegistry,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
@@ -76,34 +76,41 @@ class Compared
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('source_compared');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Products in the Comparison List (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Products in the Comparison List (%1)', $this->getItemsCount()));
         }
     }
 
     /**
      * Return items collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
             $attributes = $this->_catalogConfig->getProductAttributes();
-            $collection = $this->_compareListFactory->create()
-                ->getItemCollection()
-                ->useProductItem(true)
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->setCustomerId($this->_getCustomer()->getId())
-                ->addAttributeToSelect($attributes)
-                ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED);
+            $collection = $this->_compareListFactory->create()->getItemCollection()->useProductItem(
+                true
+            )->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->setCustomerId(
+                $this->_getCustomer()->getId()
+            )->addAttributeToSelect(
+                $attributes
+            )->addAttributeToFilter(
+                'status',
+                ProductStatus::STATUS_ENABLED
+            );
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
@@ -119,6 +126,6 @@ class Compared
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewCompared', array('_current' => true));
     }
 }

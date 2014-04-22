@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PromotionPermissions\Model;
 
 /**
@@ -17,7 +16,7 @@ namespace Magento\PromotionPermissions\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout = null;
 
@@ -32,10 +31,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Module\ModuleList');
-        $objectManager->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+        $objectManager->get(
+            'Magento\Framework\Config\ScopeInterface'
+        )->setCurrentScope(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
     }
 
     /**
@@ -52,16 +55,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $childBlock
         );
 
-        $this->assertSame(
-            $gridBlock,
-            $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer')
+        $this->assertSame($gridBlock, $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
+        $this->_moduleListMock->expects(
+            $this->any()
+        )->method(
+            'getModule'
+        )->with(
+            'Magento_Banner'
+        )->will(
+            $this->returnValue(true)
         );
-        $this->_moduleListMock->expects($this->any())->method('getModule')->with('Magento_Banner')
-            ->will($this->returnValue(true));
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\PromotionPermissions\Model\Observer');
+        $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\PromotionPermissions\Model\Observer'
+        );
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
@@ -74,7 +82,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('promo_quote_edit_tabs', 'salesrule.related.banners'),
-            array('promo_catalog_edit_tabs', 'catalogrule.related.banners'),
+            array('promo_catalog_edit_tabs', 'catalogrule.related.banners')
         );
     }
 }

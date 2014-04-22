@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Model\Resource;
 
 /**
  * GiftCard account history serource model
@@ -15,9 +16,7 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource;
-
-class History extends \Magento\Core\Model\Resource\Db\AbstractDb
+class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -25,10 +24,10 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -37,6 +36,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and primary key field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,10 +46,10 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Setting "updated_at" date before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\GiftCardAccount\Model\Resource\History
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate(time()));
         return parent::_beforeSave($object);

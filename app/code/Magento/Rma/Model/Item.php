@@ -7,26 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
 /**
  * RMA Item model
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Entity code.
      * Can be used as part of method name for entity processing
      */
-    const ENTITY            = 'rma_item';
+    const ENTITY = 'rma_item';
 
     /**
      * Rma instance
      *
      * @var \Magento\Rma\Model\Rma
      */
-    protected $_rma         = null;
+    protected $_rma = null;
 
     /**
      * Store firstly set all item attributes
@@ -40,19 +39,19 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @var array
      */
-    protected $_filesArray  = array();
+    protected $_filesArray = array();
 
     /**
      * Rma item errors
      *
      * @var array
      */
-    protected $_errors      = array();
+    protected $_errors = array();
 
     /**
      * Image url
      */
-    const ITEM_IMAGE_URL    = 'rma_item';
+    const ITEM_IMAGE_URL = 'rma_item';
 
     /**
      * Rma factory
@@ -85,32 +84,32 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Application request factory
      *
-     * @var \Magento\App\RequestFactory
+     * @var \Magento\Framework\App\RequestFactory
      */
     protected $_requestFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
-     * @param \Magento\App\RequestFactory $requestFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\RequestFactory $requestFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
-        \Magento\App\RequestFactory $requestFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\RequestFactory $requestFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaFactory = $rmaFactory;
@@ -208,7 +207,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             if ($this->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
                 $qtyReturnedChange = $this->getQtyApproved() - $this->getOrigData('qty_approved');
             } else {
-                $qtyReturnedChange = - $this->getOrigData('qty_approved');
+                $qtyReturnedChange = -$this->getOrigData('qty_approved');
             }
         } else {
             if ($this->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
@@ -219,8 +218,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($qtyReturnedChange) {
             $item = $this->_itemFactory->create()->load($this->getOrderItemId());
             if ($item->getId()) {
-                $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)
-                    ->save();
+                $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)->save();
             }
         }
         parent::_afterSave();
@@ -234,9 +232,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getAttributes()
     {
         if ($this->_attributes === null) {
-            $this->_attributes = $this->_getResource()
-            ->loadAllAttributes($this)
-            ->getSortedAttributes();
+            $this->_attributes = $this->_getResource()->loadAllAttributes($this)->getSortedAttributes();
         }
         return $this->_attributes;
     }
@@ -284,10 +280,10 @@ class Item extends \Magento\Core\Model\AbstractModel
         $itemData = $itemForm->extractData($httpRequest);
 
         $files = array();
-        foreach ($itemData as $code=>&$value) {
+        foreach ($itemData as $code => &$value) {
             if (is_array($value) && empty($value)) {
-                if (array_key_exists($code.'_'.$key, $_FILES)) {
-                    $value = $_FILES[$code.'_'.$key];
+                if (array_key_exists($code . '_' . $key, $_FILES)) {
+                    $value = $_FILES[$code . '_' . $key];
                     $files[] = $code;
                 }
             }
@@ -302,7 +298,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
         if (!empty($files)) {
             foreach ($files as $code) {
-                unset($_FILES[$code.'_'.$key]);
+                unset($_FILES[$code . '_' . $key]);
             }
             return $files;
         }
@@ -332,5 +328,4 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
         return false;
     }
-
 }

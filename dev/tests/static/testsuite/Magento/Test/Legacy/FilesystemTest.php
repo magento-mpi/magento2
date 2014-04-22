@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Legacy;
 
 class FilesystemTest extends \PHPUnit_Framework_TestCase
@@ -40,35 +39,36 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         return array(
             'Relocated to pub/errors' => array('errors'),
             'Eliminated with Magento_Compiler' => array('includes'),
+            'Eliminated with Magento_GoogleCheckout' => array('lib/googlecheckout'),
             'Relocated to lib/web' => array('js'),
             'Relocated to pub/media' => array('media'),
             'Eliminated as not needed' => array('pkginfo'),
             'Dissolved into themes under app/design ' => array('skin'),
             'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
-            'Dissolved into different modules\' view/email/*.html' =>
-                array('app/locale/en_US/template'),
-            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
-                => array('app/code/core'),
-            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
-                => array('app/code/local'),
-            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard'
-                => array('app/code/community'),
+            'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
+            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+                'app/code/core'
+            ),
+            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+                'app/code/local'
+            ),
+            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
+                'app/code/community'
+            )
         );
     }
 
     public function testObsoleteDirectories()
     {
-        $area    = '*';
-        $theme   = '*';
+        $area = '*';
+        $theme = '*';
         $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $dirs = glob("{$root}/app/design/{$area}/{$theme}/template", GLOB_ONLYDIR);
         $msg = array();
         if ($dirs) {
             $msg[] = 'Theme "template" directories are obsolete. Relocate files as follows:';
             foreach ($dirs as $dir) {
-                $msg[] = str_replace($root, '',
-                    "{$dir} => " . realpath($dir . '/..') . '/Namespace_Module/*'
-                );
+                $msg[] = str_replace($root, '', "{$dir} => " . realpath($dir . '/..') . '/Namespace_Module/*');
             }
         }
 

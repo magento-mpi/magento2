@@ -32,7 +32,7 @@ class Factory
 
     /**
      * @param string $className
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      * @throws \InvalidArgumentException
      */
     public function create($className)
@@ -43,10 +43,13 @@ class Factory
 
         $attributeCollection = $this->_objectManager->create($className);
 
-        if (!$attributeCollection instanceof \Magento\Data\Collection) {
-            throw new \InvalidArgumentException(sprintf(
-                "Attribute factory class \"%s\" must implement \Magento\Data\Collection.", get_class($attributeCollection)
-            ));
+        if (!$attributeCollection instanceof \Magento\Framework\Data\Collection) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Attribute factory class \"%s\" must implement \Magento\Framework\Data\Collection.",
+                    get_class($attributeCollection)
+                )
+            );
         }
         return $attributeCollection;
     }

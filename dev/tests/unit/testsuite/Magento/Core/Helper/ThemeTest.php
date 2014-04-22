@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +19,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCssAssets($layoutStr, $expectedResult)
     {
-        $theme = $this->getMockForAbstractClass('\Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
         $layoutMergeFactory = $this->_getLayoutMergeFactory($theme, $layoutStr);
         $assetRepo = $this->getMock('Magento\View\Asset\Repository', array('createAsset'), array(), '', false);
@@ -113,19 +112,24 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $theme
      * @param string $layoutStr
-     * @return \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getLayoutMergeFactory($theme, $layoutStr)
     {
-        /** @var $layoutProcessor \Magento\View\Layout\ProcessorInterface */
-        $layoutProcessor = $this->getMockBuilder('Magento\View\Layout\ProcessorInterface')->getMockForAbstractClass();
+        /** @var $layoutProcessor \Magento\Framework\View\Layout\ProcessorInterface */
+        $layoutProcessor = $this->getMockBuilder('Magento\Framework\View\Layout\ProcessorInterface')
+            ->getMockForAbstractClass();
         $xml = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutElement = simplexml_load_string($xml);
-        $layoutProcessor->expects($this->any())
-            ->method('getFileLayoutUpdatesXml')
-            ->will($this->returnValue($layoutElement));
+        $layoutProcessor->expects(
+            $this->any()
+        )->method(
+            'getFileLayoutUpdatesXml'
+        )->will(
+            $this->returnValue($layoutElement)
+        );
 
-        /** @var $processorFactory \Magento\View\Layout\ProcessorFactory */
+        /** @var $processorFactory \Magento\Framework\View\Layout\ProcessorFactory */
         $processorFactory = $this->getMock('Magento\View\Layout\ProcessorFactory', array('create'), array(), '', false);
         $processorFactory->expects($this->any())
             ->method('create')

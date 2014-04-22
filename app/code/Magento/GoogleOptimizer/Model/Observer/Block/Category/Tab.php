@@ -19,18 +19,16 @@ class Tab
     protected $_helper;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      */
-    public function __construct(
-        \Magento\GoogleOptimizer\Helper\Data $helper,
-        \Magento\View\LayoutInterface $layout
-    ) {
+    public function __construct(\Magento\GoogleOptimizer\Helper\Data $helper, \Magento\Framework\View\LayoutInterface $layout)
+    {
         $this->_helper = $helper;
         $this->_layout = $layout;
     }
@@ -51,10 +49,10 @@ class Tab
 
             /** @var $tabs \Magento\Catalog\Block\Adminhtml\Category\Tabs */
             $tabs = $observer->getEvent()->getTabs();
-            $tabs->addTab('google-experiment-tab', array(
-                'label' => __('Category View Optimization'),
-                'content' => $block->toHtml(),
-            ));
+            $tabs->addTab(
+                'google-experiment-tab',
+                array('label' => __('Category View Optimization'), 'content' => $block->toHtml())
+            );
         }
     }
 }

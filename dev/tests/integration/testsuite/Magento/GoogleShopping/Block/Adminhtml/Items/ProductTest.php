@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
 /**
@@ -20,20 +19,34 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('Magento_GoogleShopping is not implemented yet');
 
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Product');
-        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text');
-        $search = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\GoogleShopping\Block\Adminhtml\Items\Product'
+        );
+        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Framework\View\Element\Text'
+        );
+        $search = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Framework\View\Element\Text'
+        );
 
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         $layout->addBlock($block, 'product');
         $layout->addBlock($filter, 'reset_filter_button', 'product');
         $layout->addBlock($search, 'search_button', 'product');
         $block->toHtml();
 
-        $this->assertEquals('googleshopping_selection_search_grid_JsObject.resetFilter()', $filter->getData('onclick'));
+        $this->assertEquals(
+            'googleshopping_selection_search_grid_JsObject.resetFilter()',
+            $filter->getData('onclick')
+        );
         $this->assertEquals('googleshopping_selection_search_grid_JsObject.doFilter()', $search->getData('onclick'));
     }
 }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
 /**
  * Edit form for customer segment configuration
@@ -15,25 +16,23 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -45,6 +44,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Add standard buttons
      * Add "Refresh Segment Data" button
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -57,21 +58,27 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         /** @var $segment \Magento\CustomerSegment\Model\Segment */
         $segment = $this->_coreRegistry->registry('current_customer_segment');
         if ($segment && $segment->getId()) {
-            $this->_addButton('match_customers', array(
-                'label'     => __('Refresh Segment Data'),
-                'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
-            ), -1);
+            $this->_addButton(
+                'match_customers',
+                array(
+                    'label' => __('Refresh Segment Data'),
+                    'onclick' => 'setLocation(\'' . $this->getMatchUrl() . '\')'
+                ),
+                -1
+            );
         }
 
-        $this->_addButton('save_and_continue_edit', array(
-            'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_continue_edit',
+            array(
+                'class' => 'save',
+                'label' => __('Save and Continue Edit'),
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 3);
+            3
+        );
     }
 
     /**
@@ -82,7 +89,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getMatchUrl()
     {
         $segment = $this->_coreRegistry->registry('current_customer_segment');
-        return $this->getUrl('*/*/match', array('id'=>$segment->getId()));
+        return $this->getUrl('*/*/match', array('id' => $segment->getId()));
     }
 
     /**

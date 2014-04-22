@@ -16,8 +16,7 @@ namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Import export data
@@ -29,7 +28,7 @@ class Edit
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -42,14 +41,14 @@ class Edit
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_operationFactory = $operationFactory;
@@ -76,8 +75,7 @@ class Edit
         if ($operationId) {
             $operation->load($operationId);
         } else {
-            $operation->setOperationType($this->getRequest()->getParam('type'))
-                ->setStatus(true);
+            $operation->setOperationType($this->getRequest()->getParam('type'))->setStatus(true);
         }
         $this->_coreRegistry->register('current_operation', $operation);
 
@@ -88,27 +86,31 @@ class Edit
      * Prepare page layout.
      * Set form object to container.
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _prepareLayout()
     {
         $operation = $this->_coreRegistry->registry('current_operation');
-        $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\'
-            . ucfirst($operation->getOperationType());
-        $formBlock = $this->getLayout()
-            ->createBlock($blockName);
+        $blockName = 'Magento\\ScheduledImportExport\\Block\\Adminhtml\\Scheduled\\Operation\\Edit\\Form\\' . ucfirst(
+            $operation->getOperationType()
+        );
+        $formBlock = $this->getLayout()->createBlock($blockName);
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            throw new \Magento\Core\Exception(__('Please correct the scheduled operation type.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the scheduled operation type.'));
         }
 
-        $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . $this->_importExportData->getConfirmationDeleteMessage($operation->getOperationType())
-            .'\', \'' . $this->getDeleteUrl() . '\')'
+        $this->_updateButton(
+            'delete',
+            'onclick',
+            'deleteConfirm(\'' . $this->_importExportData->getConfirmationDeleteMessage(
+                $operation->getOperationType()
+            ) . '\', \'' . $this->getDeleteUrl() . '\')'
         );
 
+        parent::_prepareLayout();
         return $this;
     }
 
@@ -119,10 +121,13 @@ class Edit
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array(
-            $this->_objectId => $this->getRequest()->getParam($this->_objectId),
-            'type' => $this->_coreRegistry->registry('current_operation')->getOperationType()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/delete',
+            array(
+                $this->_objectId => $this->getRequest()->getParam($this->_objectId),
+                'type' => $this->_coreRegistry->registry('current_operation')->getOperationType()
+            )
+        );
     }
 
     /**
@@ -138,9 +143,6 @@ class Edit
         } else {
             $action = 'new';
         }
-        return $this->_importExportData->getOperationHeaderText(
-            $operation->getOperationType(),
-            $action
-        );
+        return $this->_importExportData->getOperationHeaderText($operation->getOperationType(), $action);
     }
 }

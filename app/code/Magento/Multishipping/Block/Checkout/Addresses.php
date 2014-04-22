@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Block\Checkout;
+
+use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
  * Multishipping checkout choose item addresses block
- *
- * @category   Magento
- * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
@@ -30,19 +25,35 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     protected $_multishipping;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
+    protected $_customerAddressService;
+
+    /**
+     * @var \Magento\Customer\Model\Address\Config
+     */
+    private $_addressConfig;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $customerAddressService
+     * @param AddressConfig $addressConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $customerAddressService,
+        AddressConfig $addressConfig,
         array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
+        $this->_customerAddressService = $customerAddressService;
+        $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -84,13 +95,13 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve HTML for addresses dropdown
      *
-     * @param $item
+     * @param mixed $item
      * @param int $index
      * @return string
      */
     public function getAddressesHtmlSelect($item, $index)
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
             ->setName('ship['.$index.']['.$item->getQuoteItemId().'][address]')
             ->setId('ship_'.$index.'_'.$item->getQuoteItemId().'_address')
             ->setValue($item->getCustomerAddressId())
@@ -108,12 +119,25 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     {
         $options = $this->getData('address_options');
         if (is_null($options)) {
-            $options = array();
-            foreach ($this->getCustomer()->getAddresses() as $address) {
-                $options[] = array(
+            $options = [];
+            $addresses = [];
+
+            try {
+                $addresses = $this->_customerAddressService->getAddresses($this->getCustomerId());
+            } catch (\Magento\Exception\NoSuchEntityException $e) {
+                /** Customer does not exist */
+            }
+            /** @var \Magento\Customer\Service\V1\Data\Address $address */
+            foreach ($addresses as $address) {
+                $label = $this->_addressConfig
+                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
+                    ->getRenderer()
+                    ->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
+
+                $options[] = [
                     'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
+                    'label' => $label
+                ];
             }
             $this->setData('address_options', $options);
         }
@@ -122,15 +146,17 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @return \Magento\Customer\Model\Customer
+     * Retrieve active customer ID
+     *
+     * @return int|null
      */
-    public function getCustomer()
+    public function getCustomerId()
     {
-        return $this->getCheckout()->getCustomerSession()->getCustomer();
+        return $this->getCheckout()->getCustomerSession()->getCustomerId();
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return string
      */
     public function getItemUrl($item)
@@ -139,7 +165,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return string
      */
     public function getItemDeleteUrl($item)

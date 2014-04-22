@@ -36,24 +36,24 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Constructor
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_resource = $filterAttributeFactory->create();
         $this->string = $string;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
         $this->_requestVar = 'attribute';
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
     }
 
     /**
@@ -81,10 +81,9 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Apply attribute option filter to product collection
      *
      * @param   \Zend_Controller_Request_Abstract $request
-     * @param   \Magento\Object $filterBlock
      * @return  $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -134,14 +133,14 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                         $data[] = array(
                             'label' => $option['label'],
                             'value' => $option['value'],
-                            'count' => $optionsCount[$option['value']],
+                            'count' => $optionsCount[$option['value']]
                         );
                     }
                 } else {
                     $data[] = array(
                         'label' => $option['label'],
                         'value' => $option['value'],
-                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0,
+                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0
                     );
                 }
             }

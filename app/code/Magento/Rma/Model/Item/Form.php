@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Item;
 
 /**
@@ -37,22 +36,22 @@ class Form extends \Magento\Eav\Model\Form
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\RequestInterface $httpRequest,
+        \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Validator\ConfigFactory $validatorConfigFactory,
         \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
     ) {

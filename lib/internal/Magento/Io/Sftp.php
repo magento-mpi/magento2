@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Io;
 
 
@@ -19,10 +18,11 @@ namespace Magento\Io;
  * @author      Magento Core Team <core@magentocommerce.com>
  * @link        http://www.php.net/manual/en/function.ssh2-connect.php
  */
-require_once('phpseclib/Net/SFTP.php');
+require_once 'phpseclib/Net/SFTP.php';
 class Sftp extends AbstractIo implements IoInterface
 {
     const REMOTE_TIMEOUT = 10;
+
     const SSH2_PORT = 22;
 
     /**
@@ -56,7 +56,6 @@ class Sftp extends AbstractIo implements IoInterface
         if (!$this->_connection->login($args['username'], $args['password'])) {
             throw new \Exception(sprintf("Unable to open SFTP connection as %s@%s", $args['username'], $args['host']));
         }
-
     }
 
     /**
@@ -90,7 +89,7 @@ class Sftp extends AbstractIo implements IoInterface
             reset($dirList);
             $currentWorkingDir = $this->_connection->pwd();
             while ($no_errors && ($dir_item = next($dirList))) {
-                $no_errors = ($this->_connection->mkdir($dir_item) && $this->_connection->chdir($dir_item));
+                $no_errors = $this->_connection->mkdir($dir_item) && $this->_connection->chdir($dir_item);
             }
             $this->_connection->chdir($currentWorkingDir);
             return $no_errors;
@@ -107,13 +106,13 @@ class Sftp extends AbstractIo implements IoInterface
      * @return bool
      * @throws \Exception
      */
-    public function rmdir($dir, $recursive=false)
+    public function rmdir($dir, $recursive = false)
     {
         if ($recursive) {
             $no_errors = true;
             $currentWorkingDir = $this->pwd();
-            if(!$this->_connection->chdir($dir)) {
-                throw new \Exception("chdir(): $dir: Not a directory");
+            if (!$this->_connection->chdir($dir)) {
+                throw new \Exception("chdir(): {$dir}: Not a directory");
             }
             $list = $this->_connection->nlist();
             if (!count($list)) {
@@ -122,7 +121,8 @@ class Sftp extends AbstractIo implements IoInterface
                 return $this->rmdir($dir, false);
             } else {
                 foreach ($list as $filename) {
-                    if($this->_connection->chdir($filename)) { // This is a directory
+                    if ($this->_connection->chdir($filename)) {
+                        // This is a directory
                         $this->_connection->chdir('..');
                         $no_errors = $no_errors && $this->rmdir($filename, $recursive);
                     } else {
@@ -130,8 +130,11 @@ class Sftp extends AbstractIo implements IoInterface
                     }
                 }
             }
-            $no_errors = $no_errors &&
-                ($this->_connection->chdir($currentWorkingDir) && $this->_connection->rmdir($dir));
+            $no_errors = $no_errors && ($this->_connection->chdir(
+                $currentWorkingDir
+            ) && $this->_connection->rmdir(
+                $dir
+            ));
             return $no_errors;
         } else {
             return $this->_connection->rmdir($dir);
@@ -161,6 +164,7 @@ class Sftp extends AbstractIo implements IoInterface
 
     /**
      * Read a file
+     *
      * @param string $filename remote file name
      * @param string|null $destination local file name (optional)
      * @return mixed
@@ -233,15 +237,11 @@ class Sftp extends AbstractIo implements IoInterface
         $list = $this->_connection->nlist();
         $currentWorkingDir = $this->pwd();
         $result = array();
-        foreach($list as $name) {
-            $result[] = array(
-                'text' => $name,
-                'id' => "{$currentWorkingDir}{$name}",
-            );
+        foreach ($list as $name) {
+            $result[] = array('text' => $name, 'id' => "{$currentWorkingDir}{$name}");
         }
         return $result;
     }
-
 
     /**
      * Returns a list of files in the current directory
@@ -253,5 +253,4 @@ class Sftp extends AbstractIo implements IoInterface
         $list = $this->_connection->rawlist();
         return $list;
     }
-
 }

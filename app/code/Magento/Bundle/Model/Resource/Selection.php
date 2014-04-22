@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Model\Resource;
 
 /**
  * Bundle Selection Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Resource;
-
-class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Selection extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and id field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,22 +43,20 @@ class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
         $childrenIds = array();
         $notRequired = array();
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(
-                array('tbl_selection' => $this->getMainTable()),
-                array('product_id', 'parent_product_id', 'option_id')
-            )
-            ->join(
-                array('e' => $this->getTable('catalog_product_entity')),
-                'e.entity_id = tbl_selection.product_id AND e.required_options=0',
-                array()
-            )
-            ->join(
-                array('tbl_option' => $this->getTable('catalog_product_bundle_option')),
-                'tbl_option.option_id = tbl_selection.option_id',
-                array('required')
-            )
-            ->where('tbl_selection.parent_product_id = :parent_id');
+        $select = $adapter->select()->from(
+            array('tbl_selection' => $this->getMainTable()),
+            array('product_id', 'parent_product_id', 'option_id')
+        )->join(
+            array('e' => $this->getTable('catalog_product_entity')),
+            'e.entity_id = tbl_selection.product_id AND e.required_options=0',
+            array()
+        )->join(
+            array('tbl_option' => $this->getTable('catalog_product_bundle_option')),
+            'tbl_option.option_id = tbl_selection.option_id',
+            array('required')
+        )->where(
+            'tbl_selection.parent_product_id = :parent_id'
+        );
         foreach ($adapter->fetchAll($select, array('parent_id' => $parentId)) as $row) {
             if ($row['required']) {
                 $childrenIds[$row['option_id']][$row['product_id']] = $row['product_id'];
@@ -95,10 +92,15 @@ class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getParentIdsByChild($childId)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->distinct(true)
-            ->from($this->getMainTable(), 'parent_product_id')
-            ->where('product_id IN(?)', $childId);
+        $select = $adapter->select()->distinct(
+            true
+        )->from(
+            $this->getMainTable(),
+            'parent_product_id'
+        )->where(
+            'product_id IN(?)',
+            $childId
+        );
 
         return $adapter->fetchCol($select);
     }
@@ -107,21 +109,20 @@ class Selection extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save bundle item price per website
      *
      * @param \Magento\Bundle\Model\Selection $item
+     * @return void
      */
     public function saveSelectionPrice($item)
     {
         $write = $this->_getWriteAdapter();
         if ($item->getDefaultPriceScope()) {
-            $write->delete($this->getTable('catalog_product_bundle_selection_price'),
-                array(
-                    'selection_id = ?' => $item->getSelectionId(),
-                    'website_id = ?'   => $item->getWebsiteId()
-                )
+            $write->delete(
+                $this->getTable('catalog_product_bundle_selection_price'),
+                array('selection_id = ?' => $item->getSelectionId(), 'website_id = ?' => $item->getWebsiteId())
             );
         } else {
-             $values = array(
+            $values = array(
                 'selection_id' => $item->getSelectionId(),
-                'website_id'   => $item->getWebsiteId(),
+                'website_id' => $item->getWebsiteId(),
                 'selection_price_type' => $item->getSelectionPriceType(),
                 'selection_price_value' => $item->getSelectionPriceValue()
             );

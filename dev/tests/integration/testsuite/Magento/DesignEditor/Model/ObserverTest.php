@@ -23,7 +23,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
         /** @var $headBlock \Magento\Theme\Block\Html\Head */
         $headBlock = $layout->createBlock('Magento\Theme\Block\Html\Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
@@ -34,7 +36,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $assetRepo = $objectManager->create('Magento\View\Asset\Repository');
 
         /** @var $pageAssets \Magento\View\Asset\GroupedCollection */
-        $pageAssets = $objectManager->get('Magento\View\Asset\GroupedCollection');
+        $pageAssets = $objectManager->get('Magento\Framework\View\Asset\GroupedCollection');
 
         $fixtureAssets = array(
             array('file' => 'test.css', 'params' => array()),
@@ -49,8 +51,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        /** @var \Magento\Config\Scope $configScope */
-        $configScope = $objectManager->get('Magento\Config\ScopeInterface');
+        /** @var \Magento\Framework\Config\Scope $configScope */
+        $configScope = $objectManager->get('Magento\Framework\Config\ScopeInterface');
         $configScope->setCurrentScope($area);
 
         /** @var $eventManager \Magento\Event\ManagerInterface */

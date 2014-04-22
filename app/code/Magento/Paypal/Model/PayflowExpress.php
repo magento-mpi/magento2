@@ -5,14 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model;
 
 class PayflowExpress extends \Magento\Paypal\Model\Express
 {
+    /**
+     * @var string
+     */
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
+
+    /**
+     * @var string
+     */
     protected $_formBlockType = 'Magento\Paypal\Block\PayflowExpress\Form';
-    protected $_canManageRecurringProfiles = false;
 
     /**
      * Website Payments Pro instance type
@@ -36,10 +41,10 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
@@ -48,10 +53,10 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
@@ -60,7 +65,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         parent::__construct(
             $eventManager,
             $paymentData,
-            $coreStoreConfig,
+            $scopeConfig,
             $logAdapterFactory,
             $proTypeFactory,
             $storeManager,
@@ -74,7 +79,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     /**
      * EC PE won't be available if the EC is available
      *
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -83,8 +88,9 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
             return false;
         }
         if (!$this->_ecInstance) {
-            $this->_ecInstance = $this->_paymentData
-                ->getMethodInstance(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
+            $this->_ecInstance = $this->_paymentData->getMethodInstance(
+                \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS
+            );
         }
         if ($quote && $this->_ecInstance) {
             $this->_ecInstance->setStore($quote->getStoreId());
@@ -95,19 +101,25 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
     /**
      * Import payment info to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return void
      */
     protected function _importToPayment($api, $payment)
     {
-        $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
-            ->setAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
-                $api->getRedirectRequired() || $api->getRedirectRequested()
-            )
-            ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(\Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
-                $api->getTransactionId())
-        ;
+        $payment->setTransactionId(
+            $api->getPaypalTransactionId()
+        )->setIsTransactionClosed(
+            0
+        )->setAdditionalInformation(
+            \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT,
+            $api->getRedirectRequired() || $api->getRedirectRequested()
+        )->setIsTransactionPending(
+            $api->getIsPaymentPending()
+        )->setTransactionAdditionalInfo(
+            \Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+            $api->getTransactionId()
+        );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         $this->_paypalInfoFactory->create()->importToPayment($api, $payment);
     }

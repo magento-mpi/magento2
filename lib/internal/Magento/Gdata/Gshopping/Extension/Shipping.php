@@ -1,6 +1,5 @@
 <?php
 /**
-/**
  * {license_notice}
  *
  * @category    Magento

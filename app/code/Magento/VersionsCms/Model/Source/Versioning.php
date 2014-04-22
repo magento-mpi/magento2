@@ -15,16 +15,13 @@ namespace Magento\VersionsCms\Model\Source;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Versioning implements \Magento\Core\Model\Option\ArrayInterface
+class Versioning implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
      */
     public function toOptionArray()
     {
-        return array(
-            '1' => __('Enabled by Default'),
-            '1' => __('Disabled by Default')
-        );
+        return array('1' => __('Enabled by Default'), '1' => __('Disabled by Default'));
     }
 }

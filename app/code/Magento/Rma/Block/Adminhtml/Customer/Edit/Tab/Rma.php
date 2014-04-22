@@ -12,14 +12,12 @@ namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 /**
  * Order RMA Grid
  */
-class Rma
-    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -28,7 +26,7 @@ class Rma
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -36,7 +34,7 @@ class Rma
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -81,8 +79,7 @@ class Rma
         }
         if ($customerId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create()
-                ->addFieldToFilter('customer_id', $customerId);
+            $collection = $this->_collectionFactory->create()->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
         }

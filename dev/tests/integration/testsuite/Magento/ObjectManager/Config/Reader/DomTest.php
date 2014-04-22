@@ -20,7 +20,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     protected $_fileList;
 
     /**
-     * @var \Magento\App\Arguments\FileResolver\Primary
+     * @var \Magento\Framework\App\Arguments\FileResolver\Primary
      */
     protected $_fileResolverMock;
 
@@ -30,7 +30,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     protected $_mergedConfig;
 
     /**
-     * @var \Magento\App\Arguments\ValidationState
+     * @var \Magento\Framework\App\Arguments\ValidationState
      */
     protected $_validationState;
 
@@ -49,17 +49,23 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $fixturePath = realpath(__DIR__ . '/../../_files') . '/';
         $this->_fileList = array(
             file_get_contents($fixturePath . 'config_one.xml'),
-            file_get_contents($fixturePath . 'config_two.xml'),
+            file_get_contents($fixturePath . 'config_two.xml')
         );
 
         $this->_fileResolverMock = $this->getMock(
-            'Magento\App\Arguments\FileResolver\Primary', array(), array(), '', false
+            'Magento\Framework\App\Arguments\FileResolver\Primary',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
-        $this->_mapper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\ObjectManager\Config\Mapper\Dom');
-        $this->_validationState =
-            new \Magento\App\Arguments\ValidationState(\Magento\App\State::MODE_DEFAULT);
+        $this->_mapper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\ObjectManager\Config\Mapper\Dom'
+        );
+        $this->_validationState = new \Magento\Framework\App\Arguments\ValidationState(
+            \Magento\Framework\App\State::MODE_DEFAULT
+        );
         $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
         $this->_mergedConfig = new \DOMDocument();
@@ -76,5 +82,4 @@ class DomTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($this->_mapper->convert($this->_mergedConfig), $model->read('scope'));
     }
-
 }

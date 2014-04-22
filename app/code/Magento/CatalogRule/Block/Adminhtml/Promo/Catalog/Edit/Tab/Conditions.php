@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form;
@@ -28,16 +27,16 @@ class Conditions extends Generic implements TabInterface
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Rule\Block\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
         array $data = array()
@@ -94,23 +93,32 @@ class Conditions extends Generic implements TabInterface
     {
         $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = $this->_rendererFieldset->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('catalog_rule/promo_catalog/newConditionHtml/form/rule_conditions_fieldset'));
+        $renderer = $this->_rendererFieldset->setTemplate(
+            'Magento_CatalogRule::promo/fieldset.phtml'
+        )->setNewChildUrl(
+            $this->getUrl('catalog_rule/promo_catalog/newConditionHtml/form/rule_conditions_fieldset')
+        );
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>__('Conditions (leave blank for all products)'))
-        )->setRenderer($renderer);
+        $fieldset = $form->addFieldset(
+            'conditions_fieldset',
+            array('legend' => __('Conditions (leave blank for all products)'))
+        )->setRenderer(
+            $renderer
+        );
 
-        $fieldset->addField('conditions', 'text', array(
-            'name' => 'conditions',
-            'label' => __('Conditions'),
-            'title' => __('Conditions'),
-            'required' => true,
-        ))->setRule($model)->setRenderer($this->_conditions);
+        $fieldset->addField(
+            'conditions',
+            'text',
+            array('name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'), 'required' => true)
+        )->setRule(
+            $model
+        )->setRenderer(
+            $this->_conditions
+        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

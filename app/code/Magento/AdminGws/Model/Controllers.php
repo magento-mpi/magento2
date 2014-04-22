@@ -20,7 +20,7 @@ namespace Magento\AdminGws\Model;
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -37,17 +37,17 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $_storeManager = null;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\Framework\App\ResponseInterface
      */
     protected $_response = null;
 
@@ -72,7 +72,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_productFactoryRes;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
@@ -87,14 +87,14 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\ResponseInterface $response
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -103,12 +103,12 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ResponseInterface $response,
-        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\ResponseInterface $response,
+        \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_registry = $registry;
@@ -150,26 +150,28 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                         return;
                     }
                 }
-            }
-            catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 // redirect later from non-existing website
             }
         }
 
         // redirect to first allowed website or store scope
         if ($this->_role->getWebsiteIds()) {
-            return $this->_redirect($this->_backendUrl->getUrl(
+            return $this->_redirect(
+                $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
                     array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
                 )
             );
         }
-        $this->_redirect($this->_backendUrl->getUrl(
+        $this->_redirect(
+            $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
                     'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode())
+                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
                 )
+            )
         );
     }
 
@@ -207,9 +209,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCatalogProductReview($controller)
     {
-        $reviewStores = $this->_objectManager->create('Magento\Review\Model\Review')
-            ->load($controller->getRequest()->getParam('id'))
-            ->getStores();
+        $reviewStores = $this->_objectManager->create(
+            'Magento\Review\Model\Review'
+        )->load(
+            $controller->getRequest()->getParam('id')
+        )->getStores();
 
         $storeIds = $this->_role->getStoreIds();
 
@@ -230,7 +234,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $store = $this->_storeManager->getStore(
-            $this->_request->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+            $this->_request->getParam('store', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
         );
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();
@@ -243,8 +247,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCustomerEdit()
     {
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')
-            ->load($this->_request->getParam('id'));
+        $customer = $this->_objectManager->create(
+            'Magento\Customer\Model\Customer'
+        )->load(
+            $this->_request->getParam('id')
+        );
         if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
@@ -257,11 +264,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCustomerbalance()
     {
-        if (!$id = $this->_request->getParam('id')) {
+        if (!($id = $this->_request->getParam('id'))) {
             return $this->_forward();
         }
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($id);
-        if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
+        if (!$customer->getId() || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
     }
@@ -277,8 +284,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $controller->setShowCodePoolStatusMessage(false);
         if (!$this->_role->getIsWebsiteLevel()) {
             $action = $this->_request->getActionName();
-            if (in_array($action, array('new', 'generate'))
-                || $action == 'edit' && !$this->_request->getParam('id')) {
+            if (in_array($action, array('new', 'generate')) || $action == 'edit' && !$this->_request->getParam('id')) {
                 return $this->_forward();
             }
         }
@@ -310,12 +316,18 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     if ($parentId) {
                         $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
                     } else {
-                        $forward = true; // no adding root categories
+                        // no adding root categories
+                        $forward = true;
                     }
                 } else {
-                    $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($controller->getRequest()->getParam('id'));
+                    $category = $this->_objectManager->create(
+                        'Magento\Catalog\Model\Category'
+                    )->load(
+                        $controller->getRequest()->getParam('id')
+                    );
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
-                        $forward = true; // no viewing wrong categories
+                        // no viewing wrong categories
+                        $forward = true;
                     }
                 }
                 break;
@@ -341,7 +353,6 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateCatalogCategoryView($controller)
     {
-
     }
 
     /**
@@ -354,10 +365,17 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // instead of generic (we are capped by allowed store groups root categories)
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
-            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')
-                ->load($this->_request->getParam('category_id'));
-            if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
-                !$this->_role->getIsWebsiteLevel()) {
+            $category = $this->_objectManager->create(
+                'Magento\Catalog\Model\Category'
+            )->load(
+                $this->_request->getParam('category_id')
+            );
+            if ($this->_request->getParam(
+                'category_id'
+            ) && !$this->_isCategoryAllowed(
+                $category
+            ) || !$this->_role->getIsWebsiteLevel()
+            ) {
                 return $this->_forward();
             }
         }
@@ -376,10 +394,16 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         // avoid viewing disallowed events
-        $catalogEvent = $this->_objectManager->create('Magento\CatalogEvent\Model\Event')
-            ->load($this->_request->getParam('id'));
-        $category     = $this->_objectManager->create('Magento\Catalog\Model\Category')
-            ->load($catalogEvent->getCategoryId());
+        $catalogEvent = $this->_objectManager->create(
+            'Magento\CatalogEvent\Model\Event'
+        )->load(
+            $this->_request->getParam('id')
+        );
+        $category = $this->_objectManager->create(
+            'Magento\Catalog\Model\Category'
+        )->load(
+            $catalogEvent->getCategoryId()
+        );
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
         }
@@ -388,7 +412,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$this->_isAllowedStoreInRequest()) {
             return $this->_redirect(
                 array(
-                    '*/*/*', 'store' => $this->_storeManager->getAnyStoreView()->getId(),
+                    '*/*/*',
+                    'store' => $this->_storeManager->getAnyStoreView()->getId(),
                     'id' => $catalogEvent->getId()
                 )
             );
@@ -407,10 +432,10 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this->_forward();
         }
 
-         // check whether there is disallowed website in request?
+        // check whether there is disallowed website in request?
     }
 
-// TODO allow viewing sales information only from allowed websites
+    // TODO allow viewing sales information only from allowed websites
 
     /**
      * Don't allow to create or delete entity, if there is no website permissions
@@ -423,13 +448,20 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @return bool
      */
     public function validateNoWebsiteGeneric(
-        $denyActions = array('new', 'delete'), $saveAction = 'save', $idFieldName = 'id'
+        $denyActions = array('new', 'delete'),
+        $saveAction = 'save',
+        $idFieldName = 'id'
     ) {
         if (!is_array($denyActions)) {
             $denyActions = array($denyActions);
         }
-        if ((!$this->_role->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
-            || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
+        if (!$this->_role->getWebsiteIds() && (in_array(
+            $this->_request->getActionName(),
+            $denyActions
+        ) || $saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam(
+            $idFieldName
+        ))
+        ) {
             $this->_forward();
             return false;
         }
@@ -446,10 +478,25 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // due to design of the original controller, need to run this check only once, on the first dispatch
         if ($this->_registry->registry('magento_admingws_system_store_matched')) {
             return;
-        } elseif (in_array($this->_request->getActionName(), array('save', 'newWebsite', 'newGroup', 'newStore',
-            'editWebsite', 'editGroup', 'editStore', 'deleteWebsite', 'deleteWebsitePost', 'deleteGroup',
-            'deleteGroupPost', 'deleteStore', 'deleteStorePost'
-            ))) {
+        } elseif (in_array(
+            $this->_request->getActionName(),
+            array(
+                'save',
+                'newWebsite',
+                'newGroup',
+                'newStore',
+                'editWebsite',
+                'editGroup',
+                'editStore',
+                'deleteWebsite',
+                'deleteWebsitePost',
+                'deleteGroup',
+                'deleteGroupPost',
+                'deleteStore',
+                'deleteStorePost'
+            )
+        )
+        ) {
             $this->_registry->register('magento_admingws_system_store_matched', true, true);
         }
 
@@ -469,7 +516,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             case 'newWebsite':
                 return $this->_forward();
                 break;
-            case 'newGroup': // break intentionally omitted
+            case 'newGroup':
+                // break intentionally omitted
             case 'newStore':
                 if (!$this->_role->getWebsiteIds()) {
                     return $this->_forward();
@@ -490,11 +538,13 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     return $this->_forward();
                 }
                 break;
-            case 'deleteWebsite': // break intentionally omitted
+            case 'deleteWebsite':
+                // break intentionally omitted
             case 'deleteWebsitePost':
                 return $this->_forward();
                 break;
-            case 'deleteGroup': // break intentionally omitted
+            case 'deleteGroup':
+                // break intentionally omitted
             case 'deleteGroupPost':
                 $group = $this->_role->getGroup($this->_request->getParam('item_id'));
                 if ($group) {
@@ -504,7 +554,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 }
                 return $this->_forward();
                 break;
-            case 'deleteStore': // break intentionally omitted
+            case 'deleteStore':
+                // break intentionally omitted
             case 'deleteStorePost':
                 $store = $this->_storeManager->getStore($this->_request->getParam('item_id'));
                 if ($store) {
@@ -525,7 +576,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _redirect($url = null)
     {
-        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
             $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         } elseif (is_array($url)) {
@@ -547,9 +598,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected function _forward($action = 'denied', $module = null, $controller = null)
     {
         // avoid cycling
-        if ($this->_request->getActionName() === $action
-            && (null === $module || $this->_request->getModuleName() === $module)
-            && (null === $controller || $this->_request->getControllerName() === $controller)
+        if ($this->_request->getActionName() === $action && (null === $module ||
+            $this->_request->getModuleName() === $module) && (null === $controller ||
+            $this->_request->getControllerName() === $controller)
         ) {
             return;
         }
@@ -880,7 +931,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento\Core\Model\Url\Rewrite')->load($id);
+            $object = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite')->load($id);
             if ($object && $object->getId()) {
                 if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
@@ -900,12 +951,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('user_id');
         if ($id) {
-            $limited = $this->_collectionsFactory->create()
-                ->getUsersOutsideLimitedScope(
-                    $this->_role->getIsAll(),
-                    $this->_role->getWebsiteIds(),
-                    $this->_role->getStoreGroupIds()
-                );
+            $limited = $this->_collectionsFactory->create()->getUsersOutsideLimitedScope(
+                $this->_role->getIsAll(),
+                $this->_role->getWebsiteIds(),
+                $this->_role->getStoreGroupIds()
+            );
 
             if (in_array($id, $limited)) {
                 $this->_forward();
@@ -924,12 +974,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('rid', $this->_request->getParam('role_id'));
         if ($id) {
-            $limited = $this->_collectionsFactory->create()
-                ->getRolesOutsideLimitedScope(
-                    $this->_role->getIsAll(),
-                    $this->_role->getWebsiteIds(),
-                    $this->_role->getStoreGroupIds()
-                );
+            $limited = $this->_collectionsFactory->create()->getRolesOutsideLimitedScope(
+                $this->_role->getIsAll(),
+                $this->_role->getWebsiteIds(),
+                $this->_role->getStoreGroupIds()
+            );
             if (in_array($id, $limited)) {
                 $this->_forward();
                 return false;
@@ -974,15 +1023,15 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function catalogProductMassDeleteAction()
     {
-        $productIds             = $this->_request->getParam('product');
+        $productIds = $this->_request->getParam('product');
         $productNotExclusiveIds = array();
-        $productExclusiveIds    = array();
+        $productExclusiveIds = array();
 
         $productsWebsites = $this->_productFactoryRes->create()->getWebsiteIdsByProductIds($productIds);
 
         foreach ($productsWebsites as $productId => $productWebsiteIds) {
             if (!$this->_role->hasExclusiveAccess($productWebsiteIds)) {
-                $productNotExclusiveIds[]  = $productId;
+                $productNotExclusiveIds[] = $productId;
             } else {
                 $productExclusiveIds[] = $productId;
             }
@@ -996,7 +1045,6 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
         $this->_request->setParam('product', $productExclusiveIds);
     }
-
 
     /**
      * Validate Attribute set creation, deletion and saving actions
@@ -1025,8 +1073,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
              * user has exclusive access to root category
              * so we can allow user to add sub category
              */
-            if ($this->_isCategoryAllowed($category)
-                && $this->_role->hasExclusiveCategoryAccess($category->getPath())) {
+            if ($this->_isCategoryAllowed($category) && $this->_role->hasExclusiveCategoryAccess($category->getPath())
+            ) {
                 return true;
             }
         }
@@ -1106,8 +1154,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id', $this->_request->getParam('entity_id'));
         if ($id) {
-            $websiteId = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')
-                ->getResource()->getWebsiteIdByEntityId($id);
+            $websiteId = $this->_objectManager->create(
+                'Magento\GiftRegistry\Model\Entity'
+            )->getResource()->getWebsiteIdByEntityId(
+                $id
+            );
             if (!in_array($websiteId, $this->_role->getWebsiteIds())) {
                 $this->_forward();
                 return false;
@@ -1129,9 +1180,17 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $actionName = $this->_request->getActionName();
         $attributeId = $this->_request->getParam('attribute_id');
         $websiteId = $this->_request->getParam('website');
-        if (in_array($actionName, array('new', 'delete'))
-            || (in_array($actionName, array('edit', 'save')) && !$attributeId)
-            || ($websiteId && !$this->_role->hasWebsiteAccess($websiteId, true))) {
+        if (in_array(
+            $actionName,
+            array('new', 'delete')
+        ) || in_array(
+            $actionName,
+            array('edit', 'save')
+        ) && !$attributeId || $websiteId && !$this->_role->hasWebsiteAccess(
+            $websiteId,
+            true
+        )
+        ) {
             $this->_forward();
             return false;
         }
@@ -1145,11 +1204,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function validateRuleEntityAction()
     {
-        $request     = $this->_request;
+        $request = $this->_request;
         $denyActions = array('edit', 'new', 'delete', 'save', 'run', 'match');
         $denyChangeDataActions = array('delete', 'save', 'run', 'match');
         $denyCreateDataActions = array('save');
-        $actionName  = $request->getActionName();
+        $actionName = $request->getActionName();
 
         // Deny access if role has no allowed website ids and there are considering actions to deny
         if (!$this->_role->getWebsiteIds() && in_array($actionName, $denyActions)) {
@@ -1205,10 +1264,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             if (!$entityObject->getId()) {
                 return $this->_forward();
             }
-            $ruleWebsiteIds = array_unique(array_merge(
-                $ruleWebsiteIds,
-                (array)$entityObject->getOrigData('website_ids')
-            ));
+            $ruleWebsiteIds = array_unique(
+                array_merge($ruleWebsiteIds, (array)$entityObject->getOrigData('website_ids'))
+            );
         }
 
 
@@ -1245,7 +1303,9 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function promoCatalogIndexAction($controller)
     {
         $controller->setDirtyRulesNoticeMessage(
-            __('There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.')
+            __(
+                'There are rules that have been changed but were not applied. Only users with exclusive access can apply rules.'
+            )
         );
         return $this;
     }
@@ -1268,9 +1328,10 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 return false;
             }
 
-            return $this->_redirect($this->_backendUrl->getUrl(
+            return $this->_redirect(
+                $this->_backendUrl->getUrl(
                     'adminhtml/rma_item_attribute/edit',
-                     array('website' => $allowedWebsitesIds[0], '_current' => true)
+                    array('website' => $allowedWebsitesIds[0], '_current' => true)
                 )
             );
         }
@@ -1282,7 +1343,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 $this->_forward();
                 return false;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_forward();
             return false;
         }

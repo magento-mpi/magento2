@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config

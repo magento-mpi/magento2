@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Url;
 
-interface ScopeResolverInterface extends \Magento\BaseScopeResolverInterface
+interface ScopeResolverInterface extends \Magento\Framework\App\ScopeResolverInterface
 {
     /**
      * Retrieve scopes array

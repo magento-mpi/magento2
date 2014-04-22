@@ -47,18 +47,25 @@ class Services extends \Magento\Backend\Block\Template
     /**
      * Create import services form select element
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $this->setChild(
             'import_services',
-            $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-                ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray())
-                ->setId('rate_services')
-                ->setName('rate_services')
-                ->setValue($this->_backendSession->getCurrencyRateService(true))
-                ->setTitle(__('Import Service'))
+            $this->getLayout()->createBlock(
+                'Magento\Framework\View\Element\Html\Select'
+            )->setOptions(
+                $this->_srcCurrencyFactory->create()->toOptionArray()
+            )->setId(
+                'rate_services'
+            )->setName(
+                'rate_services'
+            )->setValue(
+                $this->_backendSession->getCurrencyRateService(true)
+            )->setTitle(
+                __('Import Service')
+            )
         );
 
         return parent::_prepareLayout();

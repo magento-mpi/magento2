@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition;
 
-use Magento\DB\Select;
-use Magento\Core\Exception;
+use Magento\Framework\DB\Select;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer cart conditions combine
@@ -19,14 +18,14 @@ use Magento\Core\Exception;
 class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -40,16 +39,16 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Core\Model\Date $dateModel,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -99,11 +98,9 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array(
-            '==' => __('for'),
-            '>'  => __('for greater than'),
-            '>=' => __('for or greater than')
-        ));
+        $this->setOperatorOption(
+            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+        );
         return $this;
     }
 
@@ -124,10 +121,12 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -142,7 +141,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The root shopping cart condition should have a days value of 0 or greater.')
             );
         }
@@ -157,12 +156,16 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
-            ->formatDate($currentTime));
+        $daysDiffSql = $this->_resourceHelper->getDateDiff(
+            'quote.updated_at',
+            $select->getAdapter()->formatDate($currentTime)
+        );
         if ($operator == '>=' && $conditionValue == 0) {
             $currentTime = $this->_dateModel->gmtDate();
-            $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
-                ->formatDate($currentTime));
+            $daysDiffSql = $this->_resourceHelper->getDateDiff(
+                'quote.updated_at',
+                $select->getAdapter()->formatDate($currentTime)
+            );
         }
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
@@ -181,10 +184,10 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function getConditionsSql($customer, $website)
     {
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 namespace Magento\GiftRegistry\Block\Customer;
 
@@ -35,30 +36,30 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
@@ -132,11 +133,9 @@ class Edit extends \Magento\Directory\Block\Data
     public function getTypeList()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $collection = $this->typeFactory->create()
-            ->getCollection()
-            ->addStoreData($storeId)
-            ->applyListedFilter()
-            ->applySortOrder();
+        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
+            $storeId
+        )->applyListedFilter()->applySortOrder();
         $list = $collection->toOptionArray();
         return $list;
     }
@@ -196,7 +195,7 @@ class Edit extends \Magento\Directory\Block\Data
      *
      * @param string $type
      * @param string $template
-     * @return \Magento\GiftRegistry\Block\Customer\Edit
+     * @return $this
      */
     public function addInputTypeTemplate($type, $template)
     {

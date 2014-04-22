@@ -20,24 +20,65 @@ namespace Magento\MultipleWishlist\Block;
 class Rss extends \Magento\Rss\Block\Wishlist
 {
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Catalog\Helper\Output $outputHelper
+     * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param array $data
+     * @param array $priceBlockTypes
+     */
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Rss\Model\RssFactory $rssFactory,
+        \Magento\Catalog\Helper\Output $outputHelper,
+        \Magento\Customer\Helper\View $customerViewHelper,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        array $data = array(),
+        array $priceBlockTypes = array()
+    ) {
+        $this->_customerViewHelper = $customerViewHelper;
+        $this->_customerAccountService = $customerAccountService;
+
+        parent::__construct(
+            $context,
+            $httpContext,
+            $productFactory,
+            $coreData,
+            $wishlistFactory,
+            $rssFactory,
+            $outputHelper,
+            $data,
+            $priceBlockTypes
+        );
+    }
+
+    /**
      * Retrieve Wishlist model
      *
      * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _getWishlist()
     {
-        if (is_null($this->_wishlist)) {
-            $this->_wishlist = $this->_wishlistFactory->create();
-            $wishlistId = $this->getRequest()->getParam('wishlist_id');
-            if ($wishlistId) {
-                $this->_wishlist->load($wishlistId);
-            } else {
-                if ($this->_getCustomer()->getId()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomer());
-                }
-            }
-        }
-        return $this->_wishlist;
+        return $this->_getHelper()->getWishlist();
     }
 
     /**
@@ -47,18 +88,17 @@ class Rss extends \Magento\Rss\Block\Wishlist
      */
     protected function _getTitle()
     {
-        $customer = $this->_getCustomer();
+        $customer = $this->_getHelper()->getCustomer();
         if ($this->_getWishlist()->getCustomerId() !== $customer->getId()) {
-            /** @var \Magento\Customer\Model\Customer $customer */
-            $customer = $this->_customerFactory->create();
-            $customer->load($this->_getWishlist()->getCustomerId());
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+            $customer = $this->_customerAccountService->getCustomer($this->_getWishlist()->getCustomerId());
         }
-        if ($this->_wishlistHelper->isWishlistDefault($this->_getWishlist())
-            && $this->_getWishlist()->getName() == $this->_wishlistHelper->getDefaultWishlistName()
+        if ($this->_getHelper()->isWishlistDefault($this->_getWishlist())
+            && $this->_getWishlist()->getName() == $this->_getHelper()->getDefaultWishlistName()
         ) {
-            return __("%1's Wish List", $customer->getName());
+            return __("%1's Wish List", $this->_customerViewHelper->getCustomerName($customer));
         } else {
-            return __("%1's Wish List (%2)", $customer->getName(), $this->_getWishlist()->getName());
+            return __("%1's Wish List (%2)", $this->_customerViewHelper->getCustomerName($customer), $this->_getWishlist()->getName());
         }
     }
 }

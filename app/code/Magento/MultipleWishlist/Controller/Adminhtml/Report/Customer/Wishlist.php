@@ -23,7 +23,7 @@ class Wishlist extends \Magento\Backend\App\Action
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -32,12 +32,12 @@ class Wishlist extends \Magento\Backend\App\Action
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_fileFactory = $fileFactory;
@@ -52,15 +52,15 @@ class Wishlist extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_MultipleWishlist::report_customers_wishlist')
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_setActiveMenu(
+            'Magento_MultipleWishlist::report_customers_wishlist'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
@@ -91,40 +91,39 @@ class Wishlist extends \Magento\Backend\App\Action
     /**
      * Export Excel Action
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportExcelAction()
     {
         $this->_view->loadLayout();
         $fileName = 'customer_wishlists.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock =
-            $this->_view
-                ->getLayout()
-                ->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.customer.wishlist.grid',
+            'grid.export'
+        );
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
     /**
      * Export Csv Action
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportCsvAction()
     {
         $this->_view->loadLayout();
         $fileName = 'customer_wishlists.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
-        return $this->_fileFactory->create(
-            $fileName,
-            $exportBlock->getCsvFile(),
-            \Magento\App\Filesystem::VAR_DIR
+        $exportBlock = $this->_view->getLayout()->getChildBlock(
+            'adminhtml.block.report.customer.wishlist.grid',
+            'grid.export'
         );
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -144,6 +143,6 @@ class Wishlist extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return  $this->_authorization->isAllowed('Magento_MultipleWishlist::wishlist');
+        return $this->_authorization->isAllowed('Magento_MultipleWishlist::wishlist');
     }
 }

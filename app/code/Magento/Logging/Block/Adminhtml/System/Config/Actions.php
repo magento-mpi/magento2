@@ -13,8 +13,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\System\Config;
 
-class Actions
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Actions extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /** @var string */
     protected $_template = 'system/config/actions.phtml';
@@ -62,13 +61,12 @@ class Actions
     /**
      * Render element html
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
-        $this->setNamePrefix($element->getName())
-            ->setHtmlId($element->getHtmlId());
+        $this->setNamePrefix($element->getName())->setHtmlId($element->getHtmlId());
         return $this->_toHtml();
     }
 }

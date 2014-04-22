@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Block\Adminhtml\Process;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -15,18 +14,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -46,10 +45,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->_updateButton('save', 'label', __('Save Process'));
         if ($this->_coreRegistry->registry('current_index_process')) {
-            $this->_addButton('reindex', array(
-                'label'     => __('Reindex Data'),
-                'onclick'   => "setLocation('{$this->getRunUrl()}')"
-            ));
+            $this->_addButton(
+                'reindex',
+                array('label' => __('Reindex Data'), 'onclick' => "setLocation('{$this->getRunUrl()}')")
+            );
         }
         $this->_removeButton('reset');
         $this->_removeButton('delete');
@@ -72,9 +71,10 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getRunUrl()
     {
-        return $this->getUrl('adminhtml/process/reindexProcess', array(
-            'process' => $this->_coreRegistry->registry('current_index_process')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/process/reindexProcess',
+            array('process' => $this->_coreRegistry->registry('current_index_process')->getId())
+        );
     }
 
     /**

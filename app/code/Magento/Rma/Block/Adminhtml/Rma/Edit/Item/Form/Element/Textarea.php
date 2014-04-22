@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
 /**
@@ -17,7 +16,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Textarea extends \Magento\Data\Form\Element\Textarea
+class Textarea extends \Magento\Framework\Data\Form\Element\Textarea
 {
     /**
      * Rma eav
@@ -27,15 +26,15 @@ class Textarea extends \Magento\Data\Form\Element\Textarea
     protected $_rmaEav = null;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
@@ -51,8 +50,7 @@ class Textarea extends \Magento\Data\Form\Element\Textarea
      */
     public function getElementHtml()
     {
-        $additionalClasses = $this->_rmaEav
-            ->getAdditionalTextElementClasses($this->getEntityAttribute());
+        $additionalClasses = $this->_rmaEav->getAdditionalTextElementClasses($this->getEntityAttribute());
         foreach ($additionalClasses as $additionalClass) {
             $this->addClass($additionalClass);
         }

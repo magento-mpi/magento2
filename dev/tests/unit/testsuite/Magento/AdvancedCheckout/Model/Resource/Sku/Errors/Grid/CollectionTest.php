@@ -33,25 +33,28 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function getCartMock($productId, $storeId, $sku)
     {
-        $cartMock = $this->getMockBuilder('Magento\AdvancedCheckout\Model\Cart')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getFailedItems', 'getStore'))
-            ->getMock();
-        $cartMock->expects($this->any())
-            ->method('getFailedItems')
-            ->will(
-                $this->returnValue(
+        $cartMock = $this->getMockBuilder(
+            'Magento\AdvancedCheckout\Model\Cart'
+        )->disableOriginalConstructor()->setMethods(
+            array('getFailedItems', 'getStore')
+        )->getMock();
+        $cartMock->expects(
+            $this->any()
+        )->method(
+            'getFailedItems'
+        )->will(
+            $this->returnValue(
+                array(
                     array(
-                        array("item" => array(
-                            "id" => $productId, "is_qty_disabled" => "false", "sku" => $sku, "qty" => "1"),
-                            "code" => "failed_configure", "orig_qty" => "7")
+                        "item" => array("id" => $productId, "is_qty_disabled" => "false", "sku" => $sku, "qty" => "1"),
+                        "code" => "failed_configure",
+                        "orig_qty" => "7"
                     )
                 )
-            );
+            )
+        );
         $storeMock = $this->getStoreMock($storeId);
-        $cartMock->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($storeMock));
+        $cartMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
         return $cartMock;
     }
@@ -59,16 +62,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Return store mock instance
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store
      */
     protected function getStoreMock($websiteId)
     {
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->disableOriginalConstructor();
         $storeMock->setMethods(array('getWebsiteId'));
-        $storeMock->expects($this->any())
-            ->method('getWebsiteId')
-            ->will($this->returnValue($websiteId));
+        $storeMock->expects($this->any())->method('getWebsiteId')->will($this->returnValue($websiteId));
 
         return $storeMock;
     }
@@ -83,9 +84,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $productMock->disableOriginalConstructor();
         $productMock->setMethods(array('getPrice'));
-        $productMock->expects($this->any())
-            ->method('getPrice')
-            ->will($this->returnValue("1"));
+        $productMock->expects($this->any())->method('getPrice')->will($this->returnValue("1"));
 
         return $productMock;
     }
@@ -100,9 +99,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $inventoryMock = $this->getMock('Magento\CatalogInventory\Model\Stock\Status', array(), array(), '', false);
         $inventoryMock->disableOriginalConstructor();
         $inventoryMock->setMethods(array('getProductStockStatus'));
-        $inventoryMock->expects($this->any())
-            ->method('getProductStockStatus')
-            ->will($this->returnValue(array()));
+        $inventoryMock->expects($this->any())->method('getProductStockStatus')->will($this->returnValue(array()));
 
         return $inventoryMock;
     }
@@ -114,13 +111,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function getCoreHelperMock()
     {
-        $coreHelperMock = $this->getMockBuilder('Magento\Core\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('formatPrice'))
-            ->getMock();
-        $coreHelperMock->expects($this->any())
-            ->method('formatPrice')
-            ->will($this->returnValue("1"));
+        $coreHelperMock = $this->getMockBuilder(
+            'Magento\Core\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('formatPrice')
+        )->getMock();
+        $coreHelperMock->expects($this->any())->method('formatPrice')->will($this->returnValue("1"));
 
         return $coreHelperMock;
     }

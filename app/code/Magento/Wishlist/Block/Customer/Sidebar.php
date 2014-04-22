@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Block\Customer;
 
-class Sidebar extends \Magento\Wishlist\Block\AbstractBlock
+class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Retrieve block title
@@ -38,10 +38,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock
      */
     protected function _prepareCollection($collection)
     {
-        $collection->setCurPage(1)
-            ->setPageSize(3)
-            ->setInStockFilter(true)
-            ->setOrder('added_at');
+        $collection->setCurPage(1)->setPageSize(3)->setInStockFilter(true)->setOrder('added_at');
 
         return $this;
     }
@@ -68,7 +65,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function getCanDisplayWishlist()
     {
-        return $this->_getCustomerSession()->isLoggedIn();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
 
     /**
@@ -105,5 +102,22 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock
     public function hasWishlistItems()
     {
         return $this->getItemCount() > 0;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        if ($this->getItemCount()) {
+            foreach ($this->getWishlistItems() as $item) {
+                /** @var $item \Magento\Wishlist\Model\Item */
+                $identities = array_merge($identities, $item->getProduct()->getIdentities());
+            }
+        }
+        return $identities;
     }
 }

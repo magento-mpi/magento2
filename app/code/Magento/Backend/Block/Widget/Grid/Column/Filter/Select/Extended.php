@@ -7,8 +7,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter\Select;
 
-class Extended
-    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
+class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**
      * Get options for filter value
@@ -26,7 +25,7 @@ class Extended
         }
 
         $colOptions = $this->getColumn()->getOptions();
-        if (!empty($colOptions) && is_array($colOptions) ) {
+        if (!empty($colOptions) && is_array($colOptions)) {
             $options = array($emptyOption);
             foreach ($colOptions as $value => $label) {
                 $options[] = array('value' => $value, 'label' => $label);
@@ -35,5 +34,4 @@ class Extended
         }
         return array();
     }
-
 }

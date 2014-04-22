@@ -5,18 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Billing;
 
 /**
  * Billing Agreement abstaract class
  */
-namespace Magento\Paypal\Model\Billing;
-
-abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
+abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Payment method instance
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var \Magento\Payment\Model\MethodInterface
      */
     protected $_paymentMethodInstance = null;
 
@@ -30,24 +29,28 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Init billing agreement
      *
+     * @return string
      */
     abstract public function initToken();
 
     /**
      * Verify billing agreement details
      *
+     * @return $this
      */
     abstract public function verifyToken();
 
     /**
      * Create billing agreement
      *
+     * @return $this
      */
     abstract public function place();
 
     /**
      * Cancel billing agreement
      *
+     * @return $this
      */
     abstract public function cancel();
 
@@ -59,19 +62,19 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     protected $_paymentData = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -81,7 +84,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getPaymentMethodInstance()
     {
@@ -114,8 +117,8 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Before save, it's overridden just to make data validation on before save event
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -123,6 +126,6 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
             return parent::_beforeSave();
         }
         array_unshift($this->_errors, __('Unable to save Billing Agreement:'));
-        throw new \Magento\Core\Exception(implode(' ', $this->_errors));
+        throw new \Magento\Framework\Model\Exception(implode(' ', $this->_errors));
     }
 }

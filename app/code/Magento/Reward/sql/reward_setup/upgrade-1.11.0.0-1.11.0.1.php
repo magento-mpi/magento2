@@ -16,9 +16,9 @@ $installer->getConnection()->changeColumn(
     'created_at',
     'created_at',
     array(
-        'type'     => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         'nullable' => false,
-        'default'  => \Magento\DB\Ddl\Table::TIMESTAMP_INIT,
+        'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT
     )
 );
 $installer->endSetup();

@@ -20,13 +20,17 @@
     </form>
 </script>
 <script id="popup-tmpl" type="text/x-jQuery-tmpl">
-    <div class="window overlay active" style="height: ${$('body').height()}px;"></div>
-    <div id="${popupWishlistBlockId}" class="popup active">
-        <div class="title">
-            {{if isEdit}}${$.mage.__('Edit Wish List')}{{else}}${$.mage.__('Create New Wish List')}{{/if}}
+    <div class="window  wishlist overlay active" style="height: ${$('body').height()}px;"></div>
+    <div id="${popupWishlistBlockId}" class="window wishlist popup active">
+        <div class="popup actions">
+            <div class="secondary">
+                <button type="button" title="${$.mage.__('Close')}" class="action close ${btnCloseClass}" data-dismiss="popup"><span>${$.mage.__('Close')}</span></button>
+            </div>
         </div>
-        <span class="action ${btnCloseClass}" title="${$.mage.__('Close')}"><span>${$.mage.__('Close')}</span></span>
-        <div class="content">
+        <div class="popup header">
+             <strong class="title" id="popup-title"><span>{{if isEdit}}${$.mage.__('Edit Wish List')}{{else}}${$.mage.__('Create New Wish List')}{{/if}}</span></strong>
+        </div>
+        <div class="popup content" id="popup-content">
             <form id="${popupWishlistFormId}" method="post" action="${url}" class="form wishlist">
                 <fieldset class="fieldset">
                     <div class="field name">
@@ -36,18 +40,20 @@
                         </div>
                     </div>
                     <div class="field choice">
-                        <div class="control">
-                            <input id="wishlist-public" type="checkbox" name="visibility"{{if isPublic}} checked=true{{/if}}">
-                        </div>
+                        <input id="wishlist-public" type="checkbox" name="visibility"{{if isPublic}} checked=true{{/if}}">
                         <label for="wishlist-public" class="label"><span>${$.mage.__('Make This Wish List Public')}</span></label>
                     </div>
-                    <div class="actions">
-                        <button class="action save" type="submit" title="${$.mage.__('Save')}">
-                            <span>${$.mage.__('Save')}</span>
-                        </button>
-                        <button class="action cancel ${btnCloseClass}" type="button" title="${$.mage.__('Cancel')}">
-                            <span>${$.mage.__('Cancel')}</span>
-                        </button>
+                    <div class="actions toolbar">
+                        <div class="primary">
+                            <button class="action save" type="submit" title="${$.mage.__('Save')}">
+                                <span>${$.mage.__('Save')}</span>
+                            </button>
+                        </div>
+                        <div class="secondary">
+                            <button class="action cancel ${btnCloseClass}" type="button" title="${$.mage.__('Cancel')}">
+                                <span>${$.mage.__('Cancel')}</span>
+                            </button>
+                        </div>
                     </div>
                 </fieldset>
             </form>
@@ -55,9 +61,13 @@
     </div>
 </script>
 <script id="split-btn-tmpl" type="text/x-jQuery-tmpl">
-    <div class="split button">
-        <span data-post='${JSON.stringify(generalParams)}' data-action="add-to-wishlist" class="label">${buttonName}</span>
-        <span class="action change" title="${$.mage.__('Add to:')}" data-toggle="dropdown"><span>${$.mage.__('Add to:')}</span></span>
+    <div class="split button wishlist">
+        <button data-post='${JSON.stringify(generalParams)}' data-action="add-to-wishlist" class="label action split">
+            <span>${buttonName}</span>
+        </button>
+        <button class="action toggle change" title="${$.mage.__('Add to:')}" data-toggle="dropdown" aria-haspopup="true">
+            <span>${$.mage.__('Add to:')}</span>
+        </button>
         <ul class="items" data-target="dropdown">
             {{each wishlists}}
             <li class="item">
@@ -80,26 +90,28 @@
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>",
             "<?php echo $this->getViewFileUrl('Magento_MultipleWishlist::js/multiple-wishlist.js') ?>",
             function() {
-                $('body').multipleWishlist({
-                    canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
-                    createUrl: '<?php echo $this->getCreateUrl();?>',
-                    wishlists: <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>,
-                    wishlistLink: '.action.towishlist'
-                });
-                $('.products.list [data-toggle=dropdown]')
-                    .add('.cart.items.data [data-toggle=dropdown]')
-                    .add('.product.addto.links [data-toggle=dropdown]')
-                    .add('.secondary.addto.links [data-toggle=dropdown]')
-                    .dropdown({
-                        events: [{
-                            'name': 'mouseleave',
-                            'selector': '.item.product',
-                            'action': function() {
-                                var triggerElem = $('[data-toggle=dropdown]', this);
-                                triggerElem.hasClass('active') && triggerElem.trigger('click.toggleDropdown');
-                            }
-                        }]
+                $(function () {
+                    $('body').multipleWishlist({
+                        canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
+                        createUrl: '<?php echo $this->getCreateUrl();?>',
+                        wishlists: <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>,
+                        wishlistLink: '.action.towishlist'
                     });
+                    $('.products.list [data-toggle=dropdown]')
+                        .add('.cart.items.data [data-toggle=dropdown]')
+                        .add('.product.addto.links [data-toggle=dropdown]')
+                        .add('.secondary.addto.links [data-toggle=dropdown]')
+                        .dropdown({
+                            events: [{
+                                'name': 'mouseleave',
+                                'selector': '.item.product',
+                                'action': function() {
+                                    var triggerElem = $('[data-toggle=dropdown]', this);
+                                    triggerElem.hasClass('active') && triggerElem.trigger('click.toggleDropdown');
+                                }
+                            }]
+                        });
+                });
             });
     })(jQuery);
 </script>

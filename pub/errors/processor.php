@@ -8,10 +8,8 @@
  * @license     {license_link}
  */
 
- /**
+/**
  * Error processor
- *
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Error_Processor
 {
@@ -126,21 +124,23 @@ class Error_Processor
     /**
      * Http response
      *
-     * @var Magento\App\Response\Http
+     * @var Magento\Framework\App\Response\Http
      */
     protected $_response;
 
-    public function __construct(\Magento\App\Response\Http $response)
+    /**
+     * @param \Magento\Framework\App\Response\Http $response
+     */
+    public function __construct(\Magento\Framework\App\Response\Http $response)
     {
         $this->_response = $response;
         $this->_errorDir  = __DIR__ . '/';
         $this->_reportDir = dirname(dirname($this->_errorDir)) . '/var/report/';
 
         if (!empty($_SERVER['SCRIPT_NAME'])) {
-            if (in_array(basename($_SERVER['SCRIPT_NAME'],'.php'), array('404','503','report'))) {
+            if (in_array(basename($_SERVER['SCRIPT_NAME'], '.php'), array('404', '503', 'report'))) {
                 $this->_scriptName = dirname($_SERVER['SCRIPT_NAME']);
-            }
-            else {
+            } else {
                 $this->_scriptName = $_SERVER['SCRIPT_NAME'];
             }
         }
@@ -162,7 +162,7 @@ class Error_Processor
     /**
      * Process no cache error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function processNoCache()
     {
@@ -174,7 +174,7 @@ class Error_Processor
     /**
      * Process 404 error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function process404()
     {
@@ -188,7 +188,7 @@ class Error_Processor
     /**
      * Process 503 error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function process503()
     {
@@ -201,7 +201,7 @@ class Error_Processor
     /**
      * Process report
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function processReport()
     {
@@ -214,7 +214,7 @@ class Error_Processor
         $this->reportAction = $this->_config->action;
         $this->_setReportUrl();
 
-        if($this->reportAction == 'email') {
+        if ($this->reportAction == 'email') {
             $this->showSendForm = true;
             $this->sendReport();
         }
@@ -253,7 +253,9 @@ class Error_Processor
         $isSecure = (!empty($_SERVER['HTTPS'])) && ($_SERVER['HTTPS'] != 'off');
         $url = ($isSecure ? 'https://' : 'http://') . $host;
 
-        if (!empty($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], array(80, 433))) {
+        if (!empty($_SERVER['SERVER_PORT']) && !in_array($_SERVER['SERVER_PORT'], array(80, 433))
+            && !preg_match('/.*?\:[0-9]+$/', $url)
+        ) {
             $url .= ':' . $_SERVER['SERVER_PORT'];
         }
         return  $url;
@@ -268,7 +270,7 @@ class Error_Processor
     {
         $path = $this->_scriptName;
 
-        if($param && !$this->_root) {
+        if ($param && !$this->_root) {
             $path = dirname($path);
         }
 
@@ -295,7 +297,7 @@ class Error_Processor
     {
         $documentRoot = '';
         if (!empty($_SERVER['DOCUMENT_ROOT'])) {
-            $documentRoot = rtrim($_SERVER['DOCUMENT_ROOT'],'/');
+            $documentRoot = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
         }
         return dirname($documentRoot . $this->_scriptName) . '/';
     }
@@ -379,7 +381,7 @@ class Error_Processor
      *
      * @param string $file
      * @param array $directories
-     * return $string
+     * @return string
      */
     protected function _getFilePath($file, $directories = null)
     {
@@ -403,7 +405,7 @@ class Error_Processor
      * Find template path
      *
      * @param string $template
-     * return $string
+     * @return string
      */
     protected function _getTemplatePath($template)
     {
@@ -437,8 +439,7 @@ class Error_Processor
 
         if (!isset($reportData['url'])) {
             $this->reportData['url'] = '';
-        }
-        else {
+        } else {
             $this->reportData['url'] = $this->getHostUrl() . $reportData['url'];
         }
 
@@ -472,9 +473,9 @@ class Error_Processor
         $this->_setReportUrl();
 
         if (headers_sent()) {
-            print '<script type="text/javascript">';
-            print "window.location.href = '{$this->reportUrl}';";
-            print '</script>';
+            echo '<script type="text/javascript">';
+            echo "window.location.href = '{$this->reportUrl}';";
+            echo '</script>';
             exit;
         }
     }
@@ -589,9 +590,8 @@ class Error_Processor
     protected function _setReportUrl()
     {
         if ($this->reportId && $this->_config && isset($this->_config->skin)) {
-            $this->reportUrl = "{$this->getBaseUrl(true)}pub/errors/report.php?" . http_build_query(array(
-                'id' => $this->reportId, 'skin' => $this->_config->skin
-            ));
+            $this->reportUrl = "{$this->getBaseUrl(true)}pub/errors/report.php?"
+                . http_build_query(array('id' => $this->reportId, 'skin' => $this->_config->skin));
         }
     }
 }

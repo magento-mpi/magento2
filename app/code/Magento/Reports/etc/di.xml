@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="reportLog" type="Magento\Reports\Model\Plugin\Log" />
     </type>
@@ -31,6 +31,11 @@
     <type name="Magento\Reports\Model\Product\Index\AbstractIndex">
         <arguments>
             <argument name="reportSession" xsi:type="object">Magento\Reports\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Reports\Model\Resource\Helper">
+        <arguments>
+            <argument name="modulePrefix" xsi:type="string">reports</argument>
         </arguments>
     </type>
 </config>

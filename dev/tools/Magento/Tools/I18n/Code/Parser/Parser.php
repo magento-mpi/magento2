@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser;
 
 /**
@@ -16,7 +15,8 @@ class Parser extends AbstractParser
     /**
      * Parse one type
      *
-     * @param $options
+     * @param array $options
+     * @return void
      */
     protected function _parseByTypeOptions($options)
     {
@@ -34,14 +34,14 @@ class Parser extends AbstractParser
      * Add phrase
      *
      * @param array $phraseData
+     * @return void
      */
     protected function _addPhrase($phraseData)
     {
         $phraseKey = $phraseData['phrase'];
 
-        $this->_phrases[$phraseKey] = $this->_factory->createPhrase(array(
-            'phrase' => $phraseData['phrase'],
-            'translation' => $phraseData['phrase'],
-        ));
+        $this->_phrases[$phraseKey] = $this->_factory->createPhrase(
+            array('phrase' => $phraseData['phrase'], 'translation' => $phraseData['phrase'])
+        );
     }
 }

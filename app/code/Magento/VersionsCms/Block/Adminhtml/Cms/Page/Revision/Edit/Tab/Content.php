@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 /**
  * Main tab with cms page attributes and some modifications to CE version
  */
-class Content
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
+class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 {
     /**
      * Cms data
@@ -29,8 +28,8 @@ class Content
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
@@ -38,8 +37,8 @@ class Content
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -65,29 +64,19 @@ class Content
 
         $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
-        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {
-            $fieldset->addField('page_id', 'hidden', array(
-                'name' => 'page_id',
-            ));
+            $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
 
-            $fieldset->addField('version_id', 'hidden', array(
-                'name' => 'version_id',
-            ));
+            $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));
 
-            $fieldset->addField('revision_id', 'hidden', array(
-                'name' => 'revision_id',
-            ));
+            $fieldset->addField('revision_id', 'hidden', array('name' => 'revision_id'));
 
-            $fieldset->addField('label', 'hidden', array(
-                'name' => 'label',
-            ));
+            $fieldset->addField('label', 'hidden', array('name' => 'label'));
 
-            $fieldset->addField('user_id', 'hidden', array(
-                'name' => 'user_id',
-            ));
+            $fieldset->addField('user_id', 'hidden', array('name' => 'user_id'));
         }
 
         $this->getForm()->setValues($model->getData());

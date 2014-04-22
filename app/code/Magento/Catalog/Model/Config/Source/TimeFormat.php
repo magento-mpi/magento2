@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class TimeFormat implements \Magento\Core\Model\Option\ArrayInterface
+class TimeFormat implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class TimeFormat implements \Magento\Core\Model\Option\ArrayInterface
     {
         return array(
             array('value' => '12h', 'label' => __('12h AM/PM')),
-            array('value' => '24h', 'label' => __('24h')),
+            array('value' => '24h', 'label' => __('24h'))
         );
     }
 }

@@ -12,39 +12,44 @@ class QuoteItem
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
+    {
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
      * Append gift card additional data to order item options
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Sales\Model\Convert\Quote $subject
+     * @param callable $proceed
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     *
      * @return \Magento\Sales\Model\Order\Item
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundItemToOrderItem(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
+    public function aroundItemToOrderItem(
+        \Magento\Sales\Model\Convert\Quote $subject,
+        \Closure $proceed,
+        \Magento\Sales\Model\Quote\Item\AbstractItem $item
+    ) {
         /** @var $orderItem \Magento\Sales\Model\Order\Item */
-        $orderItem = $invocationChain->proceed($arguments);
+        $orderItem = $proceed($item);
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
-        $quoteItem = reset($arguments);
+        $quoteItem = $item;
 
         $keys = array(
             'giftcard_sender_name',
             'giftcard_sender_email',
             'giftcard_recipient_name',
             'giftcard_recipient_email',
-            'giftcard_message',
+            'giftcard_message'
         );
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {
@@ -54,11 +59,13 @@ class QuoteItem
             }
         }
 
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {
-            $lifetime = $this->_coreStoreConfig->getConfig(
+            $lifetime = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -68,8 +75,9 @@ class QuoteItem
 
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
+            $isRedeemable = $this->_scopeConfig->isSetFlag(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -79,8 +87,9 @@ class QuoteItem
 
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = $this->_coreStoreConfig->getConfig(
+            $emailTemplate = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {

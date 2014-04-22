@@ -17,22 +17,22 @@
  */
 namespace Magento\Reports\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Index extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
@@ -61,9 +61,12 @@ class Index extends \Magento\Backend\App\Action
 
         $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Reports::report_search')
-            ->_addBreadcrumb(__('Search Terms'), __('Search Terms'));
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Reports::report_search'
+        )->_addBreadcrumb(
+            __('Search Terms'),
+            __('Search Terms')
+        );
         $this->_view->renderLayout();
     }
 
@@ -76,7 +79,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.csv', $content->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create('search.csv', $content->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -88,7 +91,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.xml', $content->getExcelFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create('search.xml', $content->getExcelFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**

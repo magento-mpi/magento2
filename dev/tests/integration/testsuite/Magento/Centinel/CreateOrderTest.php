@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Centinel;
 
 /**
@@ -31,11 +30,14 @@ class CreateOrderTest extends \Magento\Backend\Utility\Controller
             'cc_exp_month' => '12',
             'cc_exp_year' => '2013',
             'cc_cid' => '123',
-            'method' => 'ccsave',
+            'method' => 'ccsave'
         );
         $quote = $order->addProducts(array(1 => array('qty' => 1)))->getQuote();
-        $defaultStoreId = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore('default')->getId();
+        $defaultStoreId = $this->_objectManager->get(
+            'Magento\Store\Model\StoreManagerInterface'
+        )->getStore(
+            'default'
+        )->getId();
         $quote->setStoreId($defaultStoreId);
         $quote->getPayment()->addData($paymentData);
         $this->dispatch('backend/sales/order_create/index');

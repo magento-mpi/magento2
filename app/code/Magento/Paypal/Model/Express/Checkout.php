@@ -2,18 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Express;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Sales\Model\Quote\Address;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Paypal\Model\Config as PaypalConfig;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
  */
-namespace Magento\Paypal\Model\Express;
-
 class Checkout
 {
     /**
@@ -41,7 +43,7 @@ class Checkout
     /**
      * Config instance
      *
-     * @var \Magento\Paypal\Model\Config
+     * @var PaypalConfig
      */
     protected $_config;
 
@@ -64,15 +66,27 @@ class Checkout
      *
      * @var string
      */
-    protected $_methodType = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
+    protected $_methodType = PaypalConfig::METHOD_WPP_EXPRESS;
 
     /**
-     * State helper variables
+     * State helper variable
      *
      * @var string
      */
     protected $_redirectUrl = '';
+
+    /**
+     * State helper variable
+     *
+     * @var string
+     */
     protected $_pendingPaymentMessage = '';
+
+    /**
+     * State helper variable
+     *
+     * @var string
+     */
     protected $_checkoutRedirectUrl = '';
 
     /**
@@ -102,13 +116,6 @@ class Checkout
     protected $_customerId;
 
     /**
-     * Recurring payment profiles
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Billing agreement that might be created during order placing
      *
      * @var \Magento\Paypal\Model\Billing\Agreement
@@ -118,12 +125,12 @@ class Checkout
     /**
      * Order
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -154,9 +161,9 @@ class Checkout
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Paypal\Model\Info
@@ -164,7 +171,7 @@ class Checkout
     protected $_paypalInfo;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -179,7 +186,7 @@ class Checkout
     protected $_cartFactory;
 
     /**
-     * @var \Magento\Core\Model\Log\AdapterFactory
+     * @var \Magento\Logger\AdapterFactory
      */
     protected $_logFactory;
 
@@ -214,6 +221,36 @@ class Checkout
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilderFactory
+     */
+    protected $_addressBuilderFactory;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     */
+    protected $_customerBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
+
+    /**
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $_messageManager;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -221,19 +258,25 @@ class Checkout
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Model\Info $paypalInfo
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
-     * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
+     * @param \Magento\Logger\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $params
      * @throws \Exception
      */
@@ -243,19 +286,25 @@ class Checkout
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Model\Info $paypalInfo,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
-        \Magento\Core\Model\Log\AdapterFactory $logFactory,
+        \Magento\Logger\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Message\ManagerInterface $messageManager,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -264,7 +313,7 @@ class Checkout
         $this->_customerSession = $customerSession;
         $this->_configCacheType = $configCacheType;
         $this->_logger = $logger;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_paypalInfo = $paypalInfo;
         $this->_storeManager = $storeManager;
         $this->_coreUrl = $coreUrl;
@@ -276,8 +325,14 @@ class Checkout
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
+        $this->_customerAccountService = $customerAccountService;
+        $this->_addressBuilderFactory = $addressBuilder;
+        $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
+        $this->_encryptor = $encryptor;
+        $this->_messageManager = $messageManager;
 
-        if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
+        if (isset($params['config']) && $params['config'] instanceof PaypalConfig) {
             $this->_config = $params['config'];
         } else {
             throw new \Exception('Config instance is required.');
@@ -314,13 +369,13 @@ class Checkout
                     $this->_configCacheType->save($pal, $cacheId);
                 } catch (\Exception $e) {
                     $this->_configCacheType->save(self::PAL_CACHE_ID, $cacheId);
-                   $this->_logger->logException($e);
+                    $this->_logger->logException($e);
                 }
             }
         }
 
         return $this->_config->getExpressCheckoutShortcutImageUrl(
-            $this->_locale->getLocaleCode(),
+            $this->_localeResolver->getLocaleCode(),
             $this->_quote->getBaseGrandTotal(),
             $pal
         );
@@ -332,7 +387,7 @@ class Checkout
      * @param string $successUrl - payment success result
      * @param string $cancelUrl  - payment cancellation result
      * @param string $pendingUrl - pending payment result
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function prepareGiropayUrls($successUrl, $cancelUrl, $pendingUrl)
     {
@@ -344,7 +399,7 @@ class Checkout
      * Set create billing agreement flag
      *
      * @param bool $flag
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     public function setIsBillingAgreementRequested($flag)
     {
@@ -355,28 +410,31 @@ class Checkout
     /**
      * Setter for customer
      *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @param CustomerDataObject $customerData
+     * @return $this
      */
-    public function setCustomer($customer)
+    public function setCustomerData(CustomerDataObject $customerData)
     {
-        $this->_quote->assignCustomer($customer);
-        $this->_customerId = $customer->getId();
+        $this->_quote->assignCustomer($customerData);
+        $this->_customerId = $customerData->getId();
         return $this;
     }
 
     /**
      * Setter for customer with billing and shipping address changing ability
      *
-     * @param  \Magento\Customer\Model\Customer   $customer
-     * @param  \Magento\Sales\Model\Quote\Address $billingAddress
-     * @param  \Magento\Sales\Model\Quote\Address $shippingAddress
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @param CustomerDataObject $customerData
+     * @param Address|null $billingAddress
+     * @param Address|null $shippingAddress
+     * @return $this
      */
-    public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
-    {
-        $this->_quote->assignCustomerWithAddressChange($customer, $billingAddress, $shippingAddress);
-        $this->_customerId = $customer->getId();
+    public function setCustomerWithAddressChange(
+        CustomerDataObject $customerData,
+        $billingAddress = null,
+        $shippingAddress = null
+    ) {
+        $this->_quote->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
+        $this->_customerId = $customerData->getId();
         return $this;
     }
 
@@ -385,16 +443,20 @@ class Checkout
      *
      * @param string $returnUrl
      * @param string $cancelUrl
-     * @return mixed
-     * @throws \Magento\Core\Exception
+     * @return string
+     * @throws \Magento\Framework\Model\Exception
      */
     public function start($returnUrl, $cancelUrl)
     {
         $this->_quote->collectTotals();
 
         if (!$this->_quote->getGrandTotal() && !$this->_quote->hasNominalItems()) {
-            throw new \Magento\Core\Exception(__('PayPal can\'t process orders with a zero balance due. '
-                . 'To finish your purchase, please go through the standard checkout process.'));
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'PayPal can\'t process orders with a zero balance due. '
+                    . 'To finish your purchase, please go through the standard checkout process.'
+                )
+            );
         }
 
         $this->_quote->reserveOrderId()->save();
@@ -410,22 +472,24 @@ class Checkout
         ;
         if ($this->_giropayUrls) {
             list($successUrl, $cancelUrl, $pendingUrl) = $this->_giropayUrls;
-            $this->_api->addData(array(
-                'giropay_cancel_url' => $cancelUrl,
-                'giropay_success_url' => $successUrl,
-                'giropay_bank_txn_pending_url' => $pendingUrl,
-            ));
+            $this->_api->addData(
+                [
+                    'giropay_cancel_url' => $cancelUrl,
+                    'giropay_success_url' => $successUrl,
+                    'giropay_bank_txn_pending_url' => $pendingUrl,
+                ]
+            );
         }
 
         $this->_setBillingAgreementRequest();
 
-        if ($this->_config->requireBillingAddress == \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_ALL) {
+        if ($this->_config->requireBillingAddress == PaypalConfig::REQUIRE_BILLING_ADDRESS_ALL) {
             $this->_api->setRequireBillingAddress(1);
         }
 
         // suppress or export shipping address
         if ($this->_quote->getIsVirtual()) {
-            if ($this->_config->requireBillingAddress == \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
+            if ($this->_config->requireBillingAddress == PaypalConfig::REQUIRE_BILLING_ADDRESS_VIRTUAL) {
                 $this->_api->setRequireBillingAddress(1);
             }
             $this->_api->setSuppressShipping(true);
@@ -437,7 +501,8 @@ class Checkout
                 $this->_api->setAddress($address);
             }
             $this->_quote->getPayment()->setAdditionalInformation(
-                self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDDEN, $isOverridden
+                self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDDEN,
+                $isOverridden
             );
             $this->_quote->getPayment()->save();
         }
@@ -455,35 +520,25 @@ class Checkout
                 $options = $this->_prepareShippingOptions($address, true);
                 if ($options) {
                     $this->_api->setShippingOptionsCallbackUrl(
-                        $this->_coreUrl->getUrl('*/*/shippingOptionsCallback', array(
-                            'quote_id' => $this->_quote->getId()
-                        ))
+                        $this->_coreUrl->getUrl(
+                            '*/*/shippingOptionsCallback',
+                            ['quote_id' => $this->_quote->getId()]
+                        )
                     )->setShippingOptions($options);
                 }
             }
         }
 
-        // add recurring payment profiles information
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
-        if ($profiles) {
-            foreach ($profiles as $profile) {
-                $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
-                if (!$profile->isValid()) {
-                    throw new \Magento\Core\Exception($profile->getValidationErrors());
-                }
-            }
-            $this->_api->addRecurringPaymentProfiles($profiles);
-        }
-
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
 
-        // call API and redirect with token
+        /* Temporary solution. @TODO: do not pass quote into Nvp model */
+        $this->_api->setQuote($this->_quote);
         $this->_api->callSetExpressCheckout();
+
         $token = $this->_api->getToken();
         $this->_redirectUrl = $this->_config->getExpressCheckoutStartUrl($token);
 
-        $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
-        $this->_quote->getPayment()->save();
+        $this->_quote->getPayment()->unsAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT)->save();
         return $token;
     }
 
@@ -494,6 +549,7 @@ class Checkout
      * export shipping address in case address absence
      *
      * @param string $token
+     * @return void
      */
     public function returnFromPaypal($token)
     {
@@ -532,7 +588,7 @@ class Checkout
                 if ($this->_api->getShippingRateCode()) {
                     $code = $this->_matchShippingMethodCode($shippingAddress, $this->_api->getShippingRateCode());
                     if ($code) {
-                         // possible bug of double collecting rates :-/
+                        // possible bug of double collecting rates :-/
                         $shippingAddress->setShippingMethod($code)->setCollectShippingRates(true);
                     }
                 }
@@ -555,14 +611,15 @@ class Checkout
     /**
      * Check whether order review has enough data to initialize
      *
-     * @param $token
-     * @throws \Magento\Core\Exception
+     * @param string|null $token
+     * @return void
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareOrderReview($token = null)
     {
         $payment = $this->_quote->getPayment();
         if (!$payment || !$payment->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID)) {
-            throw new \Magento\Core\Exception(__('Payer is not identified.'));
+            throw new \Magento\Framework\Model\Exception(__('Payer is not identified.'));
         }
         $this->_quote->setMayEditShippingAddress(
             1 != $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDDEN)
@@ -616,11 +673,14 @@ class Checkout
 
     /**
      * Set shipping method to quote, if needed
+     *
      * @param string $methodCode
+     * @return void
      */
     public function updateShippingMethod($methodCode)
     {
-        if (!$this->_quote->getIsVirtual() && $shippingAddress = $this->_quote->getShippingAddress()) {
+        $shippingAddress = $this->_quote->getShippingAddress();
+        if (!$this->_quote->getIsVirtual() && $shippingAddress) {
             if ($methodCode != $shippingAddress->getShippingMethod()) {
                 $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
@@ -633,6 +693,7 @@ class Checkout
      * Update order data
      *
      * @param array $data
+     * @return void
      */
     public function updateOrder($data)
     {
@@ -661,11 +722,11 @@ class Checkout
     }
 
     /**
-     * Place the order and recurring payment profiles when customer returned from paypal
-     * Until this moment all quote data must be valid
+     * Place the order when customer returned from PayPal until this moment all quote data must be valid.
      *
      * @param string $token
-     * @param string $shippingMethodCode
+     * @param string|null $shippingMethodCode
+     * @return void
      */
     public function place($token, $shippingMethodCode = null)
     {
@@ -691,7 +752,7 @@ class Checkout
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
         $service = $this->_serviceQuoteFactory->create($parameters);
-        $service->submitAll();
+        $service->submitAllWithDataObject();
         $this->_quote->save();
 
         if ($isNewCustomer) {
@@ -702,18 +763,13 @@ class Checkout
             }
         }
 
-        $this->_recurringPaymentProfiles = $service->getRecurringPaymentProfiles();
-        // TODO: send recurring profile emails
-
         $order = $service->getOrder();
         if (!$order) {
             return;
         }
 
         // commence redirecting to finish payment, if paypal requires it
-        if ($order->getPayment()->getAdditionalInformation(
-                \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_REDIRECT
-        )) {
+        if ($order->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_REDIRECT)) {
             $this->_redirectUrl = $this->_config->getExpressCheckoutCompleteUrl($token);
         }
 
@@ -722,7 +778,7 @@ class Checkout
             case \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT:
                 // TODO
                 break;
-            // regular placement, when everything is ok
+                // regular placement, when everything is ok
             case \Magento\Sales\Model\Order::STATE_PROCESSING:
             case \Magento\Sales\Model\Order::STATE_COMPLETE:
             case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
@@ -736,6 +792,8 @@ class Checkout
 
     /**
      * Make sure addresses will be saved without validation errors
+     *
+     * @return void
      */
     private function _ignoreAddressValidation()
     {
@@ -756,16 +814,6 @@ class Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
-    }
-
-    /**
-     * Return recurring payment profiles
-     *
-     * @return array
-     */
-    public function getRecurringPaymentProfiles()
-    {
-        return $this->_recurringPaymentProfiles;
     }
 
     /**
@@ -811,8 +859,9 @@ class Checkout
     /**
      * Sets address data from exported address
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param array $exportedAddress
+     * @return void
      */
     protected function _setExportedAddressData($address, $exportedAddress)
     {
@@ -820,8 +869,8 @@ class Checkout
             $oldData = $address->getDataUsingMethod($key);
             $isEmpty = null;
             if (is_array($oldData)) {
-                foreach($oldData as $val) {
-                    if(!empty($val)) {
+                foreach ($oldData as $val) {
+                    if (!empty($val)) {
                         $isEmpty = false;
                         break;
                     }
@@ -837,7 +886,7 @@ class Checkout
     /**
      * Set create billing agreement flag to api call
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _setBillingAgreementRequest()
     {
@@ -848,7 +897,7 @@ class Checkout
         $isRequested = $this->_isBARequested || $this->_quote->getPayment()
             ->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
 
-        if (!($this->_config->allow_ba_signup == \Magento\Paypal\Model\Config::EC_BA_SIGNUP_AUTO
+        if (!($this->_config->allow_ba_signup == PaypalConfig::EC_BA_SIGNUP_AUTO
             || $isRequested && $this->_config->shouldAskToCreateBillingAgreement())
         ) {
             return $this;
@@ -877,21 +926,22 @@ class Checkout
      * Returns empty array if it was impossible to obtain any shipping rate
      * If there are shipping rates obtained, the method must return one of them as default.
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param bool $mayReturnEmpty
      * @param bool $calculateTax
      * @return array|false
      */
-    protected function _prepareShippingOptions(
-        \Magento\Sales\Model\Quote\Address $address,
-        $mayReturnEmpty = false, $calculateTax = false
-    ) {
-        $options = array(); $i = 0; $iMin = false; $min = false;
+    protected function _prepareShippingOptions(Address $address, $mayReturnEmpty = false, $calculateTax = false)
+    {
+        $options = array();
+        $i = 0;
+        $iMin = false;
+        $min = false;
         $userSelectedOption = null;
 
         foreach ($address->getGroupedAllShippingRates() as $group) {
             foreach ($group as $rate) {
-                $amount = (float)$rate->getPrice();
+                $amount = (double)$rate->getPrice();
                 if ($rate->getErrorMessage()) {
                     continue;
                 }
@@ -899,16 +949,17 @@ class Checkout
                 $amountExclTax = $this->_taxData->getShippingPrice($amount, false, $address);
                 $amountInclTax = $this->_taxData->getShippingPrice($amount, true, $address);
 
-                $options[$i] = new \Magento\Object(array(
-                    'is_default' => $isDefault,
-                    'name'       => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
-                    'code'       => $rate->getCode(),
-                    'amount'     => $amountExclTax,
-                ));
+                $options[$i] = new \Magento\Object(
+                    [
+                        'is_default' => $isDefault,
+                        'name' => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
+                        'code' => $rate->getCode(),
+                        'amount' => $amountExclTax,
+                    ]
+                );
                 if ($calculateTax) {
                     $options[$i]->setTaxAmount(
-                        $amountInclTax - $amountExclTax
-                            + $address->getTaxAmount() - $address->getShippingTaxAmount()
+                        $amountInclTax - $amountExclTax + $address->getTaxAmount() - $address->getShippingTaxAmount()
                     );
                 }
                 if ($isDefault) {
@@ -923,12 +974,14 @@ class Checkout
         }
 
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
-            $options[] = new \Magento\Object(array(
-                'is_default' => true,
-                'name'       => __('N/A'),
-                'code'       => 'no_rate',
-                'amount'     => 0.00,
-            ));
+            $options[] = new \Magento\Object(
+                [
+                    'is_default' => true,
+                    'name'       => __('N/A'),
+                    'code'       => 'no_rate',
+                    'amount'     => 0.00,
+                ]
+            );
             if ($calculateTax) {
                 $options[$i]->setTaxAmount($address->getTaxAmount());
             }
@@ -938,7 +991,7 @@ class Checkout
 
         // Magento will transfer only first 10 cheapest shipping options if there are more than 10 available.
         if (count($options) > 10) {
-            usort($options, array(get_class($this),'cmpShippingOptions'));
+            usort($options, array(get_class($this), 'cmpShippingOptions'));
             array_splice($options, 10);
             // User selected option will be always included in options list
             if (!is_null($userSelectedOption) && !in_array($userSelectedOption, $options)) {
@@ -957,7 +1010,7 @@ class Checkout
      *
      * @param \Magento\Object $option1
      * @param \Magento\Object $option2
-     * @return integer
+     * @return int
      */
     protected static function cmpShippingOptions(\Magento\Object $option1, \Magento\Object $option2)
     {
@@ -973,11 +1026,11 @@ class Checkout
      * If in future the issue is fixed, we don't need to attempt to match it. It would be enough to set the method code
      * before collecting shipping rates
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @param string $selectedCode
      * @return string
      */
-    protected function _matchShippingMethodCode(\Magento\Sales\Model\Quote\Address $address, $selectedCode)
+    protected function _matchShippingMethodCode(Address $address, $selectedCode)
     {
         $options = $this->_prepareShippingOptions($address, false);
         foreach ($options as $option) {
@@ -995,7 +1048,7 @@ class Checkout
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _prepareGuestQuote()
     {
@@ -1011,7 +1064,7 @@ class Checkout
      * Prepare quote for customer registration and customer order submit
      * and restore magento customer data from quote
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return void
      */
     protected function _prepareNewCustomerQuote()
     {
@@ -1019,22 +1072,26 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $quote->getCustomer();
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customerBilling = $billing->exportCustomerAddress();
-        $customer->addAddress($customerBilling);
-        $billing->setCustomerAddress($customerBilling);
-        $customerBilling->setIsDefaultBilling(true);
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $billingAddressBuilder */
+        $billingAddressBuilder = $this->_addressBuilderFactory->create();
+        $customerBilling = $billingAddressBuilder
+            ->populate($billing->exportCustomerAddressData())
+            ->setDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling()) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
-            $customerShipping->setIsDefaultShipping(true);
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $shippingAddressBuilder */
+            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
+            $customerShipping = $shippingAddressBuilder
+                ->populate($shipping->exportCustomerAddressData())
+                ->setDefaultShipping(true)
+                ->create();
+            $shipping->setCustomerAddressData($customerShipping);
         } elseif ($shipping) {
-            $customerBilling->setIsDefaultShipping(true);
+            $customerBilling->setDefaultShipping(true);
         }
+        $customerBilling = $customerBilling->create();
+        $billing->setCustomerAddressData($customerBilling);
         /**
-         * @todo integration with dynamica attributes customer_dob, customer_taxvat, customer_gender
+         * @todo integration with dynamic attributes customer_dob, customer_taxvat, customer_gender
          */
         if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
             $billing->setCustomerDob($quote->getCustomerDob());
@@ -1048,25 +1105,32 @@ class Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $customerData = $this->_objectCopyService->getDataFromFieldset(
+            'checkout_onepage_billing',
+            'to_customer',
+            $billing
+        );
+
+        $customer = $this->_customerBuilder->populateWithArray($customerData);
+
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());
         $customer->setMiddlename($quote->getCustomerMiddlename());
         $customer->setLastname($quote->getCustomerLastname());
         $customer->setSuffix($quote->getCustomerSuffix());
-        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
-        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-        $customer->save();
-        $quote->setCustomer($customer);
 
-        return $this;
+        $quote->setCustomerData($customer->create())->addCustomerAddressData($customerBilling);
+
+        if (isset($customerShipping)) {
+            $quote->addCustomerAddressData($customerShipping);
+        }
     }
 
     /**
      * Prepare quote for customer order submit
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return void
      */
     protected function _prepareCustomerQuote()
     {
@@ -1074,48 +1138,67 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->getCustomerSession()->getCustomer();
+        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $customerBilling = $billing->exportCustomerAddress();
-            $customer->addAddress($customerBilling);
-            $billing->setCustomerAddress($customerBilling);
+            $billingAddress = $billing->exportCustomerAddressData();
+            $billing->setCustomerAddressData($billingAddress);
         }
-        if ($shipping && ((!$shipping->getCustomerId() && !$shipping->getSameAsBilling())
-            || (!$shipping->getSameAsBilling() && $shipping->getSaveInAddressBook()))) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
+        if ($shipping
+            && !$shipping->getSameAsBilling()
+            && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())
+        ) {
+            $shippingAddress = $shipping->exportCustomerAddressData();
+            $shipping->setCustomerAddressData($shippingAddress);
         }
 
-        if (isset($customerBilling) && !$customer->getDefaultBilling()) {
-            $customerBilling->setIsDefaultBilling(true);
+        $isBillingAddressDefaultBilling = false;
+        $isBillingAddressDefaultShipping = false;
+        if (!$customer->getDefaultBilling()) {
+            $isBillingAddressDefaultBilling = true;
         }
-        if ($shipping && isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
-            $customerBilling->setIsDefaultShipping(true);
-        } elseif ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
-            $customerShipping->setIsDefaultShipping(true);
-        }
-        $quote->setCustomer($customer);
 
-        return $this;
+        if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $shippingAddressBuilder */
+            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
+            $shippingAddress = $shippingAddressBuilder->populate($shippingAddress)
+                ->setDefaultBilling(false)
+                ->setDefaultShipping(true)
+                ->create();
+            $quote->addCustomerAddressData($shippingAddress);
+        } else if (!$customer->getDefaultShipping()) {
+            $isBillingAddressDefaultShipping = true;
+        }
+
+        if (isset($billingAddress)) {
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $billingAddressBuilder */
+            $billingAddressBuilder = $this->_addressBuilderFactory->create();
+            $billingAddress = $billingAddressBuilder
+                ->populate($billingAddress)
+                ->setDefaultBilling($isBillingAddressDefaultBilling)
+                ->setDefaultShipping($isBillingAddressDefaultShipping)
+                ->create();
+            $quote->addCustomerAddressData($billingAddress);
+        }
+        $quote->setCustomerData($customer);
     }
 
     /**
      * Involve new customer to system
      *
-     * @return \Magento\Paypal\Model\Express\Checkout
+     * @return $this
      */
     protected function _involveNewCustomer()
     {
-        $customer = $this->_quote->getCustomer();
-        if ($customer->isConfirmationRequired()) {
-            $customer->sendNewAccountEmail('confirmation');
+        $customer = $this->_quote->getCustomerData();
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
+        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
-            $this->getCustomerSession()->addSuccess(__('Account confirmation is required. '
-                . 'Please, check your e-mail for confirmation link. '
-                . 'To resend confirmation email please <a href="%1">click here</a>.', $url));
+            $this->_messageManager->addSuccess(
+            // @codingStandardsIgnoreStart
+                __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
+            // @codingStandardsIgnoreEnd
+            );
         } else {
-            $customer->sendNewAccountEmail();
             $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;

@@ -5,8 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller\Soap\Request;
+
+use Magento\Service\DataObjectConverter;
+use Magento\Webapi\Model\Soap\Config as SoapConfig;
 
 /**
  * Test for \Magento\Webapi\Controller\Soap\Request\Handler.
@@ -28,8 +30,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_authzServiceMock;
 
-    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
+    /** @var DataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_dataObjectConverter;
 
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
@@ -45,7 +47,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
-        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
+        $this->_dataObjectConverter = $this->getMock(
+            'Magento\Service\DataObjectConverter',
+            ['convertStdObjectToArray'],
+            [],
+            '',
+            false
+        );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
@@ -53,7 +61,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_objectManagerMock,
             $this->_apiConfigMock,
             $this->_authzServiceMock,
-            $this->_helperMock,
+            $this->_dataObjectConverter,
             $this->_serializerMock
         );
         parent::setUp();
@@ -65,6 +73,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
+        $this->_dataObjectConverter->expects($this->once())
+            ->method('convertStdObjectToArray')
+            ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
         $className = 'Magento\Object';
         $methodName = 'testMethod';
@@ -76,10 +87,10 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     array(
-                        \Magento\Webapi\Model\Soap\Config::KEY_CLASS => $className,
-                        \Magento\Webapi\Model\Soap\Config::KEY_METHOD => $methodName,
-                        \Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE => $isSecure,
-                        \Magento\Webapi\Model\Soap\Config::KEY_ACL_RESOURCES => $aclResources
+                        SoapConfig::KEY_CLASS => $className,
+                        SoapConfig::KEY_METHOD => $methodName,
+                        SoapConfig::KEY_IS_SECURE => $isSecure,
+                        SoapConfig::KEY_ACL_RESOURCES => $aclResources
                     )
                 )
             );

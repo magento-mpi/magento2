@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model;
 
 class Processor
@@ -50,6 +49,8 @@ class Processor
 
     /**
      * Regenerate indexes for all invalid indexers
+     *
+     * @return void
      */
     public function reindexAllInvalid()
     {
@@ -64,6 +65,8 @@ class Processor
 
     /**
      * Regenerate indexes for all indexers
+     *
+     * @return void
      */
     public function reindexAll()
     {
@@ -76,6 +79,8 @@ class Processor
 
     /**
      * Update indexer views
+     *
+     * @return void
      */
     public function updateMview()
     {
@@ -84,6 +89,8 @@ class Processor
 
     /**
      * Clean indexer view changelogs
+     *
+     * @return void
      */
     public function clearChangelog()
     {

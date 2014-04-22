@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 /**
@@ -25,22 +24,19 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
-        $sessionQuoteMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
-            ->disableOriginalConstructor()
-            ->setMethods(['getCustomerId', 'getStore', 'getStoreId', 'getQuote'])
-            ->getMock();
-        $sessionQuoteMock->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(1));
-        $sessionQuoteMock->expects($this->any())
-            ->method('getQuote')
-            ->will($this->returnValue($quote));
-        /** @var \Magento\View\LayoutInterface $layout */
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        $sessionQuoteMock = $this->getMockBuilder(
+            'Magento\Backend\Model\Session\Quote'
+        )->disableOriginalConstructor()->setMethods(
+            array('getCustomerId', 'getStore', 'getStoreId', 'getQuote')
+        )->getMock();
+        $sessionQuoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
+        $sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
         $this->_accountBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Account',
             'address_block' . rand(),
-            ['sessionQuote' => $sessionQuoteMock]
+            array('sessionQuote' => $sessionQuoteMock)
         );
         parent::setUp();
     }
@@ -50,7 +46,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetForm()
     {
-        $expectedFields = ['group_id', 'email'];
+        $expectedFields = array('group_id', 'email');
         $form = $this->_accountBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
         $fieldset = $form->getElements()[0];

@@ -7,14 +7,16 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_GiftMessage" version="1.6.0.1" active="true">
         <sequence>
             <module name="Magento_Catalog"/>
             <module name="Magento_Sales"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_Multishipping"/>
             <module name="Magento_Sales"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>

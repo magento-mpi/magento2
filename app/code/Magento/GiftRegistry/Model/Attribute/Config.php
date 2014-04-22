@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Attribute;
 
 /**
  * Gift registry attributes config model
  */
-namespace Magento\GiftRegistry\Model\Attribute;
-
-class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * Modules configuration model
@@ -37,10 +36,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
      */
     protected function _getDefaultOption()
     {
-        return array(array(
-            'value' => '',
-            'label' => __('-- Please select --'))
-        );
+        return array(array('value' => '', 'label' => __('-- Please select --')));
     }
 
     /**
@@ -50,16 +46,13 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
      */
     public function getAttributeTypesOptions()
     {
-        $options = array_merge($this->_getDefaultOption(), array(
+        $options = array_merge(
+            $this->_getDefaultOption(),
             array(
-                'label' => __('Custom Types'),
-                'value' => $this->getAttributeCustomTypesOptions()
-            ),
-            array(
-                'label' => __('Static Types'),
-                'value' => $this->getAttributeStaticTypesOptions()
+                array('label' => __('Custom Types'), 'value' => $this->getAttributeCustomTypesOptions()),
+                array('label' => __('Static Types'), 'value' => $this->getAttributeStaticTypesOptions())
             )
-        ));
+        );
         return $options;
     }
 
@@ -76,10 +69,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
         if (is_array($groups)) {
             foreach ($groups as $code => $group) {
                 if ($group['visible']) {
-                    $options[] = array(
-                        'value' => $code,
-                        'label' => $group['label']
-                    );
+                    $options[] = array('value' => $code, 'label' => $group['label']);
                 }
             }
         }
@@ -89,7 +79,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
     /**
      * Return array of attribute groups
      *
-     * @return array
+     * @return array|mixed
      */
     public function getAttributeGroups()
     {
@@ -146,7 +136,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
      */
     public function getStaticDateType()
     {
-        foreach ($this->getStaticTypes() as $code =>$type) {
+        foreach ($this->getStaticTypes() as $code => $type) {
             if (isset($type['type']) && $type['type'] == 'date') {
                 return $code;
             }
@@ -161,7 +151,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
      */
     public function getStaticRegionType()
     {
-        foreach ($this->getStaticTypes() as $code =>$type) {
+        foreach ($this->getStaticTypes() as $code => $type) {
             if (isset($type['type']) && $type['type'] == 'region') {
                 return $code;
             }
@@ -180,10 +170,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
         $options = array();
 
         foreach ($types as $code => $type) {
-            $options[] = array(
-                'value' => $code,
-                'label' => $type['label']
-            );
+            $options[] = array('value' => $code, 'label' => $type['label']);
         }
         return $options;
     }
@@ -205,10 +192,7 @@ class Config implements \Magento\GiftRegistry\Model\Attribute\ConfigInterface
                 $valueParts[] = $type['group'];
             }
 
-            $options[] = array(
-                'value' => implode(':', $valueParts),
-                'label' => $type['label']
-            );
+            $options[] = array('value' => implode(':', $valueParts), 'label' => $type['label']);
         }
         return $options;
     }

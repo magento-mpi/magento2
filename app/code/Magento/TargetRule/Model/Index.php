@@ -7,10 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Model;
-
-use Magento\TargetRule\Model\Resource\Rule\CollectionFactory;
 
 /**
  * TargetRule Product Index by Rule Product List Type Model
@@ -84,17 +81,17 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_indexer;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @var CollectionFactory
+     * @var \Magento\TargetRule\Model\Resource\Rule\CollectionFactory
      */
     protected $_ruleCollectionFactory;
 
@@ -104,36 +101,36 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param CollectionFactory $ruleFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        CollectionFactory $ruleFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_indexer = $indexer;
         $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
@@ -175,14 +172,14 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getType()
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+            throw new \Magento\Framework\Model\Exception(__('Undefined Catalog Product List Type'));
         }
         return $type;
     }
@@ -277,13 +274,13 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Retrieve Product data object
      *
      * @return \Magento\Object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getProduct()
     {
         $product = $this->getData('product');
         if (!$product instanceof \Magento\Object) {
-            throw new \Magento\Core\Exception(__('Please define a product data object.'));
+            throw new \Magento\Framework\Model\Exception(__('Please define a product data object.'));
         }
         return $product;
     }
@@ -335,11 +332,14 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         /* @var $collection \Magento\TargetRule\Model\Resource\Rule\Collection */
         $collection = $this->_ruleCollectionFactory->create();
-        $collection->addApplyToFilter($this->getType())
-            ->addProductFilter($this->getProduct()->getId())
-            ->addIsActiveFilter()
-            ->setPriorityOrder()
-            ->setFlag('do_not_run_after_load', true);
+        $collection->addApplyToFilter(
+            $this->getType()
+        )->addProductFilter(
+            $this->getProduct()->getId()
+        )->addIsActiveFilter()->setPriorityOrder()->setFlag(
+            'do_not_run_after_load',
+            true
+        );
 
         return $collection;
     }
@@ -347,7 +347,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve SELECT instance for conditions
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {
@@ -365,9 +365,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         $websites = $this->_storeManager->getWebsites();
 
         foreach ($websites as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
             $store = $website->getDefaultStore();
-            $date  = $this->_locale->storeDate($store);
+            $date = $this->_localeDate->scopeDate($store);
             if ($date->equals(0, \Zend_Date::HOUR)) {
                 $this->_indexer->logEvent(
                     new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
@@ -376,10 +376,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
                 );
             }
         }
-        $this->_indexer->indexEvents(
-            self::ENTITY_TARGETRULE,
-            self::EVENT_TYPE_CLEAN_TARGETRULES
-        );
+        $this->_indexer->indexEvents(self::ENTITY_TARGETRULE, self::EVENT_TYPE_CLEAN_TARGETRULES);
     }
 
     /**
@@ -483,7 +480,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Remove targetrule's index
      *
      * @param int|null $typeId
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     protected function _cleanIndex($typeId = null, $store = null)

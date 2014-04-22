@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Controller\Adminhtml;
 
 /**
@@ -19,10 +18,12 @@ class ProductTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionAssociatedProductIds()
     {
         $associatedProductIds = array(3, 14, 15, 92);
-        $this->getRequest()->setPost(array(
-            'attributes' => array($this->_getConfigurableAttribute()->getId()),
-            'associated_product_ids' => $associatedProductIds,
-        ));
+        $this->getRequest()->setPost(
+            array(
+                'attributes' => array($this->_getConfigurableAttribute()->getId()),
+                'associated_product_ids' => $associatedProductIds
+            )
+        );
 
         $this->dispatch('backend/catalog/product/save');
 
@@ -30,7 +31,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = $objectManager->get('Magento\Core\Model\Registry')->registry('current_product');
+        $product = $objectManager->get('Magento\Registry')->registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
         /** @see \Magento\Backend\Utility\Controller::assertPostConditions() */
@@ -44,11 +45,15 @@ class ProductTest extends \Magento\Backend\Utility\Controller
      */
     protected function _getConfigurableAttribute()
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Entity\Attribute')->loadByCode(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
-                    ->getEntityType('catalog_product')->getId(),
-                'test_configurable'
-            );
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Entity\Attribute'
+        )->loadByCode(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Eav\Model\Config'
+            )->getEntityType(
+                'catalog_product'
+            )->getId(),
+            'test_configurable'
+        );
     }
 }

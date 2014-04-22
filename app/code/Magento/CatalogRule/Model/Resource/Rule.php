@@ -20,8 +20,8 @@ namespace Magento\CatalogRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Rule as ModelRule;
-use Magento\Core\Model\AbstractModel;
-use Magento\Core\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
@@ -43,13 +43,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'catalogrule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         ),
         'customer_group' => array(
             'associations_table' => 'catalogrule_customer_group',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'customer_group_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'customer_group_id'
         )
     );
 
@@ -73,7 +73,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -83,7 +83,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -93,10 +93,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
@@ -104,15 +104,15 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Logger $logger,
-        \Magento\Stdlib\DateTime $dateTime        
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;
@@ -138,8 +138,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param AbstractModel $object
-     * @return AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(AbstractModel $object)
     {
@@ -188,15 +188,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function updateRuleProductData(ModelRule $rule)
     {
         $ruleId = $rule->getId();
-        $write  = $this->_getWriteAdapter();
+        $write = $this->_getWriteAdapter();
         $write->beginTransaction();
         if ($rule->getProductsFilter()) {
             $write->delete(
                 $this->getTable('catalogrule_product'),
-                array(
-                    'rule_id=?' => $ruleId,
-                    'product_id IN (?)' => $rule->getProductsFilter()
-                )
+                array('rule_id=?' => $ruleId, 'product_id IN (?)' => $rule->getProductsFilter())
             );
         } else {
             $write->delete($this->getTable('catalogrule_product'), $write->quoteInto('rule_id=?', $ruleId));
@@ -222,7 +219,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $customerGroupIds = $rule->getCustomerGroupIds();
         $fromTime = strtotime($rule->getFromDate());
         $toTime = strtotime($rule->getToDate());
-        $toTime = $toTime ? ($toTime + self::SECONDS_IN_DAY - 1) : 0;
+        $toTime = $toTime ? $toTime + self::SECONDS_IN_DAY - 1 : 0;
         $sortOrder = (int)$rule->getSortOrder();
         $actionOperator = $rule->getSimpleAction();
         $actionAmount = $rule->getDiscountAmount();
@@ -248,7 +245,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                             'action_stop' => $actionStop,
                             'sort_order' => $sortOrder,
                             'sub_simple_action' => $subActionOperator,
-                            'sub_discount_amount' => $subActionAmount,
+                            'sub_discount_amount' => $subActionAmount
                         );
 
                         if (count($rows) == 1000) {
@@ -259,7 +256,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 }
             }
             if (!empty($rows)) {
-               $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
+                $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
             }
 
             $write->commit();
@@ -281,8 +278,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function getRuleProductIds($ruleId)
     {
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getTable('catalogrule_product'), 'product_id')
-            ->where('rule_id=?', $ruleId);
+        $select = $read->select()->from(
+            $this->getTable('catalogrule_product'),
+            'product_id'
+        )->where(
+            'rule_id=?',
+            $ruleId
+        );
 
         return $read->fetchCol($select);
     }
@@ -300,7 +302,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $write = $this->_getWriteAdapter();
         $conds = array();
         $cond = $write->quoteInto('rule_date between ?', $this->dateTime->formatDate($fromDate));
-        $cond = $write->quoteInto($cond.' and ?', $this->dateTime->formatDate($toDate));
+        $cond = $write->quoteInto($cond . ' and ?', $this->dateTime->formatDate($toDate));
         $conds[] = $cond;
         if (!is_null($productId)) {
             $conds[] = $write->quoteInto('product_id=?', $productId);
@@ -310,10 +312,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
          * Add information about affected products
          * It can be used in processes which related with product price (like catalog index)
          */
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('catalogrule_product_price'), 'product_id')
-            ->where(implode(' AND ', $conds))
-            ->group('product_id');
+        $select = $this->_getWriteAdapter()->select()->from(
+            $this->getTable('catalogrule_product_price'),
+            'product_id'
+        )->where(
+            implode(' AND ', $conds)
+        )->group(
+            'product_id'
+        );
 
         $replace = $write->insertFromSelect(
             $select,
@@ -367,11 +373,19 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
          * if row with sort order 1 will have stop flag we should exclude
          * all next rows for same product id from price calculation
          */
-        $select = $read->select()
-            ->from(array('rp' => $this->getTable('catalogrule_product')))
-            ->where($read->quoteInto('rp.from_time = 0 or rp.from_time <= ?', $toDate)
-            . ' OR ' . $read->quoteInto('rp.to_time = 0 or rp.to_time >= ?', $fromDate))
-            ->order(array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id'));
+        $select = $read->select()->from(
+            array('rp' => $this->getTable('catalogrule_product'))
+        )->where(
+            $read->quoteInto(
+                'rp.from_time = 0 or rp.from_time <= ?',
+                $toDate
+            ) . ' OR ' . $read->quoteInto(
+                'rp.to_time = 0 or rp.to_time >= ?',
+                $fromDate
+            )
+        )->order(
+            array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id')
+        );
 
         if (!is_null($productId)) {
             $select->where('rp.product_id=?', $productId);
@@ -380,51 +394,53 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         /**
          * Join default price and websites prices to result
          */
-        $priceAttr  = $this->_eavConfig->getAttribute(Product::ENTITY, 'price');
+        $priceAttr = $this->_eavConfig->getAttribute(Product::ENTITY, 'price');
         $priceTable = $priceAttr->getBackend()->getTable();
-        $attributeId= $priceAttr->getId();
+        $attributeId = $priceAttr->getId();
 
-        $joinCondition = '%1$s.entity_id=rp.product_id AND (%1$s.attribute_id=' . $attributeId
-            . ') and %1$s.store_id=%2$s';
+        $joinCondition = '%1$s.entity_id=rp.product_id AND (%1$s.attribute_id=' .
+            $attributeId .
+            ') and %1$s.store_id=%2$s';
 
         $select->join(
-            array('pp_default'=>$priceTable),
-            sprintf($joinCondition, 'pp_default', \Magento\Core\Model\Store::DEFAULT_STORE_ID),
-            array('default_price'=>'pp_default.value')
+            array('pp_default' => $priceTable),
+            sprintf($joinCondition, 'pp_default', \Magento\Store\Model\Store::DEFAULT_STORE_ID),
+            array('default_price' => 'pp_default.value')
         );
 
         if ($websiteId !== null) {
-            $website  = $this->_storeManager->getWebsite($websiteId);
+            $website = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
+            if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
             }
 
             $select->joinInner(
                 array('product_website' => $this->getTable('catalog_product_website')),
                 'product_website.product_id=rp.product_id ' .
                 'AND rp.website_id=product_website.website_id ' .
-                'AND product_website.website_id='.$websiteId,
+                'AND product_website.website_id=' .
+                $websiteId,
                 array()
             );
 
-            $tableAlias = 'pp'.$websiteId;
-            $fieldAlias = 'website_'.$websiteId.'_price';
+            $tableAlias = 'pp' . $websiteId;
+            $fieldAlias = 'website_' . $websiteId . '_price';
             $select->joinLeft(
-                array($tableAlias=>$priceTable),
+                array($tableAlias => $priceTable),
                 sprintf($joinCondition, $tableAlias, $storeId),
-                array($fieldAlias=>$tableAlias.'.value')
+                array($fieldAlias => $tableAlias . '.value')
             );
         } else {
             foreach ($this->_storeManager->getWebsites() as $website) {
-                $websiteId  = $website->getId();
+                $websiteId = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
+                if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                    $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;
@@ -432,7 +448,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 $select->joinLeft(
                     array($tableAlias => $priceTable),
                     sprintf($joinCondition, $tableAlias, $storeId),
-                    array($fieldAlias => $tableAlias.'.value')
+                    array($fieldAlias => $tableAlias . '.value')
                 );
             }
         }
@@ -460,7 +476,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $clearOldData = false;
         if ($fromDate === null) {
-            $fromDate = mktime(0,0,0,date('m'),date('d')-1);
+            $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
             /**
              * If fromDate not specified we can delete all data oldest than 1 day
              * We have run it for clear table in case when cron was not installed
@@ -472,7 +488,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             $fromDate = strtotime($fromDate);
         }
         if ($toDate === null) {
-            $toDate = mktime(0,0,0,date('m'),date('d')+1);
+            $toDate = mktime(0, 0, 0, date('m'), date('d') + 1);
         }
         if (is_string($toDate)) {
             $toDate = strtotime($toDate);
@@ -480,8 +496,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $product = null;
         if ($productId instanceof Product) {
-            $product    = $productId;
-            $productId  = $productId->getId();
+            $product = $productId;
+            $productId = $productId->getId();
         }
 
         $this->removeCatalogPricesForDateRange($fromDate, $toDate, $productId);
@@ -489,7 +505,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             $this->deleteOldData($fromDate, $productId);
         }
 
-        $dayPrices  = array();
+        $dayPrices = array();
 
         try {
             /**
@@ -497,33 +513,31 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
              * because of max join limit in mysql
              */
             foreach ($this->_storeManager->getWebsites(false) as $website) {
-                $productsStmt = $this->_getRuleProductsStmt(
-                   $fromDate,
-                   $toDate,
-                   $productId,
-                   $website->getId()
-                );
+                $productsStmt = $this->_getRuleProductsStmt($fromDate, $toDate, $productId, $website->getId());
 
-                $dayPrices  = array();
-                $stopFlags  = array();
-                $prevKey    = null;
+                $dayPrices = array();
+                $stopFlags = array();
+                $prevKey = null;
 
                 while ($ruleData = $productsStmt->fetch()) {
-                    $ruleProductId  = $ruleData['product_id'];
-                    $productKey     = $ruleProductId . '_'
-                       . $ruleData['website_id'] . '_'
-                       . $ruleData['customer_group_id'];
+                    $ruleProductId = $ruleData['product_id'];
+                    $productKey = $ruleProductId .
+                        '_' .
+                        $ruleData['website_id'] .
+                        '_' .
+                        $ruleData['customer_group_id'];
 
-                    if ($prevKey && ($prevKey != $productKey)) {
+                    if ($prevKey && $prevKey != $productKey) {
                         $stopFlags = array();
                     }
 
                     /**
                      * Build prices for each day
                      */
-                    for ($time=$fromDate; $time<=$toDate; $time+=self::SECONDS_IN_DAY) {
-                        if (($ruleData['from_time']==0 || $time >= $ruleData['from_time'])
-                            && ($ruleData['to_time']==0 || $time <=$ruleData['to_time'])
+                    for ($time = $fromDate; $time <= $toDate; $time += self::SECONDS_IN_DAY) {
+                        if (($ruleData['from_time'] == 0 ||
+                            $time >= $ruleData['from_time']) && ($ruleData['to_time'] == 0 ||
+                            $time <= $ruleData['to_time'])
                         ) {
                             $priceKey = $time . '_' . $productKey;
 
@@ -533,13 +547,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
                             if (!isset($dayPrices[$priceKey])) {
                                 $dayPrices[$priceKey] = array(
-                                    'rule_date'         => $time,
-                                    'website_id'        => $ruleData['website_id'],
+                                    'rule_date' => $time,
+                                    'website_id' => $ruleData['website_id'],
                                     'customer_group_id' => $ruleData['customer_group_id'],
-                                    'product_id'        => $ruleProductId,
-                                    'rule_price'        => $this->_calcRuleProductPrice($ruleData),
+                                    'product_id' => $ruleProductId,
+                                    'rule_price' => $this->_calcRuleProductPrice($ruleData),
                                     'latest_start_date' => $ruleData['from_time'],
-                                    'earliest_end_date' => $ruleData['to_time'],
+                                    'earliest_end_date' => $ruleData['to_time']
                                 );
                             } else {
                                 $dayPrices[$priceKey]['rule_price'] = $this->_calcRuleProductPrice(
@@ -563,7 +577,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                     }
 
                     $prevKey = $productKey;
-                    if (count($dayPrices)>1000) {
+                    if (count($dayPrices) > 1000) {
                         $this->_saveRuleProductPrices($dayPrices);
                         $dayPrices = array();
                     }
@@ -576,12 +590,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
             $timestamp = $this->_coreDate->gmtTimestamp();
 
-            $select = $write->select()
-                ->distinct(true)
-                ->from(
-                    $this->getTable('catalogrule_product'),
-                    array('rule_id', 'customer_group_id', 'website_id')
-                )->where("{$timestamp} >= from_time AND (({$timestamp} <= to_time AND to_time > 0) OR to_time = 0)");
+            $select = $write->select()->distinct(
+                true
+            )->from(
+                $this->getTable('catalogrule_product'),
+                array('rule_id', 'customer_group_id', 'website_id')
+            )->where(
+                "{$timestamp} >= from_time AND (({$timestamp} <= to_time AND to_time > 0) OR to_time = 0)"
+            );
             $query = $select->insertFromSelect($this->getTable('catalogrule_group_website'));
             $write->query($query);
 
@@ -592,13 +608,15 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             throw $e;
         }
 
-        $productCondition = $this->_conditionFactory->create()
-            ->setTable($this->getTable('catalogrule_affected_product'))
-            ->setPkFieldName('product_id');
-        $this->_eventManager->dispatch('catalogrule_after_apply', array(
-            'product' => $product,
-            'product_condition' => $productCondition
-        ));
+        $productCondition = $this->_conditionFactory->create()->setTable(
+            $this->getTable('catalogrule_affected_product')
+        )->setPkFieldName(
+            'product_id'
+        );
+        $this->_eventManager->dispatch(
+            'catalogrule_after_apply',
+            array('product' => $product, 'product_condition' => $productCondition)
+        );
         $write->delete($this->getTable('catalogrule_affected_product'));
 
         return $this;
@@ -617,8 +635,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             $productPrice = $productData['rule_price'];
         } else {
             $websiteId = $ruleData['website_id'];
-            if (isset($ruleData['website_'.$websiteId.'_price'])) {
-                $productPrice = $ruleData['website_'.$websiteId.'_price'];
+            if (isset($ruleData['website_' . $websiteId . '_price'])) {
+                $productPrice = $ruleData['website_' . $websiteId . '_price'];
             } else {
                 $productPrice = $ruleData['default_price'];
             }
@@ -627,7 +645,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $productPrice = $this->_catalogRuleData->calcPriceRule(
             $ruleData['action_operator'],
             $ruleData['action_amount'],
-            $productPrice);
+            $productPrice
+        );
 
         return $this->_storeManager->getStore()->roundPrice($productPrice);
     }
@@ -645,7 +664,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             return $this;
         }
 
-        $adapter    = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $productIds = array();
 
         $adapter->beginTransaction();
@@ -658,11 +677,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             }
             $adapter->insertOnDuplicate($this->getTable('catalogrule_affected_product'), array_unique($productIds));
             $adapter->insertOnDuplicate($this->getTable('catalogrule_product_price'), $arrData);
-
         } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
-
         }
         $adapter->commit();
 
@@ -702,12 +719,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function getRulePrices($date, $websiteId, $customerGroupId, $productIds)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getTable('catalogrule_product_price'), array('product_id', 'rule_price'))
-            ->where('rule_date = ?', $this->dateTime->formatDate($date, false))
-            ->where('website_id = ?', $websiteId)
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('product_id IN(?)', $productIds);
+        $select = $adapter->select()->from(
+            $this->getTable('catalogrule_product_price'),
+            array('product_id', 'rule_price')
+        )->where(
+            'rule_date = ?',
+            $this->dateTime->formatDate($date, false)
+        )->where(
+            'website_id = ?',
+            $websiteId
+        )->where(
+            'customer_group_id = ?',
+            $customerGroupId
+        )->where(
+            'product_id IN(?)',
+            $productIds
+        );
         return $adapter->fetchPairs($select);
     }
 
@@ -726,13 +753,24 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         if (is_string($date)) {
             $date = strtotime($date);
         }
-        $select = $adapter->select()
-            ->from($this->getTable('catalogrule_product'))
-            ->where('website_id = ?', $websiteId)
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('product_id = ?', $productId)
-            ->where('from_time = 0 or from_time < ?', $date)
-            ->where('to_time = 0 or to_time > ?', $date);
+        $select = $adapter->select()->from(
+            $this->getTable('catalogrule_product')
+        )->where(
+            'website_id = ?',
+            $websiteId
+        )->where(
+            'customer_group_id = ?',
+            $customerGroupId
+        )->where(
+            'product_id = ?',
+            $productId
+        )->where(
+            'from_time = 0 or from_time < ?',
+            $date
+        )->where(
+            'to_time = 0 or to_time > ?',
+            $date
+        );
 
         return $adapter->fetchAll($select);
     }
@@ -748,11 +786,19 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function getRulesForProduct($date, $wId, $pId)
     {
         $read = $this->_getReadAdapter();
-        $select = $read->select()
-            ->from($this->getTable('catalogrule_product_price'), '*')
-            ->where('rule_date=?', $this->dateTime->formatDate($date, false))
-            ->where('website_id=?', $wId)
-            ->where('product_id=?', $pId);
+        $select = $read->select()->from(
+            $this->getTable('catalogrule_product_price'),
+            '*'
+        )->where(
+            'rule_date=?',
+            $this->dateTime->formatDate($date, false)
+        )->where(
+            'website_id=?',
+            $wId
+        )->where(
+            'product_id=?',
+            $pId
+        );
 
         return $read->fetchAll($select);
     }
@@ -772,21 +818,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             return $this;
         }
 
-        $ruleId    = $rule->getId();
+        $ruleId = $rule->getId();
         $productId = $product->getId();
 
         $write = $this->_getWriteAdapter();
         $write->beginTransaction();
 
-        $write->delete($this->getTable('catalogrule_product'), array(
-            $write->quoteInto('rule_id=?', $ruleId),
-            $write->quoteInto('product_id=?', $productId),
-        ));
+        $write->delete(
+            $this->getTable('catalogrule_product'),
+            array($write->quoteInto('rule_id=?', $ruleId), $write->quoteInto('product_id=?', $productId))
+        );
 
         if (!$rule->getConditions()->validate($product)) {
-            $write->delete($this->getTable('catalogrule_product_price'), array(
-                $write->quoteInto('product_id=?', $productId),
-            ));
+            $write->delete(
+                $this->getTable('catalogrule_product_price'),
+                array($write->quoteInto('product_id=?', $productId))
+            );
             $write->commit();
             return $this;
         }
@@ -818,7 +865,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                         'action_stop' => $actionStop,
                         'sort_order' => $sortOrder,
                         'sub_simple_action' => $subActionOperator,
-                        'sub_discount_amount' => $subActionAmount,
+                        'sub_discount_amount' => $subActionAmount
                     );
 
                     if (count($rows) == 1000) {

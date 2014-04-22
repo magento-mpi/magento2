@@ -13,7 +13,7 @@
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
-use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Backend\Block\Widget\Form\Generic;
 
 class Settings extends Generic
@@ -30,16 +30,16 @@ class Settings extends Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
@@ -56,14 +56,14 @@ class Settings extends Generic
      */
     protected function _prepareLayout()
     {
-        $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->_coreHelper->jsonEncode($this->getContinueUrl())
-            . ").addClass('ignore-validate').submit();";
-        $this->addChild('continue_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => __('Generate Variations'),
-            'onclick' => $onclick,
-            'class'   => 'save',
-        ));
+        $onclick = "jQuery('[data-form=edit-product]').attr('action', " . $this->_coreHelper->jsonEncode(
+            $this->getContinueUrl()
+        ) . ").addClass('ignore-validate').submit();";
+        $this->addChild(
+            'continue_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Generate Variations'), 'onclick' => $onclick, 'class' => 'save')
+        );
         parent::_prepareLayout();
     }
 
@@ -84,38 +84,38 @@ class Settings extends Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('settings', array(
-            'legend' => __('Select Configurable Attributes')
-        ));
+        $fieldset = $form->addFieldset('settings', array('legend' => __('Select Configurable Attributes')));
 
-        $fieldset->addField('configurable-attribute-selector', 'text', array(
-            'label' => 'Select Attribute',
-            'title' => 'Select Attribute',
-        ));
+        $fieldset->addField(
+            'configurable-attribute-selector',
+            'text',
+            array('label' => 'Select Attribute', 'title' => 'Select Attribute')
+        );
 
         $product = $this->getProduct();
-        $usedAttributes = $product->getTypeId() == Configurable::TYPE_CODE
-            ? $this->_configurableType->getUsedProductAttributes($product)
-            : array();
+        $usedAttributes = $product->getTypeId() ==
+            Configurable::TYPE_CODE ? $this->_configurableType->getUsedProductAttributes($product) : array();
         foreach ($usedAttributes as $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($this->_configurableType->canUseAttribute($attribute, $product)) {
-                $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
-                    'label' => $attribute->getFrontendLabel(),
-                    'title' => $attribute->getFrontendLabel(),
-                    'name'  => 'attributes[]',
-                    'class' => 'configurable-attribute-checkbox',
-                    'value' => $attribute->getAttributeId(),
-                    'checked' => true
-                ));
+                $fieldset->addField(
+                    'attribute_' . $attribute->getAttributeId(),
+                    'checkbox',
+                    array(
+                        'label' => $attribute->getFrontendLabel(),
+                        'title' => $attribute->getFrontendLabel(),
+                        'name' => 'attributes[]',
+                        'class' => 'configurable-attribute-checkbox',
+                        'value' => $attribute->getAttributeId(),
+                        'checked' => true
+                    )
+                );
             }
         }
 
-        $fieldset->addField('continue_button', 'note', array(
-            'text' => $this->getChildHtml('continue_button'),
-        ));
+        $fieldset->addField('continue_button', 'note', array('text' => $this->getChildHtml('continue_button')));
         $this->setForm($form);
 
         return parent::_prepareForm();
@@ -128,9 +128,7 @@ class Settings extends Generic
      */
     public function getContinueUrl()
     {
-        return $this->getUrl($this->getProduct()->getId() ? '*/*/edit' : '*/*/new', array(
-            '_current' => true,
-        ));
+        return $this->getUrl($this->getProduct()->getId() ? '*/*/edit' : '*/*/new', array('_current' => true));
     }
 
     /**

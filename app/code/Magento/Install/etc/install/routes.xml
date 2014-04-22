@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/App/etc/routes.xsd">
     <router id="install">
         <route id="install" frontName="install">
             <module name="Magento_Install" />

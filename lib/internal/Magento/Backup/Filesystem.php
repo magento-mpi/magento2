@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup;
 
 /**
  * Class to work with filesystem backups
@@ -15,9 +16,7 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup;
-
-class Filesystem extends \Magento\Backup\AbstractBackup
+class Filesystem extends AbstractBackup
 {
     /**
      * Paths that ignored when creating or rolling back snapshot
@@ -74,8 +73,11 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         set_time_limit(0);
         ignore_user_abort(true);
 
-        $rollbackWorker = $this->_useFtp ? new \Magento\Backup\Filesystem\Rollback\Ftp($this)
-            : new \Magento\Backup\Filesystem\Rollback\Fs($this);
+        $rollbackWorker = $this->_useFtp ? new \Magento\Backup\Filesystem\Rollback\Ftp(
+            $this
+        ) : new \Magento\Backup\Filesystem\Rollback\Fs(
+            $this
+        );
         $rollbackWorker->run();
 
         $this->_lastOperationSucceed = true;
@@ -106,7 +108,9 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         );
 
         if (!$filesInfo['readable']) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions('Not enough permissions to read files for backup');
+            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+                'Not enough permissions to read files for backup'
+            );
         }
 
         $freeSpace = disk_free_space($this->getBackupsDir());
@@ -118,8 +122,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         $tarTmpPath = $this->_getTarTmpPath();
 
         $tarPacker = new \Magento\Backup\Archive\Tar();
-        $tarPacker->setSkipFiles($this->getIgnorePaths())
-            ->pack($this->getRootDir(), $tarTmpPath, true);
+        $tarPacker->setSkipFiles($this->getIgnorePaths())->pack($this->getRootDir(), $tarTmpPath, true);
 
         if (!is_file($tarTmpPath) || filesize($tarTmpPath) == 0) {
             throw new \Magento\Exception('Failed to create backup');
@@ -147,7 +150,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
      * @param string $username
      * @param string $password
      * @param string $path
-     * @return \Magento\Backup\Filesystem
+     * @return $this
      */
     public function setUseFtp($host, $username, $password, $path)
     {
@@ -162,8 +165,9 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Get backup type
      *
-     * @see \Magento\Backup\BackupInterface::getType()
      * @return string
+     *
+     * @see BackupInterface::getType()
      */
     public function getType()
     {
@@ -174,7 +178,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
      * Add path that should be ignoring when creating or rolling back backup
      *
      * @param string|array $paths
-     * @return \Magento\Backup\Filesystem
+     * @return $this
      */
     public function addIgnorePaths($paths)
     {
@@ -204,9 +208,10 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Set directory where backups saved and add it to ignore paths
      *
-     * @see \Magento\Backup\AbstractBackup::setBackupsDir()
      * @param string $backupsDir
-     * @return \Magento\Backup\Filesystem
+     * @return $this
+     *
+     * @see AbstractBackup::setBackupsDir()
      */
     public function setBackupsDir($backupsDir)
     {
@@ -216,7 +221,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     }
 
     /**
-     * getter for $_ftpPath variable
+     * Getter for $_ftpPath variable
      *
      * @return string
      */
@@ -238,6 +243,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     /**
      * Check backups directory existence and whether it's writeable
      *
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _checkBackupsDir()
@@ -262,10 +268,12 @@ class Filesystem extends \Magento\Backup\AbstractBackup
 
     /**
      * Generate tmp name for tarball
+     *
+     * @return string
      */
     protected function _getTarTmpPath()
     {
-        $tmpName = '~tmp-'. microtime(true) . '.tar';
+        $tmpName = '~tmp-' . microtime(true) . '.tar';
         return $this->getBackupsDir() . '/' . $tmpName;
     }
 }

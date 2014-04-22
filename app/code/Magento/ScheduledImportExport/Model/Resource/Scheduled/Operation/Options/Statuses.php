@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
-class Statuses
-    implements \Magento\Core\Model\Option\ArrayInterface
+class Statuses implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data
@@ -31,6 +29,6 @@ class Statuses
      */
     public function toOptionArray()
     {
-        return  $this->_modelData->getStatusesOptionArray();
+        return $this->_modelData->getStatusesOptionArray();
     }
 }

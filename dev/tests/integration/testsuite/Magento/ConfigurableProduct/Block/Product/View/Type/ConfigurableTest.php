@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
 /**
@@ -27,11 +26,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $this->_product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $this->_product->load(1);
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\ConfigurableProduct\Block\Product\View\Type\Configurable');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\ConfigurableProduct\Block\Product\View\Type\Configurable'
+        );
         $this->_block->setProduct($this->_product);
     }
 
@@ -61,7 +64,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJsonConfig()
     {
-        $config = (array) json_decode($this->_block->getJsonConfig());
+        $config = (array)json_decode($this->_block->getJsonConfig());
         $this->assertNotEmpty($config);
         $this->assertArrayHasKey('attributes', $config);
         $this->assertArrayHasKey('template', $config);

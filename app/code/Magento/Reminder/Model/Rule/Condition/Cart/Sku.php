@@ -9,31 +9,30 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart items SKU sub-selection condition
  */
-class Sku
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Sku extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Store\Model\System\Store $store,
         array $data = array()
     ) {
         $this->_store = $store;
@@ -49,8 +48,7 @@ class Sku
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('SKU'));
+        return array('value' => $this->getType(), 'label' => __('SKU'));
     }
 
     /**
@@ -60,9 +58,11 @@ class Sku
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Item SKU %1 %2 ', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Item SKU %1 %2 ',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -92,11 +92,7 @@ class Sku
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('quote' => $quoteTable),
-            'item.quote_id = quote.entity_id',
-            array()
-        );
+        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

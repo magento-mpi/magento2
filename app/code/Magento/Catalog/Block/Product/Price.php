@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Price extends \Magento\View\Element\Template
+class Price extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var null
@@ -32,10 +32,10 @@ class Price extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Tax data
      *
@@ -71,22 +71,22 @@ class Price extends \Magento\View\Element\Template
     protected $_cartHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Stdlib\String $string,
         \Magento\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
@@ -147,6 +147,7 @@ class Price extends \Magento\View\Element\Template
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return array
+     * @deprecated
      */
     public function getTierPrices($product = null)
     {
@@ -172,7 +173,7 @@ class Price extends \Magento\View\Element\Template
                 }
 
                 if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
+                    $price['savePercent'] = ceil(100 - 100 / $productPrice * $price['price']);
 
                     $tierPrice = $this->_storeManager->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
@@ -263,5 +264,15 @@ class Price extends \Magento\View\Element\Template
     public function getRandomString($length, $chars = null)
     {
         return $this->mathRandom->getRandomString($length, $chars);
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

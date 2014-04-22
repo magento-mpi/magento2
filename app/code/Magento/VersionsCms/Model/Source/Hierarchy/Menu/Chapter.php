@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Chapter implements \Magento\Core\Model\Option\ArrayInterface
+class Chapter implements \Magento\Option\ArrayInterface
 {
     /**
      * Return options for Chapter/Section meta links
@@ -28,7 +28,7 @@ class Chapter implements \Magento\Core\Model\Option\ArrayInterface
             array('label' => __('No'), 'value' => ''),
             array('label' => __('Chapter'), 'value' => 'chapter'),
             array('label' => __('Section'), 'value' => 'section'),
-            array('label' => __('Both'), 'value' => 'both'),
+            array('label' => __('Both'), 'value' => 'both')
         );
 
         return $options;

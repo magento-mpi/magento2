@@ -30,10 +30,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
-        1 => 'website1',
-        2 => 'website2',
-    );
+    protected $_websites = array(1 => 'website1', 2 => 'website2');
 
     /**
      * Customers array
@@ -41,16 +38,8 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_customers = array(
-        array(
-            'id'         => 1,
-            'email'      => 'test1@email.com',
-            'website_id' => 1
-        ),
-        array(
-            'id'         => 2,
-            'email'      => 'test2@email.com',
-            'website_id' => 2
-        ),
+        array('id' => 1, 'email' => 'test1@email.com', 'website_id' => 1),
+        array('id' => 2, 'email' => 'test2@email.com', 'website_id' => 2)
     );
 
     /**
@@ -60,7 +49,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_availableBehaviors = array(
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
     );
 
     protected function setUp()
@@ -84,14 +73,15 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelMock()
     {
-        $customerCollection = new \Magento\Data\Collection(
+        $customerCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_customers as $customer) {
             $customerCollection->addItem(new \Magento\Object($customer));
         }
 
-        $modelMock = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
+        $modelMock = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer',
             array(),
             '',
             false,
@@ -107,9 +97,13 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_availableBehaviors);
 
-        $modelMock->expects($this->any())
-            ->method('_getCustomerCollection')
-            ->will($this->returnValue($customerCollection));
+        $modelMock->expects(
+            $this->any()
+        )->method(
+            '_getCustomerCollection'
+        )->will(
+            $this->returnValue($customerCollection)
+        );
 
         return $modelMock;
     }
@@ -124,8 +118,8 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         return array(
             'valid' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_valid.php',
-                '$errors'  => array(),
-                '$isValid' => true,
+                '$errors' => array(),
+                '$isValid' => true
             ),
             'no website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_website.php',
@@ -133,7 +127,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
-                ),
+                )
             ),
             'empty website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_website.php',
@@ -141,7 +135,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
-                ),
+                )
             ),
             'no email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_no_email.php',
@@ -149,7 +143,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
-                ),
+                )
             ),
             'empty email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_empty_email.php',
@@ -157,7 +151,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
-                ),
+                )
             ),
             'invalid email' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_email.php',
@@ -165,7 +159,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_EMAIL => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_EMAIL)
                     )
-                ),
+                )
             ),
             'invalid website' => array(
                 '$rowData' => include __DIR__ . '/Customer/_files/row_data_abstract_invalid_website.php',
@@ -173,8 +167,8 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
                     \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::ERROR_INVALID_WEBSITE => array(
                         array(1, \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer::COLUMN_WEBSITE)
                     )
-                ),
-            ),
+                )
+            )
         );
     }
 
@@ -212,8 +206,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     public function testValidateRowForUpdate()
     {
         // _validateRowForUpdate should be called only once
-        $this->_model->expects($this->once())
-            ->method('_validateRowForUpdate');
+        $this->_model->expects($this->once())->method('_validateRowForUpdate');
 
         $this->assertAttributeEquals(0, '_processedEntitiesCount', $this->_model);
 
@@ -225,7 +218,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->validateRow(array(), 1));
         $this->assertAttributeEquals(array(1 => true), '_validatedRows', $this->_model);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 1)); // _validateRowForUpdate should be called once
+        $this->assertTrue($this->_model->validateRow(array(), 1));
     }
 
     /**
@@ -236,8 +229,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     public function testValidateRowForDelete()
     {
         // _validateRowForDelete should be called only once
-        $this->_model->expects($this->once())
-            ->method('_validateRowForDelete');
+        $this->_model->expects($this->once())->method('_validateRowForDelete');
 
         // delete action
         $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
@@ -247,7 +239,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->validateRow(array(), 2));
         $this->assertAttributeEquals(array(2 => true), '_validatedRows', $this->_model);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 2)); // _validateRowForDelete should be called once
+        $this->assertTrue($this->_model->validateRow(array(), 2));
     }
 
     /**

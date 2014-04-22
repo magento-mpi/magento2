@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer;
 
-class Exception extends \Magento\Core\Exception
+class Exception extends \Magento\Framework\Model\Exception
 {
-    
 }

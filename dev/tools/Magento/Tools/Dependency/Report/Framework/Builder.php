@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Framework;
 
 use Magento\Tools\Dependency\ParserInterface;
@@ -27,9 +26,9 @@ class Builder extends AbstractBuilder
     /**
      * Builder constructor
      *
-     * @param \Magento\Tools\Dependency\ParserInterface $dependenciesParser
-     * @param \Magento\Tools\Dependency\Report\WriterInterface $reportWriter
-     * @param \Magento\Tools\Dependency\ParserInterface $configParser
+     * @param ParserInterface $dependenciesParser
+     * @param WriterInterface $reportWriter
+     * @param ParserInterface $configParser
      */
     public function __construct(
         ParserInterface $dependenciesParser,
@@ -45,6 +44,7 @@ class Builder extends AbstractBuilder
      * Template method. Check passed options step
      *
      * @param array $options
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function checkOptions($options)
@@ -66,9 +66,9 @@ class Builder extends AbstractBuilder
     {
         $allowedModules = $this->getAllowedModules();
 
-        $modules = [];
+        $modules = array();
         foreach ($modulesData as $moduleData) {
-            $dependencies = [];
+            $dependencies = array();
             foreach ($moduleData['dependencies'] as $dependencyData) {
                 if (!in_array($dependencyData['lib'], $allowedModules)) {
                     $dependencies[] = new Data\Dependency($dependencyData['lib'], $dependencyData['count']);
@@ -86,8 +86,11 @@ class Builder extends AbstractBuilder
      */
     protected function getAllowedModules()
     {
-        return array_map(function ($element) {
-            return $element['name'];
-        }, $this->configParser->parse(['files_for_parse' => $this->options['parse']['config_files']]));
+        return array_map(
+            function ($element) {
+                return $element['name'];
+            },
+            $this->configParser->parse(array('files_for_parse' => $this->options['parse']['config_files']))
+        );
     }
 }

@@ -10,7 +10,7 @@ namespace Magento\Payment\Model\Source;
 /**
  * Payment CC Types Source Model
  */
-class Cctype implements \Magento\Core\Model\Option\ArrayInterface
+class Cctype implements \Magento\Option\ArrayInterface
 {
     /**
      * Allowed CC types
@@ -71,10 +71,7 @@ class Cctype implements \Magento\Core\Model\Option\ArrayInterface
 
         foreach ($this->_paymentConfig->getCcTypes() as $code => $name) {
             if (in_array($code, $allowed) || !count($allowed)) {
-                $options[] = array(
-                   'value' => $code,
-                   'label' => $name
-                );
+                $options[] = array('value' => $code, 'label' => $name);
             }
         }
 

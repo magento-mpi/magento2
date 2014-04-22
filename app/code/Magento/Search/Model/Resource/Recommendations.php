@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Resource;
 
 /**
  * Catalog search recommendations resource model
@@ -15,11 +16,11 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Resource;
-
-class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
+     * Search query model
+     *
      * @var \Magento\CatalogSearch\Model\Query
      */
     protected $_searchQueryModel;
@@ -27,11 +28,11 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);
@@ -41,6 +42,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -52,25 +54,30 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $queryId
      * @param array $relatedQueries
-     * @return \Magento\Search\Model\Resource\Recommendations
+     * @return $this
      */
     public function saveRelatedQueries($queryId, $relatedQueries = array())
     {
         $adapter = $this->_getWriteAdapter();
         $whereOr = array();
         if (count($relatedQueries) > 0) {
-            $whereOr[] = implode(' AND ', array(
-                $adapter->quoteInto('query_id=?', $queryId),
-                $adapter->quoteInto('relation_id NOT IN(?)', $relatedQueries)
-            ));
-            $whereOr[] = implode(' AND ', array(
-                $adapter->quoteInto('relation_id = ?', $queryId),
-                $adapter->quoteInto('query_id NOT IN(?)', $relatedQueries)
-            ));
+            $whereOr[] = implode(
+                ' AND ',
+                array(
+                    $adapter->quoteInto('query_id=?', $queryId),
+                    $adapter->quoteInto('relation_id NOT IN(?)', $relatedQueries)
+                )
+            );
+            $whereOr[] = implode(
+                ' AND ',
+                array(
+                    $adapter->quoteInto('relation_id = ?', $queryId),
+                    $adapter->quoteInto('query_id NOT IN(?)', $relatedQueries)
+                )
+            );
         } else {
             $whereOr[] = $adapter->quoteInto('query_id = ?', $queryId);
             $whereOr[] = $adapter->quoteInto('relation_id = ?', $queryId);
-
         }
         $whereCond = '(' . implode(') OR (', $whereOr) . ')';
         $adapter->delete($this->getMainTable(), $whereCond);
@@ -78,10 +85,7 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
         $existsRelatedQueries = $this->getRelatedQueries($queryId);
         $neededRelatedQueries = array_diff($relatedQueries, $existsRelatedQueries);
         foreach ($neededRelatedQueries as $relationId) {
-            $adapter->insert($this->getMainTable(), array(
-                "query_id"    => $queryId,
-                "relation_id" => $relationId
-            ));
+            $adapter->insert($this->getMainTable(), array("query_id" => $queryId, "relation_id" => $relationId));
         }
         return $this;
     }
@@ -90,6 +94,8 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve related search queries
      *
      * @param int|array $queryId
+     * @param bool $limit
+     * @param bool $order
      * @return array
      */
     public function getRelatedQueries($queryId, $limit = false, $order = false)
@@ -99,15 +105,16 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
 
-        $collection->getSelect()
-            ->join(
-                array('sr' => $collection->getTable('catalogsearch_recommendations')),
-                '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
+        $collection->getSelect()->join(
+            array('sr' => $collection->getTable('catalogsearch_recommendations')),
+            '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
+        )->reset(
+            \Zend_Db_Select::COLUMNS
+        )->columns(
+            array(
+                'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id')
             )
-            ->reset(\Zend_Db_Select::COLUMNS)
-            ->columns(array(
-                 'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id')
-            ));
+        );
         if (!empty($limit)) {
             $collection->getSelect()->limit($limit);
         }
@@ -139,13 +146,15 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (count($relatedQueriesIds)) {
             $adapter = $this->_getReadAdapter();
             $mainTable = $this->_searchQueryModel->getResourceCollection()->getMainTable();
-            $select = $adapter->select()
-                ->from(
-                    array('main_table' => $mainTable),
-                    array('query_text', 'num_results')
-                )
-                ->where('query_id IN(?)', $relatedQueriesIds)
-                ->where('num_results > 0');
+            $select = $adapter->select()->from(
+                array('main_table' => $mainTable),
+                array('query_text', 'num_results')
+            )->where(
+                'query_id IN(?)',
+                $relatedQueriesIds
+            )->where(
+                'num_results > 0'
+            );
             $relatedQueries = $adapter->fetchAll($select);
         }
 
@@ -155,14 +164,14 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve search terms which are started with $queryWords
      *
-     * @param array $queryWords
+     * @param string $query
      * @param int $searchRecommendationsCount
      * @return array
      */
     protected function loadByQuery($query, $searchRecommendationsCount)
     {
-        $adapter        = $this->_getReadAdapter();
-        $queryId        = $this->_searchQueryModel->getId();
+        $adapter = $this->_getReadAdapter();
+        $queryId = $this->_searchQueryModel->getId();
         $relatedQueries = $this->getRelatedQueries($queryId, $searchRecommendationsCount, 'num_results DESC');
         if ($searchRecommendationsCount - count($relatedQueries) < 1) {
             return $relatedQueries;
@@ -185,14 +194,19 @@ class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
         $likeCondition = implode(' OR ', $likeCondition);
 
-        $select = $adapter->select()
-            ->from($this->_searchQueryModel->getResource()->getMainTable(), array(
-                'query_id'
-            ))
-            ->where(new \Zend_Db_Expr($likeCondition))
-            ->where('store_id=?', $this->_searchQueryModel->getStoreId())
-            ->order('num_results DESC')
-            ->limit($searchRecommendationsCount + 1);
+        $select = $adapter->select()->from(
+            $this->_searchQueryModel->getResource()->getMainTable(),
+            array('query_id')
+        )->where(
+            new \Zend_Db_Expr($likeCondition)
+        )->where(
+            'store_id=?',
+            $this->_searchQueryModel->getStoreId()
+        )->order(
+            'num_results DESC'
+        )->limit(
+            $searchRecommendationsCount + 1
+        );
         $ids = $adapter->fetchCol($select);
 
         if (!is_array($ids)) {

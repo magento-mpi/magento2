@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Asset\Plugin;
 
 class CleanMergedJsCss
@@ -16,17 +15,17 @@ class CleanMergedJsCss
     protected $database;
 
     /**
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $database
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $database,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->database = $database;
         $this->filesystem = $filesystem;
@@ -35,15 +34,17 @@ class CleanMergedJsCss
     /**
      * Clean files in database on cleaning merged assets
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param \Magento\Framework\View\Asset\MergeService $subject
+     * @param callable $proceed
+     *
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundCleanMergedJsCss(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function aroundCleanMergedJsCss(\Magento\Framework\View\Asset\MergeService $subject, \Closure $proceed)
     {
-        $invocationChain->proceed($arguments);
+        $proceed();
 
-        /** @var \Magento\Filesystem\Directory\ReadInterface $pubStaticDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\ReadInterface $pubStaticDirectory */
         $pubStaticDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $mergedDir = $pubStaticDirectory->getAbsolutePath() . '/' . \Magento\View\Asset\Merged::getRelativeDir();
         $this->database->deleteFolder($mergedDir);

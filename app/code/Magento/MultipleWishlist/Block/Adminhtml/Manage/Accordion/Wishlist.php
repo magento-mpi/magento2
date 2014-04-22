@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Wishlist
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
+class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
 {
     /**
      * Item collection factory
@@ -28,8 +26,8 @@ class Wishlist
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param array $data
@@ -37,21 +35,14 @@ class Wishlist
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        parent::__construct(
-            $context,
-            $backendHelper,
-            $collectionFactory,
-            $coreRegistry,
-            $itemFactory,
-            $data
-        );
+        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $itemFactory, $data);
     }
 
     /**
@@ -71,11 +62,10 @@ class Wishlist
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('wishlist_name', array(
-            'header'    => __('Wishlist'),
-            'index'     => 'wishlist_name',
-            'sortable'  => false
-        ));
+        $this->addColumn(
+            'wishlist_name',
+            array('header' => __('Wishlist'), 'index' => 'wishlist_name', 'sortable' => false)
+        );
 
         return parent::_prepareColumns();
     }

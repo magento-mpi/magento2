@@ -35,7 +35,7 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
     /**
      * Retrieve current store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getCurrentStore()
     {
@@ -50,8 +50,10 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
     protected function _getAdditionalConfig()
     {
         $result = parent::_getAdditionalConfig();
-        $result['disablePriceReload'] = true; // There's no field for price at popup
-        $result['stablePrices'] = true; // We don't want to recalc prices displayed in OPTIONs of SELECT
+        $result['disablePriceReload'] = true;
+        // There's no field for price at popup
+        $result['stablePrices'] = true;
+        // We don't want to recalc prices displayed in OPTIONs of SELECT
         return $result;
     }
 }

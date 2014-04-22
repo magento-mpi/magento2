@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Catalog Product Flat resource model
@@ -18,7 +18,7 @@ use Magento\Core\Model\Store;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store scope Id
@@ -37,18 +37,18 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig
     ) {
         $this->_storeManager = $storeManager;
@@ -117,8 +117,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTypeId()
     {
-        return $this->_catalogConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
-            ->getEntityTypeId();
+        return $this->_catalogConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getEntityTypeId();
     }
 
     /**
@@ -188,8 +187,7 @@ class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
         } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
         } elseif (is_numeric($attribute)) {
-            $attributeCode = $this->getAttribute($attribute)
-                ->getAttributeCode();
+            $attributeCode = $this->getAttribute($attribute)->getAttributeCode();
         }
 
         if ($attributeCode) {

@@ -7,22 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller;
+
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Sales orders controller
  */
-namespace Magento\Sales\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Order extends \Magento\Sales\Controller\AbstractController
 {
     /**
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -36,6 +34,8 @@ class Order extends \Magento\Sales\Controller\AbstractController
 
     /**
      * Customer order history
+     *
+     * @return void
      */
     public function historyAction()
     {

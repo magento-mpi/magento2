@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend\Image;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
@@ -21,12 +20,13 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Config\Backend\Image\Adapter');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Config\Backend\Image\Adapter'
+        );
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * expectedExceptionMessage  The specified image adapter cannot be used because of some missed dependencies.
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled

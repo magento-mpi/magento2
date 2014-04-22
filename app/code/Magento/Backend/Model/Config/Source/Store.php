@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source;
 
-class Store implements \Magento\Core\Model\Option\ArrayInterface
+class Store implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array
@@ -18,14 +17,14 @@ class Store implements \Magento\Core\Model\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storesFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storesFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storesFactory
      */
-    public function __construct(\Magento\Core\Model\Resource\Store\CollectionFactory $storesFactory)
+    public function __construct(\Magento\Store\Model\Resource\Store\CollectionFactory $storesFactory)
     {
         $this->_storesFactory = $storesFactory;
     }
@@ -36,7 +35,7 @@ class Store implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            /** @var $stores \Magento\Core\Model\Resource\Store\Collection */
+            /** @var $stores \Magento\Store\Model\Resource\Store\Collection */
             $stores = $this->_storesFactory->create();
             $this->_options = $stores->load()->toOptionArray();
         }

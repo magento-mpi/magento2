@@ -22,7 +22,7 @@ class Edit extends Button
      */
     protected function _getOnclickAttribute(Object $row)
     {
-        return sprintf("window.location.href='%s'", $this->getUrl('*/*/edit', ['id' => $row->getId()]));
+        return sprintf("window.location.href='%s'", $this->getUrl('*/*/edit', array('id' => $row->getId())));
     }
 
     /**
@@ -40,13 +40,12 @@ class Edit extends Button
      * Get the icon on the grid according to the integration type
      *
      * @param \Magento\Object $row
-     * return string
+     * @return string
      */
     public function _getClassAttribute(Object $row)
     {
         $class = $this->_isConfigBasedIntegration($row) ? 'info' : 'edit';
 
         return 'action ' . $class;
-
     }
 }

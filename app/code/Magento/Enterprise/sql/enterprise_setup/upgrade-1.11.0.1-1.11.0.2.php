@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
-$condition = $connection->prepareSqlCondition('resource_id', array(
-    array('like' => '%content_staging%'),
-    array('like' => '%enterprise_staging%'),
-));
+$condition = $connection->prepareSqlCondition(
+    'resource_id',
+    array(array('like' => '%content_staging%'), array('like' => '%enterprise_staging%'))
+);
 $connection->delete($tableName, $condition);

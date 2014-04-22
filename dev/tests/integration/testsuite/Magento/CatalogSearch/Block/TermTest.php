@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Block;
 
 class TermTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,11 @@ class TermTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\CatalogSearch\Block\Term');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\CatalogSearch\Block\Term'
+        );
     }
 
     public function testGetSearchUrl()

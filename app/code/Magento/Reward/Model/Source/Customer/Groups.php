@@ -14,7 +14,7 @@ namespace Magento\Reward\Model\Source\Customer;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Groups implements \Magento\Core\Model\Option\ArrayInterface
+class Groups implements \Magento\Option\ArrayInterface
 {
     /**
      * Customer collection
@@ -38,12 +38,11 @@ class Groups implements \Magento\Core\Model\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $groups = $this->_groupsFactory->create()
-            ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-            ->load()
-            ->toOptionHash();
-        $groups = array(0 => __('All Customer Groups'))
-                + $groups;
+        $groups = $this->_groupsFactory->create()->addFieldToFilter(
+            'customer_group_id',
+            array('gt' => 0)
+        )->load()->toOptionHash();
+        $groups = array(0 => __('All Customer Groups')) + $groups;
         return $groups;
     }
 }

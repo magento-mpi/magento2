@@ -14,7 +14,7 @@ class BatTests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('BAT');
+        $suite = new TestSuite('BAT');
 
         // Product
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleFixedTest');
@@ -37,7 +37,7 @@ class BatTests
         $suite->addTestSuite('Magento\SalesRule\Test\TestCase\BasicPromoTest');
 
         // Stores
-        $suite->addTestSuite('Magento\Core\Test\TestCase\StoreTest');
+        $suite->addTestSuite('Magento\Store\Test\TestCase\StoreTest');
 
         return $suite;
     }

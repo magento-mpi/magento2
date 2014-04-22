@@ -5,7 +5,6 @@
  * @category    Magento
  * @package     Magento_Checkout
  */
-
 namespace Magento\Multishipping\Model\Checkout\Type;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -16,6 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class MultishippingTest extends \PHPUnit_Framework_TestCase
 {
     const ADDRESS_TYPE_SHIPPING = 'shipping';
+
     const ADDRESS_TYPE_BILLING = 'billing';
 
     /** @var \Magento\Multishipping\Model\Checkout\Type\Multishipping */
@@ -47,12 +47,13 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
          */
         $fixtureCustomerId = 1;
         $secondFixtureAddressId = 2;
-        $secondFixtureAddressStreet = ['Black str, 48'];
+        $secondFixtureAddressStreet = array('Black str, 48');
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer')->load($fixtureCustomerId);
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $customer->setDefaultShipping($secondFixtureAddressId)->save();
-        } else { // billing
+        } else {
+            // billing
             $customer->setDefaultBilling($secondFixtureAddressId)->save();
         }
         /** @var \Magento\Customer\Model\Session $customerSession */
@@ -62,10 +63,11 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
         /** Execute SUT */
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $address = $this->_multishippingCheckout->getCustomerDefaultShippingAddress();
-        } else { // billing
+        } else {
+            // billing
             $address = $this->_multishippingCheckout->getCustomerDefaultBillingAddress();
         }
-        $this->assertInstanceOf('\Magento\Customer\Service\V1\Dto\Address', $address, "Address was not loaded.");
+        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Address', $address, "Address was not loaded.");
         $this->assertEquals($secondFixtureAddressId, $address->getId(), "Invalid address loaded.");
         $this->assertEquals(
             $secondFixtureAddressStreet,
@@ -78,7 +80,8 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $customer->setDefaultShipping($firstFixtureAddressId)->save();
             $address = $this->_multishippingCheckout->getCustomerDefaultShippingAddress();
-        } else { // billing
+        } else {
+            // billing
             $customer->setDefaultBilling($firstFixtureAddressId)->save();
             $address = $this->_multishippingCheckout->getCustomerDefaultBillingAddress();
         }
@@ -103,12 +106,13 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
          */
         $fixtureCustomerId = 1;
         $firstFixtureAddressId = 1;
-        $firstFixtureAddressStreet = ['Green str, 67'];
+        $firstFixtureAddressStreet = array('Green str, 67');
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer')->load($fixtureCustomerId);
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $customer->setDefaultShipping(null)->save();
-        } else { // billing
+        } else {
+            // billing
             $customer->setDefaultBilling(null)->save();
         }
         /** @var \Magento\Customer\Model\Session $customerSession */
@@ -118,10 +122,11 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
         /** Execute SUT */
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $address = $this->_multishippingCheckout->getCustomerDefaultShippingAddress();
-        } else { // billing
+        } else {
+            // billing
             $address = $this->_multishippingCheckout->getCustomerDefaultBillingAddress();
         }
-        $this->assertInstanceOf('\Magento\Customer\Service\V1\Dto\Address', $address, "Address was not loaded.");
+        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Address', $address, "Address was not loaded.");
         $this->assertEquals($firstFixtureAddressId, $address->getId(), "Invalid address loaded.");
         $this->assertEquals(
             $firstFixtureAddressStreet,
@@ -156,7 +161,8 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
         /** Execute SUT */
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
             $address = $this->_multishippingCheckout->getCustomerDefaultShippingAddress();
-        } else { // billing
+        } else {
+            // billing
             $address = $this->_multishippingCheckout->getCustomerDefaultBillingAddress();
         }
         $this->assertNull($address, "When customer has no addresses, null is expected.");

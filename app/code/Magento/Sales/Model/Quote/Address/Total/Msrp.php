@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Quote\Address\Total;
 
 /**
  * Msrp items total
@@ -17,8 +17,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote\Address\Total;
-
 class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -31,17 +29,16 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
-    public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData
-    ) {
+    public function __construct(\Magento\Catalog\Helper\Data $catalogData)
+    {
         $this->_catalogData = $catalogData;
     }
 
     /**
      * Collect information about MSRP price enabled
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Total\Msrp
+     * @param  \Magento\Sales\Model\Quote\Address $address
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -58,7 +55,8 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $item->getProductId(),
                 \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true
-            )) {
+            )
+            ) {
                 $canApplyMsrp = true;
                 break;
             }

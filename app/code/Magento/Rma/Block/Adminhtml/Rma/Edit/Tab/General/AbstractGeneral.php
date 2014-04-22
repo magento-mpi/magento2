@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
@@ -22,25 +21,25 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Form, created in parent block
      *
-     * @var \Magento\Data\Form
+     * @var \Magento\Framework\Data\Form
      */
     protected $_parentForm = null;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -50,7 +49,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Get Form Object Which is Parent to this block
      *
-     * @return null|\Magento\Data\Form
+     * @return null|\Magento\Framework\Data\Form
      */
     public function getParentForm()
     {

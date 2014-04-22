@@ -7,22 +7,18 @@
  */
 namespace Magento\Module\Declaration;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 
-class FileIterator extends \Magento\Config\FileIterator
+class FileIterator extends \Magento\Framework\Config\FileIterator
 {
-
     /**
      * Constructor.
      *
      * @param Filesystem $filesystem
      * @param string[] $paths
      */
-    public function __construct(
-        Filesystem $filesystem,
-        array $paths
-    ) {
+    public function __construct(Filesystem $filesystem, array $paths)
+    {
         parent::__construct($filesystem->getDirectoryRead(Filesystem::APP_DIR), $paths);
     }
-
 }

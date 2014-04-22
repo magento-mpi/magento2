@@ -99,7 +99,7 @@ class Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var \Magento\Data\Form $form */
+        /* @var \Magento\Framework\Data\Form $form */
         $form = $observer->getEvent()->getForm();
         /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();
@@ -119,7 +119,7 @@ class Observer
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /** @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection */
+        /** @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection */
         $collection = $observer->getEvent()->getCollection();
         $segmentIds = $this->_segmentCustomer->getCurrentCustomerSegmentIds();
         $this->_bannerSegmentLink->addBannerSegmentFilter($collection->getSelect(), $segmentIds);

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
 
 /**
@@ -22,10 +21,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedFieldsets = array(
-        'base_fieldset',
-        'upload_file_fieldset',
-    );
+    protected $_expectedFieldsets = array('base_fieldset', 'upload_file_fieldset');
 
     /**
      * Add behaviour fieldsets to expected fieldsets
@@ -47,32 +43,36 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new \ReflectionMethod(
-            'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
-            '_prepareForm'
+        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form'
         );
+        $prepareForm = new \ReflectionMethod('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form', '_prepareForm');
         $prepareForm->setAccessible(true);
         $prepareForm->invoke($formBlock);
 
         // check form
         $form = $formBlock->getForm();
-        $this->assertInstanceOf('Magento\Data\Form', $form, 'Incorrect import form class.');
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form, 'Incorrect import form class.');
         $this->assertTrue($form->getUseContainer(), 'Form should use container.');
 
         // check form fieldsets
         $formFieldsets = array();
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
-            /** @var $element \Magento\Data\Form\Element\AbstractElement */
+            /** @var $element \Magento\Framework\Data\Form\Element\AbstractElement */
             if (in_array($element->getId(), $this->_expectedFieldsets)) {
                 $formFieldsets[] = $element;
             }
         }
         $this->assertSameSize($this->_expectedFieldsets, $formFieldsets);
         foreach ($formFieldsets as $fieldset) {
-            $this->assertInstanceOf('Magento\Data\Form\Element\Fieldset', $fieldset, 'Incorrect fieldset class.');
+            $this->assertInstanceOf(
+                'Magento\Framework\Data\Form\Element\Fieldset',
+                $fieldset,
+                'Incorrect fieldset class.'
+            );
         }
     }
 }

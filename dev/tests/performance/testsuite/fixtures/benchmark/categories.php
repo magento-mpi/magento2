@@ -16,9 +16,10 @@ $maxNestingLevel = \Magento\TestFramework\Helper\Cli::getOption('categories_nest
 $anchorStep = 2;
 
 $nestingLevel = 1;
-$parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()
-    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getRootCategoryId();
-$nestingPath = "1/$parentCategoryId";
+$parentCategoryId = $defaultParentCategoryId = $this->getObjectManager()->get(
+    'Magento\Store\Model\StoreManagerInterface'
+)->getStore()->getRootCategoryId();
+$nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
 $categoryIndex = 1;
 
@@ -26,18 +27,27 @@ $categories = array();
 
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {
-    $category->setId(null)
-        ->setName("Category $categoryIndex")
-        ->setParentId($parentCategoryId)
-        ->setPath($nestingPath)
-        ->setLevel($nestingLevel)
-        ->setAvailableSortBy('name')
-        ->setDefaultSortBy('name')
-        ->setIsActive(true)
-        ->setIsAnchor($categoryIndex++ % $anchorStep == 0)
-        ->save();
+    $category->setId(
+        null
+    )->setName(
+        "Category {$categoryIndex}"
+    )->setParentId(
+        $parentCategoryId
+    )->setPath(
+        $nestingPath
+    )->setLevel(
+        $nestingLevel
+    )->setAvailableSortBy(
+        'name'
+    )->setDefaultSortBy(
+        'name'
+    )->setIsActive(
+        true
+    )->setIsAnchor(
+        $categoryIndex++ % $anchorStep == 0
+    )->save();
 
-    $categoryPath .=  '/' . $category->getName();
+    $categoryPath .= '/' . $category->getName();
     $categories[] = ltrim($categoryPath, '/');
 
     if ($nestingLevel++ == $maxNestingLevel) {
@@ -48,5 +58,5 @@ while ($categoryIndex <= $categoriesNumber) {
     } else {
         $parentCategoryId = $category->getId();
     }
-    $nestingPath .= "/$parentCategoryId";
+    $nestingPath .= "/{$parentCategoryId}";
 }

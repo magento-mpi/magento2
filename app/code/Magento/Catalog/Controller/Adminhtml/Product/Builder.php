@@ -8,10 +8,10 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Cms\Model\Wysiwyg;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Logger;
 
 class Builder
@@ -27,7 +27,7 @@ class Builder
     protected $logger;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $registry;
 
@@ -62,9 +62,9 @@ class Builder
      */
     public function build(RequestInterface $request)
     {
-        $productId  = (int)$request->getParam('id');
+        $productId = (int)$request->getParam('id');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product    = $this->productFactory->create();
+        $product = $this->productFactory->create();
         $product->setStoreId($request->getParam('store', 0));
 
         $typeId = $request->getParam('type');
@@ -92,4 +92,4 @@ class Builder
         $this->wysiwygConfig->setStoreId($request->getParam('store'));
         return $product;
     }
-} 
+}

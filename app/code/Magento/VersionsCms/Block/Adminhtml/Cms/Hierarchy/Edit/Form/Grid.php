@@ -76,35 +76,47 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('is_selected', array(
-            'header_css_class'  => 'col-select',
-            'column_css_class'  => 'col-select',
-            'type'              => 'checkbox',
-            'index'             => 'page_id',
-            'filter'            => false
-        ));
-        $this->addColumn('page_id', array(
-            'header'            => __('Page ID'),
-            'header_css_class'  => 'col-page-id',
-            'column_css_class'  => 'col-page-id',
-            'sortable'          => true,
-            'type'              => 'range',
-            'index'             => 'page_id'
-        ));
+        $this->addColumn(
+            'is_selected',
+            array(
+                'header_css_class' => 'col-select',
+                'column_css_class' => 'col-select',
+                'type' => 'checkbox',
+                'index' => 'page_id',
+                'filter' => false
+            )
+        );
+        $this->addColumn(
+            'page_id',
+            array(
+                'header' => __('Page ID'),
+                'header_css_class' => 'col-page-id col-id',
+                'column_css_class' => 'col-page-id col-id',
+                'sortable' => true,
+                'type' => 'range',
+                'index' => 'page_id'
+            )
+        );
 
-        $this->addColumn('title', array(
-            'header'            => __('Title'),
-            'header_css_class'  => 'col-title',
-            'column_css_class'  => 'col-title label',
-            'index'             => 'title'
-        ));
+        $this->addColumn(
+            'title',
+            array(
+                'header' => __('Title'),
+                'header_css_class' => 'col-title',
+                'column_css_class' => 'col-title label',
+                'index' => 'title'
+            )
+        );
 
-        $this->addColumn('identifier', array(
-            'header'            => __('URL Key'),
-            'header_css_class'  => 'col-identifier',
-            'column_css_class'  => 'col-identifier identifier',
-            'index'             => 'identifier'
-        ));
+        $this->addColumn(
+            'identifier',
+            array(
+                'header' => __('URL Key'),
+                'header_css_class' => 'col-identifier',
+                'column_css_class' => 'col-identifier identifier',
+                'index' => 'identifier'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -122,7 +134,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get selected store by store id passed through query.
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

@@ -7,30 +7,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * Front end helper block to add links
  */
-namespace Magento\GiftRegistry\Block;
-
-class Link extends \Magento\View\Element\Html\Link\Current
+class Link extends \Magento\Framework\View\Element\Html\Link\Current
 {
     /**
-     * @var \Magento\GiftRegistry\Helper\Data
-     *
      * @var \Magento\GiftRegistry\Helper\Data
      */
     protected $_giftHelper = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
      * @param \Magento\GiftRegistry\Helper\Data $giftHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\GiftRegistry\Helper\Data $giftHelper,
         array $data = array()
     ) {
@@ -39,7 +36,7 @@ class Link extends \Magento\View\Element\Html\Link\Current
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {

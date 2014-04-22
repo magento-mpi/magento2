@@ -13,12 +13,12 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Files extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -29,19 +29,19 @@ class Files extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Theme\Helper\Storage $storage
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Theme\Helper\Storage $storage
     ) {
         $this->_fileFactory = $fileFactory;
         $this->storage = $storage;
         parent::__construct($context);
     }
-    
+
     /**
      * Index action
      *
@@ -62,8 +62,11 @@ class Files extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
-                    ->getTreeJson($this->_getStorage()->getTreeArray())
+                $this->_view->getLayout()->createBlock(
+                    'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree'
+                )->getTreeJson(
+                    $this->_getStorage()->getTreeArray()
+                )
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -82,7 +85,7 @@ class Files extends \Magento\Backend\App\Action
         try {
             $path = $this->storage->getCurrentPath();
             $result = $this->_getStorage()->createFolder($name, $path);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
@@ -155,11 +158,8 @@ class Files extends \Magento\Backend\App\Action
         try {
             return $this->_fileFactory->create(
                 $file,
-                array(
-                    'type'  => 'filename',
-                    'value' => $helper->getThumbnailPath($file)
-                ),
-                \Magento\App\Filesystem::MEDIA_DIR
+                array('type' => 'filename', 'value' => $helper->getThumbnailPath($file)),
+                \Magento\Framework\App\Filesystem::MEDIA_DIR
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -179,7 +179,9 @@ class Files extends \Magento\Backend\App\Action
             if (!$this->getRequest()->isPost()) {
                 throw new \Exception('Wrong request');
             }
-            $files = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode(
+            $files = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonDecode(
                 $this->getRequest()->getParam('files')
             );
             foreach ($files as $file) {

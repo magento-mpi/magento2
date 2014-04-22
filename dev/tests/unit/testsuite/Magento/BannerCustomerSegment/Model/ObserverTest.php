@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\BannerCustomerSegment\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -62,18 +61,29 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_segmentHelper = $this->getMock(
-            'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            'Magento\CustomerSegment\Helper\Data',
+            array('isEnabled', 'addSegmentFieldsToForm'),
+            array(),
+            '',
+            false
         );
         $this->_segmentCollection = $this->getMock(
-            'Magento\CustomerSegment\Model\Resource\Segment\Collection', array(), array(), '', false
+            'Magento\CustomerSegment\Model\Resource\Segment\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_model = new \Magento\BannerCustomerSegment\Model\Observer(
-            $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink
+            $this->_segmentCustomer,
+            $this->_segmentHelper,
+            $this->_segmentCollection,
+            $this->_bannerSegmentLink
         );
         $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
-        $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
+        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -93,16 +103,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $banner = new \Magento\Object(array('id' => 42));
         $segmentIds = array(123, 456);
 
-        $this->_bannerSegmentLink
-            ->expects($this->once())
-            ->method('loadBannerSegments')
-            ->with($banner->getId())
-            ->will($this->returnValue($segmentIds))
-        ;
+        $this->_bannerSegmentLink->expects(
+            $this->once()
+        )->method(
+            'loadBannerSegments'
+        )->with(
+            $banner->getId()
+        )->will(
+            $this->returnValue($segmentIds)
+        );
 
-        $this->_model->loadCustomerSegmentRelations(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('banner' => $banner)),
-        )));
+        $this->_model->loadCustomerSegmentRelations(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('banner' => $banner))))
+        );
         $this->assertEquals($segmentIds, $banner->getData('customer_segment_ids'));
     }
 
@@ -114,9 +127,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_bannerSegmentLink->expects($this->never())->method('loadBannerSegments');
 
-        $this->_model->loadCustomerSegmentRelations(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('banner' => $banner)),
-        )));
+        $this->_model->loadCustomerSegmentRelations(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('banner' => $banner))))
+        );
     }
 
     public function testSaveCustomerSegmentRelations()
@@ -126,15 +139,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $segmentIds = array(123, 456);
         $banner = new \Magento\Object(array('id' => 42, 'customer_segment_ids' => $segmentIds));
 
-        $this->_bannerSegmentLink
-            ->expects($this->once())
-            ->method('saveBannerSegments')
-            ->with($banner->getId(), $segmentIds)
-        ;
+        $this->_bannerSegmentLink->expects(
+            $this->once()
+        )->method(
+            'saveBannerSegments'
+        )->with(
+            $banner->getId(),
+            $segmentIds
+        );
 
-        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('banner' => $banner)),
-        )));
+        $this->_model->saveCustomerSegmentRelations(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('banner' => $banner))))
+        );
     }
 
     /**
@@ -149,9 +165,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
-        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('banner' => $banner)),
-        )));
+        $this->_model->saveCustomerSegmentRelations(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('banner' => $banner))))
+        );
     }
 
     public function testSaveCustomerSegmentRelationsDisabled()
@@ -162,54 +178,81 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
-        $this->_model->saveCustomerSegmentRelations(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('banner' => $banner)),
-        )));
+        $this->_model->saveCustomerSegmentRelations(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('banner' => $banner))))
+        );
     }
 
     public function testAddFieldsToBannerForm()
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
-            array(), '', false);
-        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock(
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $form = new \Magento\Framework\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $block);
 
-        $this->_model->addFieldsToBannerForm(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
-        )));
+        $this->_model->addFieldsToBannerForm(
+            new \Magento\Event\Observer(
+                array(
+                    'event' => new \Magento\Object(
+                        array('form' => $form, 'model' => $model, 'after_form_block' => $block)
+                    )
+                )
+            )
+        );
     }
 
     public function testAddFieldsToBannerFormDisabled()
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
-            array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $collectionFactory = $this->getMock(
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
 
-        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
+        $form = new \Magento\Framework\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
-        $this->_model->addFieldsToBannerForm(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('form' => $form, 'model' => $model, 'after_form_block' => $block)),
-        )));
+        $this->_model->addFieldsToBannerForm(
+            new \Magento\Event\Observer(
+                array(
+                    'event' => new \Magento\Object(
+                        array('form' => $form, 'model' => $model, 'after_form_block' => $block)
+                    )
+                )
+            )
+        );
     }
 
     protected function _setFixtureSegmentIds(array $segmentIds)
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $this->_segmentCustomer
-            ->expects($this->once())->method('getCurrentCustomerSegmentIds')->will($this->returnValue($segmentIds));
+        $this->_segmentCustomer->expects(
+            $this->once()
+        )->method(
+            'getCurrentCustomerSegmentIds'
+        )->will(
+            $this->returnValue($segmentIds)
+        );
     }
 
     /**
@@ -220,22 +263,29 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setFixtureSegmentIds($segmentIds);
 
-        $this->_bannerSegmentLink
-            ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
+        $this->_bannerSegmentLink->expects(
+            $this->once()
+        )->method(
+            'addBannerSegmentFilter'
+        )->with(
+            $this->_select,
+            $segmentIds
+        );
 
-        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
-                'collection' => new \Magento\Object(array('select' => $this->_select)))
-            ),
-        )));
+        $this->_model->addCustomerSegmentFilterToCollection(
+            new \Magento\Event\Observer(
+                array(
+                    'event' => new \Magento\Object(
+                        array('collection' => new \Magento\Object(array('select' => $this->_select)))
+                    )
+                )
+            )
+        );
     }
 
     public function addCustomerSegmentFilterDataProvider()
     {
-        return array(
-            'segments'      => array(array(123, 456)),
-            'no segments'   => array(array()),
-        );
+        return array('segments' => array(array(123, 456)), 'no segments' => array(array()));
     }
 
     public function testAddCustomerSegmentFilterToCollectionDisabled()
@@ -245,11 +295,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
         $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
-        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
-                'collection' => new \Magento\Object(array('select' => $this->_select))
-            )),
-        )));
+        $this->_model->addCustomerSegmentFilterToCollection(
+            new \Magento\Event\Observer(
+                array(
+                    'event' => new \Magento\Object(
+                        array('collection' => new \Magento\Object(array('select' => $this->_select)))
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -260,12 +314,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setFixtureSegmentIds($segmentIds);
 
-        $this->_bannerSegmentLink
-            ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
+        $this->_bannerSegmentLink->expects(
+            $this->once()
+        )->method(
+            'addBannerSegmentFilter'
+        )->with(
+            $this->_select,
+            $segmentIds
+        );
 
-        $this->_model->addCustomerSegmentFilterToSelect(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('select' => $this->_select)),
-        )));
+        $this->_model->addCustomerSegmentFilterToSelect(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('select' => $this->_select))))
+        );
     }
 
     public function testAddCustomerSegmentFilterToSelectDisabled()
@@ -275,8 +335,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_segmentCustomer->expects($this->never())->method('getCurrentCustomerSegmentIds');
         $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
-        $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('select' => $this->_select)),
-        )));
+        $this->_model->addCustomerSegmentFilterToCollection(
+            new \Magento\Event\Observer(array('event' => new \Magento\Object(array('select' => $this->_select))))
+        );
     }
 }

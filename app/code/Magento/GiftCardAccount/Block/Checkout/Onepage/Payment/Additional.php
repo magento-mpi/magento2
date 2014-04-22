@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Checkout\Onepage\Payment;
 
-class Additional extends \Magento\View\Element\Template
+class Additional extends \Magento\Framework\View\Element\Template
 {
     /**
      * Checkout session
@@ -20,12 +19,12 @@ class Additional extends \Magento\View\Element\Template
     protected $_checkoutSession = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
@@ -42,17 +41,23 @@ class Additional extends \Magento\View\Element\Template
         return $this->_checkoutSession->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAppliedGiftCardAmount()
     {
         return $this->getQuote()->getBaseGiftCardsAmountUsed();
     }
 
+    /**
+     * @return bool
+     */
     public function isFullyPaidAfterApplication()
     {
         // TODO remove dependences to other modules
-        if ($this->getQuote()->getBaseGrandTotal() > 0
-            || $this->getQuote()->getCustomerBalanceAmountUsed() > 0
-            || $this->getQuote()->getRewardPointsBalance() > 0
+        if ($this->getQuote()->getBaseGrandTotal() > 0 ||
+            $this->getQuote()->getCustomerBalanceAmountUsed() > 0 ||
+            $this->getQuote()->getRewardPointsBalance() > 0
         ) {
             return false;
         }

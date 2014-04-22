@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward Points Payment block in admin order creating process
  *
@@ -75,16 +74,21 @@ class Payment extends \Magento\Backend\Block\Template
     public function canUseRewardPoints()
     {
         $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
-        $minPointsBalance = (int)$this->_storeConfig->getConfig(
+        $minPointsBalance = (int)$this->_scopeConfig->getValue(
             \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getQuote()->getStoreId()
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
-            && $this->_rewardData->isEnabledOnFront($websiteId)
-            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT)
-            && (float)$this->getCurrencyAmount()
-            && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
+        && $this->_rewardData->isEnabledOnFront(
+            $websiteId
+        )
+        && $this->_authorization->isAllowed(
+            \Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT
+        )
+        && (double)$this->getCurrencyAmount()
+        && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }
 
     /**
@@ -97,10 +101,11 @@ class Payment extends \Magento\Backend\Block\Template
     {
         if (!$this->_getData('reward')) {
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_rewardFactory->create()
-                ->setCustomer($this->getQuote()->getCustomer())
-                ->setStore($this->getQuote()->getStore())
-                ->loadByCustomer();
+            $reward = $this->_rewardFactory->create()->setCustomer(
+                $this->getQuote()->getCustomer()
+            )->setStore(
+                $this->getQuote()->getStore()
+            )->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->_getData('reward');
@@ -115,11 +120,14 @@ class Payment extends \Magento\Backend\Block\Template
     {
         $points = $this->getReward()->getPointsBalance();
         $amount = $this->getReward()->getCurrencyAmount();
-        $rewardFormatted = $this->_rewardData
-            ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
-        $this->setPointsBalance($points)->setCurrencyAmount($amount)
-            ->setUseLabel(__('Use my reward points; %1 are available.', $rewardFormatted))
-        ;
+        $rewardFormatted = $this->_rewardData->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
+        $this->setPointsBalance(
+            $points
+        )->setCurrencyAmount(
+            $amount
+        )->setUseLabel(
+            __('Use my reward points; %1 are available.', $rewardFormatted)
+        );
         return parent::_toHtml();
     }
 

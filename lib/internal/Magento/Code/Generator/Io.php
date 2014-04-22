@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Generator;
 
 class Io
 {
     /**
      * Default code generation directory
-     * Should correspond the value from \Magento\Filesystem
+     * Should correspond the value from \Magento\Framework\Filesystem
      */
     const DEFAULT_DIRECTORY = 'var/generation';
 
@@ -38,21 +37,22 @@ class Io
     private $_autoloader;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     private $filesystemDriver;
+
     /**
-     * @param \Magento\Filesystem\Driver\File   $filesystemDriver
+     * @param \Magento\Framework\Filesystem\Driver\File   $filesystemDriver
      * @param \Magento\Autoload\IncludePath     $autoLoader
      * @param null $generationDirectory
      */
     public function __construct(
-        \Magento\Filesystem\Driver\File $filesystemDriver,
-        \Magento\Autoload\IncludePath   $autoLoader = null,
+        \Magento\Framework\Filesystem\Driver\File $filesystemDriver,
+        \Magento\Autoload\IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_autoloader          = $autoLoader ? : new \Magento\Autoload\IncludePath();
-        $this->filesystemDriver     = $filesystemDriver;
+        $this->_autoloader = $autoLoader ?: new \Magento\Autoload\IncludePath();
+        $this->filesystemDriver = $filesystemDriver;
         $this->initGeneratorDirectory($generationDirectory);
     }
 
@@ -152,7 +152,7 @@ class Io
         try {
             $this->filesystemDriver->createDirectory($directory, self::DIRECTORY_PERMISSION);
             return true;
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             return false;
         }
     }

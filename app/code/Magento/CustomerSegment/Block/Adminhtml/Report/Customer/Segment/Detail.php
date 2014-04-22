@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
+
+use Magento\Store\Model\Website;
 
 /**
  * Customer Segments Detail grid container
@@ -15,26 +18,23 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
-
-class Detail
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Detail extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -44,12 +44,13 @@ class Detail
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
-        if ($this->getCustomerSegment() && $name = $this->getCustomerSegment()->getName()) {
+        if ($this->getCustomerSegment() && ($name = $this->getCustomerSegment()->getName())) {
             $title = __('Customer Segment Report \'%1\'', $this->escapeHtml($name));
         } else {
             $title = __('Customer Segments Report');
@@ -63,15 +64,22 @@ class Detail
 
         parent::_construct();
         $this->_removeButton('add');
-        $this->addButton('back', array(
-            'label'     => __('Back'),
-            'onclick'   => 'setLocation(\'' . $this->getBackUrl() .'\')',
-            'class'     => 'back',
-        ));
-        $this->addButton('refresh', array(
-            'label'     => __('Refresh Segment Data'),
-            'onclick'   => 'setLocation(\'' . $this->getRefreshUrl() .'\')',
-        ));
+        $this->addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
+                'class' => 'back'
+            )
+        );
+        $this->addButton(
+            'refresh',
+            array(
+                'label' => __('Refresh Segment Data'),
+                'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')',
+                'class' => 'refresh primary'
+            )
+        );
     }
 
     /**
@@ -107,7 +115,7 @@ class Detail
     /**
      * Retrieve all websites
      *
-     * @return array
+     * @return Website[]
      */
     public function getWebsites()
     {

@@ -5,15 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Block\Cart\Item\Renderer;
 
 use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
+use Magento\Checkout\Block\Cart\Item\Renderer;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Shopping cart item render block for configurable products.
  */
-class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
+class Configurable extends Renderer implements IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
@@ -21,7 +22,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
     const CONFIG_THUMBNAIL_SOURCE = 'checkout/cart/configurable_product_image';
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -30,7 +31,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
@@ -92,13 +93,30 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
          * Show parent product thumbnail if it must be always shown according to the related setting in system config
          * or if child thumbnail is not available
          */
-        if ($this->_storeConfig->getConfig(self::CONFIG_THUMBNAIL_SOURCE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
-            || !($this->getChildProduct()->getThumbnail() && $this->getChildProduct()->getThumbnail() != 'no_selection')
+        if ($this->_scopeConfig->getValue(
+            self::CONFIG_THUMBNAIL_SOURCE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == ThumbnailSource::OPTION_USE_PARENT_IMAGE ||
+            !($this->getChildProduct()->getThumbnail() && $this->getChildProduct()->getThumbnail() != 'no_selection')
         ) {
             $product = $this->getProduct();
         } else {
             $product = $this->getChildProduct();
         }
         return $product;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = parent::getIdentities();
+        if ($this->getItem()) {
+            $identities = array_merge($identities, $this->getChildProduct()->getIdentities());
+        }
+        return $identities;
     }
 }

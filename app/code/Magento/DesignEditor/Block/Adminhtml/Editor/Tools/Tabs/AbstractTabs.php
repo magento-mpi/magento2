@@ -14,7 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
  *
  * @method bool getIsActive()
  */
-abstract class AbstractTabs extends \Magento\View\Element\Template
+abstract class AbstractTabs extends \Magento\Framework\View\Element\Template
 {
     /**
      * Alias of tab handle block in layout
@@ -67,10 +67,13 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
         /** @var $tabBodyBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Body */
         $tabBodyBlock = $this->getChildBlock(self::TAB_BODY_BLOCK_ALIAS);
         foreach ($this->getTabs() as $tab) {
-            $contents[] = $tabBodyBlock->setContentBlock($tab['content_block'])
-                ->setIsActive($tab['is_active'])
-                ->setTabId($tab['id'])
-                ->toHtml();
+            $contents[] = $tabBodyBlock->setContentBlock(
+                $tab['content_block']
+            )->setIsActive(
+                $tab['is_active']
+            )->setTabId(
+                $tab['id']
+            )->toHtml();
         }
         return $contents;
     }
@@ -87,10 +90,13 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
         $handles = array();
         foreach ($this->getTabs() as $tab) {
             $href = '#' . $tab['id'];
-            $handles[] = $tabHandleBlock->setIsActive($tab['is_active'])
-                ->setHref($href)
-                ->setTitle($tab['title'])
-                ->toHtml();
+            $handles[] = $tabHandleBlock->setIsActive(
+                $tab['is_active']
+            )->setHref(
+                $href
+            )->setTitle(
+                $tab['title']
+            )->toHtml();
         }
 
         return $handles;

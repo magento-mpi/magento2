@@ -52,9 +52,9 @@ class Attribute extends \Magento\Backend\Helper\Data
     protected $_eavConfig;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\AppInterface $app
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Route\Config $routeConfig
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
@@ -64,9 +64,9 @@ class Attribute extends \Magento\Backend\Helper\Data
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Route\Config $routeConfig,
-        \Magento\AppInterface $app,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Route\Config $routeConfig,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
@@ -78,7 +78,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
-        parent::__construct($context, $routeConfig, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom);
+        parent::__construct($context, $routeConfig, $locale, $backendUrl, $auth, $frontNameResolver, $mathRandom);
     }
 
     /**
@@ -96,9 +96,11 @@ class Attribute extends \Magento\Backend\Helper\Data
                 $productsIds = array(0);
             }
 
-            $this->_products = $this->_productsFactory->create()
-                ->setStoreId($this->getSelectedStoreId())
-                ->addIdFilter($productsIds);
+            $this->_products = $this->_productsFactory->create()->setStoreId(
+                $this->getSelectedStoreId()
+            )->addIdFilter(
+                $productsIds
+            );
         }
 
         return $this->_products;
@@ -125,7 +127,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      */
     public function getSelectedStoreId()
     {
-        return (int)$this->_getRequest()->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        return (int)$this->_getRequest()->getParam('store', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
     }
 
     /**
@@ -146,17 +148,18 @@ class Attribute extends \Magento\Backend\Helper\Data
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = $this->_eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
-                ->getAttributeCollection()
-                ->addIsNotUniqueFilter()
-                ->setInAllAttributeSetsFilter($this->getProductsSetIds());
+            $this->_attributes = $this->_eavConfig->getEntityType(
+                \Magento\Catalog\Model\Product::ENTITY
+            )->getAttributeCollection()->addIsNotUniqueFilter()->setInAllAttributeSetsFilter(
+                $this->getProductsSetIds()
+            );
 
             if ($this->_excludedAttributes) {
                 $this->_attributes->addFieldToFilter('attribute_code', array('nin' => $this->_excludedAttributes));
             }
 
             // check product type apply to limitation and remove attributes that impossible to change in mass-update
-            $productTypeIds  = $this->getProducts()->getProductTypeIds();
+            $productTypeIds = $this->getProducts()->getProductTypeIds();
             foreach ($this->_attributes as $attribute) {
                 /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
                 foreach ($productTypeIds as $productTypeId) {

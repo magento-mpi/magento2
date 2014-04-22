@@ -27,7 +27,7 @@ namespace Magento\Cms\Model;
  * @method int getIsActive()
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
  */
-class Block extends \Magento\Core\Model\AbstractModel
+class Block extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * CMS block cache tag
@@ -57,8 +57,8 @@ class Block extends \Magento\Core\Model\AbstractModel
     /**
      * Prevent blocks recursion
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Framework\Model\AbstractModel
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -66,8 +66,18 @@ class Block extends \Magento\Core\Model\AbstractModel
         if (false == strstr($this->getContent(), $needle)) {
             return parent::_beforeSave();
         }
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Framework\Model\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

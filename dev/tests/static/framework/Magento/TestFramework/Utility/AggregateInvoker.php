@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Utility;
 
 /**
@@ -26,18 +25,14 @@ class AggregateInvoker
      *
      * @var array
      */
-    protected $_options = array(
-        'verbose' => false,
-    );
+    protected $_options = array('verbose' => false);
 
     /**
      * @param \PHPUnit_Framework_TestCase $testCase
      * @param array $options
      */
-    public function __construct(
-        \PHPUnit_Framework_TestCase $testCase,
-        array $options = array()
-    ) {
+    public function __construct(\PHPUnit_Framework_TestCase $testCase, array $options = array())
+    {
         $this->_testCase = $testCase;
         $this->_options = $options + $this->_options;
     }
@@ -114,16 +109,19 @@ class AggregateInvoker
         );
         if ($results['PHPUnit_Framework_AssertionFailedError']) {
             $this->_testCase->fail(
-                $totalCountsMessage . PHP_EOL
-                . implode(PHP_EOL, $results['PHPUnit_Framework_AssertionFailedError'])
+                $totalCountsMessage . PHP_EOL . implode(PHP_EOL, $results['PHPUnit_Framework_AssertionFailedError'])
             );
         }
         if (!$results['PHPUnit_Framework_IncompleteTestError'] && !$results['PHPUnit_Framework_SkippedTestError']) {
             return;
         }
-        $message = $totalCountsMessage . PHP_EOL
-            . implode(PHP_EOL, $results['PHPUnit_Framework_IncompleteTestError']) . PHP_EOL
-            . implode(PHP_EOL, $results['PHPUnit_Framework_SkippedTestError']);
+        $message = $totalCountsMessage . PHP_EOL . implode(
+            PHP_EOL,
+            $results['PHPUnit_Framework_IncompleteTestError']
+        ) . PHP_EOL . implode(
+            PHP_EOL,
+            $results['PHPUnit_Framework_SkippedTestError']
+        );
         if ($results['PHPUnit_Framework_IncompleteTestError']) {
             $this->_testCase->markTestIncomplete($message);
         } elseif ($results['PHPUnit_Framework_SkippedTestError']) {

@@ -7,25 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Fieldset renderer which expanded by default
  */
-namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
-
-class Expanded
-    extends \Magento\Backend\Block\System\Config\Form\Fieldset
+class Expanded extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         parent::__construct($context, $authSession, $jsHelper, $data);
@@ -34,8 +34,8 @@ class Expanded
     /**
      * Return collapse state
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return bool
+     * @param AbstractElement $element
+     * @return string|true
      */
     protected function _isCollapseState($element)
     {

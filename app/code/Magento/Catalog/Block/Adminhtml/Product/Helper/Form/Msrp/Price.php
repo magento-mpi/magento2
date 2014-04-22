@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Msrp;
 
-class Price extends \Magento\Data\Form\Element\Select
+class Price extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Retrieve Element HTML fragment
@@ -32,4 +32,3 @@ class Price extends \Magento\Data\Form\Element\Select
         return parent::getElementHtml();
     }
 }
-

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 /**
  * Abstract installation block
  *
@@ -15,7 +15,7 @@
  */
 namespace Magento\Install\Block;
 
-abstract class AbstractBlock extends \Magento\View\Element\Template
+abstract class AbstractBlock extends \Magento\Framework\View\Element\Template
 {
     /**
      * Installer model
@@ -39,14 +39,14 @@ abstract class AbstractBlock extends \Magento\View\Element\Template
     protected $_session;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
@@ -59,7 +59,6 @@ abstract class AbstractBlock extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
-
     /**
      * Retrieve installer model
      *
@@ -69,7 +68,7 @@ abstract class AbstractBlock extends \Magento\View\Element\Template
     {
         return $this->_installer;
     }
-    
+
     /**
      * Retrieve wizard model
      *
@@ -79,7 +78,7 @@ abstract class AbstractBlock extends \Magento\View\Element\Template
     {
         return $this->_installWizard;
     }
-    
+
     /**
      * Retrieve current installation step
      *

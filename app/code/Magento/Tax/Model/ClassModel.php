@@ -22,10 +22,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Tax\Model;
 
-class ClassModel extends \Magento\Core\Model\AbstractModel
+class ClassModel extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Defines Customer Tax Class string
@@ -43,19 +42,19 @@ class ClassModel extends \Magento\Core\Model\AbstractModel
     protected $_classFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Model\TaxClass\Factory $classFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Tax\Model\TaxClass\Factory $classFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -74,23 +73,31 @@ class ClassModel extends \Magento\Core\Model\AbstractModel
      * Check whether this class can be deleted
      *
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            throw new \Magento\Core\Exception(__('This class no longer exists.'));
+            throw new \Magento\Framework\Model\Exception(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            throw new \Magento\Core\Exception(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'
+                )
+            );
         }
 
-        $objectCount = $typeModel->getAssignedToObjects()->getSize();
-        if ($objectCount > 0) {
-            throw new \Magento\Core\Exception(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
+        if ($typeModel->isAssignedToObjects()) {
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'You cannot delete this tax class because it is used in existing %1(s).',
+                    $typeModel->getObjectTypeName()
+                )
+            );
         }
 
         return true;

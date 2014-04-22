@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Adminhtml\Sales;
 
 /**
  * Gift Wrapping Adminhtml Block
@@ -15,9 +16,7 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Sales;
-
-class Totals extends \Magento\View\Element\Template
+class Totals extends \Magento\Framework\View\Element\Template
 {
     /**
      * Gift wrapping data
@@ -27,12 +26,12 @@ class Totals extends \Magento\View\Element\Template
     protected $_giftWrappingData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         array $data = array()
     ) {
@@ -43,12 +42,12 @@ class Totals extends \Magento\View\Element\Template
     /**
      * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
      *
-     * @return \Magento\GiftWrapping\Block\Adminhtml\Sales\Totals
+     * @return $this
      */
     public function initTotals()
     {
         $parent = $this->getParentBlock();
-        $source  = $parent->getSource();
+        $source = $parent->getSource();
         $totals = $this->_giftWrappingData->getTotals($source);
         foreach ($totals as $total) {
             $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');

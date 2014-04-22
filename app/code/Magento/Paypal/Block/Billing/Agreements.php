@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Billing;
 
 /**
  * Customer account billing agreements block
  */
-namespace Magento\Paypal\Block\Billing;
-
-class Agreements extends \Magento\View\Element\Template
+class Agreements extends \Magento\Framework\View\Element\Template
 {
     /**
      * Payment methods array
@@ -43,14 +42,14 @@ class Agreements extends \Magento\View\Element\Template
     protected $_helper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
      * @param \Magento\Paypal\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
         \Magento\Paypal\Helper\Data $helper,
@@ -66,15 +65,19 @@ class Agreements extends \Magento\View\Element\Template
     /**
      * Set Billing Agreement instance
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager')
-            ->setCollection($this->getBillingAgreements())->setIsOutputRequired(false);
-        $this->setChild('pager', $pager)
-            ->setBackUrl($this->getUrl('customer/account/'));
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager'
+        )->setCollection(
+            $this->getBillingAgreements()
+        )->setIsOutputRequired(
+            false
+        );
+        $this->setChild('pager', $pager)->setBackUrl($this->getUrl('customer/account/'));
         $this->getBillingAgreements()->load();
         return $this;
     }
@@ -87,9 +90,13 @@ class Agreements extends \Magento\View\Element\Template
     public function getBillingAgreements()
     {
         if (is_null($this->_billingAgreements)) {
-            $this->_billingAgreements = $this->_agreementCollection->create()
-                ->addFieldToFilter('customer_id', $this->_customerSession->getCustomerId())
-                ->setOrder('agreement_id', 'desc');
+            $this->_billingAgreements = $this->_agreementCollection->create()->addFieldToFilter(
+                'customer_id',
+                $this->_customerSession->getCustomerId()
+            )->setOrder(
+                'agreement_id',
+                'desc'
+            );
         }
         return $this->_billingAgreements;
     }
@@ -99,16 +106,14 @@ class Agreements extends \Magento\View\Element\Template
      *
      * @param \Magento\Object|\Magento\Paypal\Model\Billing\Agreement $item
      * @param string $key
-     * @return mixed
+     * @return string
      */
     public function getItemValue(\Magento\Paypal\Model\Billing\Agreement $item, $key)
     {
         switch ($key) {
             case 'created_at':
             case 'updated_at':
-                $value = $item->getData($key)
-                    ? $this->formatDate($item->getData($key), 'short', true)
-                    : __('N/A');
+                $value = $item->getData($key) ? $this->formatDate($item->getData($key), 'short', true) : __('N/A');
                 break;
             case 'edit_url':
                 $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));

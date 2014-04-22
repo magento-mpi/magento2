@@ -6,13 +6,17 @@
  * @license   {license_link}
  */
 namespace Magento\Tools\Di\Compiler\Log;
+
 use Magento\Tools\Di\Compiler\Log\Writer;
 
 class Log
 {
     const GENERATION_ERROR = 1;
+
     const GENERATION_SUCCESS = 2;
+
     const COMPILATION_ERROR = 3;
+
     const CONFIGURATION_ERROR = 4;
 
     /**
@@ -54,8 +58,8 @@ class Log
         $this->_successEntries[self::GENERATION_SUCCESS] = array();
         $this->_errorEntries = array(
             self::CONFIGURATION_ERROR => array(),
-            self::GENERATION_ERROR    => array(),
-            self::COMPILATION_ERROR   => array(),
+            self::GENERATION_ERROR => array(),
+            self::COMPILATION_ERROR => array()
         );
     }
 
@@ -65,6 +69,7 @@ class Log
      * @param string $type
      * @param string $key
      * @param string $message
+     * @return void
      */
     public function add($type, $key, $message = '')
     {
@@ -77,6 +82,8 @@ class Log
 
     /**
      * Write entries
+     *
+     * @return void
      */
     public function report()
     {

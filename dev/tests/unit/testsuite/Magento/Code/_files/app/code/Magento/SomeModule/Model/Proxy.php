@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\SomeModule\Model;
+
 class Proxy
 {
-
 }

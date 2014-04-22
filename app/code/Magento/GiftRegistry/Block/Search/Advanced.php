@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry advanced search block
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
     /**
@@ -25,26 +24,32 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      */
     protected $attributeConfig;
 
+    /**
+     * @var array|null
+     */
     protected $_attributes = null;
 
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
@@ -60,15 +65,17 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +88,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * Retrieve by key saved in session form data
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {
@@ -120,8 +127,12 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
                     continue;
                 }
                 switch ($attribute['type']) {
-                    case 'date' : $isDate = $code; break;
-                    case 'country' : $isCountry = $code; break;
+                    case 'date':
+                        $isDate = $code;
+                        break;
+                    case 'country':
+                        $isCountry = $code;
+                        break;
                 }
             }
 
@@ -145,10 +156,15 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
              */
             if ($isCountry && !empty($attributes[$isCountry]['show_region'])) {
                 $region = $config->getStaticRegionType();
-                $this->setRegionJsVisible(true)
-                    ->setElementCountry($isCountry)
-                    ->setElementRegion($region)
-                    ->setElementRegionText($region . '_text');
+                $this->setRegionJsVisible(
+                    true
+                )->setElementCountry(
+                    $isCountry
+                )->setElementRegion(
+                    $region
+                )->setElementRegionText(
+                    $region . '_text'
+                );
 
                 $regionAttribute['label'] = __('State/Province');
                 $regionAttribute['code'] = $region;
@@ -184,18 +200,18 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
         }
 
         switch ($attribute['type']) {
-            case 'text' :
+            case 'text':
                 $element = $this->getInputTextHtml($code, $code, $value);
                 break;
-            case 'select' :
+            case 'select':
                 $options = $this->convertArrayToOptions($attribute['options'], true);
                 $element = $this->getSelectHtml($code, $code, $options, $value);
                 break;
-            case 'date' :
+            case 'date':
                 $element = $this->getCalendarDateHtml($code, $code, $value, $attribute['date_format']);
                 break;
-            case 'region' :
-                $regionCountry = (isset($attribute['country'])) ? $attribute['country'] : null;
+            case 'region':
+                $regionCountry = isset($attribute['country']) ? $attribute['country'] : null;
                 $element = $this->getRegionHtmlSelect($code, $code, $value, $regionCountry);
                 if ($this->getRegionJsVisible()) {
                     $code = $this->getElementRegionText();
@@ -203,7 +219,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
                     $element .= $this->getInputTextHtml($code, $code, $value, '', 'display:none');
                 }
                 break;
-            case 'country' :
+            case 'country':
                 $element = $this->getCountryHtmlSelect($code, $code, $value);
                 break;
         }

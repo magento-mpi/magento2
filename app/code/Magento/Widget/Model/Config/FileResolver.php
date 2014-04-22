@@ -9,7 +9,7 @@
  */
 namespace Magento\Widget\Model\Config;
 
-class FileResolver implements \Magento\Config\FileResolverInterface
+class FileResolver implements \Magento\Framework\Config\FileResolverInterface
 {
     /**
      * Module configuration file reader
@@ -19,34 +19,34 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $themesDirectory;
 
     /**
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $modulesDirectory;
 
     /**
-     * @param \Magento\App\Filesystem                   $filesystem
+     * @param \Magento\Framework\App\Filesystem                   $filesystem
      * @param \Magento\Module\Dir\Reader            $moduleReader
-     * @param \Magento\Config\FileIteratorFactory   $iteratorFactory
+     * @param \Magento\Framework\Config\FileIteratorFactory   $iteratorFactory
      */
     public function __construct(
-        \Magento\App\Filesystem                 $filesystem,
-        \Magento\Module\Dir\Reader          $moduleReader,
-        \Magento\Config\FileIteratorFactory $iteratorFactory
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Module\Dir\Reader $moduleReader,
+        \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->themesDirectory  = $filesystem->getDirectoryRead(\Magento\App\Filesystem::THEMES_DIR);
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->iteratorFactory  = $iteratorFactory;
-        $this->_moduleReader    = $moduleReader;
+        $this->themesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->iteratorFactory = $iteratorFactory;
+        $this->_moduleReader = $moduleReader;
     }
 
     /**
@@ -65,7 +65,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 );
                 break;
             default:
-                $iterator = $this->iteratorFactory->create($this->themesDirectory, array());;
+                $iterator = $this->iteratorFactory->create($this->themesDirectory, array());
                 break;
         }
         return $iterator;

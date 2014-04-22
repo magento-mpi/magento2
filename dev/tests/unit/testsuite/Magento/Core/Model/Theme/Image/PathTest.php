@@ -32,7 +32,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_assetRepo;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\StoreManager
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -43,17 +43,17 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->mediaDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface', array(), array(), '', false
+            'Magento\Framework\Filesystem\Directory\ReadInterface', array(), array(), '', false
         );
         $this->_assetRepo = $this->getMock('Magento\View\Asset\Repository', array(), array(), '', false);
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
 
         $this->mediaDirectory->expects($this->any())
             ->method('getAbsolutePath')
-            ->with(\Magento\View\Design\Theme\Image\PathInterface::PREVIEW_DIRECTORY_PATH)
+            ->with(\Magento\Framework\View\Design\Theme\Image\PathInterface::PREVIEW_DIRECTORY_PATH)
             ->will($this->returnValue('/theme/preview'));
 
         $this->mediaDirectory->expects($this->any())
@@ -69,6 +69,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
             $this->_assetRepo,
             $this->_storeManager
         );
+
+        $this->_model = new Path($this->_filesystem, $this->_viewUrlMock, $this->_storeManagerMock);
     }
 
     public function testGetPreviewImageUrlPhysicalTheme()
@@ -87,7 +89,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     {
         $theme = $this->getGetTheme(false);
 
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/'));
         $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->assertEquals('http://localhost/theme/preview/image.png', $this->model->getPreviewImageUrl($theme));

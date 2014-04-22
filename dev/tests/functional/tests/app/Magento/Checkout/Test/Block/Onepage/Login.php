@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
@@ -23,30 +22,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  */
 class Login extends Form
 {
-    /**
-     * Mapping for field locator
-     *
-     * @var array
-     */
-    protected $_mapping = array(
-        'email' => '[id="login-email"]',
-        'password' => '[id="login-password"]',
-    );
-
-    /**
-     * Email field
-     *
-     * @var string
-     */
-    protected $email = '[id="login-email"]';
-
-    /**
-     * Password field
-     *
-     * @var string
-     */
-    protected $password = '[id="login-password"]';
-
     /**
      * Login button
      *
@@ -84,8 +59,7 @@ class Login extends Form
     {
         if ($fixture->isRegisteredCustomer()) {
             $this->loginCustomer($fixture);
-        }
-        else if ($fixture->getCustomer()) {
+        } elseif ($fixture->getCustomer()) {
             $this->registerCustomer();
         } else {
             $this->guestCheckout();
@@ -120,12 +94,7 @@ class Login extends Form
     private function loginCustomer(Checkout $fixture)
     {
         $customer = $fixture->getCustomer();
-        $this->_rootElement->find(
-            $this->email, Locator::SELECTOR_CSS)->setValue($customer->getEmail()
-        );
-        $this->_rootElement->find(
-            $this->password, Locator::SELECTOR_CSS)->setValue($customer->getPassword()
-        );
+        $this->fill($customer);
         $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
     }

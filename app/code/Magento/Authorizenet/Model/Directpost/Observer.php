@@ -19,10 +19,10 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
-    
+
     /**
      * Core helper
      *
@@ -48,25 +48,25 @@ class Observer
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Authorizenet\Model\Directpost $payment
      * @param \Magento\Authorizenet\Model\Directpost\Session $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Authorizenet\Model\Directpost $payment,
         \Magento\Authorizenet\Model\Directpost\Session $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_authorizenetData = $authorizenetData;
@@ -140,7 +140,7 @@ class Observer
      */
     public function updateAllEditIncrements(\Magento\Event\Observer $observer)
     {
-         /* @var $order \Magento\Sales\Model\Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
         $this->_authorizenetData->updateOrderEditIncrements($order);
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Model\Resource\Message;
 
 /**
  * Gift Message collection
@@ -16,13 +16,12 @@
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Model\Resource\Message;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

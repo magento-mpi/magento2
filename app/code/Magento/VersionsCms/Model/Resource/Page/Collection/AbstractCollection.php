@@ -18,15 +18,14 @@ use Magento\Cms\Model\Page;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractCollection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of admin users in loaded collection
      *
      * @var array
      */
-    protected $_usersHash  = null;
+    protected $_usersHash = null;
 
     /**
      * Initialization
@@ -68,24 +67,25 @@ abstract class AbstractCollection
      * @param string|string[] $accessLevel
      * @return $this
      */
-    public function addVisibilityFilter($userId, $accessLevel = \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC)
-    {
+    public function addVisibilityFilter(
+        $userId,
+        $accessLevel = \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
+    ) {
         $_condition = array();
 
         if (is_array($userId)) {
-            $_condition[] = $this->_getConditionSql(
-                $this->_getMappedField('user_id'), array('in' => $userId));
-        } else if ($userId) {
-            $_condition[] = $this->_getConditionSql(
-                $this->_getMappedField('user_id'), $userId);
+            $_condition[] = $this->_getConditionSql($this->_getMappedField('user_id'), array('in' => $userId));
+        } elseif ($userId) {
+            $_condition[] = $this->_getConditionSql($this->_getMappedField('user_id'), $userId);
         }
 
         if (is_array($accessLevel)) {
             $_condition[] = $this->_getConditionSql(
-                $this->_getMappedField('access_level'), array('in' => $accessLevel));
+                $this->_getMappedField('access_level'),
+                array('in' => $accessLevel)
+            );
         } else {
-            $_condition[] = $this->_getConditionSql(
-                $this->_getMappedField('access_level'), $accessLevel);
+            $_condition[] = $this->_getConditionSql($this->_getMappedField('access_level'), $accessLevel);
         }
 
         $this->getSelect()->where(implode(' OR ', $_condition));
@@ -120,7 +120,8 @@ abstract class AbstractCollection
             $this->getSelect()->joinLeft(
                 array('ut' => $this->getTable('admin_user')),
                 'ut.user_id = main_table.user_id',
-                array('username' => $userField));
+                array('username' => $userField)
+            );
 
             $this->setFlag('user_name_column_joined', true);
         }
@@ -141,7 +142,7 @@ abstract class AbstractCollection
             foreach ($this->_toOptionHash('user_id', 'username') as $userId => $username) {
                 if ($userId) {
                     if ($idAsKey) {
-                        $this->_usersHash[$userId]   = $username;
+                        $this->_usersHash[$userId] = $username;
                     } else {
                         $this->_usersHash[$username] = $username;
                     }

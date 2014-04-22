@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 
 /**
  * Customer Order resource
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
-
-class Order
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
+class Order extends AbstractSales
 {
     /**
      * Main entity resource model
@@ -24,11 +22,11 @@ class Order
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Order $parentResourceModel
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sales\Model\Resource\Order $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;
@@ -37,6 +35,8 @@ class Order
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {

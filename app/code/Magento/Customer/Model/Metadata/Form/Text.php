@@ -12,36 +12,38 @@ namespace Magento\Customer\Model\Metadata\Form;
 class Text extends AbstractData
 {
     /**
-     * @var \Magento\Core\Helper\String
+     * @var \Magento\Stdlib\String
      */
     protected $_string;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string $value
      * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Stdlib\String $stringHelper
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,
-        $isAjax = false,
+        $isAjax,
         \Magento\Stdlib\String $stringHelper
     ) {
-        parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_string = $stringHelper;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
         return $this->_applyInputFilter($this->_getRequestValue($request));
     }
@@ -51,9 +53,9 @@ class Text extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
-        $label      = __($attribute->getStoreLabel());
+        $errors = array();
+        $attribute = $this->getAttribute();
+        $label = __($attribute->getStoreLabel());
 
         if ($value === false) {
             // try to load original value and validate it
@@ -72,12 +74,12 @@ class Text extends AbstractData
         $length = $this->_string->strlen(trim($value));
 
         $validateRules = $attribute->getValidationRules();
-        if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {
-            $v = $validateRules['min_text_length'];
+        if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']->getValue()) {
+            $v = $validateRules['min_text_length']->getValue();
             $errors[] = __('"%1" length must be equal or greater than %2 characters.', $label, $v);
         }
-        if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']) {
-            $v = $validateRules['max_text_length'];
+        if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']->getValue()) {
+            $v = $validateRules['max_text_length']->getValue();
             $errors[] = __('"%1" length must be equal or less than %2 characters.', $label, $v);
         }
 

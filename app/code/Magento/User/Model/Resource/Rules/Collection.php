@@ -16,7 +16,7 @@ namespace Magento\User\Model\Resource\Rules;
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
@@ -36,7 +36,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function getByRoles($roleId)
     {
-        $this->addFieldToFilter('role_id', (int) $roleId);
+        $this->addFieldToFilter('role_id', (int)$roleId);
         return $this;
     }
 

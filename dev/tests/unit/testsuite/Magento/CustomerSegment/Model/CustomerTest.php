@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
@@ -37,24 +36,29 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $constructArguments = $objectManager->getConstructArguments('Magento\Customer\Model\Session',
-            array('storage' => new \Magento\Session\Storage));
-        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array('getCustomer'),
-            $constructArguments);
+        $constructArguments = $objectManager->getConstructArguments(
+            'Magento\Customer\Model\Session',
+            array('storage' => new \Magento\Session\Storage())
+        );
+        $this->_customerSession = $this->getMock(
+            'Magento\Customer\Model\Session',
+            array('getCustomer'),
+            $constructArguments
+        );
 
         $this->_resource = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
             array(
-                $this->getMock('Magento\App\Resource', array(), array(), '', false),
-                $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true),
+                $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
+                $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true)
             )
         );
 
@@ -66,14 +70,21 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 'registry' => $this->_registry,
                 'resource' => $this->_resource,
                 'resourceCustomer' => $this->getMock(
-                        'Magento\Customer\Model\Resource\Customer', array(), array(), '', false
-                    ),
+                    'Magento\Customer\Model\Resource\Customer',
+                    array(),
+                    array(),
+                    '',
+                    false
+                ),
                 'storeManager' => $storeManager,
                 'customerSession' => $this->_customerSession,
                 'collectionFactory' => $this->getMock(
-                        'Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory', array(), array(), '', false
-
-                    )
+                    'Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
+                    array(),
+                    array(),
+                    '',
+                    false
+                )
             )
         );
     }
@@ -89,22 +100,40 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistry()
     {
         $customer = new \Magento\Object(array('id' => 100500));
-        $this->_registry
-            ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
-        $this->_resource
-            ->expects($this->once())
-            ->method('getCustomerWebsiteSegments')
-            ->with(100500, 5)
-            ->will($this->returnValue($this->_fixtureSegmentIds))
-        ;
+        $this->_registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'segment_customer'
+        )->will(
+            $this->returnValue($customer)
+        );
+        $this->_resource->expects(
+            $this->once()
+        )->method(
+            'getCustomerWebsiteSegments'
+        )->with(
+            100500,
+            5
+        )->will(
+            $this->returnValue($this->_fixtureSegmentIds)
+        );
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());
     }
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistryNoId()
     {
         $customer = new \Magento\Object();
-        $this->_registry
-            ->expects($this->once())->method('registry')->with('segment_customer')->will($this->returnValue($customer));
+        $this->_registry->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'segment_customer'
+        )->will(
+            $this->returnValue($customer)
+        );
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());
     }
@@ -113,12 +142,16 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $customer = new \Magento\Object(array('id' => 100500));
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
-        $this->_resource
-            ->expects($this->once())
-            ->method('getCustomerWebsiteSegments')
-            ->with(100500, 5)
-            ->will($this->returnValue($this->_fixtureSegmentIds))
-        ;
+        $this->_resource->expects(
+            $this->once()
+        )->method(
+            'getCustomerWebsiteSegments'
+        )->with(
+            100500,
+            5
+        )->will(
+            $this->returnValue($this->_fixtureSegmentIds)
+        );
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());
     }
 

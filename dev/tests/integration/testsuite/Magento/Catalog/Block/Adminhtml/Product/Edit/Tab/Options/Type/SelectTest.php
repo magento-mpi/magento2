@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
 /**
@@ -18,9 +17,11 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 {
     public function testToHtmlFormId()
     {
-        /** @var $layout \Magento\Core\Model\Layout */
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type_Select */
+        /** @var $layout \Magento\Framework\View\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
+        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select */
         $block = $layout->createBlock(
             'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Select',
             'select'

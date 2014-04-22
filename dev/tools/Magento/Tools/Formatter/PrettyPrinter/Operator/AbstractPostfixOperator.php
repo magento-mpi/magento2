@@ -17,6 +17,10 @@ abstract class AbstractPostfixOperator extends AbstractOperator
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
     */
+    /**
+     * @param TreeNode $treeNode
+     * @return TreeNode|string
+     */
     protected function resolvePostfixOperator(TreeNode $treeNode)
     {
         // Resolve the children according to precedence.
@@ -27,6 +31,7 @@ abstract class AbstractPostfixOperator extends AbstractOperator
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -36,6 +41,9 @@ abstract class AbstractPostfixOperator extends AbstractOperator
         return $this->resolvePostfixOperator($treeNode);
     }
 
+    /**
+     * @return mixed
+     */
     public function expr()
     {
         return $this->node->var;

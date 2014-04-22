@@ -14,8 +14,7 @@ use Magento\Backend\Block\Widget\Form;
 /**
  * Reminder rules edit form conditions
  */
-class Conditions
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Fieldset block
@@ -33,16 +32,16 @@ class Conditions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock
      * @param \Magento\Rule\Block\Conditions $conditionsBlock
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock,
         \Magento\Rule\Block\Conditions $conditionsBlock,
         array $data = array()
@@ -59,22 +58,34 @@ class Conditions
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
-        $renderer = $this->_fieldsetBlock
-            ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset'));
-        $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
-            'legend'  => __('Conditions'),
-            'comment' => __('You need to set at least one condition for this rule to work.'),
-        ))->setRenderer($renderer);
+        $renderer = $this->_fieldsetBlock->setTemplate(
+            'Magento_CatalogRule::promo/fieldset.phtml'
+        )->setNewChildUrl(
+            $this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset')
+        );
+        $fieldset = $form->addFieldset(
+            'rule_conditions_fieldset',
+            array(
+                'legend' => __('Conditions'),
+                'comment' => __('You need to set at least one condition for this rule to work.')
+            )
+        )->setRenderer(
+            $renderer
+        );
 
-        $fieldset->addField('conditions', 'text', array(
-            'name' => 'conditions',
-            'required' => true,
-        ))->setRule($model)->setRenderer($this->_conditionsBlock);
+        $fieldset->addField(
+            'conditions',
+            'text',
+            array('name' => 'conditions', 'required' => true)
+        )->setRule(
+            $model
+        )->setRenderer(
+            $this->_conditionsBlock
+        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

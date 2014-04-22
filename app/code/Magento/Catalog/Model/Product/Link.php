@@ -28,11 +28,13 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Core\Model\AbstractModel
+class Link extends \Magento\Framework\Model\AbstractModel
 {
-    const LINK_TYPE_RELATED     = 1;
-    const LINK_TYPE_UPSELL      = 4;
-    const LINK_TYPE_CROSSSELL   = 5;
+    const LINK_TYPE_RELATED = 1;
+
+    const LINK_TYPE_UPSELL = 4;
+
+    const LINK_TYPE_CROSSSELL = 5;
 
     /**
      * @var mixed
@@ -54,21 +56,21 @@ class Link extends \Magento\Core\Model\AbstractModel
     protected $_linkCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_linkCollectionFactory = $linkCollectionFactory;
@@ -131,8 +133,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        $collection = $this->_productCollectionFactory->create()
-            ->setLinkModel($this);
+        $collection = $this->_productCollectionFactory->create()->setLinkModel($this);
         return $collection;
     }
 
@@ -143,8 +144,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getLinkCollection()
     {
-        $collection = $this->_linkCollectionFactory->create()
-            ->setLinkModel($this);
+        $collection = $this->_linkCollectionFactory->create()->setLinkModel($this);
         return $collection;
     }
 
@@ -152,7 +152,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      * @param int $type
      * @return array
      */
-    public function getAttributes($type=null)
+    public function getAttributes($type = null)
     {
         if (is_null($type)) {
             $type = $this->getLinkTypeId();

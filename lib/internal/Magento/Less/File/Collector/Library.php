@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\Collector;
 
 use Magento\View\File\CollectorInterface;
-use Magento\View\Design\ThemeInterface;
-use Magento\App\Filesystem;
-use Magento\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
 use Magento\View\File\FileList\Factory as FileListFactory;
 

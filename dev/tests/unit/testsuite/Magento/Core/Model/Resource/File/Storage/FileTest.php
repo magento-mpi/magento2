@@ -16,18 +16,19 @@ class FileTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Core\Model\Resource\File\Storage\File
      */
     protected $storageFile;
+
     /**
      * @var \Magento\Core\Helper\File\Media|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $loggerMock;
 
     /**
-     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystemMock;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryReadMock;
 
@@ -36,13 +37,21 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->loggerMock =
-            $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->filesystemMock =
-            $this->getMock('Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false);
-        $this->directoryReadMock =
-            $this->getMock('Magento\Filesystem\Directory\Read',
-                array('isDirectory', 'readRecursively'), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock(
+            'Magento\Framework\App\Filesystem',
+            array('getDirectoryRead'),
+            array(),
+            '',
+            false
+        );
+        $this->directoryReadMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array('isDirectory', 'readRecursively'),
+            array(),
+            '',
+            false
+        );
 
         $this->storageFile = new \Magento\Core\Model\Resource\File\Storage\File(
             $this->filesystemMock,
@@ -60,14 +69,22 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStorageData()
     {
-        $this->filesystemMock->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\App\Filesystem::MEDIA_DIR))
-            ->will($this->returnValue($this->directoryReadMock));
+        $this->filesystemMock->expects(
+            $this->once()
+        )->method(
+            'getDirectoryRead'
+        )->with(
+            $this->equalTo(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+        )->will(
+            $this->returnValue($this->directoryReadMock)
+        );
 
-        $this->directoryReadMock->expects($this->any())
-            ->method('isDirectory')
-            ->will($this->returnValueMap(
+        $this->directoryReadMock->expects(
+            $this->any()
+        )->method(
+            'isDirectory'
+        )->will(
+            $this->returnValueMap(
                 array(
                     array('/', true),
                     array('folder_one', true),
@@ -78,7 +95,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     array('folder_one/folder_two/.htaccess', false),
                     array('folder_one/folder_two/file_two.txt', false)
                 )
-            ));
+            )
+        );
 
         $paths = array(
             'folder_one',
@@ -90,20 +108,21 @@ class FileTest extends \PHPUnit_Framework_TestCase
             'folder_one/folder_two/file_two.txt'
         );
         sort($paths);
-        $this->directoryReadMock->expects($this->once())
-            ->method('readRecursively')
-            ->with($this->equalTo('/'))
-            ->will($this->returnValue($paths));
+        $this->directoryReadMock->expects(
+            $this->once()
+        )->method(
+            'readRecursively'
+        )->with(
+            $this->equalTo('/')
+        )->will(
+            $this->returnValue($paths)
+        );
 
         $expected = array(
-            'files' => array(
-                'file_three.txt',
-                'folder_one/file_one.txt',
-                'folder_one/folder_two/file_two.txt'
-            ),
+            'files' => array('file_three.txt', 'folder_one/file_one.txt', 'folder_one/folder_two/file_two.txt'),
             'directories' => array(
                 array('name' => 'folder_one', 'path' => '/'),
-                array('name' => 'folder_two', 'path' => 'folder_one'),
+                array('name' => 'folder_two', 'path' => 'folder_one')
             )
         );
         $actual = $this->storageFile->getStorageData();

@@ -39,9 +39,8 @@ namespace Magento\Newsletter\Model;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Template extends \Magento\Core\Model\Template
+class Template extends \Magento\Email\Model\AbstractTemplate
 {
-
     /**
      * Template Text Preprocessed flag
      *
@@ -59,14 +58,14 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Store manager to emulate design
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Http-request, used to determine current store in multi-store mode
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -80,9 +79,9 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Template factory
@@ -97,27 +96,27 @@ class Template extends \Magento\Core\Model\Template
     protected $_filterManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Filter\FilterManager $filterManager,
         array $data = array()
@@ -126,7 +125,7 @@ class Template extends \Magento\Core\Model\Template
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_filter = $filter;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_templateFactory = $templateFactory;
         $this->_filterManager = $filterManager;
     }
@@ -145,15 +144,15 @@ class Template extends \Magento\Core\Model\Template
      * Validate Newsletter template
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
         $validators = array(
-            'template_code'         => array(\Zend_Filter_Input::ALLOW_EMPTY => false),
-            'template_type'         => 'Int',
+            'template_code' => array(\Zend_Filter_Input::ALLOW_EMPTY => false),
+            'template_type' => 'Int',
             'template_sender_email' => 'EmailAddress',
-            'template_sender_name'  => array(\Zend_Filter_Input::ALLOW_EMPTY => false)
+            'template_sender_name' => array(\Zend_Filter_Input::ALLOW_EMPTY => false)
         );
         $data = array();
         foreach (array_keys($validators) as $validateField) {
@@ -173,7 +172,7 @@ class Template extends \Magento\Core\Model\Template
                 }
             }
 
-            throw new \Magento\Core\Exception(join("\n", $errorMessages));
+            throw new \Magento\Framework\Model\Exception(join("\n", $errorMessages));
         }
     }
 
@@ -253,9 +252,7 @@ class Template extends \Magento\Core\Model\Template
             $this->_filter->setStoreId($this->_request->getParam('store_id'));
         }
 
-        $this->_filter
-            ->setIncludeProcessor(array($this, 'getInclude'))
-            ->setVariables($variables);
+        $this->_filter->setIncludeProcessor(array($this, 'getInclude'))->setVariables($variables);
 
         if ($usePreprocess && $this->isPreprocessed()) {
             return $this->_filter->filter($this->getPreparedTemplateText(true));
@@ -293,8 +290,7 @@ class Template extends \Magento\Core\Model\Template
     {
         /** @var \Magento\Newsletter\Model\Template $template */
         $template = $this->_templateFactory->create();
-        $template->loadByCode($templateCode)
-            ->getProcessedTemplate($variables);
+        $template->loadByCode($templateCode)->getProcessedTemplate($variables);
         return $template;
     }
 
@@ -320,10 +316,14 @@ class Template extends \Magento\Core\Model\Template
     public function getTemplateText()
     {
         if (!$this->getData('template_text') && !$this->getId()) {
-            $this->setData('template_text',
-                __('Follow this link to unsubscribe <!-- This tag is for unsubscribe link  -->'
-                    . '<a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}'
-                    . '</a>'));
+            $this->setData(
+                'template_text',
+                __(
+                    'Follow this link to unsubscribe <!-- This tag is for unsubscribe link  -->' .
+                    '<a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}' .
+                    '</a>'
+                )
+            );
         }
 
         return $this->getData('template_text');
@@ -336,9 +336,9 @@ class Template extends \Magento\Core\Model\Template
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->getConfigFlag(\Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE)
-            && $this->getTemplateSenderName()
-            && $this->getTemplateSenderEmail()
-            && $this->getTemplateSubject();
+        return !$this->_scopeConfig->isSetFlag(
+            \Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) && $this->getTemplateSenderName() && $this->getTemplateSenderEmail() && $this->getTemplateSubject();
     }
 }

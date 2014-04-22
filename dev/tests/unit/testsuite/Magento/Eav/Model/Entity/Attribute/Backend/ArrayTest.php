@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 class ArrayTest extends \PHPUnit_Framework_TestCase
@@ -50,13 +49,6 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
     public static function attributeValueDataProvider()
     {
-        return array(
-            array(
-                array(1, 2, 3)
-            ),
-            array(
-                '1,2,3'
-            )
-        );
+        return array(array(array(1, 2, 3)), array('1,2,3'));
     }
 }

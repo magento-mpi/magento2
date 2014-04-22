@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Customer conditions options group
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition;
-
-class Customer
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Customer extends AbstractCondition
 {
     /**
      * @var \Magento\CustomerSegment\Model\ConditionFactory
@@ -47,13 +47,14 @@ class Customer
     public function getNewChildSelectOptions()
     {
         $conditions = $this->_conditionFactory->create('Customer\Attributes')->getNewChildSelectOptions();
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Newsletter')->getNewChildSelectOptions());
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Storecredit')->getNewChildSelectOptions());
-        return array(
-            'value' => $conditions,
-            'label' => __('Customer'),
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Newsletter')->getNewChildSelectOptions()
         );
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Storecredit')->getNewChildSelectOptions()
+        );
+        return array('value' => $conditions, 'label' => __('Customer'));
     }
 }

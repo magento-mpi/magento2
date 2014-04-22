@@ -38,10 +38,10 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
-            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $this->_importConfigMock,
             $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
@@ -67,11 +67,11 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     public function testInitialize()
     {
         $operationData = array(
-            'entity_type'    => 'customer',
-            'behavior'       => 'update',
+            'entity_type' => 'customer',
+            'behavior' => 'update',
             'operation_type' => 'import',
-            'start_time'     => '00:00:00',
-            'id'             => 1
+            'start_time' => '00:00:00',
+            'id' => 1
         );
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
@@ -103,11 +103,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getMappedValue($key)
     {
-        $modelDataMap = array(
-            'entity_type' => 'entity',
-            'start_time'  => 'run_at',
-            'id'          => 'scheduled_operation_id'
-        );
+        $modelDataMap = array('entity_type' => 'entity', 'start_time' => 'run_at', 'id' => 'scheduled_operation_id');
 
         if (array_key_exists($key, $modelDataMap)) {
             return $modelDataMap[$key];

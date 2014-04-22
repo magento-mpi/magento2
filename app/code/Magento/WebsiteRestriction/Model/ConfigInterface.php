@@ -28,7 +28,7 @@ interface ConfigInterface
     /**
      * Define if restriction is active
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     public function isRestrictionEnabled($store = null);

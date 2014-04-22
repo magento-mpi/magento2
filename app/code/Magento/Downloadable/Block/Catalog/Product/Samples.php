@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+use Magento\Downloadable\Model\Resource\Sample;
 
 /**
  * Downloadable Product Samples part block
@@ -15,8 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Block\Catalog\Product;
-
 class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -26,8 +27,7 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function hasSamples()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->hasSamples($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->hasSamples($this->getProduct());
     }
 
     /**
@@ -37,10 +37,13 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getSamples()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getSamples($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
     }
 
+    /**
+     * @param Sample $sample
+     * @return string
+     */
     public function getSampleUrl($sample)
     {
         return $this->getUrl('downloadable/download/sample', array('sample_id' => $sample->getId()));
@@ -56,7 +59,7 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getSamplesTitle()) {
             return $this->getProduct()->getSamplesTitle();
         }
-        return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE);
+        return $this->_scopeConfig->getValue(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -66,6 +69,6 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_scopeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

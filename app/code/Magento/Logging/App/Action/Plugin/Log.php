@@ -9,8 +9,7 @@
  */
 namespace Magento\Logging\App\Action\Plugin;
 
-use \Magento\App\ResponseInterface;
-use \Magento\Logging\Model\Processor;
+use Magento\Logging\Model\Processor;
 
 class Log
 {
@@ -30,15 +29,18 @@ class Log
     /**
      * Mark actions for logging, if required
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return ResponseInterface
+     * @param \Magento\Framework\App\ActionInterface $subject
+     * @param callable $proceed
+     * @param \Magento\Framework\App\RequestInterface $request
+     *
+     * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        /* @var $request \Magento\App\RequestInterface */
-        $request = $arguments[0];
-
+    public function aroundDispatch(
+        \Magento\Framework\App\ActionInterface $subject,
+        \Closure $proceed,
+        \Magento\Framework\App\RequestInterface $request
+    ) {
         $beforeForwardInfo = $request->getBeforeForwardInfo();
 
         // Always use current action name bc basing on
@@ -66,6 +68,6 @@ class Log
         }
 
         $this->_processor->initAction($fullActionName, $actionName);
-        return $invocationChain->proceed($arguments);
+        return $proceed($request);
     }
-} 
+}

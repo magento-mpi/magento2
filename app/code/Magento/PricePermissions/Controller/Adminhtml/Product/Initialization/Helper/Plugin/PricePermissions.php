@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
-class PricePermissions 
+class PricePermissions
 {
     /**
      * Backend authorization session
@@ -49,11 +48,16 @@ class PricePermissions
     /**
      * Handle important product data before saving a product
      *
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
      * @param \Magento\Catalog\Model\Product $product
+     *
      * @return \Magento\Catalog\Model\Product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitialize(\Magento\Catalog\Model\Product $product)
-    {
+    public function afterInitialize(
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject,
+        \Magento\Catalog\Model\Product $product
+    ) {
         $canEditProductPrice = false;
         if ($this->authSession->isLoggedIn() && $this->authSession->getUser()->getRole()) {
             $canEditProductPrice = $this->pricePermData->getCanAdminEditProductPrice();
@@ -67,4 +71,4 @@ class PricePermissions
 
         return $product;
     }
-} 
+}

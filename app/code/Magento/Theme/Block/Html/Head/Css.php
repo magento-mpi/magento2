@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
 
 /**
  * Css page block
  */
-class Css extends \Magento\View\Element\AbstractBlock implements AssetBlockInterface
+class Css extends \Magento\Framework\View\Element\AbstractBlock implements AssetBlockInterface
 {
     /**
      * Get block asset

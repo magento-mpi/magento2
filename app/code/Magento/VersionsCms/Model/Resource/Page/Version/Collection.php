@@ -16,8 +16,7 @@ namespace Magento\VersionsCms\Model\Resource\Page\Version;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
@@ -83,7 +82,9 @@ class Collection
         if (!$this->getFlag('revisions_joined')) {
             $this->getSelect()->joinLeft(
                 array('rev_table' => $this->getTable('magento_versionscms_page_revision')),
-                'rev_table.version_id = main_table.version_id', '*');
+                'rev_table.version_id = main_table.version_id',
+                '*'
+            );
 
             $this->setFlag('revisions_joined');
         }
@@ -96,7 +97,7 @@ class Collection
      * @param string $dir
      * @return $this
      */
-    public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
+    public function addNumberSort($dir = \Magento\Framework\DB\Select::SQL_DESC)
     {
         $this->setOrder('version_number', $dir);
         return $this;

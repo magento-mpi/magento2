@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Model;
 
 /**
@@ -30,27 +29,37 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
-            ->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\UrlInterface'
+        )->turnOffSecretKey();
 
         $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
-        $this->_auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+        $this->_auth->login(
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
 
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
-            array_merge($post, array('form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Data\Form\FormKey')->getFormKey()))
+            array_merge(
+                $post,
+                array(
+                    'form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Framework\Data\Form\FormKey'
+                    )->getFormKey()
+                )
+            )
         );
         $this->dispatch($url);
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Logging\Model\Event')->getCollection();
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Logging\Model\Event'
+        )->getCollection();
 
         // Number 2 means we have "login" event logged first and then the tested one.
         $eventCountAfter = $eventCountBefore + 2;
@@ -67,10 +76,11 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
         return array(
             array('backend/admin/user/edit/user_id/2', 'view'),
             array(
-                'backend/admin/user/save', 'save',
+                'backend/admin/user/save',
+                'save',
                 array(
                     'firstname' => 'firstname',
-                    'lastname'  => 'lastname',
+                    'lastname' => 'lastname',
                     'email' => 'newuniqueuser@ebay.com',
                     'roles[]' => 1,
                     'username' => 'newuniqueuser',
@@ -79,22 +89,13 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
             ),
             array('backend/admin/user/delete/user_id/2', 'delete'),
             array('backend/admin/user_role/editrole/rid/2', 'view'),
-            array(
-                'backend/admin/user_role/saverole', 'save',
-                array(
-                    'rolename' => 'newrole2',
-                    'gws_is_all' => '1'
-                )
-            ),
+            array('backend/admin/user_role/saverole', 'save', array('rolename' => 'newrole2', 'gws_is_all' => '1')),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
             array('backend/tax/tax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
-            array('backend/tax/tax/ajaxSave', 'save',
-                array(
-                    'class_id' => null,
-                    'class_name' => 'test',
-                    'class_type' => 'PRODUCT',
-                    'isAjax' => true,
-                )
+            array(
+                'backend/tax/tax/ajaxSave',
+                'save',
+                array('class_id' => null, 'class_name' => 'test', 'class_type' => 'PRODUCT', 'isAjax' => true)
             )
         );
     }

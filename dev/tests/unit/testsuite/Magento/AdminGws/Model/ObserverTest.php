@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminGws\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -19,12 +18,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Resource\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeGroups;
 
@@ -48,91 +47,112 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_role;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
-        $websiteOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteOne = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteOne->setId(11);
-        $websiteTwo = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteTwo = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteTwo->setId(12);
         // Website with no store groups assigned to it
-        $websiteIrrelevant = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteIrrelevant = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteIrrelevant->setId(13);
 
         $storeGroupOne = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('getWebsite', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeGroupOne->setId(21);
         $storeGroupOne->setWebsiteId(11);
         $storeGroupOne->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteOne));
         $storeGroupTwo = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group',
+            array('getWebsite', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $storeGroupTwo->setId(22);
         $storeGroupTwo->setWebsiteId(12);
         $storeGroupTwo->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteTwo));
 
-        $storeOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeOne = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeOne->setId(31);
         $storeOne->setGroupId(21);
-        $storeTwo = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeTwo = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeTwo->setId(32);
         $storeTwo->setGroupId(21);
         // Store that belongs to unknown store group
-        $storeIrrelevant = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeIrrelevant = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeIrrelevant->setId(33);
         $storeIrrelevant->setGroupId(1);
 
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue(array(
-            11 => $websiteOne,
-            12 => $websiteTwo,
-            13 => $websiteIrrelevant,
-        )));
-        $this->_storeManager->expects($this->any())->method('getStores')->will($this->returnValue(array(
-            31 => $storeOne,
-            32 => $storeTwo,
-            33 => $storeIrrelevant,
-        )));
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeManager->expects(
+            $this->any()
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnValue(array(11 => $websiteOne, 12 => $websiteTwo, 13 => $websiteIrrelevant))
+        );
+        $this->_storeManager->expects(
+            $this->any()
+        )->method(
+            'getStores'
+        )->will(
+            $this->returnValue(array(31 => $storeOne, 32 => $storeTwo, 33 => $storeIrrelevant))
+        );
 
         $this->_storeGroups = $this->getMock(
-            'Magento\Core\Model\Resource\Store\Group\Collection', array('load'), array(), '', false
+            'Magento\Store\Model\Resource\Group\Collection',
+            array('load'),
+            array(),
+            '',
+            false
         );
         $this->_storeGroups->addItem($storeGroupOne);
         $this->_storeGroups->addItem($storeGroupTwo);
 
         $this->_backendAuthSession = $this->getMock(
-            'Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false
+            'Magento\Backend\Model\Auth\Session',
+            array('getUser'),
+            array(),
+            '',
+            false
         );
 
         $this->_store = new \Magento\Object();
 
-        $this->_observer = $this->getMockBuilder('Magento\Event\Observer')
-            ->setMethods(array('getStore'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_observer->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
+        $this->_observer = $this->getMockBuilder(
+            'Magento\Event\Observer'
+        )->setMethods(
+            array('getStore')
+        )->disableOriginalConstructor()->getMock();
+        $this->_observer->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
-        $this->_role = $this->getMockBuilder('Magento\AdminGws\Model\Role')
-            ->setMethods(array('getStoreIds', 'setStoreIds'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_role->expects($this->any())
-            ->method('getStoreIds')
-            ->will(
-                $this->returnValue(
-                    array(1, 2, 3, 4,5)
-                )
-            );
-        
+        $this->_role = $this->getMockBuilder(
+            'Magento\AdminGws\Model\Role'
+        )->setMethods(
+            array('getStoreIds', 'setStoreIds')
+        )->disableOriginalConstructor()->getMock();
+        $this->_role->expects($this->any())->method('getStoreIds')->will($this->returnValue(array(1, 2, 3, 4, 5)));
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\AdminGws\Model\Observer', array(
-            'backendAuthSession' => $this->_backendAuthSession,
-            'storeManager' => $this->_storeManager,
-            'storeGroups' => $this->_storeGroups,
-            'role' => $this->_role
-        ));
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\AdminGws\Model\Observer',
+            array(
+                'backendAuthSession' => $this->_backendAuthSession,
+                'storeManager' => $this->_storeManager,
+                'storeGroups' => $this->_storeGroups,
+                'role' => $this->_role
+            )
+        );
     }
 
     /**
@@ -183,47 +203,35 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'role scope: all' => array(
+                array('gws_is_all' => 1, 'gws_websites' => '12,13', 'gws_store_groups' => '21'),
                 array(
-                    'gws_is_all'            => 1,
-                    'gws_websites'          => '12,13',
-                    'gws_store_groups'      => '21',
-                ),
-                array(
-                    'gws_is_all'            => true,
-                    'gws_websites'          => array(11, 12, 13),
-                    'gws_store_groups'      => array(21, 22),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11, 12),
-                ),
+                    'gws_is_all' => true,
+                    'gws_websites' => array(11, 12, 13),
+                    'gws_store_groups' => array(21, 22),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11, 12)
+                )
             ),
             'role scope: custom & assigned store groups' => array(
+                array('gws_is_all' => 0, 'gws_websites' => '12,13', 'gws_store_groups' => '21'),
                 array(
-                    'gws_is_all'            => 0,
-                    'gws_websites'          => '12,13',
-                    'gws_store_groups'      => '21',
-                ),
-                array(
-                    'gws_is_all'            => false,
-                    'gws_websites'          => array(12, 13),
-                    'gws_store_groups'      => array(21),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11),
-                ),
+                    'gws_is_all' => false,
+                    'gws_websites' => array(12, 13),
+                    'gws_store_groups' => array(21),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11)
+                )
             ),
             'role scope: custom & unassigned store groups' => array(
+                array('gws_is_all' => 0, 'gws_websites' => '11,13', 'gws_store_groups' => ''),
                 array(
-                    'gws_is_all'            => 0,
-                    'gws_websites'          => '11,13',
-                    'gws_store_groups'      => '',
-                ),
-                array(
-                    'gws_is_all'            => false,
-                    'gws_websites'          => array(11, 13),
-                    'gws_store_groups'      => array(21),
-                    'gws_stores'            => array(31, 32),
-                    'gws_relevant_websites' => array(11),
-                ),
-            ),
+                    'gws_is_all' => false,
+                    'gws_websites' => array(11, 13),
+                    'gws_store_groups' => array(21),
+                    'gws_stores' => array(31, 32),
+                    'gws_relevant_websites' => array(11)
+                )
+            )
         );
     }
 
@@ -240,9 +248,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testUpdateRoleStores()
     {
         $this->_store->setData('store_id', 1000);
-        $this->_role->expects($this->once())
-            ->method('setStoreIds')
-            ->with($this->contains(1000));
+        $this->_role->expects($this->once())->method('setStoreIds')->with($this->contains(1000));
         $this->_model->updateRoleStores($this->_observer);
     }
 }

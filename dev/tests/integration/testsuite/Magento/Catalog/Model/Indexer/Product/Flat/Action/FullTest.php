@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
 /**
@@ -17,9 +16,9 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 class FullTest extends \Magento\TestFramework\Indexer\TestCase
 {
     /**
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var \Magento\Catalog\Model\Indexer\Product\Flat\State
      */
-    protected $_helper;
+    protected $_state;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -28,10 +27,12 @@ class FullTest extends \Magento\TestFramework\Indexer\TestCase
 
     protected function setUp()
     {
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Helper\Product\Flat');
-        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Indexer\Product\Flat\Processor');
+        $this->_state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\Indexer\Product\Flat\State'
+        );
+        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\Indexer\Product\Flat\Processor'
+        );
     }
 
     /**
@@ -42,13 +43,15 @@ class FullTest extends \Magento\TestFramework\Indexer\TestCase
      */
     public function testReindexAll()
     {
-        $this->assertTrue($this->_helper->isEnabled());
+        $this->assertTrue($this->_state->isFlatEnabled());
         $this->_processor->reindexAll();
 
-        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Catalog\Model\CategoryFactory');
-        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Catalog\Block\Product\ListProduct');
+        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\CategoryFactory'
+        );
+        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Block\Product\ListProduct'
+        );
 
         $category = $categoryFactory->create()->load(2);
         $layer = $listProduct->getLayer();

@@ -7,22 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Source;
 
-class Status extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\Option\ArrayInterface
+class Status extends \Magento\Framework\Model\AbstractModel implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(
-            array(
-                'value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING,
-                'label' => __('Ordered')
-            ),
-            array(
-                'value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED,
-                'label' => __('Invoiced')
-            )
+            array('value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING, 'label' => __('Ordered')),
+            array('value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED, 'label' => __('Invoiced'))
         );
     }
 }

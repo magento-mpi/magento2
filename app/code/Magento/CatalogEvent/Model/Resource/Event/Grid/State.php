@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class State implements \Magento\Core\Model\Option\ArrayInterface
+class State implements \Magento\Option\ArrayInterface
 {
     /**
      * Return catalog event array
@@ -29,7 +29,7 @@ class State implements \Magento\Core\Model\Option\ArrayInterface
         return array(
             0 => __('Lister Block'),
             \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE  => __('Product Page'),
+            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
         );
     }
 }

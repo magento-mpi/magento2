@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Xml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,7 +35,7 @@ class Generator
     public function __construct()
     {
         $this->_dom = new \DOMDocument('1.0');
-        $this->_dom->formatOutput=true;
+        $this->_dom->formatOutput = true;
         $this->_currentDom = $this->_dom;
         return $this;
     }
@@ -71,26 +69,21 @@ class Generator
     /**
      * @param array $content
      * @return $this
+     * @throws \DOMException
      */
     public function arrayToXml($content)
     {
         $parentNode = $this->_getCurrentDom();
-        if(!$content || !count($content)) {
+        if (!$content || !count($content)) {
             return $this;
         }
-        foreach ($content as $_key=>$_item) {
-            try{
-                $node = $this->getDom()->createElement($_key);
-            } catch (\DOMException $e) {
-              //  echo $e->getMessage();
-                var_dump($_item);
-                die;
-            }
+        foreach ($content as $_key => $_item) {
+            $node = $this->getDom()->createElement(preg_replace('/[^\w-]/i', '', $_key));
             $parentNode->appendChild($node);
             if (is_array($_item) && isset($_item['_attribute'])) {
                 if (is_array($_item['_value'])) {
                     if (isset($_item['_value'][0])) {
-                        foreach($_item['_value'] as $_k=>$_v) {
+                        foreach ($_item['_value'] as $_v) {
                             $this->_setCurrentDom($node)->arrayToXml($_v);
                         }
                     } else {
@@ -100,7 +93,7 @@ class Generator
                     $child = $this->getDom()->createTextNode($_item['_value']);
                     $node->appendChild($child);
                 }
-                foreach($_item['_attribute'] as $_attributeKey=>$_attributeValue) {
+                foreach ($_item['_attribute'] as $_attributeKey => $_attributeValue) {
                     $node->setAttribute($_attributeKey, $_attributeValue);
                 }
             } elseif (is_string($_item)) {
@@ -109,7 +102,7 @@ class Generator
             } elseif (is_array($_item) && !isset($_item[0])) {
                 $this->_setCurrentDom($node)->arrayToXml($_item);
             } elseif (is_array($_item) && isset($_item[0])) {
-                foreach($_item as $k=>$v) {
+                foreach ($_item as $v) {
                     $this->_setCurrentDom($node)->arrayToXml(array($this->_getIndexedArrayItemName() => $v));
                 }
             }

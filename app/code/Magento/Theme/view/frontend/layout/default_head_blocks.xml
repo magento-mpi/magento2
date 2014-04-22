@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Css" name="magento-calendar-css">
             <arguments>
@@ -20,6 +20,11 @@
         <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery.js</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-migrate-js">
+            <arguments>
+                <argument name="file" xsi:type="string">jquery/jquery-migrate.js</argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-jquery-no-conflict-js">
@@ -52,7 +57,7 @@
                 <argument name="file" xsi:type="string">mage/cookies.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-ui-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-ui-js" after="jquery-jquery-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery-ui.js</argument>
             </arguments>
@@ -89,7 +94,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-loader-js">
             <arguments>
-                <argument name="file" xsi:type="string">mage/loader.js</argument>
+                <argument name="file" xsi:type="string">mage/loader_old.js</argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-dataPost-js">
@@ -97,7 +102,6 @@
                 <argument name="file" xsi:type="string">mage/dataPost.js</argument>
             </arguments>
         </block>
-        <!-- Preload resources for widgets -->
-        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
 </layout>

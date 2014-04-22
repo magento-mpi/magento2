@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Block\Product\Compare;
 
 /**
  * Catalog Comapare Products Sidebar Block
@@ -16,10 +16,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Compare;
-
-class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
+class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare implements
+    \Magento\Framework\View\Block\IdentityInterface
 {
+    /**
+     * The property is used to define content-scope of block. Can be private or public.
+     *
+     * @var bool
+     */
+     protected $_isScopePrivate = true;
+
     /**
      * Compare Products Collection
      *
@@ -29,6 +35,8 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
     /**
      * Initialize block
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -88,5 +96,25 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     public function getCompareUrl()
     {
         return $this->_getHelper()->getListUrl();
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = array();
+        foreach ($this->getItems() as $item) {
+            $product = $item->getProduct();
+            if ($product instanceof \Magento\Object\IdentityInterface) {
+                $identities = array_merge($identities, $product->getIdentities());
+            }
+        }
+        $identities[] = \Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG .
+            '_' .
+            $this->getCatalogCompareItemId();
+        return $identities;
     }
 }

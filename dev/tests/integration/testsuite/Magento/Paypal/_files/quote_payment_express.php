@@ -5,11 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('adminhtml');
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-    ->setConfig('carriers/flatrate/active', 1);
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
-    ->setConfig('payment/paypal_express/active', 1);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'carriers/flatrate/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
+)->setValue(
+    'payment/paypal_express/active',
+    1,
+    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+);
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
@@ -29,20 +39,7 @@ $product->setTypeId('simple')
     ->save();
 $product->load(1);
 
-$addressData = array(
-    'region' => 'CA',
-    'postcode' => '11111',
-    'lastname' => 'lastname',
-    'firstname' => 'firstname',
-    'street' => 'street',
-    'city' => 'Los Angeles',
-    'email' => 'admin@example.com',
-    'telephone' => '11111111',
-    'country_id' => 'US',
-);
-
 $billingData = array(
-    'address_id' => '',
     'firstname' => 'testname',
     'lastname' => 'lastname',
     'company' => '',
@@ -74,17 +71,23 @@ $shippingAddress->setShippingMethod('flatrate_flatrate');
 $shippingAddress->setCollectShippingRates(true);
 
 /** @var $quote \Magento\Sales\Model\Quote */
-$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Quote');
-$quote->setCustomerIsGuest(true)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->setReservedOrderId('test02')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->addProduct($product, 10);
+$quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
+$quote->setCustomerIsGuest(
+    true
+)->setStoreId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Store\Model\StoreManagerInterface'
+    )->getStore()->getId()
+)->setReservedOrderId(
+    'test02'
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->addProduct(
+    $product,
+    10
+);
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->getShippingAddress()->setCollectShippingRates(true);
 $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
@@ -94,9 +97,7 @@ $quote->collectTotals()->save();
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000002'));
-$service->submitAll();
+$service->submitAllWithDataObject();
 
 $order = $service->getOrder();
 $order->save();
-
-

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order transactions tab
@@ -15,37 +16,30 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
-
-class Transactions
-    extends \Magento\Sales\Block\Adminhtml\Transactions\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Transactions extends \Magento\Framework\View\Element\Text\ListText implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var \Magento\AuthorizationInterface
+     */
+    protected $_authorization;
 
     /**
-     * Retrieve grid url
-     *
-     * @return string
+     * @param \Magento\Framework\View\Element\Context $context
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param array $data
      */
-    public function getGridUrl()
-    {
-        return $this->getUrl('sales/order/transactions', array('_current' => true));
+    public function __construct(
+        \Magento\Framework\View\Element\Context $context,
+        \Magento\AuthorizationInterface $authorization,
+        array $data = array()
+    ) {
+         $this->_authorization = $authorization;
+         parent::__construct($context, $data);
     }
 
     /**
-     * Retrieve grid row url
-     *
-     * @return string
-     */
-    public function getRowUrl($item)
-    {
-        return $this->getUrl('sales/transactions/view', array('_current' => true, 'txn_id' => $item->getId()));
-    }
-
-    /**
-     * Retrieve tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -53,9 +47,7 @@ class Transactions
     }
 
     /**
-     * Retrieve tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -63,9 +55,7 @@ class Transactions
     }
 
     /**
-     * Check whether can show tab
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -73,9 +63,7 @@ class Transactions
     }
 
     /**
-     * Check whether tab is hidden
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isHidden()
     {

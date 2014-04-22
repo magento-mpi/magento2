@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model;
+
+use Magento\Logging\Model\Event;
 
 /**
  * Class \Magento\CustomerSegment\Model\Logging
  *
  * Model for logging event related to Customer Segment, active only if Magento_Logging module is enabled
  */
-namespace Magento\CustomerSegment\Model;
-
 class Logging
 {
     /**
@@ -23,17 +24,17 @@ class Logging
     protected $_resourceModel = null;
 
     /**
-     * @var \Magento\App\RequestInterface|null
+     * @var \Magento\Framework\App\RequestInterface|null
      */
     protected $_request = null;
 
     /**
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceModel
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\CustomerSegment\Model\Resource\Segment $resourceModel,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_resourceModel = $resourceModel;
         $this->_request = $request;
@@ -43,18 +44,16 @@ class Logging
      * Handler for logging customer segment match
      *
      * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event
+     * @param Event $eventModel
+     * @return Event
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function postDispatchCustomerSegmentMatch($config,
-        \Magento\Logging\Model\Event $eventModel
-    ) {
+    public function postDispatchCustomerSegmentMatch($config, Event $eventModel)
+    {
         $segmentId = $this->_request->getParam('id');
         $customersQty = $this->_resourceModel->getSegmentCustomersQty($segmentId);
-        return $eventModel->setInfo($segmentId ?
-            __('Matched %1 Customers of Segment %2', $customersQty, $segmentId)
-            : '-'
+        return $eventModel->setInfo(
+            $segmentId ? __('Matched %1 Customers of Segment %2', $customersQty, $segmentId) : '-'
         );
     }
 }

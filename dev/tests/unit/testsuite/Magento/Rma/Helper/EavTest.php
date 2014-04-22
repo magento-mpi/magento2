@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Helper;
 
 class EavTest extends \PHPUnit_Framework_TestCase
@@ -21,15 +20,22 @@ class EavTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $collectionFactory = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory',
-            array('create'), array(), '', false);
-        $attributeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config',
-            array(), array(), '', false);
-        $this->_model = $helper->getObject('Magento\Rma\Helper\Eav', array(
-            'collectionFactory' => $collectionFactory,
-            'attributeConfig' => $attributeConfig,
-            'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false)
-        ));
+        $collectionFactory = $this->getMock(
+            'Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $attributeConfig = $this->getMock('Magento\Eav\Model\Entity\Attribute\Config', array(), array(), '', false);
+        $this->_model = $helper->getObject(
+            'Magento\Rma\Helper\Eav',
+            array(
+                'collectionFactory' => $collectionFactory,
+                'attributeConfig' => $attributeConfig,
+                'context' => $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false)
+            )
+        );
     }
 
     /**
@@ -40,9 +46,7 @@ class EavTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
     {
-        $attributeMock = new \Magento\Object(
-            array('validate_rules' => $validateRules)
-        );
+        $attributeMock = new \Magento\Object(array('validate_rules' => $validateRules));
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);
     }
 
@@ -52,22 +56,13 @@ class EavTest extends \PHPUnit_Framework_TestCase
     public function getAdditionalTextElementClassesDataProvider()
     {
         return array(
-            array(
-                array(),
-                array()
-            ),
-            array(
-                array('min_text_length' => 10),
-                array('validate-length', 'minimum-length-10')
-            ),
-            array(
-                array('max_text_length' => 20),
-                array('validate-length', 'maximum-length-20')
-            ),
+            array(array(), array()),
+            array(array('min_text_length' => 10), array('validate-length', 'minimum-length-10')),
+            array(array('max_text_length' => 20), array('validate-length', 'maximum-length-20')),
             array(
                 array('min_text_length' => 10, 'max_text_length' => 20),
                 array('validate-length', 'minimum-length-10', 'maximum-length-20')
-            ),
+            )
         );
     }
 }

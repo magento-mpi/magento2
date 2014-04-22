@@ -28,13 +28,11 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
     /**
      * Class constructor
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Eav\Model\Config $eavConfig
-    ) {
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Eav\Model\Config $eavConfig)
+    {
         $this->_eavConfig = $eavConfig;
         parent::__construct($resource);
     }
@@ -55,7 +53,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
      * attribute value definition
      * If $condition is not empty apply limitation for select
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $attrCode              the attribute code
      * @param string|\Zend_Db_Expr $entity   the entity field or expression for condition
      * @param string|\Zend_Db_Expr $store    the store field or expression for condition
@@ -65,18 +63,18 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
      */
     protected function _addAttributeToSelect($select, $attrCode, $entity, $store, $condition = null, $required = false)
     {
-        $attribute      = $this->_getAttribute($attrCode);
-        $attributeId    = $attribute->getAttributeId();
+        $attribute = $this->_getAttribute($attrCode);
+        $attributeId = $attribute->getAttributeId();
         $attributeTable = $attribute->getBackend()->getTable();
-        $adapter        = $this->_getReadAdapter();
-        $joinType       = !is_null($condition) || $required ? 'join' : 'joinLeft';
+        $adapter = $this->_getReadAdapter();
+        $joinType = !is_null($condition) || $required ? 'join' : 'joinLeft';
 
         if ($attribute->isScopeGlobal()) {
             $alias = 'ta_' . $attrCode;
-            $select->$joinType(
+            $select->{$joinType}(
                 array($alias => $attributeTable),
-                "{$alias}.entity_id = {$entity} AND {$alias}.attribute_id = {$attributeId}"
-                    . " AND {$alias}.store_id = 0",
+                "{$alias}.entity_id = {$entity} AND {$alias}.attribute_id = {$attributeId}" .
+                " AND {$alias}.store_id = 0",
                 array()
             );
             $expression = new \Zend_Db_Expr("{$alias}.value");
@@ -84,20 +82,23 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
             $dAlias = 'tad_' . $attrCode;
             $sAlias = 'tas_' . $attrCode;
 
-            $select->$joinType(
+            $select->{$joinType}(
                 array($dAlias => $attributeTable),
-                "{$dAlias}.entity_id = {$entity} AND {$dAlias}.attribute_id = {$attributeId}"
-                    . " AND {$dAlias}.store_id = 0",
+                "{$dAlias}.entity_id = {$entity} AND {$dAlias}.attribute_id = {$attributeId}" .
+                " AND {$dAlias}.store_id = 0",
                 array()
             );
             $select->joinLeft(
                 array($sAlias => $attributeTable),
-                "{$sAlias}.entity_id = {$entity} AND {$sAlias}.attribute_id = {$attributeId}"
-                    . " AND {$sAlias}.store_id = {$store}",
+                "{$sAlias}.entity_id = {$entity} AND {$sAlias}.attribute_id = {$attributeId}" .
+                " AND {$sAlias}.store_id = {$store}",
                 array()
             );
-            $expression = $adapter->getCheckSql($adapter->getIfNullSql("{$sAlias}.value_id", -1) . ' > 0',
-                "{$sAlias}.value", "{$dAlias}.value");
+            $expression = $adapter->getCheckSql(
+                $adapter->getIfNullSql("{$sAlias}.value_id", -1) . ' > 0',
+                "{$sAlias}.value",
+                "{$dAlias}.value"
+            );
         }
 
         if (!is_null($condition)) {
@@ -115,7 +116,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
      *  csg for store group table (joined by website default group)
      *  cs for store table (joined by website default store)
      *
-     * @param \Magento\DB\Select $select the select object
+     * @param \Magento\Framework\DB\Select $select the select object
      * @param bool $store add default store join
      * @param string|\Zend_Db_Expr $joinCondition the limitation for website_id
      * @return $this
@@ -126,21 +127,18 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
             $joinCondition = 'cw.website_id = ' . $joinCondition;
         }
 
-        $select->join(
-            array('cw' => $this->getTable('core_website')),
-            $joinCondition,
-            array()
-        );
+        $select->join(array('cw' => $this->getTable('store_website')), $joinCondition, array());
 
         if ($store) {
             $select->join(
-                array('csg' => $this->getTable('core_store_group')),
+                array('csg' => $this->getTable('store_group')),
                 'csg.group_id = cw.default_group_id',
-                array())
-            ->join(
-                array('cs' => $this->getTable('core_store')),
+                array()
+            )->join(
+                array('cs' => $this->getTable('store')),
                 'cs.store_id = csg.default_store_id',
-                array());
+                array()
+            );
         }
 
         return $this;
@@ -150,7 +148,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
      * Add join for catalog/product_website table
      * Joined table has alias pw
      *
-     * @param \Magento\DB\Select $select the select object
+     * @param \Magento\Framework\DB\Select $select the select object
      * @param string|\Zend_Db_Expr $website the limitation of website_id
      * @param string|\Zend_Db_Expr $product the limitation of product_id
      * @return $this
@@ -175,9 +173,13 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
     public function getRelationsByChild($childIds)
     {
         $write = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog_product_relation'), 'parent_id')
-            ->where('child_id IN(?)', $childIds);
+        $select = $write->select()->from(
+            $this->getTable('catalog_product_relation'),
+            'parent_id'
+        )->where(
+            'child_id IN(?)',
+            $childIds
+        );
 
         return $write->fetchCol($select);
     }
@@ -197,9 +199,13 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
         $result = array();
         if (!empty($parentIds)) {
             $write = $this->_getWriteAdapter();
-            $select = $write->select()
-                ->from($this->getTable('catalog_product_relation'), 'child_id')
-                ->where('parent_id IN(?)', $parentIds);
+            $select = $write->select()->from(
+                $this->getTable('catalog_product_relation'),
+                'child_id'
+            )->where(
+                'parent_id IN(?)',
+                $parentIds
+            );
             $result = $write->fetchCol($select);
         }
 

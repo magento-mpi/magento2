@@ -5,14 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Service\Data\AbstractObject;
+use Magento\Service\DataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 /**
@@ -20,7 +21,6 @@ use Magento\Webapi\Controller\ServiceArgsSerializer;
  *
  * The main responsibility is to instantiate proper action controller (service) and execute requested method on it.
  *
- * TODO: Fix warnings suppression
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Handler
@@ -39,8 +39,8 @@ class Handler
     /** @var AuthorizationService */
     protected $_authorizationService;
 
-    /** @var \Magento\Webapi\Helper\Data */
-    protected $_helper;
+    /** @var DataObjectConverter */
+    protected $_dataObjectConverter;
 
     /** @var ServiceArgsSerializer */
     protected $_serializer;
@@ -52,7 +52,7 @@ class Handler
      * @param \Magento\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
-     * @param \Magento\Webapi\Helper\Data $helper
+     * @param DataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
@@ -60,14 +60,14 @@ class Handler
         \Magento\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationService $authorizationService,
-        \Magento\Webapi\Helper\Data $helper,
+        DataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_authorizationService = $authorizationService;
-        $this->_helper = $helper;
+        $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
     }
 
@@ -79,7 +79,7 @@ class Handler
      * @return \stdClass|null
      * @throws WebapiException
      * @throws \LogicException
-     * @throws AuthorizationException
+     * @throws ServiceAuthorizationException
      */
     public function __call($operation, $arguments)
     {
@@ -95,14 +95,15 @@ class Handler
 
         if (!$this->_authorizationService->isAllowed($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES])) {
             // TODO: Consider passing Integration ID instead of Consumer ID
-            throw new AuthorizationException(
+            throw new ServiceAuthorizationException(
                 "Not Authorized.",
                 0,
                 null,
                 array(),
                 'authorization',
                 "Consumer ID = {$this->_request->getConsumerId()}",
-                implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', '));
+                implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', ')
+            );
         }
         $service = $this->_objectManager->get($serviceClass);
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
@@ -122,7 +123,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_toArray($arguments);
+        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
@@ -135,75 +136,19 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($this->_isDto($data)) {
-            $result = $this->_unpackDto($data);
+        if ($data instanceof AbstractObject) {
+            $result = $this->_dataObjectConverter->convertKeysToCamelCase($data->__toArray());
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $this->_isDto($value) ? $this->_unpackDto($value) : $value;
+                $result[$key] = $value instanceof AbstractObject
+                    ? $this->_dataObjectConverter->convertKeysToCamelCase($value->__toArray())
+                    : $value;
             }
-        } elseif (is_string($data) || is_numeric($data) || is_null($data)) {
+        } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
         } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
         }
         return array(self::RESULT_NODE_NAME => $result);
-    }
-
-    /**
-     * Create new object and initialize its public fields with data retrieved from DTO.
-     *
-     * This method processes all nested DTOs recursively.
-     *
-     * @param object $dto
-     * @return \stdClass
-     * @throws \InvalidArgumentException
-     */
-    protected function _unpackDto($dto)
-    {
-        if (!$this->_isDto($dto)) {
-            throw new \InvalidArgumentException("Object is expected to implement __toArray() method.");
-        }
-        $response = new \stdClass();
-        foreach ($dto->__toArray() as $fieldName => $fieldValue) {
-            if ($this->_isDto($fieldValue)) {
-                $fieldValue = $this->_unpackDto($fieldValue);
-            }
-            $response->$fieldName = $fieldValue;
-        }
-        return $response;
-    }
-
-    /**
-     * Check if provided variable is service DTO.
-     *
-     * @param mixed $var
-     * @return bool
-     */
-    protected function _isDto($var)
-    {
-        return (is_object($var) && method_exists($var, '__toArray'));
-    }
-
-    /**
-     * Convert multidimensional object/array into multidimensional array of primitives.
-     *
-     * @param object|array $input
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    protected function _toArray($input)
-    {
-        if (!is_object($input) && !is_array($input)) {
-            throw new \InvalidArgumentException("Input argument must be an array or object");
-        }
-        $result = array();
-        foreach ((array)$input as $key => $value) {
-            if (is_object($value) || is_array($value)) {
-                $result[$key] = $this->_toArray($value);
-            } else {
-                $result[$key] = $value;
-            }
-        }
-        return $result;
     }
 }

@@ -5,20 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin;
 
 class Grouped
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
-    public function __construct(\Magento\App\RequestInterface $request)
+    public function __construct(\Magento\Framework\App\RequestInterface $request)
     {
         $this->request = $request;
     }
@@ -26,11 +25,16 @@ class Grouped
     /**
      * Initialize grouped product links
      *
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks $subject
      * @param \Magento\Catalog\Model\Product $product
+     *
      * @return \Magento\Catalog\Model\Product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitializeLinks(\Magento\Catalog\Model\Product $product)
-    {
+    public function afterInitializeLinks(
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks $subject,
+        \Magento\Catalog\Model\Product $product
+    ) {
         $links = $this->request->getPost('links');
 
         if (isset($links['grouped']) && !$product->getGroupedReadonly()) {
@@ -39,4 +43,4 @@ class Grouped
 
         return $product;
     }
-} 
+}

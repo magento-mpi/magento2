@@ -7,23 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerBalance\Block\Sales\Order;
 
 /**
  * Customer balance block for order
  *
  */
-namespace Magento\CustomerBalance\Block\Sales\Order;
-
-class Customerbalance extends \Magento\View\Element\Template
+class Customerbalance extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -38,6 +35,9 @@ class Customerbalance extends \Magento\View\Element\Template
         return $this->getParentBlock()->getOrder();
     }
 
+    /**
+     * @return mixed
+     */
     public function getSource()
     {
         return $this->getParentBlock()->getSource();
@@ -46,18 +46,20 @@ class Customerbalance extends \Magento\View\Element\Template
     /**
      * Initialize customer balance order total
      *
-     * @return \Magento\CustomerBalance\Block\Sales\Order\Customerbalance
+     * @return $this
      */
     public function initTotals()
     {
-        if ((float)$this->getSource()->getCustomerBalanceAmount() == 0) {
+        if ((double)$this->getSource()->getCustomerBalanceAmount() == 0) {
             return $this;
         }
-        $total = new \Magento\Object(array(
-            'code'      => $this->getNameInLayout(),
-            'block_name'=> $this->getNameInLayout(),
-            'area'      => $this->getArea()
-        ));
+        $total = new \Magento\Object(
+            array(
+                'code' => $this->getNameInLayout(),
+                'block_name' => $this->getNameInLayout(),
+                'area' => $this->getArea()
+            )
+        );
         $after = $this->getAfterTotal();
         if (!$after) {
             $after = 'giftcards';
@@ -66,11 +68,17 @@ class Customerbalance extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLabelProperties()
     {
         return $this->getParentBlock()->getLabelProperties();
     }
 
+    /**
+     * @return string
+     */
     public function getValueProperties()
     {
         return $this->getParentBlock()->getValueProperties();

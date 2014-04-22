@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Source;
 
 /**
  * Quick search weight model
@@ -15,14 +16,12 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Source;
-
 class Weight
 {
     /**
      * Quick search weights
      *
-     * @var array
+     * @var int[]
      */
     protected $_weights = array(1, 2, 3, 4, 5);
 
@@ -35,10 +34,7 @@ class Weight
     {
         $res = array();
         foreach ($this->getValues() as $value) {
-            $res[] = array(
-               'value' => $value,
-               'label' => $value
-            );
+            $res[] = array('value' => $value, 'label' => $value);
         }
         return $res;
     }
@@ -46,7 +42,7 @@ class Weight
     /**
      * Retrieve search weights array
      *
-     * @return array
+     * @return int[]
      */
     public function getValues()
     {

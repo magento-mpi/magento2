@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order address resource
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Address extends AbstractOrder
 {
     /**
      * Event prefix
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_address_resource';
+    protected $_eventPrefix = 'sales_order_address_resource';
 
     /**
      * @var \Magento\Sales\Model\Resource\Factory
@@ -28,14 +27,14 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     protected $_salesResourceFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      * @param \Magento\Sales\Model\Resource\Factory $salesResourceFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
@@ -47,6 +46,8 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -61,16 +62,16 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     public function getAllAttributes()
     {
         $attributes = array(
-            'city'       => __('City'),
-            'company'    => __('Company'),
+            'city' => __('City'),
+            'company' => __('Company'),
             'country_id' => __('Country'),
-            'email'      => __('Email'),
-            'firstname'  => __('First Name'),
-            'lastname'   => __('Last Name'),
-            'region_id'  => __('State/Province'),
-            'street'     => __('Street Address'),
-            'telephone'  => __('Telephone'),
-            'postcode'   => __('Zip/Postal Code')
+            'email' => __('Email'),
+            'firstname' => __('First Name'),
+            'lastname' => __('Last Name'),
+            'region_id' => __('State/Province'),
+            'street' => __('Street Address'),
+            'telephone' => __('Telephone'),
+            'postcode' => __('Zip/Postal Code')
         );
         asort($attributes);
         return $attributes;
@@ -79,10 +80,10 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Update related grid table after object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {
@@ -95,7 +96,9 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
             // update grid table after grid update
             foreach ($gridList as $gridResource => $field) {
-                $this->_salesResourceFactory->create($gridResource)->updateOnRelatedRecordChanged(
+                $this->_salesResourceFactory->create(
+                    $gridResource
+                )->updateOnRelatedRecordChanged(
                     $field,
                     $object->getParentId()
                 );

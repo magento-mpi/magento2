@@ -26,7 +26,7 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -40,32 +40,32 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Application resource
      *
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
-        \Magento\App\Resource $resource
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_resource = $resource;
-        parent::__construct($context, $attributeConfig, $coreStoreConfig, $eavConfig);
+        parent::__construct($context, $attributeConfig, $scopeConfig, $eavConfig);
     }
 
     /**
@@ -88,65 +88,43 @@ class Eav extends \Magento\Eav\Helper\Data
     {
         $inputTypes = array(
             'text' => array(
-                'label'             => __('Text Field'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'min_text_length',
-                    'max_text_length',
-                ),
-                'validate_filters'  => array(
-                    'alphanumeric',
-                    'numeric',
-                    'alpha',
-                    'url',
-                    'email',
-                ),
-                'filter_types'      => array(
-                    'striptags',
-                    'escapehtml'
-                ),
-                'backend_type'      => 'varchar',
-                'default_value'     => 'text',
+                'label' => __('Text Field'),
+                'manage_options' => false,
+                'validate_types' => array('min_text_length', 'max_text_length'),
+                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
+                'filter_types' => array('striptags', 'escapehtml'),
+                'backend_type' => 'varchar',
+                'default_value' => 'text'
             ),
             'textarea' => array(
-                'label'             => __('Text Area'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'min_text_length',
-                    'max_text_length',
-                ),
-                'validate_filters'  => array(),
-                'filter_types'      => array(
-                    'striptags',
-                    'escapehtml'
-                ),
-                'backend_type'      => 'text',
-                'default_value'     => 'textarea',
+                'label' => __('Text Area'),
+                'manage_options' => false,
+                'validate_types' => array('min_text_length', 'max_text_length'),
+                'validate_filters' => array(),
+                'filter_types' => array('striptags', 'escapehtml'),
+                'backend_type' => 'text',
+                'default_value' => 'textarea'
             ),
             'select' => array(
-                'label'             => __('Dropdown'),
-                'manage_options'    => true,
-                'option_default'    => 'radio',
-                'validate_types'    => array(),
-                'validate_filters'  => array(),
-                'filter_types'      => array(),
-                'source_model'      => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
-                'backend_type'      => 'int',
-                'default_value'     => false,
+                'label' => __('Dropdown'),
+                'manage_options' => true,
+                'option_default' => 'radio',
+                'validate_types' => array(),
+                'validate_filters' => array(),
+                'filter_types' => array(),
+                'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
+                'backend_type' => 'int',
+                'default_value' => false
             ),
             'image' => array(
-                'label'             => __('Image File'),
-                'manage_options'    => false,
-                'validate_types'    => array(
-                    'max_file_size',
-                    'max_image_width',
-                    'max_image_heght',
-                ),
-                'validate_filters'  => array(),
-                'filter_types'      => array(),
-                'backend_type'      => 'varchar',
-                'default_value'     => false,
-            ),
+                'label' => __('Image File'),
+                'manage_options' => false,
+                'validate_types' => array('max_file_size', 'max_image_width', 'max_image_heght'),
+                'validate_filters' => array(),
+                'filter_types' => array(),
+                'backend_type' => 'varchar',
+                'default_value' => false
+            )
         );
 
         if (is_null($inputType)) {
@@ -162,7 +140,7 @@ class Eav extends \Magento\Eav\Helper\Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -184,7 +162,7 @@ class Eav extends \Magento\Eav\Helper\Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -203,7 +181,7 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|\Magento\Core\Model\Store $storeId
+     * @param null|int|\Magento\Store\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -211,22 +189,24 @@ class Eav extends \Magento\Eav\Helper\Data
     {
         if (is_null($storeId)) {
             $storeId = $this->_storeManager->getStore()->getId();
-        } elseif ($storeId instanceof \Magento\Core\Model\Store) {
+        } elseif ($storeId instanceof \Magento\Store\Model\Store) {
             $storeId = $storeId->getId();
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
             $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
-            $optionCollection->getSelect()
-                ->join(
-                    array('ea' => $this->_resource->getTableName('eav_attribute')),
-                    'main_table.attribute_id = ea.attribute_id',
-                    array('attribute_code' => 'ea.attribute_code'))
-                ->join(
-                    array('eat' => $this->_resource->getTableName('eav_entity_type')),
-                    'ea.entity_type_id = eat.entity_type_id',
-                    array(''))
-                ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());
+            $optionCollection->getSelect()->join(
+                array('ea' => $this->_resource->getTableName('eav_attribute')),
+                'main_table.attribute_id = ea.attribute_id',
+                array('attribute_code' => 'ea.attribute_code')
+            )->join(
+                array('eat' => $this->_resource->getTableName('eav_entity_type')),
+                'ea.entity_type_id = eat.entity_type_id',
+                array('')
+            )->where(
+                'eat.entity_type_code = ?',
+                $this->_getEntityTypeCode()
+            );
             $value = array();
             foreach ($optionCollection as $option) {
                 $value[$option->getAttributeCode()][$option->getOptionId()] = $option->getData();

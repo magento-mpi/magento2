@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper\Product;
 
 /**
@@ -15,8 +14,8 @@ namespace Magento\Catalog\Helper\Product;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Configuration extends \Magento\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends \Magento\Framework\App\Helper\AbstractHelper implements
+    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Filter manager
@@ -24,7 +23,6 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\Filter\FilterManager
      */
     protected $filter;
-
 
     /**
      * Product option factory
@@ -41,13 +39,13 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     protected $string;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Stdlib\String $string
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Filter\FilterManager $filter,
         \Magento\Stdlib\String $string
@@ -75,10 +73,15 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
                 $option = $product->getOptionById($optionId);
                 if ($option) {
                     $itemOption = $item->getOptionByCode('option_' . $option->getId());
-                    $group = $option->groupFactory($option->getType())
-                        ->setOption($option)
-                        ->setConfigurationItem($item)
-                        ->setConfigurationItemOption($itemOption);
+                    $group = $option->groupFactory(
+                        $option->getType()
+                    )->setOption(
+                        $option
+                    )->setConfigurationItem(
+                        $item
+                    )->setConfigurationItemOption(
+                        $itemOption
+                    );
 
                     if ('file' == $option->getType()) {
                         $downloadParams = $item->getFileDownloadParams();
@@ -203,7 +206,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
 
         $result = array('value' => $truncatedValue);
 
-        if ($maxLength && ($this->string->strlen($optionValue) > $maxLength)) {
+        if ($maxLength && $this->string->strlen($optionValue) > $maxLength) {
             $result['value'] = $result['value'] . $cutReplacer;
             $optionValue = nl2br($optionValue);
             $result['full_view'] = $optionValue;

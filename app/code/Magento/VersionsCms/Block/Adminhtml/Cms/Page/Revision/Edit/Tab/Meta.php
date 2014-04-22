@@ -16,8 +16,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Meta
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
+class Meta extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
 {
     /**
      * Cms data
@@ -28,15 +27,15 @@ class Meta
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {

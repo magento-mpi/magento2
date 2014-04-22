@@ -1,5 +1,4 @@
 <?php
-
 /**
  * {license_notice}
  *
@@ -26,7 +25,7 @@ class Config
     const SERVICE_CLASS_PATTERN = '/^(.+?)\\\\(.+?)\\\\Service\\\\(V\d+)+(\\\\.+)Interface$/';
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -51,10 +50,8 @@ class Config
      * @param Type $configCacheType
      * @param Reader $configReader
      */
-    public function __construct(
-        Type $configCacheType,
-        Reader $configReader
-    ) {
+    public function __construct(Type $configCacheType, Reader $configReader)
+    {
         $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
     }

@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml;
 
 class Banner extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
     /**
      * Initialize banners manage page
      *

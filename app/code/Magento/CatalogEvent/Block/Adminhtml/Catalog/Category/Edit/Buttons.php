@@ -19,7 +19,8 @@ use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
+use Magento\Catalog\Model\CategoryFactory;
 
 class Buttons extends AbstractCategory
 {
@@ -44,6 +45,7 @@ class Buttons extends AbstractCategory
      * @param Context $context
      * @param Tree $categoryTree
      * @param Registry $registry
+     * @param CategoryFactory $categoryFactory
      * @param CollectionFactory $eventCollectionFactory
      * @param Data $catalogeventHelper
      * @param BackendHelperData $backendHelper
@@ -53,6 +55,7 @@ class Buttons extends AbstractCategory
         Context $context,
         Tree $categoryTree,
         Registry $registry,
+        CategoryFactory $categoryFactory,
         CollectionFactory $eventCollectionFactory,
         Data $catalogeventHelper,
         BackendHelperData $backendHelper,
@@ -60,7 +63,7 @@ class Buttons extends AbstractCategory
     ) {
         $this->_backendHelper = $backendHelper;
         $this->_catalogeventHelper = $catalogeventHelper;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
 
         $this->_eventCollectionFactory = $eventCollectionFactory;
     }
@@ -74,8 +77,10 @@ class Buttons extends AbstractCategory
     {
         if (!$this->hasData('event')) {
             /** @var Collection $collection */
-            $collection = $this->_eventCollectionFactory->create()
-                ->addFieldToFilter('category_id', $this->getCategoryId());
+            $collection = $this->_eventCollectionFactory->create()->addFieldToFilter(
+                'category_id',
+                $this->getCategoryId()
+            );
 
             $event = $collection->getFirstItem();
             $this->setData('event', $event);
@@ -91,31 +96,40 @@ class Buttons extends AbstractCategory
      */
     public function addButtons()
     {
-        if ($this->_catalogeventHelper->isEnabled()
-            && $this->_authorization->isAllowed('Magento_CatalogEvent::events')
-            && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
+        if ($this->_catalogeventHelper->isEnabled() && $this->_authorization->isAllowed(
+            'Magento_CatalogEvent::events'
+        ) && $this->getCategoryId() && $this->getCategory()->getLevel() > 1
+        ) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->_backendHelper->getUrl('adminhtml/catalog_event/edit', array(
-                            'id' => $this->getEvent()->getId(),
-                            'category' => 1
-                ));
-                $this->getParentBlock()->getChildBlock('form')
-                    ->addAdditionalButton('edit_event', array(
+                $url = $this->_backendHelper->getUrl(
+                    'adminhtml/catalog_event/edit',
+                    array('id' => $this->getEvent()->getId(), 'category' => 1)
+                );
+                $this->getParentBlock()->getChildBlock(
+                    'form'
+                )->addAdditionalButton(
+                    'edit_event',
+                    array(
                         'label' => __('Edit Event...'),
                         'class' => 'save',
-                        'onclick'   => 'setLocation(\''. $url .'\')'
-                    ));
+                        'onclick' => 'setLocation(\'' . $url . '\')'
+                    )
+                );
             } else {
-                $url = $this->_backendHelper->getUrl('adminhtml/catalog_event/new', array(
-                        'category_id' => $this->getCategoryId(),
-                        'category' => 1
-                ));
-                $this->getParentBlock()->getChildBlock('form')
-                    ->addAdditionalButton('add_event', array(
+                $url = $this->_backendHelper->getUrl(
+                    'adminhtml/catalog_event/new',
+                    array('category_id' => $this->getCategoryId(), 'category' => 1)
+                );
+                $this->getParentBlock()->getChildBlock(
+                    'form'
+                )->addAdditionalButton(
+                    'add_event',
+                    array(
                         'label' => __('Add Event...'),
                         'class' => 'add',
-                        'onclick' => 'setLocation(\''. $url .'\')'
-                    ));
+                        'onclick' => 'setLocation(\'' . $url . '\')'
+                    )
+                );
             }
         }
         return $this;

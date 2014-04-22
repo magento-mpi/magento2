@@ -12,8 +12,8 @@ namespace Magento\Backend\Block\Urlrewrite\Edit;
 /**
  * URL rewrites edit form
  *
- * @method \Magento\Core\Model\Url\Rewrite getUrlRewrite()
- * @method \Magento\Backend\Block\Urlrewrite\Edit\Form setUrlRewrite(\Magento\Core\Model\Url\Rewrite $model)
+ * @method \Magento\UrlRewrite\Model\UrlRewrite getUrlRewrite()
+ * @method \Magento\Backend\Block\Urlrewrite\Edit\Form setUrlRewrite(\Magento\UrlRewrite\Model\UrlRewrite $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -52,33 +52,33 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlData = null;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\Url\RewriteFactory
+     * @var \Magento\UrlRewrite\Model\UrlRewriteFactory
      */
     protected $_rewriteFactory;
 
     /**
-     * @var \Magento\Core\Model\Source\Urlrewrite\OptionsFactory
+     * @var \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory
      */
     protected $_optionFactory;
 
     /**
-     * @var \Magento\Core\Model\Source\Urlrewrite\TypesFactory
+     * @var \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory
      */
     protected $_typesFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      *
@@ -86,12 +86,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
-        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory,
+        \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()
     ) {
@@ -125,12 +125,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $model = $this->_getModel();
         $this->_formValues = array(
-            'store_id'     => $model->getStoreId(),
-            'id_path'      => $model->getIdPath(),
+            'store_id' => $model->getStoreId(),
+            'id_path' => $model->getIdPath(),
             'request_path' => $model->getRequestPath(),
-            'target_path'  => $model->getTargetPath(),
-            'options'      => $model->getOptions(),
-            'description'  => $model->getDescription(),
+            'target_path' => $model->getTargetPath(),
+            'options' => $model->getOptions(),
+            'description' => $model->getDescription()
         );
 
         $sessionData = $this->_getSessionData();
@@ -149,82 +149,101 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Prepare the form layout
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {
         $this->_initFormValues();
 
         // Prepare form
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'            => 'edit_form',
-                'use_container' => true,
-                'method'        => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'use_container' => true, 'method' => 'post'))
         );
 
-        $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => __('URL Rewrite Information')
-        ));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('URL Rewrite Information')));
 
-        /** @var $typesModel \Magento\Core\Model\Source\Urlrewrite\Types */
+        /** @var $typesModel \Magento\UrlRewrite\Model\UrlRewrite\TypeProvider */
         $typesModel = $this->_typesFactory->create();
-        $fieldset->addField('is_system', 'select', array(
-            'label'    => __('Type'),
-            'title'    => __('Type'),
-            'name'     => 'is_system',
-            'required' => true,
-            'options'  => $typesModel->getAllOptions(),
-            'disabled' => true,
-            'value'    => $this->_getModel()->getIsSystem()
-        ));
+        $fieldset->addField(
+            'is_system',
+            'select',
+            array(
+                'label' => __('Type'),
+                'title' => __('Type'),
+                'name' => 'is_system',
+                'required' => true,
+                'options' => $typesModel->getAllOptions(),
+                'disabled' => true,
+                'value' => $this->_getModel()->getIsSystem()
+            )
+        );
 
-        $fieldset->addField('id_path', 'text', array(
-            'label'    => __('ID Path'),
-            'title'    => __('ID Path'),
-            'name'     => 'id_path',
-            'required' => true,
-            'disabled' => false,
-            'value'    => $this->_formValues['id_path']
-        ));
+        $fieldset->addField(
+            'id_path',
+            'text',
+            array(
+                'label' => __('ID Path'),
+                'title' => __('ID Path'),
+                'name' => 'id_path',
+                'required' => true,
+                'disabled' => false,
+                'value' => $this->_formValues['id_path']
+            )
+        );
 
-        $fieldset->addField('request_path', 'text', array(
-            'label'    => __('Request Path'),
-            'title'    => __('Request Path'),
-            'name'     => 'request_path',
-            'required' => true,
-            'value'    => $this->_formValues['request_path']
-        ));
+        $fieldset->addField(
+            'request_path',
+            'text',
+            array(
+                'label' => __('Request Path'),
+                'title' => __('Request Path'),
+                'name' => 'request_path',
+                'required' => true,
+                'value' => $this->_formValues['request_path']
+            )
+        );
 
-        $fieldset->addField('target_path', 'text', array(
-            'label'    => __('Target Path'),
-            'title'    => __('Target Path'),
-            'name'     => 'target_path',
-            'required' => true,
-            'disabled' => false,
-            'value'    => $this->_formValues['target_path'],
-        ));
+        $fieldset->addField(
+            'target_path',
+            'text',
+            array(
+                'label' => __('Target Path'),
+                'title' => __('Target Path'),
+                'name' => 'target_path',
+                'required' => true,
+                'disabled' => false,
+                'value' => $this->_formValues['target_path']
+            )
+        );
 
-        /** @var $optionsModel \Magento\Core\Model\Source\Urlrewrite\Options */
+        /** @var $optionsModel \Magento\UrlRewrite\Model\UrlRewrite\OptionProvider */
         $optionsModel = $this->_optionFactory->create();
-        $fieldset->addField('options', 'select', array(
-            'label'   => __('Redirect'),
-            'title'   => __('Redirect'),
-            'name'    => 'options',
-            'options' => $optionsModel->getAllOptions(),
-            'value'   => $this->_formValues['options']
-        ));
+        $fieldset->addField(
+            'options',
+            'select',
+            array(
+                'label' => __('Redirect'),
+                'title' => __('Redirect'),
+                'name' => 'options',
+                'options' => $optionsModel->getAllOptions(),
+                'value' => $this->_formValues['options']
+            )
+        );
 
-        $fieldset->addField('description', 'textarea', array(
-            'label' => __('Description'),
-            'title' => __('Description'),
-            'name'  => 'description',
-            'cols'  => 20,
-            'rows'  => 5,
-            'value' => $this->_formValues['description'],
-            'wrap'  => 'soft'
-        ));
+        $fieldset->addField(
+            'description',
+            'textarea',
+            array(
+                'label' => __('Description'),
+                'title' => __('Description'),
+                'name' => 'description',
+                'cols' => 20,
+                'rows' => 5,
+                'value' => $this->_formValues['description'],
+                'wrap' => 'soft'
+            )
+        );
 
         $this->_prepareStoreElement($fieldset);
 
@@ -237,31 +256,39 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare store element
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @return void
      */
     protected function _prepareStoreElement($fieldset)
     {
         // get store switcher or a hidden field with it's id
         if ($this->_storeManager->isSingleStoreMode()) {
-            $fieldset->addField('store_id', 'hidden', array(
-                'name'  => 'store_id',
-                'value' => $this->_storeManager->getStore(true)->getId()
-            ), 'id_path');
+            $fieldset->addField(
+                'store_id',
+                'hidden',
+                array('name' => 'store_id', 'value' => $this->_storeManager->getStore(true)->getId()),
+                'id_path'
+            );
         } else {
             /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
-            $renderer = $this->getLayout()
-                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $renderer = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
+            );
 
-            $storeElement = $fieldset->addField('store_id', 'select', array(
-                'label'    => __('Store'),
-                'title'    => __('Store'),
-                'name'     => 'store_id',
-                'required' => true,
-                'values'   => $this->_getRestrictedStoresList(),
-                'disabled' => $this->_getModel()->getIsSystem(),
-                'value'    => $this->_formValues['store_id'],
-            ), 'id_path');
+            $storeElement = $fieldset->addField(
+                'store_id',
+                'select',
+                array(
+                    'label' => __('Store'),
+                    'title' => __('Store'),
+                    'name' => 'store_id',
+                    'required' => true,
+                    'values' => $this->_getRestrictedStoresList(),
+                    'disabled' => $this->_getModel()->getIsSystem(),
+                    'value' => $this->_formValues['store_id']
+                ),
+                'id_path'
+            );
             $storeElement->setRenderer($renderer);
         }
     }
@@ -269,14 +296,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Form post init
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @return $this
      */
     protected function _formPostInit($form)
     {
-        $form->setAction($this->_adminhtmlData->getUrl('adminhtml/*/save', array(
-            'id' => $this->_getModel()->getId()
-        )));
+        $form->setAction(
+            $this->_adminhtmlData->getUrl('adminhtml/*/save', array('id' => $this->_getModel()->getId()))
+        );
         return $this;
     }
 
@@ -296,7 +323,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Get URL rewrite model instance
      *
-     * @return \Magento\Core\Model\Url\Rewrite
+     * @return \Magento\UrlRewrite\Model\UrlRewrite
      */
     protected function _getModel()
     {

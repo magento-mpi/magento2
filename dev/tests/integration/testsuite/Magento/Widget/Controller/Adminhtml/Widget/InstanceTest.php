@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Controller\Adminhtml\Widget;
 
 /**
@@ -20,14 +19,14 @@ class InstanceTest extends \Magento\Backend\Utility\Controller
     {
         parent::setUp();
 
-        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface')
-            ->setDefaultDesignTheme()
-            ->getDesignTheme();
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\DesignInterface'
+        )->setDefaultDesignTheme()->getDesignTheme();
         $type = 'Magento\Cms\Block\Widget\Page\Link';
         /** @var $model \Magento\Widget\Model\Widget\Instance */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Widget\Model\Widget\Instance');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Widget\Model\Widget\Instance'
+        );
         $code = $model->setType($type)->getWidgetReference('type', $type, 'code');
         $this->getRequest()->setParam('code', $code);
         $this->getRequest()->setParam('theme_id', $theme->getId());
@@ -36,10 +35,7 @@ class InstanceTest extends \Magento\Backend\Utility\Controller
     public function testEditAction()
     {
         $this->dispatch('backend/admin/widget_instance/edit');
-        $this->assertContains(
-            '<option value="cms_page_link" selected="selected">',
-            $this->getResponse()->getBody()
-        );
+        $this->assertContains('<option value="cms_page_link" selected="selected">', $this->getResponse()->getBody());
     }
 
     public function testBlocksAction()

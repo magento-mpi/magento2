@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Form;
 
 /**
  * Customer register form block
  */
-namespace Magento\Customer\Block\Form;
-
 class Register extends \Magento\Directory\Block\Data
 {
     /**
@@ -31,10 +28,10 @@ class Register extends \Magento\Directory\Block\Data
     protected $_customerHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Module\Manager $moduleManager
@@ -45,10 +42,10 @@ class Register extends \Magento\Directory\Block\Data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Module\Manager $moduleManager,
@@ -75,13 +72,16 @@ class Register extends \Magento\Directory\Block\Data
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Create New Customer Account'));
@@ -115,7 +115,7 @@ class Register extends \Magento\Directory\Block\Data
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object
+     * @return mixed
      */
     public function getFormData()
     {
@@ -165,9 +165,9 @@ class Register extends \Magento\Directory\Block\Data
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {
@@ -179,14 +179,14 @@ class Register extends \Magento\Directory\Block\Data
      * Entity and form code must be defined for the form
      *
      * @param \Magento\Customer\Model\Metadata\Form $form
-     * @param null $scope
-     * @return \Magento\Customer\Block\Form\Register
+     * @param string|null $scope
+     * @return $this
      */
     public function restoreSessionData(\Magento\Customer\Model\Metadata\Form $form, $scope = null)
     {
         if ($this->getFormData()->getCustomerData()) {
             $request = $form->prepareRequest($this->getFormData()->getData());
-            $data    = $form->extractData($request, $scope, false);
+            $data = $form->extractData($request, $scope, false);
             $form->restoreData($data);
         }
 

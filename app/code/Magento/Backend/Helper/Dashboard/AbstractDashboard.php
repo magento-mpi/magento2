@@ -10,7 +10,6 @@
 namespace Magento\Backend\Helper\Dashboard;
 
 use Magento\Core\Helper\Data as HelperData;
-use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Adminhtml abstract  dashboard helper.
@@ -20,19 +19,19 @@ abstract class AbstractDashboard extends HelperData
     /**
      * Helper collection
      *
-     * @var AbstractCollection|array
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection|array
      */
-    protected  $_collection;
+    protected $_collection;
 
     /**
      * Parameters for helper
      *
      * @var array
      */
-    protected  $_params = array();
+    protected $_params = array();
 
     /**
-     * @return array|AbstractCollection
+     * @return array|\Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()
     {
@@ -45,7 +44,7 @@ abstract class AbstractDashboard extends HelperData
     /**
      * @return void
      */
-    abstract protected  function _initCollection();
+    abstract protected function _initCollection();
 
     /**
      * Returns collection items

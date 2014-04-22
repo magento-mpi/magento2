@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Url;
 
 class QueryParamsResolver extends \Magento\Object implements QueryParamsResolverInterface
@@ -32,14 +31,12 @@ class QueryParamsResolver extends \Magento\Object implements QueryParamsResolver
      */
     public function setQuery($data)
     {
-        if ($this->_getData('query') == $data) {
-            return $this;
+        if ($this->_getData('query') != $data) {
+            $this->unsetData('query_params');
+            $this->setData('query', $data);
         }
-        $this->unsetData('query_params');
-        $this->setData('query', $data);
         return $this;
     }
-
 
     /**
      * {@inheritdoc}
@@ -77,16 +74,15 @@ class QueryParamsResolver extends \Magento\Object implements QueryParamsResolver
     /**
      * {@inheritdoc}
      */
-    public function purgeQueryParams()
+    public function setQueryParams(array $data)
     {
-        $this->setData('query_params', array());
-        return $this;
+        return $this->setData('query_params', $data);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setQueryParams(array $data)
+    public function addQueryParams(array $data)
     {
         $this->unsetData('query');
 

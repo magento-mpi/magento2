@@ -22,7 +22,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_connectData;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -31,7 +31,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Connect\Helper\Data $connectData
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -45,11 +45,11 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-    * Retrieve parameters of extension from session.
-    * Compatible with old version extension info file.
-    *
-    * @return array
-    */
+     * Retrieve parameters of extension from session.
+     * Compatible with old version extension info file.
+     *
+     * @return array
+     */
     public function getCustomExtensionPackageFormData()
     {
         $data = $this->getData('custom_extension_package_form_data');
@@ -60,9 +60,9 @@ class Session extends \Magento\Session\SessionManager
                 $data['authors']['user'] = array();
                 $data['authors']['email'] = array();
                 foreach ($data['maintainers']['name'] as $i => $name) {
-                    if (!$data['maintainers']['name'][$i]
-                        && !$data['maintainers']['handle'][$i]
-                        && !$data['maintainers']['email'][$i]
+                    if (!$data['maintainers']['name'][$i] &&
+                        !$data['maintainers']['handle'][$i] &&
+                        !$data['maintainers']['email'][$i]
                     ) {
                         continue;
                     }
@@ -104,5 +104,4 @@ class Session extends \Magento\Session\SessionManager
         }
         return $data;
     }
-
 }

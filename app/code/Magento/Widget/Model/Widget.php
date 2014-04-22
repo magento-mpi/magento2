@@ -25,7 +25,7 @@ class Widget
     protected $_dataStorage;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -40,7 +40,7 @@ class Widget
     protected $_assetSource;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -61,14 +61,14 @@ class Widget
      * @param \Magento\Widget\Model\Config\Data $dataStorage
      * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\View\Asset\Source $assetSource
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
         \Magento\View\Asset\Repository $assetRepo,
         \Magento\View\Asset\Source $assetSource,
-        \Magento\View\FileSystem $viewFileSystem
+        \Magento\Framework\View\FileSystem $viewFileSystem
     ) {
         $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
@@ -216,10 +216,10 @@ class Widget
             $result = array();
             foreach ($this->getWidgets($filters) as $code => $widget) {
                 $result[$widget['name']] = array(
-                    'name'          => __((string)$widget['name']),
-                    'code'          => $code,
-                    'type'          => $widget['@']['type'],
-                    'description'   => __((string)$widget['description'])
+                    'name' => __((string)$widget['name']),
+                    'code' => $code,
+                    'type' => $widget['@']['type'],
+                    'description' => __((string)$widget['description'])
                 );
             }
             usort($result, array($this, "_sortWidgets"));
@@ -261,7 +261,8 @@ class Widget
             return $directive;
         }
 
-        $html = sprintf('<img id="%s" src="%s" title="%s">',
+        $html = sprintf(
+            '<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
             $this->_escaper->escapeUrl($directive)
@@ -335,7 +336,6 @@ class Widget
             $inputArray[$key] = $this->_getAsCanonicalArray($value);
         }
         return $inputArray;
-
     }
 
     /**

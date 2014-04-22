@@ -19,22 +19,22 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Helper\Data $eavHelper
      * @param \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Helper\Data $eavHelper,
         \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_onlineFactory = $onlineFactory;
         parent::__construct(
@@ -42,7 +42,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
             $logger,
             $fetchStrategy,
             $eventManager,
-            $customerFactory,
+            $eavHelper,
             $connection,
             $resource
         );
@@ -58,5 +58,4 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
         $this->addCustomerData();
         return $this;
     }
-
 }

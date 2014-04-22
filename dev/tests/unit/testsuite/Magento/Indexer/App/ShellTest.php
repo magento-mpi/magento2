@@ -26,9 +26,14 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->shellFactoryMock = $this->getMock('Magento\Indexer\Model\ShellFactory',
-            array('create'), array(), '', false);
-        $this->responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
+        $this->shellFactoryMock = $this->getMock(
+            'Magento\Indexer\Model\ShellFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
         $this->entryPoint = new \Magento\Indexer\App\Shell(
             'indexer.php',
             $this->shellFactoryMock,
@@ -43,15 +48,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequest($shellHasErrors)
     {
         $shell = $this->getMock('Magento\Indexer\Model\Shell', array(), array(), '', false);
-        $shell->expects($this->once())
-            ->method('hasErrors')
-            ->will($this->returnValue($shellHasErrors));
-        $shell->expects($this->once())
-            ->method('run');
-        $this->shellFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($shell)
-            );
+        $shell->expects($this->once())->method('hasErrors')->will($this->returnValue($shellHasErrors));
+        $shell->expects($this->once())->method('run');
+        $this->shellFactoryMock->expects($this->any())->method('create')->will($this->returnValue($shell));
 
         $this->entryPoint->launch();
     }
@@ -61,9 +60,6 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function processRequestDataProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return array(array(true), array(false));
     }
 }

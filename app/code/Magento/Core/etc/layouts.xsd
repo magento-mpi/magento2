@@ -11,7 +11,7 @@
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:redefine schemaLocation="../../../../../lib/internal/Magento/Data/etc/argument/types.xsd">
+    <xs:redefine schemaLocation="../../../../../lib/internal/Magento/Framework/Data/etc/argument/types.xsd">
         <xs:complexType name="argumentType" abstract="true" mixed="true">
             <xs:complexContent>
                 <xs:extension base="argumentType">
@@ -241,7 +241,8 @@
         <xs:attribute type="xs:string" name="acl" use="optional"/>
         <xs:attribute type="xs:string" name="ifconfig" use="optional"/>
         <xs:attribute type="xs:string" name="group" use="optional" />
-        <xs:attribute name="cacheable" type="xs:boolean" default="true" use="optional"/>
+        <xs:attribute type="xs:boolean" name="cacheable" default="true" use="optional"/>
+        <xs:attribute type="xs:int" name="ttl" use="optional"/>
     </xs:complexType>
 
     <xs:complexType name="actionType">

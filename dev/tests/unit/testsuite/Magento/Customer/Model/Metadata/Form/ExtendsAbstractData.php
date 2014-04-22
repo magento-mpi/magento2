@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 /**
@@ -18,7 +17,7 @@ class ExtendsAbstractData extends AbstractData
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
     }
 
@@ -51,7 +50,7 @@ class ExtendsAbstractData extends AbstractData
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
      */
     public function setAttribute($attribute)
     {
@@ -111,10 +110,10 @@ class ExtendsAbstractData extends AbstractData
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
-    public function getRequestValue(\Magento\App\RequestInterface $request)
+    public function getRequestValue(\Magento\Framework\App\RequestInterface $request)
     {
         return $this->_getRequestValue($request);
     }

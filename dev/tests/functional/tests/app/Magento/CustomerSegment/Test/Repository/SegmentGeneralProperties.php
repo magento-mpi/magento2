@@ -24,12 +24,12 @@ class SegmentGeneralProperties extends AbstractRepository
     /**
      *  Conditions Tab html Id
      */
-    const GENERAL_TAB_ID = 'magento_customersegment_segment_tabs_general_section';
+    const GENERAL_TAB_ID = 'general_properties';
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,

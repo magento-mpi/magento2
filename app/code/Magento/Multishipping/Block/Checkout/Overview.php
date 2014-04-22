@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Block\Checkout;
+
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Multishipping checkout overview information
@@ -15,8 +18,6 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Overview extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
@@ -35,13 +36,13 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     protected $_taxHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
@@ -54,14 +55,14 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * Initialize default item renderer
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(
-                __('Review Order - %1', $headBlock->getDefaultTitle())
-            );
+            $headBlock->setTitle(__('Review Order - %1', $headBlock->getDefaultTitle()));
         }
         return parent::_prepareLayout();
     }
@@ -77,7 +78,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
@@ -128,7 +129,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return bool
      */
     public function getShippingAddressRate($address)
@@ -141,7 +142,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return mixed
      */
     public function getShippingPriceInclTax($address)
@@ -152,7 +153,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return mixed
      */
     public function getShippingPriceExclTax($address)
@@ -161,7 +162,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param $price
+     * @param float $price
      * @return mixed
      */
     public function formatPrice($price)
@@ -170,7 +171,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return mixed
      */
     public function getShippingAddressItems($address)
@@ -179,18 +180,17 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return mixed
      */
     public function getShippingAddressTotals($address)
     {
         $totals = $address->getTotals();
         foreach ($totals as $total) {
-            if ($total->getCode()=='grand_total') {
-                if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_BILLING) {
+            if ($total->getCode() == 'grand_total') {
+                if ($address->getAddressType() == Address::TYPE_BILLING) {
                     $total->setTitle(__('Total'));
-                }
-                else {
+                } else {
                     $total->setTitle(__('Total for this address'));
                 }
             }
@@ -215,21 +215,21 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return string
      */
     public function getEditShippingAddressUrl($address)
     {
-        return $this->getUrl('*/checkout_address/editShipping', array('id'=>$address->getCustomerAddressId()));
+        return $this->getUrl('*/checkout_address/editShipping', array('id' => $address->getCustomerAddressId()));
     }
 
     /**
-     * @param $address
+     * @param Address $address
      * @return string
      */
     public function getEditBillingAddressUrl($address)
     {
-        return $this->getUrl('*/checkout_address/editBilling', array('id'=>$address->getCustomerAddressId()));
+        return $this->getUrl('*/checkout_address/editBilling', array('id' => $address->getCustomerAddressId()));
     }
 
     /**
@@ -313,7 +313,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param $totals
+     * @param mixed $totals
      * @param null $colspan
      * @return string
      */
@@ -322,8 +322,21 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         if ($colspan === null) {
             $colspan = $this->_taxHelper->displayCartBothPrices() ? 5 : 3;
         }
-        $totals = $this->getChildBlock('totals')->setTotals($totals)->renderTotals('', $colspan)
-            . $this->getChildBlock('totals')->setTotals($totals)->renderTotals('footer', $colspan);
+        $totals = $this->getChildBlock(
+            'totals'
+        )->setTotals(
+            $totals
+        )->renderTotals(
+            '',
+            $colspan
+        ) . $this->getChildBlock(
+            'totals'
+        )->setTotals(
+            $totals
+        )->renderTotals(
+            'footer',
+            $colspan
+        );
         return $totals;
     }
 
@@ -345,7 +358,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _getRowItemRenderer($type)
     {

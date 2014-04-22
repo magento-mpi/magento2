@@ -10,6 +10,7 @@
 namespace Magento\Newsletter\Model\Resource\Subscriber;
 
 use Magento\Newsletter\Model\Queue as ModelQueue;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
 /**
  * Newsletter subscribers collection
@@ -18,9 +19,8 @@ use Magento\Newsletter\Model\Queue as ModelQueue;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
-
     /**
      * Queue link table name
      *
@@ -40,49 +40,48 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @var boolean
      */
-    protected $_queueJoinedFlag    = false;
+    protected $_queueJoinedFlag = false;
 
     /**
      * Flag that indicates apply of customers info on load
      *
      * @var boolean
      */
-    protected $_showCustomersInfo  = false;
+    protected $_showCustomersInfo = false;
 
     /**
      * Filter for count
      *
      * @var array
      */
-    protected $_countFilterPart    = array();
+    protected $_countFilterPart = array();
 
     /**
-     * Customer factory
+     * Customer Eav data
      *
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var   \Magento\Eav\Helper\Data
      */
-    protected $_customerFactory;
+    protected $_customerHelperData;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Helper\Data $customerHelperData
      * @param null|\Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Helper\Data $customerHelperData,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        // _customerFactory is used in parent class constructor
-        $this->_customerFactory = $customerFactory;
+        $this->_customerHelperData = $customerHelperData;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
@@ -97,14 +96,17 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         parent::_construct();
         $this->_init('Magento\Newsletter\Model\Subscriber', 'Magento\Newsletter\Model\Resource\Subscriber');
         $this->_queueLinkTable = $this->getTable('newsletter_queue_link');
-        $this->_storeTable = $this->getTable('core_store');
+        $this->_storeTable = $this->getTable('store');
 
 
         // defining mapping for fields represented in several tables
         $this->_map['fields']['customer_lastname'] = 'customer_lastname_table.value';
         $this->_map['fields']['customer_firstname'] = 'customer_firstname_table.value';
-        $this->_map['fields']['type'] = $this->getResource()->getReadConnection()
-            ->getCheckSql('main_table.customer_id = 0', 1, 2);
+        $this->_map['fields']['type'] = $this->getResource()->getReadConnection()->getCheckSql(
+            'main_table.customer_id = 0',
+            1,
+            2
+        );
         $this->_map['fields']['website_id'] = 'store.website_id';
         $this->_map['fields']['group_id'] = 'store.group_id';
         $this->_map['fields']['store_id'] = 'main_table.store_id';
@@ -118,9 +120,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function useQueue(ModelQueue $queue)
     {
-        $this->getSelect()
-            ->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
-            ->where("link.queue_id = ? ", $queue->getId());
+        $this->getSelect()->join(
+            array('link' => $this->_queueLinkTable),
+            "link.subscriber_id = main_table.subscriber_id",
+            array()
+        )->where(
+            "link.queue_id = ? ",
+            $queue->getId()
+        );
         $this->_queueJoinedFlag = true;
         return $this;
     }
@@ -147,23 +154,34 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_customerFactory->create();
-        $firstname = $customer->getAttribute('firstname');
-        $lastname = $customer->getAttribute('lastname');
+
+        $lastNameData = $this->_customerHelperData->getAttributeMetadata(
+            CustomerMetadataService::ENTITY_TYPE_CUSTOMER,
+            'lastname'
+        );
+        $firstNameData = $this->_customerHelperData->getAttributeMetadata(
+            CustomerMetadataService::ENTITY_TYPE_CUSTOMER,
+            'firstname'
+        );
 
         $this->getSelect()
             ->joinLeft(
-                array('customer_lastname_table'=>$lastname->getBackend()->getTable()),
-                $adapter->quoteInto('customer_lastname_table.entity_id=main_table.customer_id
-                 AND customer_lastname_table.attribute_id = ?', (int)$lastname->getAttributeId()),
-                array('customer_lastname'=>'value')
+                array('customer_lastname_table' => $lastNameData['attribute_table']),
+                $adapter->quoteInto(
+                    'customer_lastname_table.entity_id=main_table.customer_id
+                                     AND customer_lastname_table.attribute_id = ?',
+                    (int)$lastNameData['attribute_id']
+                ),
+                array('customer_lastname' => 'value')
             )
             ->joinLeft(
-                array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
-                $adapter->quoteInto('customer_firstname_table.entity_id=main_table.customer_id
-                 AND customer_firstname_table.attribute_id = ?', (int)$firstname->getAttributeId()),
-                array('customer_firstname'=>'value')
+                array('customer_firstname_table' => $firstNameData['attribute_table']),
+                $adapter->quoteInto(
+                    'customer_firstname_table.entity_id=main_table.customer_id
+                                     AND customer_firstname_table.attribute_id = ?',
+                    (int)$firstNameData['attribute_id']
+                ),
+                array('customer_firstname' => 'value')
             );
 
         return $this;
@@ -176,8 +194,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addSubscriberTypeField()
     {
-        $this->getSelect()
-            ->columns(array('type'=>new \Zend_Db_Expr($this->_getMappedField('type'))));
+        $this->getSelect()->columns(array('type' => new \Zend_Db_Expr($this->_getMappedField('type'))));
         return $this;
     }
 
@@ -232,7 +249,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function useOnlySubscribed()
     {
-        $this->addFieldToFilter('main_table.subscriber_status', \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED);
+        $this->addFieldToFilter(
+            'main_table.subscriber_status',
+            \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED
+        );
 
         return $this;
     }
@@ -245,7 +265,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addStoreFilter($storeIds)
     {
-        $this->addFieldToFilter('main_table.store_id', array('in'=>$storeIds));
+        $this->addFieldToFilter('main_table.store_id', array('in' => $storeIds));
         return $this;
     }
 

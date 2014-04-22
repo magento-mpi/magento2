@@ -23,6 +23,13 @@ use Mtf\Client\Element\Locator;
 class Form extends BlockForm
 {
     /**
+     * Legend selector
+     *
+     * @var string
+     */
+    protected $legendSelector = 'legend';
+
+    /**
      * 'Submit' review button selector
      *
      * @var string
@@ -30,19 +37,20 @@ class Form extends BlockForm
     protected $submitButton = '.action.submit';
 
     /**
-     * {@inheritdoc}
-     */
-    protected $_mapping = array(
-        'nickname' => '#nickname_field',
-        'title' => '#summary_field',
-        'detail' => '#review_field',
-    );
-
-    /**
      * Submit review form
      */
     public function submit()
     {
         $this->_rootElement->find($this->submitButton, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Get legend
+     *
+     * @return Element
+     */
+    public function getLegend()
+    {
+        return $this->_rootElement->find($this->legendSelector);
     }
 }

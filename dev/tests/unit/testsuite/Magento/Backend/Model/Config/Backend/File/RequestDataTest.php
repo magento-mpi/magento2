@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend\File;
 
 class RequestDataTest extends \PHPUnit_Framework_TestCase
@@ -23,42 +22,18 @@ class RequestDataTest extends \PHPUnit_Framework_TestCase
         $_FILES = array(
             'groups' => array(
                 'name' => array(
-                    'group_1' => array(
-                        'fields' => array(
-                            'field_1' => array(
-                                'value' => 'file_name_1'
-                            )
-                        )
-                    ),
+                    'group_1' => array('fields' => array('field_1' => array('value' => 'file_name_1'))),
                     'group_2' => array(
                         'groups' => array(
-                            'group_2_1' => array(
-                                'fields' => array(
-                                    'field_2' => array(
-                                        'value' => 'file_name_2'
-                                    )
-                                )
-                            )
+                            'group_2_1' => array('fields' => array('field_2' => array('value' => 'file_name_2')))
                         )
                     )
                 ),
                 'tmp_name' => array(
-                    'group_1' => array(
-                        'fields' => array(
-                            'field_1' => array(
-                                'value' => 'file_tmp_name_1'
-                            )
-                        )
-                    ),
+                    'group_1' => array('fields' => array('field_1' => array('value' => 'file_tmp_name_1'))),
                     'group_2' => array(
                         'groups' => array(
-                            'group_2_1' => array(
-                                'fields' => array(
-                                    'field_2' => array(
-                                        'value' => 'file_tmp_name_2'
-                                    )
-                                )
-                            )
+                            'group_2_1' => array('fields' => array('field_2' => array('value' => 'file_tmp_name_2')))
                         )
                     )
                 )

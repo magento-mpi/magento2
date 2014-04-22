@@ -16,7 +16,7 @@ namespace Magento\ImportExport\Model\Source\Export;
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity implements \Magento\Core\Model\Option\ArrayInterface
+class Entity implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ImportExport\Model\Export\ConfigInterface
@@ -26,9 +26,8 @@ class Entity implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      */
-    public function __construct(
-        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
-    ) {
+    public function __construct(\Magento\ImportExport\Model\Export\ConfigInterface $exportConfig)
+    {
         $this->_exportConfig = $exportConfig;
     }
 
@@ -38,10 +37,7 @@ class Entity implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         $options = array();
-        $options[] = array(
-            'label' => __('-- Please Select --'),
-            'value' => ''
-        );
+        $options[] = array('label' => __('-- Please Select --'), 'value' => '');
         foreach ($this->_exportConfig->getEntities() as $entityName => $entityConfig) {
             $options[] = array('value' => $entityName, 'label' => __($entityConfig['label']));
         }

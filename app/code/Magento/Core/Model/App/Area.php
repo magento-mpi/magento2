@@ -13,15 +13,13 @@ namespace Magento\Core\Model\App;
 /**
  * Application area model
  */
-class Area
+class Area implements \Magento\Framework\App\AreaInterface
 {
-    const AREA_GLOBAL   = 'global';
-    const AREA_FRONTEND = 'frontend';
-    const AREA_ADMIN    = 'admin';
+    const AREA_GLOBAL = 'global';
 
-    const PART_CONFIG   = 'config';
-    const PART_TRANSLATE= 'translate';
-    const PART_DESIGN   = 'design';
+    const AREA_FRONTEND = 'frontend';
+    
+    const AREA_ADMIN    = 'admin';
 
     /**
      * Area parameter.
@@ -59,7 +57,7 @@ class Area
     /**
      * Application config
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -71,16 +69,16 @@ class Area
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\ObjectManager\ConfigLoader
+     * @var \Magento\Framework\App\ObjectManager\ConfigLoader
      */
     protected $_diConfigLoader;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Logger
@@ -95,35 +93,42 @@ class Area
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var Area\DesignExceptions
+     */
+    protected $_designExceptions;
 
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\TranslateInterface $translator
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param Area\DesignExceptions $designExceptions
      * @param string $areaCode
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\TranslateInterface $translator,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        Area\DesignExceptions $designExceptions,
         $areaCode
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_code = $areaCode;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
@@ -133,6 +138,7 @@ class Area
         $this->_logger = $logger;
         $this->_design = $design;
         $this->_storeManager = $storeManager;
+        $this->_designExceptions = $designExceptions;
     }
 
     /**
@@ -143,10 +149,8 @@ class Area
      */
     public function load($part = null)
     {
-        if (null === $part) {
-            $this->_loadPart(self::PART_CONFIG)
-                ->_loadPart(self::PART_DESIGN)
-                ->_loadPart(self::PART_TRANSLATE);
+        if (is_null($part)) {
+            $this->_loadPart(self::PART_CONFIG)->_loadPart(self::PART_DESIGN)->_loadPart(self::PART_TRANSLATE);
         } else {
             $this->_loadPart($part);
         }
@@ -156,17 +160,19 @@ class Area
     /**
      * Detect and apply design for the area
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return void
      */
     public function detectDesign($request = null)
     {
         if ($this->_code == self::AREA_FRONTEND) {
-            $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
+            $isDesignException = $request && $this->_applyUserAgentDesignException($request);
             if (!$isDesignException) {
-                $this->_design
-                    ->loadChange($this->_storeManager->getStore()->getId())
-                    ->changeDesign($this->_getDesign());
+                $this->_design->loadChange(
+                    $this->_storeManager->getStore()->getId()
+                )->changeDesign(
+                    $this->_getDesign()
+                );
             }
         }
     }
@@ -174,26 +180,16 @@ class Area
     /**
      * Analyze user-agent information to override custom design settings
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
     protected function _applyUserAgentDesignException($request)
     {
-        $userAgent = $request->getServer('HTTP_USER_AGENT');
-        if (empty($userAgent)) {
-            return false;
-        }
         try {
-            $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
-            if (!$expressions) {
-                return false;
-            }
-            $expressions = unserialize($expressions);
-            foreach ($expressions as $rule) {
-                if (preg_match($rule['regexp'], $userAgent)) {
-                    $this->_getDesign()->setDesignTheme($rule['value']);
-                    return true;
-                }
+            $theme = $this->_designExceptions->getThemeForUserAgent($request);
+            if (false !== $theme) {
+                $this->_getDesign()->setDesignTheme($theme);
+                return true;
             }
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -202,11 +198,11 @@ class Area
     }
 
     /**
-     * @return \Magento\View\DesignInterface
+     * @return \Magento\Framework\View\DesignInterface
      */
     protected function _getDesign()
     {
-        return $this->_objectManager->get('Magento\View\DesignInterface');
+        return $this->_objectManager->get('Magento\Framework\View\DesignInterface');
     }
 
     /**
@@ -258,18 +254,10 @@ class Area
      */
     protected function _initTranslate()
     {
-        $dispatchResult = new \Magento\Object(array(
-            'inline_type' => null,
-            'params' => array('area' => $this->_code)
-        ));
-        $eventManager = $this->_objectManager->get('Magento\Event\ManagerInterface');
-        $eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $this->_translator,
-            'result' => $dispatchResult
-        ));
-        $this->_translator->init(null, $dispatchResult, false);
+        $this->_translator->loadData(null, false);
 
         \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
+
         return $this;
     }
 

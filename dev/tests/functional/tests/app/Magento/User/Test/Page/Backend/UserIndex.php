@@ -44,7 +44,7 @@ class UserIndex extends Page
      *
      * @var string
      */
-    protected $adminPanelHeaderBlock = 'header-panel';
+    protected $adminPanelHeaderBlock = 'page-header';
 
     /**
      * Constructor

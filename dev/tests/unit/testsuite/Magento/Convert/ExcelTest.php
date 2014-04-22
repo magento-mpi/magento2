@@ -25,6 +25,16 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         array(1, 'Jon Doe', 'jon.doe@magento.com', 'General', '310-111-1111', 90232, 'United States', 'California')
     );
 
+    protected $_testHeader = array(
+        'HeaderID', 'HeaderName', 'HeaderEmail', 'HeaderGroup', 'HeaderPhone', 'HeaderZIP',
+        'HeaderCountry', 'HeaderRegion',
+    );
+
+    protected $_testFooter = array(
+        'FooterID', 'FooterName', 'FooterEmail', 'FooterGroup', 'FooterPhone', 'FooterZIP',
+        'FooterCountry', 'FooterRegion',
+    );
+
     /**
      * Path for Sample File
      *
@@ -45,7 +55,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     {
         $data = array();
         foreach ($row as $value) {
-            $data[] =  $value.'_TRUE_';
+            $data[] = $value . '_TRUE_';
         }
         return $data;
     }
@@ -59,6 +69,8 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     public function testConvert()
     {
         $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
+        $convert->setDataHeader($this->_testHeader);
+        $convert->setDataFooter($this->_testFooter);
         $isEqual = (file_get_contents($this->_getSampleOutputFile()) == $convert->convert());
         $this->assertTrue($isEqual, 'Failed asserting that data is the same.');
     }
@@ -86,13 +98,22 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         $name = md5(microtime());
         $file = TESTS_TEMP_DIR . '/' . $name . '.xml';
 
-        $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\File(), 'w+');
+        $stream = new \Magento\Framework\Filesystem\File\Write(
+            $file,
+            new \Magento\Framework\Filesystem\Driver\File(),
+            'w+'
+        );
         $stream->lock();
 
         if (!$callback) {
             $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
+            $convert->setDataHeader($this->_testHeader);
+            $convert->setDataFooter($this->_testFooter);
         } else {
-            $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+            $convert = new \Magento\Convert\Excel(
+                new \ArrayIterator($this->_testData),
+                array($this, 'callbackMethod')
+            );
         }
 
         $convert->write($stream);
@@ -111,7 +132,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     public function testWrite()
     {
         $file = $this->_writeFile();
-        $isEqual = (file_get_contents($file) == file_get_contents($this->_getSampleOutputFile()));
+        $isEqual = file_get_contents($file) == file_get_contents($this->_getSampleOutputFile());
         $this->assertTrue($isEqual, 'Failed asserting that data from files is the same.');
     }
 

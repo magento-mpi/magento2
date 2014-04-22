@@ -22,48 +22,52 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     private $_eavConfig;
 
-    /** @var array Cache of DTOs - entityType => attributeCode => DTO */
-    private $_cache;
-
     /**
      * @var \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory
      */
     private $_attrFormCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     private $_storeManager;
 
     /**
-     * @var Dto\Eav\OptionBuilder
+     * @var Data\Eav\OptionBuilder
      */
     private $_optionBuilder;
 
     /**
-     * @var Dto\Eav\AttributeMetadataBuilder
+     * @var Data\Eav\ValidationRuleBuilder
+     */
+    private $_validationRuleBuilder;
+
+    /**
+     * @var Data\Eav\AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param Dto\Eav\OptionBuilder $optionBuilder
-     * @param Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param \Magento\Store\Model\StoreManager $storeManager
+     * @param Data\Eav\OptionBuilder $optionBuilder
+     * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+     * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
-        Dto\Eav\OptionBuilder $optionBuilder,
-        Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        \Magento\Store\Model\StoreManager $storeManager,
+        Data\Eav\OptionBuilder $optionBuilder,
+        Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
+        Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
-        $this->_cache = [];
         $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_optionBuilder = $optionBuilder;
+        $this->_validationRuleBuilder = $validationRuleBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
@@ -72,16 +76,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
-        $dtoCache = $this->_getEntityCache($entityType);
-        if (isset($dtoCache[$attributeCode])) {
-            return $dtoCache[$attributeCode];
-        }
-
         /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         if ($attribute) {
             $attributeMetadata = $this->_createMetadataAttribute($attribute);
-            $dtoCache[$attributeCode] = $attributeMetadata;
             return $attributeMetadata;
         } else {
             throw (new NoSuchEntityException('entityType', $entityType))
@@ -97,10 +95,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (null === $storeId) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $object = new \Magento\Object([
-            'store_id'          => $storeId,
-            'attribute_set_id'  => $attributeSetId,
-        ]);
+        $object = new \Magento\Object(
+            [
+                'store_id' => $storeId,
+                'attribute_set_id' => $attributeSetId,
+            ]
+        );
         $attributeCodes = $this->_eavConfig->getEntityAttributeCodes($entityType, $object);
 
         $attributesMetadata = [];
@@ -128,10 +128,42 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getCustomerAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllCustomerAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_CUSTOMER, self::ATTRIBUTE_SET_ID_CUSTOMER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAddressAttributeMetadata($attributeCode)
+    {
+        return $this->getAttributeMetadata(self::ENTITY_TYPE_ADDRESS, $attributeCode);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllAddressAttributeMetadata()
+    {
+        return $this->getAllAttributeSetMetadata(self::ENTITY_TYPE_ADDRESS, self::ATTRIBUTE_SET_ID_ADDRESS);
+    }
+
+    /**
      * Load collection with filters applied
      *
-     * @param $entityType
-     * @param $formCode
+     * @param string $entityType
+     * @param string $formCode
      * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
      */
     private function _loadAttributesCollection($entityType, $formCode)
@@ -147,24 +179,30 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
     /**
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return Dto\Eav\AttributeMetadata
+     * @return Data\Eav\AttributeMetadata
      */
     private function _createMetadataAttribute($attribute)
     {
         $options = [];
         if ($attribute->usesSource()) {
             foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[$option['label']] = $this->_optionBuilder->setLabel($option['label'])
+                $options[] = $this->_optionBuilder->setLabel($option['label'])
                     ->setValue($option['value'])
                     ->create();
             }
+        }
+        $validationRules = [];
+        foreach ($attribute->getValidateRules() as $name => $value) {
+            $validationRules[$name] = $this->_validationRuleBuilder->setName($name)
+                ->setValue($value)
+                ->create();
         }
 
         $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
             ->setFrontendInput($attribute->getFrontendInput())
             ->setInputFilter($attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
-            ->setValidationRules($attribute->getValidateRules())
+            ->setValidationRules($validationRules)
             ->setVisible($attribute->getIsVisible())
             ->setRequired($attribute->getIsRequired())
             ->setMultilineCount($attribute->getMultilineCount())
@@ -172,6 +210,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setOptions($options)
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setNote($attribute->getNote())
             ->setIsSystem($attribute->getIsSystem())
             ->setIsUserDefined($attribute->getIsUserDefined())
             ->setSortOrder($attribute->getSortOrder());
@@ -182,47 +221,31 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * @inheritdoc
      */
-    public function getCustomerAttributeMetadata($attributeCode)
+    public function getCustomCustomerAttributeMetadata()
     {
-        return $this->getAttributeMetadata('customer', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllCustomerAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer', self::ATTRIBUTE_SET_ID_CUSTOMER);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAddressAttributeMetadata($attributeCode)
-    {
-        return $this->getAttributeMetadata('customer_address', $attributeCode);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAllAddressAttributeMetadata()
-    {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
-    }
-
-
-    /**
-     * Helper for getting access to an entity types DTO cache.
-     *
-     * @param $entityType
-     * @return \ArrayAccess
-     */
-    private function _getEntityCache($entityType)
-    {
-        if (!isset($this->_cache[$entityType])) {
-            $this->_cache[$entityType] = new \ArrayObject();
+        $customAttributes = [];
+        foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
+            if (!$attributeMetadata->isSystem()
+                /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
+                || $attributeMetadata->getAttributeCode() == 'disable_auto_group_change'
+            ) {
+                $customAttributes[] = $attributeMetadata;
+            }
         }
-        return $this->_cache[$entityType];
+        return $customAttributes;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCustomAddressAttributeMetadata()
+    {
+        $customAttributes = [];
+        foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
+            if (!$attributeMetadata->isSystem()) {
+                $customAttributes[] = $attributeMetadata;
+            }
+        }
+        return $customAttributes;
     }
 }

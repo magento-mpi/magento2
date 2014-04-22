@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Payment\Form\Billing;
 
 /**
  * Paypal Billing Agreement form block
  */
-namespace Magento\Paypal\Block\Payment\Form\Billing;
-
 class Agreement extends \Magento\Payment\Block\Form
 {
     /**
@@ -24,12 +23,12 @@ class Agreement extends \Magento\Payment\Block\Form
     protected $_agreementFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         array $data = array()
     ) {
@@ -38,6 +37,9 @@ class Agreement extends \Magento\Payment\Block\Form
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

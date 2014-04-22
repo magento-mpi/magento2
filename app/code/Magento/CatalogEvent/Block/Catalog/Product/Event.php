@@ -11,12 +11,12 @@
  */
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
-class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -28,20 +28,22 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     protected $_catalogEventData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($context, $data);
+        parent::__construct($context, $localeResolver, $data);
     }
 
     /**
@@ -75,10 +77,20 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled()
-            && $this->getProduct()
-            && $this->getEvent()
-            && $this->getEvent()->canDisplayProductPage()
-            && !$this->getProduct()->getEventNoTicker();
+        return $this->_catalogEventData->isEnabled() &&
+            $this->getProduct() &&
+            $this->getEvent() &&
+            $this->getEvent()->canDisplayProductPage() &&
+            !$this->getProduct()->getEventNoTicker();
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

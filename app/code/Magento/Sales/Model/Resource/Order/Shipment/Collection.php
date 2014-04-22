@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment;
 
 /**
- * Flat sales order shipment collection
+ * Sales order shipment collection
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
@@ -25,25 +23,26 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_shipment_collection';
+    protected $_eventPrefix = 'sales_order_shipment_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_shipment_collection';
+    protected $_eventObject = 'order_shipment_collection';
 
     /**
      * Order field for setOrderFilter
      *
      * @var string
      */
-    protected $_orderField     = 'order_id';
+    protected $_orderField = 'order_id';
 
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -53,7 +52,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     /**
      * Used to emulate after load functionality for each item without loading them
      *
-     * @return \Magento\Sales\Model\Resource\Order\Shipment\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {

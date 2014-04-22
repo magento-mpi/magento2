@@ -25,7 +25,7 @@ namespace Magento\Eav\Model\Entity;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Store extends \Magento\Core\Model\AbstractModel
+class Store extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Resource initialization

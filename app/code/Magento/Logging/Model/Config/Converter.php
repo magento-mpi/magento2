@@ -9,7 +9,7 @@
  */
 namespace Magento\Logging\Model\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -128,8 +128,12 @@ class Converter implements \Magento\Config\ConverterInterface
         $result = array();
         foreach ($events->childNodes as $event) {
             if ($event->nodeName == 'event') {
-                $result[$event->attributes->getNamedItem('controller_action')->nodeValue] =
-                    $this->_convertEvent($event, $groupId);
+                $result[$event->attributes->getNamedItem(
+                    'controller_action'
+                )->nodeValue] = $this->_convertEvent(
+                    $event,
+                    $groupId
+                );
             }
         }
         return $result;
@@ -163,8 +167,11 @@ class Converter implements \Magento\Config\ConverterInterface
         $result = array();
         foreach ($expectedModels->childNodes as $expectedModelNode) {
             if ($expectedModelNode->nodeName == 'expected_model') {
-                $result[$expectedModelNode->attributes->getNamedItem('class')->nodeValue] =
-                    $this->_convertExpectedModel($expectedModelNode);
+                $result[$expectedModelNode->attributes->getNamedItem(
+                    'class'
+                )->nodeValue] = $this->_convertExpectedModel(
+                    $expectedModelNode
+                );
             }
         }
         $extendsGroup = $expectedModels->attributes->getNamedItem('merge_group');

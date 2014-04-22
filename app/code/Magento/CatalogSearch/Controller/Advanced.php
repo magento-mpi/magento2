@@ -17,14 +17,13 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
-use Magento\App\Action\Context;
+use Magento\Framework\App\Action\Context;
 use Magento\CatalogSearch\Model\Advanced as ModelAdvanced;
 use Magento\Session\Generic;
 use Magento\UrlFactory;
 
-class Advanced extends \Magento\App\Action\Action
+class Advanced extends \Magento\Framework\App\Action\Action
 {
-
     /**
      * Url factory
      *
@@ -84,11 +83,13 @@ class Advanced extends \Magento\App\Action\Action
         $this->_view->loadLayout();
         try {
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $defaultUrl = $this->_urlFactory->create()
-                ->setQueryParams($this->getRequest()->getQuery())
-                ->getUrl('*/*/');
+            $defaultUrl = $this->_urlFactory->create()->addQueryParams(
+                $this->getRequest()->getQuery()
+            )->getUrl(
+                '*/*/'
+            );
             $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
         $this->_view->renderLayout();

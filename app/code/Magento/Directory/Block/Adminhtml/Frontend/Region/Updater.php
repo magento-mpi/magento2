@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Block\Adminhtml\Frontend\Region;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class Updater
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Updater extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * @var \Magento\Directory\Helper\Data
@@ -41,14 +39,11 @@ class Updater
     protected function _getElementHtml(AbstractElement $element)
     {
         $html = parent::_getElementHtml($element);
-        $html .= "<script type=\"text/javascript\">var updater = new RegionUpdater('tax_defaults_country',"
-            . " 'tax_region', 'tax_defaults_region', "
-            . $this->_directoryHelper->getRegionJson()
-            . ", 'disable');</script>";
+        $html .= "<script type=\"text/javascript\">var updater = new RegionUpdater('tax_defaults_country'," .
+            " 'tax_region', 'tax_defaults_region', " .
+            $this->_directoryHelper->getRegionJson() .
+            ", 'disable');</script>";
 
         return $html;
     }
 }
-
-
-

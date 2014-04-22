@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Model;
 
 /**
@@ -27,7 +26,7 @@ class Observer
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -51,13 +50,13 @@ class Observer
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_itemCollectionFactory = $itemCollectionFactory;
@@ -76,10 +75,11 @@ class Observer
         if ($this->_wishlistData->isMultipleEnabled()) {
             /** @var \Magento\Wishlist\Model\Resource\Item\Collection $collection */
             $collection = $this->_itemCollectionFactory->create();
-            $collection->addCustomerIdFilter($this->_customerSession->getCustomerId())
-                ->setVisibilityFilter()
-                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
-                ->setVisibilityFilter();
+            $collection->addCustomerIdFilter(
+                $this->_customerSession->getCustomerId()
+            )->setVisibilityFilter()->addStoreFilter(
+                $this->_storeManager->getWebsite()->getStoreIds()
+            )->setVisibilityFilter();
             $this->_wishlistData->setWishlistItemCollection($collection);
         }
     }

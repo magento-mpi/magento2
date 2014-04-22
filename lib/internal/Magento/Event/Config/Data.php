@@ -9,7 +9,7 @@
  */
 namespace Magento\Event\Config;
 
-class Data extends \Magento\Config\Data\Scoped
+class Data extends \Magento\Framework\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
@@ -19,22 +19,22 @@ class Data extends \Magento\Config\Data\Scoped
     protected $_scopePriorityScheme = array('global');
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
     /**
      * @param \Magento\Event\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
+     * @param \Magento\Framework\App\State $appState
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Event\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
-        \Magento\App\State $appState,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
+        \Magento\Framework\App\State $appState,
         $cacheId = 'event_config_cache'
     ) {
         $this->_appState = $appState;
@@ -50,8 +50,10 @@ class Data extends \Magento\Config\Data\Scoped
      */
     public function get($path = null, $default = null)
     {
-        if (!$this->_appState->isInstalled()
-            && !in_array($this->_configScope->getCurrentScope(), array('global', 'install'))
+        if (!$this->_appState->isInstalled() && !in_array(
+            $this->_configScope->getCurrentScope(),
+            array('global', 'install')
+        )
         ) {
             return $default;
         }

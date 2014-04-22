@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -18,7 +17,7 @@ namespace Magento\Core\Model;
 class Observer
 {
     /**
-     * @var \Magento\App\Cache\Frontend\Pool
+     * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
@@ -28,12 +27,12 @@ class Observer
     private $_currentTheme;
 
     /**
-     * @var \Magento\View\Asset\GroupedCollection
+     * @var \Magento\Framework\View\Asset\GroupedCollection
      */
     private $_pageAssets;
 
     /**
-     * @var \Magento\App\ReinitableConfigInterface
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface
      */
     protected $_config;
 
@@ -45,7 +44,7 @@ class Observer
     /**
      * @var \Magento\Core\Model\Theme\Registration
      */
-    protected  $_registration;
+    protected $_registration;
 
     /**
      * @var \Magento\Logger
@@ -53,19 +52,19 @@ class Observer
     protected $_logger;
 
     /**
-     * @param \Magento\App\Cache\Frontend\Pool $cacheFrontendPool
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Asset\GroupedCollection $assets
-     * @param \Magento\App\ReinitableConfigInterface $config
+     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\View\Asset\GroupedCollection $assets
+     * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param \Magento\View\Asset\Repository $assetRepo
-     * @param \Magento\Core\Model\Theme\Registration $registration
+     * @param Theme\Registration $registration
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\App\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Asset\GroupedCollection $assets,
-        \Magento\App\ReinitableConfigInterface $config,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\View\Asset\GroupedCollection $assets,
+        \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         \Magento\View\Asset\Repository $assetRepo,
         \Magento\Core\Model\Theme\Registration $registration,
         \Magento\Logger $logger
@@ -73,7 +72,6 @@ class Observer
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
         $this->_pageAssets = $assets;
-        $this->_config = $config;
         $this->_assetRepo = $assetRepo;
         $this->_registration = $registration;
         $this->_logger = $logger;
@@ -106,7 +104,7 @@ class Observer
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -125,7 +123,7 @@ class Observer
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\Framework\View\Design\Theme\Customization\FileAssetInterface) {
                     $identifier = $themeFile->getData('file_path');
                     $dirPath = \Magento\View\Design\Theme\Customization\Path::DIR_NAME
                         . '/' . $this->_currentTheme->getId();
@@ -141,18 +139,5 @@ class Observer
                 $this->_logger->logException($e);
             }
         }
-    }
-
-    /**
-     * Rebuild whole config and save to fast storage
-     *
-     * @param  \Magento\Event\Observer $observer
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function processReinitConfig(\Magento\Event\Observer $observer)
-    {
-        $this->_config->reinit();
-        return $this;
     }
 }

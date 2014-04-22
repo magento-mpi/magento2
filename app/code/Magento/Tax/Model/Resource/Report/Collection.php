@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
      * @param mixed $connection
@@ -48,7 +48,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null
@@ -72,11 +72,11 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
             $this->_selectedColumns = array(
-                'period'                => $this->_periodFormat,
-                'code'                  => 'code',
-                'percent'               => 'percent',
-                'orders_count'          => 'SUM(orders_count)',
-                'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)'
+                'period' => $this->_periodFormat,
+                'code' => 'code',
+                'percent' => 'percent',
+                'orders_count' => 'SUM(orders_count)',
+                'tax_base_amount_sum' => 'SUM(tax_base_amount_sum)'
             );
         }
 
@@ -104,9 +104,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if ($this->isSubTotals()) {
-            $this->getSelect()->group(array(
-                $this->_periodFormat
-            ));
+            $this->getSelect()->group(array($this->_periodFormat));
         }
         return parent::_initSelect();
     }

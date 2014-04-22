@@ -8,26 +8,25 @@
 namespace Magento\Payment\Helper;
 
 use Magento\Sales\Model\Quote;
-use Magento\Core\Model\Store;
-use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Store\Model\Store;
 use Magento\Payment\Block\Form;
 use Magento\Payment\Model\Info;
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Payment module base helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
-    
+    protected $_scopeConfig;
+
     /**
      * @var \Magento\Payment\Model\Config
      */
@@ -36,7 +35,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Layout
      *
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -48,13 +47,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_methodFactory;
 
     /**
-     * Config
-     *
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * App emulation model
      *
      * @var \Magento\Core\Model\App\Emulation
@@ -62,37 +54,35 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_appEmulation;
 
     /**
-     * @var \Magento\App\Config\Initial
+     * @var \Magento\Framework\App\Config\Initial
      */
     protected $_initialConfig;
 
     /**
      * Construct
      *
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Payment\Model\Config $paymentConfig
-     * @param \Magento\App\Config\Initial $initialConfig
+     * @param \Magento\Framework\App\Config\Initial $initialConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Payment\Model\Config $paymentConfig,
-        \Magento\App\Config\Initial $initialConfig
+        \Magento\Framework\App\Config\Initial $initialConfig
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_layout = $layout;
         $this->_methodFactory = $paymentMethodFactory;
-        $this->_config = $config;
         $this->_appEmulation = $appEmulation;
         $this->_paymentConfig = $paymentConfig;
         $this->_initialConfig = $initialConfig;
@@ -102,13 +92,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
-     * @return AbstractMethod|false
+     * @return \Magento\Payment\Model\MethodInterface|false
      */
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
-        $class = $this->_coreStoreConfig->getConfig($key);
-        return $this->_methodFactory->create($class);
+        $class = $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $class ? $this->_methodFactory->create($class) : false;
     }
 
     /**
@@ -128,7 +118,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store)) {
+            if (!($model = $this->_scopeConfig->getValue(
+                $prefix . 'model',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            ))
+            ) {
                 continue;
             }
             $methodInstance = $this->_methodFactory->create($model);
@@ -156,7 +151,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _sortMethods($a, $b)
     {
         if (is_object($a)) {
-            return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
+            return (int)$a->sort_order <
+                (int)$b->sort_order ? -1 : ((int)$a->sort_order >
+                (int)$b->sort_order ? 1 : 0);
         }
         return 0;
     }
@@ -164,10 +161,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve payment method form html
      *
-     * @param AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @return Form
      */
-    public function getMethodFormBlock(AbstractMethod $method)
+    public function getMethodFormBlock(\Magento\Payment\Model\MethodInterface $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
@@ -207,8 +204,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-                ->setIsSecureMode(true);
+            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {
@@ -222,17 +218,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Get payment methods that implement recurring profilez management
+     * Retrieve available billing agreement methods
      *
      * @param mixed $store
+     * @param \Magento\Sales\Model\Quote $quote
      * @return array
      */
-    public function getRecurringProfileMethods($store = null)
+    public function getBillingAgreementMethods($store = null, $quote = null)
     {
         $result = array();
-        foreach ($this->getPaymentMethods() as $code => $data) {
-            $method = $this->getMethodInstance($code);
-            if ($method && $method->canManageRecurringProfiles()) {
+        foreach ($this->getStoreMethods($store, $quote) as $method) {
+            if ($method->canManageBillingAgreements()) {
                 $result[] = $method;
             }
         }
@@ -278,7 +274,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $groupRelations = array();
 
         foreach ($this->getPaymentMethods() as $code => $data) {
-            if ((isset($data['title']))) {
+            if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
                 if ($this->getMethodInstance($code)) {
@@ -292,7 +288,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($asLabelValue && $withGroups) {
             $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
-                $methods[$code] = $title; // for sorting, see below
+                $methods[$code] = $title;
             }
         }
         if ($sorted) {
@@ -327,8 +323,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isZeroSubTotal($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
+        return $this->_scopeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -339,8 +338,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
+        return $this->_scopeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -351,7 +353,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
+        return $this->_scopeConfig->getValue(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 }

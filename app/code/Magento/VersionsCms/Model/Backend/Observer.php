@@ -45,7 +45,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -90,7 +90,7 @@ class Observer
     protected $_versionCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -110,14 +110,14 @@ class Observer
     protected $_cmsIncrement;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_httpRequest;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $config
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
@@ -128,18 +128,18 @@ class Observer
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Config $config,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
@@ -150,11 +150,11 @@ class Observer
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\Framework\App\RequestInterface $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -185,15 +185,15 @@ class Observer
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
             // Making is_active as disabled if user does not have publish permission
             if (!$this->_config->canCurrentUserPublishRevision()) {
-                    $isActiveElement->setDisabled(true);
+                $isActiveElement->setDisabled(true);
             }
         }
 
@@ -205,20 +205,27 @@ class Observer
         $revisionAvailable = false;
         if ($page) {
 
-            $baseFieldset->addField('under_version_control', 'select', array(
-                'label'     => __('Under Version Control'),
-                'title'     => __('Under Version Control'),
-                'name'      => 'under_version_control',
-                'values'    => $this->_sourceYesno->toOptionArray()
-            ));
+            $baseFieldset->addField(
+                'under_version_control',
+                'select',
+                array(
+                    'label' => __('Under Version Control'),
+                    'title' => __('Under Version Control'),
+                    'name' => 'under_version_control',
+                    'values' => $this->_sourceYesno->toOptionArray()
+                )
+            );
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
                 $userId = $this->_backendAuthSession->getUser()->getId();
                 $accessLevel = $this->_config->getAllowedAccessLevel();
 
                 /** @var \Magento\VersionsCms\Model\Page\Revision $revision */
-                $revision = $this->_revisionFactory->create()
-                    ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
+                $revision = $this->_revisionFactory->create()->loadWithRestrictions(
+                    $accessLevel,
+                    $userId,
+                    $page->getPublishedRevisionId()
+                );
 
                 if ($revision->getId()) {
                     $revisionNumber = $revision->getRevisionNumber();
@@ -226,13 +233,17 @@ class Observer
 
                     $page->setPublishedRevisionLink(__('%1; rev #%2', $versionLabel, $revisionNumber));
 
-                    $baseFieldset->addField('published_revision_link', 'link', array(
-                        'label' => __('Currently Published Revision'),
-                        'href' => $this->_backendUrl->getUrl('adminhtml/cms_page_revision/edit', array(
-                            'page_id' => $page->getId(),
-                            'revision_id' => $page->getPublishedRevisionId()
-                        )),
-                    ));
+                    $baseFieldset->addField(
+                        'published_revision_link',
+                        'link',
+                        array(
+                            'label' => __('Currently Published Revision'),
+                            'href' => $this->_backendUrl->getUrl(
+                                'adminhtml/cms_page_revision/edit',
+                                array('page_id' => $page->getId(), 'revision_id' => $page->getPublishedRevisionId())
+                            )
+                        )
+                    );
 
                     $revisionAvailable = true;
                 }
@@ -269,8 +280,9 @@ class Observer
 
         // Create new initial version & revision if it
         // is a new page or version control was turned on for this page.
-        if ($page->getIsNewPage() || ($page->getUnderVersionControl()
-            && $page->dataHasChangedFor('under_version_control'))
+        if ($page->getIsNewPage() || $page->getUnderVersionControl() && $page->dataHasChangedFor(
+            'under_version_control'
+        )
         ) {
             /** @var \Magento\VersionsCms\Model\Page\Version $version */
             $version = $this->_pageVersionFactory->create();
@@ -278,12 +290,17 @@ class Observer
             $revisionInitialData = $page->getData();
             $revisionInitialData['copied_from_original'] = true;
 
-            $version->setLabel($page->getTitle())
-                ->setAccessLevel(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC)
-                ->setPageId($page->getId())
-                ->setUserId($this->_backendAuthSession->getUser()->getId())
-                ->setInitialRevisionData($revisionInitialData)
-                ->save();
+            $version->setLabel(
+                $page->getTitle()
+            )->setAccessLevel(
+                \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
+            )->setPageId(
+                $page->getId()
+            )->setUserId(
+                $this->_backendAuthSession->getUser()->getId()
+            )->setInitialRevisionData(
+                $revisionInitialData
+            )->save();
 
             if ($page->getUnderVersionControl()) {
                 $revision = $version->getLastRevision();
@@ -355,7 +372,7 @@ class Observer
             try {
                 $nodesData = $this->_coreData->jsonDecode($page->getNodesData());
             } catch (\Zend_Json_Exception $e) {
-                $nodesData=null;
+                $nodesData = null;
             }
             if (!empty($nodesData)) {
                 foreach ($nodesData as $row) {
@@ -387,9 +404,9 @@ class Observer
     public function adminUserDeleteAfter()
     {
         /** @var \Magento\VersionsCms\Model\Resource\Page\Version\Collection $collection */
-        $collection = $this->_versionCollectionFactory->create()
-            ->addAccessLevelFilter(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE)
-            ->addUserIdFilter();
+        $collection = $this->_versionCollectionFactory->create()->addAccessLevelFilter(
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE
+        )->addUserIdFilter();
 
         $this->_resourceIterator->walk(
             $collection->getSelect(),
@@ -397,7 +414,7 @@ class Observer
             array('version' => $this->_pageVersionFactory->create())
         );
 
-         return $this;
+        return $this;
     }
 
     /**
@@ -408,11 +425,13 @@ class Observer
      */
     public function deleteWebsite(EventObserver $observer)
     {
-        /* @var $store \Magento\Core\Model\Website */
+        /* @var $store \Magento\Store\Model\Website */
         $website = $observer->getEvent()->getWebsite();
 
-        $this->_hierarchyNodeFactory->create()
-            ->deleteByScope(\Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE, $website->getId());
+        $this->_hierarchyNodeFactory->create()->deleteByScope(
+            \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
+            $website->getId()
+        );
 
         foreach ($website->getStoreIds() as $storeId) {
             $this->_cleanStoreFootprints($storeId);
@@ -446,9 +465,12 @@ class Observer
         $this->_hierarchyNodeFactory->create()->deleteByScope($storeScope, $storeId);
 
         /** @var \Magento\Widget\Model\Resource\Widget\Instance\Collection $widgets */
-        $widgets = $this->_widgetCollectionFactory->create()
-                ->addStoreFilter(array($storeId, false))
-                ->addFieldToFilter('instance_type', 'Magento\VersionsCms\Block\Widget\Node');
+        $widgets = $this->_widgetCollectionFactory->create()->addStoreFilter(
+            array($storeId, false)
+        )->addFieldToFilter(
+            'instance_type',
+            'Magento\VersionsCms\Block\Widget\Node'
+        );
 
         /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         foreach ($widgets as $widgetInstance) {
@@ -484,7 +506,7 @@ class Observer
 
         try {
             $version->delete();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher

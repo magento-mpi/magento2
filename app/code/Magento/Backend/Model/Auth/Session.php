@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Auth;
 
 /**
@@ -23,10 +22,11 @@ namespace Magento\Backend\Model\Auth;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @todo implement solution that keeps is_first_visit flag in session during redirects
  */
-class Session
-    extends \Magento\Session\SessionManager
-    implements \Magento\Backend\Model\Auth\StorageInterface
+class Session extends \Magento\Session\SessionManager implements \Magento\Backend\Model\Auth\StorageInterface
 {
+    /**
+     * Admin session lifetime config path
+     */
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';
 
     /**
@@ -54,7 +54,12 @@ class Session
     protected $_config;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -63,9 +68,10 @@ class Session
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Stdlib\Cookie $cookie
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Request\Http $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -73,11 +79,13 @@ class Session
         \Magento\Session\StorageInterface $storage,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Backend\App\ConfigInterface $config
+        \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Stdlib\Cookie $cookie
     ) {
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
+        $this->_cookie = $cookie;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
     }
@@ -127,7 +135,6 @@ class Session
                         return $acl->isAllowed($user->getAclRole(), null, $privilege);
                     }
                 } catch (\Exception $e) {
-
                 }
             }
         }
@@ -145,15 +152,39 @@ class Session
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */
-        if ($lifetime >= 60 && ($this->getUpdatedAt() < $currentTime - $lifetime)) {
+        if ($lifetime >= 60 && $this->getUpdatedAt() < $currentTime - $lifetime) {
             return false;
         }
 
         if ($this->getUser() && $this->getUser()->getId()) {
-            $this->setUpdatedAt($currentTime);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Set session UpdatedAt to current time and update cookie expiration time
+     *
+     * @return void
+     */
+    public function prolong()
+    {
+        $lifetime = $this->_config->getValue(self::XML_PATH_SESSION_LIFETIME);
+        $currentTime = time();
+
+        $this->setUpdatedAt($currentTime);
+        $cookieValue = $this->_cookie->get($this->getName());
+        if ($cookieValue) {
+            $this->_cookie->set(
+                $this->getName(),
+                $cookieValue,
+                $lifetime,
+                $this->sessionConfig->getCookiePath(),
+                $this->sessionConfig->getCookieDomain(),
+                $this->sessionConfig->getCookieSecure(),
+                $this->sessionConfig->getCookieHttpOnly()
+            );
+        }
     }
 
     /**
@@ -218,6 +249,7 @@ class Session
      *
      * @param string $path
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isValidForPath($path)
     {

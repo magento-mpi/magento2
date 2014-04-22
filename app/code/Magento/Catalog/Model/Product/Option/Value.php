@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Option;
 
 use Magento\Catalog\Model\Product;
@@ -27,8 +26,13 @@ use Magento\Catalog\Model\Product\Option;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Value extends \Magento\Core\Model\AbstractModel
+class Value extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * Option type percent
+     */
+    const TYPE_PERCENT = 'percent';
+
     /**
      * @var array
      */
@@ -52,19 +56,19 @@ class Value extends \Magento\Core\Model\AbstractModel
     protected $_valueCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
@@ -172,11 +176,18 @@ class Value extends \Magento\Core\Model\AbstractModel
     public function saveValues()
     {
         foreach ($this->getValues() as $value) {
-            $this->setData($value)
-                ->setData('option_id', $this->getOption()->getId())
-                ->setData('store_id', $this->getOption()->getStoreId());
+            $this->setData(
+                $value
+            )->setData(
+                'option_id',
+                $this->getOption()->getId()
+            )->setData(
+                'store_id',
+                $this->getOption()->getStoreId()
+            );
 
-            if ($this->getData('option_type_id') == '-1') {//change to 0
+            if ($this->getData('option_type_id') == '-1') {
+                //change to 0
                 $this->unsetData('option_type_id');
             } else {
                 $this->setId($this->getData('option_type_id'));
@@ -190,7 +201,8 @@ class Value extends \Magento\Core\Model\AbstractModel
             } else {
                 $this->save();
             }
-        }//eof foreach()
+        }
+        //eof foreach()
         return $this;
     }
 
@@ -201,11 +213,11 @@ class Value extends \Magento\Core\Model\AbstractModel
      * @param bool $flag
      * @return float|int
      */
-    public function getPrice($flag=false)
+    public function getPrice($flag = false)
     {
-        if ($flag && $this->getPriceType() == 'percent') {
+        if ($flag && $this->getPriceType() == self::TYPE_PERCENT) {
             $basePrice = $this->getOption()->getProduct()->getFinalPrice();
-            $price = $basePrice*($this->_getData('price')/100);
+            $price = $basePrice * ($this->_getData('price') / 100);
             return $price;
         }
         return $this->_getData('price');
@@ -219,9 +231,12 @@ class Value extends \Magento\Core\Model\AbstractModel
      */
     public function getValuesCollection(Option $option)
     {
-        $collection = $this->_valueCollectionFactory->create()
-            ->addFieldToFilter('option_id', $option->getId())
-            ->getValues($option->getStoreId());
+        $collection = $this->_valueCollectionFactory->create()->addFieldToFilter(
+            'option_id',
+            $option->getId()
+        )->getValues(
+            $option->getStoreId()
+        );
 
         return $collection;
     }
@@ -234,9 +249,13 @@ class Value extends \Magento\Core\Model\AbstractModel
      */
     public function getValuesByOption($optionIds, $option_id, $store_id)
     {
-        $collection = $this->_valueCollectionFactory->create()
-            ->addFieldToFilter('option_id', $option_id)
-            ->getValuesByOption($optionIds, $store_id);
+        $collection = $this->_valueCollectionFactory->create()->addFieldToFilter(
+            'option_id',
+            $option_id
+        )->getValuesByOption(
+            $optionIds,
+            $store_id
+        );
 
         return $collection;
     }

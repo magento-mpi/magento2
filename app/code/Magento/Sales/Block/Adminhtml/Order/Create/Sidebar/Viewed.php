@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
 /**
  * Adminhtml sales order create sidebar viewed block
@@ -15,11 +16,13 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
-
 class Viewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -30,7 +33,7 @@ class Viewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstrac
     /**
      * Retrieve display block availability
      *
-     * @return bool
+     * @return false
      */
     public function canDisplay()
     {
@@ -40,16 +43,20 @@ class Viewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstrac
     /**
      * Retrieve availability removing items in block
      *
-     * @return bool
+     * @return false
      */
     public function canRemoveItems()
     {
         return false;
     }
 
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Recently Viewed');
     }
-
 }

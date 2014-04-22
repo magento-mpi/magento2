@@ -5,20 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 /**
- * Manipulate Customer Address Entities *
+ * Interface CustomerAddressServiceInterface
  */
 interface CustomerAddressServiceInterface
 {
     /**
      * Retrieve all Customer Addresses
      *
-     * @param int $customerId,
-     * @return Dto\Address[]
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @param int $customerId
+     * @return \Magento\Customer\Service\V1\Data\Address[]
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getAddresses($customerId);
 
@@ -26,8 +25,8 @@ interface CustomerAddressServiceInterface
      * Retrieve default billing address
      *
      * @param int $customerId
-     * @return Dto\Address
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @return \Magento\Customer\Service\V1\Data\Address
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
 
@@ -35,8 +34,8 @@ interface CustomerAddressServiceInterface
      * Retrieve default shipping address
      *
      * @param int $customerId
-     * @return Dto\Address
-     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
+     * @return \Magento\Customer\Service\V1\Data\Address
+     * @throws \Magento\Exception\NoSuchEntityException If the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);
 
@@ -44,15 +43,16 @@ interface CustomerAddressServiceInterface
      * Retrieve address by id
      *
      * @param int $addressId
-     * @return Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
-    public function getAddressById($addressId);
+    public function getAddress($addressId);
 
     /**
      * Removes an address by id.
      *
      * @param int $addressId
+     * @return bool True if the address was deleted
      * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
     public function deleteAddress($addressId);
@@ -70,12 +70,20 @@ interface CustomerAddressServiceInterface
      * that a full set of data must be provided with each Address
      *
      * @param int $customerId
-     * @param Dto\Address[] $addresses
-     * @throws \Magento\Exception\InputException if there are validation errors.
+     * @param \Magento\Customer\Service\V1\Data\Address[] $addresses
+     * @throws \Magento\Exception\InputException If there are validation errors.
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Exception if there were issues during the save operation
+     * @throws \Exception If there were issues during the save operation
      * @return int[] address ids
      */
-    public function saveAddresses($customerId, array $addresses);
+    public function saveAddresses($customerId, $addresses);
 
+    /**
+     * Validate a list of addresses.
+     *
+     * @param \Magento\Customer\Service\V1\Data\Address[] $addresses
+     * @return bool true All addresses passed validation.
+     * @throws \Magento\Exception\InputException If there are validation errors.
+     */
+    public function validateAddresses($addresses);
 }

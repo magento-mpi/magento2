@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Model;
 
-use Magento\Core\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * TargetRule Rule Model
@@ -50,34 +50,39 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Position behavior selectors
      */
-    const BOTH_SELECTED_AND_RULE_BASED  = 0;
-    const SELECTED_ONLY                 = 1;
-    const RULE_BASED_ONLY               = 2;
+    const BOTH_SELECTED_AND_RULE_BASED = 0;
+
+    const SELECTED_ONLY = 1;
+
+    const RULE_BASED_ONLY = 2;
 
     /**
      * Product list types
      */
-    const RELATED_PRODUCTS              = 1;
-    const UP_SELLS                      = 2;
-    const CROSS_SELLS                   = 3;
+    const RELATED_PRODUCTS = 1;
+
+    const UP_SELLS = 2;
+
+    const CROSS_SELLS = 3;
 
     /**
      * Shuffle mode by default
      */
-    const ROTATION_SHUFFLE              = 0;
-    const ROTATION_NONE                 = 1;
+    const ROTATION_SHUFFLE = 0;
+
+    const ROTATION_NONE = 1;
 
     /**
      * Store default product positions limit
      */
-    const POSITIONS_DEFAULT_LIMIT       = 20;
+    const POSITIONS_DEFAULT_LIMIT = 20;
 
     /**
      * Path to default values
      *
      * @deprecated after 1.11.2.0
      */
-    const XML_PATH_DEFAULT_VALUES       = 'catalog/magento_targetrule/';
+    const XML_PATH_DEFAULT_VALUES = 'catalog/magento_targetrule/';
 
     /**
      * Store matched products objects
@@ -116,49 +121,48 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_actionFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_iterator;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Resource\Iterator $iterator
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Resource\Iterator $iterator,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_iterator = $iterator;
         $this->_productFactory = $productFactory;
         $this->_ruleFactory = $ruleFactory;
         $this->_actionFactory = $actionFactory;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
-
 
     /**
      * Set resource model
@@ -219,12 +223,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($withEmpty) {
             $result[''] = __('-- Please Select --');
         }
-        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS]
-            = __('Related Products');
-        $result[\Magento\TargetRule\Model\Rule::UP_SELLS]
-            = __('Up-sells');
-        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS]
-            = __('Cross-sells');
+        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS] = __('Related Products');
+        $result[\Magento\TargetRule\Model\Rule::UP_SELLS] = __('Up-sells');
+        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS] = __('Cross-sells');
 
         return $result;
     }
@@ -247,16 +248,14 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->getConditions()->collectValidatedAttributes($productCollection);
 
             $this->_productIds = array();
-            $this->_products   = array();
+            $this->_products = array();
             $this->_iterator->walk(
                 $productCollection->getSelect(),
+                array(array($this, 'callbackValidateProduct')),
                 array(
-                    array($this, 'callbackValidateProduct')
-                ),
-                array(
-                    'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => $this->_productFactory->create(),
-                    'onlyId'        => (bool) $onlyId
+                    'attributes' => $this->getCollectedAttributes(),
+                    'product' => $this->_productFactory->create(),
+                    'onlyId' => (bool)$onlyId
                 )
             );
         }
@@ -321,7 +320,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function checkDateForStore($storeId)
     {
         if (!isset($this->_checkDateForStore[$storeId])) {
-            $this->_checkDateForStore[$storeId] = $this->_locale->isStoreDateInInterval(
+            $this->_checkDateForStore[$storeId] = $this->_localeDate->isScopeDateInInterval(
                 null,
                 $this->getFromDate(),
                 $this->getToDate()
@@ -397,12 +396,12 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    throw new Exception(
-                        __('Model class name for attribute is invalid')
-                    );
+                    throw new Exception(__('Model class name for attribute is invalid'));
                 }
                 if (isset($actionArgs['attribute']) && !$validator->isValid($actionArgs['attribute'])) {
-                    $result[] = __('This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.');
+                    $result[] = __(
+                        'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_), and be sure the code begins with a letter.'
+                    );
                 }
             }
         }

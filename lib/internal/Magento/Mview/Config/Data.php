@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Framework\Config\Data
 {
     /**
      * @var \Magento\Mview\View\State\CollectionInterface
@@ -17,13 +16,13 @@ class Data extends \Magento\Config\Data
 
     /**
      * @param \Magento\Mview\Config\Reader $reader
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Mview\View\State\CollectionInterface $stateCollection
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Mview\Config\Reader $reader,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Mview\View\State\CollectionInterface $stateCollection,
         $cacheId = 'mview_config'
     ) {
@@ -40,6 +39,8 @@ class Data extends \Magento\Config\Data
 
     /**
      * Delete all states that are not in configuration
+     *
+     * @return void
      */
     protected function deleteNonexistentStates()
     {

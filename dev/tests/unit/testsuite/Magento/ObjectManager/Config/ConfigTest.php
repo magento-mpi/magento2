@@ -5,20 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetArgumentsEmpty()
     {
-        $config = new Config;
+        $config = new Config();
         $this->assertSame(array(), $config->getArguments('An invalid type'));
     }
 
     public function testExtendMergeConfiguration()
     {
-        $this->_assertFooTypeArguments(new Config);
+        $this->_assertFooTypeArguments(new Config());
     }
 
     /**
@@ -47,4 +46,39 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_assertFooTypeArguments($config);
     }
-} 
+
+    public function testGetPreferenceTrimsFirstSlash()
+    {
+        $config = new Config();
+        $this->assertEquals('Some\Class\Name', $config->getPreference('\Some\Class\Name'));
+    }
+
+    public function testExtendIgnoresFirstSlashesOnPreferences()
+    {
+        $config = new Config();
+        $config->extend(array('preferences' => array('\Some\Interface' => '\Some\Class')));
+        $this->assertEquals('Some\Class', $config->getPreference('Some\Interface'));
+        $this->assertEquals('Some\Class', $config->getPreference('\Some\Interface'));
+    }
+
+    public function testExtendIgnoresFirstShashesOnVirtualTypes()
+    {
+        $config = new Config();
+        $config->extend(array('\SomeVirtualType' => array('type' => '\Some\Class')));
+        $this->assertEquals('Some\Class', $config->getInstanceType('SomeVirtualType'));
+    }
+
+    public function testExtendIgnoresFirstShashes()
+    {
+        $config = new Config();
+        $config->extend(array('\Some\Class' => array('arguments' => array('someArgument'))));
+        $this->assertEquals(array('someArgument'), $config->getArguments('Some\Class'));
+    }
+
+    public function testExtendIgnoresFirstShashesForSharing()
+    {
+        $config = new Config();
+        $config->extend(array('\Some\Class' => array('shared' => true)));
+        $this->assertTrue($config->isShared('Some\Class'));
+    }
+}

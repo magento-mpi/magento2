@@ -29,9 +29,8 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite;
  * @method string getLabel()
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite setLegend($legend)
  */
-abstract class AbstractComposite
-    extends \Magento\Data\Form\Element\Fieldset
-    implements \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
+abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fieldset implements
+    \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
 {
     /**
      * Delimiter for name parts in composite controls
@@ -53,16 +52,16 @@ abstract class AbstractComposite
     protected $_elementsFactory;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
@@ -98,7 +97,7 @@ abstract class AbstractComposite
      * @param array $config
      * @param boolean $after
      * @param boolean $isAdvanced
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {
@@ -114,7 +113,7 @@ abstract class AbstractComposite
         $layoutName = $element->getId() . '-renderer';
         try {
             $renderer = $this->_rendererFactory->create($className, $layoutName);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $renderer = null;
         }
         if ($renderer) {
@@ -130,16 +129,16 @@ abstract class AbstractComposite
      * @param string $type
      * @param string|null $subtype
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getComponent($type, $subtype = null)
     {
         $components = $this->getComponents();
         $componentId = $this->getComponentId($type);
         if (!isset($components[$componentId])) {
-            throw new \Magento\Core\Exception(__(
-                'Component of the type "%1" is not found between elements of "%2"', $type, $this->getData('name')
-            ));
+            throw new \Magento\Framework\Model\Exception(
+                __('Component of the type "%1" is not found between elements of "%2"', $type, $this->getData('name'))
+            );
         }
         $component = $components[$componentId];
 

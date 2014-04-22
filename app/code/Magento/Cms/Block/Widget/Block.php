@@ -16,7 +16,7 @@ namespace Magento\Cms\Block\Widget;
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Block extends \Magento\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class Block extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -28,7 +28,7 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
      *
      * @var array
      */
-    static protected $_widgetUsageMap = array();
+    protected static $_widgetUsageMap = array();
 
     /**
      * Block factory
@@ -38,13 +38,13 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
     protected $_blockFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         array $data = array()
@@ -75,8 +75,7 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
             $storeId = $this->_storeManager->getStore()->getId();
             /** @var \Magento\Cms\Model\Block $block */
             $block = $this->_blockFactory->create();
-            $block->setStoreId($storeId)
-                ->load($blockId);
+            $block->setStoreId($storeId)->load($blockId);
             if ($block->getIsActive()) {
                 $this->setText(
                     $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())

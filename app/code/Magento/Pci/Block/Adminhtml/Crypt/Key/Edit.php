@@ -37,15 +37,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         \Magento\Object::__construct();
-        $this->_addButton('save', array(
-            'label'     => __('Change Encryption Key'),
-            'class'     => 'save',
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'save', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save',
+            array(
+                'label' => __('Change Encryption Key'),
+                'class' => 'save primary save-encryption-key',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
+                )
             ),
-        ), 1);
+            1
+        );
     }
 
     /**

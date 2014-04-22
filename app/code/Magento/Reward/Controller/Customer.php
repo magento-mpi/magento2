@@ -17,15 +17,15 @@
  */
 namespace Magento\Reward\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
-class Customer extends \Magento\App\Action\Action
+class Customer extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,13 +35,13 @@ class Customer extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_formKeyValidator = $formKeyValidator;
@@ -54,8 +54,8 @@ class Customer extends \Magento\App\Action\Action
      * Check is RP enabled on frontend
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -98,14 +98,15 @@ class Customer extends \Magento\App\Action\Action
 
         $customer = $this->_getCustomer();
         if ($customer->getId()) {
-            $customer->setRewardUpdateNotification($this->getRequest()->getParam('subscribe_updates'))
-                ->setRewardWarningNotification($this->getRequest()->getParam('subscribe_warnings'));
+            $customer->setRewardUpdateNotification(
+                $this->getRequest()->getParam('subscribe_updates')
+            )->setRewardWarningNotification(
+                $this->getRequest()->getParam('subscribe_warnings')
+            );
             $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
-            $this->messageManager->addSuccess(
-                __('You saved the settings.')
-            );
+            $this->messageManager->addSuccess(__('You saved the settings.'));
         }
         $this->_redirect('*/*/info');
     }
@@ -118,7 +119,7 @@ class Customer extends \Magento\App\Action\Action
     public function unsubscribeAction()
     {
         $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update','warning'))) {
+        if (!in_array($notification, array('update', 'warning'))) {
             $this->_forward('noroute');
         }
 
@@ -133,9 +134,7 @@ class Customer extends \Magento\App\Action\Action
                     $customer->setRewardWarningNotification(false);
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
-                $this->messageManager->addSuccess(
-                    __('You have been unsubscribed.')
-                );
+                $this->messageManager->addSuccess(__('You have been unsubscribed.'));
             }
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Failed to unsubscribe'));
@@ -171,11 +170,13 @@ class Customer extends \Magento\App\Action\Action
      */
     protected function _getReward()
     {
-        $reward = $this->_objectManager->create('Magento\Reward\Model\Reward')
-            ->setCustomer($this->_getCustomer())
-            ->setWebsiteId($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->getWebsiteId())
-            ->loadByCustomer();
+        $reward = $this->_objectManager->create(
+            'Magento\Reward\Model\Reward'
+        )->setCustomer(
+            $this->_getCustomer()
+        )->setWebsiteId(
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId()
+        )->loadByCustomer();
         return $reward;
     }
 }

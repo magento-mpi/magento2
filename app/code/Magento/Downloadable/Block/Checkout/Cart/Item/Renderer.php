@@ -19,7 +19,6 @@ namespace Magento\Downloadable\Block\Checkout\Cart\Item;
 
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
-
     /**
      * Downloadable catalog product configuration
      *
@@ -28,7 +27,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected $_downloadProdConfig = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -38,7 +37,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
@@ -49,7 +48,13 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
         parent::__construct(
-            $context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $messageManager, $data
+            $context,
+            $productConfig,
+            $checkoutSession,
+            $imageHelper,
+            $urlHelper,
+            $messageManager,
+            $data
         );
     }
 

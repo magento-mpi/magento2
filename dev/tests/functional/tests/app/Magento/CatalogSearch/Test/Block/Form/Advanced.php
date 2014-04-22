@@ -11,7 +11,7 @@
 
 namespace Magento\CatalogSearch\Test\Block\Form;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -33,11 +33,11 @@ class Advanced extends Form
     /**
      * Fill form with custom fields
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @param array $fields
      * @param Element $element
      */
-    public function fillCustom(Fixture $fixture, array $fields, Element $element = null)
+    public function fillCustom(FixtureInterface $fixture, array $fields, Element $element = null)
     {
         $data = $fixture->getData('fields');
         $dataForMapping = array_intersect_key($data, array_flip($fields));

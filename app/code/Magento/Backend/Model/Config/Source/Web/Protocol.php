@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Web;
 
-class Protocol implements \Magento\Core\Model\Option\ArrayInterface
+class Protocol implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array
@@ -17,10 +17,9 @@ class Protocol implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value'=>'', 'label'=>''),
-            array('value'=>'http', 'label'=>__('HTTP (unsecure)')),
-            array('value'=>'https', 'label'=>__('HTTPS (SSL)')),
+            array('value' => '', 'label' => ''),
+            array('value' => 'http', 'label' => __('HTTP (unsecure)')),
+            array('value' => 'https', 'label' => __('HTTPS (SSL)'))
         );
     }
-
 }

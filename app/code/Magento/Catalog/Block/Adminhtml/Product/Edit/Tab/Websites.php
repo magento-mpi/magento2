@@ -32,24 +32,24 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
-        \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -131,14 +131,14 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
     /**
      * Get HTML of store chooser
      *
-     * @param \Magento\Core\Model\Store $storeTo
+     * @param \Magento\Store\Model\Store $storeTo
      * @return string
      */
     public function getChooseFromStoreHtml($storeTo)
     {
         if (!$this->_storeFromHtml) {
             $this->_storeFromHtml = '<select name="copy_to_stores[__store_identifier__]" disabled="disabled">';
-            $this->_storeFromHtml.= '<option value="0">'.__('Default Values').'</option>';
+            $this->_storeFromHtml .= '<option value="0">' . __('Default Values') . '</option>';
             foreach ($this->getWebsiteCollection() as $_website) {
                 if (!$this->hasWebsite($_website->getId())) {
                     continue;

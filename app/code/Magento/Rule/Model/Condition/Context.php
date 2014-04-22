@@ -20,12 +20,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_assetRepo;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -41,20 +41,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\View\Asset\Repository $assetRepo
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\View\Asset\Repository $assetRepo,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
     ) {
         $this->_assetRepo = $assetRepo;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_layout = $layout;
         $this->_conditionFactory = $conditionFactory;
         $this->_logger = $logger;
@@ -69,15 +69,15 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    public function getLocale()
+    public function getLocaleDate()
     {
-        return $this->_locale;
+        return $this->_localeDate;
     }
 
     /**
-     * @return \Magento\View\LayoutInterface
+     * @return \Magento\Framework\View\LayoutInterface
      */
     public function getLayout()
     {

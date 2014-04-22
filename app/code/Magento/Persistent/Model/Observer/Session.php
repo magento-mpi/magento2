@@ -100,7 +100,7 @@ class Session
 
         $persistentLifeTime = $this->_persistentData->getLifeTime();
         // Delete persistent session, if persistent could not be applied
-        if ($this->_persistentData->isEnabled() && ($persistentLifeTime <= 0)) {
+        if ($this->_persistentData->isEnabled() && $persistentLifeTime <= 0) {
             // Remove current customer persistent session
             $this->_sessionFactory->create()->deleteByCustomerId($customer->getId());
             return;
@@ -110,11 +110,10 @@ class Session
         $sessionModel = $this->_persistentSession->getSession();
 
         // Check if session is wrong or not exists, so create new session
-        if (!$sessionModel->getId() || ($sessionModel->getCustomerId() != $customer->getId())) {
+        if (!$sessionModel->getId() || $sessionModel->getCustomerId() != $customer->getId()) {
             /** @var \Magento\Persistent\Model\Session $sessionModel */
             $sessionModel = $this->_sessionFactory->create();
-            $sessionModel->setLoadExpired()
-                ->loadByCustomerId($customer->getId());
+            $sessionModel->setLoadExpired()->loadByCustomerId($customer->getId());
             if (!$sessionModel->getId()) {
                 /** @var \Magento\Persistent\Model\Session $sessionModel */
                 $sessionModel = $this->_sessionFactory->create();
@@ -174,12 +173,12 @@ class Session
         /** @var $sessionModel \Magento\Persistent\Model\Session */
         $sessionModel = $this->_persistentSession->getSession();
 
-        /** @var $request \Magento\App\RequestInterface */
+        /** @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
 
         // Quote Id could be changed only by logged in customer
-        if ($this->_customerSession->isLoggedIn()
-            || ($request && $request->getActionName() == 'logout' && $request->getControllerName() == 'account')
+        if ($this->_customerSession->isLoggedIn() ||
+            $request && $request->getActionName() == 'logout' && $request->getControllerName() == 'account'
         ) {
             $sessionModel->save();
         }
@@ -193,20 +192,20 @@ class Session
      */
     public function setRememberMeCheckedStatus(Observer $observer)
     {
-        if (!$this->_persistentData->canProcess($observer)
-            || !$this->_persistentData->isEnabled()
-            || !$this->_persistentData->isRememberMeEnabled()
+        if (!$this->_persistentData->canProcess(
+            $observer
+        ) || !$this->_persistentData->isEnabled() || !$this->_persistentData->isRememberMeEnabled()
         ) {
             return;
         }
 
-        /** @var $controllerAction \Magento\App\RequestInterface */
+        /** @var $controllerAction \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
         if ($request) {
             $rememberMeCheckbox = $request->getPost('persistent_remember_me');
             $this->_persistentSession->setRememberMeChecked((bool)$rememberMeCheckbox);
-            if ($request->getFullActionName() == 'checkout_onepage_saveBilling'
-                || $request->getFullActionName() == 'customer_account_createpost'
+            if ($request->getFullActionName() == 'checkout_onepage_saveBilling' ||
+                $request->getFullActionName() == 'customer_account_createpost'
             ) {
                 $this->_checkoutSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
@@ -221,14 +220,14 @@ class Session
      */
     public function renewCookie(Observer $observer)
     {
-        if (!$this->_persistentData->canProcess($observer)
-            || !$this->_persistentData->isEnabled()
-            || !$this->_persistentSession->isPersistent()
+        if (!$this->_persistentData->canProcess(
+            $observer
+        ) || !$this->_persistentData->isEnabled() || !$this->_persistentSession->isPersistent()
         ) {
             return;
         }
 
-        /** @var $request \Magento\App\RequestInterface */
+        /** @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
 
         if ($this->_customerSession->isLoggedIn() || $request->getFullActionName() == 'customer_account_logout') {

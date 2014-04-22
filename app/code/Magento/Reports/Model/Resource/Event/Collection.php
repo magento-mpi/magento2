@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Event;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Ids
@@ -63,10 +63,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $stores = $this->getResource()->getCurrentStoreIds($this->_storeIds);
         $select = $this->getSelect();
-        $select->where('event_type_id = ?', $typeId)
-            ->where('subject_id = ?', $subjectId)
-            ->where('subtype = ?', $subtype)
-            ->where('store_id IN(?)', $stores);
+        $select->where(
+            'event_type_id = ?',
+            $typeId
+        )->where(
+            'subject_id = ?',
+            $subjectId
+        )->where(
+            'subtype = ?',
+            $subtype
+        )->where(
+            'store_id IN(?)',
+            $stores
+        );
         if ($ignore) {
             if (is_array($ignore)) {
                 $select->where('object_id NOT IN(?)', $ignore);
@@ -74,8 +83,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 $select->where('object_id <> ?', $ignore);
             }
         }
-        $select->group('object_id')
-            ->limit($limit);
+        $select->group('object_id')->limit($limit);
         return $this;
     }
 }

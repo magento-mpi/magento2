@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\Weee\Helper\Data">
         <arguments>
             <argument name="weeeTax" xsi:type="object">Magento\Weee\Model\Tax\Proxy</argument>
@@ -15,7 +15,7 @@
     </type>
     <type name="Magento\Weee\Model\Observer">
         <arguments>
-            <argument name="layout" xsi:type="object">Magento\Core\Model\Layout\Proxy</argument>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\Layout\Proxy</argument>
             <argument name="weeeTax" xsi:type="object">Magento\Weee\Model\Tax\Proxy</argument>
             <argument name="weeeData" xsi:type="object">Magento\Weee\Helper\Data\Proxy</argument>
         </arguments>
@@ -24,6 +24,17 @@
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="weee_setup" xsi:type="string">Magento\Sales\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Pricing\Adjustment\Pool">
+        <arguments>
+            <argument name="adjustments" xsi:type="array">
+                <item name="weee" xsi:type="array">
+                    <item name="className" xsi:type="string">Magento\Weee\Pricing\Adjustment</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
             </argument>
         </arguments>
     </type>

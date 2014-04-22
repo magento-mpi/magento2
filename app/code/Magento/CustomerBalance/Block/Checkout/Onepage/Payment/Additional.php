@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 
 /**
  * Customer balance as an additional payment option during checkout
@@ -15,9 +15,7 @@
  * @category   Magento
  * @package    Magento_CustomerBalance
  */
-namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
-
-class Additional extends \Magento\View\Element\Template
+class Additional extends \Magento\Framework\View\Element\Template
 {
     /**
      * Customer balance instance
@@ -42,14 +40,14 @@ class Additional extends \Magento\View\Element\Template
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -90,9 +88,11 @@ class Additional extends \Magento\View\Element\Template
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = $this->_balanceFactory->create()
-                ->setCustomer($this->_getCustomer())
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
+            $this->_balanceModel = $this->_balanceFactory->create()->setCustomer(
+                $this->_getCustomer()
+            )->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            );
 
             //load customer balance for customer in case we have
             //registered customer and this is not guest checkout
@@ -181,7 +181,8 @@ class Additional extends \Magento\View\Element\Template
      *
      * @return bool
      */
-    public function isCustomerBalanceUsed() {
+    public function isCustomerBalanceUsed()
+    {
         return $this->_getQuote()->getUseCustomerBalance();
     }
 

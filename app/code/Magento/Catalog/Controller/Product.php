@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller;
 
 use Magento\Catalog\Model\Product as ModelProduct;
 
-class Product
-    extends \Magento\App\Action\Action
-    implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Product extends \Magento\Framework\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Initialize requested product object
@@ -24,7 +21,7 @@ class Product
     protected function _initProduct()
     {
         $categoryId = (int)$this->getRequest()->getParam('category', false);
-        $productId  = (int)$this->getRequest()->getParam('id');
+        $productId = (int)$this->getRequest()->getParam('id');
 
         $params = new \Magento\Object();
         $params->setCategoryId($categoryId);
@@ -49,12 +46,31 @@ class Product
      *
      * @return void
      */
+
+    /**
+     * Product view action
+     *
+     * @return void
+     */
     public function viewAction()
     {
         // Get initial data from request
-        $categoryId = (int)$this->getRequest()->getParam('category', false);
-        $productId  = (int)$this->getRequest()->getParam('id');
+        $categoryId = (int) $this->getRequest()->getParam('category', false);
+        $productId = (int) $this->getRequest()->getParam('id');
         $specifyOptions = $this->getRequest()->getParam('options');
+
+        if ($this->getRequest()->isPost() && $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
+            if ($specifyOptions) {
+                $product = $this->_initProduct();
+                if (!$product) {
+                    $this->noProductRedirect();
+                }
+                $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
+                $this->messageManager->addNotice($notice);
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+            }
+            return;
+        }
 
         // Prepare helper and params
         /** @var \Magento\Catalog\Helper\Product\View $viewHelper */
@@ -69,11 +85,7 @@ class Product
             $viewHelper->prepareAndRender($productId, $this, $params);
         } catch (\Exception $e) {
             if ($e->getCode() == $viewHelper->ERR_NO_PRODUCT_LOADED) {
-                if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
-                    $this->_redirect('');
-                } elseif (!$this->getResponse()->isRedirect()) {
-                    $this->_forward('noroute');
-                }
+                $this->noProductRedirect();
             } else {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_forward('noroute');
@@ -98,5 +110,19 @@ class Product
         }
         $this->_view->loadLayout();
         $this->_view->renderLayout();
+    }
+
+    /**
+     * Redirect if product failed to load
+     *
+     * @return void
+     */
+    protected function noProductRedirect()
+    {
+        if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
+            $this->_redirect('');
+        } elseif (!$this->getResponse()->isRedirect()) {
+            $this->_forward('noroute');
+        }
     }
 }

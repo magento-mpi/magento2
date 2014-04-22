@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminGws\Model;
 
 class BlocksTest extends \PHPUnit_Framework_TestCase
@@ -26,26 +25,34 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $form = $this->getMock('Magento\Data\Form', array('getElement' ,'setDisabled'), array(), '', false);
-        $form->expects($this->exactly(3))
-            ->method('getElement')
-            ->with($this->logicalOr(
+        $form = $this->getMock('Magento\Framework\Data\Form', array('getElement', 'setDisabled'), array(), '', false);
+        $form->expects(
+            $this->exactly(3)
+        )->method(
+            'getElement'
+        )->with(
+            $this->logicalOr(
                 $this->equalTo('tax_customer_class'),
                 $this->equalTo('tax_product_class'),
-                $this->equalTo('tax_rate'))
+                $this->equalTo('tax_rate')
             )
-            ->will($this->returnSelf());
+        )->will(
+            $this->returnSelf()
+        );
 
-        $form->expects($this->exactly(3))
-            ->method('setDisabled')
-            ->with($this->equalTo(true))
-            ->will($this->returnSelf());
+        $form->expects(
+            $this->exactly(3)
+        )->method(
+            'setDisabled'
+        )->with(
+            $this->equalTo(true)
+        )->will(
+            $this->returnSelf()
+        );
 
-        $observerMock = new \Magento\Object(array(
-            'event' => new \Magento\Object(array(
-                'block' => new \Magento\Object(array('form' => $form))
-            ))
-        ));
+        $observerMock = new \Magento\Object(
+            array('event' => new \Magento\Object(array('block' => new \Magento\Object(array('form' => $form)))))
+        );
 
         $this->_model->disableTaxRelatedMultiselects($observerMock);
     }

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
 /**
  * Adminhtml sales order create sidebar recently compared block
@@ -15,17 +16,18 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
-
 class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
     /**
+     * Product factory
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
+     * Event
+     *
      * @var \Magento\Reports\Model\Resource\Event
      */
     protected $_event;
@@ -53,6 +55,11 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         parent::__construct($context, $sessionQuote, $orderCreate, $salesConfig, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -60,6 +67,11 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         $this->setDataId('pcompared');
     }
 
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Recently Compared Products');
@@ -77,25 +89,36 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
             // get products to skip
             $skipProducts = array();
             if ($collection = $this->getCreateOrderModel()->getCustomerCompareList()) {
-                $collection = $collection->getItemCollection()
-                    ->useProductItem(true)
-                    ->setStoreId($this->getStoreId())
-                    ->setCustomerId($this->getCustomerId())
-                    ->load();
+                $collection = $collection->getItemCollection()->useProductItem(
+                    true
+                )->setStoreId(
+                    $this->getStoreId()
+                )->setCustomerId(
+                    $this->getCustomerId()
+                )->load();
                 foreach ($collection as $_item) {
                     $skipProducts[] = $_item->getProductId();
                 }
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = $this->_productFactory->create()->getCollection()
-                ->setStoreId($this->getQuote()->getStoreId())
-                ->addStoreFilter($this->getQuote()->getStoreId())
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image');
+            $productCollection = $this->_productFactory->create()->getCollection()->setStoreId(
+                $this->getQuote()->getStoreId()
+            )->addStoreFilter(
+                $this->getQuote()->getStoreId()
+            )->addAttributeToSelect(
+                'name'
+            )->addAttributeToSelect(
+                'price'
+            )->addAttributeToSelect(
+                'small_image'
+            );
             $this->_event->applyLogToCollection(
-                $productCollection, \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
+                $productCollection,
+                \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE,
+                $this->getCustomerId(),
+                0,
+                $skipProducts
             );
 
             $productCollection->load();
@@ -107,7 +130,7 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
     /**
      * Retrieve availability removing items in block
      *
-     * @return bool
+     * @return false
      */
     public function canRemoveItems()
     {
@@ -128,10 +151,11 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
     /**
      * Retrieve product identifier of block item
      *
-     * @param   mixed $item
-     * @return  int
+     * @param \Magento\Object $item
+     * @return int
      */
-    public function getProductId($item) {
+    public function getProductId($item)
+    {
         return $item->getId();
     }
 }

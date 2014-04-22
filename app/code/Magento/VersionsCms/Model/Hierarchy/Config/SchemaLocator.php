@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Hierarchy\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -31,7 +31,7 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir('etc', 'Magento_VersionsCms');
-        $this->_schema =  $etcDir . '/menu_hierarchy_merged.xsd';
+        $this->_schema = $etcDir . '/menu_hierarchy_merged.xsd';
         $this->_perFileSchema = $etcDir . '/menu_hierarchy.xsd';
     }
 

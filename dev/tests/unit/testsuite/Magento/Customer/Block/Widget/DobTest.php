@@ -7,29 +7,39 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Core\Model\LocaleInterface;
 use Magento\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
 {
     /** Constants used in the unit tests */
     const MIN_DATE = '01/01/2010';
+
     const MAX_DATE = '01/01/2020';
+
     const DATE = '01/01/2014';
-    const DAY = '01';    // Value of date('d', strtotime(self::DATE))
-    const MONTH = '01';  // Value of date('m', strtotime(self::DATE))
-    const YEAR = '2014'; // Value of date('Y', strtotime(self::DATE))
+
+    const DAY = '01';
+
+    // Value of date('d', strtotime(self::DATE))
+    const MONTH = '01';
+
+    // Value of date('m', strtotime(self::DATE))
+    const YEAR = '2014';
+
+    // Value of date('Y', strtotime(self::DATE))
     const DATE_FORMAT = 'M/d/yy';
 
     /** Constants used by Dob::setDateInput($code, $html) */
     const DAY_HTML =
         '<div><label for="day"><span>d</span></label><input type="text" id="day" name="Day" value="1"></div>';
+
     const MONTH_HTML =
         '<div><label for="month"><span>M</span></label><input type="text" id="month" name="Month" value="jan"></div>';
+
     const YEAR_HTML =
         '<div><label for="year"><span>yy</span></label><input type="text" id="year" name="Year" value="14"></div>';
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
     private $_attribute;
 
     /** @var Dob */
@@ -43,32 +53,52 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $zendCacheCore = new \Zend_Cache_Core();
         $zendCacheCore->setBackend(new \Zend_Cache_Backend_BlackHole());
 
-        $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', [], '', false);
-        $frontendCache->expects($this->any())
-            ->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
-        $app = $this->getMock('Magento\Core\Model\App', [], [], '', false);
-        $app->expects($this->any())->method('getCache')->will($this->returnValue($frontendCache));
+        $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', array(), '', false);
+        $frontendCache->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
+        $cache = $this->getMock('Magento\Framework\App\CacheInterface');
+        $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $locale = $objectManager
-            ->getObject('Magento\Core\Model\Locale', ['app' => $app, 'locale' => LocaleInterface::DEFAULT_LOCALE]);
+        $locale = $objectManager->getObject(
+            '\Magento\Locale',
+            array('locale' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE)
+        );
+        $localeResolver = $this->getMock('\Magento\Locale\ResolverInterface');
+        $localeResolver->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
+        $timezone = $objectManager->getObject(
+            '\Magento\Stdlib\DateTime\Timezone',
+            array('localeResolver' => $localeResolver)
+        );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $context->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $context->expects($this->any())->method('getLocaleDate')->will($this->returnValue($timezone));
 
-        $this->_attribute = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
-        $this->_metadataService =
-            $this->getMockForAbstractClass(
-                'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
-            );
-        $this->_metadataService
-            ->expects($this->any())->method('getAttributeMetadata')->will($this->returnValue($this->_attribute));
+        $this->_attribute = $this->getMock(
+            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_metadataService = $this->getMockForAbstractClass(
+            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
+            array(),
+            '',
+            false
+        );
+        $this->_metadataService->expects(
+            $this->any()
+        )->method(
+            'getCustomerAttributeMetadata'
+        )->will(
+            $this->returnValue($this->_attribute)
+        );
 
         date_default_timezone_set('America/Los_Angeles');
 
         $this->_block = new Dob(
             $context,
-            $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
+            $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false),
             $this->_metadataService
         );
     }
@@ -90,18 +120,18 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function isEnabledDataProvider()
     {
-        return [
-            [true, true],
-            [false, false]
-        ];
+        return array(array(true, true), array(false, false));
     }
 
     public function testIsEnabledWithException()
     {
-        $this->_metadataService
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->_metadataService->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException('field', 'value'))
+        );
         $this->assertSame(false, $this->_block->isEnabled());
     }
 
@@ -119,10 +149,13 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRequiredWithException()
     {
-        $this->_metadataService
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->_metadataService->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException('field', 'value'))
+        );
         $this->assertSame(false, $this->_block->isRequired());
     }
 
@@ -131,10 +164,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function isRequiredDataProvider()
     {
-        return [
-            [true, true],
-            [false, false]
-        ];
+        return array(array(true, true), array(false, false));
     }
 
     /**
@@ -156,10 +186,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function setDateDataProvider()
     {
-        return [
-            [self::DATE, strtotime(self::DATE), self::DATE],
-            [false, false, false]
-        ];
+        return array(array(self::DATE, strtotime(self::DATE), self::DATE), array(false, false, false));
     }
 
     /**
@@ -179,10 +206,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getDayDataProvider()
     {
-        return [
-            [self::DATE, self::DAY],
-            [false, '']
-        ];
+        return array(array(self::DATE, self::DAY), array(false, ''));
     }
 
     /**
@@ -202,10 +226,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getMonthDataProvider()
     {
-        return [
-            [self::DATE, self::MONTH],
-            [false, '']
-        ];
+        return array(array(self::DATE, self::MONTH), array(false, ''));
     }
 
     /**
@@ -225,14 +246,11 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getYearDataProvider()
     {
-        return [
-            [self::DATE, self::YEAR],
-            [false, '']
-        ];
+        return array(array(self::DATE, self::YEAR), array(false, ''));
     }
 
     /**
-     * The LocaleInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
+     * The \Magento\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
      * value of Dob::getDateFormat() for that Locale.
      */
     public function testGetDateFormat()
@@ -250,8 +268,23 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_block->setDateInput('m', self::MONTH_HTML);
         $this->_block->setDateInput('y', self::YEAR_HTML);
 
+        $this->assertEquals(self::MONTH_HTML . self::DAY_HTML . self::YEAR_HTML, $this->_block->getSortedDateInputs());
+    }
+
+    /**
+     * This tests the Dob::setDateInput() method. The Dob::getSortedDateInputs() uses the value of
+     * Dob::getDateFormat() to derive the return value, which is equivalent to self::DATE_FORMAT.
+     */
+    public function testGetSortedDateInputsWithoutStrippingNonInputChars()
+    {
+        $this->_block->setDateInput('d', self::DAY_HTML);
+        $this->_block->setDateInput('m', self::MONTH_HTML);
+        $this->_block->setDateInput('y', self::YEAR_HTML);
+
         $this->assertEquals(
-            self::MONTH_HTML . self::DAY_HTML . self::YEAR_HTML, $this->_block->getSortedDateInputs());
+            self::MONTH_HTML . '/' . self::DAY_HTML . '/' . self::YEAR_HTML,
+            $this->_block->getSortedDateInputs(false)
+        );
     }
 
     /**
@@ -262,8 +295,13 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinDateRange($validationRules, $expectedValue)
     {
-        $this->_attribute
-            ->expects($this->once())->method('getValidationRules')->will($this->returnValue($validationRules));
+        $this->_attribute->expects(
+            $this->once()
+        )->method(
+            'getValidationRules'
+        )->will(
+            $this->returnValue($validationRules)
+        );
         $this->assertEquals($expectedValue, $this->_block->getMinDateRange());
     }
 
@@ -272,18 +310,24 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getMinDateRangeDataProvider()
     {
-        return [
-            [[Dob::MIN_DATE_RANGE_KEY => strtotime(self::MIN_DATE)], date('Y/m/d', strtotime(self::MIN_DATE))],
-            [[], null]
-        ];
+        return array(
+            array(
+                array(Dob::MIN_DATE_RANGE_KEY => strtotime(self::MIN_DATE)),
+                date('Y/m/d', strtotime(self::MIN_DATE))
+            ),
+            array(array(), null)
+        );
     }
 
     public function testGetMinDateRangeWithException()
     {
-        $this->_metadataService
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->_metadataService->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException('field', 'value'))
+        );
         $this->assertNull($this->_block->getMinDateRange());
     }
 
@@ -295,8 +339,13 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaxDateRange($validationRules, $expectedValue)
     {
-        $this->_attribute
-            ->expects($this->once())->method('getValidationRules')->will($this->returnValue($validationRules));
+        $this->_attribute->expects(
+            $this->once()
+        )->method(
+            'getValidationRules'
+        )->will(
+            $this->returnValue($validationRules)
+        );
         $this->assertEquals($expectedValue, $this->_block->getMaxDateRange());
     }
 
@@ -305,18 +354,24 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getMaxDateRangeDataProvider()
     {
-        return [
-            [[Dob::MAX_DATE_RANGE_KEY => strtotime(self::MAX_DATE)], date('Y/m/d', strtotime(self::MAX_DATE))],
-            [[], null]
-        ];
+        return array(
+            array(
+                array(Dob::MAX_DATE_RANGE_KEY => strtotime(self::MAX_DATE)),
+                date('Y/m/d', strtotime(self::MAX_DATE))
+            ),
+            array(array(), null)
+        );
     }
 
     public function testGetMaxDateRangeWithException()
     {
-        $this->_metadataService
-            ->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->_metadataService->expects(
+            $this->any()
+        )->method(
+            'getAttributeMetadata'
+        )->will(
+            $this->throwException(new NoSuchEntityException('field', 'value'))
+        );
         $this->assertNull($this->_block->getMaxDateRange());
     }
 }

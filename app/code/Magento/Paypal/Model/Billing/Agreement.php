@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model\Billing;
+
+use Magento\Sales\Model\Order\Payment;
 
 /**
  * Billing Agreement abstract model
@@ -32,8 +33,9 @@ namespace Magento\Paypal\Model\Billing;
  */
 class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 {
-    const STATUS_ACTIVE     = 'active';
-    const STATUS_CANCELED   = 'canceled';
+    const STATUS_ACTIVE = 'active';
+
+    const STATUS_CANCELED = 'canceled';
 
     /**
      * Related agreement orders
@@ -48,28 +50,28 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     protected $_billingAgreementFactory;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
-     * @param \Magento\Core\Model\DateFactory $dateFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
-        \Magento\Core\Model\DateFactory $dateFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $paymentData, $resource, $resourceCollection, $data);
@@ -79,6 +81,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -88,7 +92,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Set created_at parameter
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -104,7 +108,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Save agreement order relations
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterSave()
     {
@@ -147,7 +151,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * Get billing agreement details
      * Data from response is inside this object
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function verifyToken()
     {
@@ -159,7 +163,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Create billing agreement
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function place()
     {
@@ -168,7 +172,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         $paymentMethodInstance = $this->getPaymentMethodInstance()
             ->placeBillingAgreement($this);
 
-        $this->setCustomerId($this->getCustomer()->getId())
+        $this->setCustomerId($this->getCustomerId())
             ->setMethodCode($this->getMethodCode())
             ->setReferenceId($this->getBillingAgreementId())
             ->setStatus(self::STATUS_ACTIVE)
@@ -180,7 +184,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Cancel billing agreement
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function cancel()
     {
@@ -196,7 +200,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      */
     public function canCancel()
     {
-        return ($this->getStatus() != self::STATUS_CANCELED);
+        return $this->getStatus() != self::STATUS_CANCELED;
     }
 
     /**
@@ -236,10 +240,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      *  [billing_agreement_id]  => string
      *  [method_code]           => string
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @param Payment $payment
+     * @return $this
      */
-    public function importOrderPayment(\Magento\Sales\Model\Order\Payment $payment)
+    public function importOrderPayment(Payment $payment)
     {
         $baData = $payment->getBillingAgreementData();
 
@@ -286,7 +290,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * Add order relation to current billing agreement
      *
      * @param int|\Magento\Sales\Model\Order $orderId
-     * @return \Magento\Paypal\Model\Billing\Agreement
+     * @return $this
      */
     public function addOrderRelation($orderId)
     {
@@ -296,6 +300,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 
     /**
      * Save related orders
+     *
+     * @return void
      */
     protected function _saveOrderRelations()
     {

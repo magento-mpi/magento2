@@ -5,48 +5,53 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Adminhtml billing agreement info tab
  */
-namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
-
-class Info extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'billing/agreement/view/tab/info.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
+    /**
+     * Customer service
+     *
+     * @var CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Registry $registry
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Registry $registry,
+        CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct($context, $data);
     }
 
     /**
-     * Return Tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -54,9 +59,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -64,9 +67,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Can show tab in tabs
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -74,9 +75,7 @@ class Info extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Tab is hidden
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isHidden()
     {
@@ -103,20 +102,14 @@ class Info extends \Magento\Backend\Block\Template
         $agreement = $this->_getBillingAgreement();
         $this->setReferenceId($agreement->getReferenceId());
         $customerId = $agreement->getCustomerId();
-        $customer = $this->_customerService->getCustomer($customerId);
+        $customer = $this->_customerAccountService->getCustomer($customerId);
 
         $this->setCustomerEmail($customer->getEmail());
-        $this->setCustomerUrl(
-            $this->getUrl('customer/index/edit', array('id' => $customerId))
-        );
+        $this->setCustomerUrl($this->getUrl('customer/index/edit', array('id' => $customerId)));
         $this->setStatus($agreement->getStatusLabel());
-        $this->setCreatedAt(
-            $this->formatDate($agreement->getCreatedAt(), 'short', true)
-        );
+        $this->setCreatedAt($this->formatDate($agreement->getCreatedAt(), 'short', true));
         $this->setUpdatedAt(
-            ($agreement->getUpdatedAt())
-                ? $this->formatDate($agreement->getUpdatedAt(), 'short', true)
-                : __('N/A')
+            $agreement->getUpdatedAt() ? $this->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
         );
 
         return parent::_toHtml();

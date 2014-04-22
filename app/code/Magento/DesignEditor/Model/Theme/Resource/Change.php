@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Theme\Resource;
 /**
  * Theme change resource model
  */
-class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -20,11 +20,11 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      * @return void
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -43,10 +43,10 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * {@inheritdoc}
      *
-     * @param \Magento\Core\Model\AbstractModel $change
+     * @param \Magento\Framework\Model\AbstractModel $change
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $change)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $change)
     {
         if (!$change->getChangeTime()) {
             $change->setChangeTime($this->dateTime->formatDate(true));

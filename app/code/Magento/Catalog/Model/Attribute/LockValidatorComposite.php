@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Attribute;
 
 class LockValidatorComposite implements LockValidatorInterface
@@ -32,20 +31,19 @@ class LockValidatorComposite implements LockValidatorInterface
         }
     }
 
-
     /**
      * Check attribute lock state
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param null $attributeSet
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      *
      * @return void
      */
-    public function validate(\Magento\Core\Model\AbstractModel $object, $attributeSet = null)
+    public function validate(\Magento\Framework\Model\AbstractModel $object, $attributeSet = null)
     {
         foreach ($this->validators as $validator) {
             $validator->validate($object, $attributeSet);
         }
     }
-} 
+}

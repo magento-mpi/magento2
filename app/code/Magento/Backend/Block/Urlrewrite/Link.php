@@ -21,7 +21,7 @@
  */
 namespace Magento\Backend\Block\Urlrewrite;
 
-class Link extends \Magento\View\Element\AbstractBlock
+class Link extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * Render output
@@ -30,7 +30,8 @@ class Link extends \Magento\View\Element\AbstractBlock
      */
     protected function _toHtml()
     {
-        return '<p>' . $this->getLabel() . ' <a href="' . $this->getItemUrl() . '">'
-            . $this->escapeHtml($this->getItemName()) . '</a></p>';
+        return '<p>' . $this->getLabel() . ' <a href="' . $this->getItemUrl() . '">' . $this->escapeHtml(
+            $this->getItemName()
+        ) . '</a></p>';
     }
 }

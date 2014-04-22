@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme;
 
 class FileTest extends \PHPUnit_Framework_TestCase
@@ -32,16 +31,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create('Magento\Core\Model\Theme\File');
-        /** @var $themeModel \Magento\View\Design\ThemeInterface */
-        $themeModel = $objectManager->create('Magento\View\Design\ThemeInterface');
+        /** @var $themeModel \Magento\Framework\View\Design\ThemeInterface */
+        $themeModel = $objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         $this->_theme = $themeModel->getCollection()->getFirstItem();
         $this->_data = array(
             'file_path' => 'main.css',
             'file_type' => 'css',
-            'content'   => 'content files',
-            'order'     => 0,
-            'theme'     => $this->_theme,
-            'theme_id'  => $this->_theme->getId(),
+            'content' => 'content files',
+            'order' => 0,
+            'theme' => $this->_theme,
+            'theme_id' => $this->_theme->getId()
         );
     }
 

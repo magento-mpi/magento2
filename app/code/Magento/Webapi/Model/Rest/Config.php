@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Model\Rest;
 
 use Magento\Webapi\Controller\Rest\Router\Route;
-use \Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\Config as ModelConfig;
 
 /**
@@ -20,19 +20,30 @@ class Config
      * HTTP methods supported by REST.
      */
     const HTTP_METHOD_GET = 'GET';
+
     const HTTP_METHOD_DELETE = 'DELETE';
+
     const HTTP_METHOD_PUT = 'PUT';
+
     const HTTP_METHOD_POST = 'POST';
+
     /**#@-*/
 
     /**#@+
      * Keys that a used for config internal representation.
      */
     const KEY_IS_SECURE = 'isSecure';
+
     const KEY_CLASS = 'class';
+
     const KEY_METHOD = 'method';
+
     const KEY_ROUTE_PATH = 'routePath';
+
     const KEY_ACL_RESOURCES = 'resources';
+
+    const KEY_PARAMETERS = 'parameters';
+
     /*#@-*/
 
     /** @var ModelConfig */
@@ -45,10 +56,8 @@ class Config
      * @param ModelConfig $config
      * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
-    public function __construct(
-        ModelConfig $config,
-        \Magento\Controller\Router\Route\Factory $routeFactory
-    ) {
+    public function __construct(ModelConfig $config, \Magento\Controller\Router\Route\Factory $routeFactory)
+    {
         $this->_config = $config;
         $this->_routeFactory = $routeFactory;
     }
@@ -70,14 +79,37 @@ class Config
         /** @var $route \Magento\Webapi\Controller\Rest\Router\Route */
         $route = $this->_routeFactory->createRoute(
             'Magento\Webapi\Controller\Rest\Router\Route',
-            strtolower($routeData[self::KEY_ROUTE_PATH])
+            $this->_formatRoutePath($routeData[self::KEY_ROUTE_PATH])
         );
 
-        $route->setServiceClass($routeData[self::KEY_CLASS])
-            ->setServiceMethod($routeData[self::KEY_METHOD])
-            ->setSecure($routeData[self::KEY_IS_SECURE])
-            ->setAclResources($routeData[self::KEY_ACL_RESOURCES]);
+        $route->setServiceClass(
+            $routeData[self::KEY_CLASS]
+        )->setServiceMethod(
+            $routeData[self::KEY_METHOD]
+        )->setSecure(
+            $routeData[self::KEY_IS_SECURE]
+        )->setAclResources(
+            $routeData[self::KEY_ACL_RESOURCES]
+        )->setParameters(
+            $routeData[self::KEY_PARAMETERS]
+        );
         return $route;
+    }
+
+    /**
+     * Lowercase all parts of the given route path except for the path parameters.
+     *
+     * @param string $routePath The route path (e.g. '/V1/Categories/:categoryId')
+     * @return string The modified route path (e.g. '/v1/categories/:categoryId')
+     */
+    protected function _formatRoutePath($routePath)
+    {
+        $routePathParts = explode('/', $routePath);
+        $pathParts = array();
+        foreach ($routePathParts as $pathPart) {
+            $pathParts[] = substr($pathPart, 0, 1) === ":" ? $pathPart : strtolower($pathPart);
+        }
+        return implode('/', $pathParts);
     }
 
     /**
@@ -106,29 +138,26 @@ class Config
     public function getRestRoutes(\Magento\Webapi\Controller\Rest\Request $request)
     {
         $serviceBaseUrl = $this->_getServiceBaseUrl($request);
-        $httpMethod = $request->getHttpMethod();
+        $requestHttpMethod = $request->getHttpMethod();
         $routes = array();
-        foreach ($this->_config->getServices() as $serviceName => $serviceData) {
+        foreach ($this->_config->getServices()[Converter::KEY_ROUTES] as $url => $httpMethods) {
             // skip if baseurl is not null and does not match
-            if (!isset($serviceData[Converter::KEY_BASE_URL]) || !$serviceBaseUrl
-                || strcasecmp(trim($serviceBaseUrl, '/'), trim($serviceData[Converter::KEY_BASE_URL], '/')) !== 0
-            ) {
-                // baseurl does not match, just skip this service
+            if (!$serviceBaseUrl || strpos(trim($url, '/'), trim($serviceBaseUrl, '/')) !== 0) {
+                // base url does not match, just skip this service
                 continue;
             }
-            foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodName => $methodInfo) {
-                if (strtoupper($methodInfo[Converter::KEY_HTTP_METHOD]) == strtoupper($httpMethod)) {
-                    $secure = $methodInfo[Converter::KEY_IS_SECURE];
-                    $methodRoute = $methodInfo[Converter::KEY_METHOD_ROUTE];
-                    $aclResources = $methodInfo[Converter::KEY_ACL_RESOURCES];
+            foreach ($httpMethods as $httpMethod => $methodInfo) {
+                if (strtoupper($httpMethod) == strtoupper($requestHttpMethod)) {
+                    $aclResources = array_keys($methodInfo[Converter::KEY_ACL_RESOURCES]);
                     $routes[] = $this->_createRoute(
-                        array(
-                            self::KEY_ROUTE_PATH => $serviceData[Converter::KEY_BASE_URL] . $methodRoute,
-                            self::KEY_CLASS => $serviceName,
-                            self::KEY_METHOD => $methodName,
-                            self::KEY_IS_SECURE => $secure,
-                            self::KEY_ACL_RESOURCES => $aclResources
-                        )
+                        [
+                            self::KEY_ROUTE_PATH => $url,
+                            self::KEY_CLASS => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_CLASS],
+                            self::KEY_METHOD => $methodInfo[Converter::KEY_SERVICE][Converter::KEY_SERVICE_METHOD],
+                            self::KEY_IS_SECURE => $methodInfo[Converter::KEY_SECURE],
+                            self::KEY_ACL_RESOURCES => $aclResources,
+                            self::KEY_PARAMETERS => $methodInfo[Converter::KEY_DATA_PARAMETERS],
+                        ]
                     );
                 }
             }

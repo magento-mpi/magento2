@@ -42,11 +42,11 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Custom Design')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Custom Design')));
 
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);
@@ -55,5 +55,4 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
     }
-
 }

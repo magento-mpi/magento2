@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Block\Checkout;
 
 /**
@@ -25,26 +24,27 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_objectManager->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $this->_block = $this->_objectManager->get('Magento\View\LayoutInterface')
+        $this->_block = $this->_objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock('Magento\Multishipping\Block\Checkout\Overview',
                 'checkout_overview',
-                array('data' => array(
+                array(
+                    'data' => array(
                         'renderer_template' => 'Magento_Multishipping::checkout/item/default.phtml',
                         'row_renderer_template' => 'Magento_Multishipping::checkout/overview/item.phtml'
                     ),
                 )
             );
 
-        $this->_block->addChild('renderer.list', '\Magento\View\Element\RendererList');
-        $this->_block->getChildBlock('renderer.list')
-            ->addChild(
-                'default',
-                '\Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'cart/item/default.phtml')
-            );
+        $this->_block->addChild('renderer.list', '\Magento\Framework\View\Element\RendererList');
+        $this->_block->getChildBlock(
+            'renderer.list'
+        )->addChild(
+            'default',
+            '\Magento\Checkout\Block\Cart\Item\Renderer',
+            array('template' => 'cart/item/default.phtml')
+        );
     }
 
     public function testGetRowItemHtml()

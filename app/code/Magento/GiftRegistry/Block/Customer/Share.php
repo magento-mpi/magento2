@@ -2,20 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer gift registry share block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
-class Share
-    extends \Magento\Customer\Block\Account\Dashboard
+class Share extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -26,22 +28,42 @@ class Share
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerView;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param array $data\
+     * @param \Magento\Customer\Helper\View $customerView
+     * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Customer\Helper\View $customerView,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        $this->_customerView = $customerView;
+        parent::__construct(
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
+        );
     }
 
     /**
@@ -51,7 +73,7 @@ class Share
      */
     public function getFormHeader()
     {
-        $formHeader  = $this->escapeHtml($this->getEntity()->getTitle());
+        $formHeader = $this->escapeHtml($this->getEntity()->getTitle());
         return __("Share '%1' Gift Registry", $formHeader);
     }
 
@@ -62,7 +84,7 @@ class Share
      */
     public function getCustomerName()
     {
-        return $this->escapeHtml($this->getCustomer()->getName());
+        return $this->escapeHtml($this->_customerView->getCustomerName($this->getCustomer()));
     }
 
     /**
@@ -89,7 +111,7 @@ class Share
      * Retrieve entered data by key
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {
@@ -98,8 +120,7 @@ class Share
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
-        }
-        else {
+        } else {
             return $this->escapeHtml($this->_formData[$key]);
         }
     }

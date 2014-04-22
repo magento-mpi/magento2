@@ -16,10 +16,15 @@ namespace Magento\Persistent\Helper;
 class Data extends \Magento\Core\Helper\Data
 {
     const XML_PATH_ENABLED = 'persistent/options/enabled';
+
     const XML_PATH_LIFE_TIME = 'persistent/options/lifetime';
+
     const XML_PATH_LOGOUT_CLEAR = 'persistent/options/logout_clear';
+
     const XML_PATH_REMEMBER_ME_ENABLED = 'persistent/options/remember_enabled';
+
     const XML_PATH_REMEMBER_ME_DEFAULT = 'persistent/options/remember_default';
+
     const XML_PATH_PERSIST_SHOPPING_CART = 'persistent/options/shopping_cart';
 
     /**
@@ -37,23 +42,9 @@ class Data extends \Magento\Core\Helper\Data
     protected $_persistentSession;
 
     /**
-     * Checkout data
-     *
-     * @var \Magento\Checkout\Helper\Data
-     */
-    protected $_checkoutData;
-
-    /**
      * @var \Magento\Escaper
      */
     protected $_escaper;
-
-    /**
-     * Core url
-     *
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrl;
 
     /**
      * @var \Magento\Module\Dir\Reader
@@ -61,43 +52,37 @@ class Data extends \Magento\Core\Helper\Data
     protected $_modulesReader;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\App\State $appState
-     * @param \Magento\Core\Helper\Url $coreUrl
-     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $persistentSession
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
-        \Magento\App\State $appState,
-        \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Checkout\Helper\Data $checkoutData,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $persistentSession,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,
         $dbCompatibleMode = true
     ) {
         $this->_modulesReader = $modulesReader;
-        $this->_coreUrl = $coreUrl;
-        $this->_checkoutData = $checkoutData;
         $this->_persistentSession = $persistentSession;
         $this->_escaper = $escaper;
 
         parent::__construct(
             $context,
-            $coreStoreConfig,
+            $scopeConfig,
             $storeManager,
-            $locale,
             $appState,
+            $priceCurrency,
             $dbCompatibleMode
         );
     }
@@ -105,57 +90,79 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Checks whether Persistence Functionality is enabled
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Checks whether "Remember Me" enabled
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isRememberMeEnabled($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_REMEMBER_ME_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Is "Remember Me" checked by default
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isRememberMeCheckedDefault($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_REMEMBER_ME_DEFAULT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Is shopping cart persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isShoppingCartPersist($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_PERSIST_SHOPPING_CART,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
      * Get Persistence Lifetime
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return int
      */
     public function getLifeTime($store = null)
     {
-        $lifeTime = intval($this->_coreStoreConfig->getConfig(self::XML_PATH_LIFE_TIME, $store));
-        return ($lifeTime < 0) ? 0 : $lifeTime;
+        $lifeTime = intval(
+            $this->_scopeConfig->getValue(
+                self::XML_PATH_LIFE_TIME,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            )
+        );
+        return $lifeTime < 0 ? 0 : $lifeTime;
     }
 
     /**
@@ -165,7 +172,10 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getClearOnLogout()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_LOGOUT_CLEAR,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -208,19 +218,4 @@ class Data extends \Magento\Core\Helper\Data
     {
         return true;
     }
-
-    /**
-     * Get create account url depends on checkout
-     *
-     * @param  string $url
-     * @return string
-     */
-    public function getCreateAccountUrl($url)
-    {
-        if ($this->_checkoutData->isContextCheckout()) {
-            $url = $this->_coreUrl->addRequestParam($url, array('context' => 'checkout'));
-        }
-        return $url;
-    }
-
 }

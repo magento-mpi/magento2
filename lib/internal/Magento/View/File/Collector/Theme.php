@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\File\Collector;
 
 use Magento\View\File\CollectorInterface;

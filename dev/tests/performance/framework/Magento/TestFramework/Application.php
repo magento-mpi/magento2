@@ -23,16 +23,9 @@ class Application
     /**
      * Configuration object
      *
-     * @param \Magento\Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
-
-    /**
-     * Application object
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_application;
 
     /**
      * Path to shell installer script
@@ -76,7 +69,7 @@ class Application
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new \Magento\Exception("File '$installerScript' is not found.");
+            throw new \Magento\Exception("File '{$installerScript}' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -91,10 +84,7 @@ class Application
     protected function _reset()
     {
         if ($this->_config->getInstallOptions()) {
-            $this->_uninstall()
-                ->_install()
-                ->reindex()
-                ->_updateFilesystemPermissions();
+            $this->_uninstall()->_install()->reindex()->_updateFilesystemPermissions();
         } else {
             $this->_isInstalled = true;
         }
@@ -167,7 +157,7 @@ class Application
         $installCmd = 'php -f %s --';
         $installCmdArgs = array($this->_installerScript);
         foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= " --$optionName %s";
+            $installCmd .= " --{$optionName} %s";
             $installCmdArgs[] = $optionValue;
         }
         $this->_shell->execute($installCmd, $installCmdArgs);
@@ -182,9 +172,12 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
-        $varDirectory = $this->getObjectManager()->get('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
+        $varDirectory = $this->getObjectManager()->get(
+            'Magento\Framework\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
         $varDirectory->changePermissions('', 0777);
     }
 
@@ -195,12 +188,10 @@ class Application
      */
     protected function _bootstrap()
     {
-        /** @var $app \Magento\Core\Model\App */
-        $this->_application = $this->getObjectManager()->get('Magento\Core\Model\App');
         $this->getObjectManager()->configure(
-            $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+            $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 
@@ -238,8 +229,7 @@ class Application
         }
         $this->_fixtures = $fixtures;
 
-        $this->reindex()
-            ->_updateFilesystemPermissions();
+        $this->reindex()->_updateFilesystemPermissions();
     }
 
     /**
@@ -273,10 +263,21 @@ class Application
     public function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
-            $this->_objectManager->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
+            $this->_objectManager->get('Magento\Framework\App\State')->setAreaCode(self::AREA_CODE);
         }
         return $this->_objectManager;
+    }
+
+    /**
+     * Reset object manager
+     *
+     * @return \Magento\ObjectManager
+     */
+    public function resetObjectManager()
+    {
+        $this->_objectManager = null;
+        return $this;
     }
 }

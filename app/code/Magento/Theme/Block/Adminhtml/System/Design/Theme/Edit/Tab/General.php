@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
 use \Magento\View\Design\ThemeInterface;
@@ -17,8 +16,7 @@ use \Magento\View\Design\ThemeInterface;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class General
-    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
+class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
 {
     /**
      * Whether theme is editable
@@ -36,16 +34,16 @@ class General
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\File\Size $fileSize,
         array $data = array()
@@ -75,7 +73,7 @@ class General
         }
         $this->setIsThemeExist(isset($formData['theme_id']));
 
-        /** @var $form \Magento\Data\Form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->_addThemeFieldset($form, $formData, $currentTheme);
         if (!$this->getIsThemeExist()) {
@@ -90,22 +88,19 @@ class General
     /**
      * Add theme fieldset
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param array $formData
      * @param \Magento\Core\Model\Theme|ThemeInterface $theme
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _addThemeFieldset($form, $formData, ThemeInterface $theme)
     {
-        $themeFieldset = $form->addFieldset('theme', array(
-            'legend'   => __('Theme Settings'),
-        ));
+        $themeFieldset = $form->addFieldset('theme', array('legend' => __('Theme Settings')));
         $this->_addElementTypes($themeFieldset);
 
         if (isset($formData['theme_id'])) {
-            $themeFieldset->addField('theme_id', 'hidden', array(
-                'name' => 'theme_id'
-            ));
+            $themeFieldset->addField('theme_id', 'hidden', array('name' => 'theme_id'));
         }
 
         /** @var $themesCollections \Magento\Core\Model\Theme\Collection */
@@ -114,57 +109,78 @@ class General
         /** @var $helper \Magento\Core\Helper\Data */
         $helper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
-        $onChangeScript = sprintf('parentThemeOnChange(this.value, %s)', str_replace(
-            '"', '\'', $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
-        ));
+        $onChangeScript = sprintf(
+            'parentThemeOnChange(this.value, %s)',
+            str_replace(
+                '"',
+                '\'',
+                $helper->jsonEncode($this->_getDefaultsInherited($themesCollections->addDefaultPattern()))
+            )
+        );
 
-        /** @var $parentTheme \Magento\View\Design\ThemeInterface */
-        $parentTheme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+        /** @var $parentTheme \Magento\Framework\View\Design\ThemeInterface */
+        $parentTheme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         if (!empty($formData['parent_id'])) {
             $parentTheme->load($formData['parent_id']);
         }
 
         if ($this->_getCurrentTheme()->isObjectNew()) {
-            $themeFieldset->addField('parent_id', 'select', array(
-                'label'    => __('Parent Theme'),
-                'title'    => __('Parent Theme'),
-                'name'     => 'parent_id',
-                'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
-                'required' => true,
-                'class'    => 'no-changes',
-                'onchange' => $onChangeScript
-            ));
-        } else if (!empty($formData['parent_id'])) {
-            $themeFieldset->addField('parent_title', 'note', array(
-                'label'    => __('Parent Theme'),
-                'title'    => __('Parent Theme'),
-                'name'     => 'parent_title',
-                'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
-            ));
+            $themeFieldset->addField(
+                'parent_id',
+                'select',
+                array(
+                    'label'    => __('Parent Theme'),
+                    'title'    => __('Parent Theme'),
+                    'name'     => 'parent_id',
+                    'values'   => $themesCollections->toOptionArray(!$parentTheme->getId()),
+                    'required' => true,
+                    'class'    => 'no-changes',
+                    'onchange' => $onChangeScript
+                )
+            );
+        } elseif (!empty($formData['parent_id'])) {
+            $themeFieldset->addField(
+                'parent_title',
+                'note',
+                array(
+                    'label'    => __('Parent Theme'),
+                    'title'    => __('Parent Theme'),
+                    'name'     => 'parent_title',
+                    'text'     => $parentTheme->getId() ? $parentTheme->getThemeTitle() : ''
+                )
+            );
         }
 
         if (!empty($formData['theme_path'])) {
-            $themeFieldset->addField('theme_path', 'label', array(
-                'label'    => __('Theme Path'),
-                'title'    => __('Theme Path'),
-                'name'     => 'theme_code',
-            ));
+            $themeFieldset->addField(
+                'theme_path',
+                'label',
+                array('label' => __('Theme Path'), 'title' => __('Theme Path'), 'name' => 'theme_code')
+            );
         }
 
-        $themeFieldset->addField('theme_version', $this->_getFieldTextType(), array(
-            'label'    => __('Theme Version'),
-            'title'    => __('Theme Version'),
-            'name'     => 'theme_version',
-            'required' => $this->_isFieldAttrRequired(),
-            'note'     => $this->_filterFieldNote(__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
-        ));
+        $themeFieldset->addField(
+            'theme_version',
+            $this->_getFieldTextType(),
+            array(
+                'label' => __('Theme Version'),
+                'title' => __('Theme Version'),
+                'name' => 'theme_version',
+                'required' => $this->_isFieldAttrRequired(),
+                'note' => $this->_filterFieldNote(__('Example: 0.0.0.1 or 123.1.0.25-alpha1'))
+            )
+        );
 
-        $themeFieldset->addField('theme_title', $this->_getFieldTextType(), array(
-            'label'    => __('Theme Title'),
-            'title'    => __('Theme Title'),
-            'name'     => 'theme_title',
-            'required' => $this->_isFieldAttrRequired()
-        ));
+        $themeFieldset->addField(
+            'theme_title',
+            $this->_getFieldTextType(),
+            array(
+                'label' => __('Theme Title'),
+                'title' => __('Theme Title'),
+                'name' => 'theme_title',
+                'required' => $this->_isFieldAttrRequired()
+            )
+        );
 
         if ($this->_isThemeEditable) {
             $themeFieldset->addField('preview_image', 'image', array(
@@ -225,8 +241,7 @@ class General
      */
     protected function _getAdditionalElementTypes()
     {
-        $element =
-            'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
+        $element = 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Image';
         return array('image' => $element);
     }
 
@@ -274,15 +289,13 @@ class General
     {
         $data = array('' => $this->_getDefaults());
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themesCollections as $theme) {
             $theme->load($theme->getThemePath(), 'theme_path');
             if (!$theme->getId()) {
                 continue;
             }
-            $data[$theme->getId()] = array(
-                'theme_title'          => __('Copy of %1', $theme->getThemeTitle())
-            );
+            $data[$theme->getId()] = array('theme_title' => __('Copy of %1', $theme->getThemeTitle()));
         }
 
         return $data;

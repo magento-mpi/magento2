@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Item;
+
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Quote item abstract model
@@ -18,18 +21,40 @@
  *  - custom_price - new price that can be declared by user and recalculated during calculation process
  *  - original_custom_price - original defined value of custom price without any convertion
  *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method float getDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountAmount(float $amount)
+ * @method float getBaseDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountAmount(float $amount)
+ * @method float getDiscountPercent()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountPercent()
+ * @method float getOriginalDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setOriginalDiscountAmount()
+ * @method float getBaseOriginalDiscountAmount()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseOriginalDiscountAmount()
+ * @method float getDiscountCalculationPrice()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setDiscountCalculationPrice()
+ * @method float getBaseDiscountCalculationPrice()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountCalculationPrice($price)
+ * @method int[] getAppliedRuleIds()
+ * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
-namespace Magento\Sales\Model\Quote\Item;
-
-abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
+abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel implements
+    \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
-    protected $_parentItem  = null;
-    protected $_children    = array();
-    protected $_messages    = array();
+    /**
+     * @var Item|null
+     */
+    protected $_parentItem = null;
+
+    /**
+     * @var array
+     */
+    protected $_children = array();
+
+    /**
+     * @var array
+     */
+    protected $_messages = array();
 
     /**
      * List of custom options
@@ -44,28 +69,22 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_productFactory = $productFactory;
     }
 
@@ -74,14 +93,14 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      *
      * @return \Magento\Sales\Model\Quote
      */
-    abstract function getQuote();
+    abstract public function getQuote();
 
     /**
      * Retrieve address model
      *
      * @return \Magento\Sales\Model\Quote\Address
      */
-    abstract function getAddress();
+    abstract public function getAddress();
 
     /**
      * Retrieve product model object associated with item
@@ -91,10 +110,12 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     public function getProduct()
     {
         $product = $this->_getData('product');
-        if (($product === null) && $this->getProductId()) {
-            $product = $this->_productFactory->create()
-                ->setStoreId($this->getQuote()->getStoreId())
-                ->load($this->getProductId());
+        if ($product === null && $this->getProductId()) {
+            $product = $this->_productFactory->create()->setStoreId(
+                $this->getQuote()->getStoreId()
+            )->load(
+                $this->getProductId()
+            );
             $this->setProduct($product);
         }
 
@@ -123,7 +144,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Specify parent item id before saving data
      *
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -134,12 +155,11 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
-
     /**
      * Set parent item
      *
-     * @param  \Magento\Sales\Model\Quote\Item $parentItem
-     * @return \Magento\Sales\Model\Quote\Item
+     * @param  Item $parentItem
+     * @return $this
      */
     public function setParentItem($parentItem)
     {
@@ -153,7 +173,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Get parent item
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return Item
      */
     public function getParentItem()
     {
@@ -174,7 +194,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Add child item
      *
      * @param  \Magento\Sales\Model\Quote\Item\AbstractItem $child
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function addChild($child)
     {
@@ -187,7 +207,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Adds message(s) for quote item. Duplicated messages are not added.
      *
      * @param  mixed $messages
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function setMessage($messages)
     {
@@ -207,7 +227,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Add message of quote item to array of messages
      *
      * @param   string $message
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function addMessage($message)
     {
@@ -233,7 +253,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Removes message by text
      *
      * @param string $text
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function removeMessageByText($text)
     {
@@ -248,11 +268,12 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Clears all messages
      *
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function clearMessage()
     {
-        $this->unsMessage(); // For older compatibility, when we kept message inside data array
+        $this->unsMessage();
+        // For older compatibility, when we kept message inside data array
         $this->_messages = array();
         return $this;
     }
@@ -260,7 +281,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store model object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -270,7 +291,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Checking item data
      *
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function checkData()
     {
@@ -281,40 +302,45 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
 
         try {
             $this->setQty($qty);
-        } catch (\Magento\Core\Exception $e){
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->setHasError(true);
             $this->setMessage(__('Item qty declaration error'));
         }
 
         try {
             $this->getProduct()->getTypeInstance()->checkProductBuyState($this->getProduct());
-        } catch (\Magento\Core\Exception $e) {
-            $this->setHasError(true)
-                ->setMessage($e->getMessage());
-            $this->getQuote()->setHasError(true)
-                ->addMessage(__('Some of the products below do not have all the required options.'));
+        } catch (\Magento\Framework\Model\Exception $e) {
+            $this->setHasError(true)->setMessage($e->getMessage());
+            $this->getQuote()->setHasError(
+                true
+            )->addMessage(
+                __('Some of the products below do not have all the required options.')
+            );
         } catch (\Exception $e) {
-            $this->setHasError(true)
-                ->setMessage(__('Something went wrong during the item options declaration.'));
-            $this->getQuote()->setHasError(true)
-                ->addMessage(__('We found an item options declaration error.'));
+            $this->setHasError(true)->setMessage(__('Something went wrong during the item options declaration.'));
+            $this->getQuote()->setHasError(true)->addMessage(__('We found an item options declaration error.'));
         }
 
         if ($this->getProduct()->getHasError()) {
-            $this->setHasError(true)
-                ->setMessage(__('Some of the selected options are not currently available.'));
-            $this->getQuote()->setHasError(true)
-                ->addMessage($this->getProduct()->getMessage(), 'options');
+            $this->setHasError(true)->setMessage(__('Some of the selected options are not currently available.'));
+            $this->getQuote()->setHasError(true)->addMessage($this->getProduct()->getMessage(), 'options');
         }
 
         if ($this->getHasConfigurationUnavailableError()) {
-            $this->setHasError(true)
-                ->setMessage(__('Selected option(s) or their combination is not currently available.'));
-            $this->getQuote()->setHasError(true)
-                ->addMessage(__('Some item options or their combination are not currently available.'), 'unavailable-configuration');
+            $this->setHasError(
+                true
+            )->setMessage(
+                __('Selected option(s) or their combination is not currently available.')
+            );
+            $this->getQuote()->setHasError(
+                true
+            )->addMessage(
+                __('Some item options or their combination are not currently available.'),
+                'unavailable-configuration'
+            );
             $this->unsHasConfigurationUnavailableError();
         }
 
@@ -339,7 +365,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     public function getTotalQty()
     {
         if ($this->getParentItem()) {
-            return $this->getQty()*$this->getParentItem()->getQty();
+            return $this->getQty() * $this->getParentItem()->getQty();
         }
         return $this->getQty();
     }
@@ -347,14 +373,14 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Calculate item row total price
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function calcRowTotal()
     {
-        $qty        = $this->getTotalQty();
+        $qty = $this->getTotalQty();
         // Round unit price before multiplying to prevent losing 1 cent on subtotal
-        $total      = $this->getStore()->roundPrice($this->getCalculationPriceOriginal()) * $qty;
-        $baseTotal  = $this->getBaseCalculationPriceOriginal() * $qty;
+        $total = $this->getStore()->roundPrice($this->getCalculationPriceOriginal()) * $qty;
+        $baseTotal = $this->getBaseCalculationPriceOriginal() * $qty;
 
         $this->setRowTotal($this->getStore()->roundPrice($total));
         $this->setBaseRowTotal($this->getStore()->roundPrice($baseTotal));
@@ -410,7 +436,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->hasBaseCalculationPrice()) {
             if ($this->hasCustomPrice()) {
-                $price = (float) $this->getCustomPrice();
+                $price = (double)$this->getCustomPrice();
                 if ($price) {
                     $rate = $this->getStore()->convertPrice($price) / $price;
                     $price = $price / $rate;
@@ -432,7 +458,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->hasBaseCalculationPrice()) {
             if ($this->hasOriginalCustomPrice()) {
-                $price = (float) $this->getOriginalCustomPrice();
+                $price = (double)$this->getOriginalCustomPrice();
                 if ($price) {
                     $rate = $this->getStore()->convertPrice($price) / $price;
                     $price = $price / $rate;
@@ -454,7 +480,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     public function isNominal()
     {
         if (!$this->hasData('is_nominal')) {
-            $this->setData('is_nominal', $this->getProduct() ? '1' == $this->getProduct()->getIsRecurring() : false);
+            $this->setData('is_nominal', $this->getProduct() ? $this->getProduct()->getIsRecurring() : false);
         }
         return $this->_getData('is_nominal');
     }
@@ -523,7 +549,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Get item price. Item price currency is website base currency.
      *
-     * @return decimal
+     * @return float
      */
     public function getPrice()
     {
@@ -534,7 +560,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Specify item price (base calculation price and converted price will be refreshed too)
      *
      * @param   float $value
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return  $this
      */
     public function setPrice($value)
     {
@@ -560,7 +586,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Set new value for converted price
      * @param float $value
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function setConvertedPrice($value)
     {
@@ -572,14 +598,14 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Clone quote item
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function __clone()
     {
         $this->setId(null);
-        $this->_parentItem  = null;
-        $this->_children    = array();
-        $this->_messages    = array();
+        $this->_parentItem = null;
+        $this->_children = array();
+        $this->_messages = array();
         return $this;
     }
 
@@ -597,7 +623,9 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
             $calculate = $this->getProduct()->getPriceType();
         }
 
-        if ((null !== $calculate) && (int)$calculate === \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD) {
+        if (null !== $calculate &&
+            (int)$calculate === \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_CHILD
+        ) {
             return true;
         }
         return false;
@@ -617,8 +645,8 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
             $shipmentType = $this->getProduct()->getShipmentType();
         }
 
-        if (null !== $shipmentType
-            && (int)$shipmentType === \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
+        if (null !== $shipmentType &&
+            (int)$shipmentType === \Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_SEPARATELY
         ) {
             return true;
         }

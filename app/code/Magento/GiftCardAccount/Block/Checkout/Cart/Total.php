@@ -2,16 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Checkout\Cart;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     /**
@@ -20,7 +20,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -29,7 +29,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -43,7 +43,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     }
 
     /**
-     * Get sales quoute
+     * Get sales quote
      *
      * @return \Magento\Sales\Model\Quote
      */
@@ -52,6 +52,9 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         return $this->_checkoutSession->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuoteGiftCards()
     {
         return $this->_giftCardAccountData->getCards($this->getQuote());

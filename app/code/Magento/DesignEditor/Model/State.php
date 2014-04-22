@@ -27,8 +27,10 @@ class State
     /**#@+
      * Session keys
      */
-    const CURRENT_URL_SESSION_KEY    = 'vde_current_url';
-    const CURRENT_MODE_SESSION_KEY   = 'vde_current_mode';
+    const CURRENT_URL_SESSION_KEY = 'vde_current_url';
+
+    const CURRENT_MODE_SESSION_KEY = 'vde_current_mode';
+
     /**#@-*/
 
     /**
@@ -49,7 +51,7 @@ class State
     /**
      * Application Cache Manager
      *
-     * @var \Magento\App\Cache\StateInterface
+     * @var \Magento\Framework\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -64,58 +66,58 @@ class State
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_application;
+    protected $_configuration;
 
     /**
-     * Store list manager
+     * Mutable Config
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Framework\App\Config\MutableScopeConfigInterface
      */
-    protected $_storeManager;
+    protected $_mutableConfig;
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
      * @param AreaEmulator $areaEmulator
-     * @param \Magento\DesignEditor\Model\Url\Factory $urlModelFactory
-     * @param \Magento\App\Cache\StateInterface $cacheState
+     * @param Url\Factory $urlModelFactory
+     * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\DesignEditor\Helper\Data $dataHelper
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\App $application
-     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
+     * @param Theme\Context $themeContext
+     * @param \Magento\Framework\App\Config\MutableScopeConfigInterface $mutableConfig
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
         AreaEmulator $areaEmulator,
         \Magento\DesignEditor\Model\Url\Factory $urlModelFactory,
-        \Magento\App\Cache\StateInterface $cacheState,
+        \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\DesignEditor\Helper\Data $dataHelper,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\App $application,
+        \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Framework\App\Config\MutableScopeConfigInterface $mutableConfig
     ) {
-        $this->_backendSession  = $backendSession;
-        $this->_areaEmulator    = $areaEmulator;
+        $this->_backendSession = $backendSession;
+        $this->_areaEmulator = $areaEmulator;
         $this->_urlModelFactory = $urlModelFactory;
-        $this->_cacheState      = $cacheState;
-        $this->_dataHelper      = $dataHelper;
-        $this->_objectManager   = $objectManager;
-        $this->_application     = $application;
-        $this->_themeContext    = $themeContext;
-        $this->_storeManager    = $storeManager;
+        $this->_cacheState = $cacheState;
+        $this->_dataHelper = $dataHelper;
+        $this->_objectManager = $objectManager;
+        $this->_configuration = $configuration;
+        $this->_themeContext = $themeContext;
+        $this->_mutableConfig = $mutableConfig;
     }
 
     /**
      * Update system data for current VDE environment
      *
      * @param string $areaCode
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return void
      */
-    public function update($areaCode, \Magento\App\RequestInterface $request)
+    public function update($areaCode, \Magento\Framework\App\RequestInterface $request)
     {
         $mode = $request->getAlias('editorMode') ?: self::MODE_NAVIGATION;
         $this->_themeContext->setEditableThemeById($request->getAlias('themeId'));
@@ -137,8 +139,7 @@ class State
      */
     public function reset()
     {
-        $this->_backendSession->unsetData(self::CURRENT_URL_SESSION_KEY)
-            ->unsetData(self::CURRENT_MODE_SESSION_KEY);
+        $this->_backendSession->unsetData(self::CURRENT_URL_SESSION_KEY)->unsetData(self::CURRENT_MODE_SESSION_KEY);
         $this->_themeContext->reset();
         return $this;
     }
@@ -185,14 +186,12 @@ class State
     {
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
-            $this->_storeManager->getStore()->setConfig(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
+            $this->_mutableConfig->setValue(
+                \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID,
+                $themeId,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-            $this->_application->getConfig()->setValue(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
-            );
+            $this->_configuration->setValue(\Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID, $themeId);
         }
     }
 

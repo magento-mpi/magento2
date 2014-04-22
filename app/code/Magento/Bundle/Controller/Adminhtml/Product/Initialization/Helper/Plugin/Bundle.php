@@ -5,20 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
 class Bundle
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
-    public function __construct(\Magento\App\RequestInterface $request)
+    public function __construct(\Magento\Framework\App\RequestInterface $request)
     {
         $this->request = $request;
     }
@@ -26,11 +25,16 @@ class Bundle
     /**
      * Setting Bundle Items Data to product for father processing
      *
+     * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject
      * @param \Magento\Catalog\Model\Product $product
+     *
      * @return \Magento\Catalog\Model\Product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterInitialize(\Magento\Catalog\Model\Product $product)
-    {
+    public function afterInitialize(
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $subject,
+        \Magento\Catalog\Model\Product $product
+    ) {
         if (($items = $this->request->getPost('bundle_options')) && !$product->getCompositeReadonly()) {
             $product->setBundleOptionsData($items);
         }
@@ -55,4 +59,4 @@ class Bundle
 
         return $product;
     }
-} 
+}

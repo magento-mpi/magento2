@@ -22,18 +22,18 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -79,8 +79,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
         $html = '';
         $comments = $this->getChildBlock('shipment_comments');
         if ($comments) {
-            $comments->setEntity($shipment)
-                ->setTitle(__('About Your Shipment'));
+            $comments->setEntity($shipment)->setTitle(__('About Your Shipment'));
             $html = $comments->toHtml();
         }
         return $html;

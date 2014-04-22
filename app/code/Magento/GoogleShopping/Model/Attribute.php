@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Core\Model\AbstractModel
+class Attribute extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
@@ -41,7 +41,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         'use_config_email_template',
         'tier_price',
         'minimal_price',
-        'recurring_profile',
+        'recurring_payment',
         'shipment_type'
     );
 
@@ -75,25 +75,25 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -119,9 +119,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = $this->_productFactory->create()->getResource()
-                ->loadAllAttributes()
-                ->getSortedAttributes($setId);
+        $attributes = $this->_productFactory->create()->getResource()->loadAllAttributes()->getSortedAttributes(
+            $setId
+        );
 
         $titles = array();
         foreach ($attributes as $attribute) {
@@ -147,8 +147,12 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     protected function _isAllowedAttribute($attribute)
     {
-        return !in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes)
-               && !in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes)
-               && $attribute->getFrontendLabel() != "";
+        return !in_array(
+            $attribute->getFrontendInput(),
+            $this->_ignoredAttributeTypes
+        ) && !in_array(
+            $attribute->getAttributeCode(),
+            $this->_ignoredAttributeCodes
+        ) && $attribute->getFrontendLabel() != "";
     }
 }

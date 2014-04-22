@@ -23,9 +23,8 @@ class TypeTransitionManager
     /**
      * @param array $compatibleTypes
      */
-    public function __construct(
-        array $compatibleTypes
-    ) {
+    public function __construct(array $compatibleTypes)
+    {
         $this->compatibleTypes = $compatibleTypes;
     }
 
@@ -33,15 +32,14 @@ class TypeTransitionManager
      * Process given product and change its type if needed
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function processProduct(Product $product)
     {
         if (in_array($product->getTypeId(), $this->compatibleTypes)) {
             $product->setTypeInstance(null);
-            $productTypeId = $product->hasIsVirtual() ? \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-                : \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE;
+            $productTypeId = $product->hasIsVirtual() ? \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL : \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE;
             $product->setTypeId($productTypeId);
         }
     }
-
 }

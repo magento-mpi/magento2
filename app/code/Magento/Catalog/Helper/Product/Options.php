@@ -16,21 +16,21 @@ namespace Magento\Catalog\Helper\Product;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Options extends \Magento\App\Helper\AbstractHelper
+class Options extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $directory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\App\Filesystem $filesystem)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Framework\App\Filesystem $filesystem)
     {
         parent::__construct($context);
-        $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 
     /**
@@ -41,7 +41,7 @@ class Options extends \Magento\App\Helper\AbstractHelper
      *  - 'size' - size of file
      *  - 'title' - user-friendly name of file (usually - original name as uploaded in Magento)
      *
-     * @param \Magento\App\ResponseInterface $response
+     * @param \Magento\Framework\App\ResponseInterface $response
      * @param string $filePath
      * @param array $info
      * @return bool
@@ -49,13 +49,27 @@ class Options extends \Magento\App\Helper\AbstractHelper
     public function downloadFileOption($response, $filePath, $info)
     {
         try {
-            $response->setHttpResponseCode(200)
-                ->setHeader('Pragma', 'public', true)
-                ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-                ->setHeader('Content-type', $info['type'], true)
-                ->setHeader('Content-Length', $info['size'])
-                ->setHeader('Content-Disposition', 'inline' . '; filename='.$info['title'])
-                ->clearBody();
+            $response->setHttpResponseCode(
+                200
+            )->setHeader(
+                'Pragma',
+                'public',
+                true
+            )->setHeader(
+                'Cache-Control',
+                'must-revalidate, post-check=0, pre-check=0',
+                true
+            )->setHeader(
+                'Content-type',
+                $info['type'],
+                true
+            )->setHeader(
+                'Content-Length',
+                $info['size']
+            )->setHeader(
+                'Content-Disposition',
+                'inline' . '; filename=' . $info['title']
+            )->clearBody();
             $response->sendHeaders();
 
             echo $this->directory->readFile($this->directory->getRelativePath($filePath));

@@ -7,9 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <preference for="Magento\Customer\Service\V1\CustomerServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerService" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
@@ -18,6 +16,10 @@
                 type="Magento\Customer\Service\V1\CustomerAccountService" />
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataService" />
+    <preference for="Magento\Customer\Service\V1\CustomerCurrentServiceInterface"
+                type="Magento\Customer\Service\V1\CustomerCurrentService" />
+    <preference for="Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface"
+                type="Magento\Customer\Service\V1\CustomerAddressCurrentService" />
     <type name="Magento\Customer\Model\Session">
         <arguments>
             <argument name="configShare" xsi:type="object">Magento\Customer\Model\Config\Share\Proxy</argument>
@@ -48,21 +50,31 @@
             <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Service\V1\Dto\AddressBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\CustomerBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\CustomerGroupBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\Eav\AttributeBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\Eav\OptionBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\FilterBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\RegionBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Dto\SearchResultsBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\CustomerBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\Eav\AttributeBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\Eav\OptionBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\RegionBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponseBuilder" shared="false" />
+    <type name="Magento\Customer\Service\V1\Data\SearchResultsBuilder" shared="false" />
     <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
         <arguments>
             <argument name="propertyMappers" xsi:type="array">
                 <item name="customer" xsi:type="string">Magento\Customer\Model\Resource\Setup\PropertyMapper</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Service\V1\CustomerAccountService">
+        <arguments>
+            <argument name="url" xsi:type="object">Magento\Url</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Model\ActionValidator\RemoveAction">
+        <arguments>
+            <argument name="protectedModels" xsi:type="array">
+                <item name="customer" xsi:type="string">Magento\Customer\Model\Customer</item>
             </argument>
         </arguments>
     </type>

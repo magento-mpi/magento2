@@ -27,24 +27,24 @@ class Config extends \Magento\Payment\Model\Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Config\DataInterface $dataStorage
+     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Config\DataInterface $dataStorage
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Config\DataInterface $dataStorage,
+        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Config\DataInterface $dataStorage,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
-        parent::__construct($coreStoreConfig, $coreConfig, $paymentMethodFactory, $locale, $dataStorage);
+        parent::__construct($scopeConfig, $coreConfig, $paymentMethodFactory, $localeLists, $dataStorage);
         $this->_urlBuilder = $urlBuilder;
         $this->_encryptor = $encryptor;
     }
@@ -56,10 +56,10 @@ class Config extends \Magento\Payment\Model\Config
      * @param int|null $storeId
      * @return bool|null|string
      */
-    public function getConfigData($path, $storeId=null)
+    public function getConfigData($path, $storeId = null)
     {
         if (!empty($path)) {
-            return $this->_coreStoreConfig->getConfig(self::OGONE_PAYMENT_PATH . $path, $storeId);
+            return $this->_scopeConfig->getValue(self::OGONE_PAYMENT_PATH . $path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         }
         return false;
     }
@@ -70,7 +70,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param int|null $storeId
      * @return string
      */
-    public function getShaInCode($storeId=null)
+    public function getShaInCode($storeId = null)
     {
         return $this->_encryptor->decrypt($this->getConfigData('secret_key_in', $storeId));
     }
@@ -80,7 +80,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param int|null $storeId
      * @return string
      */
-    public function getShaOutCode($storeId=null)
+    public function getShaOutCode($storeId = null)
     {
         return $this->_encryptor->decrypt($this->getConfigData('secret_key_out', $storeId));
     }
@@ -91,7 +91,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param int|null $storeId
      * @return string
      */
-    public function getGatewayPath($storeId=null)
+    public function getGatewayPath($storeId = null)
     {
         return $this->getConfigData('ogone_gateway', $storeId);
     }
@@ -102,7 +102,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param int|null $storeId
      * @return string
      */
-    public function getPSPID($storeId=null)
+    public function getPSPID($storeId = null)
     {
         return $this->getConfigData('pspid', $storeId);
     }

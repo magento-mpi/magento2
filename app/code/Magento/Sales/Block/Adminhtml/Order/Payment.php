@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
+
+use Magento\Payment\Model\Info;
 
 /**
  * Adminhtml sales order payment information
@@ -15,8 +18,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class Payment extends \Magento\Backend\Block\Template
 {
     /**
@@ -42,16 +43,25 @@ class Payment extends \Magento\Backend\Block\Template
 
     /**
      * Retrieve required options from parent
+     *
+     * @return void
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            throw new \Magento\Core\Exception(__('Invalid parent block for this block'));
+            throw new \Magento\Framework\Model\Exception(__('Invalid parent block for this block'));
         }
         $this->setPayment($this->getParentBlock()->getOrder()->getPayment());
         parent::_beforeToHtml();
     }
 
+    /**
+     * Set payment
+     *
+     * @param Info $payment
+     * @return $this
+     */
     public function setPayment($payment)
     {
         $paymentInfoBlock = $this->_paymentData->getInfoBlock($payment);
@@ -60,6 +70,11 @@ class Payment extends \Magento\Backend\Block\Template
         return $this;
     }
 
+    /**
+     * Prepare html output
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         return $this->getChildHtml('info');

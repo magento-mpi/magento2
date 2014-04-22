@@ -9,7 +9,7 @@
  */
 namespace Magento\Newsletter\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Newsletter subscribers controller
@@ -17,17 +17,17 @@ use Magento\App\ResponseInterface;
 class Subscriber extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
@@ -82,7 +82,7 @@ class Subscriber extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $content->getCsvFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -99,7 +99,7 @@ class Subscriber extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $content->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -112,17 +112,18 @@ class Subscriber extends \Magento\Backend\App\Action
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             $this->messageManager->addError(__('Please select one or more subscribers.'));
+            $this->messageManager->addError(__('Please select one or more subscribers.'));
         } else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
-                        ->load($subscriberId);
+                    $subscriber = $this->_objectManager->create(
+                        'Magento\Newsletter\Model\Subscriber'
+                    )->load(
+                        $subscriberId
+                    );
                     $subscriber->unsubscribe();
                 }
-                $this->messageManager->addSuccess(
-                    __('A total of %1 record(s) were updated.', count($subscribersIds))
-                );
+                $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', count($subscribersIds)));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
@@ -140,12 +141,15 @@ class Subscriber extends \Magento\Backend\App\Action
     {
         $subscribersIds = $this->getRequest()->getParam('subscriber');
         if (!is_array($subscribersIds)) {
-             $this->messageManager->addError(__('Please select one or more subscribers.'));
+            $this->messageManager->addError(__('Please select one or more subscribers.'));
         } else {
             try {
                 foreach ($subscribersIds as $subscriberId) {
-                    $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
-                        ->load($subscriberId);
+                    $subscriber = $this->_objectManager->create(
+                        'Magento\Newsletter\Model\Subscriber'
+                    )->load(
+                        $subscriberId
+                    );
                     $subscriber->delete();
                 }
                 $this->messageManager->addSuccess(__('Total of %1 record(s) were deleted', count($subscribersIds)));

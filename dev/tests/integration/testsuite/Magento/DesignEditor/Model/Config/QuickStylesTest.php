@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Config;
 
 class QuickStylesTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +18,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design;
 
@@ -29,12 +28,13 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Filesystem\DirectoryList $directoryList */
-        $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
+        /** @var \Magento\Framework\App\Filesystem\DirectoryList $directoryList */
+        $directoryList = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
         $path = str_replace($directoryList->getRoot(), '', str_replace('\\', '/', __DIR__) . '/../_files/design');
-        $directoryList->addDirectory(\Magento\App\Filesystem::THEMES_DIR, array('path' => ltrim($path, '/')));
-        $this->_design = $objectManager->get('Magento\View\DesignInterface');
-        $objectManager->get('Magento\App\State')->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
+        $directoryList->addDirectory(\Magento\Framework\App\Filesystem::THEMES_DIR, array('path' => ltrim($path, '/')));
+        $this->_design = $objectManager->get('Magento\Framework\View\DesignInterface');
+        $objectManager->get('Magento\Framework\App\State')
+            ->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
         $this->_design->setDesignTheme('vendor_test');
         /** @var \Magento\View\Asset\Repository $assetRepo */
         $assetRepo = $objectManager->get('Magento\View\Asset\Repository');
@@ -68,50 +68,59 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     public function getTestDataProvider()
     {
         return array(
-            array('headers', array(
-                'type'         => 'logo',
-                'layoutParams' => array('title' => 'Headers', 'column' => 'left'),
-                'components'   => array (
-                    'logo-picker'   => array (
-                        'type'      => 'color-picker',
-                        'selector'  => '.body .div',
-                        'attribute' => 'background-color',
-                        'var'       => 'Magento_DesignEditor::test_var_key1',
-                    ),
-                    'font-selector' => array (
-                        'type'      => 'font-selector',
-                        'selector'  => '*',
-                        'attribute' => 'font-family',
-                        'options'   => array('Arial, Verdana, Georgia', 'Tahoma'),
-                        'var'       => 'Magento_DesignEditor::test_var_key2',
-                    ),
-                    'test-control' => array (
-                        'type'       => 'test-control',
-                        'components' => array (
-                            'image-uploader' => array (
-                                'type'      => 'logo-uploader',
-                                'selector'  => '.test-logo-1',
-                                'attribute' => 'background-image',
-                                'var'       => 'Magento_DesignEditor::test_var_key3',
+            array(
+                'headers',
+                array(
+                    'type' => 'logo',
+                    'layoutParams' => array('title' => 'Headers', 'column' => 'left'),
+                    'components' => array(
+                        'logo-picker' => array(
+                            'type' => 'color-picker',
+                            'selector' => '.body .div',
+                            'attribute' => 'background-color',
+                            'var' => 'Magento_DesignEditor::test_var_key1'
+                        ),
+                        'font-selector' => array(
+                            'type' => 'font-selector',
+                            'selector' => '*',
+                            'attribute' => 'font-family',
+                            'options' => array('Arial, Verdana, Georgia', 'Tahoma'),
+                            'var' => 'Magento_DesignEditor::test_var_key2'
+                        ),
+                        'test-control' => array(
+                            'type' => 'test-control',
+                            'components' => array(
+                                'image-uploader' => array(
+                                    'type' => 'logo-uploader',
+                                    'selector' => '.test-logo-1',
+                                    'attribute' => 'background-image',
+                                    'var' => 'Magento_DesignEditor::test_var_key3'
+                                )
                             )
                         )
                     )
                 )
-            )),
-            array('logo-uploader', array(
-                'type'         => 'logo-uploader',
-                'selector'     => '.test-logo-2',
-                'attribute'    => 'background-image',
-                'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
-                'var'          => 'Magento_DesignEditor::test_var_key4',
-            )),
-            array('background-color-picker', array(
-                'type'         => 'color-picker',
-                'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),
-                'selector'     => '.body .div',
-                'attribute'    => 'background-color',
-                'var'          => 'Magento_DesignEditor::test_var_key5',
-            )),
+            ),
+            array(
+                'logo-uploader',
+                array(
+                    'type' => 'logo-uploader',
+                    'selector' => '.test-logo-2',
+                    'attribute' => 'background-image',
+                    'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
+                    'var' => 'Magento_DesignEditor::test_var_key4'
+                )
+            ),
+            array(
+                'background-color-picker',
+                array(
+                    'type' => 'color-picker',
+                    'layoutParams' => array('title' => 'Background Color', 'column' => 'right'),
+                    'selector' => '.body .div',
+                    'attribute' => 'background-color',
+                    'var' => 'Magento_DesignEditor::test_var_key5'
+                )
+            )
         );
     }
 }

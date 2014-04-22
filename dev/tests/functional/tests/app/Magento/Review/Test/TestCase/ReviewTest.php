@@ -40,10 +40,10 @@ class ReviewTest extends Functional
         //Pages & Blocks
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $backendReviewPage = Factory::getPageFactory()->getCatalogProductReview();
+        $backendReviewPage = Factory::getPageFactory()->getReviewProduct();
         $reviewsSummaryBlock = $productPage->getReviewSummaryBlock();
-        $reviewsBlock = $productPage->getReviewsBlock();
-        $reviewForm = $reviewsBlock->getReviewForm();
+        $reviewsBlock = $productPage->getCustomerReviewBlock();
+        $reviewForm = $productPage->getReviewFormBlock();
         $reviewGrid = $backendReviewPage->getGridBlock();
         $reviewBackendForm = $backendReviewPage->getEditForm();
 
@@ -95,11 +95,12 @@ class ReviewTest extends Functional
             'There is more than 1 approved review'
         );
 
-        $reviewsBlock = $productPage->getReviewsBlock();
+        $reviewForm = $productPage->getReviewFormBlock();
+        $reviewsBlock = $productPage->getCustomerReviewBlock();
         $reviewsSummaryBlock->getViewReviewLink()->click();
         $this->assertContains(
             sprintf('You\'re reviewing:%s', $productFixture->getProductName()),
-            $reviewsBlock->getLegend()->getText()
+            $reviewForm->getLegend()->getText()
         );
         $this->verifyReview($reviewsBlock, $reviewFixture);
     }

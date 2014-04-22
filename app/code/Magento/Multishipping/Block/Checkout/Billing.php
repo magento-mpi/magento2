@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Block\Checkout;
 
 /**
  * Multishipping billing information
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Billing extends \Magento\Payment\Block\Form\Container
 {
     /**
@@ -35,16 +34,18 @@ class Billing extends \Magento\Payment\Block\Form\Container
     protected $paymentSpecification;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
@@ -53,20 +54,20 @@ class Billing extends \Magento\Payment\Block\Form\Container
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
         $this->paymentSpecification = $paymentSpecification;
-        parent::__construct($context, $paymentHelper, $data);
+        parent::__construct($context, $paymentHelper, $methodSpecificationFactory, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
      * Prepare children blocks
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
-            $headBlock->setTitle(
-                __('Billing Information - %1', $headBlock->getDefaultTitle())
-            );
+            $headBlock->setTitle(__('Billing Information - %1', $headBlock->getDefaultTitle()));
         }
 
         return parent::_prepareLayout();
@@ -80,8 +81,11 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     protected function _canUseMethod($method)
     {
-        return $method && $this->paymentSpecification->isSatisfiedBy($method->getCode())
-            && parent::_canUseMethod($method);
+        return $method && $this->paymentSpecification->isSatisfiedBy(
+            $method->getCode()
+        ) && parent::_canUseMethod(
+            $method
+        );
     }
 
     /**
@@ -130,7 +134,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     public function getQuoteBaseGrandTotal()
     {
-        return (float)$this->getQuote()->getBaseGrandTotal();
+        return (double)$this->getQuote()->getBaseGrandTotal();
     }
 
     /**

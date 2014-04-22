@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
 $map = array(
     'admin/cms/magento_banner' => 'Magento_Banner::magento_banner',
     'admin/catalog/events' => 'Magento_CatalogEvent::events',
-    'admin/catalog/magento_catalogpermissions' =>
-        'Magento_CatalogPermissions::catalog_magento_catalogpermissions',
-    'admin/system/config/magento_catalogpermissions' =>
-        'Magento_CatalogPermissions::magento_catalogpermissions',
+    'admin/catalog/magento_catalogpermissions' => 'Magento_CatalogPermissions::catalog_magento_catalogpermissions',
+    'admin/system/config/magento_catalogpermissions' => 'Magento_CatalogPermissions::magento_catalogpermissions',
     'admin/sales/magento_advancedcheckout' => 'Magento_AdvancedCheckout::magento_advancedcheckout',
     'admin/sales/magento_advancedcheckout/update' => 'Magento_AdvancedCheckout::update',
     'admin/sales/magento_advancedcheckout/view' => 'Magento_AdvancedCheckout::view',
@@ -71,20 +69,18 @@ $map = array(
     'admin/sales/archive/orders/remove' => 'Magento_SalesArchive::remove',
     'admin/sales/archive/shipments' => 'Magento_SalesArchive::shipments',
     'admin/catalog/targetrule' => 'Magento_TargetRule::targetrule',
-    'admin/report/customers/wishlist' => 'Magento_MultipleWishlist::wishlist',
+    'admin/report/customers/wishlist' => 'Magento_MultipleWishlist::wishlist'
 );
 
 
 $tableName = $installer->getTable('admin_rule');
 
 if ($tableName) {
-    /** @var \Magento\DB\Adapter\AdapterInterface $connection */
+    /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
     $connection = $installer->getConnection();
 
     $select = $connection->select();
-    $select->from($tableName, array())
-        ->columns(array('resource_id' => 'resource_id'))
-        ->group('resource_id');
+    $select->from($tableName, array())->columns(array('resource_id' => 'resource_id'))->group('resource_id');
 
     foreach ($connection->fetchCol($select) as $oldKey) {
         /**

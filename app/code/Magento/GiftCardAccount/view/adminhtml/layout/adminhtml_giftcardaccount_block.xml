@@ -7,7 +7,8 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="adminhtml.gift.card.account.grid.container">
         <block class="Magento\Backend\Block\Widget\Grid" name="gift.card.account.grid" as="grid">
             <arguments>
@@ -64,7 +65,8 @@
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
                         <argument name="type" xsi:type="string">number</argument>
                         <argument name="index" xsi:type="string">giftcardaccount_id</argument>
-                        <argument name="width" xsi:type="string">30</argument>
+                        <argument name="column_css_class" xsi:type="string">col-id</argument>
+                        <argument name="header_css_class" xsi:type="string">col-id</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="code">
@@ -78,7 +80,6 @@
                         <argument name="header" xsi:type="string" translate="true">Website</argument>
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="index" xsi:type="string">website_id</argument>
-                        <argument name="width" xsi:type="string">100</argument>
                         <argument name="column_css_class" xsi:type="string">col-store</argument>
                         <argument name="header_css_class" xsi:type="string">col-store</argument>
                         <argument name="options" xsi:type="options" model="Magento\Backend\Model\Config\Source\Website\OptionHash"/>
@@ -88,7 +89,8 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Created</argument>
                         <argument name="index" xsi:type="string">date_created</argument>
-                        <argument name="width" xsi:type="string">120</argument>
+                        <argument name="column_css_class" xsi:type="string">col-date</argument>
+                        <argument name="header_css_class" xsi:type="string">col-date</argument>
                         <argument name="type" xsi:type="string">date</argument>
                     </arguments>
                 </block>
@@ -96,8 +98,9 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">End on</argument>
                         <argument name="index" xsi:type="string">date_expires</argument>
-                        <argument name="width" xsi:type="string">120</argument>
                         <argument name="type" xsi:type="string">date</argument>
+                        <argument name="column_css_class" xsi:type="string">col-date</argument>
+                        <argument name="header_css_class" xsi:type="string">col-date</argument>
                         <argument name="default" xsi:type="string">--</argument>
                     </arguments>
                 </block>
@@ -105,9 +108,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Active</argument>
                         <argument name="index" xsi:type="string">status</argument>
-                        <argument name="width" xsi:type="string">50</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="align" xsi:type="string">center</argument>
                         <argument name="options" xsi:type="options" model="Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Active"/>
                     </arguments>
                 </block>
@@ -115,9 +116,7 @@
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Status</argument>
                         <argument name="index" xsi:type="string">state</argument>
-                        <argument name="width" xsi:type="string">100</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="align" xsi:type="string">center</argument>
                         <argument name="options" xsi:type="options" model="Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid\Status"/>
                     </arguments>
                 </block>

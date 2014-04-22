@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
 
 /**
  * Customer Order Address resource model
  */
-namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
-
-class Address
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
+class Address extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
      * Main entity resource model
@@ -24,11 +22,11 @@ class Address
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Order\Address $parentResourceModel
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sales\Model\Resource\Order\Address $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;
@@ -37,6 +35,8 @@ class Address
 
     /**
      * Initializes resource
+     *
+     * @return void
      */
     protected function _construct()
     {

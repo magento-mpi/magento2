@@ -41,7 +41,7 @@ namespace Magento\Reminder\Model;
  */
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
-    const XML_PATH_EMAIL_TEMPLATE  = 'magento_reminder_email_template';
+    const XML_PATH_EMAIL_TEMPLATE = 'magento_reminder_email_template';
 
     /**
      * Store template data defined per store view, will be used in email templates as variables
@@ -68,22 +68,12 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
-     */
-    protected $emailTemplateFactory;
-
-    /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $translate;
-
-    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -93,7 +83,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $couponFactory;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $dateFactory;
 
@@ -103,54 +93,64 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $salesRule;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @var \Magento\Mail\Template\TransportBuilder
+     */
+    protected $_transportBuilder;
+
+    /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
      * @param \Magento\Reminder\Model\Resource\Rule $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
-        \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
         \Magento\Reminder\Model\Resource\Rule $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->rootFactory = $rootFactory;
         $this->collectionFactory = $collectionFactory;
-        $this->emailTemplateFactory = $emailTemplateFactory;
-        $this->translate = $translate;
         $this->customerFactory = $customerFactory;
         $this->storeManager = $storeManager;
         $this->couponFactory = $couponFactory;
         $this->dateFactory = $dateFactory;
         $this->salesRule = $salesRule;
         $this->_reminderData = $reminderData;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -177,7 +177,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $defaultTemplate = self::XML_PATH_EMAIL_TEMPLATE;
 
         foreach ($storeData as $data) {
-            $template = (empty($data['template_id'])) ? $defaultTemplate : $data['template_id'];
+            $template = empty($data['template_id']) ? $defaultTemplate : $data['template_id'];
             $this->setData('store_template_' . $data['store_id'], $template);
             $this->setData('store_label_' . $data['store_id'], $data['label']);
             $this->setData('store_description_' . $data['store_id'], $data['description']);
@@ -193,9 +193,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setConditionSql(
-            $this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id'))
-        );
+        $this->setConditionSql($this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id')));
 
         if (!$this->getSalesruleId()) {
             $this->setSalesruleId(null);
@@ -232,10 +230,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function sendReminderEmails()
     {
-        /** @var $mail \Magento\Email\Model\Template */
-        $mail = $this->emailTemplateFactory->create();
-
-        $this->translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $identity = $this->_reminderData->getEmailIdentity();
 
@@ -266,28 +261,34 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $coupon = $this->couponFactory->create()->load($recipient['coupon_id']);
 
             $templateVars = array(
-                'store'          => $store,
-                'coupon'         => $coupon,
-                'customer'       => $customer,
+                'store' => $store,
+                'coupon' => $coupon,
+                'customer' => $customer,
                 'promotion_name' => $storeData['label'],
                 'promotion_description' => $storeData['description']
             );
 
-            $mail->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ));
-            $mail->sendTransactional($storeData['template_id'], $identity,
-                $customer->getEmail(), null, $templateVars, $store->getId()
-            );
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $storeData['template_id']
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            )->setTemplateVars(
+                $templateVars
+            )->setFrom(
+                $identity
+            )->addTo(
+                $customer->getEmail()
+            )->getTransport();
 
-            if ($mail->getSentSuccess()) {
+            try {
+                $transport->sendMessage();
                 $this->_getResource()->addNotificationLog($recipient['rule_id'], $customer->getId());
-            } else {
+            } catch (\Magento\Mail\Exception $e) {
                 $this->_getResource()->updateFailedEmailsCounter($recipient['rule_id'], $customer->getId());
             }
         }
-        $this->translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $this;
     }
@@ -299,9 +300,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _matchCustomers()
     {
-        $threshold   = $this->_reminderData->getSendFailureThreshold();
+        $threshold = $this->_reminderData->getSendFailureThreshold();
         $currentDate = $this->dateFactory->create()->date('Y-m-d');
-        $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
+        $rules = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
         if ($this->getRuleId()) {
             $rules->addRuleFilter($this->getRuleId());
         }
@@ -340,8 +341,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     $data['template_id'] = self::XML_PATH_EMAIL_TEMPLATE;
                 }
                 $this->_storeData[$ruleId][$storeId] = $data;
-            }
-            else {
+            } else {
                 return false;
             }
         }

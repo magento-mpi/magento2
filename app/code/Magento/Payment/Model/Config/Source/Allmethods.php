@@ -9,7 +9,7 @@
  */
 namespace Magento\Payment\Model\Config\Source;
 
-class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
+class Allmethods implements \Magento\Option\ArrayInterface
 {
     /**
      * Payment data
@@ -21,9 +21,8 @@ class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      */
-    public function __construct(
-        \Magento\Payment\Helper\Data $paymentData
-    ) {
+    public function __construct(\Magento\Payment\Helper\Data $paymentData)
+    {
         $this->_paymentData = $paymentData;
     }
 

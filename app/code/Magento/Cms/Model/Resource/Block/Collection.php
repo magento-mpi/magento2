@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Resource\Block;
 /**
  * CMS block model
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -38,13 +38,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by store
      *
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|\Magento\Store\Model\Store $store
      * @param bool $withAdmin
      * @return $this
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = array($store->getId());
         }
 
@@ -53,7 +53,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
 
         if ($withAdmin) {
-            $store[] = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $store[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
 
         $this->addFilter('store', array('in' => $store), 'public');
@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -88,9 +88,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 array('store_table' => $this->getTable('cms_block_store')),
                 'main_table.block_id = store_table.block_id',
                 array()
-            )->group('main_table.block_id');
+            )->group(
+                'main_table.block_id'
+            );
         }
         return parent::_renderFiltersBefore();
     }
-
 }

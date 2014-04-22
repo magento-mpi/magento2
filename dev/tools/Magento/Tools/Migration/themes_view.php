@@ -10,16 +10,16 @@
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
-    $entryPoint = new \Magento\App\EntryPoint\EntryPoint($rootDir, array());
+    $entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint($rootDir, array());
 
-    $objectManager = new \Magento\App\ObjectManager();
-    /** @var $configModel \Magento\App\ReinitableConfigInterface */
-    $configModel = $objectManager->get('Magento\App\ReinitableConfigInterface');
+    $objectManager = new \Magento\Framework\App\ObjectManager();
+    /** @var $configModel \Magento\Framework\App\Config\ReinitableConfigInterface */
+    $configModel = $objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface');
     $configModel->reinit();
     $config = array();
 
     foreach (glob(__DIR__ . '/AliasesMap/cms_content_tables_*.php', GLOB_BRACE) as $configFile) {
-        $config = array_merge($config, include($configFile));
+        $config = array_merge($config, include $configFile);
     }
 
     foreach ($config as $table => $field) {
@@ -36,32 +36,36 @@ try {
  * @param \Magento\ObjectManager $objectManager
  * @param string $table
  * @param string $col
+ * @return void
  */
 function updateFieldForTable($objectManager, $table, $col)
 {
-    /** @var $installer \Magento\Core\Model\Resource\Setup */
-    $installer = $objectManager->create('Magento\Core\Model\Resource\Setup', array('resourceName' => 'core_setup'));
+    /** @var $installer \Magento\Module\Setup */
+    $installer = $objectManager->create('Magento\Module\Setup');
     $installer->startSetup();
 
     $table = $installer->getTable($table);
-    print '-----' . "\n";
+    echo '-----' . "\n";
     if ($installer->getConnection()->isTableExists($table)) {
-        print 'Table `' . $table . "` processed\n";
+        echo 'Table `' . $table . "` processed\n";
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select \Magento\Db\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 
-        print 'Records count: ' . count($result) . ' in table: `' . $table . "`\n";
+        echo 'Records count: ' . count($result) . ' in table: `' . $table . "`\n";
 
         $logMessages = array();
         foreach ($result as $recordId => $string) {
             $content = str_replace('{{skin', '{{view', $string, $count);
             if ($count) {
-                $installer->getConnection()->update($table, array($col => $content),
-                    $installer->getConnection()->quoteInto($pkField . '=?', $recordId));
+                $installer->getConnection()->update(
+                    $table,
+                    array($col => $content),
+                    $installer->getConnection()->quoteInto($pkField . '=?', $recordId)
+                );
                 $logMessages['replaced'][] = 'Replaced -- Id: ' . $recordId . ' in table `' . $table . '`';
             } else {
                 $logMessages['skipped'][] = 'Skipped -- Id: ' . $recordId . ' in table `' . $table . '`';
@@ -71,22 +75,23 @@ function updateFieldForTable($objectManager, $table, $col)
             printLog($logMessages);
         }
     } else {
-        print 'Table `' . $table . "` was not found\n";
+        echo 'Table `' . $table . "` was not found\n";
     }
     $installer->endSetup();
-    print '-----' . "\n";
+    echo '-----' . "\n";
 }
 
 /**
  * Print array of messages
  *
  * @param array $logMessages
+ * @return void
  */
 function printLog($logMessages)
 {
     foreach ($logMessages as $stringsArray) {
-        print "\n";
-        print implode("\n", $stringsArray);
-        print "\n";
+        echo "\n";
+        echo implode("\n", $stringsArray);
+        echo "\n";
     }
 }

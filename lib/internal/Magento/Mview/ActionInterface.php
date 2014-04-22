@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 interface ActionInterface
@@ -14,6 +13,7 @@ interface ActionInterface
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids);
 }

@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
+
 /**
  * Class Full reindex action
  *
@@ -31,7 +32,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
                 $this->_reindex($store->getId());
             }
         } catch (\Exception $e) {
-            throw new \Magento\Core\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Model\Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $this;
     }

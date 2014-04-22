@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\Item;
 
 /**
  * GiftRegistry entity item collection
@@ -16,9 +16,7 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Item;
-
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\GiftRegistry\Model\Item\OptionFactory
@@ -44,33 +42,33 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $salesQuoteConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote\Config $salesQuoteConfig
      * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Zend_Db_Adapter_Abstract $connection
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Quote\Config $salesQuoteConfig,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->salesQuoteConfig = $salesQuoteConfig;
@@ -81,6 +79,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Collection initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -91,14 +91,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add gift registry filter to collection
      *
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addRegistryFilter($entityId)
     {
-        $this->getSelect()
-            ->join(array('e' => $this->getTable('magento_giftregistry_entity')),
-                'e.entity_id = main_table.entity_id', 'website_id')
-            ->where('main_table.entity_id = ?', (int)$entityId);
+        $this->getSelect()->join(
+            array('e' => $this->getTable('magento_giftregistry_entity')),
+            'e.entity_id = main_table.entity_id',
+            'website_id'
+        )->where(
+            'main_table.entity_id = ?',
+            (int)$entityId
+        );
 
         return $this;
     }
@@ -107,7 +111,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add product filter to collection
      *
      * @param int $productId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addProductFilter($productId)
     {
@@ -121,7 +125,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add website filter to collection
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addWebsiteFilter()
     {
@@ -136,7 +140,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add item filter to collection
      *
      * @param int|array $itemId
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function addItemFilter($itemId)
     {
@@ -152,7 +156,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * After load processing
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -168,13 +172,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Assign options to items
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        $optionCollection = $this->optionFactory->create()->getCollection()
-            ->addItemFilter($itemIds);
+        $optionCollection = $this->optionFactory->create()->getCollection()->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -187,7 +190,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Assign products to items and their options
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _assignProducts()
     {
@@ -197,13 +200,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = $this->productFactory->create()->getCollection()
-            ->setStoreId($this->storeManager->getStore()->getId())
-            ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect($this->salesQuoteConfig->getProductAttributes())
-            ->addStoreFilter()
-            ->addUrlRewrite()
-            ->addOptionsToResult();
+        $productCollection = $this->productFactory->create()->getCollection()->setStoreId(
+            $this->storeManager->getStore()->getId()
+        )->addIdFilter(
+            $this->_productIds
+        )->addAttributeToSelect(
+            $this->salesQuoteConfig->getProductAttributes()
+        )->addStoreFilter()->addUrlRewrite()->addOptionsToResult();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
@@ -226,7 +229,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Update items custom price (Depends on custom options)
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return $this
      */
     public function updateItemAttributes()
     {

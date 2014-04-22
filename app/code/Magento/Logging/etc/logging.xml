@@ -78,8 +78,8 @@
         <action id="fetch">
             <label translate="true">Fetch</label>
         </action>
-        <action id="updateProfile">
-            <label translate="true">Update Profile</label>
+        <action id="updatePayment">
+            <label translate="true">Update Payment</label>
         </action>
         <action id="updateState">
             <label translate="true">Update State</label>
@@ -137,7 +137,7 @@
         <group name="core_urlrewrites">
             <label translate="true">URL Redirects</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Url\Rewrite" />
+                <expected_model class="Magento\UrlRewrite\Model\UrlRewrite" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_urlrewrite_edit" action_alias="view" />
@@ -165,7 +165,7 @@
         <group name="rating">
             <label translate="true">Catalog Ratings</label>
             <expected_models>
-                <expected_model class="Magento\Rating\Model\Rating" />
+                <expected_model class="Magento\Review\Model\Rating" />
             </expected_models>
             <events>
                 <event controller_action="rating_edit" action_alias="view" />
@@ -179,17 +179,17 @@
                 <expected_model class="Magento\Review\Model\Review" />
             </expected_models>
             <events>
-                <event controller_action="catalog_product_review_edit"
+                <event controller_action="review_product_edit"
                        action_alias="view" />
-                <event controller_action="catalog_product_review_save"
+                <event controller_action="review_product_save"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_post"
+                <event controller_action="review_product_post"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_delete"
+                <event controller_action="review_product_delete"
                        action_alias="delete" />
-                <event controller_action="catalog_product_review_massUpdateStatus"
+                <event controller_action="review_product_massUpdateStatus"
                        action_alias="massUpdate" />
-                <event controller_action="catalog_product_review_massDelete"
+                <event controller_action="review_product_massDelete"
                        action_alias="massDelete" />
             </events>
         </group>
@@ -920,15 +920,15 @@
         <group name="adminhtml_system_websites">
             <label translate="true">Manage Websites</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Website" />
+                <expected_model class="Magento\Store\Model\Website" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editWebsite"
                        action_alias="view" />
                 <event controller_action="adminhtml_system_store_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento\Core\Model\Store\Group" />
-                        <expected_model class="Magento\Core\Model\Store" />
+                        <expected_model class="Magento\Store\Model\Store" />
+                        <expected_model class="Magento\Store\Model\Store" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_system_store_deleteWebsitePost"
@@ -938,7 +938,7 @@
         <group name="adminhtml_system_store_groups">
             <label translate="true">Manage Stores</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store" />
+                <expected_model class="Magento\Store\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editStore"
@@ -950,7 +950,7 @@
         <group name="adminhtml_system_stores">
             <label translate="true">Manage Store Views</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store\Group" />
+                <expected_model class="Magento\Store\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_deleteGroupPost"
@@ -1173,18 +1173,18 @@
                 </event>
             </events>
         </group>
-        <group name="sales_recurring_profile">
-            <label translate="true">Recurring Billing Profiles</label>
+        <group name="sales_recurring_payment">
+            <label translate="true">Recurring Billing Payments</label>
             <expected_models>
-                <expected_model class="Magento\RecurringProfile\Model\Profile" />
+                <expected_model class="Magento\RecurringPayment\Model\Payment" />
             </expected_models>
             <events>
-                <event controller_action="sales_recurringprofile_updateProfile"
-                       action_alias="updateProfile"
-                       post_dispatch="postDispatchRecurringProfilesUpdate" />
-                <event controller_action="sales_recurringprofile_updateState"
+                <event controller_action="sales_recurringpayment_updatePayment"
+                       action_alias="updatePayment"
+                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
+                <event controller_action="sales_recurringpayment_updateState"
                        action_alias="updateState"
-                       post_dispatch="postDispatchRecurringProfilesUpdate" />
+                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
             </events>
         </group>
     </groups>

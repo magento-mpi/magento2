@@ -19,8 +19,7 @@ namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
  *
  * @method      array getData() getData()
  */
-class Finance
-    extends \Magento\ImportExport\Model\Export\AbstractEntity
+class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
     /**#@+
      * Permanent column names
@@ -28,16 +27,18 @@ class Finance
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL           = '_email';
-    const COLUMN_WEBSITE         = '_website';
+    const COLUMN_EMAIL = '_email';
+
+    const COLUMN_WEBSITE = '_website';
+
     const COLUMN_FINANCE_WEBSITE = '_finance_website';
+
     /**#@-*/
 
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME =
-        'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection';
 
     /**
      * XML path to page size parameter
@@ -97,8 +98,8 @@ class Finance
     protected $_eavCustomerFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
@@ -107,8 +108,8 @@ class Finance
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
@@ -116,14 +117,13 @@ class Finance
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
         $this->_importExportData = $importExportData;
 
-        $this->_initFrontendWebsites()
-            ->_initWebsites(true);
+        $this->_initFrontendWebsites()->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());
     }
 
@@ -134,7 +134,7 @@ class Finance
      */
     protected function _initFrontendWebsites()
     {
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -202,18 +202,17 @@ class Finance
             $row = array();
             foreach ($validAttributeCodes as $code) {
                 $attributeCode = $websiteCode . '_' . $code;
-                $websiteData   = $item->getData($attributeCode);
+                $websiteData = $item->getData($attributeCode);
                 if (null !== $websiteData) {
                     $row[$code] = $websiteData;
                 }
             }
 
             if (!empty($row)) {
-                $row[self::COLUMN_EMAIL]           = $item->getEmail();
-                $row[self::COLUMN_WEBSITE]         = $this->_websiteIdToCode[$item->getWebsiteId()];
+                $row[self::COLUMN_EMAIL] = $item->getEmail();
+                $row[self::COLUMN_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
                 $row[self::COLUMN_FINANCE_WEBSITE] = $websiteCode;
-                $this->getWriter()
-                    ->writeRow($row);
+                $this->getWriter()->writeRow($row);
             }
         }
     }

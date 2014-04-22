@@ -9,7 +9,8 @@
  */
 namespace Magento\Backend\Block\System\Config\Form\Field;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Backend system config datetime field renderer
@@ -22,9 +23,9 @@ class Datetime extends \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $format = $this->_app->getLocale()->getDateTimeFormat(
-            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+        $format = $this->_localeDate->getDateTimeFormat(
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
         );
-        return $this->_app->getLocale()->date(intval($element->getValue()))->toString($format);
+        return $this->_localeDate->date(intval($element->getValue()))->toString($format);
     }
 }

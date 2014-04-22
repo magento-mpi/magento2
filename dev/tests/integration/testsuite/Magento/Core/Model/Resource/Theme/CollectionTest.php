@@ -8,20 +8,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Theme;
 
-use \Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
-            'preferences' => array(
-                'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
-            )
-        ));
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
+            array('preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'))
+        );
     }
 
     /**
@@ -29,8 +26,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected static function _getThemesCollection()
     {
-        return  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Theme\Collection'
+        );
     }
 
     /**
@@ -61,14 +59,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $themeCollection = self::_getThemesCollection();
         $hasFound = false;
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
             if ($theme->getFullPath() == $fullPath) {
                 $hasFound = true;
                 break;
             }
         }
-        $message = $shouldExist ? 'Theme not found' : 'Theme is found but it should not' ;
+        $message = $shouldExist ? 'Theme not found' : 'Theme is found but it should not';
         $this->assertEquals($shouldExist, $hasFound, $message);
     }
 
@@ -85,7 +83,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             array('', false),
             array('test_area', false),
             array('test_area/test', false),
-            array('test_area/test/something', false),
+            array('test_area/test/something', false)
         );
     }
 
@@ -97,8 +95,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddAreaFilter($area, $themeCount)
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Theme\Collection'
+        );
         $themeCollection->addAreaFilter($area);
         $this->assertCount($themeCount, $themeCollection);
     }
@@ -124,8 +123,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddTypeFilter($themeType, $themeCount)
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Theme\Collection'
+        );
         $themeCollection->addAreaFilter('test_area3');
         if ($themeType !== false) {
             $themeCollection->addTypeFilter($themeType);
@@ -154,16 +154,16 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testFilterVisibleThemes()
     {
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Resource\Theme\Collection'
+        );
         $themeCollection->addAreaFilter('test_area3')->filterVisibleThemes();
         $this->assertCount(2, $themeCollection);
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($themeCollection as $theme) {
-            $this->assertTrue(in_array(
-                $theme->getType(),
-                array(ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_VIRTUAL)
-            ));
+            $this->assertTrue(
+                in_array($theme->getType(), array(ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_VIRTUAL))
+            );
         }
     }
 
@@ -172,7 +172,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckParentInThemes()
     {
-        $collection = self::_getThemesCollection(); //->checkParentInThemes();
+        $collection = self::_getThemesCollection();
+        //->checkParentInThemes();
         foreach (self::getInheritedThemeList() as $themeData) {
             $fullPath = $themeData['area'] . '/' . $themeData['theme_path'];
             $parentIdActual = $collection->clear()->getThemeByFullPath($fullPath)->getParentId();
@@ -205,9 +206,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $themeCollection = self::_getThemesCollection();
         $themeCollection->load();
         foreach (self::getThemeList() as $themeData) {
-            /** @var $themeModel \Magento\View\Design\ThemeInterface */
-            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\View\Design\ThemeInterface');
+            /** @var $themeModel \Magento\Framework\View\Design\ThemeInterface */
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Framework\View\Design\ThemeInterface'
+            );
             $themeModel->setData($themeData);
             $themeCollection->addItem($themeModel);
         }
@@ -222,9 +224,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $fixture = self::getInheritedThemeList();
         $idByPath = array();
         foreach ($fixture as $themeData) {
-            /** @var $themeModel \Magento\View\Design\ThemeInterface */
-            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\View\Design\ThemeInterface');
+            /** @var $themeModel \Magento\Framework\View\Design\ThemeInterface */
+            $themeModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Framework\View\Design\ThemeInterface'
+            );
             $themeModel->setData($themeData);
 
             if ($themeData['parent_id'] && isset($idByPath[$themeData['parent_id']])) {
@@ -245,59 +248,59 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test/default',
-                'code'                 => 'test/default',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Test',
-                'preview_image'        => 'test_default.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'test_area',
-                'type'                 => ThemeInterface::TYPE_PHYSICAL,
+                'parent_id' => '0',
+                'theme_path' => 'test/default',
+                'code' => 'test/default',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Test',
+                'preview_image' => 'test_default.jpg',
+                'is_featured' => '1',
+                'area' => 'test_area',
+                'type' => ThemeInterface::TYPE_PHYSICAL
             ),
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test/pro',
-                'code'                 => 'test/pro',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Professional Test',
-                'preview_image'        => 'test_default.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'test_area2',
-                'type'                 => ThemeInterface::TYPE_VIRTUAL,
+                'parent_id' => '0',
+                'theme_path' => 'test/pro',
+                'code' => 'test/pro',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Professional Test',
+                'preview_image' => 'test_default.jpg',
+                'is_featured' => '1',
+                'area' => 'test_area2',
+                'type' => ThemeInterface::TYPE_VIRTUAL
             ),
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test/fixed1',
-                'code'                 => 'test/fixed1',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Theme test 1',
-                'preview_image'        => 'test_default.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'test_area3',
-                'type'                 => ThemeInterface::TYPE_STAGING,
+                'parent_id' => '0',
+                'theme_path' => 'test/fixed1',
+                'code' => 'test/fixed1',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Theme test 1',
+                'preview_image' => 'test_default.jpg',
+                'is_featured' => '1',
+                'area' => 'test_area3',
+                'type' => ThemeInterface::TYPE_STAGING
             ),
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test/fixed2',
-                'code'                 => 'test/fixed2',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Theme test 2',
-                'preview_image'        => 'test_default.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'test_area3',
-                'type'                 => ThemeInterface::TYPE_PHYSICAL,
+                'parent_id' => '0',
+                'theme_path' => 'test/fixed2',
+                'code' => 'test/fixed2',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Theme test 2',
+                'preview_image' => 'test_default.jpg',
+                'is_featured' => '1',
+                'area' => 'test_area3',
+                'type' => ThemeInterface::TYPE_PHYSICAL
             ),
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test/fixed3',
-                'code'                 => 'test/fixed3',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Theme test 3',
-                'preview_image'        => 'test_default.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'test_area3',
-                'type'                 => ThemeInterface::TYPE_VIRTUAL,
+                'parent_id' => '0',
+                'theme_path' => 'test/fixed3',
+                'code' => 'test/fixed3',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Theme test 3',
+                'preview_image' => 'test_default.jpg',
+                'is_featured' => '1',
+                'area' => 'test_area3',
+                'type' => ThemeInterface::TYPE_VIRTUAL
             )
         );
     }
@@ -309,49 +312,49 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'parent_id'            => '0',
-                'theme_path'           => 'test1/test1',
-                'code'                 => 'test1/test1',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Test1',
-                'preview_image'        => 'test1_test1.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'area51',
-                'type'                 => ThemeInterface::TYPE_PHYSICAL
+                'parent_id' => '0',
+                'theme_path' => 'test1/test1',
+                'code' => 'test1/test1',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Test1',
+                'preview_image' => 'test1_test1.jpg',
+                'is_featured' => '1',
+                'area' => 'area51',
+                'type' => ThemeInterface::TYPE_PHYSICAL
             ),
             array(
-                'parent_id'            => 'area51/test1/test1',
-                'theme_path'           => 'test1/test2',
-                'code'                 => 'test1/test2',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Test2',
-                'preview_image'        => 'test1_test2.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'area51',
-                'type'                 => ThemeInterface::TYPE_VIRTUAL
+                'parent_id' => 'area51/test1/test1',
+                'theme_path' => 'test1/test2',
+                'code' => 'test1/test2',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Test2',
+                'preview_image' => 'test1_test2.jpg',
+                'is_featured' => '1',
+                'area' => 'area51',
+                'type' => ThemeInterface::TYPE_VIRTUAL
             ),
             array(
-                'parent_id'            => 'area51/test1/test2',
-                'theme_path'           => 'test1/test3',
-                'code'                 => 'test1/test3',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Test3',
-                'preview_image'        => 'test1_test3.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'area51',
-                'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+                'parent_id' => 'area51/test1/test2',
+                'theme_path' => 'test1/test3',
+                'code' => 'test1/test3',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Test3',
+                'preview_image' => 'test1_test3.jpg',
+                'is_featured' => '1',
+                'area' => 'area51',
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
             ),
             array(
-                'parent_id'            => 'area51/test1/test0',
-                'theme_path'           => 'test1/test4',
-                'code'                 => 'test1/test4',
-                'theme_version'        => '2.0.0.0',
-                'theme_title'          => 'Test4',
-                'preview_image'        => 'test1_test4.jpg',
-                'is_featured'          => '1',
-                'area'                 => 'area51',
-                'type'                 => \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
-            ),
+                'parent_id' => 'area51/test1/test0',
+                'theme_path' => 'test1/test4',
+                'code' => 'test1/test4',
+                'theme_version' => '2.0.0.0',
+                'theme_title' => 'Test4',
+                'preview_image' => 'test1_test4.jpg',
+                'is_featured' => '1',
+                'area' => 'area51',
+                'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
+            )
         );
     }
 
@@ -364,10 +367,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $collection->filterPhysicalThemes(1, \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE);
 
         $this->assertLessThanOrEqual(
-            \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE, $collection->count()
+            \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE,
+            $collection->count()
         );
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());
@@ -383,7 +387,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(0, $collection->count());
 
-        /** @var $theme \Magento\View\Design\ThemeInterface */
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
         foreach ($collection as $theme) {
             $this->assertEquals(\Magento\Core\Model\App\Area::AREA_FRONTEND, $theme->getArea());
             $this->assertEquals(ThemeInterface::TYPE_PHYSICAL, $theme->getType());

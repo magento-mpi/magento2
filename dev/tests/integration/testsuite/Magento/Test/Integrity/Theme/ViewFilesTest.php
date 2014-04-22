@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Theme;
 
 class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
@@ -19,7 +18,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected $objectManager;
 
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory
+     * @var \Magento\Framework\View\Design\Theme\FlyweightFactory
      */
     protected $themeRepo;
 
@@ -36,9 +35,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
-        $this->themeRepo = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
-        $this->viewFilesFallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback\StaticFile');
-        $this->assetRepo = $this->objectManager->get('Magento\View\Asset\Repository');
+        $this->themeRepo = $this->objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
+        $this->viewFilesFallback = $this->objectManager->get('Magento\Framework\View\Design\FileResolution\Fallback\StaticFile');
+        $this->assetRepo = $this->objectManager->get('Magento\Framework\View\Asset\Repository');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
         ));
@@ -177,7 +176,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
             } elseif ('.' !== $part) {
                 $result[] = $part;
             }
-
         }
         return implode('/', $result);
     }
@@ -248,13 +246,15 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     protected function _collectViewLayoutDeclarations($theme, &$files)
     {
         // Collect "addCss" and "addJs" from theme layout
-        /** @var \Magento\View\Layout\ProcessorInterface $layoutUpdate */
-        $layoutUpdate = $this->objectManager->create('Magento\View\Layout\ProcessorInterface',
-            array('theme' => $theme));
+        /** @var \Magento\Framework\View\Layout\ProcessorInterface $layoutUpdate */
+        $layoutUpdate = $this->objectManager->create(
+            'Magento\Framework\View\Layout\ProcessorInterface',
+            array('theme' => $theme)
+        );
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath(
-            '//block[@class="Magento\Theme\Block\Html\Head\Css" or @class="Magento\Theme\Block\Html\Head\Script"]'
-            . '/arguments/argument[@name="file"]'
+            '//block[@class="Magento\Theme\Block\Html\Head\Css" or @class="Magento\Theme\Block\Html\Head\Script"]' .
+            '/arguments/argument[@name="file"]'
         );
         if ($elements) {
             foreach ($elements as $filenameNode) {
@@ -300,7 +300,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $result = array();
         if (preg_match_all(
-            '/\$this->getViewFileUrl\(\'([^\']+?)\'\)/', file_get_contents($fileInfo->getRealPath()), $matches)
+            '/\$this->getViewFileUrl\(\'([^\']+?)\'\)/',
+            file_get_contents($fileInfo->getRealPath()),
+            $matches
+        )
         ) {
             foreach ($matches[1] as $viewFile) {
                 if ($this->_isFileForDisabledModule($viewFile)) {

@@ -23,6 +23,7 @@ class RmaTest extends Functional
      */
     public function testRma()
     {
+        $this->markTestSkipped('MAGETWO-22745');
         // Setup Preconditions:
         $this->configureRma();
 
@@ -62,12 +63,12 @@ class RmaTest extends Functional
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getFormTabsBlock()->openTab('sales_order_view_tabs_order_rma');
+        $orderPage->getFormTabsBlock()->openTab('returns');
 
         // Step 12: Open the Returns page, navigate to Return Items tab
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
-        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $rmaPage->getFormTabsBlock()->openTab('return_items');
         $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
             'Product lists does not match items returned list'
         );
@@ -78,13 +79,13 @@ class RmaTest extends Functional
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
-        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'RETURN_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
-        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'APPROVE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
@@ -136,7 +137,8 @@ class RmaTest extends Functional
      * @param $payPalExpressOrder
      * @return int $returnId
      */
-    private function createRma($returnItem, $payPalExpressOrder) {
+    private function createRma($returnItem, $payPalExpressOrder)
+    {
         // Step 6: Fill "Return Items Information" form (simple product)
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
         $returnItem->switchData('rma');

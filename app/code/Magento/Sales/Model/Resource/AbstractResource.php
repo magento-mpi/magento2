@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales abstract resource model
@@ -16,9 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource;
-
-abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Data converter object
@@ -33,13 +31,11 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime
-    ) {
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
@@ -47,10 +43,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Prepare data for save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return array
      */
-    protected function _prepareDataForSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _prepareDataForSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $currentTime = $this->dateTime->now();
         if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
@@ -68,22 +64,21 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      */
     protected function _shouldBeConverted()
     {
-        return (null !== $this->_converter);
+        return null !== $this->_converter;
     }
-
 
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
 
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->encode($object, $fieldName));
             }
         }
@@ -93,13 +88,13 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->decode($object, $fieldName));
             }
         }
@@ -109,13 +104,13 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Perform actions after object load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\AbstractResource
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
-            foreach($object->getData() as $fieldName => $fieldValue) {
+            foreach ($object->getData() as $fieldName => $fieldValue) {
                 $object->setData($fieldName, $this->_converter->decode($object, $fieldName));
             }
         }

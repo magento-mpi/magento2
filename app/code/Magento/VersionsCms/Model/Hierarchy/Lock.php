@@ -25,14 +25,14 @@ namespace Magento\VersionsCms\Model\Hierarchy;
  *
  * @deprecated since 1.12.0.0
  */
-class Lock extends \Magento\Core\Model\AbstractModel
+class Lock extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Session model instance
@@ -54,24 +54,24 @@ class Lock extends \Magento\Core\Model\AbstractModel
     protected $_backendAuthSession;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -133,7 +133,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLocked()
     {
-        return ($this->isEnabled() && $this->isActual());
+        return $this->isEnabled() && $this->isActual();
     }
 
     /**
@@ -143,7 +143,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByMe()
     {
-        return ($this->isLocked() && $this->isLockOwner());
+        return $this->isLocked() && $this->isLockOwner();
     }
 
     /**
@@ -153,7 +153,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isLockedByOther()
     {
-        return ($this->isLocked() && !$this->isLockOwner());
+        return $this->isLocked() && !$this->isLockOwner();
     }
 
     /**
@@ -193,7 +193,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function isEnabled()
     {
-        return ($this->getLockLifeTime() > 0);
+        return $this->getLockLifeTime() > 0;
     }
 
     /**
@@ -204,8 +204,11 @@ class Lock extends \Magento\Core\Model\AbstractModel
     public function isLockOwner()
     {
         $this->loadLockData();
-        if ($this->_getData('user_id') == $this->_getSession()->getUser()->getId()
-            && $this->_getData('session_id') == $this->_getSession()->getSessionId()
+        if ($this->_getData(
+            'user_id'
+        ) == $this->_getSession()->getUser()->getId() && $this->_getData(
+            'session_id'
+        ) == $this->_getSession()->getSessionId()
         ) {
             return true;
         }
@@ -224,12 +227,14 @@ class Lock extends \Magento\Core\Model\AbstractModel
             $this->delete();
         }
 
-        $this->setData(array(
-            'user_id' => $this->_getSession()->getUser()->getId(),
-            'user_name' => $this->_getSession()->getUser()->getName(),
-            'session_id' => $this->_getSession()->getSessionId(),
-            'started_at' => time()
-        ));
+        $this->setData(
+            array(
+                'user_id' => $this->_getSession()->getUser()->getId(),
+                'user_name' => $this->_getSession()->getUser()->getName(),
+                'session_id' => $this->_getSession()->getSessionId(),
+                'started_at' => time()
+            )
+        );
         $this->save();
 
         return $this;
@@ -242,7 +247,10 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)$this->_coreStoreConfig->getConfig('cms/hierarchy/lock_timeout');
-        return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
+        $timeout = (int)$this->_scopeConfig->getValue(
+            'cms/hierarchy/lock_timeout',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        return $timeout != 0 && $timeout < 120 ? 120 : $timeout;
     }
 }

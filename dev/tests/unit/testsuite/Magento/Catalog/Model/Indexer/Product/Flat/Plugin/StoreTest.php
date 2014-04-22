@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
@@ -16,21 +15,35 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_processorMock;
+    protected $processorMock;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeMock;
+    protected $storeMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
 
     protected function setUp()
     {
-        $this->_processorMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array('markIndexerAsInvalid'), array(), '', false
+        $this->processorMock = $this->getMock(
+            'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
+            array('markIndexerAsInvalid'),
+            array(),
+            '',
+            false
         );
 
-        $this->_storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('getId', '__wakeup', 'dataHasChangedFor'), array(), '', false
+        $this->subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', array(), array(), '', false);
+        $this->storeMock = $this->getMock(
+            'Magento\Store\Model\Store',
+            array('getId', '__wakeup', 'dataHasChangedFor'),
+            array(),
+            '',
+            false
         );
     }
 
@@ -41,17 +54,12 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($matcherMethod, $storeId)
     {
-        $this->_processorMock->expects($this->$matcherMethod())
-            ->method('markIndexerAsInvalid');
+        $this->processorMock->expects($this->{$matcherMethod}())->method('markIndexerAsInvalid');
 
-        $this->_storeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($storeId));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
-        $methodArguments = array($this->_storeMock);
-
-        $model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store($this->_processorMock);
-        $this->assertEquals($methodArguments, $model->beforeSave($methodArguments));
+        $model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store($this->processorMock);
+        $model->beforeSave($this->subjectMock, $this->storeMock);
     }
 
     /**
@@ -61,35 +69,30 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveSwitchStoreGroup($matcherMethod, $storeGroupChanged)
     {
-        $this->_processorMock->expects($this->$matcherMethod())
-            ->method('markIndexerAsInvalid');
+        $this->processorMock->expects($this->{$matcherMethod}())->method('markIndexerAsInvalid');
 
-        $this->_storeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
+        $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
-        $this->_storeMock->expects($this->once())
-            ->method('dataHasChangedFor')->with('group_id')
-            ->will($this->returnValue($storeGroupChanged));
+        $this->storeMock->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            'group_id'
+        )->will(
+            $this->returnValue($storeGroupChanged)
+        );
 
-        $methodArguments = array($this->_storeMock);
-
-        $model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store($this->_processorMock);
-        $this->assertEquals($methodArguments, $model->beforeSave($methodArguments));
+        $model = new \Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Store($this->processorMock);
+        $model->beforeSave($this->subjectMock, $this->storeMock);
     }
+
     /**
      * @return array
      */
     public function storeGroupDataProvider()
     {
-        return array(
-            array(
-                'once', true
-            ),
-            array(
-                'never', false
-            )
-        );
+        return array(array('once', true), array('never', false));
     }
 
     /**
@@ -97,15 +100,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function storeDataProvider()
     {
-        return array(
-            array(
-                'once',
-                null
-            ),
-            array(
-                'never',
-                1
-            )
-        );
+        return array(array('once', null), array('never', 1));
     }
 }

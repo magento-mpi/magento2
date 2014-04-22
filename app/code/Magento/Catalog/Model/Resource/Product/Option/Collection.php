@@ -14,12 +14,12 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -33,22 +33,22 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -73,8 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function getOptions($storeId)
     {
-        $this->addPriceToResult($storeId)
-             ->addTitleToResult($storeId);
+        $this->addPriceToResult($storeId)->addTitleToResult($storeId);
 
         return $this;
     }
@@ -88,26 +87,28 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addTitleToResult($storeId)
     {
         $productOptionTitleTable = $this->getTable('catalog_product_option_title');
-        $adapter        = $this->getConnection();
-        $titleExpr      = $adapter->getCheckSql(
+        $adapter = $this->getConnection();
+        $titleExpr = $adapter->getCheckSql(
             'store_option_title.title IS NULL',
             'default_option_title.title',
             'store_option_title.title'
         );
 
-        $this->getSelect()
-            ->join(array('default_option_title' => $productOptionTitleTable),
-                'default_option_title.option_id = main_table.option_id',
-                array('default_title' => 'title'))
-            ->joinLeft(
-                array('store_option_title' => $productOptionTitleTable),
-                'store_option_title.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto('store_option_title.store_id = ?', $storeId),
-                array(
-                    'store_title'   => 'title',
-                    'title'         => $titleExpr
-                ))
-            ->where('default_option_title.store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $this->getSelect()->join(
+            array('default_option_title' => $productOptionTitleTable),
+            'default_option_title.option_id = main_table.option_id',
+            array('default_title' => 'title')
+        )->joinLeft(
+            array('store_option_title' => $productOptionTitleTable),
+            'store_option_title.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'store_option_title.store_id = ?',
+                $storeId
+            ),
+            array('store_title' => 'title', 'title' => $titleExpr)
+        )->where(
+            'default_option_title.store_id = ?',
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID
+        );
 
         return $this;
     }
@@ -121,40 +122,38 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addPriceToResult($storeId)
     {
         $productOptionPriceTable = $this->getTable('catalog_product_option_price');
-        $adapter        = $this->getConnection();
-        $priceExpr      = $adapter->getCheckSql(
+        $adapter = $this->getConnection();
+        $priceExpr = $adapter->getCheckSql(
             'store_option_price.price IS NULL',
             'default_option_price.price',
             'store_option_price.price'
         );
-        $priceTypeExpr  = $adapter->getCheckSql(
+        $priceTypeExpr = $adapter->getCheckSql(
             'store_option_price.price_type IS NULL',
             'default_option_price.price_type',
             'store_option_price.price_type'
         );
 
-        $this->getSelect()
-            ->joinLeft(
-                array('default_option_price' => $productOptionPriceTable),
-                'default_option_price.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto(
-                        'default_option_price.store_id = ?',
-                        \Magento\Core\Model\Store::DEFAULT_STORE_ID
-                    ),
-                array(
-                    'default_price' => 'price',
-                    'default_price_type' => 'price_type'
-                ))
-            ->joinLeft(
-                array('store_option_price' => $productOptionPriceTable),
-                'store_option_price.option_id = main_table.option_id AND '
-                    . $adapter->quoteInto('store_option_price.store_id = ?', $storeId),
-                array(
-                    'store_price'       => 'price',
-                    'store_price_type'  => 'price_type',
-                    'price'             => $priceExpr,
-                    'price_type'        => $priceTypeExpr
-                ));
+        $this->getSelect()->joinLeft(
+            array('default_option_price' => $productOptionPriceTable),
+            'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'default_option_price.store_id = ?',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID
+            ),
+            array('default_price' => 'price', 'default_price_type' => 'price_type')
+        )->joinLeft(
+            array('store_option_price' => $productOptionPriceTable),
+            'store_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
+                'store_option_price.store_id = ?',
+                $storeId
+            ),
+            array(
+                'store_price' => 'price',
+                'store_price_type' => 'price_type',
+                'price' => $priceExpr,
+                'price_type' => $priceTypeExpr
+            )
+        );
 
         return $this;
     }
@@ -177,15 +176,23 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (!empty($optionIds)) {
             /** @var \Magento\Catalog\Model\Resource\Product\Option\Value\Collection $values */
             $values = $this->_optionValueCollectionFactory->create();
-            $values->addTitleToResult($storeId)
-                ->addPriceToResult($storeId)
-                ->addOptionToFilter($optionIds)
-                ->setOrder('sort_order', self::SORT_ORDER_ASC)
-                ->setOrder('title', self::SORT_ORDER_ASC);
+            $values->addTitleToResult(
+                $storeId
+            )->addPriceToResult(
+                $storeId
+            )->addOptionToFilter(
+                $optionIds
+            )->setOrder(
+                'sort_order',
+                self::SORT_ORDER_ASC
+            )->setOrder(
+                'title',
+                self::SORT_ORDER_ASC
+            );
 
             foreach ($values as $value) {
                 $optionId = $value->getOptionId();
-                if($this->getItemById($optionId)) {
+                if ($this->getItemById($optionId)) {
                     $this->getItemById($optionId)->addValue($value);
                     $value->setOption($this->getItemById($optionId));
                 }

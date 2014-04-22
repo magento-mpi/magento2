@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml;
 
 /**
  * Adminhtml sales creditmemos block
@@ -15,12 +16,11 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml;
-
 class Creditmemo extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_creditmemo';
@@ -29,5 +29,4 @@ class Creditmemo extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

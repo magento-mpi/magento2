@@ -16,10 +16,10 @@
  */
 namespace Magento\Invitation\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * Customer Session
@@ -43,13 +43,13 @@ class Index extends \Magento\App\Action\Action
     protected $invitationFactory;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -65,8 +65,8 @@ class Index extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -99,7 +99,7 @@ class Index extends \Magento\App\Action\Action
             }
             $invPerSend = $this->_config->getMaxInvitationsPerSend();
             $attempts = 0;
-            $sent     = 0;
+            $sent = 0;
             $customerExists = 0;
             foreach ($data['email'] as $email) {
                 $attempts++;
@@ -110,18 +110,17 @@ class Index extends \Magento\App\Action\Action
                     continue;
                 }
                 try {
-                    $invitation = $this->invitationFactory->create()->setData(array(
-                        'email'    => $email,
-                        'customer' => $customer,
-                        'message'  => $message
-                    ))->save();
+                    $invitation = $this->invitationFactory->create()->setData(
+                        array('email' => $email, 'customer' => $customer, 'message' => $message)
+                    )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new \Exception(''); // not \Magento\Core\Exception intentionally
+                        // not \Magento\Framework\Model\Exception intentionally
+                        throw new \Exception('');
                     }
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {

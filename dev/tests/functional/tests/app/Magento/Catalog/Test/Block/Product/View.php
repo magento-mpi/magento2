@@ -17,6 +17,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class View
@@ -83,11 +84,25 @@ class View extends Block
     protected $mapPopup = '#map-popup';
 
     /**
+     * Stock Availability control
+     *
+     * @var string
+     */
+    protected $stockAvailability = '.stock span';
+
+    /**
+     * Customize and add to cart button selector
+     *
+     * @var string
+     */
+    protected $customizeButton = '.action.primary.customize';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
      */
-    protected function getBundleBlock()
+    public function getBundleBlock()
     {
         return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
             $this->_rootElement->find($this->bundleBlock)
@@ -107,11 +122,19 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param FixtureInterface $product
      */
-    public function addToCart(Product $product)
+    public function addToCart(FixtureInterface $product)
     {
         $this->fillOptions($product);
+        $this->clickAddToCart();
+    }
+
+    /**
+     * Click link
+     */
+    public function clickAddToCart()
+    {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
@@ -181,7 +204,7 @@ class View extends Block
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
                 $option = $this->_rootElement->find(
-                    '//*[*[@class="product options configure"]//span[text()="' .
+                    '//*[*[@class="field configurable required"]//span[text()="' .
                     $attributeName .
                     '"]]//select/option[contains(text(), "' .
                     $optionName .
@@ -203,8 +226,8 @@ class View extends Block
      */
     public function fillOptions($product)
     {
-        $configureButton = $this->_rootElement->find('.action.primary.customize');
-        $configureSection = $this->_rootElement->find('.product.options.configure');
+        $configureButton = $this->_rootElement->find($this->customizeButton);
+        $configureSection = $this->_rootElement->find('.product.options.wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
@@ -215,6 +238,15 @@ class View extends Block
             $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
+    }
+
+    /**
+     * Click "Customize and add to cart button"
+     */
+    public function clickCustomize()
+    {
+        $this->_rootElement->find($this->customizeButton)->click();
+
     }
 
     /**
@@ -260,5 +292,15 @@ class View extends Block
     public function isAddToCartButtonVisible()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
+     * Get text of Stock Availability control
+     *
+     * @return array|string
+     */
+    public function stockAvailability()
+    {
+        return $this->_rootElement->find($this->stockAvailability)->getText();
     }
 }

@@ -7,11 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 
-class Purchasedquantity
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
+
+class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -33,9 +34,9 @@ class Purchasedquantity
     /**
      * Set data with filtering
      *
-     * @param mixed $key
+     * @param string|array $key
      * @param mixed $value
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -52,7 +53,7 @@ class Purchasedquantity
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -66,26 +67,30 @@ class Purchasedquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('%1 Purchased Quantity %2 %3 while %4 of these Conditions match:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            '%1 Purchased Quantity %2 %3 while %4 of these Conditions match:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build query for matching ordered items qty
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
 
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
-        $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
+        $aggrFunc = $this->getAttribute() == 'total' ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $value = (int) $this->getValue();
+        $value = (int)$this->getValue();
         $result = $adapter->getCheckSql("{$aggrFunc}(sales_order.total_qty_ordered) {$operator} {$value}", 1, 0);
 
         $select->from(
@@ -101,7 +106,7 @@ class Purchasedquantity
     /**
      * Reset setValueOption() to prevent displaying incorrect actual values
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity
+     * @return $this
      */
     public function loadValueOptions()
     {

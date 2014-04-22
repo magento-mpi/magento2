@@ -7,15 +7,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block;
 
 /**
  * Class Form
  * @package Magento\PageCache\Block
  */
-class Javascript extends \Magento\View\Element\Template
+class Javascript extends \Magento\Framework\View\Element\Template
 {
+    /**
+     * @var \Magento\PageCache\Helper\Data
+     */
+    protected $helper;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\PageCache\Helper\Data         $helper
+     * @param array                                  $data
+     */
+    public function __construct(
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\PageCache\Helper\Data $helper,
+        array $data = array()
+    ) {
+        $this->helper = $helper;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve script options encoded to json
      *
@@ -25,8 +45,8 @@ class Javascript extends \Magento\View\Element\Template
     {
         $params = array(
             'url' => $this->getUrl('page_cache/block/render/'),
-            'handles' => $this->getLayout()->getUpdate()->getHandles(),
-            'versionCookieName' => \Magento\PageCache\Model\Version::COOKIE_NAME
+            'handles' => $this->helper->getActualHandles(),
+            'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
         );
         return json_encode($params);
     }

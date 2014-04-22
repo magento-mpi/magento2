@@ -81,14 +81,15 @@ class Wizard
     /**
      * Get wizard step by request
      *
-     * @param   \Magento\App\RequestInterface $request
+     * @param   \Magento\Framework\App\RequestInterface $request
      * @return  \Magento\Object|bool
      */
-    public function getStepByRequest(\Magento\App\RequestInterface $request)
+    public function getStepByRequest(\Magento\Framework\App\RequestInterface $request)
     {
         foreach ($this->_steps as $step) {
-            if ($step->getController() == $request->getControllerName()
-                    && $step->getAction() == $request->getActionName()) {
+            if ($step->getController() == $request->getControllerName() &&
+                $step->getAction() == $request->getActionName()
+            ) {
                 return $step;
             }
         }

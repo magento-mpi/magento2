@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
-class Visibility implements \Magento\Core\Model\Option\ArrayInterface
+class Visibility implements \Magento\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ class Visibility implements \Magento\Core\Model\Option\ArrayInterface
         return array(
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
-            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No')
         );
     }
 }

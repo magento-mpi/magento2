@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
-class AbstractWidget extends \Magento\View\Element\Template
+class AbstractWidget extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
@@ -23,13 +22,13 @@ class AbstractWidget extends \Magento\View\Element\Template
     protected $_addressHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
         array $data = array()
@@ -40,11 +39,18 @@ class AbstractWidget extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @param string $key
+     * @return null|string
+     */
     public function getConfig($key)
     {
         return $this->_addressHelper->getConfig($key);
     }
 
+    /**
+     * @return string
+     */
     public function getFieldIdFormat()
     {
         if (!$this->hasData('field_id_format')) {
@@ -53,6 +59,9 @@ class AbstractWidget extends \Magento\View\Element\Template
         return $this->getData('field_id_format');
     }
 
+    /**
+     * @return string
+     */
     public function getFieldNameFormat()
     {
         if (!$this->hasData('field_name_format')) {
@@ -61,11 +70,19 @@ class AbstractWidget extends \Magento\View\Element\Template
         return $this->getData('field_name_format');
     }
 
+    /**
+     * @param string $field
+     * @return string
+     */
     public function getFieldId($field)
     {
         return sprintf($this->getFieldIdFormat(), $field);
     }
 
+    /**
+     * @param string $field
+     * @return string
+     */
     public function getFieldName($field)
     {
         return sprintf($this->getFieldNameFormat(), $field);
@@ -75,12 +92,12 @@ class AbstractWidget extends \Magento\View\Element\Template
      * Retrieve customer attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
      */
     protected function _getAttribute($attributeCode)
     {
         try {
-            return $this->_attributeMetadata->getAttributeMetadata('customer', $attributeCode);
+            return $this->_attributeMetadata->getCustomerAttributeMetadata($attributeCode);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }

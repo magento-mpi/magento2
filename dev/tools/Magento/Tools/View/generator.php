@@ -12,12 +12,14 @@
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__.'/../../../');
+\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../');
 
 /**
  * Command line usage help
  */
-define('SYNOPSIS', <<<USAGE
+define(
+    'SYNOPSIS',
+<<<USAGE
 Usage: php -f generator.php -- [--source <dir>] [--destination <dir>] [--dry-run]
        php -f generator.php -- --help
 
@@ -46,10 +48,10 @@ if (isset($options['help'])) {
 
 $logger->log('Deploying...', \Zend_Log::INFO);
 try {
-    $objectManagerFactory = new \Magento\App\ObjectManagerFactory();
+    $objectManagerFactory = new \Magento\Framework\App\ObjectManagerFactory();
     $objectManager = $objectManagerFactory->create(
         BP,
-        array(\Magento\App\State::PARAM_MODE => \Magento\App\State::MODE_PRODUCTION)
+        array(\Magento\Framework\App\State::PARAM_MODE => \Magento\Framework\App\State::MODE_PRODUCTION)
     );
 
     /** @var \Magento\Tools\View\Generator\Config $config */
@@ -59,8 +61,8 @@ try {
     ));
 
     // Register the deployment directory
-    /** @var \Magento\Filesystem\DirectoryList $directoryList */
-    $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+    /** @var \Magento\Framework\Filesystem\DirectoryList $directoryList */
+    $directoryList = $objectManager->get('Magento\Framework\Filesystem\DirectoryList');
     $directoryList->addDirectory('deployment', array('path' => $config->getDestinationDir()));
 
     /** @var \Magento\Core\Model\Theme\Collection $themes */
@@ -90,7 +92,8 @@ try {
         'configPermitted' => __DIR__ . '/config/permitted.php',
         'configForbidden' => __DIR__ . '/config/forbidden.php',
         'versionStorage' => $versionFile,
-        'isDryRun' => $config->isDryRun()
+        'isDryRun' => $config->isDryRun(),
+        'preProcessor' => $objectManager->create('Magento\Framework\View\Asset\PreProcessor\Composite')
     ));
     $deployment->run($copyRules);
 } catch (\Exception $e) {

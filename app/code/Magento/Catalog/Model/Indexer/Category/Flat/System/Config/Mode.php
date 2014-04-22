@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category\Flat\System\Config;
 
 /**
  * Flat category on/off backend
  */
-class Mode extends \Magento\Core\Model\Config\Value
+class Mode extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
@@ -19,27 +18,33 @@ class Mode extends \Magento\Core\Model\Config\Value
     protected $flatIndexer;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @var \Magento\Indexer\Model\Indexer\State
+     */
+    protected $indexerState;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Indexer\Model\Indexer\State $indexerState
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Indexer\Model\Indexer\State $indexerState,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->flatIndexer = $flatIndexer;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        $this->indexerState = $indexerState;
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -60,11 +65,13 @@ class Mode extends \Magento\Core\Model\Config\Value
      */
     public function processValue()
     {
-        if ($this->isValueChanged()) {
-            $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
-            if ($this->getValue()) {
-                $this->flatIndexer->invalidate();
+        if ((bool)$this->getValue() != (bool)$this->getOldValue()) {
+            if ((bool)$this->getValue()) {
+                $this->indexerState->loadByIndexer(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
+                $this->indexerState->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID);
+                $this->indexerState->save();
             } else {
+                $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
                 $this->flatIndexer->setScheduled(false);
             }
         }

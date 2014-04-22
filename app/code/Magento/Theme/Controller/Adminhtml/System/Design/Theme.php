@@ -13,19 +13,19 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Theme extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -41,15 +41,15 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\View\Asset\Repository $assetRepo
      * @param \Magento\App\Filesystem $appFileSystem
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\View\Asset\Repository $assetRepo,
         \Magento\App\Filesystem $appFileSystem
     ) {
@@ -67,6 +67,7 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
+        $this->_eventManager->dispatch('theme_registration_from_filesystem');
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
         $this->_view->renderLayout();
@@ -101,12 +102,12 @@ class Theme extends \Magento\Backend\App\Action
     public function editAction()
     {
         $themeId = (int)$this->getRequest()->getParam('id');
-        /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+        /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+        $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         try {
-            $theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
+            $theme->setType(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
             if ($themeId && (!$theme->load($themeId)->getId() || !$theme->isVisible())) {
-                throw new \Magento\Core\Exception(__('We cannot find theme "%1".', $themeId));
+                throw new \Magento\Framework\Model\Exception(__('We cannot find theme "%1".', $themeId));
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
@@ -121,7 +122,7 @@ class Theme extends \Magento\Backend\App\Action
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
             $this->_view->renderLayout();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
         } catch (\Exception $e) {
@@ -145,13 +146,15 @@ class Theme extends \Magento\Backend\App\Action
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
         $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
 
-        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
         /** @var $cssService \Magento\Theme\Model\Theme\Customization\File\CustomCss */
         $cssService = $this->_objectManager->get('Magento\Theme\Model\Theme\Customization\File\CustomCss');
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
-        $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService));
+        $singleFile = $this->_objectManager->create(
+            'Magento\Theme\Model\Theme\SingleFile',
+            array('fileService' => $cssService)
+        );
         try {
             if ($this->getRequest()->getPost()) {
                 /** @var $theme \Magento\Core\Model\Theme */
@@ -159,26 +162,32 @@ class Theme extends \Magento\Backend\App\Action
                     $theme = $themeFactory->create($themeData['theme_id']);
                 } else {
                     $parentTheme = $themeFactory->create($themeData['parent_id']);
-                    $theme = $parentTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
-                        ->createVirtualTheme($parentTheme);
+                    $theme = $parentTheme->getDomainModel(
+                        \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
+                    )->createVirtualTheme(
+                        $parentTheme
+                    );
                 }
                 if ($theme && !$theme->isEditable()) {
-                    throw new \Magento\Core\Exception(__('Theme isn\'t editable.'));
+                    throw new \Magento\Framework\Model\Exception(__('Theme isn\'t editable.'));
                 }
                 $theme->addData($themeData);
                 if (isset($themeData['preview']['delete'])) {
                     $theme->getThemeImage()->removePreviewImage();
                 }
                 $theme->getThemeImage()->uploadPreviewImage('preview');
-                $theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
+                $theme->setType(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
                 $theme->save();
                 $customization = $theme->getCustomization();
-                $customization->reorder(\Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles);
+                $customization->reorder(
+                    \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE,
+                    $reorderJsFiles
+                );
                 $customization->delete($removeJsFiles);
                 $singleFile->update($theme, $customCssData);
                 $this->messageManager->addSuccess(__('You saved the theme.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setThemeData($themeData);
             $this->_getSession()->setThemeCustomCssData($customCssData);
@@ -187,9 +196,12 @@ class Theme extends \Magento\Backend\App\Action
             $this->messageManager->addError('The theme was not saved');
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $redirectBack && isset($theme)
-            ? $this->_redirect('adminhtml/*/edit', array('id' => $theme->getId()))
-            : $this->_redirect('adminhtml/*/');
+        $redirectBack ? $this->_redirect(
+            'adminhtml/*/edit',
+            array('id' => $theme->getId())
+        ) : $this->_redirect(
+            'adminhtml/*/'
+        );
     }
 
     /**
@@ -203,8 +215,8 @@ class Theme extends \Magento\Backend\App\Action
         $themeId = $this->getRequest()->getParam('id');
         try {
             if ($themeId) {
-                /** @var $theme \Magento\View\Design\ThemeInterface */
-                $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->load($themeId);
+                /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+                $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')->load($themeId);
                 if (!$theme->getId()) {
                     throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
                 }
@@ -216,7 +228,7 @@ class Theme extends \Magento\Backend\App\Action
                 $theme->delete();
                 $this->messageManager->addSuccess(__('You deleted the theme.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot delete the theme.'));
@@ -240,7 +252,7 @@ class Theme extends \Magento\Backend\App\Action
         try {
             $cssFileContent = $serviceModel->uploadCssFile('css_file_uploader');
             $result = array('error' => false, 'content' => $cssFileContent['content']);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
@@ -253,21 +265,21 @@ class Theme extends \Magento\Backend\App\Action
      * Upload js file
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function uploadJsAction()
     {
         $themeId = $this->getRequest()->getParam('id');
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
-        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
-        /** @var $jsService \Magento\View\Design\Theme\Customization\File\Js */
-        $jsService = $this->_objectManager->get('Magento\View\Design\Theme\Customization\File\Js');
+        /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
+        /** @var $jsService \Magento\Framework\View\Design\Theme\Customization\File\Js */
+        $jsService = $this->_objectManager->get('Magento\Framework\View\Design\Theme\Customization\File\Js');
         try {
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
-                throw new \Magento\Core\Exception(__('We cannot find a theme with id "%1".', $themeId));
+                throw new \Magento\Framework\Model\Exception(__('We cannot find a theme with id "%1".', $themeId));
             }
             $jsFileData = $serviceModel->uploadJsFile('js_files_uploader');
             $jsFile = $jsService->create();
@@ -276,12 +288,16 @@ class Theme extends \Magento\Backend\App\Action
             $jsFile->setData('content', $jsFileData['content']);
             $jsFile->save();
 
-            /** @var $customization \Magento\View\Design\Theme\Customization */
-            $customization = $this->_objectManager->create('Magento\View\Design\Theme\CustomizationInterface',
-                array('theme' => $theme));
-            $customJsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
+            /** @var $customization \Magento\Framework\View\Design\Theme\Customization */
+            $customization = $this->_objectManager->create(
+                'Magento\Framework\View\Design\Theme\CustomizationInterface',
+                array('theme' => $theme)
+            );
+            $customJsFiles = $customization->getFilesByType(
+                \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE
+            );
             $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => __('We cannot upload the JS file.'));
@@ -299,8 +315,8 @@ class Theme extends \Magento\Backend\App\Action
     {
         $themeId = $this->getRequest()->getParam('theme_id');
         try {
-            /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
-            $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
+            /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
+            $themeFactory = $this->_objectManager->create('Magento\Framework\View\Design\Theme\FlyweightFactory');
             $theme = $themeFactory->create($themeId);
             if (!$theme) {
                 throw new \InvalidArgumentException(sprintf('We cannot find a theme with id "%1".', $themeId));
@@ -309,16 +325,13 @@ class Theme extends \Magento\Backend\App\Action
             $customCssFiles = $theme->getCustomization()->getFilesByType(
                 \Magento\Theme\Model\Theme\Customization\File\CustomCss::TYPE
             );
-            /** @var $customCssFile \Magento\View\Design\Theme\FileInterface */
+            /** @var $customCssFile \Magento\Framework\View\Design\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
                 return $this->_fileFactory->create(
                     $customCssFile->getFileName(),
-                    array(
-                        'type'  => 'filename',
-                        'value' => $customCssFile->getFullPath()
-                    ),
-                    \Magento\App\Filesystem::ROOT_DIR
+                    array('type' => 'filename', 'value' => $customCssFile->getFullPath()),
+                    \Magento\Framework\App\Filesystem::ROOT_DIR
                 );
             }
         } catch (\Exception $e) {
@@ -342,8 +355,8 @@ class Theme extends \Magento\Backend\App\Action
         $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
         $fileId = $helper->urlDecode($file);
         try {
-            /** @var $theme \Magento\View\Design\ThemeInterface */
-            $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->load($themeId);
+            /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+            $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')->load($themeId);
             if (!$theme->getId()) {
                 throw new \InvalidArgumentException(sprintf('Theme not found: "%1".', $themeId));
             }
@@ -356,7 +369,7 @@ class Theme extends \Magento\Backend\App\Action
                     'type'  => 'filename',
                     'value' => $relPath
                 ),
-                \Magento\App\Filesystem::ROOT_DIR
+                \Magento\Framework\App\Filesystem::ROOT_DIR
             );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('File not found: "%1".', $fileId));

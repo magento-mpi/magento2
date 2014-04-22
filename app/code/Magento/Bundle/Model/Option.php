@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model;
 
 /**
  * Bundle Option Model
  *
- * @method \Magento\Bundle\Model\Resource\Option _getResource()
- * @method \Magento\Bundle\Model\Resource\Option getResource()
  * @method int getParentId()
  * @method \Magento\Bundle\Model\Option setParentId(int $value)
  * @method int getRequired()
@@ -21,25 +20,21 @@
  * @method \Magento\Bundle\Model\Option setPosition(int $value)
  * @method string getType()
  * @method \Magento\Bundle\Model\Option setType(string $value)
- *
- * @category    Magento
- * @package     Magento_Bundle
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method \Magento\Catalog\Model\Product[] getSelections()
  */
-namespace Magento\Bundle\Model;
-
-class Option extends \Magento\Core\Model\AbstractModel
+class Option extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Default selection object
      *
-     * @var \Magento\Bundle\Model\Selection
+     * @var Selection
      */
     protected $_defaultSelection = null;
 
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -50,8 +45,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Add selection to option
      *
-     * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Bundle\Model\Option
+     * @param Selection $selection
+     * @return $this|false
      */
     public function addSelection($selection)
     {
@@ -78,7 +73,7 @@ class Option extends \Magento\Core\Model\AbstractModel
                     $saleable++;
                 }
             }
-            return (bool)$saleable;
+            return (bool) $saleable;
         } else {
             return false;
         }
@@ -87,7 +82,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve default Selection object
      *
-     * @return \Magento\Bundle\Model\Selection
+     * @return Selection
      */
     public function getDefaultSelection()
     {
@@ -125,23 +120,22 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchableData($productId, $storeId)
     {
-        return $this->_getResource()
-            ->getSearchableData($productId, $storeId);
+        return $this->_getResource()->getSearchableData($productId, $storeId);
     }
 
     /**
      * Return selection by it's id
      *
      * @param int $selectionId
-     * @return \Magento\Bundle\Model\Selection
+     * @return Selection|false
      */
     public function getSelectionById($selectionId)
     {
-        $selections = $this->getSelections();
-        $i = count($selections);
-
-        while ($i-- && $selections[$i]->getSelectionId() != $selectionId);
-
-        return $i == -1 ? false : $selections[$i];
+        foreach ($this->getSelections() as $option) {
+            if ($option->getSelectionId() == $selectionId) {
+                return $option;
+            }
+        }
+        return false;
     }
 }

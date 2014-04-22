@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element;
 
 class Section extends AbstractComposite
@@ -20,12 +19,12 @@ class Section extends AbstractComposite
     protected $_authorization;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Iterator $childrenIterator
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Iterator $childrenIterator,
         \Magento\AuthorizationInterface $authorization
     ) {

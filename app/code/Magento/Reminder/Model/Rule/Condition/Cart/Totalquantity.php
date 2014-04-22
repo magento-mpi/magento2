@@ -9,13 +9,12 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart product qty condition
  */
-class Totalquantity
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Totalquantity extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -44,8 +43,7 @@ class Totalquantity
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Items Quantity'));
+        return array('value' => $this->getType(), 'label' => __('Items Quantity'));
     }
 
     /**
@@ -55,9 +53,11 @@ class Totalquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Total shopping cart items quantity %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Total shopping cart items quantity %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**

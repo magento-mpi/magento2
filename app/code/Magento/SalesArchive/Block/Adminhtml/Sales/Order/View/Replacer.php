@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 
 /**
  * Sales archive order view replacer for archive
- *
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
-
-class Replacer
-    extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
+class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * @var \Magento\SalesArchive\Model\Config
@@ -24,14 +21,14 @@ class Replacer
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()
@@ -40,45 +37,43 @@ class Replacer
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'magento_order_shipments',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
-            );
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'magento_order_invoices',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
-            );
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
-                'magento_order_creditmemos',
-                'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
-            );
 
             $restoreUrl = $this->getUrl(
-                'adminhtml/sales_archive/remove',
+                'sales/archive/remove',
                 array('order_id' => $this->getOrder()->getId())
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
-                $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                    'label' => __('Move to Order Managment'),
-                    'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
-                    'class' => 'cancel'
-                ));
+                $this->getLayout()->getBlock(
+                    'sales_order_edit'
+                )->addButton(
+                    'restore',
+                    array(
+                        'label' => __('Move to Order Managment'),
+                        'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
+                        'class' => 'cancel'
+                    )
+                );
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
             $isActive = $this->_configModel->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
-                    'adminhtml/sales_archive/add',
+                    'sales/archive/add',
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {
-                    $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                        'label' => __('Move to Archive'),
-                        'onclick' => 'setLocation(\'' . $archiveUrl . '\')',
-                    ));
+                    $this->getLayout()->getBlock(
+                        'sales_order_edit'
+                    )->addButton(
+                        'restore',
+                        array('label' => __('Move to Archive'), 'onclick' => 'setLocation(\'' . $archiveUrl . '\')')
+                    );
                 }
             }
         }
@@ -86,6 +81,9 @@ class Replacer
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         return '';

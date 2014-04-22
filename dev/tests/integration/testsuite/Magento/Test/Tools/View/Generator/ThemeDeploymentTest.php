@@ -2,19 +2,21 @@
 /**
  * {license_notice}
  *
+ * @category    Tools
+ * @package     unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\View\Generator;
 
-require_once realpath(__DIR__ . '/../../../../../../../../')
-    . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 
+require_once realpath(
+    __DIR__ . '/../../../../../../../../'
+) . '/tools/Magento/Tools/View/Generator/ThemeDeployment.php';
 class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Url\CssResolver
+     * @var \Magento\Framework\View\Url\CssResolver
      */
     protected $_cssUrlResolver;
 
@@ -24,12 +26,12 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $_tmpDir;
 
     /**
-     * @var \Magento\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     protected $filesystemAdapter;
 
@@ -51,22 +53,31 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
-        $this->filesystem = $this->getMock('Magento\App\Filesystem', $methods, array(), '', false);
-        $this->filesystem->expects($this->any())
-            ->method('getPath')
-            ->with(\Magento\App\Filesystem::ROOT_DIR)
-            ->will($this->returnValue(str_replace('\\', '/', BP)));
+        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', $methods, array(), '', false);
+        $this->filesystem->expects(
+            $this->any()
+        )->method(
+            'getPath'
+        )->with(
+            \Magento\Framework\App\Filesystem::ROOT_DIR
+        )->will(
+            $this->returnValue(str_replace('\\', '/', BP))
+        );
 
-        $viewFilesystem = $this->getMock('Magento\View\Filesystem', array('normalizePath'), array(), '', false);
-        $viewFilesystem->expects($this->any())
-            ->method('normalizePath')
-            ->will($this->returnArgument(0));
+        $viewFilesystem = $this->getMock(
+            'Magento\Framework\View\Filesystem',
+            array('normalizePath'),
+            array(),
+            '',
+            false
+        );
+        $viewFilesystem->expects($this->any())->method('normalizePath')->will($this->returnArgument(0));
 
-        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
+        $this->_cssUrlResolver = new \Magento\Framework\View\Url\CssResolver($this->filesystem, $viewFilesystem);
         $this->_tmpDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->getBootstrap()->getApplication()->getInstallDir() . '/tool_theme_deployment';
 
-        $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
+        $this->filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
 
         $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
@@ -96,15 +107,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
         $this->setExpectedException('Magento\Exception', $exceptionMessage);
-        new \Magento\Tools\View\Generator\ThemeDeployment(
-            $this->_cssUrlResolver,
-            $this->versionStorage,
-            $this->versionGenerator,
-            $this->notationResolver,
-            $this->_tmpDir,
-            $permitted,
-            $forbidden
-        );
+        $this->_createThemeDeployment($permitted, $forbidden);
     }
 
     public static function constructorExceptionDataProvider()
@@ -140,15 +143,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->once())->method('save')->with('123');
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
-            $this->_cssUrlResolver,
-            $this->versionStorage,
-            $this->versionGenerator,
-            $this->notationResolver,
-            $this->_tmpDir,
-            $permitted,
-            $forbidden
-        );
+        $object = $this->_createThemeDeployment($permitted, $forbidden);
         $object->run($fixture['copyRules']);
 
         // Verify expected paths
@@ -209,16 +204,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionGenerator->expects($this->never())->method('generate');
         $this->versionStorage->expects($this->never())->method('save');
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
-            $this->_cssUrlResolver,
-            $this->versionStorage,
-            $this->versionGenerator,
-            $this->notationResolver,
-            $this->_tmpDir,
-            $permitted,
-            $forbidden,
-            true
-        );
+        $object = $this->_createThemeDeployment($permitted, $forbidden, true);
         $object->run($fixture['copyRules']);
 
         $actualPaths = $this->_getRelativePaths($this->_tmpDir);
@@ -235,16 +221,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden_without_php.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
-            $this->_cssUrlResolver,
-            $this->versionStorage,
-            $this->versionGenerator,
-            $this->notationResolver,
-            $this->_tmpDir,
-            $permitted,
-            $forbidden,
-            true
-        );
+        $object = $this->_createThemeDeployment($permitted, $forbidden, true);
         $object->run($fixture['copyRules']);
     }
 
@@ -252,14 +229,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     {
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted_cased_js.php';
 
-        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
-            $this->_cssUrlResolver,
-            $this->versionStorage,
-            $this->versionGenerator,
-            $this->notationResolver,
-            $this->_tmpDir,
-            $permitted
-        );
+        $object = $this->_createThemeDeployment($permitted);
         $copyRules = array(
             array(
                 'source' => __DIR__ . '/_files/ThemeDeployment/run/source_cased_js',
@@ -272,8 +242,52 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $object->run($copyRules);
-        $this->assertFileExists(
-            $this->_tmpDir . '/frontend/theme_path/file.JS'
+        $this->assertFileExists($this->_tmpDir . '/frontend/theme_path/file.JS');
+    }
+
+    /**
+     * Create Theme Deployment instance
+     *
+     * @param string $permitted
+     * @param string|null $forbidden
+     * @param bool $isDryRun
+     * @return \Magento\Tools\View\Generator\ThemeDeployment
+     */
+    protected function _createThemeDeployment($permitted, $forbidden = null, $isDryRun = false)
+    {
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $preProcessor = $this->getMock(
+            'Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface',
+            array(),
+            array(),
+            '',
+            false
         );
+        $fileFactory = $this->getMock('Magento\Framework\View\Publisher\FileFactory', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $themeFactory = $this->getMock('Magento\Core\Model\Theme\DataFactory', array('create'), array(), '', false);
+
+        $object = new \Magento\Tools\View\Generator\ThemeDeployment(
+            $this->_cssUrlResolver,
+            $filesystem,
+            $preProcessor,
+            $fileFactory,
+            $appState,
+            $themeFactory,
+            $this->versionStorage,
+            $this->versionGenerator,
+            $this->notationResolver,
+            $this->_tmpDir,
+            $permitted,
+            $forbidden,
+            $isDryRun
+        );
+
+        $fileObject = $this->getMock('Magento\Framework\View\Publisher\File', array(), array(), '', false);
+        $fileFactory->expects($this->any())->method('create')->will($this->returnValue($fileObject));
+        $appState->expects($this->any())->method('emulateAreaCode')->will($this->returnValue($fileObject));
+        $fileObject->expects($this->any())->method('getSourcePath')->will($this->returnValue(false));
+
+        return $object;
     }
 }

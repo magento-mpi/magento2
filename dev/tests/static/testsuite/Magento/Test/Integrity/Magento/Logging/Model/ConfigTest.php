@@ -11,7 +11,6 @@ namespace Magento\Test\Integrity\Magento\Logging\Model;
 
 class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
-
     /**
      * Returns the name of the xml files to validate
      *

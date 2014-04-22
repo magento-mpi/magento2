@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Block\Adminhtml\Frontend\Region;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
-class Updater
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Updater extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * @var \Magento\Directory\Helper\Data
@@ -60,6 +58,3 @@ class Updater
         return $html;
     }
 }
-
-
-

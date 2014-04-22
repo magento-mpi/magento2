@@ -17,10 +17,11 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-class View extends \Magento\App\Helper\AbstractHelper
+class View extends \Magento\Framework\App\Helper\AbstractHelper
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;
+
     public $ERR_BAD_CONTROLLER_INTERFACE = 2;
 
     /**
@@ -33,10 +34,10 @@ class View extends \Magento\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Catalog product
      *
@@ -66,7 +67,7 @@ class View extends \Magento\App\Helper\AbstractHelper
     protected $_catalogSession;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
@@ -76,24 +77,24 @@ class View extends \Magento\App\Helper\AbstractHelper
     protected $messageManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Theme\Helper\Layout $pageLayout
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $messageGroups
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Theme\Helper\Layout $pageLayout,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\ViewInterface $view,
+        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\ViewInterface $view,
         \Magento\Message\ManagerInterface $messageManager,
         array $messageGroups = array()
     ) {
@@ -112,7 +113,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * Inits layout for viewing product page
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\App\Action\Action $controller
+     * @param \Magento\Framework\App\Action\Action $controller
      * @param null|\Magento\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
@@ -147,7 +148,6 @@ class View extends \Magento\App\Helper\AbstractHelper
                     array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId()),
                     $handle
                 );
-
             }
         }
 
@@ -179,8 +179,11 @@ class View extends \Magento\App\Helper\AbstractHelper
             }
             $root->addBodyClass('product-' . $product->getUrlKey());
             if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
-                $root->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
-                    ->addBodyClass('category-' . $currentCategory->getUrlKey());
+                $root->addBodyClass(
+                    'categorypath-' . $currentCategory->getUrlPath()
+                )->addBodyClass(
+                    'category-' . $currentCategory->getUrlKey()
+                );
             }
         }
 
@@ -197,11 +200,11 @@ class View extends \Magento\App\Helper\AbstractHelper
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
-     * @param \Magento\App\Action\Action $controller
+     * @param \Magento\Framework\App\Action\Action $controller
      * @param null|\Magento\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareAndRender($productId, $controller, $params = null)
     {
@@ -214,7 +217,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         // Standard algorithm to prepare and render product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new \Magento\Core\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new \Magento\Framework\Model\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -228,11 +231,6 @@ class View extends \Magento\App\Helper\AbstractHelper
 
         $this->_eventManager->dispatch('catalog_controller_product_view', array('product' => $product));
 
-        if ($params->getSpecifyOptions()) {
-            $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
-            $this->messageManager->addNotice($notice);
-        }
-
         $this->_catalogSession->setLastViewedProductId($product->getId());
 
         $this->initProductLayout($product, $controller, $params);
@@ -240,7 +238,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             $this->_view->getLayout()->initMessages($this->messageGroups);
         } else {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );

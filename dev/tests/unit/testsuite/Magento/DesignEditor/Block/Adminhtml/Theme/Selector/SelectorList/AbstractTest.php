@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
-class AbstractTest
-    extends \PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider getSampleCollection
@@ -34,9 +32,13 @@ class AbstractTest
 
         $listAbstractBlock->setCollection($collection);
 
-        $listAbstractBlock->expects($this->atLeastOnce())
-            ->method('getChildBlock')
-            ->will($this->returnValue($themeMock));
+        $listAbstractBlock->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getChildBlock'
+        )->will(
+            $this->returnValue($themeMock)
+        );
 
         $this->assertEquals(2, count($listAbstractBlock->getListItems()));
     }
@@ -46,10 +48,7 @@ class AbstractTest
      */
     public function getSampleCollection()
     {
-        return array(array(array(
-            array('first_item'),
-            array('second_item')
-        )));
+        return array(array(array(array('first_item'), array('second_item'))));
     }
 
     public function testAddAssignButtonHtml()
@@ -69,28 +68,24 @@ class AbstractTest
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         /** @var $themeBlockMock \Magento\DesignEditor\Block\Adminhtml\Theme */
         $themeBlockMock = $this->getMock(
-            'Magento\DesignEditor\Block\Adminhtml\Theme', array('getTheme'), array(), '', false
+            'Magento\DesignEditor\Block\Adminhtml\Theme',
+            array('getTheme'),
+            array(),
+            '',
+            false
         );
-        /** @var $layoutMock \Magento\View\LayoutInterface */
-        $layoutMock  = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
+        /** @var $layoutMock \Magento\Framework\View\LayoutInterface */
+        $layoutMock = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
         /** @var $buttonMock \Magento\Backend\Block\Widget\Button */
         $buttonMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false);
 
-        $layoutMock->expects($this->once())
-            ->method('createBlock')
-            ->will($this->returnValue($buttonMock));
+        $layoutMock->expects($this->once())->method('createBlock')->will($this->returnValue($buttonMock));
 
-        $themeBlockMock->expects($this->once())
-            ->method('getTheme')
-            ->will($this->returnValue($themeMock));
+        $themeBlockMock->expects($this->once())->method('getTheme')->will($this->returnValue($themeMock));
 
-        $listAbstractBlock->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
+        $listAbstractBlock->expects($this->once())->method('getLayout')->will($this->returnValue($layoutMock));
 
-        $themeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
+        $themeMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
         $method = new \ReflectionMethod($listAbstractBlock, '_addAssignButtonHtml');
         $method->setAccessible(true);

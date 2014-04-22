@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model;
 
 /**
  * Sales observer
  */
-namespace Magento\Sales\Model;
-
 class Observer
 {
     /**
@@ -34,7 +33,7 @@ class Observer
      *
      * @var \Magento\Customer\Helper\Address
      */
-    protected $_customerAddress;
+    protected $_customerAddressHelper;
 
     /**
      * Customer data
@@ -51,9 +50,9 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\StoresConfig
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\CollectionFactory
@@ -61,9 +60,9 @@ class Observer
     protected $_quoteCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_coreLocale;
+    protected $_localeDate;
 
     /**
      * @var Resource\Report\OrderFactory
@@ -86,63 +85,71 @@ class Observer
     protected $_bestsellersFactory;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
-     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param Resource\Report\OrderFactory $orderFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
      * @param Resource\Report\BestsellersFactory $bestsellersFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Customer\Helper\Address $customerAddress,
+        \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
-        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
-        \Magento\Sales\Model\Resource\Report\BestsellersFactory $bestsellersFactory
+        \Magento\Sales\Model\Resource\Report\BestsellersFactory $bestsellersFactory,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
-        $this->_customerAddress = $customerAddress;
+        $this->_customerAddressHelper = $customerAddressHelper;
         $this->_catalogData = $catalogData;
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
-        $this->_coreLocale = $coreLocale;
+        $this->_localeDate = $localeDate;
         $this->_orderFactory = $orderFactory;
         $this->_invoicedFactory = $invoicedFactory;
         $this->_refundedFactory = $refundedFactory;
         $this->_bestsellersFactory = $bestsellersFactory;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
      * Clean expired quotes (cron process)
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function cleanExpiredQuotes($schedule)
     {
         $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = $this->_storeConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
-        foreach ($lifetimes as $storeId=>$lifetime) {
+        $lifetimes = $this->_storesConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        foreach ($lifetimes as $storeId => $lifetime) {
             $lifetime *= 86400;
 
             /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */
             $quotes = $this->_quoteCollectionFactory->create();
 
             $quotes->addFieldToFilter('store_id', $storeId);
-            $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
+            $quotes->addFieldToFilter('updated_at', array('to' => date("Y-m-d", time() - $lifetime)));
             $quotes->addFieldToFilter('is_active', 0);
 
             foreach ($this->getExpireQuotesAdditionalFilterFields() as $field => $condition) {
@@ -168,7 +175,7 @@ class Observer
      * Set expire quotes additional fields to filter
      *
      * @param array $fields
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function setExpireQuotesAdditionalFilterFields(array $fields)
     {
@@ -180,15 +187,15 @@ class Observer
      * Refresh sales order report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportOrderData($schedule)
     {
-        $this->_coreLocale->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $this->_localeResolver->emulate(0);
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_orderFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 
@@ -196,15 +203,15 @@ class Observer
      * Refresh sales invoiced report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportInvoicedData($schedule)
     {
-        $this->_coreLocale->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $this->_localeResolver->emulate(0);
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_invoicedFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 
@@ -212,15 +219,15 @@ class Observer
      * Refresh sales refunded report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportRefundedData($schedule)
     {
-        $this->_coreLocale->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $this->_localeResolver->emulate(0);
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_refundedFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 
@@ -228,15 +235,15 @@ class Observer
      * Refresh bestsellers report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportBestsellersData($schedule)
     {
-        $this->_coreLocale->emulate(0);
-        $currentDate = $this->_coreLocale->date();
+        $this->_localeResolver->emulate(0);
+        $currentDate = $this->_localeDate->date();
         $date = $currentDate->subHour(25);
         $this->_bestsellersFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 
@@ -244,6 +251,7 @@ class Observer
      * Set Quote information about MSRP price enabled
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
     {
@@ -267,7 +275,7 @@ class Observer
      * Add VAT validation request date and identifier to order comments
      *
      * @param \Magento\Event\Observer $observer
-     * @return null
+     * @return void
      */
     public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
     {
@@ -275,18 +283,19 @@ class Observer
         $orderInstance = $observer->getOrder();
         /** @var $orderAddress \Magento\Sales\Model\Order\Address */
         $orderAddress = $this->_getVatRequiredSalesAddress($orderInstance);
-        if (!($orderAddress instanceof \Magento\Sales\Model\Order\Address)) {
+        if (!$orderAddress instanceof \Magento\Sales\Model\Order\Address) {
             return;
         }
 
         $vatRequestId = $orderAddress->getVatRequestId();
         $vatRequestDate = $orderAddress->getVatRequestDate();
-        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate)
-            && !empty($vatRequestDate)
+        if (is_string($vatRequestId) && !empty($vatRequestId) && is_string($vatRequestDate) && !empty($vatRequestDate)
         ) {
-            $orderHistoryComment = __('VAT Request Identifier')
-                . ': ' . $vatRequestId . '<br />' . __('VAT Request Date')
-                . ': ' . $vatRequestDate;
+            $orderHistoryComment = __(
+                'VAT Request Identifier'
+            ) . ': ' . $vatRequestId . '<br />' . __(
+                'VAT Request Date'
+            ) . ': ' . $vatRequestDate;
             $orderInstance->addStatusHistoryComment($orderHistoryComment, false);
         }
     }
@@ -294,21 +303,20 @@ class Observer
     /**
      * Retrieve sales address (order or quote) on which tax calculation must be based
      *
-     * @param \Magento\Core\Model\AbstractModel $salesModel
-     * @param \Magento\Core\Model\Store|string|int|null $store
-     * @return \Magento\Customer\Model\Address\AbstractAddress|null
+     * @param \Magento\Sales\Model\Order $order
+     * @param \Magento\Store\Model\Store|string|int|null $store
+     * @return \Magento\Sales\Model\Order\Address|null
      */
-    protected function _getVatRequiredSalesAddress($salesModel, $store = null)
+    protected function _getVatRequiredSalesAddress($order, $store = null)
     {
-        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
-        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
+        $configAddressType = $this->_customerAddressHelper->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
             case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:
-                $requiredAddress = $salesModel->getShippingAddress();
+                $requiredAddress = $order->getShippingAddress();
                 break;
             default:
-                $requiredAddress = $salesModel->getBillingAddress();
+                $requiredAddress = $order->getBillingAddress();
                 break;
         }
         return $requiredAddress;
@@ -318,15 +326,15 @@ class Observer
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function restoreQuoteCustomerGroupId($observer)
     {
-        /** TODO: References to Magento\Customer\Model\Address will be eliminated in scope of MAGETWO-21105 */
         $quoteAddress = $observer->getQuoteAddress();
-        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType();
+        $configAddressType = $this->_customerAddressHelper->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
-        if ($quoteAddress->hasPrevQuoteCustomerGroupId()
-            && $configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING
+        if ($quoteAddress->hasPrevQuoteCustomerGroupId() &&
+            $configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING
         ) {
             $quoteAddress->getQuote()->setCustomerGroupId($quoteAddress->getPrevQuoteCustomerGroupId());
             $quoteAddress->unsPrevQuoteCustomerGroupId();

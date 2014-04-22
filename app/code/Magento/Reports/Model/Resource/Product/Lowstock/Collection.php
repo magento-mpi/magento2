@@ -25,14 +25,14 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      *
      * @var bool
      */
-    protected $_inventoryItemJoined        = false;
+    protected $_inventoryItemJoined = false;
 
     /**
      * Alias for CatalogInventory Stock Item Table
      *
      * @var string
      */
-    protected $_inventoryItemTableAlias    = 'lowstock_inventory_item';
+    protected $_inventoryItemTableAlias = 'lowstock_inventory_item';
 
     /**
      * Catalog inventory data
@@ -49,20 +49,20 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product $product
@@ -77,20 +77,20 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product $product,
@@ -112,11 +112,11 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
-            $coreStoreConfig,
+            $catalogProductFlatState,
+            $scopeConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $product,
@@ -175,10 +175,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             return $this;
         }
 
-        $this->_joinFields[$alias] = array(
-            'table' => $this->_getInventoryItemTableAlias(),
-            'field' => $field
-        );
+        $this->_joinFields[$alias] = array('table' => $this->_getInventoryItemTableAlias(), 'field' => $field);
 
         $this->getSelect()->columns(array($alias => $field), $this->_getInventoryItemTableAlias());
         return $this;
@@ -206,7 +203,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         if (!$this->_inventoryItemJoined) {
             $this->getSelect()->join(
                 array($this->_getInventoryItemTableAlias() => $this->_getInventoryItemTable()),
-                sprintf('e.%s = %s.product_id',
+                sprintf(
+                    'e.%s = %s.product_id',
                     $this->getEntity()->getEntityIdField(),
                     $this->_getInventoryItemTableAlias()
                 ),
@@ -242,7 +240,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     public function filterByProductType($typeFilter)
     {
         if (!is_string($typeFilter) && !is_array($typeFilter)) {
-            new \Magento\Core\Exception(__('The product type filter specified is incorrect.'));
+            new \Magento\Framework\Model\Exception(__('The product type filter specified is incorrect.'));
         }
         $this->addAttributeToFilter('type_id', $typeFilter);
         return $this;
@@ -255,9 +253,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     public function filterByIsQtyProductTypes()
     {
-        $this->filterByProductType(
-            array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds()))
-        );
+        $this->filterByProductType(array_keys(array_filter($this->_inventoryData->getIsQtyTypeIds())));
         return $this;
     }
 
@@ -272,7 +268,11 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int) $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, $storeId),
+            (int)$this->_scopeConfig->getValue(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            ),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -290,7 +290,11 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
+            (int)$this->_scopeConfig->getValue(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            ),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

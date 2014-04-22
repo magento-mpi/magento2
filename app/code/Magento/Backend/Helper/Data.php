@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Helper;
 
-use Magento\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -24,14 +24,14 @@ class Data extends AbstractHelper
     protected $_pageHelpUrl;
 
     /**
-     * @var \Magento\App\Route\Config
+     * @var \Magento\Framework\App\Route\Config
      */
     protected $_routeConfig;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_app;
+    protected $_locale;
 
     /**
      * @var \Magento\Backend\Model\UrlInterface
@@ -54,18 +54,18 @@ class Data extends AbstractHelper
     protected $mathRandom;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\AppInterface $app
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Route\Config $routeConfig
+     * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Route\Config $routeConfig,
-        \Magento\AppInterface $app,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Route\Config $routeConfig,
+        \Magento\Locale\ResolverInterface $locale,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
@@ -73,7 +73,7 @@ class Data extends AbstractHelper
     ) {
         parent::__construct($context);
         $this->_routeConfig = $routeConfig;
-        $this->_app = $app;
+        $this->_locale = $locale;
         $this->_backendUrl = $backendUrl;
         $this->_auth = $auth;
         $this->_frontNameResolver = $frontNameResolver;
@@ -98,7 +98,7 @@ class Data extends AbstractHelper
     public function setPageHelpUrl($url = null)
     {
         if (is_null($url)) {
-            $request = $this->_app->getRequest();
+            $request = $this->_request;
             $frontModule = $request->getControllerModule();
             if (!$frontModule) {
                 $frontModule = $this->_routeConfig->getModulesByFrontName($request->getModuleName());
@@ -109,10 +109,10 @@ class Data extends AbstractHelper
                 }
             }
             $url = 'http://www.magentocommerce.com/gethelp/';
-            $url.= $this->_app->getLocale()->getLocaleCode().'/';
-            $url.= $frontModule.'/';
-            $url.= $request->getControllerName().'/';
-            $url.= $request->getActionName().'/';
+            $url .= $this->_locale->getLocaleCode() . '/';
+            $url .= $frontModule . '/';
+            $url .= $request->getControllerName() . '/';
+            $url .= $request->getActionName() . '/';
 
             $this->_pageHelpUrl = $url;
         }
@@ -127,7 +127,7 @@ class Data extends AbstractHelper
      */
     public function addPageHelpUrl($suffix)
     {
-        $this->_pageHelpUrl = $this->getPageHelpUrl().$suffix;
+        $this->_pageHelpUrl = $this->getPageHelpUrl() . $suffix;
         return $this;
     }
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Tax\Model\Resource\Sales\Order;
 
 /**
  * Sales order tax resource model
@@ -16,12 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Tax\Model\Resource\Sales\Order;
-
-class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

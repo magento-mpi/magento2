@@ -18,8 +18,7 @@ namespace Magento\ImportExport\Model\Export\Entity\Eav;
  *
  * @method \Magento\Customer\Model\Resource\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
-class Customer
-    extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
+class Customer extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
     /**#@+
      * Permanent column names.
@@ -27,21 +26,26 @@ class Customer
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL   = 'email';
+    const COLUMN_EMAIL = 'email';
+
     const COLUMN_WEBSITE = '_website';
-    const COLUMN_STORE   = '_store';
+
+    const COLUMN_STORE = '_store';
+
     /**#@-*/
 
     /**#@+
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Magento\Customer\Model\Resource\Attribute\Collection';
+
     /**#@-*/
 
     /**#@+
      * XML path to page size parameter
      */
     const XML_PATH_PAGE_SIZE = 'export/customer_page_size/customer';
+
     /**#@-*/
 
     /**
@@ -50,8 +54,8 @@ class Customer
      * @var array
      */
     protected $_attributeOverrides = array(
-        'created_at'                  => array('backend_type' => 'datetime'),
-        'reward_update_notification'  => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'created_at' => array('backend_type' => 'datetime'),
+        'reward_update_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
         'reward_warning_notification' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
     );
 
@@ -84,35 +88,40 @@ class Customer
     protected $_customerCollection;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerColFactory,
         array $data = array()
     ) {
         parent::__construct(
-            $coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $locale, $eavConfig, $data
+            $scopeConfig,
+            $storeManager,
+            $collectionFactory,
+            $resourceColFactory,
+            $localeDate,
+            $eavConfig,
+            $data
         );
 
-        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : $customerColFactory->create();
+        $this->_customerCollection = isset(
+            $data['customer_collection']
+        ) ? $data['customer_collection'] : $customerColFactory->create();
 
-        $this->_initAttributeValues()
-            ->_initStores()
-            ->_initWebsites(true);
+        $this->_initAttributeValues()->_initStores()->_initWebsites(true);
     }
 
     /**
@@ -161,19 +170,18 @@ class Customer
     {
         $row = $this->_addAttributeValuesToRow($item);
         $row[self::COLUMN_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
-        $row[self::COLUMN_STORE]   = $this->_storeIdToCode[$item->getStoreId()];
+        $row[self::COLUMN_STORE] = $this->_storeIdToCode[$item->getStoreId()];
 
-        $this->getWriter()
-            ->writeRow($row);
+        $this->getWriter()->writeRow($row);
     }
 
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param \Magento\Data\Collection $collection
-     * @return \Magento\Data\Collection
+     * @param \Magento\Framework\Data\Collection $collection
+     * @return \Magento\Framework\Data\Collection
      */
-    public function filterAttributeCollection(\Magento\Data\Collection $collection)
+    public function filterAttributeCollection(\Magento\Framework\Data\Collection $collection)
     {
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
@@ -181,7 +189,7 @@ class Customer
                 $data = $this->_attributeOverrides[$attribute->getAttributeCode()];
 
                 if (isset($data['options_method']) && method_exists($this, $data['options_method'])) {
-                    $data['filter_options'] = $this->$data['options_method']();
+                    $data['filter_options'] = $this->{$data['options_method']}();
                 }
                 $attribute->addData($data);
             }

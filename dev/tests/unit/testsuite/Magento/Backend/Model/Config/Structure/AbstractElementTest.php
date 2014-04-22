@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure;
 
 class AbstractElementTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +24,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Backend\Model\Config\Structure\AbstractElement',
@@ -68,23 +67,23 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttribute()
     {
-        $this->_model->setData(array(
-            'id' => 'elementId',
-            'label' => 'Element Label',
-            'someAttribute' => 'Some attribute value'
-        ), 'someScope');
+        $this->_model->setData(
+            array('id' => 'elementId', 'label' => 'Element Label', 'someAttribute' => 'Some attribute value'),
+            'someScope'
+        );
         $this->assertEquals('elementId', $this->_model->getAttribute('id'));
         $this->assertEquals('Element Label', $this->_model->getAttribute('label'));
         $this->assertEquals('Some attribute value', $this->_model->getAttribute('someAttribute'));
         $this->assertNull($this->_model->getAttribute('nonexistingAttribute'));
     }
 
-
     public function testIsVisibleReturnsTrueInSingleStoreModeForNonHiddenElements()
     {
         $this->_storeManager->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
-        $this->_model->setData(array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT);
+        $this->_model->setData(
+            array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
+        );
         $this->assertTrue($this->_model->isVisible());
     }
 
@@ -93,7 +92,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->_model->setData(
             array('hide_in_single_store_mode' => 1, 'showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
         );
         $this->assertFalse($this->_model->isVisible());
     }
@@ -104,8 +103,9 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     public function testIsVisibleReturnsFalseInSingleStoreModeForInvisibleElements()
     {
         $this->_storeManager->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
-        $this->_model->setData(array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 0),
-            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
+        $this->_model->setData(
+            array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 0),
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
         );
         $this->assertFalse($this->_model->isVisible());
     }
@@ -126,16 +126,16 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
+                \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
             ),
             array(
                 array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 0),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ),
             array(
                 array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 1),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE
-            ),
+                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
+            )
         );
     }
 
@@ -155,16 +155,16 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 1),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
+                \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
             ),
             array(
                 array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 1),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ),
             array(
                 array('showInDefault' => 1, 'showInStore' => 1, 'showInWebsite' => 0),
-                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE
-            ),
+                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
+            )
         );
     }
 

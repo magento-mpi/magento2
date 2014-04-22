@@ -13,7 +13,7 @@
  */
 namespace Magento\Install\Block\Db;
 
-class Main extends \Magento\View\Element\Template
+class Main extends \Magento\Framework\View\Element\Template
 {
     /**
      * Array of Database blocks keyed by name
@@ -37,13 +37,13 @@ class Main extends \Magento\View\Element\Template
     protected $_session;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Session\Generic $session,
         array $data = array()
@@ -63,11 +63,7 @@ class Main extends \Magento\View\Element\Template
      */
     public function addDatabaseBlock($type, $block, $template)
     {
-        $this->_databases[$type] = array(
-            'block'     => $block,
-            'template'  => $template,
-            'instance'  => null
-        );
+        $this->_databases[$type] = array('block' => $block, 'template' => $template, 'instance' => null);
 
         return $this;
     }
@@ -76,7 +72,7 @@ class Main extends \Magento\View\Element\Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool|\Magento\View\Element\Template
+     * @return bool|\Magento\Framework\View\Element\Template
      */
     public function getDatabaseBlock($type)
     {
@@ -85,9 +81,13 @@ class Main extends \Magento\View\Element\Template
             if ($this->_databases[$type]['instance']) {
                 $block = $this->_databases[$type]['instance'];
             } else {
-                $block = $this->getLayout()->createBlock($this->_databases[$type]['block'])
-                    ->setTemplate($this->_databases[$type]['template'])
-                    ->setIdPrefix($type);
+                $block = $this->getLayout()->createBlock(
+                    $this->_databases[$type]['block']
+                )->setTemplate(
+                    $this->_databases[$type]['template']
+                )->setIdPrefix(
+                    $type
+                );
                 $this->_databases[$type]['instance'] = $block;
             }
         }
@@ -127,5 +127,4 @@ class Main extends \Magento\View\Element\Template
         }
         return $data;
     }
-
 }

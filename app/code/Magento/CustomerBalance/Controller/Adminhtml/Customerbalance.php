@@ -7,21 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Controller for Customer account -> Store Credit ajax tab and all its contents
- *
- */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Customer\Controller\RegistryConstants;
 
+/**
+ * Controller for Customer account -> Store Credit ajax tab and all its contents
+ */
 class Customerbalance extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -39,13 +38,13 @@ class Customerbalance extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;
         $this->_customerFactory = $customerFactory;
@@ -56,10 +55,10 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Dispatch request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $this->_request = $request;
         if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
@@ -73,6 +72,8 @@ class Customerbalance extends \Magento\Backend\App\Action
 
     /**
      * Customer balance form
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -84,6 +85,7 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Customer balance grid
      *
+     * @return void
      */
     public function gridHistoryAction()
     {
@@ -99,12 +101,11 @@ class Customerbalance extends \Magento\Backend\App\Action
     /**
      * Delete orphan balances
      *
+     * @return void
      */
     public function deleteOrphanBalancesAction()
     {
-        $this->_balance->deleteBalancesByCustomerId(
-            (int)$this->getRequest()->getParam('id')
-        );
+        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
         $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 
@@ -112,15 +113,18 @@ class Customerbalance extends \Magento\Backend\App\Action
      * Instantiate customer model
      *
      * @param string $idFieldName
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = $this->_customerFactory->create()->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            throw new \Magento\Core\Exception(__('Failed to initialize customer'));
+            throw new \Magento\Framework\Model\Exception(__('Failed to initialize customer'));
         }
-        $this->_coreRegistry->register('current_customer', $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
+
     }
 
     /**

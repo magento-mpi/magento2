@@ -19,7 +19,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
 ?>
 <?php if (!$_productCollection->count()): ?>
-    <div class="message notice"><span><?php echo __('There are no products matching the selection.') ?></span></div>
+    <div class="message info empty"><div><?php echo __('There are no products matching the selection.') ?></div></div>
 <?php else: ?>
     <?php echo $this->getToolbarHtml() ?>
     <?php echo $this->getAdditionalHtml() ?>
@@ -27,12 +27,12 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
         $viewMode ='grid';
         $image = 'category_page_grid';
         $showDescription = false;
-        $rating = 'short';
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
     } else {
         $viewMode ='list';
         $image = 'category_page_list';
         $showDescription = true;
-        $rating = 'full';
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
     }
     /**
      * Position for actions regarding image size changing in vde if needed
@@ -47,6 +47,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
     <div class="products wrapper <?php echo $viewMode; ?>">
         <?php $iterator = 1; ?>
         <ol class="products list items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
                 <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
                 <div class="product">
@@ -61,35 +62,15 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                                 <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                             </a>
                         </strong>
-                        <?php echo $this->getPriceHtml($_product, true) ?>
-                        <?php if ($_product->getRatingSummary()): ?>
-                            <?php echo $this->getReviewsSummaryHtml($_product,$rating) ?>
-                        <?php endif; ?>
-                        <?php if ($showDescription):?>
-                            <div class="product description">
-                                <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
-                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>"
-                                   class="action more"><?php echo __('Learn More') ?></a>
-                            </div>
-                        <?php endif; ?>
+                        <?php echo $this->getReviewsSummaryHtml($_product, $templateType); ?>
+                        <?php echo $this->getProductPrice($_product) ?>
                         <div class="product actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                             <div class="primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position: ''; ?>>
                                 <?php if ($_product->isSaleable()): ?>
-                                    <?php if ($_product->getTypeInstance()->hasRequiredOptions($_product)): ?>
                                         <button type="button" title="<?php echo __('Add to Cart') ?>" class="action tocart"
-                                                data-mage-init='{"redirectUrl":{"url":"<?php echo $this->getAddToCartUrl($_product) ?>"}}'>
+                                                data-post='<?php echo $this->getAddToCartPostParams($_product); ?>'>
                                             <span><?php echo __('Add to Cart') ?></span>
                                         </button>
-                                    <?php else: ?>
-                                        <?php
-                                            $postDataHelper = $this->helper('Magento\Core\Helper\PostData');
-                                            $postData = $postDataHelper->getPostData($this->getAddToCartUrl($_product), ['product' => $_product->getEntityId()]);
-                                        ?>
-                                        <button type="button" title="<?php echo __('Add to Cart') ?>" class="action tocart"
-                                                data-post='<?php echo $postData; ?>'>
-                                            <span><?php echo __('Add to Cart') ?></span>
-                                        </button>
-                                    <?php endif; ?>
                                 <?php else: ?>
                                     <?php if ($_product->getIsSalable()): ?>
                                         <p class="stock available"><span><?php echo __('In stock') ?></span></p>
@@ -99,7 +80,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                                 <?php endif; ?>
                             </div>
                             <div data-role="add-to-links" class="secondary"<?php echo strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
-                                <a href="#"
+                                <a href="#" title="<?php echo __('Add to Wishlist') ?>"
                                    data-post='<?php echo $this->getAddToWishlistParams($_product); ?>'
                                    class="action towishlist" data-action="add-to-wishlist">
                                     <span><?php echo __('Add to Wishlist') ?></span>
@@ -107,12 +88,19 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                                 <?php
                                 $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                                 ?>
-                                <a href="#" class="action tocompare"
+                                <a href="#" class="action tocompare" title="<?php echo __('Add to Compare') ?>"
                                    data-post='<?php echo $compareHelper->getPostDataParams($_product); ?>'>
                                     <span><?php echo __('Add to Compare') ?></span>
                                 </a>
                             </div>
                         </div>
+                        <?php if ($showDescription):?>
+                            <div class="product description">
+                                <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>"
+                                   class="action more"><?php echo __('Learn More') ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <?php echo ($iterator==count($_productCollection)+1) ? '</li>' : '' ?>

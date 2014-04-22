@@ -9,7 +9,7 @@
  */
 namespace Magento\Email\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Template db resource
@@ -18,7 +18,7 @@ use Magento\Core\Model\AbstractModel;
  * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -26,10 +26,10 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -53,9 +53,11 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function loadByCode($templateCode)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('template_code = :template_code');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'template_code = :template_code'
+        );
         $result = $this->_getReadAdapter()->fetchRow($select, array('template_code' => $templateCode));
 
         if (!$result) {
@@ -73,12 +75,13 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function checkCodeUsage(\Magento\Email\Model\Template $template)
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable(), 'COUNT(*)')
-                ->where('template_code = :template_code');
-            $bind = array(
-                'template_code' => $template->getTemplateCode()
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getMainTable(),
+                'COUNT(*)'
+            )->where(
+                'template_code = :template_code'
             );
+            $bind = array('template_code' => $template->getTemplateCode());
 
             $templateId = $template->getId();
             if ($templateId) {
@@ -97,7 +100,7 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set template type, added at and modified at time
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _beforeSave(AbstractModel $object)
@@ -130,10 +133,14 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
             $pathsCounter++;
         }
         $bind['template_id'] = $templateId;
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('core_config_data'), array('scope', 'scope_id', 'path'))
-            ->where('value LIKE :template_id')
-            ->where(join(' OR ', $orWhere));
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('core_config_data'),
+            array('scope', 'scope_id', 'path')
+        )->where(
+            'value LIKE :template_id'
+        )->where(
+            join(' OR ', $orWhere)
+        );
 
         return $this->_getReadAdapter()->fetchAll($select, $bind);
     }

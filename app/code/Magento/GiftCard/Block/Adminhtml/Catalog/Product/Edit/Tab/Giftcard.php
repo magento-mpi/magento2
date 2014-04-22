@@ -7,19 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-class Giftcard
- extends \Magento\Backend\Block\Widget
- implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -33,13 +33,13 @@ class Giftcard
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_templateOptions = $templateOptions;
@@ -122,7 +122,7 @@ class Giftcard
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -133,9 +133,9 @@ class Giftcard
     public function getCardTypes()
     {
         return array(
-            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL => __('Virtual'),
             \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
-            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined')
         );
     }
 
@@ -155,9 +155,13 @@ class Giftcard
         return $result;
     }
 
+    /**
+     * @param string $field
+     * @return null|string
+     */
     public function getConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

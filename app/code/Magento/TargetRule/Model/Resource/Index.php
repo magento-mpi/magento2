@@ -33,10 +33,10 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
-    
+
     /**
      * Customer segment data
      *
@@ -60,7 +60,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_visibility;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -85,32 +85,32 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_indexPool;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\TargetRule\Model\Resource\IndexPool $indexPool
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\TargetRule\Model\Resource\IndexPool $indexPool,
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Customer\Model\Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_indexPool = $indexPool;
         $this->_rule = $rule;
@@ -169,12 +169,18 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function getProductIds($object)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable(), 'customer_segment_id')
-            ->where('type_id = :type_id')
-            ->where('entity_id = :entity_id')
-            ->where('store_id = :store_id')
-            ->where('customer_group_id = :customer_group_id');
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            'customer_segment_id'
+        )->where(
+            'type_id = :type_id'
+        )->where(
+            'entity_id = :entity_id'
+        )->where(
+            'store_id = :store_id'
+        )->where(
+            'customer_group_id = :customer_group_id'
+        );
 
         $rotationMode = $this->_targetRuleData->getRotationMode($object->getType());
         if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
@@ -183,10 +189,10 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
 
         $segmentsIds = array_merge(array(0), $this->_getSegmentsIdsFromCurrentCustomer());
         $bind = array(
-            ':type_id'              => $object->getType(),
-            ':entity_id'            => $object->getProduct()->getEntityId(),
-            ':store_id'             => $object->getStoreId(),
-            ':customer_group_id'    => $object->getCustomerGroupId()
+            ':type_id' => $object->getType(),
+            ':entity_id' => $object->getProduct()->getEntityId(),
+            ':store_id' => $object->getStoreId(),
+            ':customer_group_id' => $object->getCustomerGroupId()
         );
 
         $segmentsList = $adapter->fetchAll($select, $bind);
@@ -199,13 +205,20 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $productIds = array();
         foreach ($segmentsIds as $segmentId) {
             if (in_array($segmentId, $foundSegmentIndexes)) {
-                $productIds = array_merge($productIds,
-                    $this->_indexPool->get($object->getType())->loadProductIdsBySegmentId($object, $segmentId));
+                $productIds = array_merge(
+                    $productIds,
+                    $this->_indexPool->get($object->getType())->loadProductIdsBySegmentId($object, $segmentId)
+                );
             } else {
                 $matchedProductIds = $this->_matchProductIdsBySegmentId($object, $segmentId);
                 $productIds = array_merge($matchedProductIds, $productIds);
-                $this->_indexPool->get($object->getType())
-                    ->saveResultForCustomerSegments($object, $segmentId, implode(',', $matchedProductIds));
+                $this->_indexPool->get(
+                    $object->getType()
+                )->saveResultForCustomerSegments(
+                    $object,
+                    $segmentId,
+                    implode(',', $matchedProductIds)
+                );
                 $this->saveFlag($object, $segmentId);
             }
         }
@@ -252,7 +265,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      */
     protected function _matchProductIds($object)
     {
-        $limit      = $object->getLimit() + $this->getOverfillLimit();
+        $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = $object->getExcludeProductIds();
         $ruleCollection = $object->getRuleCollection();
         foreach ($ruleCollection as $rule) {
@@ -286,20 +299,21 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $rule->afterLoad();
 
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
-        $collection = $this->_productCollectionFactory->create()
-            ->setStoreId($object->getStoreId())
-            ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility($this->_visibility->getVisibleInCatalogIds());
+        $collection = $this->_productCollectionFactory->create()->setStoreId(
+            $object->getStoreId()
+        )->addPriceData(
+            $object->getCustomerGroupId()
+        )->setVisibility(
+            $this->_visibility->getVisibleInCatalogIds()
+        );
 
         $actionSelect = $rule->getActionSelect();
-        $actionBind   = $rule->getActionSelectBind();
+        $actionBind = $rule->getActionSelectBind();
 
         if (is_null($actionSelect)) {
-            $actionBind   = array();
+            $actionBind = array();
             $actionSelect = $rule->getActions()->getConditionForCollection($collection, $object, $actionBind);
-            $rule->setActionSelect((string)$actionSelect)
-                ->setActionSelectBind($actionBind)
-                ->save();
+            $rule->setActionSelect((string)$actionSelect)->setActionSelectBind($actionBind)->save();
         }
 
         if ($actionSelect) {
@@ -314,7 +328,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $select->columns('entity_id', 'e');
         $select->limit($limit);
 
-        $bind   = $this->_prepareRuleActionSelectBind($object, $actionBind);
+        $bind = $this->_prepareRuleActionSelectBind($object, $actionBind);
         $result = $this->_getReadAdapter()->fetchCol($select, $bind);
 
         return $result;
@@ -335,7 +349,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         }
 
         foreach ($actionBind as $bindData) {
-            if (!is_array($bindData) || !array_key_exists('bind', $bindData) || !array_key_exists('field', $bindData)) {
+            if (!is_array($bindData) || !array_key_exists('bind', $bindData) || !array_key_exists('field', $bindData)
+            ) {
                 continue;
             }
             $k = $bindData['bind'];
@@ -348,9 +363,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 }
                 foreach ($callbacks as $callback) {
                     if (is_array($callback)) {
-                        $v = $this->$callback[0]($v, $callback[1]);
+                        $v = $this->{$callback[0]}($v, $callback[1]);
                     } else {
-                        $v = $this->$callback($v);
+                        $v = $this->{$callback}($v);
                     }
                 }
             }
@@ -375,12 +390,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function saveFlag($object, $segmentId = null)
     {
         $data = array(
-            'type_id'             => $object->getType(),
-            'entity_id'           => $object->getProduct()->getEntityId(),
-            'store_id'            => $object->getStoreId(),
-            'customer_group_id'   => $object->getCustomerGroupId(),
+            'type_id' => $object->getType(),
+            'entity_id' => $object->getProduct()->getEntityId(),
+            'store_id' => $object->getStoreId(),
+            'customer_group_id' => $object->getCustomerGroupId(),
             'customer_segment_id' => $segmentId,
-            'flag'                => 1
+            'flag' => 1
         );
 
         $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $data);
@@ -391,7 +406,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve new SELECT instance (used Read Adapter)
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function select()
     {
@@ -422,7 +437,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                     $selectOperator = ' IN (?)';
                 } else {
                     $selectOperator = ' LIKE ?';
-                    $value          = '%' . $value . '%';
+                    $value = '%' . $value . '%';
                 }
                 if (substr($operator, 0, 1) == '!') {
                     $selectOperator = ' NOT' . $selectOperator;
@@ -459,7 +474,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = array())
     {
         $field = $this->_getReadAdapter()->quoteIdentifier($field);
-        $bindName = ':targetrule_bind_' . $this->_bindIncrement ++;
+        $bindName = ':targetrule_bind_' . $this->_bindIncrement++;
         switch ($operator) {
             case '!=':
             case '>=':
@@ -469,23 +484,27 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 $condition = sprintf('%s%s%s', $field, $operator, $bindName);
                 break;
             case '{}':
-                $condition  = sprintf('%s LIKE %s', $field, $bindName);
+                $condition = sprintf('%s LIKE %s', $field, $bindName);
                 $callback[] = 'bindLikeValue';
                 break;
 
             case '!{}':
-                $condition  = sprintf('%s NOT LIKE %s', $field, $bindName);
+                $condition = sprintf('%s NOT LIKE %s', $field, $bindName);
                 $callback[] = 'bindLikeValue';
                 break;
 
             case '()':
-                $condition = $this->getReadConnection()
-                    ->prepareSqlCondition($bindName, array('finset' => new \Zend_Db_Expr($field)));
+                $condition = $this->getReadConnection()->prepareSqlCondition(
+                    $bindName,
+                    array('finset' => new \Zend_Db_Expr($field))
+                );
                 break;
 
             case '!()':
-                $condition = $this->getReadConnection()
-                    ->prepareSqlCondition($bindName, array('finset' => new \Zend_Db_Expr($field)));
+                $condition = $this->getReadConnection()->prepareSqlCondition(
+                    $bindName,
+                    array('finset' => new \Zend_Db_Expr($field))
+                );
                 $condition = sprintf('NOT (%s)', $condition);
                 break;
 
@@ -494,11 +513,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 break;
         }
 
-        $bind[] = array(
-            'bind'      => $bindName,
-            'field'     => $attribute,
-            'callback'  => $callback
-        );
+        $bind[] = array('bind' => $bindName, 'field' => $attribute, 'callback' => $callback);
 
         return $condition;
     }
@@ -549,14 +564,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
 
@@ -565,7 +580,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                 $this->_indexPool->get($typeId)->cleanIndex($store);
             }
 
-            $where = (is_null($store)) ? '' : array('store_id IN(?)' => $store);
+            $where = is_null($store) ? '' : array('store_id IN(?)' => $store);
             $adapter->delete($this->getMainTable(), $where);
         } else {
             $where = array('type_id=?' => $typeId);
@@ -582,7 +597,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Remove index by product ids and type
      *
-     * @param int|array|\Magento\DB\Select $productIds
+     * @param int|array|\Magento\Framework\DB\Select $productIds
      * @param int|null $typeId
      * @return $this
      */
@@ -590,9 +605,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     {
         $adapter = $this->_getWriteAdapter();
 
-        $where = array(
-            'entity_id IN(?)'   => $productIds
-        );
+        $where = array('entity_id IN(?)' => $productIds);
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
@@ -636,11 +649,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Adds order by random to select object
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string|null $field
      * @return $this
      */
-    public function orderRand(\Magento\DB\Select $select, $field = null)
+    public function orderRand(\Magento\Framework\DB\Select $select, $field = null)
     {
         $this->_getReadAdapter()->orderRand($select, $field);
         return $this;
@@ -663,7 +676,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
 
             if (!$customer->getId()) {
                 $allSegmentIds = $this->_session->getCustomerSegmentIds();
-                if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
+                if (is_array($allSegmentIds) && isset($allSegmentIds[$websiteId])) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }
             } else {

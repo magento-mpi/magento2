@@ -36,14 +36,17 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Customer segment view modes
      */
-    const VIEW_MODE_UNION_CODE      = 'union';
-    const VIEW_MODE_INTERSECT_CODE  = 'intersect';
+    const VIEW_MODE_UNION_CODE = 'union';
+
+    const VIEW_MODE_INTERSECT_CODE = 'intersect';
 
     /**
      * Possible states of customer segment
      */
     const APPLY_TO_VISITORS = 2;
+
     const APPLY_TO_REGISTERED = 1;
+
     const APPLY_TO_VISITORS_AND_REGISTERED = 0;
 
     /**
@@ -69,36 +72,36 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -106,7 +109,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         $this->_visitor = $visitor;
         $this->_visitorFactory = $visitorFactory;
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -143,9 +146,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         }
         $customer = new \Zend_Db_Expr(':customer_id');
         $website = new \Zend_Db_Expr(':website_id');
-        $this->setConditionSql(
-            $this->getConditions()->getConditionsSql($customer, $website)
-        );
+        $this->setConditionSql($this->getConditions()->getConditionsSql($customer, $website));
         $this->setMatchedEvents(array_unique($events));
 
         parent::_beforeSave();
@@ -261,7 +262,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * Check if customer is matched by segment
      *
      * @param int|\Magento\Customer\Model\Customer|\Magento\Object $customer
-     * @param null|\Magento\Core\Model\Website|bool|int|string $website
+     * @param null|\Magento\Store\Model\Website|bool|int|string $website
      *
      * @return bool
      */
@@ -282,15 +283,14 @@ class Segment extends \Magento\Rule\Model\AbstractModel
 
         $params = array();
         if (strpos($sql, ':customer_id')) {
-            $params['customer_id']  = $customerId;
+            $params['customer_id'] = $customerId;
         }
         if (strpos($sql, ':website_id')) {
             $params['website_id'] = $this->_storeManager->getWebsite($website)->getId();
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = $this->_visitorFactory->create()
-                    ->load($this->getVisitorId())->getQuoteId();
+                $params['quote_id'] = $this->_visitorFactory->create()->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;
             }

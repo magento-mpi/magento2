@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Maximal gift card code length according to database table definitions (longer codes are truncated)
@@ -37,6 +36,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\Object $to
      * @param mixed $value
+     * @return void
      */
     public function setCards(\Magento\Object $to, $value)
     {

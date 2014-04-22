@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Theme;
 
 class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
@@ -22,32 +21,38 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
         foreach ($this->templatesDataProvider() as $template) {
             list($area, $themeId, $module, $file, $xml) = $template;
 
-            if ($area === 'frontend' && in_array($module . '::' . $file, array(
-                'Magento_Reports::Magento_Catalog::product/list/items.phtml',
-                'Magento_Review::redirect.phtml',
-                'Magento_Theme::blank.phtml',
-            ))) {
+            if ($area === 'frontend' && in_array(
+                $module . '::' . $file,
+                array(
+                    'Magento_Reports::Magento_Catalog::product/list/items.phtml',
+                    'Magento_Review::redirect.phtml',
+                    'Magento_Theme::blank.phtml'
+                )
+            )
+            ) {
                 continue; // $this->markTestIncomplete('MAGETWO-9806');
             }
 
-            $params = array(
-                'area'     => $area,
-                'themeId'  => $themeId,
-                'module'   => $module
-            );
+            $params = array('area' => $area, 'themeId' => $themeId, 'module' => $module);
             try {
                 $templateFilename = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                    ->get('Magento\View\FileSystem')
+                    ->get('Magento\Framework\View\FileSystem')
                     ->getTemplateFileName($file, $params);
                 $this->assertFileExists($templateFilename);
             } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
-                $invalidTemplates[] = "File \"$templateFilename\" does not exist." . PHP_EOL
-                    . "Parameters: {$area}/{$themeId} {$module}::{$file}" . PHP_EOL
-                    . 'Layout update: ' . $xml;
+                $invalidTemplates[] = "File \"{$templateFilename}\" does not exist." .
+                    PHP_EOL .
+                    "Parameters: {$area}/{$themeId} {$module}::{$file}" .
+                    PHP_EOL .
+                    'Layout update: ' .
+                    $xml;
             }
         }
 
-        $this->assertEmpty($invalidTemplates, "Invalid templates found:\n\n" . implode("\n-----\n", $invalidTemplates));
+        $this->assertEmpty(
+            $invalidTemplates,
+            "Invalid templates found:\n\n" . implode("\n-----\n", $invalidTemplates)
+        );
     }
 
     public function templatesDataProvider()
@@ -56,9 +61,11 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
 
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
-            /** @var \Magento\View\Layout\ProcessorInterface $layoutUpdate */
-            $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Layout\ProcessorInterface', array('theme' => $theme));
+            /** @var \Magento\Framework\View\Layout\ProcessorInterface $layoutUpdate */
+            $layoutUpdate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Framework\View\Layout\ProcessorInterface',
+                array('theme' => $theme)
+            );
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);
@@ -99,7 +106,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     $attributes = $parent[0]->attributes();
                     $referenceName = (string)$attributes['name'];
                     $block = $layoutXml->xpath(
-                        "//block[@name='{$referenceName}'] | //referenceBlock[@name='{$referenceName}']");
+                        "//block[@name='{$referenceName}'] | //referenceBlock[@name='{$referenceName}']"
+                    );
                     $module = $this->_getBlockModule($block[0]);
                     if (!$template->attributes() && !$this->_isTemplateForDisabledModule($module, (string)$template)) {
                         $templates[] = array($module, (string)$template, $parent[0]->asXml());
@@ -131,9 +139,9 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $attributes = $xmlNode->attributes();
         if (isset($attributes['type'])) {
-            $class = (string) $attributes['type'];
+            $class = (string)$attributes['type'];
         } else {
-            $class = (string) $xmlNode;
+            $class = (string)$xmlNode;
         }
         $blockModule = substr($class, 0, strpos($class, '_Block'));
         return $blockModule;

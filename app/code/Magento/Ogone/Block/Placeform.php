@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ogone\Block;
 
-class Placeform extends \Magento\View\Element\Template
+class Placeform extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -28,14 +27,14 @@ class Placeform extends \Magento\View\Element\Template
     protected $_ogoneApi;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Ogone\Model\Api $ogoneApi
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Ogone\Model\Api $ogoneApi,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
@@ -67,7 +66,7 @@ class Placeform extends \Magento\View\Element\Template
     {
         if ($this->getOrder()) {
             $order = $this->getOrder();
-        } else if ($this->_checkoutSession->getLastRealOrderId()) {
+        } elseif ($this->_checkoutSession->getLastRealOrderId()) {
             $order = $this->_salesOrderFactory->create()
                 ->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
         } else {

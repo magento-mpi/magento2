@@ -27,14 +27,14 @@ namespace Magento\Newsletter\Model;
  * @package     Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Problem extends \Magento\Core\Model\AbstractModel
+class Problem extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Current Subscriber
      *
      * @var \Magento\Newsletter\Model\Subscriber
      */
-    protected  $_subscriber = null;
+    protected $_subscriber = null;
 
     /**
      * Subscriber factory
@@ -46,19 +46,19 @@ class Problem extends \Magento\Core\Model\AbstractModel
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -124,8 +124,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_null($this->_subscriber)) {
-            $this->_subscriber = $this->_subscriberFactory->create()
-                ->load($this->getSubscriberId());
+            $this->_subscriber = $this->_subscriberFactory->create()->load($this->getSubscriberId());
         }
 
         return $this->_subscriber;
@@ -139,11 +138,12 @@ class Problem extends \Magento\Core\Model\AbstractModel
     public function unsubscribe()
     {
         if ($this->getSubscriber()) {
-            $this->getSubscriber()->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_UNSUBSCRIBED)
-                ->setIsStatusChanged(true)
-                ->save();
+            $this->getSubscriber()->setSubscriberStatus(
+                \Magento\Newsletter\Model\Subscriber::STATUS_UNSUBSCRIBED
+            )->setIsStatusChanged(
+                true
+            )->save();
         }
         return $this;
     }
-
 }

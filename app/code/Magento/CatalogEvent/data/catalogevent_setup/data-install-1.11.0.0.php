@@ -8,11 +8,11 @@
 /** @var \Magento\CatalogEvent\Model\Resource\Setup $this */
 
 $cmsBlock = array(
-    'title'      => 'Catalog Events Lister',
+    'title' => 'Catalog Events Lister',
     'identifier' => 'catalog_events_lister',
-    'content'    => '{{block class="Magento\CatalogEvent\Block\Event\Lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
-    'is_active'  => 1,
-    'stores'     => 0,
+    'content' => '{{block class="Magento\CatalogEvent\Block\Event\Lister" name="catalog.event.lister" template="catalogevent/lister.phtml"}}',
+    'is_active' => 1,
+    'stores' => 0
 );
 
 /** @var \Magento\Cms\Model\Block $block */

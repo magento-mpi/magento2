@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export\Entity;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -43,15 +42,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         'qty_increments',
         'use_config_enable_qty_inc',
         'enable_qty_increments',
-        'is_decimal_divided',
+        'is_decimal_divided'
     );
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ImportExport\Model\Export\Entity\Product');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ImportExport\Model\Export\Entity\Product'
+        );
     }
 
     /**
@@ -59,8 +59,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testExport()
     {
-        $this->_model->setWriter(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->_model->setWriter(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\ImportExport\Model\Export\Adapter\Csv'
+            )
+        );
         $this->assertNotEmpty($this->_model->export());
     }
 
@@ -72,33 +75,28 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testExportStockItemAttributesAreFilled()
     {
-        $filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
-        $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
+        $directoryMock = $this->getMock('Magento\Framework\Filesystem\Directory\Write', array(), array(), '', false);
 
-        $filesystemMock->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
+        $filesystemMock->expects($this->once())->method('getDirectoryWrite')->will($this->returnValue($directoryMock));
 
-        $directoryMock->expects($this->any())
-            ->method('getParentDirectory')
-            ->will($this->returnValue('some#path'));
+        $directoryMock->expects($this->any())->method('getParentDirectory')->will($this->returnValue('some#path'));
 
-        $directoryMock->expects($this->any())
-            ->method('isWritable')
-            ->will($this->returnValue(true));
+        $directoryMock->expects($this->any())->method('isWritable')->will($this->returnValue(true));
 
-        $directoryMock->expects($this->any())
-            ->method('isFile')
-            ->will($this->returnValue(true));
+        $directoryMock->expects($this->any())->method('isFile')->will($this->returnValue(true));
 
-        $directoryMock->expects($this->any())
-            ->method('readFile')
-            ->will($this->returnValue('some string read from file'));
+        $directoryMock->expects(
+            $this->any()
+        )->method(
+            'readFile'
+        )->will(
+            $this->returnValue('some string read from file')
+        );
 
         $exportAdapter = new \Magento\ImportExport\Model\Export\Adapter\Csv($filesystemMock);
 
-        $this->_model->setWriter($exportAdapter)
-            ->export();
+        $this->_model->setWriter($exportAdapter)->export();
     }
 
     /**
@@ -109,7 +107,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function verifyHeaderColumns(array $headerColumns)
     {
         foreach (self::$stockItemAttributes as $stockItemAttribute) {
-            $this->assertContains($stockItemAttribute, $headerColumns,
+            $this->assertContains(
+                $stockItemAttribute,
+                $headerColumns,
                 "Stock item attribute {$stockItemAttribute} is absent among header columns"
             );
         }
@@ -123,7 +123,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function verifyRow(array $rowData)
     {
         foreach (self::$stockItemAttributes as $stockItemAttribute) {
-            $this->assertNotSame('', $rowData[$stockItemAttribute],
+            $this->assertNotSame(
+                '',
+                $rowData[$stockItemAttribute],
                 "Stock item attribute {$stockItemAttribute} value is empty string"
             );
         }

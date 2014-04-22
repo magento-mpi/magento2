@@ -9,7 +9,6 @@
  */
 namespace Magento\Core\Model\Layout\Update;
 
-
 /**
  * Validator for custom layout update
  *
@@ -19,16 +18,18 @@ namespace Magento\Core\Model\Layout\Update;
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Validator extends \Zend_Validate_Abstract
 {
     const XML_INVALID = 'invalidXml';
+
     const HELPER_ARGUMENT_TYPE = 'helperArgumentType';
+
     const UPDATER_MODEL = 'updaterModel';
 
     const XML_NAMESPACE_XSI = 'http://www.w3.org/2001/XMLSchema-instance';
 
     const LAYOUT_SCHEMA_SINGLE_HANDLE = 'layout_single';
+
     const LAYOUT_SCHEMA_MERGED = 'layout_merged';
 
     /**
@@ -45,7 +46,7 @@ class Validator extends \Zend_Validate_Abstract
      */
     protected $_protectedExpressions = array(
         self::HELPER_ARGUMENT_TYPE => '//*[@xsi:type="helper"]',
-        self::UPDATER_MODEL => '//updater',
+        self::UPDATER_MODEL => '//updater'
     );
 
     /**
@@ -61,26 +62,30 @@ class Validator extends \Zend_Validate_Abstract
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Config\DomFactory
+     * @var \Magento\Framework\Config\DomFactory
      */
     protected $_domConfigFactory;
 
     /**
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Config\DomFactory $domConfigFactory
+     * @param \Magento\Framework\Config\DomFactory $domConfigFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Config\DomFactory $domConfigFactory
+        \Magento\Framework\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
         $this->_initMessageTemplates();
         $this->_xsdSchemas = array(
-            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $this->_modulesReader->getModuleDir('etc', 'Magento_Core')
-                . '/layout_single.xsd',
-            self::LAYOUT_SCHEMA_MERGED => $this->_modulesReader->getModuleDir('etc', 'Magento_Core')
-                . '/layout_merged.xsd',
+            self::LAYOUT_SCHEMA_SINGLE_HANDLE => $this->_modulesReader->getModuleDir(
+                'etc',
+                'Magento_Core'
+            ) . '/layout_single.xsd',
+            self::LAYOUT_SCHEMA_MERGED => $this->_modulesReader->getModuleDir(
+                'etc',
+                'Magento_Core'
+            ) . '/layout_merged.xsd'
         );
     }
 
@@ -93,11 +98,9 @@ class Validator extends \Zend_Validate_Abstract
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
-                self::HELPER_ARGUMENT_TYPE =>
-                    __('Helper arguments should not be used in custom layout updates.'),
-                self::UPDATER_MODEL =>
-                    __('Updater model should not be used in custom layout updates.'),
-                self::XML_INVALID => __('Please correct the XML data and try again. %value%'),
+                self::HELPER_ARGUMENT_TYPE => __('Helper arguments should not be used in custom layout updates.'),
+                self::UPDATER_MODEL => __('Updater model should not be used in custom layout updates.'),
+                self::XML_INVALID => __('Please correct the XML data and try again. %value%')
             );
         }
         return $this;
@@ -120,10 +123,7 @@ class Validator extends \Zend_Validate_Abstract
         try {
             //wrap XML value in the "layout" and "handle" tags to make it validatable
             $value = '<layout xmlns:xsi="' . self::XML_NAMESPACE_XSI . '">' . $value . '</layout>';
-            $this->_domConfigFactory->createDom(array(
-                'xml' => $value,
-                'schemaFile' => $this->_xsdSchemas[$schema]
-            ));
+            $this->_domConfigFactory->createDom(array('xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]));
 
             if ($isSecurityCheck) {
                 $value = new \Magento\Simplexml\Element($value);
@@ -138,7 +138,7 @@ class Validator extends \Zend_Validate_Abstract
                     return false;
                 }
             }
-        } catch (\Magento\Config\Dom\ValidationException $e) {
+        } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
             $this->_error(self::XML_INVALID, $e->getMessage());
             return false;
         } catch (\Exception $e) {

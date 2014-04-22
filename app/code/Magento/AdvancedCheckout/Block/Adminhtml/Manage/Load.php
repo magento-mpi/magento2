@@ -7,20 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
  * Admin Checkout block for returning dynamically loaded content
  */
-class Load extends \Magento\View\Element\Template
+class Load extends \Magento\Framework\View\Element\Template
 {
     /**
-     * Adminhtml js
-     *
-     * @var \Magento\Backend\Helper\Js
+     * @var \Magento\Framework\View\Helper\Js
      */
-    protected $_adminhtmlJs;
+    protected $_jsHelper;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -28,22 +25,25 @@ class Load extends \Magento\View\Element\Template
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Backend\Helper\Js $adminhtmlJs
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Backend\Helper\Js $adminhtmlJs,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_adminhtmlJs = $adminhtmlJs;
+        $this->_jsHelper = $jsHelper;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $result = array();
@@ -54,7 +54,7 @@ class Load extends \Magento\View\Element\Template
         $resultJson = $this->_jsonEncoder->encode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
         if ($jsVarname) {
-            return $this->_adminhtmlJs->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
+            return $this->_jsHelper->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));
         } else {
             return $resultJson;
         }

@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Framework\Config\Data
 {
     /**
      * @var \Magento\Indexer\Model\Resource\Indexer\State\Collection
@@ -17,13 +16,13 @@ class Data extends \Magento\Config\Data
 
     /**
      * @param \Magento\Indexer\Model\Config\Reader $reader
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Indexer\Model\Resource\Indexer\State\Collection $stateCollection
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Indexer\Model\Config\Reader $reader,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $stateCollection,
         $cacheId = 'indexer_config'
     ) {
@@ -40,6 +39,8 @@ class Data extends \Magento\Config\Data
 
     /**
      * Delete all states that are not in configuration
+     *
+     * @return void
      */
     protected function deleteNonexistentStates()
     {

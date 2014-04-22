@@ -12,7 +12,7 @@
 
 namespace Magento\Widget\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -29,11 +29,11 @@ class CreateInstance extends Curl
     /**
      * Post request for creating widget instance
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @throws \Exception
      * @return null|string instance id
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
         $fields = array();

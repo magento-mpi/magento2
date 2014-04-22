@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Config\Form;
 
 class FieldTest extends \PHPUnit_Framework_TestCase
@@ -40,7 +39,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager',
+        $this->_storeManagerMock = $this->getMock(
+            'Magento\Store\Model\StoreManager',
             array(),
             array(),
             '',
@@ -59,12 +59,24 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'htmlId' => 'test_field_id',
             'name' => 'test_name',
             'label' => 'test_label',
-            'elementHTML' => 'test_html',
+            'elementHTML' => 'test_html'
         );
 
-        $this->_elementMock = $this->getMock('Magento\Data\Form\Element\Text',
-            array('getHtmlId' , 'getName', 'getLabel', 'getElementHtml', 'getComment', 'getHint', 'getScope',
-                'getScopeLabel', 'getInherit', 'getCanUseWebsiteValue', 'getCanUseDefaultValue', 'setDisabled'
+        $this->_elementMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Text',
+            array(
+                'getHtmlId',
+                'getName',
+                'getLabel',
+                'getElementHtml',
+                'getComment',
+                'getHint',
+                'getScope',
+                'getScopeLabel',
+                'getInherit',
+                'getCanUseWebsiteValue',
+                'getCanUseDefaultValue',
+                'setDisabled'
             ),
             array(),
             '',
@@ -73,21 +85,44 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             true
         );
 
-        $this->_elementMock->expects($this->any())->method('getHtmlId')
-            ->will($this->returnValue($this->_testData['htmlId']));
-        $this->_elementMock->expects($this->any())->method('getName')
-            ->will($this->returnValue($this->_testData['name']));
-        $this->_elementMock->expects($this->any())->method('getLabel')
-            ->will($this->returnValue($this->_testData['label']));
-        $this->_elementMock->expects($this->any())->method('getElementHtml')
-            ->will($this->returnValue($this->_testData['elementHTML']));
+        $this->_elementMock->expects(
+            $this->any()
+        )->method(
+            'getHtmlId'
+        )->will(
+            $this->returnValue($this->_testData['htmlId'])
+        );
+        $this->_elementMock->expects(
+            $this->any()
+        )->method(
+            'getName'
+        )->will(
+            $this->returnValue($this->_testData['name'])
+        );
+        $this->_elementMock->expects(
+            $this->any()
+        )->method(
+            'getLabel'
+        )->will(
+            $this->returnValue($this->_testData['label'])
+        );
+        $this->_elementMock->expects(
+            $this->any()
+        )->method(
+            'getElementHtml'
+        )->will(
+            $this->returnValue($this->_testData['elementHTML'])
+        );
     }
 
     public function testRenderHtmlIdLabelInputElementName()
     {
         $expected = '<tr id="row_' . $this->_testData['htmlId'] . '">';
-        $expected .= '<td class="label"><label for="' . $this->_testData['htmlId'] . '">'
-            . $this->_testData['label'] . '</label></td>';
+        $expected .= '<td class="label"><label for="' .
+            $this->_testData['htmlId'] .
+            '">' .
+            $this->_testData['label'] .
+            '</label></td>';
         $expected .= '<td class="value">' . $this->_testData['elementHTML'] . '</td>';
         $expected .= '<td class="scope-label"></td>';
         $expected .= '<td class=""></td></tr>';
@@ -101,8 +136,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $testComment = 'test_comment';
         $this->_elementMock->expects($this->any())->method('getComment')->will($this->returnValue($testComment));
-        $expected = '<td class="value">' . $this->_testData['elementHTML']
-            . '<p class="note"><span>' . $testComment . '</span></p></td>';
+        $expected = '<td class="value">' .
+            $this->_testData['elementHTML'] .
+            '<p class="note"><span>' .
+            $testComment .
+            '</span></p></td>';
         $actual = $this->_object->render($this->_elementMock);
         $this->assertContains($expected, $actual);
     }
@@ -138,10 +176,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         $this->_elementMock->expects($this->once())->method('setDisabled')->with(true);
 
         $expected = '<td class="use-default">';
-        $expected .= '<input id="' . $this->_testData['htmlId'] . '_inherit" name="'
-            . $this->_testData['name'] . '[inherit]" type="checkbox" value="1"'
-            . ' class="checkbox config-inherit" checked="checked"'
-            . ' onclick="toggleValueElements(this, Element.previous(this.parentNode))" /> ';
+        $expected .= '<input id="' .
+            $this->_testData['htmlId'] .
+            '_inherit" name="' .
+            $this->_testData['name'] .
+            '[inherit]" type="checkbox" value="1"' .
+            ' class="checkbox config-inherit" checked="checked"' .
+            ' onclick="toggleValueElements(this, Element.previous(this.parentNode))" /> ';
 
         $expected .= '<label for="' . $this->_testData['htmlId'] . '_inherit" class="inherit">Use Website</label>';
         $actual = $this->_object->render($this->_elementMock);

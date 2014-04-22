@@ -19,13 +19,13 @@ namespace Magento\Connect\Package;
 class Reader
 {
     /**
-    * Name of package file
-    */
+     * Name of package file
+     */
     const DEFAULT_NAME_PACKAGE = 'package.xml';
 
     /**
-    * Temporary dir for extract DEFAULT_NAME_PACKAGE.
-    */
+     * Temporary dir for extract DEFAULT_NAME_PACKAGE.
+     */
     const PATH_TO_TEMPORARY_DIRECTORY = 'var/package/tmp/';
 
     /**
@@ -46,9 +46,8 @@ class Reader
      * Constructor initializes $_file.
      *
      * @param string $file
-     * @return $this
      */
-    public function __construct($file='')
+    public function __construct($file = '')
     {
         if ($file) {
             $this->_file = $file;
@@ -133,5 +132,4 @@ class Reader
         }
         return $data;
     }
-
 }

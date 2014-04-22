@@ -9,9 +9,9 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\App\Filesystem;
-use Magento\Core\Exception;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme registration model class
@@ -19,7 +19,7 @@ use Magento\View\Design\ThemeInterface;
 class Registration
 {
     /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -51,20 +51,20 @@ class Registration
     );
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $directoryRead;
 
     /**
      * Initialize dependencies
      *
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
-     * @param Collection $filesystemCollection
+     * @param \Magento\Core\Model\Resource\Theme\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Theme\Data\Collection $filesystemCollection
      * @param Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory,
-        Collection $filesystemCollection,
+        \Magento\Core\Model\Resource\Theme\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Theme\Data\Collection $filesystemCollection,
         Filesystem $filesystem
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -145,7 +145,7 @@ class Registration
         if (!$theme->getPreviewImage() || !$themeDirectory) {
             return $this;
         }
-        $imagePath = $this->directoryRead->getAbsolutePath($themeDirectory . '/' . $theme->getPreviewImage());
+        $imagePath = $themeDirectory . '/' . $theme->getPreviewImage();
         if (0 === strpos($imagePath, $themeDirectory)) {
             $theme->getThemeImage()->createPreviewImage($imagePath);
         }

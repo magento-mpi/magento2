@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Module;
 
 class ManagerTest extends \PHPUnit_Framework_TestCase
@@ -34,15 +33,24 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleList = $this->getMockForAbstractClass('Magento\Module\ModuleListInterface');
         $this->_outputConfig = $this->getMockForAbstractClass('Magento\Module\Output\ConfigInterface');
-        $this->_model = new \Magento\Module\Manager($this->_outputConfig, $this->_moduleList, array(
-            'Fixture_Module' => self::XML_PATH_OUTPUT_ENABLED,
-        ));
+        $this->_model = new \Magento\Module\Manager(
+            $this->_outputConfig,
+            $this->_moduleList,
+            array(
+                'Fixture_Module' => self::XML_PATH_OUTPUT_ENABLED,
+            )
+        );
     }
 
     public function testIsEnabledReturnsTrueForActiveModule()
     {
-        $this->_moduleList->expects($this->once())->method('getModule')
-            ->will($this->returnValue(array('name' => 'Some_Module')));
+        $this->_moduleList->expects(
+            $this->once()
+        )->method(
+            'getModule'
+        )->will(
+            $this->returnValue(array('name' => 'Some_Module'))
+        );
         $this->assertTrue($this->_model->isEnabled('Some_Module'));
     }
 
@@ -54,10 +62,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsOutputEnabledReturnsFalseForDisabledModule()
     {
-        $this->_outputConfig
-            ->expects($this->any())
-            ->method('isSetFlag')
-            ->will($this->returnValue(true));
+        $this->_outputConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
         $this->assertFalse($this->_model->isOutputEnabled('Nonexisting_Module'));
     }
 
@@ -68,24 +73,28 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledGenericConfigPath($configValue, $expectedResult)
     {
-        $this->_moduleList->expects($this->any())->method('getModule')->will(
+        $this->_moduleList->expects(
+            $this->any()
+        )->method(
+            'getModule'
+        )->will(
             $this->returnValue(array('name' => 'Module_EnabledOne'))
         );
-        $this->_outputConfig
-            ->expects($this->once())
-            ->method('isEnabled')
-            ->with('Module_EnabledOne')
-            ->will($this->returnValue($configValue))
-        ;
+        $this->_outputConfig->expects(
+            $this->once()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Module_EnabledOne'
+        )->will(
+            $this->returnValue($configValue)
+        );
         $this->assertEquals($expectedResult, $this->_model->isOutputEnabled('Module_EnabledOne'));
     }
 
     public function isOutputEnabledGenericConfigPathDataProvider()
     {
-        return array(
-            'output disabled'   => array(true, false),
-            'output enabled'    => array(false, true),
-        );
+        return array('output disabled' => array(true, false), 'output enabled' => array(false, true));
     }
 
     /**
@@ -96,15 +105,22 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledCustomConfigPath($configValue, $moduleName, $expectedResult)
     {
-        $this->_moduleList->expects($this->any())->method('getModule')->will(
+        $this->_moduleList->expects(
+            $this->any()
+        )->method(
+            'getModule'
+        )->will(
             $this->returnValue(array('name' => $moduleName))
         );
-        $this->_outputConfig
-            ->expects($this->at(0))
-            ->method('isSetFlag')
-            ->with(self::XML_PATH_OUTPUT_ENABLED)
-            ->will($this->returnValue($configValue))
-        ;
+        $this->_outputConfig->expects(
+            $this->at(0)
+        )->method(
+            'isSetFlag'
+        )->with(
+            self::XML_PATH_OUTPUT_ENABLED
+        )->will(
+            $this->returnValue($configValue)
+        );
         $this->assertEquals($expectedResult, $this->_model->isOutputEnabled($moduleName));
     }
 

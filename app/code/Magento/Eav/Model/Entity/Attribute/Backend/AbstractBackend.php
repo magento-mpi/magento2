@@ -11,13 +11,8 @@ namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 /**
  * Entity/Attribute/Model - attribute backend abstract
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractBackend
-    implements \Magento\Eav\Model\Entity\Attribute\Backend\BackendInterface
+abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Backend\BackendInterface
 {
     /**
      * Reference to the attribute instance
@@ -245,17 +240,15 @@ abstract class AbstractBackend
 
         if ($this->getAttribute()->getIsUnique()
             && !$this->getAttribute()->getIsRequired()
-            && ($value == '' || $this->getAttribute()->isValueEmpty($value)))
-        {
+            && ($value == '' || $this->getAttribute()->isValueEmpty($value))
+        ) {
             return true;
         }
 
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new \Magento\Eav\Exception(
-                    __('The value of attribute "%1" must be unique', $label)
-                );
+                throw new \Magento\Eav\Exception(__('The value of attribute "%1" must be unique', $label));
             }
         }
 
@@ -333,7 +326,7 @@ abstract class AbstractBackend
         $data = array();
         $data[$this->getTable()][] = array(
             'attribute_id' => $this->getAttribute()->getAttributeId(),
-            'value_id' => $this->getEntityValueId($object),
+            'value_id' => $this->getEntityValueId($object)
         );
         return $data;
     }

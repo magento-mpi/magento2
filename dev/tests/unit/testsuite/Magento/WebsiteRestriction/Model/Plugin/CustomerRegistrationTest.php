@@ -12,30 +12,43 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_restrictionConfig;
+    protected $restrictionConfig;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
 
     protected function setUp()
     {
-        $this->_restrictionConfig = $this->getMock('Magento\WebsiteRestriction\Model\ConfigInterface');
-        $this->_model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration($this->_restrictionConfig);
+        $this->restrictionConfig = $this->getMock('Magento\WebsiteRestriction\Model\ConfigInterface');
+        $this->subjectMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration($this->restrictionConfig);
     }
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfRestrictionModeForbidsIt()
     {
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $storeMock->expects($this->any())
-            ->method('isAdmin')
-            ->will($this->returnValue(false));
-        $this->_restrictionConfig->expects($this->any())
-            ->method('isRestrictionEnabled')
-            ->will($this->returnValue(true));
-        $this->_restrictionConfig->expects($this->once())
-            ->method('getMode')->will($this->returnValue(\Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE));
-        $this->assertFalse($this->_model->afterIsRegistrationAllowed(true));
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
+        $this->restrictionConfig->expects(
+            $this->any()
+        )->method(
+            'isRestrictionEnabled'
+        )->will(
+            $this->returnValue(true)
+        );
+        $this->restrictionConfig->expects(
+            $this->once()
+        )->method(
+            'getMode'
+        )->will(
+            $this->returnValue(\Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE)
+        );
+        $this->assertFalse($this->model->afterIsRegistrationAllowed($this->subjectMock, true));
     }
 }

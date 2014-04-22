@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Rule\Condition;
 
 class Address extends \Magento\Rule\Model\Condition\AbstractCondition
@@ -57,6 +55,8 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     }
 
     /**
+     * Load attribute options
+     *
      * @return $this
      */
     public function loadAttributeOptions()
@@ -70,7 +70,7 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
             'postcode' => __('Shipping Postcode'),
             'region' => __('Shipping Region'),
             'region_id' => __('Shipping State/Province'),
-            'country_id' => __('Shipping Country'),
+            'country_id' => __('Shipping Country')
         );
 
         $this->setAttributeOption($attributes);
@@ -78,6 +78,11 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         return $this;
     }
 
+    /**
+     * Get attribute element
+     *
+     * @return $this
+     */
     public function getAttributeElement()
     {
         $element = parent::getAttributeElement();
@@ -86,33 +91,47 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
     }
 
     /**
+     * Get input type
+     *
      * @return string
      */
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'base_subtotal': case 'weight': case 'total_qty':
+            case 'base_subtotal':
+            case 'weight':
+            case 'total_qty':
                 return 'numeric';
 
-            case 'shipping_method': case 'payment_method': case 'country_id': case 'region_id':
+            case 'shipping_method':
+            case 'payment_method':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'string';
     }
 
     /**
+     * Get value element type
+     *
      * @return string
      */
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'shipping_method': case 'payment_method': case 'country_id': case 'region_id':
+            case 'shipping_method':
+            case 'payment_method':
+            case 'country_id':
+            case 'region_id':
                 return 'select';
         }
         return 'text';
     }
 
     /**
+     * Get value select options
+     *
      * @return array|mixed
      */
     public function getValueSelectOptions()
@@ -155,13 +174,12 @@ class Address extends \Magento\Rule\Model\Condition\AbstractCondition
         if (!$address instanceof \Magento\Sales\Model\Quote\Address) {
             if ($object->getQuote()->isVirtual()) {
                 $address = $object->getQuote()->getBillingAddress();
-            }
-            else {
+            } else {
                 $address = $object->getQuote()->getShippingAddress();
             }
         }
 
-        if ('payment_method' == $this->getAttribute() && ! $address->hasPaymentMethod()) {
+        if ('payment_method' == $this->getAttribute() && !$address->hasPaymentMethod()) {
             $address->setPaymentMethod($object->getQuote()->getPayment()->getMethod());
         }
 

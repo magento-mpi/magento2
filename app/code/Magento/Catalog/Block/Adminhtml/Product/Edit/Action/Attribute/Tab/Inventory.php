@@ -19,9 +19,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
 
 use Magento\CatalogInventory\Model\Stock\Item;
 
-class Inventory
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Inventory extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\CatalogInventory\Model\Source\Backorders
@@ -81,7 +79,7 @@ class Inventory
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return $this->_scopeConfig->getValue(Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**

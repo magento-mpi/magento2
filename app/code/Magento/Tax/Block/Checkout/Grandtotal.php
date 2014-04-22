@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Block\Checkout;
 
 /**
  * Subtotal Total Row Renderer
  */
-namespace Magento\Tax\Block\Checkout;
-
 class Grandtotal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
@@ -28,7 +25,7 @@ class Grandtotal extends \Magento\Checkout\Block\Total\DefaultTotal
     protected $_taxConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -37,7 +34,7 @@ class Grandtotal extends \Magento\Checkout\Block\Total\DefaultTotal
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -70,7 +67,7 @@ class Grandtotal extends \Magento\Checkout\Block\Total\DefaultTotal
      */
     public function getTotalExclTax()
     {
-        $excl = $this->getTotal()->getAddress()->getGrandTotal()-$this->getTotal()->getAddress()->getTaxAmount();
+        $excl = $this->getTotal()->getAddress()->getGrandTotal() - $this->getTotal()->getAddress()->getTaxAmount();
         $excl = max($excl, 0);
         return $excl;
     }

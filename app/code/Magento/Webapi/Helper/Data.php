@@ -5,26 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Helper;
 
-use Magento\App\Helper\Context;
-use Magento\Core\Model\Registry;
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
+use Magento\Service\Data\AbstractObject;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    /** @var Registry */
+    /** @var \Magento\Registry */
     protected $_registry;
 
     /**
-     * @param Context $context
-     * @param Registry $registry
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Registry $registry
      */
-    public function __construct(
-        Context $context,
-        Registry $registry
-    ) {
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Registry $registry)
+    {
         $this->_registry = $registry;
         parent::__construct($context);
     }
@@ -36,8 +32,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $selectedResourceIds = array();
         $currentIntegration = $this->_registry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        if ($currentIntegration
-            && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
+        if ($currentIntegration && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
         ) {
             $selectedResourceIds = $currentIntegration['resource'];
         }
@@ -48,9 +43,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - \Magento\Customer\Service\CustomerV1Interface         => customer          // $preserveVersion == false
-     * - \Magento\Customer\Service\Customer\AddressV1Interface => customerAddressV1 // $preserveVersion == true
-     * - \Magento\Catalog\Service\ProductV2Interface           => catalogProductV2  // $preserveVersion == true
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => customerCustomerAccount
+     * - 'Magento\Customer\Service\V1\CustomerAddressInterface', true  => customerCustomerAddressV1
+     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => catalogProductV2
      * </pre>
      *
      * @param string $interfaceName
@@ -67,10 +62,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Identify the list of service name parts including sub-services using class name.
      *
-     * Examples of input/output pairs: <br/>
-     * - 'Magento\Customer\Service\Customer\AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
-     * - 'Vendor\Customer\Service\Customer\AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
-     * - 'Magento\Catalog\Service\ProductV2Interface' => array('CatalogProduct', 'V2')
+     * Examples of input/output pairs:
+     * <pre>
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => ['CustomerCustomerAccount']
+     * - 'Vendor\Customer\Service\V1\Customer\AddressInterface', true  => ['VendorCustomer', 'Address', 'V1']
+     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => ['CatalogProduct', 'V2']
+     * </pre>
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
@@ -97,34 +94,5 @@ class Data extends \Magento\App\Helper\AbstractHelper
             return $serviceNameParts;
         }
         throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
-    }
-
-    /**
-     * Convert DTO getter name into field name.
-     *
-     * @param string $getterName
-     * @return string
-     */
-    public function dtoGetterNameToFieldName($getterName)
-    {
-        if ((strpos($getterName, 'get') === 0)) {
-            /** Remove 'get' prefix and make the first letter lower case */
-            $fieldName = substr($getterName, strlen('get'));
-        } else {
-            /** If methods are with 'is' or 'has' prefix */
-            $fieldName = $getterName;
-        }
-        return lcfirst($fieldName);
-    }
-
-    /**
-     * Convert DTO field name into setter name.
-     *
-     * @param string $fieldName
-     * @return string
-     */
-    public function dtoFieldNameToSetterName($fieldName)
-    {
-        return 'set' . ucfirst($fieldName);
     }
 }

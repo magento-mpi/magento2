@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Shopping cart product qty condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
-
-class Productsquantity
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Productsquantity extends AbstractCondition
 {
     /**
      * @var string
@@ -39,7 +40,7 @@ class Productsquantity
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -53,9 +54,11 @@ class Productsquantity
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
+        return array(
+            'value' => $this->getType(),
             'label' => __('Products Quantity'),
-            'available_in_guest_mode' => true);
+            'available_in_guest_mode' => true
+        );
     }
 
     /**
@@ -65,17 +68,19 @@ class Productsquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping Cart Products Qty %1 %2:', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping Cart Products Qty %1 %2:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Get SQL select for matching shopping cart products count
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

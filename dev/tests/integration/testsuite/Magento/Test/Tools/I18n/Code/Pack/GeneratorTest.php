@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Pack;
 
 use Magento\Tools\I18n\Code\ServiceLocator;
@@ -50,7 +49,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_testDir = realpath(__DIR__ . '/_files');
-        $this->_expectedDir  = $this->_testDir . '/expected';
+        $this->_expectedDir = $this->_testDir . '/expected';
         $this->_dictionaryPath = $this->_testDir . '/source.csv';
         $this->_packPath = $this->_testDir . '/pack';
         $this->_locale = 'de_DE';

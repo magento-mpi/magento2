@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * Customer gift registry view items block
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -28,36 +27,14 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
      * @param array $priceBlockTypes
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array(),
@@ -67,16 +44,6 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->itemFactory = $itemFactory;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $data,
             $priceBlockTypes
         );
@@ -85,6 +52,8 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * Return gift registry form header
+     *
+     * @return string
      */
     public function getFormHeader()
     {
@@ -99,8 +68,9 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $collection = $this->itemFactory->create()->getCollection()
-                ->addRegistryFilter($this->getEntity()->getId());
+            $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter(
+                $this->getEntity()->getId()
+            );
             $this->setData('item_collection', $collection);
         }
         return $this->_getData('item_collection');
@@ -114,7 +84,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -136,7 +106,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQty($item)
     {
-        return $item->getQty()*1;
+        return $item->getQty() * 1;
     }
 
     /**
@@ -147,7 +117,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQtyFulfilled($item)
     {
-        return $item->getQtyFulfilled()*1;
+        return $item->getQtyFulfilled() * 1;
     }
 
     /**
@@ -184,7 +154,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      * Returns product price
      *
      * @param \Magento\GiftRegistry\Model\Item $item
-     * @return mixed
+     * @return float|string
      */
     public function getPrice($item)
     {

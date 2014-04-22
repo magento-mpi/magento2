@@ -14,7 +14,7 @@ use Magento\Integration\Model\Integration as IntegrationModel;
 /**
  * oAuth token controller
  */
-class Token extends \Magento\App\Action\Action
+class Token extends \Magento\Framework\App\Action\Action
 {
     /** @var  \Magento\Oauth\OauthInterface */
     protected $_oauthService;
@@ -29,14 +29,14 @@ class Token extends \Magento\App\Action\Action
     protected $_helper;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param IntegrationOauthService $intOauthService
      * @param IntegrationService $integrationService
      * @param \Magento\Oauth\Helper\Request $helper
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Oauth\OauthInterface $oauthService,
         IntegrationOauthService $intOauthService,
         IntegrationService $integrationService,
@@ -61,13 +61,9 @@ class Token extends \Magento\App\Action\Action
             $request = $this->_helper->prepareRequest($this->getRequest(), $requestUrl);
 
             // Request request token
-            $response = $this->_oauthService->getRequestToken(
-                $request, $requestUrl, $this->getRequest()->getMethod());
+            $response = $this->_oauthService->getRequestToken($request, $requestUrl, $this->getRequest()->getMethod());
         } catch (\Exception $exception) {
-            $response = $this->_helper->prepareErrorResponse(
-                $exception,
-                $this->getResponse()
-            );
+            $response = $this->_helper->prepareErrorResponse($exception, $this->getResponse());
         }
         $this->getResponse()->setBody(http_build_query($response));
     }
@@ -84,21 +80,16 @@ class Token extends \Magento\App\Action\Action
             $request = $this->_helper->prepareRequest($this->getRequest(), $requestUrl);
 
             // Request access token in exchange of a pre-authorized token
-            $response = $this->_oauthService->getAccessToken(
-                $request,
-                $requestUrl,
-                $this->getRequest()->getMethod()
-            );
+            $response = $this->_oauthService->getAccessToken($request, $requestUrl, $this->getRequest()->getMethod());
             //After sending the access token, update the integration status to active;
             $consumer = $this->_intOauthService->loadConsumerByKey($request['oauth_consumer_key']);
-            $this->_integrationService->findByConsumerId($consumer->getId())
-                ->setStatus(IntegrationModel::STATUS_ACTIVE)
-                ->save();
+            $this->_integrationService->findByConsumerId(
+                $consumer->getId()
+            )->setStatus(
+                IntegrationModel::STATUS_ACTIVE
+            )->save();
         } catch (\Exception $exception) {
-            $response = $this->_helper->prepareErrorResponse(
-                $exception,
-                $this->getResponse()
-            );
+            $response = $this->_helper->prepareErrorResponse($exception, $this->getResponse());
         }
         $this->getResponse()->setBody(http_build_query($response));
     }

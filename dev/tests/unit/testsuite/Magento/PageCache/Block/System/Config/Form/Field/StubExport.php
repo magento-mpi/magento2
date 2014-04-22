@@ -10,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 
 class StubExport extends \Magento\PageCache\Block\System\Config\Form\Field\Export
@@ -26,10 +25,11 @@ class StubExport extends \Magento\PageCache\Block\System\Config\Form\Field\Expor
     {
         $this->_urlBuilder = $urlBuilder;
     }
+
     /**
      * Retrieve element HTML markup
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
     public function getElementHtml($element)

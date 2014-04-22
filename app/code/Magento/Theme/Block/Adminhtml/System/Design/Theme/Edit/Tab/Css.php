@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
 /**
@@ -19,8 +18,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Css
-    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
+class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab
 {
     /**
      * Uploader service
@@ -43,8 +41,8 @@ class Css
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
      * @param \Magento\Theme\Helper\Data $helper
@@ -52,8 +50,8 @@ class Css
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
         \Magento\Theme\Helper\Data $helper,
@@ -71,7 +69,7 @@ class Css
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
         $this->_addThemeCssFieldset();
@@ -104,10 +102,10 @@ class Css
     protected function _addThemeCssFieldset()
     {
         $form = $this->getForm();
-        $themeFieldset = $form->addFieldset('theme_css', array(
-            'legend' => __('Theme CSS'),
-            'class'  => 'fieldset-wide'
-        ));
+        $themeFieldset = $form->addFieldset(
+            'theme_css',
+            array('legend' => __('Theme CSS'), 'class' => 'fieldset-wide')
+        );
         $this->_addElementTypes($themeFieldset);
 
         $links = array();
@@ -134,35 +132,42 @@ class Css
      * Set custom css fieldset
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _addCustomCssFieldset()
     {
         $form = $this->getForm();
-        $themeFieldset = $form->addFieldset('custom_css', array(
-            'legend' => __('Custom CSS'),
-            'class'  => 'fieldset-wide'
-        ));
+        $themeFieldset = $form->addFieldset(
+            'custom_css',
+            array('legend' => __('Custom CSS'), 'class' => 'fieldset-wide')
+        );
         $this->_addElementTypes($themeFieldset);
 
-        $themeFieldset->addField('css_file_uploader', 'css_file', array(
-            'name'     => 'css_file_uploader',
-            'label'    => __('Select CSS File to Upload'),
-            'title'    => __('Select CSS File to Upload'),
-            'accept'   => 'text/css',
-            'note'     => $this->_getUploadCssFileNote()
-        ));
+        $themeFieldset->addField(
+            'css_file_uploader',
+            'css_file',
+            array(
+                'name' => 'css_file_uploader',
+                'label' => __('Select CSS File to Upload'),
+                'title' => __('Select CSS File to Upload'),
+                'accept' => 'text/css',
+                'note' => $this->_getUploadCssFileNote()
+            )
+        );
 
-        $themeFieldset->addField('css_uploader_button', 'button', array(
-            'name'     => 'css_uploader_button',
-            'value'    => __('Upload CSS File'),
-            'disabled' => 'disabled',
-        ));
+        $themeFieldset->addField(
+            'css_uploader_button',
+            'button',
+            array('name' => 'css_uploader_button', 'value' => __('Upload CSS File'), 'disabled' => 'disabled')
+        );
 
         $downloadButtonConfig = array(
-            'name'  => 'css_download_button',
+            'name' => 'css_download_button',
             'value' => __('Download CSS File'),
-            'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/downloadCustomCss', array(
-                'theme_id' => $this->_getCurrentTheme()->getId())) . "');"
+            'onclick' => "setLocation('" . $this->getUrl(
+                'adminhtml/*/downloadCustomCss',
+                array('theme_id' => $this->_getCurrentTheme()->getId())
+            ) . "');"
         );
         if (!$this->_customCssFile) {
             $downloadButtonConfig['disabled'] = 'disabled';
@@ -170,60 +175,68 @@ class Css
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
         /** @var $imageButton \Magento\Backend\Block\Widget\Button */
-        $imageButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-            'id'        => 'css_images_manager',
-            'label'     => __('Manage'),
-            'class'     => 'button',
-            'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('adminhtml/system_design_wysiwyg_files/index', array(
-                    'target_element_id'                           => 'custom_css_content',
-                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     =>
-                        $this->_getCurrentTheme()->getId(),
-                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
-                        \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
-                ))
-                . "', null, null,'"
-                . $this->escapeQuote(
-                    __('Upload Images'), true
-                )
-                . "');"
-        ));
+        $imageButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'css_images_manager',
+                'label' => __('Manage'),
+                'class' => 'button',
+                'onclick' => "MediabrowserUtility.openDialog('" . $this->getUrl(
+                    'adminhtml/system_design_wysiwyg_files/index',
+                    array(
+                        'target_element_id' => 'custom_css_content',
+                        \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
+                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
+                            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
+                    )
+                ) . "', null, null,'" . $this->escapeQuote(
+                    __('Upload Images'),
+                    true
+                ) . "');"
+            )
+        );
 
-        $themeFieldset->addField('css_browse_image_button', 'note', array(
-            'label' => __("Images Assets"),
-            'text'  => $imageButton->toHtml()
-        ));
+        $themeFieldset->addField(
+            'css_browse_image_button',
+            'note',
+            array('label' => __("Images Assets"), 'text' => $imageButton->toHtml())
+        );
 
         /** @var $fontButton \Magento\Backend\Block\Widget\Button */
-        $fontButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-            'id'        => 'css_fonts_manager',
-            'label'     => __('Manage'),
-            'class'     => 'button',
-            'onclick'   => "MediabrowserUtility.openDialog('"
-                . $this->getUrl('adminhtml/system_design_wysiwyg_files/index', array(
-                    'target_element_id'                           => 'custom_css_content',
-                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
-                ))
-                . "', null, null,'"
-                . $this->escapeQuote(
-                    __('Upload Fonts'), true
-                )
-                . "');",
-        ));
+        $fontButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'css_fonts_manager',
+                'label' => __('Manage'),
+                'class' => 'button',
+                'onclick' => "MediabrowserUtility.openDialog('" . $this->getUrl(
+                    'adminhtml/system_design_wysiwyg_files/index',
+                    array(
+                        'target_element_id' => 'custom_css_content',
+                        \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
+                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
+                            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
+                    )
+                ) . "', null, null,'" . $this->escapeQuote(
+                    __('Upload Fonts'),
+                    true
+                ) . "');"
+            )
+        );
 
-        $themeFieldset->addField('css_browse_font_button', 'note', array(
-            'label' => __("Fonts Assets"),
-            'text'  => $fontButton->toHtml()
-        ));
+        $themeFieldset->addField(
+            'css_browse_font_button',
+            'note',
+            array('label' => __("Fonts Assets"), 'text' => $fontButton->toHtml())
+        );
 
-        $themeFieldset->addField('custom_css_content', 'textarea', array(
-            'label'  => __('Edit custom.css'),
-            'title'  => __('Edit custom.css'),
-            'name'   => 'custom_css_content',
-        ));
+        $themeFieldset->addField(
+            'custom_css_content',
+            'textarea',
+            array('label' => __('Edit custom.css'), 'title' => __('Edit custom.css'), 'name' => 'custom_css_content')
+        );
 
         return $this;
     }
@@ -280,9 +293,9 @@ class Css
      */
     public function getDownloadUrl($fileId, $themeId)
     {
-        return $this->getUrl('adminhtml/*/downloadCss', array(
-            'theme_id' => $themeId,
-            'file'     => $this->helper->urlEncode($fileId)
-        ));
+        return $this->getUrl(
+            'adminhtml/*/downloadCss',
+            array('theme_id' => $themeId, 'file' => $this->helper->urlEncode($fileId))
+        );
     }
 }

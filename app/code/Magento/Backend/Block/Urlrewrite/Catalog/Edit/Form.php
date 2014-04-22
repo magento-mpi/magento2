@@ -46,12 +46,12 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
-     * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
-     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory
+     * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -62,12 +62,12 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
-        \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
-        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\UrlRewrite\Model\UrlRewrite\TypeProviderFactory $typesFactory,
+        \Magento\UrlRewrite\Model\UrlRewrite\OptionProviderFactory $optionFactory,
+        \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
@@ -93,26 +93,29 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
     /**
      * Form post init
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @return \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form
      */
     protected function _formPostInit($form)
     {
         // Set form action
         $form->setAction(
-            $this->_adminhtmlData->getUrl('adminhtml/*/save', array(
-                'id'       => $this->_getModel()->getId(),
-                'product'  => $this->_getProduct()->getId(),
-                'category' => $this->_getCategory()->getId()
-            ))
+            $this->_adminhtmlData->getUrl(
+                'adminhtml/*/save',
+                array(
+                    'id' => $this->_getModel()->getId(),
+                    'product' => $this->_getProduct()->getId(),
+                    'category' => $this->_getCategory()->getId()
+                )
+            )
         );
 
         // Fill id path, request path and target path elements
-        /** @var $idPath \Magento\Data\Form\Element\AbstractElement */
+        /** @var $idPath \Magento\Framework\Data\Form\Element\AbstractElement */
         $idPath = $this->getForm()->getElement('id_path');
-        /** @var $requestPath \Magento\Data\Form\Element\AbstractElement */
+        /** @var $requestPath \Magento\Framework\Data\Form\Element\AbstractElement */
         $requestPath = $this->getForm()->getElement('request_path');
-        /** @var $targetPath \Magento\Data\Form\Element\AbstractElement */
+        /** @var $targetPath \Magento\Framework\Data\Form\Element\AbstractElement */
         $targetPath = $this->getForm()->getElement('target_path');
 
         $model = $this->_getModel();
@@ -154,7 +157,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     protected function _getEntityStores()
     {
@@ -164,25 +167,29 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
 
         // showing websites that only associated to products
         if ($product->getId()) {
-            $entityStores = (array) $product->getStoreIds();
+            $entityStores = (array)$product->getStoreIds();
 
             //if category is chosen, reset stores which are not related with this category
             if ($category->getId()) {
-                $categoryStores = (array) $category->getStoreIds();
+                $categoryStores = (array)$category->getStoreIds();
                 $entityStores = array_intersect($entityStores, $categoryStores);
             }
             // @codingStandardsIgnoreStart
             if (!$entityStores) {
-                throw new \Magento\Core\Model\Store\Exception(
-                    __('We can\'t set up a URL rewrite because the product you chose is not associated with a website.')
+                throw new \Magento\Store\Model\Exception(
+                    __(
+                        'We can\'t set up a URL rewrite because the product you chose is not associated with a website.'
+                    )
                 );
             }
             $this->_requireStoresFilter = true;
         } elseif ($category->getId()) {
-            $entityStores = (array) $category->getStoreIds();
+            $entityStores = (array)$category->getStoreIds();
             if (!$entityStores) {
-                throw new \Magento\Core\Model\Store\Exception(
-                    __('We can\'t set up a URL rewrite because the category your chose is not associated with a website.')
+                throw new \Magento\Store\Model\Exception(
+                    __(
+                        'We can\'t set up a URL rewrite because the category your chose is not associated with a website.'
+                    )
                 );
             }
             $this->_requireStoresFilter = true;

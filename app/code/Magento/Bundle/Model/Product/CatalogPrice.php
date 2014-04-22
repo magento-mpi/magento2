@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Model\Product;
 
 /**
@@ -14,7 +13,7 @@ namespace Magento\Bundle\Model\Product;
 class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterface
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -24,19 +23,19 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
     protected $commonPriceModel;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $coreRegistry;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\CatalogPrice $commonPriceModel,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->storeManager = $storeManager;
         $this->commonPriceModel = $commonPriceModel;
@@ -47,26 +46,32 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
      * Minimal price for "regular" user
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|\Magento\Core\Model\Store $store Store view
+     * @param null|\Magento\Store\Model\Store $store Store view
      * @param bool $inclTax
      * @return null|float
      */
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $oldStore = $this->storeManager->getStore();
             $this->storeManager->setCurrentStore($store);
         }
 
         $this->coreRegistry->unregister('rule_data');
-        $this->coreRegistry->register('rule_data', new \Magento\Object(array(
-            'store_id'          => $product->getStoreId(),
-            'website_id'        => $product->getWebsiteId(),
-            'customer_group_id' => $product->getCustomerGroupId())));
+        $this->coreRegistry->register(
+            'rule_data',
+            new \Magento\Object(
+                array(
+                    'store_id' => $product->getStoreId(),
+                    'website_id' => $product->getWebsiteId(),
+                    'customer_group_id' => $product->getCustomerGroupId()
+                )
+            )
+        );
 
         $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $this->storeManager->setCurrentStore($oldStore);
         }
         return $minPrice;

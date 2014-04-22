@@ -13,13 +13,12 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Field;
 
-class Hidden
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Hidden extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Decorate field row html to be invisible
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @param string $html
      * @return string
      */

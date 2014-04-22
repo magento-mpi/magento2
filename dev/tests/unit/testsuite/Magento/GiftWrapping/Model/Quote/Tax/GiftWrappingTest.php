@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftWrapping\Model\Quote\Tax;
 
 /**
@@ -36,8 +35,8 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollectQuote()
     {
-        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
-        $this->_taxCalcModelMock = $this->getMock('Magento\Tax\Model\Calculation', [], [], '', false);
+        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', array(), array(), '', false);
+        $this->_taxCalcModelMock = $this->getMock('Magento\Tax\Model\Calculation', array(), array(), '', false);
         $addressMock = $this->_prepareData();
 
         $model = new \Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping($helperMock, $this->_taxCalcModelMock);
@@ -51,24 +50,26 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareData()
     {
-        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isVirtual', '__wakeup'))
-            ->getMock();
-        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice', 'getId', '__wakeup'))
-            ->getMock();
+        $product = $this->getMockBuilder(
+            'Magento\Catalog\Model\Product'
+        )->disableOriginalConstructor()->setMethods(
+            array('isVirtual', '__wakeup')
+        )->getMock();
+        $storeMock = $this->getMockBuilder(
+            'Magento\Store\Model\Store'
+        )->disableOriginalConstructor()->setMethods(
+            array('convertPrice', 'getId', '__wakeup')
+        )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
-            ['load', 'setStoreId', 'getBasePrice', '__wakeup'],
-            [],
+            array('load', 'setStoreId', 'getBasePrice', '__wakeup'),
+            array(),
             '',
             false
         );
         $this->_addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            [
+            array(
                 'getAddressType',
                 'getQuote',
                 '__wakeup',
@@ -76,69 +77,57 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
                 'setGwItemsBaseTaxAmount',
                 'setGwItemsTaxAmount',
                 'getAppliedTaxes'
-            ],
-            [],
+            ),
+            array(),
             '',
             false
         );
 
-        $this->_taxCalcModelMock->expects($this->any())
-            ->method('getRateRequest')
-            ->will($this->returnValue(new \Magento\Object()));
-        $this->_taxCalcModelMock->expects($this->any())
-            ->method('getRate')
-            ->will($this->returnValue(1));
-        $this->_taxCalcModelMock->expects($this->any())
-            ->method('calcTaxAmount')
-            ->will($this->returnArgument(0));
-        $this->_taxCalcModelMock->expects($this->any())
-            ->method('getAppliedRates')
-            ->will($this->returnValue([]));
-        $storeMock->expects($this->any())
-            ->method('convertPrice')
-            ->will($this->returnValue(10));
-        $product->expects($this->any())
-            ->method('isVirtual')
-            ->will($this->returnValue(false));
-        $quote = new \Magento\Object([
-            'isMultishipping' => false,
-            'store' => $storeMock,
-            'billingAddress' => null,
-            'customerTaxClassId' => null
-        ]);
+        $this->_taxCalcModelMock->expects(
+            $this->any()
+        )->method(
+            'getRateRequest'
+        )->will(
+            $this->returnValue(new \Magento\Object())
+        );
+        $this->_taxCalcModelMock->expects($this->any())->method('getRate')->will($this->returnValue(1));
+        $this->_taxCalcModelMock->expects($this->any())->method('calcTaxAmount')->will($this->returnArgument(0));
+        $this->_taxCalcModelMock->expects($this->any())->method('getAppliedRates')->will($this->returnValue(array()));
+        $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
+        $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
+        $quote = new \Magento\Object(
+            array(
+                'isMultishipping' => false,
+                'store' => $storeMock,
+                'billingAddress' => null,
+                'customerTaxClassId' => null
+            )
+        );
 
-        $this->_wrappingMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnSelf());
-        $this->_wrappingMock->expects($this->any())
-            ->method('getBasePrice')
-            ->will($this->returnValue(6));
+        $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
+        $this->_wrappingMock->expects($this->any())->method('getBasePrice')->will($this->returnValue(6));
 
         $item = new \Magento\Object();
         $product->setGiftWrappingPrice(10);
-        $item->setProduct($product)
-            ->setQty(2)
-            ->setGwId(1)
-            ->setGwPrice(5)
-            ->setGwBasePrice(10);
-        $this->_addressMock->expects($this->any())
-            ->method('getAddressType')
-            ->will($this->returnValue(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
-        $this->_addressMock->expects($this->any())
-            ->method('getQuote')
-            ->will($this->returnValue($quote));
-        $this->_addressMock->expects($this->any())
-            ->method('getAllNonNominalItems')
-            ->will($this->returnValue([
-                $item
-            ]));
+        $item->setProduct($product)->setQty(2)->setGwId(1)->setGwPrice(5)->setGwBasePrice(10);
+        $this->_addressMock->expects(
+            $this->any()
+        )->method(
+            'getAddressType'
+        )->will(
+            $this->returnValue(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING)
+        );
+        $this->_addressMock->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
+        $this->_addressMock->expects(
+            $this->any()
+        )->method(
+            'getAllNonNominalItems'
+        )->will(
+            $this->returnValue(array($item))
+        );
 
-        $this->_addressMock->expects($this->once())
-            ->method('setGwItemsBaseTaxAmount')
-            ->with(20);
-        $this->_addressMock->expects($this->once())
-            ->method('setGwItemsTaxAmount')
-            ->with(10);
+        $this->_addressMock->expects($this->once())->method('setGwItemsBaseTaxAmount')->with(20);
+        $this->_addressMock->expects($this->once())->method('setGwItemsTaxAmount')->with(10);
         return $this->_addressMock;
     }
 }

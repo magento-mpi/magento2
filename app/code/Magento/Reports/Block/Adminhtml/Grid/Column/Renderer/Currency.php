@@ -14,8 +14,7 @@ namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Currency
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
+class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * Renders grid column
@@ -34,7 +33,7 @@ class Currency
 
         $data = floatval($data) * $this->_getRate($row);
         $data = sprintf("%f", $data);
-        $data = $this->_locale->currency($currency_code)->toCurrency($data);
+        $data = $this->_localeCurrency->getCurrency($currency_code)->toCurrency($data);
         return $data;
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Model;
 
 use Magento\Downloadable\Model\Resource\Link as Resource;
@@ -40,29 +39,34 @@ use Magento\Downloadable\Model\Resource\Link as Resource;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Core\Model\AbstractModel
+class Link extends \Magento\Framework\Model\AbstractModel
 {
-    const XML_PATH_LINKS_TITLE              = 'catalog/downloadable/links_title';
-    const XML_PATH_DEFAULT_DOWNLOADS_NUMBER = 'catalog/downloadable/downloads_number';
-    const XML_PATH_TARGET_NEW_WINDOW        = 'catalog/downloadable/links_target_new_window';
-    const XML_PATH_CONFIG_IS_SHAREABLE      = 'catalog/downloadable/shareable';
+    const XML_PATH_LINKS_TITLE = 'catalog/downloadable/links_title';
 
-    const LINK_SHAREABLE_YES    = 1;
-    const LINK_SHAREABLE_NO     = 0;
+    const XML_PATH_DEFAULT_DOWNLOADS_NUMBER = 'catalog/downloadable/downloads_number';
+
+    const XML_PATH_TARGET_NEW_WINDOW = 'catalog/downloadable/links_target_new_window';
+
+    const XML_PATH_CONFIG_IS_SHAREABLE = 'catalog/downloadable/shareable';
+
+    const LINK_SHAREABLE_YES = 1;
+
+    const LINK_SHAREABLE_NO = 0;
+
     const LINK_SHAREABLE_CONFIG = 2;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -71,6 +75,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +86,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Enter description here...
      *
-     * @return Link
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -138,7 +143,6 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getSearchableData($productId, $storeId)
     {
-        return $this->_getResource()
-            ->getSearchableData($productId, $storeId);
+        return $this->_getResource()->getSearchableData($productId, $storeId);
     }
 }

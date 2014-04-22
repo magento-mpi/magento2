@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
 
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Order address type condition
@@ -16,10 +19,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
-
-class Type
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Type extends AbstractCondition
 {
     /**
      * Condition Input Type
@@ -46,7 +46,7 @@ class Type
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -60,23 +60,17 @@ class Type
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Address Type')
-        );
+        return array('value' => $this->getType(), 'label' => __('Address Type'));
     }
 
     /**
      * Initialize value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            'shipping' => __('Shipping'),
-            'billing'  => __('Billing'),
-        ));
+        $this->setValueOption(array('shipping' => __('Shipping'), 'billing' => __('Billing')));
         return $this;
     }
 
@@ -97,17 +91,19 @@ class Type
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Order Address %1 a %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Order Address %1 a %2 Address',
+            $this->getOperatorElementHtml(),
+            $this->getValueElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Get condition query for order address attribute
      *
-     * @param $customer
-     * @param $website
-     * @return \Magento\DB\Select
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

@@ -18,53 +18,47 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
-class Custom extends \Magento\Core\Model\Config\Value
+class Custom extends \Magento\Framework\App\Config\Value
 {
-    const CONFIG_SCOPE                      = 'stores';
-    const CONFIG_SCOPE_ID                   = 0;
+    const CONFIG_SCOPE = 'stores';
 
-    const XML_PATH_UNSECURE_BASE_URL        = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_BASE_URL          = 'web/secure/base_url';
-    const XML_PATH_UNSECURE_BASE_LINK_URL   = 'web/unsecure/base_link_url';
-    const XML_PATH_SECURE_BASE_LINK_URL     = 'web/secure/base_link_url';
+    const CONFIG_SCOPE_ID = 0;
+
+    const XML_PATH_UNSECURE_BASE_URL = 'web/unsecure/base_url';
+
+    const XML_PATH_SECURE_BASE_URL = 'web/secure/base_url';
+
+    const XML_PATH_UNSECURE_BASE_LINK_URL = 'web/unsecure/base_link_url';
+
+    const XML_PATH_SECURE_BASE_LINK_URL = 'web/secure/base_link_url';
 
     /**
      * Writer of configuration storage
      *
-     * @var \Magento\App\Config\Storage\WriterInterface
+     * @var \Magento\Framework\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
-        \Magento\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configWriter = $configWriter;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -77,7 +71,7 @@ class Custom extends \Magento\Core\Model\Config\Value
         $value = $this->getValue();
 
         if (!empty($value) && substr($value, -2) !== '}}') {
-            $value = rtrim($value, '/').'/';
+            $value = rtrim($value, '/') . '/';
         }
 
         $this->setValue($value);

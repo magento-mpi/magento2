@@ -5,18 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Block\Tracking;
 
 /**
  * Tracking info link
  */
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -28,14 +27,14 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_shippingData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Shipping\Helper\Data $shippingData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         \Magento\Shipping\Helper\Data $shippingData,
         array $data = array()
     ) {

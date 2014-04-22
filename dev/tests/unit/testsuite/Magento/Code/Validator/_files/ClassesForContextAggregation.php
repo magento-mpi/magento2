@@ -6,38 +6,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 class ClassFirst
 {
-
 }
 class ClassSecond
 {
-
 }
 class ClassThird
 {
-
 }
 class ClassD
 {
-
 }
 interface InterfaceFirst
 {
-
 }
 class ImplementationOfInterfaceFirst implements InterfaceFirst
 {
-
 }
 interface InterfaceSecond
 {
-
 }
 class ImplementationOfInterfaceSecond implements InterfaceSecond
 {
-
 }
 class ContextFirst implements \Magento\ObjectManager\ContextInterface
 {
@@ -74,7 +65,9 @@ class ContextFirst implements \Magento\ObjectManager\ContextInterface
      * @param ImplementationOfInterfaceSecond $implOfBInterface
      */
     public function __construct(
-        \ClassFirst $exA, \ClassSecond $exB, \ClassThird $exC,
+        \ClassFirst $exA,
+        \ClassSecond $exB,
+        \ClassThird $exC,
         \InterfaceFirst $interfaceA,
         \ImplementationOfInterfaceSecond $implOfBInterface
     ) {
@@ -85,7 +78,6 @@ class ContextFirst implements \Magento\ObjectManager\ContextInterface
         $this->_implOfBInterface = $implOfBInterface;
     }
 }
-
 class ClassArgumentAlreadyInjectedInContext
 {
     /**
@@ -108,7 +100,6 @@ class ClassArgumentAlreadyInjectedInContext
         $this->_exA = $exA;
     }
 }
-
 class ClassArgumentWithInterfaceImplementation
 {
     /**
@@ -131,7 +122,6 @@ class ClassArgumentWithInterfaceImplementation
         $this->_exA = $exA;
     }
 }
-
 class ClassArgumentWithInterface
 {
     /**
@@ -154,7 +144,6 @@ class ClassArgumentWithInterface
         $this->_exB = $exB;
     }
 }
-
 class ClassArgumentWithAlreadyInjectedInterface
 {
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V1;
 
 use Magento\TestModule5\Service\V1\Entity\AllSoapAndRestBuilder;
@@ -21,7 +20,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
             ->setId($id)
             ->setName('testItemName')
             ->setIsEnabled(true)
-            ->setHasName(true)
+            ->setHasOrders(true)
             ->create();
     }
 

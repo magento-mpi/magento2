@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Block;
 
 /**
  * Install state block
  */
-class State extends \Magento\View\Element\Template
+class State extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string
@@ -26,14 +25,14 @@ class State extends \Magento\View\Element\Template
      * @var \Magento\Install\Model\Wizard
      */
     protected $_wizard;
-    
+
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Wizard $wizard,
         array $data = array()
     ) {
@@ -50,11 +49,7 @@ class State extends \Magento\View\Element\Template
     public function getDownloaderSteps()
     {
         if ($this->isDownloaderInstall()) {
-            $steps = array(
-                __('Welcome'),
-                __('Validation'),
-                __('Magento Connect Manager Deployment'),
-            );
+            $steps = array(__('Welcome'), __('Validation'), __('Magento Connect Manager Deployment'));
             return $steps;
         } else {
             return array();

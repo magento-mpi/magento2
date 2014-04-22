@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Block;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
 {
@@ -30,7 +29,6 @@ class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
         parent::__construct($context, false, null, $data);
         $this->_checkoutSession = $checkoutSession;
     }
-
 
     /**
      * Dispatch shortcuts container event

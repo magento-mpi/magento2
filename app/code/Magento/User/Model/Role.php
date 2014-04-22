@@ -27,24 +27,29 @@ namespace Magento\User\Model;
  * @method string getRoleName()
  * @method \Magento\User\Model\Role setRoleName(string $value)
  */
-class Role extends \Magento\Core\Model\AbstractModel
+class Role extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * @var string
+     */
+    protected $_eventPrefix = 'admin_roles';
+
     /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */
     protected $_userRolesFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
-     * @param \Magento\User\Model\Resource\Role $resource
-     * @param \Magento\User\Model\Resource\Role\Collection $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param Resource\Role\User\CollectionFactory $userRolesFactory
+     * @param Resource\Role $resource
+     * @param Resource\Role\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\User\Model\Resource\Role $resource,
         \Magento\User\Model\Resource\Role\Collection $resourceCollection,
@@ -69,16 +74,11 @@ class Role extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = \Magento\App\ObjectManager::getInstance();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_userRolesFactory = $objectManager->get('Magento\User\Model\Resource\Role\User\CollectionFactory');
         $this->_resource = $objectManager->get('Magento\User\Model\Resource\Role');
         $this->_resourceCollection = $objectManager->get('Magento\User\Model\Resource\Role\Collection');
     }
-
-    /**
-     * @var string
-     */
-    protected $_eventPrefix = 'admin_roles';
 
     /**
      * Class constructor

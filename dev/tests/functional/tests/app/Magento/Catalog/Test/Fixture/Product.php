@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
@@ -20,12 +19,12 @@ class Product extends DataFixture
     /**
      * Attribute set for mapping data into ui tabs
      */
-    const GROUP_PRODUCT_DETAILS     = 'product_info_tabs_product-details';
-    const GROUP_ADVANCED_SEO        = 'product_info_tabs_search-optimization';
-    const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
-    const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
-    const GROUP_PRODUCT_PRICING     = 'product_info_tabs_advanced-pricing';
-    const GROUP_CUSTOM_OPTIONS      = 'product_info_tabs_customer_options';
+    const GROUP_PRODUCT_DETAILS     = 'product-details';
+    const GROUP_ADVANCED_SEO        = 'search-optimization';
+    const GROUP_PRODUCT_WEBSITE     = 'websites';
+    const GROUP_PRODUCT_INVENTORY   = 'advanced-inventory';
+    const GROUP_PRODUCT_PRICING     = 'advanced-pricing';
+    const GROUP_CUSTOM_OPTIONS      = 'customer-options';
 
     /**
      * Possible options used for visibility field
@@ -61,9 +60,9 @@ class Product extends DataFixture
     {
         parent::__construct($configuration, $placeholders);
 
-        if (isset($placeholders['categories']))
+        if (isset($placeholders['categories'])) {
             $this->categories = $placeholders['categories'];
-        else {
+        } else {
             $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
             $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
         }
@@ -93,6 +92,8 @@ class Product extends DataFixture
 
     /**
      * Get data from repository and reassign it
+     *
+     * @return void
      */
     public function reset()
     {
@@ -271,7 +272,7 @@ class Product extends DataFixture
      *
      * @return string
      */
-    public function getProductUrl()
+    public function getUrlKey()
     {
         $fields = $this->getData('fields');
         if (isset($fields['url'])) {
@@ -293,6 +294,8 @@ class Product extends DataFixture
 
     /**
      * Create product
+     *
+     * @return void
      */
     public function persist()
     {
@@ -302,6 +305,8 @@ class Product extends DataFixture
 
     /**
      * Stab for filling product options
+     *
+     * @return void
      */
     public function getProductOptions()
     {

@@ -12,8 +12,7 @@ namespace Magento\Backend\Block\System\Config\System\Storage\Media;
 /**
  * Synchronize button renderer
  */
-class Synchronize
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Synchronize extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * @var string
@@ -42,10 +41,10 @@ class Synchronize
     /**
      * Remove scope label
      *
-     * @param  \Magento\Data\Form\Element\AbstractElement $element
+     * @param  \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
@@ -54,10 +53,10 @@ class Synchronize
     /**
      * Return element html
      *
-     * @param  \Magento\Data\Form\Element\AbstractElement $element
+     * @param  \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         return $this->_toHtml();
     }
@@ -89,12 +88,15 @@ class Synchronize
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'id'        => 'synchronize_button',
-                'label'     => __('Synchronize'),
-                'onclick'   => 'javascript:synchronize(); return false;'
-            ));
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'synchronize_button',
+                'label' => __('Synchronize'),
+                'onclick' => 'javascript:synchronize(); return false;'
+            )
+        );
 
         return $button->toHtml();
     }
@@ -115,21 +117,21 @@ class Synchronize
         $flag = $this->_fileStorage->getSyncFlag();
         $flagData = $flag->getFlagData();
 
-        if ($flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED
-                && is_array($flagData)
-            && isset($flagData['destination_storage_type']) && $flagData['destination_storage_type'] != ''
-            && isset($flagData['destination_connection_name'])
+        if ($flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED && is_array(
+            $flagData
+        ) && isset(
+            $flagData['destination_storage_type']
+        ) && $flagData['destination_storage_type'] != '' && isset(
+            $flagData['destination_connection_name']
+        )
         ) {
-            $storageType    = $flagData['destination_storage_type'];
+            $storageType = $flagData['destination_storage_type'];
             $connectionName = $flagData['destination_connection_name'];
         } else {
-            $storageType    = \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM;
+            $storageType = \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM;
             $connectionName = '';
         }
 
-        return array(
-            'storage_type'      => $storageType,
-            'connection_name'   => $connectionName
-        );
+        return array('storage_type' => $storageType, 'connection_name' => $connectionName);
     }
 }

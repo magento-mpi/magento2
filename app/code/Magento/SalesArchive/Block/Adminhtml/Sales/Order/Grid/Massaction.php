@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 /**
  *  Add sales archiving to order's grid view massaction
  *  @deprecated
  */
-namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
-
-class Massaction
-    extends \Magento\Backend\Block\Widget\Grid\Massaction\Extended
+class Massaction extends \Magento\Backend\Block\Widget\Grid\Massaction\Extended
 {
     /**
      * @var \Magento\SalesArchive\Model\Config
@@ -40,20 +38,19 @@ class Massaction
         parent::__construct($context, $jsonEncoder, $backendData, $data);
     }
 
-
     /**
      * Before rendering html operations
      *
-     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction
+     * @return $this
      */
     protected function _beforeToHtml()
     {
         $isActive = $this->_configModel->isArchiveActive();
         if ($isActive && $this->_authorization->isAllowed('Magento_SalesArchive::add')) {
-            $this->addItem('add_order_to_archive', array(
-                 'label'=> __('Move to Archive'),
-                 'url'  => $this->getUrl('sales/archive/massAdd'),
-            ));
+            $this->addItem(
+                'add_order_to_archive',
+                array('label' => __('Move to Archive'), 'url' => $this->getUrl('sales/archive/massAdd'))
+            );
         }
         return parent::_beforeToHtml();
     }

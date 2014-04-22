@@ -46,7 +46,7 @@ class Factory
     /**
      * List of supported a backup types
      *
-     * @var array
+     * @var string[]
      */
     protected $_allowedTypes;
 
@@ -61,7 +61,7 @@ class Factory
             self::TYPE_FILESYSTEM,
             self::TYPE_SYSTEM_SNAPSHOT,
             self::TYPE_MEDIA,
-            self::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            self::TYPE_SNAPSHOT_WITHOUT_MEDIA
         );
     }
 
@@ -69,7 +69,7 @@ class Factory
      * Create new backup instance
      *
      * @param string $type
-     * @return \Magento\Backup\BackupInterface
+     * @return BackupInterface
      * @throws \Magento\Exception
      */
     public function create($type)

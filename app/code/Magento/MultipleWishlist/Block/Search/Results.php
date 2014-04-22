@@ -17,23 +17,23 @@
  */
 namespace Magento\MultipleWishlist\Block\Search;
 
-class Results extends \Magento\View\Element\Template
+class Results extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry|null
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

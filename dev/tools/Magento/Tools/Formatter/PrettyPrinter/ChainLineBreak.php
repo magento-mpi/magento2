@@ -9,6 +9,9 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 class ChainLineBreak extends ConditionalLineBreak
 {
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         parent::__construct(array(array(''), array('', new HardIndentLineBreak())));

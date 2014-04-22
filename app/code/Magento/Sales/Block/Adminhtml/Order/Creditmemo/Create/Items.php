@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create;
 
 /**
  * Adminhtml creditmemo items grid
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create;
-
 class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
+    /**
+     * @var bool
+     */
     protected $_canReturnToStock;
 
     /**
@@ -27,14 +29,14 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         array $data = array()
     ) {
@@ -45,37 +47,48 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Prepare child blocks
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create\Items
+     * @return $this
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('creditmemo_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Update Qty\'s'),
-            'class'     => 'update-button',
-            'onclick'   => $onclick,
-        ));
+        $onclick = "submitAndReloadArea($('creditmemo_item_container'),'" . $this->getUpdateUrl() . "')";
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Update Qty\'s'), 'class' => 'update-button', 'onclick' => $onclick)
+        );
 
         if ($this->getCreditmemo()->canRefund()) {
             if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
-                $this->addChild('submit_button', 'Magento\Backend\Block\Widget\Button', array(
-                    'label'     => __('Refund'),
-                    'class'     => 'save submit-button refund',
-                    'onclick'   => 'disableElements(\'submit-button\');submitCreditMemo()',
-                ));
+                $this->addChild(
+                    'submit_button',
+                    'Magento\Backend\Block\Widget\Button',
+                    array(
+                        'label' => __('Refund'),
+                        'class' => 'save submit-button refund',
+                        'onclick' => 'disableElements(\'submit-button\');submitCreditMemo()'
+                    )
+                );
             }
-            $this->addChild('submit_offline', 'Magento\Backend\Block\Widget\Button', array(
-                'label'     => __('Refund Offline'),
-                'class'     => 'save submit-button',
-                'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
-            ));
-
+            $this->addChild(
+                'submit_offline',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Refund Offline'),
+                    'class' => 'save submit-button',
+                    'onclick' => 'disableElements(\'submit-button\');submitCreditMemoOffline()'
+                )
+            );
         } else {
-            $this->addChild('submit_button', 'Magento\Backend\Block\Widget\Button', array(
-                'label'     => __('Refund Offline'),
-                'class'     => 'save submit-button',
-                'onclick'   => 'disableElements(\'submit-button\');submitCreditMemoOffline()',
-            ));
+            $this->addChild(
+                'submit_button',
+                'Magento\Backend\Block\Widget\Button',
+                array(
+                    'label' => __('Refund Offline'),
+                    'class' => 'save submit-button primary',
+                    'onclick' => 'disableElements(\'submit-button\');submitCreditMemoOffline()'
+                )
+            );
         }
 
         return parent::_prepareLayout();
@@ -139,6 +152,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         return $this->_coreRegistry->registry('current_creditmemo');
     }
 
+    /**
+     * Check if allow to edit qty
+     *
+     * @return bool
+     */
     public function canEditQty()
     {
         if ($this->getCreditmemo()->getOrder()->getPayment()->canRefund()) {
@@ -147,23 +165,42 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         return true;
     }
 
+    /**
+     * Get update button html
+     *
+     * @return string
+     */
     public function getUpdateButtonHtml()
     {
         return $this->getChildHtml('update_button');
     }
 
+    /**
+     * Get update url
+     *
+     * @return string
+     */
     public function getUpdateUrl()
     {
-        return $this->getUrl('sales/*/updateQty', array(
-            'order_id' => $this->getCreditmemo()->getOrderId(),
-            'invoice_id' => $this->getRequest()->getParam('invoice_id', null),
-        ));
+        return $this->getUrl(
+            'sales/*/updateQty',
+            array(
+                'order_id' => $this->getCreditmemo()->getOrderId(),
+                'invoice_id' => $this->getRequest()->getParam('invoice_id', null)
+            )
+        );
     }
 
+    /**
+     * Check if allow to return stock
+     *
+     * @return bool
+     */
     public function canReturnToStock()
     {
-        $canReturnToStock = $this->_storeConfig->getConfig(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
+        $canReturnToStock = $this->_scopeConfig->getValue(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if ($canReturnToStock) {
             return true;
@@ -174,19 +211,21 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 
     /**
      * Whether to show 'Return to stock' column in creaditmemo grid
+     *
      * @return bool
      */
     public function canReturnItemsToStock()
     {
         if (is_null($this->_canReturnToStock)) {
-            $this->_canReturnToStock = $this->_storeConfig->getConfig(
-                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
+            $this->_canReturnToStock = $this->_scopeConfig->getValue(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {
                     $product = $this->_productFactory->create()->load($item->getOrderItem()->getProductId());
-                    if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
+                    if ($product->getId() && $product->getStockItem()->getManageStock()) {
                         $item->setCanReturnToStock($canReturnToStock = true);
                     } else {
                         $item->setCanReturnToStock(false);
@@ -198,6 +237,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         return $this->_canReturnToStock;
     }
 
+    /**
+     * Check allow to send new creditmemo email
+     *
+     * @return bool
+     */
     public function canSendCreditmemoEmail()
     {
         return $this->_salesData->canSendNewCreditmemoEmail($this->getOrder()->getStore()->getId());

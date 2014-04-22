@@ -15,69 +15,57 @@ namespace Magento\Logging\Model\Config;
  */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Filesystem $filesystem */
+        /** @var \Magento\Framework\App\Filesystem $filesystem */
         $filesystem = $objectManager->create(
-            'Magento\App\Filesystem',
-            array('directoryList' => $objectManager->create(
-                    'Magento\App\Filesystem\DirectoryList',
+            'Magento\Framework\App\Filesystem',
+            array(
+                'directoryList' => $objectManager->create(
+                    'Magento\Framework\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(
-                            \Magento\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
-                            \Magento\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files'),
+                            \Magento\Framework\App\Filesystem::MODULES_DIR => array('path' => __DIR__ . '/_files'),
+                            \Magento\Framework\App\Filesystem::CONFIG_DIR => array('path' => __DIR__ . '/_files')
                         )
                     )
-                ))
+                )
+            )
         );
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
-            'Magento\Module\Declaration\FileResolver', array(
-                'filesystem' => $filesystem,
-            )
+            'Magento\Module\Declaration\FileResolver',
+            array('filesystem' => $filesystem)
         );
 
 
         /** @var \Magento\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
-            'Magento\Module\Declaration\Reader\Filesystem', array(
-                'fileResolver' => $modulesDeclarations,
-            )
+            'Magento\Module\Declaration\Reader\Filesystem',
+            array('fileResolver' => $modulesDeclarations)
         );
 
         /** @var \Magento\Module\ModuleList $modulesList */
-        $modulesList = $objectManager->create(
-            'Magento\Module\ModuleList', array(
-                'reader' => $filesystemReader,
-            )
-        );
+        $modulesList = $objectManager->create('Magento\Module\ModuleList', array('reader' => $filesystemReader));
 
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList,
-                'filesystem' => $filesystem
-            )
+            'Magento\Module\Dir\Reader',
+            array('moduleList' => $modulesList, 'filesystem' => $filesystem)
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
 
-        /** @var \Magento\Core\Model\Config\FileResolver $fileResolver */
+        /** @var \Magento\Framework\App\Config\FileResolver $fileResolver */
         $fileResolver = $objectManager->create(
-            'Magento\Core\Model\Config\FileResolver', array(
-                'moduleReader' => $moduleReader,
-            )
+            'Magento\Framework\App\Config\FileResolver',
+            array('moduleReader' => $moduleReader)
         );
 
         /** @var \Magento\Logging\Model\Config\Reader $model */
-        $model = $objectManager->create(
-            'Magento\Logging\Model\Config\Reader', array(
-                'fileResolver' => $fileResolver,
-            )
-        );
+        $model = $objectManager->create('Magento\Logging\Model\Config\Reader', array('fileResolver' => $fileResolver));
 
         $result = $model->read('global');
         $expected = include '_files/expectedArray.php';
@@ -90,20 +78,26 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             file_get_contents(__DIR__ . '/_files/customerBalance.xml'),
             file_get_contents(__DIR__ . '/_files/Reward.xml')
         );
-        $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
-            ->setMethods(array('get'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $fileResolverMock->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('logging.xml'), $this->equalTo('global'))
-            ->will($this->returnValue($fileList));
+        $fileResolverMock = $this->getMockBuilder(
+            'Magento\Framework\Config\FileResolverInterface'
+        )->setMethods(
+            array('get')
+        )->disableOriginalConstructor()->getMock();
+        $fileResolverMock->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            $this->equalTo('logging.xml'),
+            $this->equalTo('global')
+        )->will(
+            $this->returnValue($fileList)
+        );
 
         /** @var \Magento\Logging\Model\Config\Reader $model */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Logging\Model\Config\Reader', array(
-                'fileResolver' => $fileResolverMock,
-            )
+            'Magento\Logging\Model\Config\Reader',
+            array('fileResolver' => $fileResolverMock)
         );
         $this->assertArrayHasKey('logging', $model->read('global'));
     }

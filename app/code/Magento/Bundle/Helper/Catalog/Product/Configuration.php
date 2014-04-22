@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Helper\Catalog\Product;
+
+use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
 
 /**
  * Helper for fetching properties by product configurational item
@@ -15,10 +18,8 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Helper\Catalog\Product;
-
-class Configuration extends \Magento\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends \Magento\Framework\App\Helper\AbstractHelper implements
+    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Core data
@@ -40,13 +41,13 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Escaper $escaper
@@ -63,7 +64,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Product $product
      * @param int $selectionId
      *
-     * @return decimal
+     * @return float
      */
     public function getSelectionQty($product, $selectionId)
     {
@@ -77,13 +78,12 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * Obtain final price of selection in a bundle product
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param ItemInterface $item
      * @param \Magento\Catalog\Model\Product $selectionProduct
      *
-     * @return decimal
+     * @return float
      */
-    public function getSelectionFinalPrice(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item,
-        $selectionProduct)
+    public function getSelectionFinalPrice(ItemInterface $item, $selectionProduct)
     {
         $selectionProduct->unsetData('final_price');
         return $item->getProduct()->getPriceModel()->getSelectionFinalTotalPrice(
@@ -102,9 +102,10 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * Returns array of options objects.
      * Each option object will contain array of selections objects
      *
+     * @param ItemInterface $item
      * @return array
      */
-    public function getBundleOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
+    public function getBundleOptions(ItemInterface $item)
     {
         $options = array();
         $product = $item->getProduct();
@@ -119,8 +120,8 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         $bundleOptionsIds = $optionsQuoteItemOption ? unserialize($optionsQuoteItemOption->getValue()) : array();
         if ($bundleOptionsIds) {
             /**
-            * @var \Magento\Bundle\Model\Resource\Option\Collection
-            */
+             * @var \Magento\Bundle\Model\Resource\Option\Collection
+             */
             $optionsCollection = $typeInstance->getOptionsByIds($bundleOptionsIds, $product);
 
             // get and add bundle selections collection
@@ -137,20 +138,18 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
                 $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
                 foreach ($bundleOptions as $bundleOption) {
                     if ($bundleOption->getSelections()) {
-                        $option = array(
-                            'label' => $bundleOption->getTitle(),
-                            'value' => array()
-                        );
+                        $option = array('label' => $bundleOption->getTitle(), 'value' => array());
 
                         $bundleSelections = $bundleOption->getSelections();
 
                         foreach ($bundleSelections as $bundleSelection) {
                             $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
                             if ($qty) {
-                                $option['value'][] = $qty . ' x ' . $this->_escaper->escapeHtml($bundleSelection->getName())
-                                    . ' ' . $this->_coreData->currency(
-                                        $this->getSelectionFinalPrice($item, $bundleSelection)
-                                    );
+                                $option['value'][] = $qty . ' x ' . $this->_escaper->escapeHtml(
+                                    $bundleSelection->getName()
+                                ) . ' ' . $this->_coreData->currency(
+                                    $this->getSelectionFinalPrice($item, $bundleSelection)
+                                );
                             }
                         }
 
@@ -168,14 +167,11 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieves product options list
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param ItemInterface $item
      * @return array
      */
-    public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
+    public function getOptions(ItemInterface $item)
     {
-        return array_merge(
-            $this->getBundleOptions($item),
-            $this->_ctlgProdConfigur->getCustomOptions($item)
-        );
+        return array_merge($this->getBundleOptions($item), $this->_ctlgProdConfigur->getCustomOptions($item));
     }
 }

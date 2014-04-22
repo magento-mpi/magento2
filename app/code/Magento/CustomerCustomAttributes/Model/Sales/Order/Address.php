@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
 
 /**
  * Customer Order Address model
@@ -19,13 +20,12 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
-
 class Address extends \Magento\CustomerCustomAttributes\Model\Sales\Address\AbstractAddress
 {
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Block\Adminhtml\Process\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form;
 
-class Main
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare form
@@ -24,35 +21,44 @@ class Main
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('index_process_');
-        $fieldset = $form->addFieldset(
-            'base_fieldset',
-            array('legend'=>__('General'), 'class'=>'fieldset-wide')
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General'), 'class' => 'fieldset-wide'));
 
         $fieldset->addField('process_id', 'hidden', array('name' => 'process', 'value' => $model->getId()));
 
-        $fieldset->addField('name', 'note', array(
-            'label' => __('Index Name'),
-            'title' => __('Index Name'),
-            'text'  => '<strong>' . $model->getIndexer()->getName() . '</strong>'
-        ));
+        $fieldset->addField(
+            'name',
+            'note',
+            array(
+                'label' => __('Index Name'),
+                'title' => __('Index Name'),
+                'text' => '<strong>' . $model->getIndexer()->getName() . '</strong>'
+            )
+        );
 
-        $fieldset->addField('description', 'note', array(
-            'label' => __('Index Description'),
-            'title' => __('Index Description'),
-            'text'  => $model->getIndexer()->getDescription()
-        ));
+        $fieldset->addField(
+            'description',
+            'note',
+            array(
+                'label' => __('Index Description'),
+                'title' => __('Index Description'),
+                'text' => $model->getIndexer()->getDescription()
+            )
+        );
 
-        $fieldset->addField('mode', 'select', array(
-            'label' => __('Index Mode'),
-            'title' => __('Index Mode'),
-            'name'  => 'mode',
-            'value' => $model->getMode(),
-            'values'=> $model->getModesOptions()
-        ));
+        $fieldset->addField(
+            'mode',
+            'select',
+            array(
+                'label' => __('Index Mode'),
+                'title' => __('Index Mode'),
+                'name' => 'mode',
+                'value' => $model->getMode(),
+                'values' => $model->getModesOptions()
+            )
+        );
 
         $this->setForm($form);
         return parent::_prepareForm();

@@ -7,39 +7,37 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\Widget;
 
 /**
  * New products widget
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Widget;
-
-class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
-    implements \Magento\Widget\Block\BlockInterface
+class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Magento\Widget\Block\BlockInterface
 {
     /**
-     * Display products type
+     * Display products type - all products
      */
-    const DISPLAY_TYPE_ALL_PRODUCTS         = 'all_products';
-    const DISPLAY_TYPE_NEW_PRODUCTS         = 'new_products';
+    const DISPLAY_TYPE_ALL_PRODUCTS = 'all_products';
+
+    /**
+     * Display products type - new products
+     */
+    const DISPLAY_TYPE_NEW_PRODUCTS = 'new_products';
 
     /**
      * Default value whether show pager or not
      */
-    const DEFAULT_SHOW_PAGER                = false;
+    const DEFAULT_SHOW_PAGER = false;
 
     /**
      * Default value for products per page
      */
-    const DEFAULT_PRODUCTS_PER_PAGE         = 5;
+    const DEFAULT_PRODUCTS_PER_PAGE = 5;
 
     /**
      * Name of request parameter for page number value
      */
-    const PAGE_VAR_NAME                     = 'np';
+    const PAGE_VAR_NAME = 'np';
 
     /**
      * Instance of pager block
@@ -50,6 +48,8 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
 
     /**
      * Initialize block's cache and template settings
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -64,7 +64,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     /**
      * Product collection initialize process
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getProductCollection()
     {
@@ -82,7 +82,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     /**
      * Prepare collection for recent product list
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getRecentlyAddedProductsCollection()
     {
@@ -94,8 +94,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
             ->addStoreFilter()
             ->addAttributeToSort('created_at', 'desc')
             ->setPageSize($this->getProductsCount())
-            ->setCurPage(1)
-        ;
+            ->setCurPage(1);
         return $collection;
     }
 
@@ -106,11 +105,14 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
      */
     public function getCacheKeyInfo()
     {
-        return array_merge(parent::getCacheKeyInfo(), array(
-            $this->getDisplayType(),
-            $this->getProductsPerPage(),
-            intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
-        ));
+        return array_merge(
+            parent::getCacheKeyInfo(),
+            array(
+                $this->getDisplayType(),
+                $this->getProductsPerPage(),
+                intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
+            )
+        );
     }
 
     /**
@@ -174,8 +176,10 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     {
         if ($this->showPager()) {
             if (!$this->_pager) {
-                $this->_pager = $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Product\Widget\Html\Pager', 'widget.new.product.list.pager');
+                $this->_pager = $this->getLayout()->createBlock(
+                    'Magento\Catalog\Block\Product\Widget\Html\Pager',
+                    'widget.new.product.list.pager'
+                );
 
                 $this->_pager->setUseContainer(true)
                     ->setShowAmounts(true)
@@ -185,10 +189,55 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof \Magento\View\Element\AbstractBlock) {
+            if ($this->_pager instanceof \Magento\Framework\View\Element\AbstractBlock) {
                 return $this->_pager->toHtml();
             }
         }
         return '';
+    }
+
+    /**
+     * Return HTML block with price
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param string $priceType
+     * @param string $renderZone
+     * @param array $arguments
+     * @return string
+     */
+    public function getProductPriceHtml(
+        \Magento\Catalog\Model\Product $product,
+        $priceType = null,
+        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        array $arguments = []
+    ) {
+        if (!isset($arguments['zone'])) {
+            $arguments['zone'] = $renderZone;
+        }
+        $arguments['zone'] = isset($arguments['zone'])
+            ? $arguments['zone']
+            : $renderZone;
+        $arguments['price_id'] = isset($arguments['price_id'])
+            ? $arguments['price_id']
+            : 'old-price-' . $product->getId() . '-' . $priceType;
+        $arguments['include_container'] = isset($arguments['include_container'])
+            ? $arguments['include_container']
+            : true;
+        $arguments['display_minimal_price'] = isset($arguments['display_minimal_price'])
+            ? $arguments['display_minimal_price']
+            : true;
+
+            /** @var \Magento\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                $product,
+                $arguments
+            );
+        }
+        return $price;
     }
 }

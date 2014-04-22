@@ -15,7 +15,7 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
  *
  * @method \Magento\Core\Model\Theme getTheme()
  */
-class Image extends \Magento\Data\Form\Element\Image
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * Get image preview url

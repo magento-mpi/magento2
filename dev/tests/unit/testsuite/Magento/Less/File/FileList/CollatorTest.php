@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\FileList;
 
 class CollatorTest extends \PHPUnit_Framework_TestCase
@@ -53,7 +52,7 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     {
         $theme = null;
         if ($themeFullPath !== null) {
-            $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+            $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
             $theme->expects($this->any())->method('getFullPath')->will($this->returnValue($themeFullPath));
         }
         return new \Magento\View\File($filename, $module, $theme);

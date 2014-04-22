@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Block\Billing\Agreement;
 
-use \Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class ViewTest extends \Magento\Backend\Utility\Controller
 {
@@ -49,24 +48,29 @@ class ViewTest extends \Magento\Backend\Utility\Controller
 
         /** Assign second order to the active customer */
         $orderB = clone $orderA;
-        $orderB->setId(null)
-            ->setIncrementId('100000002')
-            ->setCustomerIsGuest(false)
-            ->setCustomerId($customerId)
-            ->save();
+        $orderB->setId(
+            null
+        )->setIncrementId(
+            '100000002'
+        )->setCustomerIsGuest(
+            false
+        )->setCustomerId(
+            $customerId
+        )->save();
 
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session');
         $customerSession->setCustomerId($customerId);
 
         /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
-        $billingAgreementCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection');
+        $billingAgreementCollection = Bootstrap::getObjectManager()->create(
+            'Magento\Paypal\Model\Resource\Billing\Agreement\Collection'
+        );
         /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $billingAgreementCollection->getFirstItem();
         $billingAgreement->addOrderRelation($orderA->getId())->save();
 
-        $registry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $registry = Bootstrap::getObjectManager()->get('Magento\Registry');
         $registry->register('current_billing_agreement', $billingAgreement);
 
         $relatedOrders = $this->_block->getRelatedOrders();

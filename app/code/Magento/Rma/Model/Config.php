@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * RMA config
@@ -20,17 +19,25 @@ class Config extends \Magento\Object
     /**
      * XML configuration paths
      */
-    const XML_PATH_RMA_EMAIL                    = 'sales_email/magento_rma';
-    const XML_PATH_AUTH_EMAIL                   = 'sales_email/magento_rma_auth';
-    const XML_PATH_COMMENT_EMAIL                = 'sales_email/magento_rma_comment';
-    const XML_PATH_CUSTOMER_COMMENT_EMAIL       = 'sales_email/magento_rma_customer_comment';
+    const XML_PATH_RMA_EMAIL = 'sales_email/magento_rma';
 
-    const XML_PATH_EMAIL_ENABLED                = '/enabled';
-    const XML_PATH_EMAIL_TEMPLATE               = '/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE         = '/guest_template';
-    const XML_PATH_EMAIL_IDENTITY               = '/identity';
-    const XML_PATH_EMAIL_COPY_TO                = '/copy_to';
-    const XML_PATH_EMAIL_COPY_METHOD            = '/copy_method';
+    const XML_PATH_AUTH_EMAIL = 'sales_email/magento_rma_auth';
+
+    const XML_PATH_COMMENT_EMAIL = 'sales_email/magento_rma_comment';
+
+    const XML_PATH_CUSTOMER_COMMENT_EMAIL = 'sales_email/magento_rma_customer_comment';
+
+    const XML_PATH_EMAIL_ENABLED = '/enabled';
+
+    const XML_PATH_EMAIL_TEMPLATE = '/template';
+
+    const XML_PATH_EMAIL_GUEST_TEMPLATE = '/guest_template';
+
+    const XML_PATH_EMAIL_IDENTITY = '/identity';
+
+    const XML_PATH_EMAIL_COPY_TO = '/copy_to';
+
+    const XML_PATH_EMAIL_COPY_METHOD = '/copy_method';
 
     /**
      * XML configuration path for customer comments recipient
@@ -54,28 +61,28 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
@@ -121,7 +128,7 @@ class Config extends \Magento\Object
      */
     public function getStore($store = null)
     {
-        if($store){
+        if ($store) {
             if ($store instanceof Store) {
                 return $store;
             } elseif (is_int($store)) {
@@ -299,7 +306,7 @@ class Config extends \Magento\Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return $this->_coreStoreConfig->getConfig($this->_getPath($path), $this->getStore($store));
+        return $this->_scopeConfig->getValue($this->_getPath($path), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStore($store));
     }
 
     /**
@@ -312,7 +319,7 @@ class Config extends \Magento\Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
-        return $this->_coreStoreConfig->getConfig('trans_email/ident_' . $senderCode . '/email', $store);
+        $senderCode = $this->_scopeConfig->getValue(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return $this->_scopeConfig->getValue('trans_email/ident_' . $senderCode . '/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

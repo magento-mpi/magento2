@@ -18,15 +18,15 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Sku extends \Magento\App\Action\Action
+class Sku extends \Magento\Framework\App\Action\Action
 {
     /**
      * Check functionality is enabled and applicable to the Customer
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession \Magento\Customer\Model\Session */
@@ -69,9 +69,7 @@ class Sku extends \Magento\App\Action\Action
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
-        $rows = $helper->isSkuFileUploaded($this->getRequest())
-            ? $helper->processSkuFileUploading()
-            : array();
+        $rows = $helper->isSkuFileUploaded($this->getRequest()) ? $helper->processSkuFileUploading() : array();
 
         $items = $this->getRequest()->getPost('items');
         if (!is_array($items)) {

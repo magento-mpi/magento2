@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
 /**
@@ -22,19 +21,29 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->setDefaultDesignTheme();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\DesignInterface'
+        )->setArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->setDefaultDesignTheme();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')
-            ->register('current_reminder_rule', \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reminder\Model\Rule'));
+        $objectManager->get(
+            'Magento\Registry'
+        )->register(
+            'current_reminder_rule',
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reminder\Model\Rule')
+        );
 
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General'
+        );
         $prepareFormMethod = new \ReflectionMethod(
-            'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');
+            'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General',
+            '_prepareForm'
+        );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

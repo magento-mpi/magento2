@@ -15,13 +15,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget;
 
 class Chooser extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -33,13 +32,13 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -60,7 +59,7 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * Chooser form element getter
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -91,10 +90,7 @@ class Chooser extends \Magento\Backend\Block\Template
         }
 
         // chooser control buttons
-        $buttons = array(
-            'open'  => __('Choose...'),
-            'close' => __('Close')
-        );
+        $buttons = array('open' => __('Choose...'), 'close' => __('Close'));
         if (isset($configArray['button']) && is_array($configArray['button'])) {
             foreach ($configArray['button'] as $id => $label) {
                 $buttons[$id] = __($label);
@@ -142,17 +138,18 @@ class Chooser extends \Magento\Backend\Block\Template
      */
     protected function _toHtml()
     {
-        $element   = $this->getElement();
-        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
-        $fieldset  = $element->getForm()->getElement($this->getFieldsetId());
+        $element = $this->getElement();
+        /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
+        $fieldset = $element->getForm()->getElement($this->getFieldsetId());
         $chooserId = $this->getUniqId();
-        $config    = $this->getConfig();
+        $config = $this->getConfig();
 
         // add chooser element to fieldset
-        $chooser = $fieldset->addField('chooser' . $element->getId(), 'note', array(
-            'label'       => $config->getLabel() ? $config->getLabel() : '',
-            'value_class' => 'value2',
-        ));
+        $chooser = $fieldset->addField(
+            'chooser' . $element->getId(),
+            'note',
+            array('label' => $config->getLabel() ? $config->getLabel() : '', 'value_class' => 'value2')
+        );
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
             $hidden = $this->_elementFactory->create('hidden', array('data' => $element->getData()));
@@ -165,31 +162,60 @@ class Chooser extends \Magento\Backend\Block\Template
         }
 
         $buttons = $config->getButtons();
-        $chooseButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setType('button')
-            ->setId($chooserId . 'control')
-            ->setClass('btn-chooser')
-            ->setLabel($buttons['open'])
-            ->setOnclick($chooserId.'.choose()')
-            ->setDisabled($element->getReadonly());
+        $chooseButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setType(
+            'button'
+        )->setId(
+            $chooserId . 'control'
+        )->setClass(
+            'btn-chooser'
+        )->setLabel(
+            $buttons['open']
+        )->setOnclick(
+            $chooserId . '.choose()'
+        )->setDisabled(
+            $element->getReadonly()
+        );
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
         $configJson = $this->_jsonEncoder->encode($config->getData());
         return '
-            <label class="widget-option-label" id="' . $chooserId . 'label">'
-            . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>
-            <div id="' . $chooserId . 'advice-container" class="hidden"></div>
+            <label class="widget-option-label" id="' .
+            $chooserId .
+            'label">' .
+            ($this->getLabel() ? $this->getLabel() : __(
+                'Not Selected'
+            )) .
+            '</label>
+            <div id="' .
+            $chooserId .
+            'advice-container" class="hidden"></div>
             <script type="text/javascript">//<![CDATA[
                 (function() {
                     var instantiateChooser = function() {
-                        window.' . $chooserId . ' = new WysiwygWidget.chooser(
-                            "' . $chooserId . '",
-                            "' . $this->getSourceUrl() . '",
-                            ' . $configJson . '
+                        window.' .
+            $chooserId .
+            ' = new WysiwygWidget.chooser(
+                            "' .
+            $chooserId .
+            '",
+                            "' .
+            $this->getSourceUrl() .
+            '",
+                            ' .
+            $configJson .
+            '
                         );
-                        if ($("' . $chooserId . 'value")) {
-                            $("' . $chooserId . 'value").advaiceContainer = "' . $chooserId . 'advice-container";
+                        if ($("' .
+            $chooserId .
+            'value")) {
+                            $("' .
+            $chooserId .
+            'value").advaiceContainer = "' .
+            $chooserId .
+            'advice-container";
                         }
                     }
 

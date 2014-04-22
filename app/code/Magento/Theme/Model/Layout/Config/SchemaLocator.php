@@ -9,7 +9,7 @@
  */
 namespace Magento\Theme\Model\Layout\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -30,8 +30,8 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
-        $this->_schema =  $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts.xsd';
-        $this->_perFileSchema =  $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts_file.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts.xsd';
+        $this->_perFileSchema = $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts_file.xsd';
     }
 
     /**

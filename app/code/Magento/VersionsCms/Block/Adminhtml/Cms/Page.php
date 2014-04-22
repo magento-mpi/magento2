@@ -30,15 +30,16 @@ class Page extends \Magento\Backend\Block\Template
         if ($page) {
             $pageGrid = $page->getChildBlock('grid');
             if ($pageGrid) {
-                $pageGrid->addColumnAfter('versioned', array(
-                    'index'     => 'under_version_control',
-                    'header'    => __('Version Control'),
-                    'width'     => 10,
-                    'type'      => 'options',
-                    'options'   => array(__('No'),
-                        __('Yes')
-                    )
-                ), 'page_actions');
+                $pageGrid->addColumnAfter(
+                    'versioned',
+                    array(
+                        'index' => 'under_version_control',
+                        'header' => __('Version Control'),
+                        'type' => 'options',
+                        'options' => array(__('No'), __('Yes'))
+                    ),
+                    'page_actions'
+                );
             }
         }
 

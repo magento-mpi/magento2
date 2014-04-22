@@ -17,7 +17,7 @@ use Magento\Invitation\Model\Invitation;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var bool
@@ -53,13 +53,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_urlBuilder;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
@@ -89,12 +89,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getInvitationUrl($invitation)
     {
-        return $this->_urlBuilder->setScope($invitation->getStoreId())
-            ->getUrl('magento_invitation/customer_account/create', array(
+        return $this->_urlBuilder->setScope(
+            $invitation->getStoreId()
+        )->getUrl(
+            'magento_invitation/customer_account/create',
+            array(
                 'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
                 '_scope_to_url' => true,
                 '_nosid' => true
-            ));
+            )
+        );
     }
 
     /**

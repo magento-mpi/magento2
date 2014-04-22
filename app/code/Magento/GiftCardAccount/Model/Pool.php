@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model;
 
 /**
@@ -21,15 +20,23 @@ namespace Magento\GiftCardAccount\Model;
 class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 {
     const CODE_FORMAT_ALPHANUM = 'alphanum';
+
     const CODE_FORMAT_ALPHA = 'alpha';
+
     const CODE_FORMAT_NUM = 'num';
 
     const XML_CONFIG_CODE_FORMAT = 'giftcard/giftcardaccount_general/code_format';
+
     const XML_CONFIG_CODE_LENGTH = 'giftcard/giftcardaccount_general/code_length';
+
     const XML_CONFIG_CODE_PREFIX = 'giftcard/giftcardaccount_general/code_prefix';
+
     const XML_CONFIG_CODE_SUFFIX = 'giftcard/giftcardaccount_general/code_suffix';
-    const XML_CONFIG_CODE_SPLIT  = 'giftcard/giftcardaccount_general/code_split';
-    const XML_CONFIG_POOL_SIZE   = 'giftcard/giftcardaccount_general/pool_size';
+
+    const XML_CONFIG_CODE_SPLIT = 'giftcard/giftcardaccount_general/code_split';
+
+    const XML_CONFIG_POOL_SIZE = 'giftcard/giftcardaccount_general/pool_size';
+
     const XML_CONFIG_POOL_THRESHOLD = 'giftcard/giftcardaccount_general/pool_threshold';
 
     const CODE_GENERATION_ATTEMPTS = 1000;
@@ -42,25 +49,25 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * Store Manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $giftCardCodeParams
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $giftCardCodeParams = array(),
         array $data = array()
     ) {
@@ -69,7 +76,9 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         $this->_giftCardCodeParams = $giftCardCodeParams;
     }
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\Pool');
@@ -78,8 +87,8 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * Generate Pool
      *
-     * @return \Magento\GiftCardAccount\Model\Pool
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
     public function generatePool()
     {
@@ -91,8 +100,8 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
-                if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    throw new \Magento\Core\Exception(
+                if ($attempt >= self::CODE_GENERATION_ATTEMPTS) {
+                    throw new \Magento\Framework\Model\Exception(
                         __('We were unable to create full code pool size. Please check settings and try again.')
                     );
                 }
@@ -108,7 +117,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * Checks pool threshold and call codes generation in case if free codes count is less than threshold value
      *
-     * @return \Magento\GiftCardAccount\Model\Pool
+     * @return $this
      */
     public function applyCodesGeneration()
     {
@@ -129,25 +138,25 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     {
         $website = $this->_storeManager->getWebsite($this->getWebsiteId());
 
-        $format  = $website->getConfig(self::XML_CONFIG_CODE_FORMAT);
+        $format = $website->getConfig(self::XML_CONFIG_CODE_FORMAT);
         if (!$format) {
             $format = 'alphanum';
         }
-        $length  = max(1, (int) $website->getConfig(self::XML_CONFIG_CODE_LENGTH));
-        $split   = max(0, (int) $website->getConfig(self::XML_CONFIG_CODE_SPLIT));
-        $suffix  = $website->getConfig(self::XML_CONFIG_CODE_SUFFIX);
-        $prefix  = $website->getConfig(self::XML_CONFIG_CODE_PREFIX);
+        $length = max(1, (int)$website->getConfig(self::XML_CONFIG_CODE_LENGTH));
+        $split = max(0, (int)$website->getConfig(self::XML_CONFIG_CODE_SPLIT));
+        $suffix = $website->getConfig(self::XML_CONFIG_CODE_SUFFIX);
+        $prefix = $website->getConfig(self::XML_CONFIG_CODE_PREFIX);
 
         $splitChar = $this->getCodeSeparator();
-        $charset = isset($this->_giftCardCodeParams['charset'][$format])
-            ? $this->_giftCardCodeParams['charset'][$format]
-            : '';
+        $charset = isset(
+            $this->_giftCardCodeParams['charset'][$format]
+        ) ? $this->_giftCardCodeParams['charset'][$format] : '';
         $charset = str_split($charset);
 
         $code = '';
         for ($i = 0; $i < $length; $i++) {
             $char = $charset[array_rand($charset)];
-            if ($split > 0 && ($i%$split) == 0 && $i != 0) {
+            if ($split > 0 && $i % $split == 0 && $i != 0) {
                 $char = "{$splitChar}{$char}";
             }
             $code .= $char;
@@ -157,6 +166,9 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         return $code;
     }
 
+    /**
+     * @return string
+     */
     public function getCodeSeparator()
     {
         return isset($this->_giftCardCodeParams['separator']) ? $this->_giftCardCodeParams['separator'] : '';

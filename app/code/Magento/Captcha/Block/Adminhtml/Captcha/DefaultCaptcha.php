@@ -30,14 +30,14 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
     protected $_config;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param \Magento\Backend\Model\UrlInterface $url
      * @param \Magento\Backend\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Captcha\Helper\Data $captchaData,
         \Magento\Backend\Model\UrlInterface $url,
         \Magento\Backend\App\ConfigInterface $config,
@@ -48,7 +48,6 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
         $this->_config = $config;
     }
 
-
     /**
      * Returns URL to controller action which returns new captcha image
      *
@@ -56,9 +55,9 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
      */
     public function getRefreshUrl()
     {
-        return $this->_url->getUrl('adminhtml/refresh/refresh', array(
-            '_secure' => $this->_config->isSetFlag('web/secure/use_in_adminhtml'),
-            '_nosecret' => true
-        ));
+        return $this->_url->getUrl(
+            'adminhtml/refresh/refresh',
+            array('_secure' => $this->_config->isSetFlag('web/secure/use_in_adminhtml'), '_nosecret' => true)
+        );
     }
 }

@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -37,11 +37,18 @@ class CatalogProductView extends Page
     protected $reviewSummarySelector = '.product.reviews.summary';
 
     /**
-     * Reviews selector
+     * Review form
      *
      * @var string
      */
-    protected $reviewsSelector = 'product_reviews';
+    protected $reviewFormBlock = '#review-form';
+
+    /**
+     * Customer reviews block
+     *
+     * @var string
+     */
+    protected $customerReviewBlock = '#customer-reviews';
 
     /**
      * Messages selector
@@ -86,6 +93,13 @@ class CatalogProductView extends Page
     protected $giftCardBlockSelector = '[data-container-for=giftcard_info]';
 
     /**
+     * Gift Card Amount Block selector
+     *
+     * @var string
+     */
+    protected $giftCardBlockAmountSelector = '.fieldset.giftcard.amount';
+
+    /**
      * Cross-sell selector
      *
      * @var string
@@ -115,11 +129,11 @@ class CatalogProductView extends Page
     /**
      * Page initialization
      *
-     * @param DataFixture|\Magento\Catalog\Test\Fixture\Product $fixture
+     * @param FixtureInterface $fixture
      */
-    public function init(DataFixture $fixture)
+    public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getProductUrl() . '.html';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getUrlKey() . '.html';
     }
 
     /**
@@ -159,14 +173,24 @@ class CatalogProductView extends Page
     }
 
     /**
-     * Get reviews block
+     * Get customer reviews block
+     *
+     * @return \Magento\Review\Test\Block\Form
+     */
+    public function getReviewFormBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoReviewForm($this->_browser->find($this->reviewFormBlock));
+    }
+
+    /**
+     * Get customer reviews block
      *
      * @return \Magento\Review\Test\Block\Product\View
      */
-    public function getReviewsBlock()
+    public function getCustomerReviewBlock()
     {
         return Factory::getBlockFactory()->getMagentoReviewProductView(
-            $this->_browser->find($this->reviewsSelector, Locator::SELECTOR_ID)
+            $this->_browser->find($this->customerReviewBlock)
         );
     }
 
@@ -261,6 +285,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductProductListCrosssell(
             $this->_browser->find($this->crosssellSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get gift card amount block
+     *
+     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     */
+    public function getGiftCardAmountBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoGiftCardCatalogProductViewTypeGiftCard(
+            $this->_browser->find($this->giftCardBlockAmountSelector, Locator::SELECTOR_CSS)
         );
     }
 }

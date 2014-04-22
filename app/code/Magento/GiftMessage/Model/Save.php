@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Model;
 
 /**
  * Adminhtml giftmessage save model
@@ -16,16 +16,17 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Model;
-
 class Save extends \Magento\Object
 {
+    /**
+     * @var bool
+     */
     protected $_saved = false;
 
     /**
      * Gift message message
      *
-     * @var \Magento\GiftMessage\Helper\Message
+     * @var \Magento\GiftMessage\Helper\Message|null
      */
     protected $_giftMessageMessage = null;
 
@@ -65,7 +66,7 @@ class Save extends \Magento\Object
     /**
      * Save all seted giftmessages
      *
-     * @return \Magento\GiftMessage\Model\Save
+     * @return $this
      */
     public function saveAllInQuote()
     {
@@ -75,18 +76,24 @@ class Save extends \Magento\Object
             return $this;
         }
 
-        foreach ($giftmessages as $entityId=>$giftmessage) {
+        foreach ($giftmessages as $entityId => $giftmessage) {
             $this->_saveOne($entityId, $giftmessage);
         }
 
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getSaved()
     {
         return $this->_saved;
     }
 
+    /**
+     * @return $this
+     */
     public function saveAllInOrder()
     {
         $giftmessages = $this->getGiftmessages();
@@ -95,7 +102,7 @@ class Save extends \Magento\Object
             return $this;
         }
 
-        foreach ($giftmessages as $entityId=>$giftmessage) {
+        foreach ($giftmessages as $entityId => $giftmessage) {
             $this->_saveOne($entityId, $giftmessage);
         }
 
@@ -105,9 +112,9 @@ class Save extends \Magento\Object
     /**
      * Save a single gift message
      *
-     * @param integer $entityId
+     * @param int $entityId
      * @param array $giftmessage
-     * @return \Magento\GiftMessage\Model\Save
+     * @return $this
      */
     protected function _saveOne($entityId, $giftmessage)
     {
@@ -115,7 +122,7 @@ class Save extends \Magento\Object
         $giftmessageModel = $this->_messageFactory->create();
         $entityType = $this->_getMappedType($giftmessage['type']);
 
-        switch($entityType) {
+        switch ($entityType) {
             case 'quote':
                 $entityModel = $this->_getQuote();
                 break;
@@ -125,8 +132,7 @@ class Save extends \Magento\Object
                 break;
 
             default:
-                $entityModel = $giftmessageModel->getEntityModelByType($entityType)
-                    ->load($entityId);
+                $entityModel = $giftmessageModel->getEntityModelByType($entityType)->load($entityId);
                 break;
         }
 
@@ -147,7 +153,7 @@ class Save extends \Magento\Object
         } elseif (!$giftmessageModel->isMessageEmpty()) {
             $giftmessageModel->save();
             $entityModel->setGiftMessageId($giftmessageModel->getId());
-            if($entityType != 'quote') {
+            if ($entityType != 'quote') {
                 $entityModel->save();
             }
             $this->_saved = true;
@@ -159,19 +165,17 @@ class Save extends \Magento\Object
     /**
      * Delete a single gift message from entity
      *
-     * @param \Magento\GiftMessage\Model\Message|null $giftmessageModel
      * @param \Magento\Object $entityModel
-     * @return \Magento\GiftMessage\Model\Save
+     * @param \Magento\GiftMessage\Model\Message|null $giftmessageModel
+     * @return $this
      */
-    protected function _deleteOne($entityModel, $giftmessageModel=null)
+    protected function _deleteOne($entityModel, $giftmessageModel = null)
     {
         if (is_null($giftmessageModel)) {
-            $giftmessageModel = $this->_messageFactory->create()
-                ->load($entityModel->getGiftMessageId());
+            $giftmessageModel = $this->_messageFactory->create()->load($entityModel->getGiftMessageId());
         }
         $giftmessageModel->delete();
-        $entityModel->setGiftMessageId(0)
-            ->save();
+        $entityModel->setGiftMessageId(0)->save();
         return $this;
     }
 
@@ -179,7 +183,7 @@ class Save extends \Magento\Object
      * Set allowed quote items for gift messages
      *
      * @param array $items
-     * @return \Magento\GiftMessage\Model\Save
+     * @return $this
      */
     public function setAllowQuoteItems($items)
     {
@@ -191,7 +195,7 @@ class Save extends \Magento\Object
      * Add allowed quote item for gift messages
      *
      * @param int $item
-     * @return \Magento\GiftMessage\Model\Save
+     * @return $this
      */
     public function addAllowQuoteItem($item)
     {
@@ -240,7 +244,7 @@ class Save extends \Magento\Object
      * Checks allowed quote item for gift messages
      *
      * @param  \Magento\Object $item
-     * @return boolean
+     * @return bool
      */
     public function getIsAllowedQuoteItem($item)
     {
@@ -269,31 +273,26 @@ class Save extends \Magento\Object
     /**
      * Imports quote items for gift messages from products data
      *
-     * @param unknown_type $products
-     * @return unknown
+     * @param mixed $products
+     * @return $this
      */
     public function importAllowQuoteItemsFromProducts($products)
     {
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
-        foreach ($products as $productId=>$data) {
-            $product = $this->_productFactory->create()
-                ->setStore($this->_session->getStore())
-                ->load($productId);
+        foreach ($products as $productId => $data) {
+            $product = $this->_productFactory->create()->setStore($this->_session->getStore())->load($productId);
             $item = $this->_getQuote()->getItemByProduct($product);
 
             if (!$item) {
                 continue;
             }
 
-            if (in_array($item->getId(), $allowedItems)
-                && !isset($data['giftmessage'])) {
+            if (in_array($item->getId(), $allowedItems) && !isset($data['giftmessage'])) {
                 $deleteAllowedItems[] = $item->getId();
-            } elseif (!in_array($item->getId(), $allowedItems)
-                      && isset($data['giftmessage'])) {
+            } elseif (!in_array($item->getId(), $allowedItems) && isset($data['giftmessage'])) {
                 $allowedItems[] = $item->getId();
             }
-
         }
 
         $allowedItems = array_diff($allowedItems, $deleteAllowedItems);
@@ -302,11 +301,15 @@ class Save extends \Magento\Object
         return $this;
     }
 
+    /**
+     * @param mixed $items
+     * @return $this
+     */
     public function importAllowQuoteItemsFromItems($items)
     {
         $allowedItems = $this->getAllowQuoteItems();
         $deleteAllowedItems = array();
-        foreach ($items as $itemId=>$data) {
+        foreach ($items as $itemId => $data) {
 
             $item = $this->_getQuote()->getItemById($itemId);
 
@@ -316,14 +319,11 @@ class Save extends \Magento\Object
                 continue;
             }
 
-            if (in_array($item->getId(), $allowedItems)
-                && !isset($data['giftmessage'])) {
+            if (in_array($item->getId(), $allowedItems) && !isset($data['giftmessage'])) {
                 $deleteAllowedItems[] = $item->getId();
-            } elseif (!in_array($item->getId(), $allowedItems)
-                      && isset($data['giftmessage'])) {
+            } elseif (!in_array($item->getId(), $allowedItems) && isset($data['giftmessage'])) {
                 $allowedItems[] = $item->getId();
             }
-
         }
 
         $allowedItems = array_diff($allowedItems, $deleteAllowedItems);
@@ -335,16 +335,11 @@ class Save extends \Magento\Object
      * Retrieve mapped type for entity
      *
      * @param string $type
-     * @return string
+     * @return string|null
      */
     protected function _getMappedType($type)
     {
-        $map = array(
-            'main'          =>  'quote',
-            'item'          =>  'quote_item',
-            'order'         =>  'order',
-            'order_item'    =>  'order_item'
-        );
+        $map = array('main' => 'quote', 'item' => 'quote_item', 'order' => 'order', 'order_item' => 'order_item');
 
         if (isset($map[$type])) {
             return $map[$type];

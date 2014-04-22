@@ -9,10 +9,12 @@
  */
 
 $installer = $this;
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Module\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
-$connection->createTable($connection->createTableByDdl(
-    $installer->getTable('coupon_aggregated'),
-    $installer->getTable('coupon_aggregated_updated')
-));
+$connection->createTable(
+    $connection->createTableByDdl(
+        $installer->getTable('coupon_aggregated'),
+        $installer->getTable('coupon_aggregated_updated')
+    )
+);

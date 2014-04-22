@@ -16,7 +16,7 @@ namespace Magento\AdminNotification\Model\Config\Source;
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Frequency implements \Magento\Core\Model\Option\ArrayInterface
+class Frequency implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array
@@ -24,11 +24,11 @@ class Frequency implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            1   => __('1 Hour'),
-            2   => __('2 Hours'),
-            6   => __('6 Hours'),
-            12  => __('12 Hours'),
-            24  => __('24 Hours')
+            1 => __('1 Hour'),
+            2 => __('2 Hours'),
+            6 => __('6 Hours'),
+            12 => __('12 Hours'),
+            24 => __('24 Hours')
         );
     }
 }

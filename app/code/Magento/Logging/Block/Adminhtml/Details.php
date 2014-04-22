@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Block\Adminhtml;
 
 /**
  * Log grid container
  */
-namespace Magento\Logging\Block\Adminhtml;
-
 class Details extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -30,7 +29,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,13 +42,13 @@ class Details extends \Magento\Backend\Block\Widget\Container
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\User\Model\UserFactory $userFactory,
         array $data = array()
     ) {
@@ -62,15 +61,19 @@ class Details extends \Magento\Backend\Block\Widget\Container
     /**
      * Add back button
      *
+     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_addButton('back', array(
-            'label'   => __('Back'),
-            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
-            'class'   => 'back'
-        ));
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
+                'class' => 'back'
+            )
+        );
     }
 
     /**

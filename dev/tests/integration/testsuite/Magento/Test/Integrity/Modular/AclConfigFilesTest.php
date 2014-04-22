@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
@@ -29,8 +28,11 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::LIB_INTERNAL) . '/Magento/Acl/etc/acl.xsd';
+        $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\App\Filesystem'
+        )->getPath(
+            \Magento\Framework\App\Filesystem::LIB_INTERNAL
+        ) . '/Magento/Acl/etc/acl.xsd';
     }
 
     /**
@@ -40,11 +42,11 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testAclConfigFile($file)
     {
-        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $domConfig = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
-            $message .= "$error\n";
+            $message .= "{$error}\n";
         }
         $this->assertTrue($result, $message);
     }
@@ -55,8 +57,11 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function aclConfigFileDataProvider()
     {
         $fileList = glob(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::APP_DIR) . '/*/*/*/etc/adminhtml/acl.xml'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Framework\App\Filesystem'
+            )->getPath(
+                \Magento\Framework\App\Filesystem::APP_DIR
+            ) . '/*/*/*/etc/adminhtml/acl.xml'
         );
         $dataProviderResult = array();
         foreach ($fileList as $file) {

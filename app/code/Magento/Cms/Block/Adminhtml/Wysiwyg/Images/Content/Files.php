@@ -21,7 +21,7 @@ class Files extends \Magento\Backend\Block\Template
     /**
      * Files collection object
      *
-     * @var \Magento\Data\Collection\Filesystem
+     * @var \Magento\Framework\Data\Collection\Filesystem
      */
     protected $_filesCollection;
 
@@ -55,14 +55,15 @@ class Files extends \Magento\Backend\Block\Template
     /**
      * Prepared Files collection for current directory
      *
-     * @return \Magento\Data\Collection\Filesystem
+     * @return \Magento\Framework\Data\Collection\Filesystem
      */
     public function getFiles()
     {
-        if (! $this->_filesCollection) {
+        if (!$this->_filesCollection) {
             $this->_filesCollection = $this->_imageStorage->getFilesCollection(
-                    $this->_imageHelper->getCurrentPath(), $this->_getMediaType()
-                );
+                $this->_imageHelper->getCurrentPath(),
+                $this->_getMediaType()
+            );
         }
 
         return $this->_filesCollection;

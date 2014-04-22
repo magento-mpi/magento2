@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 
 /**
@@ -15,24 +14,23 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -56,22 +54,20 @@ class Edit
      */
     protected function _construct()
     {
-        $this->_objectId    = 'attribute_id';
-        $this->_blockGroup  = 'Magento_Rma';
-        $this->_controller  = 'adminhtml_rma_item_attribute';
+        $this->_objectId = 'attribute_id';
+        $this->_blockGroup = 'Magento_Rma';
+        $this->_controller = 'adminhtml_rma_item_attribute';
 
         parent::_construct();
 
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => __('Save and Continue Edit'),
-                'class'     => 'save',
-                'data_attribute'  => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                    ),
-                ),
+                'label' => __('Save and Continue Edit'),
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
             100
         );

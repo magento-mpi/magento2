@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class Import
@@ -20,19 +19,21 @@ class Import
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      */
-    public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
-    ) {
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor)
+    {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
     }
 
     /**
-     * After improt handler
+     * After import handler
      *
+     * @param \Magento\ImportExport\Model\Import $subject
      * @param Object $import
+     *
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterImportSource($import)
+    public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
         $this->_productFlatIndexerProcessor->markIndexerAsInvalid();
         return $import;

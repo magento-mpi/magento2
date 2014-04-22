@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var $cache \Magento\App\Cache */
-$cache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\App\Cache');
+/** @var $cache \Magento\Framework\App\Cache */
+$cache = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\App\Cache');
 $cache->save('application data', 'APPLICATION_FIXTURE');

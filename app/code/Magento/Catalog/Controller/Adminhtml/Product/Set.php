@@ -21,18 +21,16 @@ class Set extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -50,9 +48,7 @@ class Set extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_addBreadcrumb(
-            __('Manage Attribute Sets'),
-            __('Manage Attribute Sets'));
+        $this->_addBreadcrumb(__('Manage Attribute Sets'), __('Manage Attribute Sets'));
 
         $this->_view->renderLayout();
     }
@@ -65,8 +61,11 @@ class Set extends \Magento\Backend\App\Action
         $this->_title->add(__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
-            ->load($this->getRequest()->getParam('id'));
+        $attributeSet = $this->_objectManager->create(
+            'Magento\Eav\Model\Entity\Attribute\Set'
+        )->load(
+            $this->getRequest()->getParam('id')
+        );
 
         if (!$attributeSet->getId()) {
             $this->_redirect('catalog/*/index');
@@ -82,13 +81,7 @@ class Set extends \Magento\Backend\App\Action
         $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_addBreadcrumb(
-            __('Manage Product Sets'),
-            __('Manage Product Sets'));
-
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
-        );
+        $this->_addBreadcrumb(__('Manage Product Sets'), __('Manage Product Sets'));
 
         $this->_view->renderLayout();
     }
@@ -113,14 +106,17 @@ class Set extends \Magento\Backend\App\Action
      */
     public function saveAction()
     {
-        $entityTypeId   = $this->_getEntityTypeId();
-        $hasError       = false;
+        $entityTypeId = $this->_getEntityTypeId();
+        $hasError = false;
         $attributeSetId = $this->getRequest()->getParam('id', false);
-        $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
+        $isNewSet = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
         /* @var $model \Magento\Eav\Model\Entity\Attribute\Set */
-        $model  = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
-            ->setEntityTypeId($entityTypeId);
+        $model = $this->_objectManager->create(
+            'Magento\Eav\Model\Entity\Attribute\Set'
+        )->setEntityTypeId(
+            $entityTypeId
+        );
 
         /** @var $filterManager \Magento\Filter\FilterManager */
         $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
@@ -135,10 +131,13 @@ class Set extends \Magento\Backend\App\Action
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    throw new \Magento\Core\Exception(__('This attribute set no longer exists.'));
+                    throw new \Magento\Framework\Model\Exception(__('This attribute set no longer exists.'));
                 }
-                $data = $this->_objectManager->get('Magento\Core\Helper\Data')
-                    ->jsonDecode($this->getRequest()->getPost('data'));
+                $data = $this->_objectManager->get(
+                    'Magento\Core\Helper\Data'
+                )->jsonDecode(
+                    $this->getRequest()->getPost('data')
+                );
 
                 //filter html tags
                 $data['attribute_set_name'] = $filterManager->stripTags($data['attribute_set_name']);
@@ -153,25 +152,24 @@ class Set extends \Magento\Backend\App\Action
             }
             $model->save();
             $this->messageManager->addSuccess(__('You saved the attribute set.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {
-            $this->messageManager->addException($e,
-                __('An error occurred while saving the attribute set.'));
+            $this->messageManager->addException($e, __('An error occurred while saving the attribute set.'));
             $hasError = true;
         }
 
         if ($isNewSet) {
             if ($this->getRequest()->getPost('return_session_messages_only')) {
-                /** @var $block \Magento\View\Element\Messages */
-                $block = $this->_objectManager->get('Magento\View\Element\Messages');
+                /** @var $block \Magento\Framework\View\Element\Messages */
+                $block = $this->_objectManager->get('Magento\Framework\View\Element\Messages');
                 $block->setMessages($this->messageManager->getMessages(true));
-                $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                    'messages' => $block->getGroupedHtml(),
-                    'error'    => $hasError,
-                    'id'       => $model->getId(),
-                ));
+                $body = $this->_objectManager->get(
+                    'Magento\Core\Helper\Data'
+                )->jsonEncode(
+                    array('messages' => $block->getGroupedHtml(), 'error' => $hasError, 'id' => $model->getId())
+                );
                 $this->getResponse()->setBody($body);
             } else {
                 if ($hasError) {
@@ -184,14 +182,15 @@ class Set extends \Magento\Backend\App\Action
             $response = array();
             if ($hasError) {
                 $this->_view->getLayout()->initMessages();
-                $response['error']   = 1;
+                $response['error'] = 1;
                 $response['message'] = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
-                $response['error']   = 0;
-                $response['url']     = $this->getUrl('catalog/*/');
+                $response['error'] = 0;
+                $response['url'] = $this->getUrl('catalog/*/');
             }
-            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')
-                ->jsonEncode($response));
+            $this->getResponse()->setBody(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response)
+            );
         }
     }
 
@@ -222,9 +221,7 @@ class Set extends \Magento\Backend\App\Action
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')
-                ->setId($setId)
-                ->delete();
+            $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set')->setId($setId)->delete();
 
             $this->messageManager->addSuccess(__('The attribute set has been removed.'));
             $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
@@ -241,8 +238,10 @@ class Set extends \Magento\Backend\App\Action
      */
     protected function _setTypeId()
     {
-        $this->_coreRegistry->register('entityType',
-            $this->_objectManager->create('Magento\Catalog\Model\Product')->getResource()->getTypeId());
+        $this->_coreRegistry->register(
+            'entityType',
+            $this->_objectManager->create('Magento\Catalog\Model\Product')->getResource()->getTypeId()
+        );
     }
 
     /**

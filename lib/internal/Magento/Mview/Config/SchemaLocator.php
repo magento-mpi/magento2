@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -25,12 +24,12 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     protected $_perFileSchema = null;
 
     /**
-     * @param \Magento\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Framework\Filesystem\DirectoryList $directoryList
      */
-    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
+    public function __construct(\Magento\Framework\Filesystem\DirectoryList $directoryList)
     {
-        $etcDir = $directoryList->getDir(\Magento\App\Filesystem::LIB_INTERNAL) . '/Magento/Mview/etc';
-        $this->_schema =  $etcDir . '/mview.xsd';
+        $etcDir = $directoryList->getDir(\Magento\Framework\App\Filesystem::LIB_INTERNAL) . '/Magento/Mview/etc';
+        $this->_schema = $etcDir . '/mview.xsd';
         $this->_perFileSchema = $etcDir . '/mview.xsd';
     }
 

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * "Add by SKU" accordion
@@ -15,13 +16,12 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
-
-class Sku
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class Sku extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Define ID
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,8 +58,12 @@ class Sku
         $addButtonData = array(
             'label' => __('Add to Order'),
             'onclick' => 'addBySku.submitSkuForm()',
-            'class' => 'action-add',
+            'class' => 'action-add'
         );
-        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            $addButtonData
+        )->toHtml();
     }
 }

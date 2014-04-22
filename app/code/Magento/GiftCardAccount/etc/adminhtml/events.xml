@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="order_cancel_after">
         <observer name="magento_giftcardaccount" instance="Magento\GiftCardAccount\Model\Observer" method="returnFundsToStoreCredit" />
     </event>

@@ -16,44 +16,43 @@ namespace Magento\Catalog\Model;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends \Magento\Framework\Model\AbstractModel
 {
-    const APPLY_FOR_PRODUCT     = 1;
-    const APPLY_FOR_CATEGORY    = 2;
+    const APPLY_FOR_PRODUCT = 1;
+
+    const APPLY_FOR_CATEGORY = 2;
 
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_design = $design;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -96,7 +95,7 @@ class Design extends \Magento\Core\Model\AbstractModel
                 return $this->_extractSettings($object);
             }
         } else {
-             return $this->_extractSettings($category);
+            return $this->_extractSettings($category);
         }
     }
 
@@ -108,16 +107,30 @@ class Design extends \Magento\Core\Model\AbstractModel
      */
     protected function _extractSettings($object)
     {
-        $settings = new \Magento\Object;
+        $settings = new \Magento\Object();
         if (!$object) {
             return $settings;
         }
         $date = $object->getCustomDesignDate();
-        if (array_key_exists('from', $date) && array_key_exists('to', $date)
-            && $this->_locale->isStoreDateInInterval(null, $date['from'], $date['to'])) {
-                $settings->setCustomDesign($object->getCustomDesign())
-                    ->setPageLayout($object->getPageLayout())
-                    ->setLayoutUpdates((array)$object->getCustomLayoutUpdate());
+        if (array_key_exists(
+            'from',
+            $date
+        ) && array_key_exists(
+            'to',
+            $date
+        ) && $this->_localeDate->isScopeDateInInterval(
+            null,
+            $date['from'],
+            $date['to']
+        )
+        ) {
+            $settings->setCustomDesign(
+                $object->getCustomDesign()
+            )->setPageLayout(
+                $object->getPageLayout()
+            )->setLayoutUpdates(
+                (array)$object->getCustomLayoutUpdate()
+            );
         }
         return $settings;
     }

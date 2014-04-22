@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * GoogleShopping Admin Item Types Controller
@@ -19,18 +19,16 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -39,7 +37,7 @@ class Types extends \Magento\Backend\App\Action
      * Dispatches controller_action_postdispatch_adminhtml Event
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -51,7 +49,6 @@ class Types extends \Magento\Backend\App\Action
             );
         }
         return $response;
-
     }
 
     /**
@@ -63,8 +60,10 @@ class Types extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Google Content Attributes'));
 
-        $this->_coreRegistry
-            ->register('current_item_type', $this->_objectManager->create('Magento\GoogleShopping\Model\Type'));
+        $this->_coreRegistry->register(
+            'current_item_type',
+            $this->_objectManager->create('Magento\GoogleShopping\Model\Type')
+        );
         $typeId = $this->getRequest()->getParam('id');
         if (!is_null($typeId)) {
             $this->_coreRegistry->registry('current_item_type')->load($typeId);
@@ -80,9 +79,15 @@ class Types extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_types')
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
-            ->_addBreadcrumb(__('Google Content'), __('Google Content'));
+        $this->_setActiveMenu(
+            'Magento_GoogleShopping::catalog_googleshopping_types'
+        )->_addBreadcrumb(
+            __('Catalog'),
+            __('Catalog')
+        )->_addBreadcrumb(
+            __('Google Content'),
+            __('Google Content')
+        );
         return $this;
     }
 
@@ -95,8 +100,7 @@ class Types extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Google Content Attributes'));
 
-        $this->_initAction()
-            ->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'));
+        $this->_initAction()->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'));
         $this->_view->renderLayout();
     }
 
@@ -123,11 +127,12 @@ class Types extends \Magento\Backend\App\Action
 
             $this->_title->add(__('New Google Content Attribute Mapping'));
 
-            $this->_initAction()
-                ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
-                ->_addContent($this->_view->getLayout()
-                    ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit')
-                );
+            $this->_initAction()->_addBreadcrumb(
+                __('New attribute set mapping'),
+                __('New attribute set mapping')
+            )->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit')
+            );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -149,10 +154,11 @@ class Types extends \Magento\Backend\App\Action
         try {
             $result = array();
             if ($typeId) {
-                $collection = $this->_objectManager
-                    ->create('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
-                    ->addTypeFilter($typeId)
-                    ->load();
+                $collection = $this->_objectManager->create(
+                    'Magento\GoogleShopping\Model\Resource\Attribute\Collection'
+                )->addTypeFilter(
+                    $typeId
+                )->load();
                 foreach ($collection as $attribute) {
                     $result[] = $attribute->getData();
                 }
@@ -162,12 +168,12 @@ class Types extends \Magento\Backend\App\Action
             $this->_coreRegistry->register('attributes', $result);
 
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
-            $this->_initAction()
-                ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->_view->getLayout()->createBlock(
-                    'Magento\GoogleShopping\Block\Adminhtml\Types\Edit'
-                    )
-                );
+            $this->_initAction()->_addBreadcrumb(
+                $breadcrumbLabel,
+                $breadcrumbLabel
+            )->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit')
+            );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -193,41 +199,51 @@ class Types extends \Magento\Backend\App\Action
         try {
             $typeModel->setCategory($this->getRequest()->getParam('category'));
             if ($typeModel->getId()) {
-                $collection = $this->_objectManager
-                    ->create('Magento\GoogleShopping\Model\Resource\Attribute\Collection')
-                    ->addTypeFilter($typeModel->getId())
-                    ->load();
+                $collection = $this->_objectManager->create(
+                    'Magento\GoogleShopping\Model\Resource\Attribute\Collection'
+                )->addTypeFilter(
+                    $typeModel->getId()
+                )->load();
                 foreach ($collection as $attribute) {
                     $attribute->delete();
                 }
             } else {
-                $typeModel->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                    ->setTargetCountry($this->getRequest()->getParam('target_country'));
+                $typeModel->setAttributeSetId(
+                    $this->getRequest()->getParam('attribute_set_id')
+                )->setTargetCountry(
+                    $this->getRequest()->getParam('target_country')
+                );
             }
             $typeModel->save();
 
             $attributes = $this->getRequest()->getParam('attributes');
-            $requiredAttributes = $this->_objectManager->get('Magento\GoogleShopping\Model\Config')
-                ->getRequiredAttributes();
+            $requiredAttributes = $this->_objectManager->get(
+                'Magento\GoogleShopping\Model\Config'
+            )->getRequiredAttributes();
             if (is_array($attributes)) {
                 $typeId = $typeModel->getId();
                 foreach ($attributes as $attrInfo) {
                     if (isset($attrInfo['delete']) && $attrInfo['delete'] == 1) {
                         continue;
                     }
-                    $this->_objectManager->create('Magento\GoogleShopping\Model\Attribute')
-                        ->setAttributeId($attrInfo['attribute_id'])
-                        ->setGcontentAttribute($attrInfo['gcontent_attribute'])
-                        ->setTypeId($typeId)
-                        ->save();
+                    $this->_objectManager->create(
+                        'Magento\GoogleShopping\Model\Attribute'
+                    )->setAttributeId(
+                        $attrInfo['attribute_id']
+                    )->setGcontentAttribute(
+                        $attrInfo['gcontent_attribute']
+                    )->setTypeId(
+                        $typeId
+                    )->save();
                     unset($requiredAttributes[$attrInfo['gcontent_attribute']]);
                 }
             }
 
             $this->messageManager->addSuccess(__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
-                $this->messageManager
-                    ->addSuccess($this->_objectManager->get('Magento\GoogleShopping\Helper\Category')->getMessage());
+                $this->messageManager->addSuccess(
+                    $this->_objectManager->get('Magento\GoogleShopping\Helper\Category')->getMessage()
+                );
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -267,11 +283,15 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
-                ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
-                ->setTargetCountry($this->getRequest()->getParam('target_country'))
-                ->setAttributeSetSelected(true)
-                ->toHtml()
+                $this->_view->getLayout()->createBlock(
+                    'Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes'
+                )->setAttributeSetId(
+                    $this->getRequest()->getParam('attribute_set_id')
+                )->setTargetCountry(
+                    $this->getRequest()->getParam('target_country')
+                )->setAttributeSetSelected(
+                    true
+                )->toHtml()
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -289,9 +309,11 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
-                    ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
-                    ->toHtml()
+                $this->_view->getLayout()->getBlockSingleton(
+                    'Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form'
+                )->getAttributeSetsSelectElement(
+                    $this->getRequest()->getParam('target_country')
+                )->toHtml()
             );
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -303,15 +325,15 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Get store object, basing on request
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function _getStore()
     {
         $storeId = (int)$this->getRequest()->getParam('store', 0);
         if ($storeId == 0) {
-            return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView();
+            return $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getDefaultStoreView();
         }
-        return $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeId);
+        return $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($storeId);
     }
 
     /**

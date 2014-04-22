@@ -13,30 +13,35 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Catalog\Model\Product;
+use Magento\Pricing\Object\SaleableInterface;
+
 class Type
 {
     /**#@+
      * Available product types
      */
-    const TYPE_SIMPLE       = 'simple';
-    const TYPE_BUNDLE       = 'bundle';
-    const TYPE_VIRTUAL      = 'virtual';
+    const TYPE_SIMPLE = 'simple';
+
+    const TYPE_BUNDLE = 'bundle';
+
+    const TYPE_VIRTUAL = 'virtual';
     /**#@-*/
 
     /**
      * Default product type
      */
-    const DEFAULT_TYPE      = 'simple';
+    const DEFAULT_TYPE = 'simple';
 
     /**
      * Default product type model
      */
-    const DEFAULT_TYPE_MODEL    = 'Magento\Catalog\Model\Product\Type\Simple';
+    const DEFAULT_TYPE_MODEL = 'Magento\Catalog\Model\Product\Type\Simple';
 
     /**
      * Default price model
      */
-    const DEFAULT_PRICE_MODEL   = 'Magento\Catalog\Model\Product\Type\Price';
+    const DEFAULT_PRICE_MODEL = 'Magento\Catalog\Model\Product\Type\Price';
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -86,20 +91,28 @@ class Type
     protected $_priceFactory;
 
     /**
+     * @var \Magento\Pricing\PriceInfo\Factory
+     */
+    protected $_priceInfoFactory;
+
+    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type\Pool $productTypePool
      * @param \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
+     * @param \Magento\Pricing\PriceInfo\Factory $priceInfoFactory
      */
     public function __construct(
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         \Magento\Catalog\Model\Product\Type\Pool $productTypePool,
-        \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory
+        \Magento\Catalog\Model\Product\Type\Price\Factory $priceFactory,
+        \Magento\Pricing\PriceInfo\Factory $priceInfoFactory
     ) {
         $this->_config = $config;
         $this->_productTypePool = $productTypePool;
         $this->_priceFactory = $priceFactory;
+        $this->_priceInfoFactory = $priceInfoFactory;
     }
 
     /**
@@ -150,6 +163,17 @@ class Type
     }
 
     /**
+     * Get Product Price Info object
+     *
+     * @param SaleableInterface $product
+     * @return \Magento\Pricing\PriceInfoInterface
+     */
+    public function getPriceInfo(SaleableInterface $product)
+    {
+        return $this->_priceInfoFactory->create($product);
+    }
+
+    /**
      * Get product type labels array
      *
      * @return array
@@ -185,10 +209,7 @@ class Type
         $res = array();
         $res[] = array('value' => '', 'label' => '');
         foreach ($this->getOptionArray() as $index => $value) {
-            $res[] = array(
-               'value' => $index,
-               'label' => $value
-            );
+            $res[] = array('value' => $index, 'label' => $value);
         }
         return $res;
     }
@@ -202,10 +223,7 @@ class Type
     {
         $res = array();
         foreach ($this->getOptionArray() as $index => $value) {
-            $res[] = array(
-               'value' => $index,
-               'label' => $value
-            );
+            $res[] = array('value' => $index, 'label' => $value);
         }
         return $res;
     }

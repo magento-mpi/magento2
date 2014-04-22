@@ -7,12 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration;
 
 class Mapper
 {
-
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Mapper\Tab
      */
@@ -27,7 +25,8 @@ class Mapper
      * @param \Magento\Tools\Migration\System\Configuration\Mapper\Tab $tabMapper
      * @param \Magento\Tools\Migration\System\Configuration\Mapper\Section $sectionMapper
      */
-    public function __construct(\Magento\Tools\Migration\System\Configuration\Mapper\Tab $tabMapper,
+    public function __construct(
+        \Magento\Tools\Migration\System\Configuration\Mapper\Tab $tabMapper,
         \Magento\Tools\Migration\System\Configuration\Mapper\Section $sectionMapper
     ) {
         $this->_tabMapper = $tabMapper;

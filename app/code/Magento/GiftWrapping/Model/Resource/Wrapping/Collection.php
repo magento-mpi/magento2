@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model\Resource\Wrapping;
 
 /**
  * Gift Wrapping Collection
@@ -14,10 +15,7 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-namespace Magento\GiftWrapping\Model\Resource\Wrapping;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection
@@ -33,18 +31,19 @@ class Collection
     /**
      * Redeclare after load method to add website IDs to items
      *
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
         parent::_afterLoad();
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
-            $select = $this->getConnection()->select()
-                ->from($this->getTable('magento_giftwrapping_website'), array(
-                    'wrapping_id',
-                    'website_id'
-                ))
-                ->where('wrapping_id IN (?)', array_keys($this->_items));
+            $select = $this->getConnection()->select()->from(
+                $this->getTable('magento_giftwrapping_website'),
+                array('wrapping_id', 'website_id')
+            )->where(
+                'wrapping_id IN (?)',
+                array_keys($this->_items)
+            );
             $websites = $this->getConnection()->fetchAll($select);
             foreach ($this->_items as $item) {
                 $websiteIds = array();
@@ -65,11 +64,11 @@ class Collection
      * Init flag for adding wrapping website ids to collection result
      *
      * @param  bool|null $flag
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function addWebsitesToResult($flag = null)
     {
-        $flag = ($flag === null) ? true : $flag;
+        $flag = $flag === null ? true : $flag;
         $this->setFlag('add_websites_to_result', $flag);
         return $this;
     }
@@ -77,8 +76,8 @@ class Collection
     /**
      * Limit gift wrapping collection by specific website
      *
-     * @param  int|array|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @param  int|array|\Magento\Store\Model\Website $websiteId
+     * @return $this
      */
     public function applyWebsiteFilter($websiteId)
     {
@@ -91,7 +90,7 @@ class Collection
             );
         }
 
-        if ($websiteId instanceof \Magento\Core\Model\Website) {
+        if ($websiteId instanceof \Magento\Store\Model\Website) {
             $websiteId = $websiteId->getId();
         }
         $this->getSelect()->where('website.website_id IN (?)', $websiteId);
@@ -102,7 +101,7 @@ class Collection
     /**
      * Limit gift wrapping collection by status
      *
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
      */
     public function applyStatusFilter()
     {
@@ -113,11 +112,11 @@ class Collection
     /**
      * Add specified field to collection filter
      * Redeclared in order to be able to limit collection by specific website
-     * @see self::applyWebsiteFilter()
      *
      * @param  string $field
      * @param  mixed $condition
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @return $this
+     * @see self::applyWebsiteFilter()
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -134,21 +133,22 @@ class Collection
      */
     public function toOptionArray()
     {
-        return array_merge(array(array(
-            'value' => '',
-            'label' => __('Please select')
-        )), $this->_toOptionArray('wrapping_id', 'design'));
+        return array_merge(
+            array(array('value' => '', 'label' => __('Please select'))),
+            $this->_toOptionArray('wrapping_id', 'design')
+        );
     }
 
-     /* Add store attributes to collection
+    /**
+     * Add store attributes to collection
      *
-     * @param  int $storeId
-     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
+     * @param int $storeId
+     * @return $this
      */
     public function addStoreAttributesToResult($storeId = 0)
     {
         $adapter = $this->getConnection();
-        $select  = $adapter->select();
+        $select = $adapter->select();
         $select->from(array('m' => $this->getMainTable()), array('*'));
 
         $select->joinLeft(
@@ -163,10 +163,7 @@ class Collection
             array('design' => $adapter->getIfNullSql('s.design', 'd.design'))
         );
 
-        $this->getSelect()->reset()->from(
-            array('main_table' => $select),
-            array('*')
-        );
+        $this->getSelect()->reset()->from(array('main_table' => $select), array('*'));
 
         return $this;
     }

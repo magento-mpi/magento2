@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit;
 
 /**
  * Customer Address Attribute Form Block
@@ -16,25 +16,18 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit;
-
-class Form
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id'        => 'edit_form',
-                'action'    => $this->getData('action'),
-                'method'    => 'post',
-            ))
+        /** @var \Magento\Framework\Data\Form $form */
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
         $form->setUseContainer(true);
         $this->setForm($form);

@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Grid widget massaction block
@@ -134,7 +134,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
     public function getItemsJson()
     {
         $result = array();
-        foreach ($this->getItems() as $itemId=>$item) {
+        foreach ($this->getItems() as $itemId => $item) {
             $result[$itemId] = $item->toArray();
         }
 
@@ -168,7 +168,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
      */
     public function getFormFieldName()
     {
-        return ($this->getData('form_field_name') ? $this->getData('form_field_name') : 'massaction');
+        return $this->getData('form_field_name') ? $this->getData('form_field_name') : 'massaction';
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
      */
     public function getFormFieldNameInternal()
     {
-        return  'internal_' . $this->getFormFieldName();
+        return 'internal_' . $this->getFormFieldName();
     }
 
     /**
@@ -246,14 +246,14 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
      */
     public function getJavaScript()
     {
-        return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', "
-            . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
-            . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
-            . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
-            . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
-            . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
-            . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
-            . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
+        return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', " .
+            "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'" .
+            ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');" .
+            "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); " .
+            "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');" .
+            ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '') .
+            ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '') .
+            "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
     }
 
     /**
@@ -314,7 +314,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
      */
     public function setUseSelectAll($flag)
     {
-        $this->setData('use_select_all', (bool) $flag);
+        $this->setData('use_select_all', (bool)$flag);
         return $this;
     }
 
@@ -326,25 +326,26 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
     public function prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Grid\Column')
-            ->setData(array(
-            'index'        => $this->getMassactionIdField(),
-            'filter_index' => $this->getMassactionIdFilter(),
-            'type'         => 'massaction',
-            'name'         => $this->getFormFieldName(),
-            'is_system'    => true,
-            'header_css_class'  => 'col-select',
-            'column_css_class'  => 'col-select'
-        ));
+        $massactionColumn = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Grid\Column'
+        )->setData(
+            array(
+                'index' => $this->getMassactionIdField(),
+                'filter_index' => $this->getMassactionIdFilter(),
+                'type' => 'massaction',
+                'name' => $this->getFormFieldName(),
+                'is_system' => true,
+                'header_css_class' => 'col-select',
+                'column_css_class' => 'col-select'
+            )
+        );
 
         if ($this->getNoFilterMassactionColumn()) {
             $massactionColumn->setData('filter', false);
         }
 
         $gridBlock = $this->getParentBlock();
-        $massactionColumn->setSelected($this->getSelected())
-            ->setGrid($gridBlock)
-            ->setId($columnId);
+        $massactionColumn->setSelected($this->getSelected())->setGrid($gridBlock)->setId($columnId);
 
         /** @var $columnSetBlock \Magento\Backend\Block\Widget\Grid\ColumnSet */
         $columnSetBlock = $gridBlock->getColumnSet();

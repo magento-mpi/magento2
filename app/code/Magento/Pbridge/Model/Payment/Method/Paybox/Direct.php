@@ -18,59 +18,59 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;
 
-use Magento\Core\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
      * @var string
      */
-    protected $_code  = 'paybox_direct';
+    protected $_code = 'paybox_direct';
 
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial = false;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = false;
+    protected $_canRefund = false;
 
     /**
      * @var bool
      */
-    protected $_canVoid                 = false;
+    protected $_canVoid = false;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = true;
+    protected $_canSaveCc = true;
 
     /**
      * Authorization method being executed via Payment Bridge

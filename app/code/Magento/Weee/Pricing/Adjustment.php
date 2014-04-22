@@ -1,0 +1,146 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Tax
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Weee\Pricing;
+
+use Magento\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Weee\Helper\Data as WeeeHelper;
+
+/**
+ * Weee pricing adjustment
+ */
+class Adjustment implements AdjustmentInterface
+{
+    /**
+     * Adjustment code weee
+     */
+    const CODE = 'weee';
+
+    /**
+     * Weee helper
+     *
+     * @var WeeeHelper
+     */
+    protected $weeeHelper;
+
+    /**
+     * Sort order
+     *
+     * @var int|null
+     */
+    protected $sortOrder;
+
+    /**
+     * Constructor
+     *
+     * @param WeeeHelper $weeeHelper
+     * @param int $sortOrder
+     */
+    public function __construct(WeeeHelper $weeeHelper, $sortOrder = null)
+    {
+        $this->weeeHelper = $weeeHelper;
+        $this->sortOrder = $sortOrder;
+    }
+
+    /**
+     * Get adjustment code
+     *
+     * @return string
+     */
+    public function getAdjustmentCode()
+    {
+        return self::CODE;
+    }
+
+    /**
+     * Define if adjustment is included in base price
+     * (FPT is excluded from base price)
+     *
+     * @return bool
+     */
+    public function isIncludedInBasePrice()
+    {
+        return false;
+    }
+
+    /**
+     * Define if adjustment is included in display price
+     *
+     * @return bool
+     */
+    public function isIncludedInDisplayPrice()
+    {
+        return $this->weeeHelper->typeOfDisplay(
+            [
+                \Magento\Weee\Model\Tax::DISPLAY_INCL,
+                \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
+                4
+            ]
+        );
+    }
+
+    /**
+     * Extract adjustment amount from the given amount value
+     *
+     * @param float $amount
+     * @param SaleableInterface $saleableItem
+     * @return float
+     */
+    public function extractAdjustment($amount, SaleableInterface $saleableItem)
+    {
+        return $this->getAmount($saleableItem);
+    }
+
+    /**
+     * Apply adjustment amount and return result value
+     *
+     * @param float $amount
+     * @param SaleableInterface $saleableItem
+     * @return float
+     */
+    public function applyAdjustment($amount, SaleableInterface $saleableItem)
+    {
+        return $amount + $this->getAmount($saleableItem);
+    }
+
+    /**
+     * Check if adjustment should be excluded from calculations along with the given adjustment
+     *
+     * @param string $adjustmentCode
+     * @return bool
+     */
+    public function isExcludedWith($adjustmentCode)
+    {
+        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
+    }
+
+    /**
+     * Obtain amount
+     *
+     * @param SaleableInterface $saleableItem
+     * @return float
+     */
+    protected function getAmount(SaleableInterface $saleableItem)
+    {
+        return $this->weeeHelper->getAmount($saleableItem);
+    }
+
+    /**
+     * Return sort order position
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->weeeHelper->isTaxable() ? $this->sortOrder : -1;
+    }
+}

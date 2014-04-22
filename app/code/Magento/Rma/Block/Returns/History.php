@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns;
 
-class History extends \Magento\View\Element\Template
+class History extends \Magento\Framework\View\Element\Template
 {
     /**
      * Rma grid collection
@@ -27,13 +26,13 @@ class History extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
@@ -54,10 +53,15 @@ class History extends \Magento\View\Element\Template
         parent::_construct();
         $this->setTemplate('return/history.phtml');
         /** @var $returns \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-        $returns = $this->_collectionFactory->create()
-            ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
-            ->setOrder('date_requested', 'desc');
+        $returns = $this->_collectionFactory->create()->addFieldToSelect(
+            '*'
+        )->addFieldToFilter(
+            'customer_id',
+            $this->_customerSession->getCustomer()->getId()
+        )->setOrder(
+            'date_requested',
+            'desc'
+        );
         $this->setReturns($returns);
     }
 
@@ -70,9 +74,12 @@ class History extends \Magento\View\Element\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()
-            ->createBlock('Magento\Theme\Block\Html\Pager', 'sales.order.history.pager')
-            ->setCollection($this->getReturns());
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'sales.order.history.pager'
+        )->setCollection(
+            $this->getReturns()
+        );
         $this->setChild('pager', $pager);
         $this->getReturns()->load();
         return $this;

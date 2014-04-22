@@ -7,30 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Customer\Helper\Address as AddressHelper;
+use Magento\Customer\Helper\Data as CustomerHelper;
 
-class Name extends \Magento\Customer\Block\Widget\AbstractWidget
+/**
+ * Widget for showing customer name.
+ *
+ * @method Customer getObject()
+ * @method Name setObject(Customer $customer)
+ */
+class Name extends AbstractWidget
 {
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var CustomerHelper
      */
     protected $_customerHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param Context $context
+     * @param AddressHelper $addressHelper
+     * @param CustomerMetadataServiceInterface $attributeMetadata
+     * @param CustomerHelper $customerHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
-        \Magento\Customer\Helper\Data $customerHelper,
+        Context $context,
+        AddressHelper $addressHelper,
+        CustomerMetadataServiceInterface $attributeMetadata,
+        CustomerHelper $customerHelper,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -38,6 +47,9 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -179,18 +191,18 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getAttribute($attributeCode)
     {
-        if ($this->getForceUseCustomerAttributes()
-            || $this->getObject() instanceof \Magento\Customer\Model\Customer
-            || $this->getObject() instanceof Customer) {
+        if ($this->getForceUseCustomerAttributes() || $this->getObject() instanceof Customer) {
             return parent::_getAttribute($attributeCode);
         }
 
         try {
-            $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
+            $attribute = $this->_attributeMetadata->getAddressAttributeMetadata($attributeCode);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }
@@ -215,6 +227,17 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
     {
         $attribute = $this->_getAttribute($attributeCode);
         return $attribute ? __($attribute->getStoreLabel()) : '';
+    }
+
+    /**
+     * Get string with frontend validation classes for attribute
+     *
+     * @param string $attributeCode
+     * @return string
+     */
+    public function getAttributeValidationClass($attributeCode)
+    {
+        return $this->_addressHelper->getAttributeValidationClass($attributeCode);
     }
 
     /**

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme;
 
 class TabAbstractTest extends \PHPUnit_Framework_TestCase
@@ -24,8 +23,8 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab',
             array(
                 $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '', false),
-                $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
-                $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                $this->getMock('Magento\Registry', array(), array(), '', false),
+                $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
                 $this->getMock('Magento\ObjectManager', array(), array(), '', false)
             ),
             '',
@@ -44,10 +43,7 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetTabTitle()
     {
         $label = 'test label';
-        $this->_model
-            ->expects($this->once())
-            ->method('getTabLabel')
-            ->will($this->returnValue($label));
+        $this->_model->expects($this->once())->method('getTabLabel')->will($this->returnValue($label));
         $this->assertEquals($label, $this->_model->getTabTitle());
     }
 
@@ -66,17 +62,11 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $themeMock->expects($this->any())
-            ->method('isVirtual')
-            ->will($this->returnValue($isVirtual));
+        $themeMock->expects($this->any())->method('isVirtual')->will($this->returnValue($isVirtual));
 
-        $themeMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($themeId));
+        $themeMock->expects($this->any())->method('getId')->will($this->returnValue($themeId));
 
-        $this->_model->expects($this->any())
-            ->method('_getCurrentTheme')
-            ->will($this->returnValue($themeMock));
+        $this->_model->expects($this->any())->method('_getCurrentTheme')->will($this->returnValue($themeMock));
 
         if ($result === true) {
             $this->assertTrue($this->_model->canShowTab());
@@ -90,11 +80,7 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function canShowTabDataProvider()
     {
-        return array(
-            array(true, 1, true),
-            array(true, 0, false),
-            array(false, 1, false),
-        );
+        return array(array(true, 1, true), array(true, 0, false), array(false, 1, false));
     }
 
     public function testIsHidden()

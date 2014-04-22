@@ -16,8 +16,7 @@ namespace Magento\Catalog\Model\Resource\Product\Attribute;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Entity factory1
@@ -29,20 +28,20 @@ class Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eavEntityFactory = $eavEntityFactory;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -65,24 +64,28 @@ class Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Product::ENTITY)
-            ->getTypeId();
+        $entityTypeId = (int)$this->_eavEntityFactory->create()->setType(
+            \Magento\Catalog\Model\Product::ENTITY
+        )->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
         $retColumns = array();
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
-            if ($columnData['DATA_TYPE'] == \Magento\DB\Ddl\Table::TYPE_TEXT) {
+            if ($columnData['DATA_TYPE'] == \Magento\Framework\DB\Ddl\Table::TYPE_TEXT) {
                 $retColumns[$labelColumn] = 'main_table.' . $labelColumn;
             }
         }
-        $this->getSelect()
-            ->from(array('main_table' => $this->getResource()->getMainTable()), $retColumns)
-            ->join(
-                array('additional_table' => $this->getTable('catalog_eav_attribute')),
-                'additional_table.attribute_id = main_table.attribute_id'
-            )
-            ->where('main_table.entity_type_id = ?', $entityTypeId);
+        $this->getSelect()->from(
+            array('main_table' => $this->getResource()->getMainTable()),
+            $retColumns
+        )->join(
+            array('additional_table' => $this->getTable('catalog_eav_attribute')),
+            'additional_table.attribute_id = main_table.attribute_id'
+        )->where(
+            'main_table.entity_type_id = ?',
+            $entityTypeId
+        );
         return $this;
     }
 
@@ -194,8 +197,10 @@ class Collection
         );
 
         if ($addRequiredCodes) {
-            $conditions[] = $this->getConnection()->quoteInto('main_table.attribute_code IN (?)',
-                array('status', 'visibility'));
+            $conditions[] = $this->getConnection()->quoteInto(
+                'main_table.attribute_code IN (?)',
+                array('status', 'visibility')
+            );
         }
 
         $this->getSelect()->where(sprintf('(%s)', implode(' OR ', $conditions)));
@@ -211,8 +216,10 @@ class Collection
     public function addSearchableAttributeFilter()
     {
         $this->getSelect()->where(
-            'additional_table.is_searchable = 1 OR '.
-            $this->getConnection()->quoteInto('main_table.attribute_code IN (?)', array('status', 'visibility'))
+            'additional_table.is_searchable = 1 OR ' . $this->getConnection()->quoteInto(
+                'main_table.attribute_code IN (?)',
+                array('status', 'visibility')
+            )
         );
 
         return $this;

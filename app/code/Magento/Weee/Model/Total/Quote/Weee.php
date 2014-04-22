@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
 {
@@ -21,12 +21,12 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
     protected $_weeeData;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
-     * Flag which notify what tax amount can be affected by fixed porduct tax
+     * Flag which notify what tax amount can be affected by fixed product tax
      *
      * @var bool
      */
@@ -115,36 +115,36 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
         $applied = array();
         $productTaxes = array();
 
-        $totalValue         = 0;
-        $baseTotalValue     = 0;
-        $totalRowValue      = 0;
-        $baseTotalRowValue  = 0;
+        $totalValue = 0;
+        $baseTotalValue = 0;
+        $totalRowValue = 0;
+        $baseTotalRowValue = 0;
 
-        foreach ($attributes as $k=>$attribute) {
+        foreach ($attributes as $key => $attribute) {
             $baseValue      = $attribute->getAmount();
             $value          = $this->_store->convertPrice($baseValue);
-            $rowValue       = $value*$item->getTotalQty();
-            $baseRowValue   = $baseValue*$item->getTotalQty();
+            $rowValue       = $value * $item->getTotalQty();
+            $baseRowValue   = $baseValue * $item->getTotalQty();
             $title          = $attribute->getName();
 
-            $totalValue         += $value;
-            $baseTotalValue     += $baseValue;
-            $totalRowValue      += $rowValue;
-            $baseTotalRowValue  += $baseRowValue;
+            $totalValue += $value;
+            $baseTotalValue += $baseValue;
+            $totalRowValue += $rowValue;
+            $baseTotalRowValue += $baseRowValue;
 
             $productTaxes[] = array(
-                'title'         => $title,
-                'base_amount'   => $baseValue,
-                'amount'        => $value,
-                'row_amount'    => $rowValue,
-                'base_row_amount'=> $baseRowValue,
+                'title' => $title,
+                'base_amount' => $baseValue,
+                'amount' => $value,
+                'row_amount' => $rowValue,
+                'base_row_amount' => $baseRowValue,
                 /**
                  * Tax value can't be presented as include/exclude tax
                  */
-                'base_amount_incl_tax'      => $baseValue,
-                'amount_incl_tax'           => $value,
-                'row_amount_incl_tax'       => $rowValue,
-                'base_row_amount_incl_tax'  => $baseRowValue,
+                'base_amount_incl_tax' => $baseValue,
+                'amount_incl_tax' => $value,
+                'row_amount_incl_tax' => $rowValue,
+                'base_row_amount_incl_tax' => $baseRowValue
             );
 
             $applied[] = array(
@@ -159,7 +159,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
                     'title'         => $title,
                     'percent'       => null,
                     'position'      => 1,
-                    'priority'      => -1000+$k,
+                    'priority'      => -1000 + $key,
                 ))
             );
         }
@@ -169,19 +169,32 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
             ->setWeeeTaxAppliedRowAmount($totalRowValue)
             ->setBaseWeeeTaxAppliedRowAmnt($baseTotalRowValue);
 
-        $this->_processTaxSettings($item, $totalValue, $baseTotalValue, $totalRowValue, $baseTotalRowValue)
-            ->_processTotalAmount($address, $totalRowValue, $baseTotalRowValue)
-            ->_processDiscountSettings($item, $totalValue, $baseTotalValue);
+        $this->_processTaxSettings(
+            $item,
+            $totalValue,
+            $baseTotalValue,
+            $totalRowValue,
+            $baseTotalRowValue
+        )->_processTotalAmount(
+            $address,
+            $totalRowValue,
+            $baseTotalRowValue
+        )->_processDiscountSettings(
+            $item,
+            $totalValue,
+            $baseTotalValue
+        );
 
         $this->_weeeData->setApplied($item, array_merge($this->_weeeData->getApplied($item), $productTaxes));
         if ($applied) {
-            $this->_saveAppliedTaxes($address, $applied,
-               $item->getWeeeTaxAppliedAmount(),
-               $item->getBaseWeeeTaxAppliedAmount(),
-               null
+            $this->_saveAppliedTaxes(
+                $address,
+                $applied,
+                $item->getWeeeTaxAppliedAmount(),
+                $item->getBaseWeeeTaxAppliedAmount(),
+                null
             );
         }
-
     }
 
     /**
@@ -219,10 +232,7 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
                     ->setExtraRowTaxableAmount($rowValue)
                     ->setBaseExtraRowTaxableAmount($baseRowValue);
             }
-            $item->unsRowTotalInclTax()
-                ->unsBaseRowTotalInclTax()
-                ->unsPriceInclTax()
-                ->unsBasePriceInclTax();
+            $item->unsRowTotalInclTax()->unsBaseRowTotalInclTax()->unsPriceInclTax()->unsBasePriceInclTax();
             $this->_isTaxAffected = true;
         }
         return $this;
@@ -257,7 +267,6 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
      */
     protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
-
     }
 
     /**

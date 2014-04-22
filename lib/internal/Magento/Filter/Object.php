@@ -7,8 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\Filter;
 
 class Object extends \Zend_Filter
@@ -19,14 +17,14 @@ class Object extends \Zend_Filter
     protected $_columnFilters = array();
 
     /**
-     * @var \Magento\Data\Collection\EntityFactoryInterface
+     * @var \Magento\Framework\Data\Collection\EntityFactoryInterface
      */
     protected $_entityFactory;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
      */
-    public function __construct(\Magento\Data\Collection\EntityFactoryInterface $entityFactory)
+    public function __construct(\Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory)
     {
         $this->_entityFactory = $entityFactory;
     }
@@ -36,7 +34,7 @@ class Object extends \Zend_Filter
      * @param string $column
      * @return null|\Zend_Filter
      */
-    public function addFilter(\Zend_Filter_Interface $filter, $column='')
+    public function addFilter(\Zend_Filter_Interface $filter, $column = '')
     {
         if ('' === $column) {
             parent::addFilter($filter);

@@ -8,7 +8,7 @@
  */
 namespace Magento\AdminGws\Model\Config;
 
-class Reader extends \Magento\Config\Reader\Filesystem
+class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**
      * List of id attributes for merge
@@ -19,27 +19,27 @@ class Reader extends \Magento\Config\Reader\Filesystem
         '/config/group' => 'name',
         '/config/group/callback' => 'class',
         '/config/aclDeny/level' => 'name',
-        '/config/aclDeny/level/rule' => 'name',
+        '/config/aclDeny/level/rule' => 'name'
     );
 
     /**
-     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
      * @param \Magento\AdminGws\Model\Config\Converter $converter
      * @param \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator
-     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Framework\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
      * @param string $defaultScope
      */
     public function __construct(
-        \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Framework\Config\FileResolverInterface $fileResolver,
         \Magento\AdminGws\Model\Config\Converter $converter,
         \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator,
-        \Magento\Config\ValidationStateInterface $validationState,
+        \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'admingws.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento\Config\Dom',
+        $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {
         parent::__construct(

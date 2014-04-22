@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller;
 
 /**
  * Hosted Pro Checkout Controller
@@ -13,16 +14,31 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Paypal\Controller;
-
-class Hostedpro extends \Magento\App\Action\Action
+class Hostedpro extends \Magento\Framework\App\Action\Action
 {
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Checkout\Model\Session $session
+     */
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Checkout\Model\Session $session)
+    {
+        parent::__construct($context);
+        $this->_session = $session;
+    }
+
+    /**
      * When a customer return to website from gateway.
+     *
+     * @return void
      */
     public function returnAction()
     {
-        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');;
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         //TODO: some actions with order
         if ($session->getLastRealOrderId()) {
             $this->_redirect('checkout/onepage/success');
@@ -31,6 +47,8 @@ class Hostedpro extends \Magento\App\Action\Action
 
     /**
      * When a customer cancel payment from gateway.
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -46,14 +64,14 @@ class Hostedpro extends \Magento\App\Action\Action
      * Cancel order, return quote to customer
      *
      * @param string $errorMsg
-     * @return mixed
+     * @return false|string
      */
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
         $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
         $helper->cancelCurrentOrder($errorMsg);
-        if ($helper->restoreQuote()) {
+        if ($this->_session->restoreQuote()) {
             $gotoSection = 'payment';
         }
 

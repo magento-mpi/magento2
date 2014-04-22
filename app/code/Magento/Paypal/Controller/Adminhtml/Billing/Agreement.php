@@ -5,29 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Controller\Adminhtml\Billing;
 
 /**
  * Adminhtml billing agreement controller
  */
-namespace Magento\Paypal\Controller\Adminhtml\Billing;
-
 class Agreement extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -35,6 +32,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Billing agreements
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -48,6 +46,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Ajax action for billing agreements
      *
+     * @return void
      */
     public function gridAction()
     {
@@ -58,6 +57,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * View billing agreement action
      *
+     * @return void
      */
     public function viewAction()
     {
@@ -80,6 +80,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Related orders ajax action
      *
+     * @return void
      */
     public function ordersGridAction()
     {
@@ -91,6 +92,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Customer billing agreements ajax action
      *
+     * @return void
      */
     public function customerGridAction()
     {
@@ -102,6 +104,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Cancel billing agreement action
      *
+     * @return void
      */
     public function cancelAction()
     {
@@ -113,7 +116,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You canceled the billing agreement.'));
                 $this->_redirect('paypal/*/view', array('_current' => true));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not cancel the billing agreement.'));
@@ -126,6 +129,8 @@ class Agreement extends \Magento\Backend\App\Action
 
     /**
      * Delete billing agreement action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -137,7 +142,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the billing agreement.'));
                 $this->_redirect('paypal/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not delete the billing agreement.'));
@@ -151,7 +156,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Initialize billing agreement by ID specified in request
      *
-     * @return \Magento\Paypal\Model\Billing\Agreement | false
+     * @return \Magento\Paypal\Model\Billing\Agreement|false
      */
     protected function _initBillingAgreement()
     {
@@ -170,7 +175,7 @@ class Agreement extends \Magento\Backend\App\Action
     /**
      * Initialize customer by ID specified in request
      *
-     * @return \Magento\Paypal\Controller\Adminhtml\Billing\Agreement
+     * @return $this
      */
     protected function _initCustomer()
     {
@@ -190,8 +195,8 @@ class Agreement extends \Magento\Backend\App\Action
     {
         switch ($this->getRequest()->getActionName()) {
             case 'index':
-            case 'grid' :
-            case 'view' :
+            case 'grid':
+            case 'view':
                 return $this->_authorization->isAllowed('Magento_Paypal::billing_agreement_actions_view');
             case 'cancel':
             case 'delete':

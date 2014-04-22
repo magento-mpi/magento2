@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Model\Product\Index;
 
 /**
  * Reports Product Index Abstract Model
  */
-abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
+abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Cache key name for Count of product index
@@ -23,7 +22,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $_countCacheKey;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -53,29 +52,29 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Session\Generic $reportSession
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Session\Generic $reportSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -206,10 +205,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      */
     public function calculate()
     {
-        $collection = $this->getCollection()
-            ->setCustomerId($this->getCustomerId())
-            ->addIndexFilter()
-            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
+        $collection = $this->getCollection()->setCustomerId(
+            $this->getCustomerId()
+        )->addIndexFilter()->setVisibility(
+            $this->_productVisibility->getVisibleInSiteIds()
+        );
 
         $count = $collection->getSize();
         $this->_getSession()->setData($this->_countCacheKey, $count);

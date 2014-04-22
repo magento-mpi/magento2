@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
+
+use Magento\Customer\Model\Customer;
+use Zend_Db_Expr;
 
 /**
  * Shopping cart/wishlist items condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product\Combine;
-
-class ListCombine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -23,8 +24,9 @@ class ListCombine
      */
     protected $_combineProductCondition = true;
 
-    const WISHLIST  = 'wishlist';
-    const CART      = 'shopping_cart';
+    const WISHLIST = 'wishlist';
+
+    const CART = 'shopping_cart';
 
     /**
      * @var string
@@ -51,7 +53,7 @@ class ListCombine
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -74,22 +76,21 @@ class ListCombine
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Product\Combine')
-            ->setDateConditions(true)
-            ->getNewChildSelectOptions();
+        return $this->_conditionFactory->create(
+            'Product\Combine'
+        )->setDateConditions(
+            true
+        )->getNewChildSelectOptions();
     }
 
     /**
      * Initialize value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
+     * @return $this
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            self::CART      => __('Shopping Cart'),
-            self::WISHLIST  => __('Wish List'),
-        ));
+        $this->setValueOption(array(self::CART => __('Shopping Cart'), self::WISHLIST => __('Wish List')));
         return $this;
     }
 
@@ -99,7 +100,7 @@ class ListCombine
      * Modify value_option array if needed
      *
      * @param \Magento\Rule\Model\Rule $rule
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
+     * @return $this
      */
     public function setRule($rule)
     {
@@ -130,15 +131,12 @@ class ListCombine
     /**
      * Prepare operator select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
+     * @return $this
      */
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => __('found'),
-            '!='  => __('not found')
-        ));
+        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
         return $this;
     }
 
@@ -149,17 +147,20 @@ class ListCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Product is %1 in the %2 with %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Product is %1 in the %2 with %3 of these Conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
      * Build query for matching shopping cart/wishlist items
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param Customer|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -172,11 +173,7 @@ class ListCombine
                     array(new \Zend_Db_Expr(1))
                 );
                 $conditions = "item.wishlist_id = list.wishlist_id";
-                $select->joinInner(
-                    array('list' => $this->getResource()->getTable('wishlist')),
-                    $conditions,
-                    array()
-                );
+                $select->joinInner(array('list' => $this->getResource()->getTable('wishlist')), $conditions, array());
                 $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
                 break;
@@ -213,7 +210,7 @@ class ListCombine
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 
     /**
@@ -233,9 +230,6 @@ class ListCombine
                 break;
         }
 
-        return array(
-            'product' => 'item.product_id',
-            'date'    => $dateField
-        );
+        return array('product' => 'item.product_id', 'date' => $dateField);
     }
 }

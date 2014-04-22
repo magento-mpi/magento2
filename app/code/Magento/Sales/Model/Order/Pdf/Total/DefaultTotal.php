@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf\Total;
 
 /**
  * Sales Order Total PDF model
  *
  * @method \Magento\Sales\Model\Order getOrder()
  */
-namespace Magento\Sales\Model\Order\Pdf\Total;
-
 class DefaultTotal extends \Magento\Object
 {
     /**
@@ -61,6 +60,7 @@ class DefaultTotal extends \Magento\Object
      *      'font_size'=> $font_size
      *  )
      * )
+     *
      * @return array
      */
     public function getTotalsForDisplay()
@@ -78,11 +78,7 @@ class DefaultTotal extends \Magento\Object
         }
 
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
-        $total = array(
-            'amount'    => $amount,
-            'label'     => $label,
-            'font_size' => $fontSize
-        );
+        $total = array('amount' => $amount, 'label' => $label, 'font_size' => $fontSize);
         return array($total);
     }
 
@@ -95,20 +91,21 @@ class DefaultTotal extends \Magento\Object
      *      'font_size'=> $font_size
      *  )
      * )
+     *
      * @return array
      */
     public function getFullTaxInfo()
     {
-        $fontSize       = $this->getFontSize() ? $this->getFontSize() : 7;
+        $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
         $taxClassAmount = $this->_taxHelper->getCalculatedTaxes($this->getOrder());
-        $shippingTax    = $this->_taxHelper->getShippingTax($this->getOrder());
+        $shippingTax = $this->_taxHelper->getShippingTax($this->getOrder());
         $taxClassAmount = array_merge($shippingTax, $taxClassAmount);
 
         if (!empty($taxClassAmount)) {
             foreach ($taxClassAmount as &$tax) {
-                $percent          = $tax['percent'] ? ' (' . $tax['percent']. '%)' : '';
-                $tax['amount']    = $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($tax['tax_amount']);
-                $tax['label']     = __($tax['title']) . $percent . ':';
+                $percent = $tax['percent'] ? ' (' . $tax['percent'] . '%)' : '';
+                $tax['amount'] = $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($tax['tax_amount']);
+                $tax['label'] = __($tax['title']) . $percent . ':';
                 $tax['font_size'] = $fontSize;
             }
         } else {
@@ -127,11 +124,11 @@ class DefaultTotal extends \Magento\Object
                     $_amount = $info['amount'];
 
                     foreach ($info['rates'] as $rate) {
-                        $percent = $rate['percent'] ? ' (' . $rate['percent']. '%)' : '';
+                        $percent = $rate['percent'] ? ' (' . $rate['percent'] . '%)' : '';
 
                         $tax_info[] = array(
-                            'amount'    => $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($_amount),
-                            'label'     => __($rate['title']) . $percent . ':',
+                            'amount' => $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($_amount),
+                            'label' => __($rate['title']) . $percent . ':',
                             'font_size' => $fontSize
                         );
                     }
@@ -151,7 +148,7 @@ class DefaultTotal extends \Magento\Object
     public function canDisplay()
     {
         $amount = $this->getAmount();
-        return $this->getDisplayZero() || ($amount != 0);
+        return $this->getDisplayZero() || $amount != 0;
     }
 
     /**

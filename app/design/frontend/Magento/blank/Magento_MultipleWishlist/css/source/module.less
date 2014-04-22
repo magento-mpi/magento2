@@ -1,0 +1,80 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+
+.wishlist {
+    &.split.button {
+        .dropdown-split(
+            @_options-selector : ~".items",
+            @_dropdown-split-button-border-radius-fix: true
+        );
+        .product.info.main & {
+            .split,
+            .toggle {
+                .button-s();
+            }
+        }
+        vertical-align: top;
+    }
+    &.window.popup {
+        .popup();
+        &.active {
+            display: block;
+        }
+        .field {
+            .form-field(
+                @_type: block
+            )
+        }
+    }
+    &.overlay {
+        .window-overlay();
+    }
+}
+
+.cart.table.wrapper .cart.items .split.button {
+    &:extend(.wishlist.split.button all);
+    .items {
+        text-align: left;
+    }
+    .action.new {
+        .button-reset();
+    }
+}
+
+.dropdown.wishlist {
+    &:extend(.dropdown-simple all);
+}
+
+.form.wishlist.items {
+    .message.notice.msg-private {
+        margin-bottom: @indent-base;
+    }
+}
+
+.block.wishlist.management {
+    .action.add.wishlist {
+        float: right;
+        margin-top: -8px;
+    }
+    .title {
+        .counter.qty {
+            font-size: @font-size-base;
+            margin-left: 15px;
+        }
+    }
+    .content {
+        .subtitle {
+            float: left;
+        }
+        .toolbar.wishlist {
+            float: right;
+            margin-top: 5px;
+        }
+    }
+}

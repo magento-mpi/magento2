@@ -13,9 +13,9 @@
  * @return array
  */
 return array(
-    '/lib/web/jquery/jquery.js',
+    '/lib/web/jquery/jquery-1.8.2.js',
+    '/lib/web/jquery/jquery-ui-1.9.2.js',
     '/dev/tests/js/framework/requirejs-util.js',
-    '/lib/web/jquery/jquery-ui.js',
     '/lib/web/jquery/jquery.cookie.js',
     '/lib/web/headjs/head.load.min.js',
     '/lib/web/mage/mage.js',

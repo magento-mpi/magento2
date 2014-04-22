@@ -7,12 +7,12 @@
  */
 namespace Magento\GoogleShopping\Block;
 
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Google site verification <meta> tag
  */
-class SiteVerification extends \Magento\View\Element\AbstractBlock
+class SiteVerification extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\GoogleShopping\Model\Config
@@ -20,12 +20,12 @@ class SiteVerification extends \Magento\View\Element\AbstractBlock
     protected $_config;
 
     /**
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
@@ -40,8 +40,10 @@ class SiteVerification extends \Magento\View\Element\AbstractBlock
      */
     protected function _toHtml()
     {
-        return ($content = $this->_config->getConfigData('verify_meta_tag'))
-            ? '<meta name="google-site-verification" content="' . $this->escapeHtml($content) . '"/>'
-            : '';
+        return ($content = $this->_config->getConfigData(
+            'verify_meta_tag'
+        )) ? '<meta name="google-site-verification" content="' . $this->escapeHtml(
+            $content
+        ) . '"/>' : '';
     }
 }

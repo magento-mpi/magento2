@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Centinel\Model;
 
 /**
@@ -18,11 +17,15 @@ class Service extends \Magento\Object
     /**
      * Cmpi public keys
      */
-    const CMPI_PARES    = 'centinel_authstatus';
+    const CMPI_PARES = 'centinel_authstatus';
+
     const CMPI_ENROLLED = 'centinel_mpivendor';
-    const CMPI_CAVV     = 'centinel_cavv';
-    const CMPI_ECI      = 'centinel_eci';
-    const CMPI_XID      = 'centinel_xid';
+
+    const CMPI_CAVV = 'centinel_cavv';
+
+    const CMPI_ECI = 'centinel_eci';
+
+    const CMPI_XID = 'centinel_xid';
 
     /**
      * State cmpi results to public map
@@ -30,12 +33,12 @@ class Service extends \Magento\Object
      * @var array
      */
     protected $_cmpiMap = array(
-        'lookup_enrolled'      => self::CMPI_ENROLLED,
-        'lookup_eci_flag'      => self::CMPI_ECI,
+        'lookup_enrolled' => self::CMPI_ENROLLED,
+        'lookup_eci_flag' => self::CMPI_ECI,
         'authenticate_pa_res_status' => self::CMPI_PARES,
-        'authenticate_cavv'          => self::CMPI_CAVV,
-        'authenticate_eci_flag'      => self::CMPI_ECI,
-        'authenticate_xid'           => self::CMPI_XID,
+        'authenticate_cavv' => self::CMPI_CAVV,
+        'authenticate_eci_flag' => self::CMPI_ECI,
+        'authenticate_xid' => self::CMPI_XID
     );
 
     /**
@@ -88,7 +91,7 @@ class Service extends \Magento\Object
     protected $_urlPrefix;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -98,7 +101,7 @@ class Service extends \Magento\Object
      * @param \Magento\UrlInterface $url
      * @param \Magento\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param string $urlPrefix
      * @param array $data
      */
@@ -108,7 +111,7 @@ class Service extends \Magento\Object
         \Magento\UrlInterface $url,
         \Magento\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         $urlPrefix = 'centinel/index/',
         array $data = array()
     ) {
@@ -144,8 +147,15 @@ class Service extends \Magento\Object
      * @param string $currencyCode
      * @return string
      */
-    protected function _generateChecksum($paymentMethodCode, $cardType, $cardNumber, $cardExpMonth, $cardExpYear, $amount, $currencyCode)
-    {
+    protected function _generateChecksum(
+        $paymentMethodCode,
+        $cardType,
+        $cardNumber,
+        $cardExpMonth,
+        $cardExpYear,
+        $amount,
+        $currencyCode
+    ) {
         return md5(implode(func_get_args(), '_'));
     }
 
@@ -159,7 +169,7 @@ class Service extends \Magento\Object
     protected function _getUrl($suffix, $current = false)
     {
         $params = array(
-            '_secure'  => true,
+            '_secure' => true,
             '_current' => $current,
             'form_key' => $this->formKey->getFormKey(),
             'isIframe' => true
@@ -176,13 +186,19 @@ class Service extends \Magento\Object
     {
         $config = $this->_getConfig();
         $api = $this->_apiFactory->create();
-        $api
-           ->setProcessorId($config->getProcessorId())
-           ->setMerchantId($config->getMerchantId())
-           ->setTransactionPwd($config->getTransactionPwd())
-           ->setIsTestMode($config->getIsTestMode())
-           ->setDebugFlag($config->getDebugFlag())
-           ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
+        $api->setProcessorId(
+            $config->getProcessorId()
+        )->setMerchantId(
+            $config->getMerchantId()
+        )->setTransactionPwd(
+            $config->getTransactionPwd()
+        )->setIsTestMode(
+            $config->getIsTestMode()
+        )->setDebugFlag(
+            $config->getDebugFlag()
+        )->setApiEndpointUrl(
+            $this->getCustomApiEndpointUrl()
+        );
         return $api;
     }
 
@@ -228,10 +244,15 @@ class Service extends \Magento\Object
     {
         $this->_resetValidationState();
         $state = $this->_stateFactory->createState($cardType);
-        $state->setDataStorage($this->_centinelSession)
-            ->setCardType($cardType)
-            ->setChecksum($dataChecksum)
-            ->setIsModeStrict($this->getIsModeStrict());
+        $state->setDataStorage(
+            $this->_centinelSession
+        )->setCardType(
+            $cardType
+        )->setChecksum(
+            $dataChecksum
+        )->setIsModeStrict(
+            $this->getIsModeStrict()
+        );
         return $this->_getValidationState();
     }
 
@@ -290,7 +311,7 @@ class Service extends \Magento\Object
      *
      * @param \Magento\Object $data
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate($data)
     {
@@ -313,12 +334,12 @@ class Service extends \Magento\Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                throw new \Magento\Core\Exception(__('Payment information error. Please start over.'));
+                throw new \Magento\Framework\Model\Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please verify the card with the issuer bank before placing the order.')
             );
         } else {
@@ -329,7 +350,7 @@ class Service extends \Magento\Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            throw new \Magento\Core\Exception(__('This card has failed validation and cannot be used.'));
+            throw new \Magento\Framework\Model\Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 
@@ -424,4 +445,3 @@ class Service extends \Magento\Object
         return $to;
     }
 }
-

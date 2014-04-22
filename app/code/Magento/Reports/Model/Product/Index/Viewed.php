@@ -33,7 +33,7 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
      *
      * @var string
      */
-    protected $_countCacheKey   = 'product_index_viewed_count';
+    protected $_countCacheKey = 'product_index_viewed_count';
 
     /**
      * Initialize resource model
@@ -54,8 +54,8 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
     {
         $productIds = array();
 
-        if ($this->_coreRegistry->registry('current_product')) {
-            $productIds[] = $this->_coreRegistry->registry('current_product')->getId();
+        if ($this->_registry->registry('current_product')) {
+            $productIds[] = $this->_registry->registry('current_product')->getId();
         }
 
         return $productIds;

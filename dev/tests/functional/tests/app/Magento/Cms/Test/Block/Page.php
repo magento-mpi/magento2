@@ -12,7 +12,6 @@
 namespace Magento\Cms\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Page
@@ -27,7 +26,7 @@ class Page extends Block
      *
      * @var string
      */
-    protected $cmsPageContentClass = ".std";
+    protected $cmsPageContentClass = ".column.main";
 
     /**
      * Get page content text
@@ -36,6 +35,6 @@ class Page extends Block
      */
     public function getPageContent()
     {
-        return $this->_rootElement->find($this->cmsPageContentClass, Locator::SELECTOR_CSS)->getText();
+        return $this->_rootElement->find($this->cmsPageContentClass)->getText();
     }
 }

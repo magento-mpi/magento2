@@ -23,7 +23,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
     protected $_url;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -33,41 +33,38 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_requiredParams = array(
-        'areaFrontName',
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
-    );
+    protected $_requiredParams = array('areaFrontName', 'moduleFrontName', 'controllerName', 'actionName');
 
     /**
-     * @param \Magento\App\ActionFactory $actionFactory
-     * @param \Magento\App\DefaultPathInterface $defaultPath
-     * @param \Magento\App\ResponseFactory $responseFactory
-     * @param \Magento\App\Route\ConfigInterface $routeConfig
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\ActionFactory $actionFactory
+     * @param \Magento\Framework\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Framework\App\ResponseFactory $responseFactory
+     * @param \Magento\Framework\App\Route\ConfigInterface $routeConfig
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
-     * 
+     * @param \Magento\Code\NameBuilder $nameBuilder
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\ActionFactory $actionFactory,
-        \Magento\App\DefaultPathInterface $defaultPath,
-        \Magento\App\ResponseFactory $responseFactory,
-        \Magento\App\Route\ConfigInterface $routeConfig,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\ActionFactory $actionFactory,
+        \Magento\Framework\App\DefaultPathInterface $defaultPath,
+        \Magento\Framework\App\ResponseFactory $responseFactory,
+        \Magento\Framework\App\Route\ConfigInterface $routeConfig,
+        \Magento\Framework\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\Code\NameBuilder $nameBuilder,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Backend\App\ConfigInterface $backendConfig
     ) {
         parent::__construct(
@@ -78,9 +75,10 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
             $appState,
             $url,
             $storeManager,
-            $storeConfig,
+            $scopeConfig,
             $urlSecurityInfo,
-            $routerId
+            $routerId,
+            $nameBuilder
         );
         $this->_coreConfig = $coreConfig;
         $this->_backendConfig = $backendConfig;
@@ -116,15 +114,23 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      */
     protected function _shouldBeSecure($path)
     {
-        return substr((string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || $this->_backendConfig->isSetFlag('web/secure/use_in_adminhtml')
-            && substr((string)$this->_coreConfig->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
+        return substr(
+            (string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'),
+            0,
+            5
+        ) === 'https' || $this->_backendConfig->isSetFlag(
+            'web/secure/use_in_adminhtml'
+        ) && substr(
+            (string)$this->_coreConfig->getValue('web/secure/base_url', 'default'),
+            0,
+            5
+        ) === 'https';
     }
 
     /**
      * Retrieve current secure url
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return string
      */
     protected function _getCurrentSecureUrl($request)
@@ -157,6 +163,6 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         $parts[] = \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
         $parts[] = $controller;
 
-        return \Magento\Core\Helper\String::buildClassName($parts);
+        return $this->nameBuilder->buildClassName($parts);
     }
 }

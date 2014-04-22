@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Adminhtml;
 
 /**
@@ -80,7 +79,11 @@ class Add extends \Magento\Backend\Block\Widget\Form\Container
                         if (!params.form_key) {
                             params.form_key = FORM_KEY;
                         }
-                        new Ajax.Updater("rating_detail", "'.$this->getUrl('catalog/*/ratingItems').'", {parameters:params, evalScripts: true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
+                        new Ajax.Updater("rating_detail", "' .
+            $this->getUrl(
+                'review/product/ratingItems'
+            ) .
+            '", {parameters:params, evalScripts: true,  onComplete:function(){ $(\'save_button\').disabled = false; } });
                     },
 
                     reqSuccess :function(o) {
@@ -90,8 +93,12 @@ class Add extends \Magento\Backend\Block\Widget\Form\Container
                         } else if( response.id ){
                             $("product_id").value = response.id;
 
-                            $("product_name").innerHTML = \'<a href="' . $this->getUrl('catalog/product/edit') . 'id/\' + response.id + \'" target="_blank">\' + response.name + \'</a>\';
-                        } else if( response.message ) {
+                            $("product_name").innerHTML = \'<a href="' .
+            $this->getUrl(
+                'catalog/product/edit'
+            ) .
+            'id/\' + response.id + \'" target="_blank">\' + response.name + \'</a>\';
+                        } else if ( response.message ) {
                             alert(response.message);
                         }
                     }

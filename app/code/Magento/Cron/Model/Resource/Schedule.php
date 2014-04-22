@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cron\Model\Resource;
 
 /**
  * Schedule resource
@@ -16,13 +16,12 @@
  * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cron\Model\Resource;
-
-class Schedule extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Schedule extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource
      *
+     * @return void
      */
     public function _construct()
     {
@@ -34,10 +33,10 @@ class Schedule extends \Magento\Core\Model\Resource\Db\AbstractDb
      * and return true. Otherwise, return false and do not change the job.
      * This method is used to implement locking for cron jobs.
      *
-     * @param unknown_type $scheduleId
-     * @param String $newStatus
-     * @param String $currentStatus
-     * @return unknown
+     * @param string $scheduleId
+     * @param string $newStatus
+     * @param string $currentStatus
+     * @return bool
      */
     public function trySetJobStatusAtomic($scheduleId, $newStatus, $currentStatus)
     {

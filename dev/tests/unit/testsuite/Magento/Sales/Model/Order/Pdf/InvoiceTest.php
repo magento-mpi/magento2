@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Pdf;
 
 class InvoiceTest extends \PHPUnit_Framework_TestCase
@@ -22,80 +21,62 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
-        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
-        $translateMock = $this->getMock('Magento\TranslateInterface', array(), array(), '', false, false);
-        $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false, false);
-        $directoryMock->expects($this->any())
-            ->method('getAbsolutePath')
-            ->will(
-                $this->returnCallback(
-                    function ($argument) {
-                        return BP . '/' . $argument;
-                    }
-                )
-            );
-        $filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false, false);
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryRead')
-            ->will($this->returnValue($directoryMock));
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
+        $this->_pdfConfigMock = $this->getMockBuilder('Magento\Sales\Model\Order\Pdf\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $directoryMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $directoryMock->expects($this->any())->method('getAbsolutePath')->will(
+            $this->returnCallback(
+                function ($argument) {
+                    return BP . '/' . $argument;
+                }
+            )
+        );
+        $filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false, false);
+        $filesystemMock->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($directoryMock));
+        $filesystemMock->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($directoryMock));
 
-        $this->_pdfConfigMock =
-            $this->getMock('Magento\Sales\Model\Order\Pdf\Config', array(), array(), '', false, false);
-        $totalFactoryMock = $this->getMock('Magento\Sales\Model\Order\Pdf\Total\Factory', array(), array(), '', false,
-            false);
-        $pdfItemsFactoryMock = $this->getMock('Magento\Sales\Model\Order\Pdf\ItemsFactory', array(), array(), '', false,
-            false);
-        $localeMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false,
-            false);
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false,
-            false);
-
-        $this->_model = new \Magento\Sales\Model\Order\Pdf\Invoice(
-            $paymentDataMock,
-            $stringMock,
-            $storeConfigMock,
-            $translateMock,
-            $filesystemMock,
-            $this->_pdfConfigMock,
-            $totalFactoryMock,
-            $pdfItemsFactoryMock,
-            $localeMock,
-            $storeManagerMock,
-            array()
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $helper->getObject(
+            'Magento\Sales\Model\Order\Pdf\Invoice',
+            [
+                'filesystem' => $filesystemMock,
+                'pdfConfig' => $this->_pdfConfigMock,
+            ]
         );
     }
 
     public function testGetPdfInitRenderer()
     {
-        $this->_pdfConfigMock
-            ->expects($this->once())
-            ->method('getRenderersPerProduct')
-            ->with('invoice')
-            ->will($this->returnValue(
-                    array(
-                        'product_type_one' => 'Renderer_Type_One_Product_One',
-                        'product_type_two' => 'Renderer_Type_One_Product_Two',
-                        )
-                ));
+        $this->_pdfConfigMock->expects(
+            $this->once()
+        )->method(
+            'getRenderersPerProduct'
+        )->with(
+            'invoice'
+        )->will(
+            $this->returnValue(
+                array(
+                    'product_type_one' => 'Renderer_Type_One_Product_One',
+                    'product_type_two' => 'Renderer_Type_One_Product_Two'
+                )
+            )
+        );
 
         $this->_model->getPdf(array());
         $renderers = new \ReflectionProperty($this->_model, '_renderers');
         $renderers->setAccessible(true);
         $this->assertSame(
             array(
-                'product_type_one' => array(
-                    'model' => 'Renderer_Type_One_Product_One',
-                    'renderer' => null,
-                ),
-                'product_type_two' => array(
-                    'model' => 'Renderer_Type_One_Product_Two',
-                    'renderer' => null,
-                ),
+                'product_type_one' => array('model' => 'Renderer_Type_One_Product_One', 'renderer' => null),
+                'product_type_two' => array('model' => 'Renderer_Type_One_Product_Two', 'renderer' => null)
             ),
             $renderers->getValue($this->_model)
         );

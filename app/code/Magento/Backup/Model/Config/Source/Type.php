@@ -14,7 +14,7 @@ namespace Magento\Backup\Model\Config\Source;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * Backup data
@@ -26,9 +26,8 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * @param \Magento\Backup\Helper\Data $backupData
      */
-    public function __construct(
-        \Magento\Backup\Helper\Data $backupData
-    ) {
+    public function __construct(\Magento\Backup\Helper\Data $backupData)
+    {
         $this->_backupData = $backupData;
     }
 
@@ -38,11 +37,8 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         $backupTypes = array();
-        foreach($this->_backupData->getBackupTypes() as $type => $label) {
-            $backupTypes[] = array(
-                'label' => $label,
-                'value' => $type,
-            );
+        foreach ($this->_backupData->getBackupTypes() as $type => $label) {
+            $backupTypes[] = array('label' => $label, 'value' => $type);
         }
         return $backupTypes;
     }

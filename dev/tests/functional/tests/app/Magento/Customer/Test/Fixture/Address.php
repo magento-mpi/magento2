@@ -13,18 +13,18 @@ namespace Magento\Customer\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Address
  * Customer addresses
  *
- * @package Magento\Customer\Address\Fixture
+ * @package Magento\Customer\Test\Fixture
  */
 class Address extends DataFixture
 {
     /**
-     * @var Fixture
+     * @var FixtureInterface
      */
     protected $_customer;
 
@@ -43,9 +43,9 @@ class Address extends DataFixture
             . (isset($data['fields']['suffix']['value']) ? $data['fields']['suffix']['value'] . ' ' : '')
             . $data['fields']['street_1']['value'] . ', '
             . $data['fields']['city']['value'] . ', '
-            . $data['fields']['region']['value'] . ' '
+            . $data['fields']['region_id']['value'] . ' '
             . $data['fields']['postcode']['value'] . ', '
-            . $data['fields']['country']['value'];
+            . $data['fields']['country_id']['value'];
 
         return $address;
     }
@@ -135,9 +135,9 @@ class Address extends DataFixture
     /**
      * Set customer
      *
-     * @param Fixture $customer
+     * @param FixtureInterface $customer
      */
-    public function setCustomer(Fixture $customer)
+    public function setCustomer(FixtureInterface $customer)
     {
         $this->_customer = $customer;
     }
@@ -153,7 +153,7 @@ class Address extends DataFixture
     /**
      * Get customer
      *
-     * @return Fixture
+     * @return FixtureInterface
      */
     public function getCustomer()
     {

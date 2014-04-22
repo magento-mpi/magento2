@@ -12,33 +12,33 @@ class CategoryResourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\AdminGws\Model\Plugin\CategoryResource
      */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_roleMock;
+    protected $roleMock;
 
     protected function setUp()
     {
-        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->_model = new \Magento\AdminGws\Model\Plugin\CategoryResource($this->_roleMock);
+        $this->roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->model = new \Magento\AdminGws\Model\Plugin\CategoryResource($this->roleMock);
     }
 
     public function testBeforeChangeParentDoesNotCheckCategoryAccessWhenRoleIsNotRestricted()
     {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(true));
-        $this->_roleMock->expects($this->never())
-            ->method('hasExclusiveCategoryAccess');
-        $this->_model->beforeChangeParent(array());
+        $subjectMock = $this->getMock('Magento\Catalog\Model\Resource\Category', array(), array(), '', false);
+        $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $parentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(true));
+        $this->roleMock->expects($this->never())->method('hasExclusiveCategoryAccess');
+        $this->model->beforeChangeParent($subjectMock, $currentCategory, $parentCategory);
     }
 
     /**
      * @param boolean $hasParentPathAccess
      * @param boolean $hasCurrentPathAccess
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeChangeParentThrowsExceptionWhenAccessIsRestrictedDataProvider
      */
@@ -46,62 +46,84 @@ class CategoryResourceTest extends \PHPUnit_Framework_TestCase
         $hasParentPathAccess,
         $hasCurrentPathAccess
     ) {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
 
+        $subjectMock = $this->getMock('Magento\Catalog\Model\Resource\Category', array(), array(), '', false);
         $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $currentCategory->expects($this->any())
-            ->method('getData')
-            ->with('path', null)
-            ->will($this->returnValue('current/path'));
+        $currentCategory->expects(
+            $this->any()
+        )->method(
+            'getData'
+        )->with(
+            'path',
+            null
+        )->will(
+            $this->returnValue('current/path')
+        );
         $parentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $parentCategory->expects($this->any())
-            ->method('getData')
-            ->with('path', null)
-            ->will($this->returnValue('parent/path'));
+        $parentCategory->expects(
+            $this->any()
+        )->method(
+            'getData'
+        )->with(
+            'path',
+            null
+        )->will(
+            $this->returnValue('parent/path')
+        );
 
-        $this->_roleMock->expects($this->any())
-            ->method('hasExclusiveCategoryAccess')
-            ->will($this->returnValueMap(array(
-                array('parent/path', $hasParentPathAccess),
-                array('current/path', $hasCurrentPathAccess)
-            )));
-        $this->_model->beforeChangeParent(array($currentCategory, $parentCategory, null));
+        $this->roleMock->expects(
+            $this->any()
+        )->method(
+            'hasExclusiveCategoryAccess'
+        )->will(
+            $this->returnValueMap(
+                array(array('parent/path', $hasParentPathAccess), array('current/path', $hasCurrentPathAccess))
+            )
+        );
+        $this->model->beforeChangeParent($subjectMock, $currentCategory, $parentCategory, null);
     }
 
     public function beforeChangeParentThrowsExceptionWhenAccessIsRestrictedDataProvider()
     {
-        return array(
-            array(true, false),
-            array(false, true),
-            array(false, false),
-        );
+        return array(array(true, false), array(false, true), array(false, false));
     }
 
     public function testBeforeChangeParentDoesNotThrowExceptionWhenUserHasAccessToGivenCategories()
     {
-        $this->_roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
 
+        $subjectMock = $this->getMock('Magento\Catalog\Model\Resource\Category', array(), array(), '', false);
         $parentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $parentCategory->expects($this->any())
-            ->method('getData')
-            ->with('path', null)
-            ->will($this->returnValue('parent/path'));
+        $parentCategory->expects(
+            $this->any()
+        )->method(
+            'getData'
+        )->with(
+            'path',
+            null
+        )->will(
+            $this->returnValue('parent/path')
+        );
         $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $currentCategory->expects($this->any())
-            ->method('getData')
-            ->with('path', null)
-            ->will($this->returnValue('current/path'));
+        $currentCategory->expects(
+            $this->any()
+        )->method(
+            'getData'
+        )->with(
+            'path',
+            null
+        )->will(
+            $this->returnValue('current/path')
+        );
 
-        $this->_roleMock->expects($this->exactly(2))
-            ->method('hasExclusiveCategoryAccess')
-            ->will($this->returnValueMap(array(
-                array('parent/path', true),
-                array('current/path', true)
-            )));
-        $this->_model->beforeChangeParent(array($currentCategory, $parentCategory, null));
+        $this->roleMock->expects(
+            $this->exactly(2)
+        )->method(
+            'hasExclusiveCategoryAccess'
+        )->will(
+            $this->returnValueMap(array(array('parent/path', true), array('current/path', true)))
+        );
+        $this->model->beforeChangeParent($subjectMock, $currentCategory, $parentCategory, null);
     }
 }

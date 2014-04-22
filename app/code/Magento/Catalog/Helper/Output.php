@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\Product as ModelProduct;
 use Magento\Filter\Template;
 
-class Output extends \Magento\App\Helper\AbstractHelper
+class Output extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Array of existing handlers
@@ -50,13 +49,13 @@ class Output extends \Magento\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Data $catalogData
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         Data $catalogData,
         \Magento\Escaper $escaper
@@ -125,7 +124,7 @@ class Output extends \Magento\App\Helper\AbstractHelper
     {
         foreach ($this->getHandlers($method) as $handler) {
             if (method_exists($handler, $method)) {
-                $result = $handler->$method($this, $result, $params);
+                $result = $handler->{$method}($this, $result, $params);
             }
         }
         return $result;
@@ -142,14 +141,18 @@ class Output extends \Magento\App\Helper\AbstractHelper
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
         $attribute = $this->_eavConfig->getAttribute(ModelProduct::ENTITY, $attributeName);
-        if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
-            && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
-                if ($attribute->getFrontendInput() != 'price') {
-                    $attributeHtml = $this->_escaper->escapeHtml($attributeHtml);
-                }
-                if ($attribute->getFrontendInput() == 'textarea') {
-                    $attributeHtml = nl2br($attributeHtml);
-                }
+        if ($attribute &&
+            $attribute->getId() &&
+            $attribute->getFrontendInput() != 'media_image' &&
+            (!$attribute->getIsHtmlAllowedOnFront() &&
+            !$attribute->getIsWysiwygEnabled())
+        ) {
+            if ($attribute->getFrontendInput() != 'price') {
+                $attributeHtml = $this->_escaper->escapeHtml($attributeHtml);
+            }
+            if ($attribute->getFrontendInput() == 'textarea') {
+                $attributeHtml = nl2br($attributeHtml);
+            }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
             if ($this->_catalogData->isUrlDirectivesParsingAllowed()) {
@@ -157,10 +160,11 @@ class Output extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        $attributeHtml = $this->process('productAttribute', $attributeHtml, array(
-            'product'   => $product,
-            'attribute' => $attributeName
-        ));
+        $attributeHtml = $this->process(
+            'productAttribute',
+            $attributeHtml,
+            array('product' => $product, 'attribute' => $attributeName)
+        );
 
         return $attributeHtml;
     }
@@ -177,8 +181,11 @@ class Output extends \Magento\App\Helper\AbstractHelper
     {
         $attribute = $this->_eavConfig->getAttribute(ModelCategory::ENTITY, $attributeName);
 
-        if ($attribute && ($attribute->getFrontendInput() != 'image')
-            && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
+        if ($attribute &&
+            $attribute->getFrontendInput() != 'image' &&
+            (!$attribute->getIsHtmlAllowedOnFront() &&
+            !$attribute->getIsWysiwygEnabled())
+        ) {
             $attributeHtml = $this->_escaper->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
@@ -186,10 +193,11 @@ class Output extends \Magento\App\Helper\AbstractHelper
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
-        $attributeHtml = $this->process('categoryAttribute', $attributeHtml, array(
-            'category'  => $category,
-            'attribute' => $attributeName
-        ));
+        $attributeHtml = $this->process(
+            'categoryAttribute',
+            $attributeHtml,
+            array('category' => $category, 'attribute' => $attributeName)
+        );
         return $attributeHtml;
     }
 }

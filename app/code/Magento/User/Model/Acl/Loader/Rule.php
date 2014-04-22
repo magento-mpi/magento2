@@ -10,19 +10,19 @@ namespace Magento\User\Model\Acl\Loader;
 class Rule implements \Magento\Acl\LoaderInterface
 {
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Model\Acl\RootResource $rootResource
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Acl\RootResource $rootResource
+     * @param \Magento\Framework\App\Resource $resource
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter):
      */
     public function __construct(
-        \Magento\Core\Model\Acl\RootResource $rootResource,
-        \Magento\App\Resource $resource,
+        \Magento\Acl\RootResource $rootResource,
+        \Magento\Framework\App\Resource $resource,
         array $data = array()
     ) {
         $this->_resource = $resource;
@@ -41,8 +41,7 @@ class Rule implements \Magento\Acl\LoaderInterface
 
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()
-            ->from(array('r' => $ruleTable));
+        $select = $adapter->select()->from(array('r' => $ruleTable));
 
         $rulesArr = $adapter->fetchAll($select);
 

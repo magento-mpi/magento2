@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
-class ProductLinks 
+class ProductLinks
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -21,10 +20,10 @@ class ProductLinks
     protected $jsHelper;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Helper\Js $jsHelper
      */
-    public function __construct(\Magento\App\RequestInterface $request, \Magento\Backend\Helper\Js $jsHelper)
+    public function __construct(\Magento\Framework\App\RequestInterface $request, \Magento\Backend\Helper\Js $jsHelper)
     {
         $this->request = $request;
         $this->jsHelper = $jsHelper;
@@ -54,4 +53,4 @@ class ProductLinks
 
         return $product;
     }
-} 
+}

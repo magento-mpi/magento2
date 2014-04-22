@@ -9,14 +9,14 @@
  */
 namespace Magento\Cron\App\Cron\Plugin;
 
-use \Magento\AppInterface;
+use \Magento\Framework\App\State;
 
 class ApplicationInitializer
 {
     /**
-     * @var \Magento\AppInterface
+     * @var State
      */
-    protected $_application;
+    protected $_appState;
 
     /**
      * @var \Magento\Session\SidResolverInterface
@@ -24,28 +24,29 @@ class ApplicationInitializer
     protected $_sidResolver;
 
     /**
-     * @param AppInterface $application
+     * @param State $appState
      * @param \Magento\Session\SidResolverInterface $sidResolver
      */
-    public function __construct(
-        AppInterface $application,
-        \Magento\Session\SidResolverInterface $sidResolver
-    ) {
-        $this->_application = $application;
+    public function __construct(State $appState, \Magento\Session\SidResolverInterface $sidResolver)
+    {
+        $this->_appState = $appState;
         $this->_sidResolver = $sidResolver;
     }
 
     /**
      * Perform required checks before cron run
      *
-     * @param array $methodArguments
-     * @return array
+     * @param \Magento\Framework\App\Cron $subject
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws \Magento\Exception
      */
-    public function beforeExecute(array $methodArguments)
+    public function beforeLaunch(\Magento\Framework\App\Cron $subject)
     {
         $this->_sidResolver->setUseSessionInUrl(false);
-        $this->_application->requireInstalledInstance();
-        return $methodArguments;
+        if (false == $this->_appState->isInstalled()) {
+            throw new \Magento\Exception('Application is not installed yet, please complete the installation first.');
+        }
     }
 }
-

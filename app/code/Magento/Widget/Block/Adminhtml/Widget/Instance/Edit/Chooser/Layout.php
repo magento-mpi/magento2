@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
@@ -16,21 +15,21 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class Layout extends \Magento\View\Element\Html\Select
+class Layout extends \Magento\Framework\View\Element\Html\Select
 {
     /**
-     * @var \Magento\View\Layout\PageType\Config
+     * @var \Magento\Framework\View\Layout\PageType\Config
      */
     protected $_config;
 
     /**
-     * @param \Magento\View\Element\Context $context
-     * @param \Magento\View\Layout\PageType\Config $config
+     * @param \Magento\Framework\View\Element\Context $context
+     * @param \Magento\Framework\View\Layout\PageType\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
-        \Magento\View\Layout\PageType\Config $config,
+        \Magento\Framework\View\Element\Context $context,
+        \Magento\Framework\View\Layout\PageType\Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -40,7 +39,7 @@ class Layout extends \Magento\View\Element\Html\Select
     /**
      * Add necessary options
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -63,7 +62,7 @@ class Layout extends \Magento\View\Element\Html\Select
         $label = array();
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
-            $label[$key]  = $row['label'];
+            $label[$key] = $row['label'];
         }
         array_multisort($label, SORT_STRING, $pageTypes);
 

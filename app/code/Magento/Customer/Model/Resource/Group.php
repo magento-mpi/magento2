@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource;
 
 /**
  * Customer group resource model
@@ -16,9 +16,7 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource;
-
-class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Customer data
@@ -33,12 +31,12 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_customersFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
     ) {
@@ -49,6 +47,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,15 +58,11 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Customer\Model\Resource\Group
+     * @return $this
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => 'customer_group_code',
-                'title' => __('Customer Group')
-            ));
+        $this->_uniqueFields = array(array('field' => 'customer_group_code', 'title' => __('Customer Group')));
 
         return $this;
     }
@@ -74,14 +70,14 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if group uses as default
      *
-     * @param  \Magento\Core\Model\AbstractModel $group
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param  \Magento\Framework\Model\AbstractModel $group
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $group)
+    protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $group)
     {
         if ($group->usesAsDefault()) {
-            throw new \Magento\Core\Exception(__('The group "%1" cannot be deleted', $group->getCode()));
+            throw new \Magento\Framework\Model\Exception(__('The group "%1" cannot be deleted', $group->getCode()));
         }
         return parent::_beforeDelete($group);
     }
@@ -89,14 +85,15 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Method set default group id to the customers collection
      *
-     * @param \Magento\Core\Model\AbstractModel $group
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $group
+     * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
+    protected function _afterDelete(\Magento\Framework\Model\AbstractModel $group)
     {
-        $customerCollection = $this->_createCustomersCollection()
-            ->addAttributeToFilter('group_id', $group->getId())
-            ->load();
+        $customerCollection = $this->_createCustomersCollection()->addAttributeToFilter(
+            'group_id',
+            $group->getId()
+        )->load();
         foreach ($customerCollection as $customer) {
             $customer->load();
             $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());

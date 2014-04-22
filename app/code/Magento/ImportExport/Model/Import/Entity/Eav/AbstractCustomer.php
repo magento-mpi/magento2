@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
 /**
@@ -22,18 +21,26 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      * to avoid interference with same attribute name.
      */
     const COLUMN_WEBSITE = '_website';
-    const COLUMN_EMAIL   = '_email';
+
+    const COLUMN_EMAIL = '_email';
+
     /**#@-*/
 
     /**#@+
      * Error codes
      */
-    const ERROR_WEBSITE_IS_EMPTY   = 'websiteIsEmpty';
-    const ERROR_EMAIL_IS_EMPTY     = 'emailIsEmpty';
-    const ERROR_INVALID_WEBSITE    = 'invalidWebsite';
-    const ERROR_INVALID_EMAIL      = 'invalidEmail';
-    const ERROR_VALUE_IS_REQUIRED  = 'valueIsRequired';
+    const ERROR_WEBSITE_IS_EMPTY = 'websiteIsEmpty';
+
+    const ERROR_EMAIL_IS_EMPTY = 'emailIsEmpty';
+
+    const ERROR_INVALID_WEBSITE = 'invalidWebsite';
+
+    const ERROR_INVALID_EMAIL = 'invalidEmail';
+
+    const ERROR_VALUE_IS_REQUIRED = 'valueIsRequired';
+
     const ERROR_CUSTOMER_NOT_FOUND = 'customerNotFound';
+
     /**#@-*/
 
     /**
@@ -60,11 +67,11 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
@@ -73,11 +80,11 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
@@ -85,31 +92,29 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
     ) {
         $this->_storageFactory = $storageFactory;
         parent::__construct(
-            $coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $storeManager,
-            $collectionFactory, $eavConfig, $data
+            $coreData,
+            $string,
+            $scopeConfig,
+            $importFactory,
+            $resourceHelper,
+            $resource,
+            $storeManager,
+            $collectionFactory,
+            $eavConfig,
+            $data
         );
 
-        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
-            __('Website is not specified')
-        );
-        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY,
-            __('E-mail is not specified')
-        );
-        $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            __("Invalid value in website column")
-        );
-        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL,
-            __('E-mail is invalid')
-        );
-        $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
-            __("Required attribute '%s' has an empty value")
-        );
-        $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
+        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, __('Website is not specified'));
+        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, __('E-mail is not specified'));
+        $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE, __("Invalid value in website column"));
+        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, __('E-mail is invalid'));
+        $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED, __("Required attribute '%s' has an empty value"));
+        $this->addMessageTemplate(
+            self::ERROR_CUSTOMER_NOT_FOUND,
             __("Customer with such email and website code doesn't exist")
         );
 
-        $this->_initCustomers($data)
-            ->_initWebsites(true);
+        $this->_initCustomers($data)->_initWebsites(true);
     }
 
     /**
@@ -123,9 +128,11 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         if (!isset($data['page_size'])) {
             $data['page_size'] = $this->_pageSize;
         }
-        $this->_customerStorage = isset($data['customer_storage'])
-            ? $data['customer_storage']
-            : $this->_storageFactory->create(array('data' => $data));
+        $this->_customerStorage = isset(
+            $data['customer_storage']
+        ) ? $data['customer_storage'] : $this->_storageFactory->create(
+            array('data' => $data)
+        );
 
         return $this;
     }
@@ -157,7 +164,8 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      */
     public function validateRow(array $rowData, $rowNumber)
     {
-        if (isset($this->_validatedRows[$rowNumber])) { // check that row is already validated
+        if (isset($this->_validatedRows[$rowNumber])) {
+            // check that row is already validated
             return !isset($this->_invalidRows[$rowNumber]);
         }
         $this->_validatedRows[$rowNumber] = true;
@@ -204,7 +212,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         } elseif (empty($rowData[static::COLUMN_EMAIL])) {
             $this->addRowError(static::ERROR_EMAIL_IS_EMPTY, $rowNumber, static::COLUMN_EMAIL);
         } else {
-            $email   = strtolower($rowData[static::COLUMN_EMAIL]);
+            $email = strtolower($rowData[static::COLUMN_EMAIL]);
             $website = $rowData[static::COLUMN_WEBSITE];
 
             if (!\Zend_Validate::is($email, 'EmailAddress')) {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Order\Updatedat;
 
 /**
  * Report order updated_at collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Order\Updatedat;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Report\Order\Collection
+class Collection extends \Magento\Sales\Model\Resource\Report\Order\Collection
 {
     /**
      * Aggregated Data Table

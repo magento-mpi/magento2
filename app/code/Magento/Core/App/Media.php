@@ -9,16 +9,16 @@
  */
 namespace Magento\Core\App;
 
-use Magento\App\State,
-    Magento\LauncherInterface,
-    Magento\ObjectManager,
-    Magento\Core\Model\File\Storage\Request,
-    Magento\Core\Model\File\Storage\Response;
+use Magento\Framework\App\State;
+use Magento\Framework\AppInterface;
+use Magento\ObjectManager;
+use Magento\Core\Model\File\Storage\Request;
+use Magento\Core\Model\File\Storage\Response;
 
-class Media implements LauncherInterface
+class Media implements AppInterface
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_applicationState;
 
@@ -73,12 +73,12 @@ class Media implements LauncherInterface
     protected $_response;
 
     /**
-     * @var \Magento\App\Filesystem $filesystem
+     * @var \Magento\Framework\App\Filesystem $filesystem
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read $directory
+     * @var \Magento\Framework\Filesystem\Directory\Read $directory
      */
     protected $directory;
 
@@ -92,7 +92,7 @@ class Media implements LauncherInterface
      * @param string $mediaDirectory
      * @param string $configCacheFile
      * @param string $relativeFileName
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         State $applicationState,
@@ -104,7 +104,7 @@ class Media implements LauncherInterface
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_applicationState = $applicationState;
         $this->_objectManager = $objectManager;
@@ -116,13 +116,13 @@ class Media implements LauncherInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
     }
 
     /**
      * Run application
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {
@@ -133,13 +133,16 @@ class Media implements LauncherInterface
             }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
-                    'Magento\Core\Model\File\Storage\Config', array('cacheFile' => $this->_configCacheFile)
+                    'Magento\Core\Model\File\Storage\Config',
+                    array('cacheFile' => $this->_configCacheFile)
                 );
                 $config->save();
                 $this->_mediaDirectory = str_replace($this->_workingDirectory, '', $config->getMediaDirectory());
                 $allowedResources = $config->getAllowedResources();
                 $this->_relativeFileName = str_replace(
-                    $this->_mediaDirectory . '/', '', $this->_request->getPathInfo()
+                    $this->_mediaDirectory . '/',
+                    '',
+                    $this->_request->getPathInfo()
                 );
                 $isAllowed = $this->_isAllowed;
                 if (!$isAllowed($this->_relativeFileName, $allowedResources)) {
@@ -162,7 +165,7 @@ class Media implements LauncherInterface
                 $this->_response->setHttpResponseCode(404);
             }
             return $this->_response;
-        } catch (\Magento\Core\Model\Store\Exception $e) {
+        } catch (\Exception $e) {
             $this->_response->setHttpResponseCode(404);
             return $this->_response;
         }

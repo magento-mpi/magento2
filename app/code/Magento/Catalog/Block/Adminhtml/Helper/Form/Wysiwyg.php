@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Helper\Form;
 
-class Wysiwyg extends \Magento\Data\Form\Element\Textarea
+class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
 {
     /**
      * Adminhtml data
@@ -39,26 +39,26 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
     protected $_wysiwygConfig;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Helper\Data $backendData,
         array $data = array()
@@ -79,16 +79,22 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
     {
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
-            $disabled = ($this->getDisabled() || $this->getReadonly());
-            $html .= $this->_layout->createBlock('Magento\Backend\Block\Widget\Button', '', array('data' => array(
-                    'label'   => __('WYSIWYG Editor'),
-                    'type'    => 'button',
-                    'disabled' => $disabled,
-                    'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
-                    'onclick' => 'catalogWysiwygEditor.open(\''
-                        . $this->_backendData->getUrl('catalog/product/wysiwyg')
-                        . '\', \'' . $this->getHtmlId().'\')'
-                )))->toHtml();
+            $disabled = $this->getDisabled() || $this->getReadonly();
+            $html .= $this->_layout->createBlock(
+                'Magento\Backend\Block\Widget\Button',
+                '',
+                array(
+                    'data' => array(
+                        'label' => __('WYSIWYG Editor'),
+                        'type' => 'button',
+                        'disabled' => $disabled,
+                        'class' => $disabled ? 'disabled action-wysiwyg' : 'action-wysiwyg',
+                        'onclick' => 'catalogWysiwygEditor.open(\'' . $this->_backendData->getUrl(
+                            'catalog/product/wysiwyg'
+                        ) . '\', \'' . $this->getHtmlId() . '\')'
+                    )
+                )
+            )->toHtml();
             $html .= <<<HTML
 <script type="text/javascript">
 jQuery('#{$this->getHtmlId()}')
@@ -123,8 +129,7 @@ HTML;
     public function getIsWysiwygEnabled()
     {
         if ($this->_moduleManager->isEnabled('Magento_Cms')) {
-            return (bool)($this->_wysiwygConfig->isEnabled()
-                && $this->getEntityAttribute()->getIsWysiwygEnabled());
+            return (bool)($this->_wysiwygConfig->isEnabled() && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
 
         return false;

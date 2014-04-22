@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
 /**
@@ -30,14 +29,14 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
     /**
      * Store config mock
      *
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $storeConfigMock;
+    protected $scopeConfigMock;
 
     public function setUp()
     {
         $this->paymentConfigMock = $this->getMock('\Magento\Payment\Model\Config', array(), array(), '', false);
-        $this->storeConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
@@ -54,17 +53,24 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
         $method = 'method-name';
         $methodsInfo = array($method => $methodsInfo);
 
-        $this->paymentConfigMock->expects($this->once())->method('getMethodsInfo')
-            ->will($this->returnValue($methodsInfo));
-        $this->storeConfigMock->expects($this->any())->method('getConfigFlag')
-            ->will($this->returnValue($is3DSecureEnabled));
+        $this->paymentConfigMock->expects(
+            $this->once()
+        )->method(
+            'getMethodsInfo'
+        )->will(
+            $this->returnValue($methodsInfo)
+        );
+        $this->scopeConfigMock->expects(
+            $this->any()
+        )->method(
+            'isSetFlag'
+        )->will(
+            $this->returnValue($is3DSecureEnabled)
+        );
 
         $configSpecification = $this->objectManager->getObject(
             'Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure',
-            array(
-                'paymentConfig' => $this->paymentConfigMock,
-                'storeConfig' => $this->storeConfigMock,
-            )
+            array('paymentConfig' => $this->paymentConfigMock, 'scopeConfig' => $this->scopeConfigMock)
         );
 
         $this->assertEquals(
@@ -82,21 +88,11 @@ class Is3DSecureTest extends \PHPUnit_Framework_TestCase
     public function methodsDataProvider()
     {
         return array(
-            array(
-                array('allow_multiple_with_3dsecure' => 1), true, true,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 1), false, true,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 0), true, false,
-            ),
-            array(
-                array('allow_multiple_with_3dsecure' => 0), false, true,
-            ),
-            array(
-                array('no-flag' => 0), true, false,
-            ),
+            array(array('allow_multiple_with_3dsecure' => 1), true, true),
+            array(array('allow_multiple_with_3dsecure' => 1), false, true),
+            array(array('allow_multiple_with_3dsecure' => 0), true, false),
+            array(array('allow_multiple_with_3dsecure' => 0), false, true),
+            array(array('no-flag' => 0), true, false)
         );
     }
 }

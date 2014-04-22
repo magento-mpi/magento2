@@ -7,7 +7,7 @@
  */
 namespace Magento\Cache\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
@@ -28,9 +28,11 @@ class Converter implements \Magento\Config\ConverterInterface
             }
             /** @var \DOMNode $childNode */
             foreach ($type->childNodes as $childNode) {
-                if ($childNode->nodeType == XML_ELEMENT_NODE
-                    || ($childNode->nodeType == XML_CDATA_SECTION_NODE
-                    || ($childNode->nodeType == XML_TEXT_NODE && trim($childNode->nodeValue) != ''))
+                if ($childNode->nodeType == XML_ELEMENT_NODE ||
+                    ($childNode->nodeType == XML_CDATA_SECTION_NODE ||
+                    $childNode->nodeType == XML_TEXT_NODE && trim(
+                        $childNode->nodeValue
+                    ) != '')
                 ) {
                     $typeConfig[$childNode->nodeName] = $childNode->nodeValue;
                 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Model\Resource;
 
 /**
  * Customerbalance resource model
@@ -16,13 +16,12 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Resource;
-
-class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize table name and primary key name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,15 +34,25 @@ class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\CustomerBalance\Model\Balance $object
      * @param int $customerId
      * @param int $websiteId
+     * @return void
      */
     public function loadByCustomerAndWebsiteIds($object, $customerId, $websiteId)
     {
         $read = $this->getReadConnection();
-        if ($data = $read->fetchRow($read->select()
-            ->from($this->getMainTable())
-            ->where('customer_id = ?', $customerId)
-            ->where('website_id = ?', $websiteId)
-            ->limit(1))) {
+        if ($data = $read->fetchRow(
+            $read->select()->from(
+                $this->getMainTable()
+            )->where(
+                'customer_id = ?',
+                $customerId
+            )->where(
+                'website_id = ?',
+                $websiteId
+            )->limit(
+                1
+            )
+        )
+        ) {
             $object->addData($data);
         }
     }
@@ -53,13 +62,14 @@ class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $websiteId
      * @param string $currencyCode
-     * @return \Magento\CustomerBalance\Model\Resource\Balance
+     * @return $this
      */
     public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
         $bind = array('base_currency_code' => $currencyCode);
         $this->_getWriteAdapter()->update(
-            $this->getMainTable(), $bind,
+            $this->getMainTable(),
+            $bind,
             array('website_id=?' => $websiteId, 'base_currency_code IS NULL')
         );
         return $this;
@@ -69,15 +79,13 @@ class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete customer orphan balances
      *
      * @param int $customerId
-     * @return \Magento\CustomerBalance\Model\Resource\Balance
+     * @return $this
      */
     public function deleteBalancesByCustomerId($customerId)
     {
         $adapter = $this->_getWriteAdapter();
 
-        $adapter->delete(
-            $this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL')
-        );
+        $adapter->delete($this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL'));
         return $this;
     }
 
@@ -85,14 +93,21 @@ class Balance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get customer orphan balances count
      *
      * @param int $customerId
-     * @return \Magento\CustomerBalance\Model\Resource\Balance
+     * @return string
      */
     public function getOrphanBalancesCount($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        return $adapter->fetchOne($adapter->select()
-            ->from($this->getMainTable(), 'count(*)')
-            ->where('customer_id = :customer_id')
-            ->where('website_id IS NULL'), array('customer_id' => $customerId));
+        return $adapter->fetchOne(
+            $adapter->select()->from(
+                $this->getMainTable(),
+                'count(*)'
+            )->where(
+                'customer_id = :customer_id'
+            )->where(
+                'website_id IS NULL'
+            ),
+            array('customer_id' => $customerId)
+        );
     }
 }

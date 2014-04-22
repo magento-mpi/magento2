@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model\Source;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Country implements \Magento\Core\Model\Option\ArrayInterface
+class Country implements \Magento\Option\ArrayInterface
 {
     /**
      * Config
@@ -28,7 +28,7 @@ class Country implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * @param \Magento\GoogleShopping\Model\Config $config
      */
-    function __construct(\Magento\GoogleShopping\Model\Config $config)
+    public function __construct(\Magento\GoogleShopping\Model\Config $config)
     {
         $this->_config = $config;
     }

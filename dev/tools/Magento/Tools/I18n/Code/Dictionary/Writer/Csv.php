@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Dictionary\Writer;
 
 use Magento\Tools\I18n\Code\Dictionary\WriterInterface;
-use \Magento\Tools\I18n\Code\Dictionary\Phrase;
+use Magento\Tools\I18n\Code\Dictionary\Phrase;
 
 /**
  * Csv writer
@@ -32,8 +31,9 @@ class Csv implements WriterInterface
     public function __construct($outputFilename)
     {
         if (false === ($fileHandler = @fopen($outputFilename, 'w'))) {
-            throw new \InvalidArgumentException(sprintf('Cannot open file for write dictionary: "%s"',
-                $outputFilename));
+            throw new \InvalidArgumentException(
+                sprintf('Cannot open file for write dictionary: "%s"', $outputFilename)
+            );
         }
         $this->_fileHandler = $fileHandler;
     }
@@ -73,6 +73,8 @@ class Csv implements WriterInterface
 
     /**
      * Close file handler
+     *
+     * @return void
      */
     public function __destructor()
     {

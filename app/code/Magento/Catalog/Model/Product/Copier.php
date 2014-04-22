@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
 
-class Copier 
+class Copier
 {
     /**
      * @var CopyConstructorInterface
@@ -30,7 +29,7 @@ class Copier
         CopyConstructorInterface $copyConstructor,
         \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
-        $this->productFactory  = $productFactory;
+        $this->productFactory = $productFactory;
         $this->copyConstructor = $copyConstructor;
     }
 
@@ -53,7 +52,7 @@ class Copier
         $duplicate->setCreatedAt(null);
         $duplicate->setUpdatedAt(null);
         $duplicate->setId(null);
-        $duplicate->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $duplicate->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
         $this->copyConstructor->build($product, $duplicate);
         $duplicate->save();
@@ -62,4 +61,4 @@ class Copier
         $product->getResource()->duplicate($product->getId(), $duplicate->getId());
         return $duplicate;
     }
-} 
+}

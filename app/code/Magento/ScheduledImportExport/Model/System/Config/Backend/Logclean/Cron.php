@@ -16,7 +16,7 @@ namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
  * @package    Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Cron extends \Magento\Core\Model\Config\Value
+class Cron extends \Magento\Framework\App\Config\Value
 {
     /**
      * Cron expression configuration path
@@ -24,32 +24,30 @@ class Cron extends \Magento\Core\Model\Config\Value
     const CRON_STRING_PATH = 'crontab/default/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
-     * @var \Magento\Core\Model\Config\ValueFactory
+     * @var \Magento\Framework\App\Config\ValueFactory
      */
     protected $_configValueFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ValueFactory $configValueFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configValueFactory = $configValueFactory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -63,26 +61,29 @@ class Cron extends \Magento\Core\Model\Config\Value
         $time = $this->getData('groups/magento_scheduled_import_export_log/fields/time/value');
         $frequency = $this->getData('groups/magento_scheduled_import_export_log/fields/frequency/value');
 
-        $frequencyDaily   = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
-        $frequencyWeekly  = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyDaily = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
         $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
-            intval($time[1]),                                   # Minute
-            intval($time[0]),                                   # Hour
-            ($frequency == $frequencyMonthly) ? '1' : '*',      # Day of the Month
-            '*',                                                # Month of the Year
-            ($frequency == $frequencyWeekly) ? '1' : '*',       # Day of the Week
+            intval($time[1]),                                   // Minute
+            intval($time[0]),                                   // Hour
+            $frequency == $frequencyMonthly ? '1' : '*',        // Day of the Month
+            '*',                                                // Month of the Year
+            $frequency == $frequencyWeekly ? '1' : '*'          // Day of the Week
         );
 
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            $this->_configValueFactory->create()
-                ->load(self::CRON_STRING_PATH, 'path')
-                ->setValue($cronExprString)
-                ->setPath(self::CRON_STRING_PATH)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                self::CRON_STRING_PATH,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                self::CRON_STRING_PATH
+            )->save();
         } catch (\Exception $e) {
             throw new \Exception(__('We were unable to save the cron expression.'));
         }

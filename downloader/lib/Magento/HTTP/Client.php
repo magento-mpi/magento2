@@ -24,7 +24,6 @@ class Client
      */
     private function __construct()
     {
-
     }
 
     /**
@@ -57,12 +56,12 @@ class Client
      */
     protected static function detectFrontend()
     {
-       if (function_exists("curl_init")) {
-              return "curl";
-       }
-       if (function_exists("fsockopen")) {
-              return "socket";
-       }
-       return false;
+        if (function_exists("curl_init")) {
+            return "curl";
+        }
+        if (function_exists("fsockopen")) {
+            return "socket";
+        }
+        return false;
     }
 }

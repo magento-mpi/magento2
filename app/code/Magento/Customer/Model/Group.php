@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model;
 
 /**
  * Customer group model
@@ -16,26 +15,21 @@
  * @method string getCustomerGroupCode()
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model;
-
-class Group extends \Magento\Core\Model\AbstractModel
+class Group extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group
      */
-    const XML_PATH_DEFAULT_ID       = 'customer/create_account/default_group';
+    const XML_PATH_DEFAULT_ID = 'customer/create_account/default_group';
 
-    const NOT_LOGGED_IN_ID          = 0;
-    const CUST_GROUP_ALL            = 32000;
+    const NOT_LOGGED_IN_ID = 0;
 
-    const ENTITY                    = 'customer_group';
+    const CUST_GROUP_ALL = 32000;
 
-    const GROUP_CODE_MAX_LENGTH     = 32;
+    const ENTITY = 'customer_group';
+
+    const GROUP_CODE_MAX_LENGTH = 32;
 
     /**
      * Prefix of model events names
@@ -53,12 +47,15 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventObject = 'object';
 
+    /**
+     * @var array
+     */
     protected static $_taxClassIds = array();
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\StoresConfig
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Index\Model\Indexer
@@ -68,28 +65,31 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_indexer = $indexer;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Group');
@@ -99,6 +99,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * Alias for setCustomerGroupCode
      *
      * @param string $value
+     * @return $this
      */
     public function setCode($value)
     {
@@ -115,6 +116,12 @@ class Group extends \Magento\Core\Model\AbstractModel
         return $this->getCustomerGroupCode();
     }
 
+    /**
+     * Get the tax class id for the specified group or this group if the groupId is null
+     *
+     * @param int|null $groupId The id of the group whose tax class id is being sought
+     * @return int
+     */
     public function getTaxClassId($groupId = null)
     {
         if (!is_null($groupId)) {
@@ -127,10 +134,14 @@ class Group extends \Magento\Core\Model\AbstractModel
         return $this->getData('tax_class_id');
     }
 
-
+    /**
+     * Determine if this group is used as the create account default group
+     *
+     * @return bool
+     */
     public function usesAsDefault()
     {
-        $data = $this->_storeConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
+        $data = $this->_storesConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }
@@ -140,7 +151,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Run reindex process after data save
      *
-     * @return \Magento\Customer\Model\Group
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -152,7 +163,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -163,13 +174,11 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare customer group data
      *
-     * @return \Magento\Customer\Model\Group
+     * @return $this
      */
     protected function _prepareData()
     {
-        $this->setCode(
-            substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH)
-        );
+        $this->setCode(substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH));
         return $this;
     }
 }

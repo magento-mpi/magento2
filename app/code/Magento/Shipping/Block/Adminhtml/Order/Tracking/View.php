@@ -21,14 +21,14 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Shipping\Model\Config $shippingConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Shipping\Model\Config $shippingConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
@@ -43,12 +43,12 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
-        $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => __('Add'),
-            'class'   => 'save',
-            'onclick' => $onclick
-        ));
+        $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '" . $this->getSubmitUrl() . "')";
+        $this->addChild(
+            'save_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Add'), 'class' => 'save', 'onclick' => $onclick)
+        );
     }
 
     /**
@@ -58,7 +58,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
+        return $this->getUrl('adminhtml/*/addTrack/', array('shipment_id' => $this->getShipment()->getId()));
     }
 
     /**
@@ -79,10 +79,10 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('adminhtml/*/removeTrack/', array(
-            'shipment_id' => $this->getShipment()->getId(),
-            'track_id' => $track->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/removeTrack/',
+            array('shipment_id' => $this->getShipment()->getId(), 'track_id' => $track->getId())
+        );
     }
 
     /**

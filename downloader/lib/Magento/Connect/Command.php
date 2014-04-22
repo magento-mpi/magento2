@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
 
 /**
  * Connect Command abstract class. It cannot instantiate directly
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect;
-
 class Command
 {
     /**
@@ -42,6 +41,7 @@ class Command
      * @var \Magento\Connect\Config
      */
     protected static $_config = null;
+
     /**
      * Validator instance
      *
@@ -77,6 +77,9 @@ class Command
      */
     protected static $_packager = null;
 
+    /**
+     * @var array
+     */
     protected static $_return = array();
 
     /**
@@ -85,7 +88,7 @@ class Command
     public function __construct()
     {
         $class = $this->_class = get_class($this);
-        if(__CLASS__ == $class) {
+        if (__CLASS__ == $class) {
             throw new \Exception("You shouldn't instantiate {$class} directly!");
         }
         $this->commandsInfo = self::$_commandsByClass[$class];
@@ -100,7 +103,7 @@ class Command
     public static function commandInfo($name)
     {
         $name = strtolower($name);
-        if(!isset(self::$_commandsAll[$name])) {
+        if (!isset(self::$_commandsAll[$name])) {
             return false;
         }
         return self::$_commandsAll[$name];
@@ -114,7 +117,7 @@ class Command
      */
     public function getCommandInfo($name)
     {
-        if(!isset(self::$_commandsByClass[$this->_class][$name])) {
+        if (!isset(self::$_commandsByClass[$this->_class][$name])) {
             return false;
         }
         return self::$_commandsByClass[$this->_class][$name];
@@ -126,17 +129,17 @@ class Command
      * @param string $command
      * @param string $options
      * @param string $params
-     * @throws \Exception if there's no needed method
      * @return mixed
+     * @throws \Exception If there's no needed method
      */
     public function run($command, $options, $params)
     {
         $data = $this->getCommandInfo($command);
         $method = $data['function'];
-        if(! method_exists($this, $method)) {
-            throw new \Exception("$method does't exist in class ".$this->_class);
+        if (!method_exists($this, $method)) {
+            throw new \Exception("{$method} does't exist in class " . $this->_class);
         }
-        return $this->$method($command, $options, $params);
+        return $this->{$method}($command, $options, $params);
     }
 
     /**
@@ -145,13 +148,14 @@ class Command
 
     /**
      * Static
-     * @param $commandName
-     * @return unknown_type
+     * @param string $commandName
+     * @return mixed
+     * @throws \UnexpectedValueException
      */
     public static function getInstance($commandName)
     {
-        if(!isset(self::$_commandsAll[$commandName])) {
-            throw new \UnexpectedValueException("Cannot find command $commandName");
+        if (!isset(self::$_commandsAll[$commandName])) {
+            throw new \UnexpectedValueException("Cannot find command {$commandName}");
         }
         $currentCommand = self::$_commandsAll[$commandName];
         return new $currentCommand['class']();
@@ -160,9 +164,9 @@ class Command
     /**
      * Cache config setter
      *
-     * @static
      * @param \Magento\Connect\Singleconfig $obj
-     * @return null
+     * @return void
+     * @static
      */
     public static function setSconfig($obj)
     {
@@ -183,7 +187,7 @@ class Command
      * Sets frontend object for all commands
      *
      * @param \Magento\Connect\Frontend $obj
-     * @return null
+     * @return void
      */
     public static function setFrontendObject($obj)
     {
@@ -194,7 +198,7 @@ class Command
      * Set config object for all commands
      *
      * @param \Magento\Connect\Config $obj
-     * @return null
+     * @return void
      */
     public static function setConfigObject($obj)
     {
@@ -228,7 +232,7 @@ class Command
      */
     public function validator()
     {
-        if(is_null(self::$_validator)) {
+        if (is_null(self::$_validator)) {
             self::$_validator = new \Magento\Connect\Validator();
         }
         return self::$_validator;
@@ -241,7 +245,7 @@ class Command
      */
     public function rest()
     {
-        if(is_null(self::$_rest)) {
+        if (is_null(self::$_rest)) {
             self::$_rest = new \Magento\Connect\Rest(self::config()->protocol);
         }
         return self::$_rest;
@@ -254,7 +258,7 @@ class Command
      */
     public static function getCommands()
     {
-        if(!count(self::$_commandsAll)) {
+        if (!count(self::$_commandsAll)) {
             self::registerCommands();
         }
         ksort(self::$_commandsAll);
@@ -265,8 +269,8 @@ class Command
      * Get Getopt args from command definitions
      * and parse them
      *
-     * @param $command
-     * @return array
+     * @param string $command
+     * @return void|array
      */
     public static function getGetoptArgs($command)
     {
@@ -280,7 +284,7 @@ class Command
         while (list($option, $info) = each($commandInfo['options'])) {
             $larg = $sarg = '';
             if (isset($info['arg'])) {
-                if ($info['arg']{0} == '(') {
+                if ($info['arg'][0] == '(') {
                     $larg = '==';
                     $sarg = '::';
                 } else {
@@ -299,27 +303,27 @@ class Command
     /**
      * Try to register commands automatically
      *
-     * @return null
+     * @return void
      */
     public static function registerCommands()
     {
         $pathCommands = __DIR__ . '/' . basename(__FILE__, ".php");
         $f = new \DirectoryIterator($pathCommands);
-        foreach($f as $file) {
+        foreach ($f as $file) {
             /** @var $file \DirectoryIterator */
-            if (! $file->isFile()) {
+            if (!$file->isFile()) {
                 continue;
             }
             $pattern = preg_match("/(.*)_Header\.php/imsu", $file->getFilename(), $matches);
-            if(! $pattern) {
+            if (!$pattern) {
                 continue;
             }
-            include($file->getPathname());
-            if(! isset($commands)) {
+            include $file->getPathname();
+            if (!isset($commands)) {
                 continue;
             }
-            $class = __CLASS__."_".$matches[1];
-            foreach ($commands as $k=>$v) {
+            $class = __CLASS__ . "_" . $matches[1];
+            foreach ($commands as $k => $v) {
                 $commands[$k]['class'] = $class;
                 self::$_commandsAll[$k] = $commands[$k];
             }
@@ -344,7 +348,7 @@ class Command
      *
      * @param string $key
      * @param mixed $val
-     * @return null
+     * @return void
      */
     public static function setReturn($key, $val)
     {
@@ -354,15 +358,15 @@ class Command
     /**
      * Get command return
      *
-     * @param $key
-     * @param $clear
-     * @return mixed
+     * @param string $key
+     * @param bool $clear
+     * @return array|null
      */
     public static function getReturn($key, $clear = true)
     {
-        if(isset(self::$_return[$key])) {
+        if (isset(self::$_return[$key])) {
             $out = self::$_return[$key];
-            if($clear) {
+            if ($clear) {
                 unset(self::$_return[$key]);
             }
             return $out;
@@ -374,17 +378,18 @@ class Command
      * Cleanup command params from empty strings
      *
      * @param array $params by reference
+     * @return void
      */
-    public function cleanupParams(array & $params)
+    public function cleanupParams(array &$params)
     {
         $newParams = array();
-        if(!count($params)) {
+        if (!count($params)) {
             return;
         }
-        foreach($params as $v) {
-            if(is_string($v)) {
+        foreach ($params as $v) {
+            if (is_string($v)) {
                 $v = trim($v);
-                if(!strlen($v)) {
+                if (!strlen($v)) {
                     continue;
                 }
             }
@@ -398,21 +403,21 @@ class Command
      * to two arguments if found in top of array
      *
      * @param array $params
+     * @return void
      */
-    public function splitPackageArgs(array & $params)
+    public function splitPackageArgs(array &$params)
     {
-        if(!count($params) || !isset($params[0])) {
+        if (!count($params) || !isset($params[0])) {
             return;
         }
-        if($this->validator()->validateUrl($params[0])) {
+        if ($this->validator()->validateUrl($params[0])) {
             return;
         }
-        if(preg_match("@([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)@ims", $params[0], $subs)) {
-           $params[0] = $subs[2];
-           array_unshift($params, $subs[1]);
+        if (preg_match("@([a-zA-Z0-9_]+)/([a-zA-Z0-9_]+)@ims", $params[0], $subs)) {
+            $params[0] = $subs[2];
+            array_unshift($params, $subs[1]);
         }
     }
-
 
     /**
      * Get packager instance
@@ -421,7 +426,7 @@ class Command
      */
     public function getPackager()
     {
-        if(!self::$_packager) {
+        if (!self::$_packager) {
             self::$_packager = new \Magento\Connect\Packager();
         }
         return self::$_packager;

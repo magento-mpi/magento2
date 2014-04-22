@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 /**
@@ -30,8 +29,8 @@ class StoreTest extends \Magento\Backend\Utility\Controller
 
     public function testSaveActionWithExistCode()
     {
-        /** @var $formKey \Magento\Data\Form\FormKey */
-        $formKey = $this->_objectManager->get('Magento\Data\Form\FormKey');
+        /** @var $formKey \Magento\Framework\Data\Form\FormKey */
+        $formKey = $this->_objectManager->get('Magento\Framework\Data\Form\FormKey');
         $post = array(
             'form_key' => $formKey->getFormKey(),
             'website' => array(
@@ -39,7 +38,7 @@ class StoreTest extends \Magento\Backend\Utility\Controller
                 'code' => 'base',
                 'sort_order' => '',
                 'is_default' => '',
-                'website_id' => '',
+                'website_id' => ''
             ),
             'store_type' => 'website',
             'store_action' => 'add'

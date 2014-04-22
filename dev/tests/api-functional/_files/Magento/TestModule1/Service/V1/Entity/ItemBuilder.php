@@ -5,19 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class ItemBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class ItemBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
-     * @param int $id
+     * @param int $itemId
      *
      * @return \Magento\TestModule1\Service\V1\Entity\ItemBuilder
      */
-    public function setId($id)
+    public function setItemId($itemId)
     {
-        $this->_data['id'] = $id;
+        $this->_data['item_id'] = $itemId;
         return $this;
     }
 

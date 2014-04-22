@@ -7,16 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Model;
+
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Gift Wrapping model
  *
  */
-namespace Magento\GiftWrapping\Model;
-
-use Magento\Filesystem\Directory\WriteInterface;
-
-class Wrapping extends \Magento\Core\Model\AbstractModel
+class Wrapping extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Relative path to folder to store wrapping image to
@@ -36,12 +35,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_store = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -56,40 +55,40 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_uploaderFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
-     * Intialize model
+     * Initialize model
      *
      * @return void
      */
-    protected function _construct ()
+    protected function _construct()
     {
         $this->_init('Magento\GiftWrapping\Model\Resource\Wrapping');
     }
@@ -102,8 +101,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected function _beforeSave()
     {
         if ($this->_storeManager->hasSingleStore()) {
-            $this->setData('website_ids', array_keys(
-                $this->_systemStore->getWebsiteOptionHash()));
+            $this->setData('website_ids', array_keys($this->_systemStore->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();
@@ -131,7 +129,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Get wrapping associated website ids
      *
-     * @return array
+     * @return array|null
      */
     public function getWebsiteIds()
     {
@@ -156,7 +154,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -181,7 +179,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * Set wrapping image
      *
      * @param string|null|\Magento\Core\Model\File\Uploader $value
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function setImage($value)
     {
@@ -199,7 +197,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      *
      * @param string $imageFieldName
      * @param bool $isTemporary
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function attachUploadedImage($imageFieldName, $isTemporary = false)
     {
@@ -207,7 +205,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
             $uploader = $this->_uploaderFactory->create(array('fileId' => $imageFieldName));
-            $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
@@ -228,7 +226,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * Set temporary wrapping image
      *
      * @param string|null|\Magento\Core\Model\File\Uploader $value
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function setTmpImage($value)
     {
@@ -248,12 +246,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     /**
      * Delete temporary wrapping image
      *
-     * @return \Magento\GiftWrapping\Model\Wrapping
+     * @return $this
      */
     public function unsTmpImage()
     {
         if ($this->hasTmpImage()) {
-            $tmpImagePath =  self::IMAGE_TMP_PATH . $this->getTmpImage();
+            $tmpImagePath = self::IMAGE_TMP_PATH . $this->getTmpImage();
             if ($this->_mediaDirectory->isExist($tmpImagePath)) {
                 $this->_mediaDirectory->delete($tmpImagePath);
             }
@@ -268,17 +266,19 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      *
      * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image::_getUrl()
      *
-     * @return string|boolean
+     * @return string|false
      */
     public function getImageUrl()
     {
         if ($this->getTmpImage()) {
-            return $this->_storeManager->getStore()
-                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . self::IMAGE_TMP_PATH . $this->getTmpImage();
+            return $this->_storeManager->getStore()->getBaseUrl(
+                \Magento\UrlInterface::URL_TYPE_MEDIA
+            ) . self::IMAGE_TMP_PATH . $this->getTmpImage();
         }
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()
-                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . self::IMAGE_PATH . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl(
+                \Magento\UrlInterface::URL_TYPE_MEDIA
+            ) . self::IMAGE_PATH . $this->getImage();
         }
         return false;
     }

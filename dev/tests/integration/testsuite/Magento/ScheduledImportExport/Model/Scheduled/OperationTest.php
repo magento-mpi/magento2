@@ -22,10 +22,10 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation'
+        );
     }
-
 
     /**
      * Get possible operation types
@@ -34,10 +34,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     public function getOperationTypesDataProvider()
     {
-        return array(
-            'import' => array('$operationType' => 'import'),
-            'export' => array('$operationType' => 'export')
-        );
+        return array('import' => array('$operationType' => 'import'), 'export' => array('$operationType' => 'export'));
     }
 
     /**
@@ -49,7 +46,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     public function testGetInstance($operationType)
     {
         $this->_model->setOperationType($operationType);
-        $string = new \Magento\Stdlib\String;
+        $string = new \Magento\Stdlib\String();
         $this->assertInstanceOf(
             'Magento\ScheduledImportExport\Model\\' . $string->upperCaseWords($operationType),
             $this->_model->getInstance()
@@ -59,7 +56,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testGetHistoryFilePathException()
     {
@@ -77,9 +74,12 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        /** @var \Magento\Filesystem\Directory\Write $varDir */
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Filesystem')->getDirectoryWrite('var');
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDir */
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\App\Filesystem'
+        )->getDirectoryWrite(
+            'var'
+        );
         $varDir->create($fileInfo['file_path']);
 
         // Change current working directory to allow save export results
@@ -88,14 +88,16 @@ class OperationTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->run();
 
-        $scheduledExport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ScheduledImportExport\Model\Export');
+        $scheduledExport = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ScheduledImportExport\Model\Export'
+        );
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
 
-        $filePath = $varDir->getAbsolutePath($fileInfo['file_path']) . '/' . $scheduledExport->getScheduledFileName()
-            . '.' . $fileInfo['file_format'];
+        $filePath = $varDir->getAbsolutePath(
+            $fileInfo['file_path']
+        ) . '/' . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
         $this->assertFileExists($filePath);
 
         // Restore current working directory

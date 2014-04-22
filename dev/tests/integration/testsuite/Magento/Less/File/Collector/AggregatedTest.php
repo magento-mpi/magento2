@@ -21,30 +21,40 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::LIB_WEB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib/web'),
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
-            )
-        ));
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
-
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->objectManager->create(
-            'Magento\App\Filesystem',
-            array('directoryList' => $this->objectManager->create(
-                'Magento\Filesystem\DirectoryList',
-                array(
-                    'root' => BP,
-                    'directories' => array(
-                        \Magento\App\Filesystem::MODULES_DIR
-                            => array('path' => dirname(dirname(__DIR__)) . '/_files/code'),
-                        \Magento\App\Filesystem::THEMES_DIR
-                            => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+            array(
+                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\Framework\App\Filesystem::LIB_WEB => array(
+                        'path' => dirname(dirname(__DIR__)) . '/_files/lib/web'
+                    ),
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(dirname(__DIR__)) . '/_files/design'
                     )
                 )
-            ))
+            )
+        );
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
+
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = $this->objectManager->create(
+            'Magento\Framework\App\Filesystem',
+            array(
+                'directoryList' => $this->objectManager->create(
+                    'Magento\Framework\Filesystem\DirectoryList',
+                    array(
+                        'root' => BP,
+                        'directories' => array(
+                            \Magento\Framework\App\Filesystem::MODULES_DIR => array(
+                                'path' => dirname(dirname(__DIR__)) . '/_files/code'
+                            ),
+                            \Magento\App\Filesystem::THEMES_DIR => array(
+                                'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                            ),
+                        )
+                    )
+                )
+            )
         );
 
         /** @var \Magento\View\File\Collector\Base $sourceBase */
@@ -72,14 +82,14 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles($path, $themeName, array $expectedFiles)
     {
-        /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
-        $themeFactory = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory */
+        $themeFactory = $this->objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeName);
         if (!count($expectedFiles)) {
             $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
         }
         $files = $this->model->getFiles($theme, $path);
-        $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match.');
+        $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
 
         /** @var $file \Magento\View\File */
         foreach ($files as $file) {

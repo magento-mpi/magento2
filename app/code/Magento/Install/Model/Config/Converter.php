@@ -7,7 +7,7 @@
  */
 namespace Magento\Install\Model\Config;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * {@inheritdoc}
@@ -20,10 +20,7 @@ class Converter implements \Magento\Config\ConverterInterface
 
         $result = array(
             'steps' => array(),
-            'filesystem_prerequisites' => array(
-                'writables' => array(),
-                'notWritables' => array()
-            )
+            'filesystem_prerequisites' => array('writables' => array(), 'notWritables' => array())
         );
 
         /** @var $step DOMNode */

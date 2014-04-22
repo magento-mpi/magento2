@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Directory\Model\Config\Source;
 
-class Country implements \Magento\Core\Model\Option\ArrayInterface
+class Country implements \Magento\Option\ArrayInterface
 {
     /**
      * Countries
@@ -45,18 +43,16 @@ class Country implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray($isMultiselect = false, $foregroundCountries = '')
     {
         if (!$this->_options) {
-            $this->_options = $this->_countryCollection
-                ->loadData()
-                ->setForegroundCountries($foregroundCountries)
-                ->toOptionArray(false);
+            $this->_options = $this->_countryCollection->loadData()->setForegroundCountries(
+                $foregroundCountries
+            )->toOptionArray(
+                false
+            );
         }
 
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array(
-                'value' => '',
-                'label' => __('--Please Select--'),
-            ));
+            array_unshift($options, array('value' => '', 'label' => __('--Please Select--')));
         }
 
         return $options;
