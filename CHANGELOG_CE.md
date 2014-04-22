@@ -38,6 +38,9 @@
   * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
   * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
   * Fixed: Improve backend grids UI (MAGETWO-23338)
+  * Fixed: Warning appears when running system_config (MAGETWO-15336)
+  * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
+  * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
@@ -49,6 +52,14 @@
     * Moved lib/Magento/Model to lib/Magento/Framework/Model
     * Moved lib/Magento/DB to lib/Magento/Framework/DB
     * Moved lib/Magento/View to lib/Magento/Framework/View
+  * Covered Magento application components with unit tests (MAGETWO-21540)
+    * Sales/Helper/Guest.php
+    * Sales/Helper/Admin.php
+    * Sales/Model/Observer.php
+    * Sales/Model/Payment/Method/Converter.php
+    * Sales/Model/Email/Template.php
+    * Sales/Model/Observer/Backend/CustomerQuote.php
+    * Sales/Model/Status/ListStatus.php
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
@@ -61,6 +72,8 @@
   * Implement Service Context Provider (MAGETWO-11084)
   * Restructure webapi.xml (MAGETWO-22665)
   * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
+  * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
+  * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
 * GitHub requests:
   * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
