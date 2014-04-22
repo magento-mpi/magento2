@@ -27,5 +27,5 @@ interface AttributePriceInterface
      * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueOldAmount(array $value = array());
+    public function getOptionValueModified(array $value = array());
 }
