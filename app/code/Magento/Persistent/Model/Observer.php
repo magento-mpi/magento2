@@ -9,8 +9,6 @@
  */
 namespace Magento\Persistent\Model;
 
-use Magento\Customer\Model\Converter as CustomerConverter;
-
 /**
  * Persistent Observer
  *
@@ -68,13 +66,6 @@ class Observer
     protected $_persistentConfigFactory;
 
     /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * Quote factory
      *
      * @var \Magento\Sales\Model\QuoteFactory
@@ -94,13 +85,6 @@ class Observer
      * @var \Magento\UrlInterface
      */
     protected $_url;
-
-    /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
 
     /**
      * Checkout session
@@ -132,9 +116,18 @@ class Observer
     protected $_expressRedirectHelper;
 
     /**
-     * @var CustomerConverter
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
      */
-    protected $customerConverter;
+    protected $_customerViewHelper;
+
+    /**
+     * Customer account service
+     *
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
 
     /**
      * Construct
@@ -148,14 +141,14 @@ class Observer
      * @param \Magento\UrlInterface $url
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
-     * @param CustomerConverter $customerConverter
+     * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -169,14 +162,14 @@ class Observer
         \Magento\UrlInterface $url,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
-        CustomerConverter $customerConverter
+        \Magento\Customer\Helper\View $customerViewHelper,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;
@@ -187,14 +180,14 @@ class Observer
         $this->_url = $url;
         $this->_sessionFactory = $sessionFactory;
         $this->_quoteFactory = $quoteFactory;
-        $this->_customerFactory = $customerFactory;
         $this->_persistentConfigFactory = $persistentConfigFactory;
         $this->_requestHttp = $requestHttp;
         $this->_layout = $layout;
         $this->_escaper = $escaper;
         $this->messageManager = $messageManager;
         $this->_expressRedirectHelper = $expressRedirectHelper;
-        $this->customerConverter = $customerConverter;
+        $this->_customerViewHelper = $customerViewHelper;
+        $this->_customerAccountService = $customerAccountService;
     }
 
     /**
@@ -260,15 +253,14 @@ class Observer
      */
     public function emulateWelcomeBlock($block)
     {
-        $escapedName = $this->_escaper->escapeHtml($this->_getPersistentCustomer()->getName(), null);
+        $escapedName = $this->_escaper->escapeHtml(
+            $this->_customerViewHelper->getCustomerName($this->_getPersistentCustomer()),
+            null
+        );
 
         $this->_applyAccountLinksPersistentData();
-        $welcomeMessage = __(
-            'Welcome, %1!',
-            $escapedName
-        ) . ' ' . $this->_layout->getBlock(
-            'header.additional'
-        )->toHtml();
+        $welcomeMessage = __('Welcome, %1!', $escapedName)
+            . ' ' . $this->_layout->getBlock('header.additional')->toHtml();
         $block->setWelcome($welcomeMessage);
         return $this;
     }
@@ -307,9 +299,9 @@ class Observer
     {
         $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
 
-        if (!$this->_persistentData->canProcess(
-            $observer
-        ) || !$this->_persistentSession->isPersistent() || $this->_customerSession->isLoggedIn()
+        if (!$this->_persistentData->canProcess($observer) ||
+            !$this->_persistentSession->isPersistent() ||
+            $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
@@ -321,9 +313,7 @@ class Observer
         }
 
         if ($this->_isShoppingCartPersist()) {
-            $this->_checkoutSession->setCustomerData(
-                $this->customerConverter->createCustomerFromModel($this->_getPersistentCustomer())
-            );
+            $this->_checkoutSession->setCustomerData($this->_getPersistentCustomer());
             if (!$this->_checkoutSession->hasQuote()) {
                 $this->_checkoutSession->getQuote();
             }
@@ -504,11 +494,11 @@ class Observer
     /**
      * Retrieve persistent customer instance
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     protected function _getPersistentCustomer()
     {
-        return $this->_customerFactory->create()->load($this->_persistentSession->getSession()->getCustomerId());
+        return $this->_customerAccountService->getCustomer($this->_persistentSession->getSession()->getCustomerId());
     }
 
     /**
@@ -702,9 +692,7 @@ class Observer
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer \Magento\Customer\Model\Customer */
-            $customer = $this->_customerFactory->create();
-            $customer->load($this->_persistentSession->getSession()->getCustomerId());
+            $customer = $this->_getPersistentCustomer();
             $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());
         }
         return $this;
