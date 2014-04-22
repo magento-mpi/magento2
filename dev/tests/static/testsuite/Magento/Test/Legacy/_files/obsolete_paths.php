@@ -126,7 +126,10 @@ return [
     ['/lib/Magento/Pear', '/lib/Magento/Framework/Pear'],
     ['/dev/tests/integration/testsuite/Magento/Pear', '/dev/tests/integration/testsuite/Magento/Framework/Pear'],
     ['/dev/tests/unit/testsuite/Magento/Pear', '/dev/tests/unit/testsuite/Magento/Framework/Pear'],
-    ['/lib/Magento/Pear', '/lib/Magento/Framework/Connect'],
+    ['/lib/Magento/Pricing', '/lib/Magento/Framework/Pricing'],
+    ['/dev/tests/integration/testsuite/Magento/Pricing', '/dev/tests/integration/testsuite/Magento/Framework/Pricing'],
+    ['/dev/tests/unit/testsuite/Magento/Pricing', '/dev/tests/unit/testsuite/Magento/Framework/Pricing'],
+    ['/lib/Magento/Connect', '/lib/Magento/Framework/Connect'],
     ['/dev/tests/integration/testsuite/Magento/Connect', '/dev/tests/integration/testsuite/Magento/Framework/Connect'],
     ['/dev/tests/unit/testsuite/Magento/Connect', '/dev/tests/unit/testsuite/Magento/Framework/Connect'],
 ];

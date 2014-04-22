@@ -59,7 +59,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($specialPrice));
 
         $priceInfo = $this->getMockBuilder(
-            'Magento\Pricing\PriceInfoInterface'
+            'Magento\Framework\Pricing\PriceInfoInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $priceInfo->expects($this->any())

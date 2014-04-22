@@ -33,7 +33,7 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -44,7 +44,7 @@ class Data extends \Magento\ImportExport\Helper\Data
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Reward\Helper\Data $rewardData,

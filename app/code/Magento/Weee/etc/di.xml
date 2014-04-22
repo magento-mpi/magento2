@@ -28,7 +28,7 @@
         </arguments>
     </type>
 
-    <type name="Magento\Pricing\Adjustment\Pool">
+    <type name="Magento\Framework\Pricing\Adjustment\Pool">
         <arguments>
             <argument name="adjustments" xsi:type="array">
                 <item name="weee" xsi:type="array">

@@ -8,12 +8,12 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
-use Magento\Pricing\PriceInfoInterface;
-use Magento\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\PriceInfoInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * Tire prices model
@@ -201,7 +201,7 @@ class TierPrice extends RegularPrice implements TierPriceInterface
 
     /**
      * @param float|string $price
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function applyAdjustment($price)
     {

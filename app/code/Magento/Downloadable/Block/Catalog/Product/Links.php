@@ -247,7 +247,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param Link $link
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function getLinkAmount($link)
     {
@@ -270,7 +270,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Get LinkPrice Type
      *
-     * @return \Magento\Pricing\Price\PriceInterface
+     * @return \Magento\Framework\Pricing\Price\PriceInterface
      */
     protected function getPriceType()
     {

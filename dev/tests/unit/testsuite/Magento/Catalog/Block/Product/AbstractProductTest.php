@@ -62,7 +62,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
     public function testGetProductPrice()
     {
         $expectedPriceHtml = '<html>Expected Price html with price $30</html>';
-        $priceRenderBlock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $priceRenderBlock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
         $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $this->layoutMock->expects($this->once())
@@ -83,7 +83,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
     public function testGetProductPriceHtml()
     {
         $expectedPriceHtml = '<html>Expected Price html with price $30</html>';
-        $priceRenderBlock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $priceRenderBlock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
         $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $this->layoutMock->expects($this->once())

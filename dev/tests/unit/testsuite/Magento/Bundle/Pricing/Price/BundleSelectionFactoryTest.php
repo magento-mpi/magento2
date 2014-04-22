@@ -21,16 +21,16 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $objectManagerMock;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleMock;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $selectionMock;
 
     protected function setUp()
     {
-        $this->bundleMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $this->selectionMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $this->bundleMock = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface');
+        $this->selectionMock = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface');
 
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
 

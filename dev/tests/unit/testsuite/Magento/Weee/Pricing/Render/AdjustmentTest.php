@@ -46,7 +46,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         $this->contextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
-            'Magento\Pricing\PriceCurrencyInterface',
+            'Magento\Framework\Pricing\PriceCurrencyInterface',
             [],
             '',
             true,
@@ -97,8 +97,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedValue = 10;
         $typeOfDisplay = 1; //Just to set it to not false
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getSaleableItem', 'getDisplayValue', 'getAmount'])
             ->getMock();
@@ -106,8 +106,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->method('getDisplayValue')
             ->will($this->returnValue($expectedValue));
         $this->weeeHelperMock->expects($this->any())->method('typeOfDisplay')->will($this->returnValue($typeOfDisplay));
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
@@ -128,8 +128,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowInclDescr($typeOfDisplay, $amount, $expectedResult)
     {
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getSaleableItem', 'getDisplayValue', 'getAmount'])
             ->getMock();
@@ -138,8 +138,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup'])
             ->getMock();
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
@@ -201,8 +201,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowExclDescrIncl($typeOfDisplay, $amount, $expectedResult)
     {
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getSaleableItem', 'getDisplayValue', 'getAmount'])
             ->getMock();
@@ -211,8 +211,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup'])
             ->getMock();
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
@@ -272,8 +272,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWeeeTaxAttributes($typeOfDisplay, $attributes, $expectedResult)
     {
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getSaleableItem', 'getDisplayValue', 'getAmount'])
             ->getMock();
@@ -282,8 +282,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup'])
             ->getMock();
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();

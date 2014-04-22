@@ -13,7 +13,7 @@ use Magento\Framework\Logger;
 /**
  * Class PriceCurrency model for convert and format price value
  */
-class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
+class PriceCurrency implements \Magento\Framework\Pricing\PriceCurrencyInterface
 {
     /**
      * @var StoreManagerInterface

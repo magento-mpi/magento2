@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,8 @@
 namespace Magento\Weee\Pricing\Render;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Weee\Model\Tax;
 
 /**

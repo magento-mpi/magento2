@@ -52,7 +52,7 @@
     <type name="Magento\Catalog\Helper\Product\Configuration">
         <plugin name="grouped_options" type="Magento\GroupedProduct\Helper\Product\Configuration\Plugin\Grouped"/>
     </type>
-    <type name="Magento\Pricing\PriceComposite">
+    <type name="Magento\Framework\Pricing\PriceComposite">
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="grouped_final_price" xsi:type="array">

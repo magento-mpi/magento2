@@ -10,10 +10,10 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price as CatalogPrice;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Catalog\Pricing\Price\FinalPriceInterface;
-use Magento\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 
 /**
  * Bundle option price

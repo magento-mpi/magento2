@@ -36,7 +36,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Pricing\PriceComposite">
+    <type name="Magento\Framework\Pricing\PriceComposite">
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="link_price" xsi:type="array">
