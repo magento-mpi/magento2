@@ -2,24 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 use Magento\Framework\Exception;
-use Magento\Pear\Frontend;
-use Magento\Pear\Registry as PearRegistry;
+use Magento\Framework\Pear\Frontend;
+use Magento\Framework\Pear\Registry as PearRegistry;
 
-/**
- * Pear package routines
- * *
- * @category   Magento
- * @package    Magento_Pear
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 // Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
 error_reporting(E_ALL & ~E_NOTICE);
 
@@ -41,9 +32,8 @@ if (strpos($_includePath, $_pearPhpDir) === false) {
 
 require_once __DIR__ . "/Pear/Frontend.php";
 require_once __DIR__ . "/Pear/Package.php";
-
-
 require_once dirname(__FILE__) . "/Pear/Package.php";
+
 class Pear
 {
     /**

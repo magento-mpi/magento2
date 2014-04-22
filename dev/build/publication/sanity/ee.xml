@@ -77,7 +77,7 @@
         </item>
         <item>
             <word>CHANGELOG</word>
-            <path>lib/Magento/Pear/Package.php</path>
+            <path>lib/Magento/Framework/Pear/Package.php</path>
         </item>
         <item>
             <path>lib/Symfony</path>

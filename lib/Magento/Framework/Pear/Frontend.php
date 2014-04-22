@@ -2,20 +2,11 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-/**
- * Pear frontend routines
- * *
- * @category   Magento
- * @package    Magento_Pear
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Pear;
+namespace Magento\Framework\Pear;
 
 class Frontend
 {

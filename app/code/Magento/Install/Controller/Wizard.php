@@ -318,7 +318,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function installAction()
     {
-        $pear = \Magento\Pear::getInstance();
+        $pear = \Magento\Framework\Pear::getInstance();
         $params = array('comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n");
         if ($this->getRequest()->getParam('do')) {
             $state = $this->getRequest()->getParam('state', 'beta');

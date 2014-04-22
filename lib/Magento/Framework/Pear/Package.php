@@ -2,21 +2,12 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Pear
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-/**
- * Pear package routines
- * *
- * @category   Magento
- * @package    Magento_Pear
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 /*
-require_once "Magento/Pear.php";
+require_once "Magento/Framework/Pear.php";
 
 require_once "PEAR/PackageFileManager.php";
 require_once "PEAR/PackageFile/v1.php";
@@ -26,7 +17,7 @@ require_once "PEAR/PackageFileManager2.php";
 require_once "PEAR/PackageFile/v2.php";
 require_once "PEAR/PackageFile/v2/rw.php";
 require_once "PEAR/PackageFile/v2/Validator.php";
-namespace Magento\Pear;
+namespace Magento\Framework\Pear;
 
 
 // add missing but required constant...
@@ -34,10 +25,12 @@ define ('PEAR_PACKAGEFILEMANAGER_NOSVNENTRIES', 1001);
 $GLOBALS['_PEAR_PACKAGEFILEMANAGER2_ERRORS']['en']['PEAR_PACKAGEFILEMANAGER_NOSVNENTRIES'] =
    'Directory "%s" is not a SVN directory (it must have the .svn/entries file)';
 
-require_once "PEAR/PackageFile/Generator/v2.php";*/
-namespace Magento\Pear;
+require_once "PEAR/PackageFile/Generator/v2.php";
+*/
 
-use Magento\Pear;
+namespace Magento\Framework\Pear;
+
+use Magento\Framework\Pear;
 
 class Package
 {

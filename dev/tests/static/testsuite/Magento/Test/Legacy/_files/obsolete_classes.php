@@ -2335,4 +2335,5 @@ return array(
     ['Magento\LocaleInterface', 'Magento\Framework\LocaleInterface'],
     ['Magento\Logger', 'Magento\Framework\Logger'],
     ['Magento\Phrase', 'Magento\Framework\Phrase'],
+    ['Magento\Pear', 'Magento\Framework\Pear'],
 );

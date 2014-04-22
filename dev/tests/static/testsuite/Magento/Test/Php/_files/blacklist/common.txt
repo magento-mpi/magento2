@@ -113,8 +113,8 @@ lib/Magento/Image.php
 lib/Magento/Io
 lib/Magento/Object
 lib/Magento/Object.php
-lib/Magento/Pear
-lib/Magento/Pear.php
+lib/Magento/Framework/Pear
+lib/Magento/Framework/Pear.php
 lib/Magento/Simplexml
 lib/Magento/System
 lib/Magento/Util.php

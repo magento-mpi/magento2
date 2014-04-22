@@ -39,4 +39,5 @@ return [
     ['Magento\DomDocument', 'Magento\Framework\DomDocument'],
     ['Magento\Module', 'Magento\Framework\Module'],
     ['Magento\Css', 'Magento\Framework\Css'],
+    ['Magento\Pear', 'Magento\Framework\Pear'],
 ];
