@@ -9,14 +9,14 @@
  */
 namespace Magento\Bundle\Helper\Catalog\Product;
 
+use Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface;
 use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 /**
  * Helper for fetching properties by product configurational item
  */
-class Configuration
-    extends \Magento\Framework\App\Helper\AbstractHelper
-    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends AbstractHelper implements ConfigurationInterface
 {
     /**
      * Core data

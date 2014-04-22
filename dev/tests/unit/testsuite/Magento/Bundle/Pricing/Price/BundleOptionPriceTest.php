@@ -62,15 +62,20 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
+        $optionServiceMock = $this->objectManagerHelper->getObject(
+            'Magento\Bundle\Pricing\BundleOptionService',
+            [
+                'bundleSelectionFactory' => $this->selectionFactoryMock,
+            ]
+        );
         $this->bundleOptionPrice = $this->objectManagerHelper->getObject(
             'Magento\Bundle\Pricing\Price\BundleOptionPrice',
             [
                 'saleableItem' => $this->saleableItemMock,
                 'quantity' => 1.,
                 'calculator' => $this->bundleCalculatorMock,
-                'bundleSelectionFactory' => $this->selectionFactoryMock
+                'optionService' => $optionServiceMock
             ]
         );
     }
@@ -91,34 +96,34 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareOptionMocks($selectionCollection)
     {
-        $this->saleableItemMock->expects($this->once())
+        $this->saleableItemMock->expects($this->atLeastOnce())
             ->method('getStoreId')
             ->will($this->returnValue(1));
 
         $priceTypeMock = $this->getMock('Magento\Bundle\Model\Product\Type', [], [], '', false);
-        $priceTypeMock->expects($this->once())
+        $priceTypeMock->expects($this->atLeastOnce())
             ->method('setStoreFilter')
             ->with($this->equalTo(1), $this->equalTo($this->saleableItemMock))
             ->will($this->returnSelf());
 
         $optionIds = ['41', '55'];
-        $priceTypeMock->expects($this->once())
+        $priceTypeMock->expects($this->atLeastOnce())
             ->method('getOptionsIds')
             ->with($this->equalTo($this->saleableItemMock))
             ->will($this->returnValue($optionIds));
 
-        $priceTypeMock->expects($this->once())
+        $priceTypeMock->expects($this->atLeastOnce())
             ->method('getSelectionsCollection')
             ->with($this->equalTo($optionIds), $this->equalTo($this->saleableItemMock))
             ->will($this->returnValue($selectionCollection));
 
         $collection = $this->getMock('Magento\Bundle\Model\Resource\Option\Collection', [], [], '', false);
-        $collection->expects($this->once())
+        $collection->expects($this->atLeastOnce())
             ->method('appendSelections')
             ->with($this->equalTo($selectionCollection), $this->equalTo(false), $this->equalTo(false))
             ->will($this->returnValue($selectionCollection));
 
-        $priceTypeMock->expects($this->once())
+        $priceTypeMock->expects($this->atLeastOnce())
             ->method('getOptionsCollection')
             ->with($this->equalTo($this->saleableItemMock))
             ->will($this->returnValue($collection));
@@ -208,12 +213,14 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected function createSelectionMock($selectionData)
     {
         $selection = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['isSalable', 'getValue', 'getSelectionQty', '__wakeup'])
+            ->setMethods(['isSalable', 'getAmount', 'getSelectionQty', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
         // All items are saleable
         $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
-        $selection->expects($this->any())->method('getValue')->will($this->returnValue($selectionData['value']));
+        $amountMock = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $amountMock->expects($this->any())->method('getValue')->will($this->returnValue($selectionData['value']));
+        $selection->expects($this->any())->method('getAmount')->will($this->returnValue($amountMock));
         return $selection;
     }
 
@@ -224,6 +231,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     {
         $storeId = 1;
         $this->saleableItemMock->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
+        $this->selectionFactoryMock->expects($this->any())->method('create')->will($this->returnArgument(1));
 
         $options = [];
         foreach ($optionList as $optionData) {
@@ -231,17 +239,16 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
         }
         /** @var \PHPUnit_Framework_MockObject_MockObject $optionsCollection */
         $optionsCollection = $this->getMock('Magento\Bundle\Model\Resource\Option\Collection', [], [], '', false);
-        $optionsCollection->expects($this->once())->method('appendSelections')->will($this->returnSelf());
+        $optionsCollection->expects($this->atLeastOnce())->method('appendSelections')->will($this->returnSelf());
         $optionsCollection->expects($this->atLeastOnce())->method('getIterator')
             ->will($this->returnValue(new \ArrayIterator($options)));
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product\Type\AbstractType $typeMock */
         $typeMock = $this->getMock('Magento\Bundle\Model\Product\Type', [], [], '', false);
-        $typeMock->expects($this->once())->method('setStoreFilter')->with($storeId, $this->saleableItemMock);
+        $typeMock->expects($this->any())->method('setStoreFilter')->with($storeId, $this->saleableItemMock);
         $typeMock->expects($this->any())->method('getOptionsCollection')->with($this->saleableItemMock)
             ->will($this->returnValue($optionsCollection));
         $this->saleableItemMock->expects($this->any())->method('getTypeInstance')->will($this->returnValue($typeMock));
-        $this->selectionFactoryMock->expects($this->any())->method('create')->will($this->returnArgument(1));
 
         $this->assertEquals($expected['min'], $this->bundleOptionPrice->getValue());
         $this->assertEquals($expected['max'], $this->bundleOptionPrice->getMaxValue());

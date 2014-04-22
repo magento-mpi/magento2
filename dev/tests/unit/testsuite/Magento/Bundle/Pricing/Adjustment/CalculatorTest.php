@@ -86,8 +86,16 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             return $bundlePrice;
         });
         $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
-
-        $this->model = new Calculator($this->baseCalculator, $this->amountFactory, $this->selectionFactory);
+        $optionService = $this->getMock(
+            'Magento\Bundle\Pricing\BundleOptionService',
+            null,
+            [
+                'amountFactory'    => $this->amountFactory,
+                'selectionFactory' => $this->selectionFactory,
+                'calculator'       => $this->baseCalculator
+            ]
+        );
+        $this->model = new Calculator($this->baseCalculator, $this->amountFactory, $optionService);
     }
 
     protected function tearDown()

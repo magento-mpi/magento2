@@ -70,18 +70,16 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_One', $parentTheme);
         $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_Two', $grandparentTheme);
-        $this->_fileFactory->expects(
-            $this->exactly(2)
-        )->method(
-            'create'
-        )->will(
-            $this->returnValueMap(
-                array(
-                    array($filePathOne, 'Module_One', $parentTheme, $fileOne),
-                    array($filePathTwo, 'Module_Two', $grandparentTheme, $fileTwo)
+        $this->_fileFactory->expects($this->exactly(2))
+            ->method('create')
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array($filePathOne, 'Module_One', $parentTheme, false, $fileOne),
+                        array($filePathTwo, 'Module_Two', $grandparentTheme, false, $fileTwo)
+                    )
                 )
-            )
-        );
+            );
 
         $this->assertSame(array($fileOne, $fileTwo), $this->_model->getFiles($theme));
     }

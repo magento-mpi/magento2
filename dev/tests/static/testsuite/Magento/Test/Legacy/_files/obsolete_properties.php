@@ -323,4 +323,5 @@ return array(
     ['_layout', 'Magento\View\DesignLoader'],
     ['_area', 'Magento\View\Layout'],
     ['_coreData', '\Magento\Rss\Block\Catalog\Special', 'priceCurrency'],
+    ['_tierPriceDefaultTemplate', 'Magento\Catalog\Block\Product\AbstractProduct'],
 );

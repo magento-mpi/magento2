@@ -67,7 +67,7 @@ class Base implements SourceInterface
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }
-            $result[] = $this->fileFactory->create($filename, $matches['moduleName']);
+            $result[] = $this->fileFactory->create($filename, $matches['moduleName'], $theme);
         }
         return $result;
     }
