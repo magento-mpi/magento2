@@ -287,7 +287,9 @@ interface CustomerAccountServiceInterface
     public function getCustomerDetailsByEmail($customerEmail, $websiteId = null);
 
     /**
-     * Update Customer Account and its details
+     * Update Customer Account and its details.
+     * CustomerDetails contains an array of Address Data. In the event that no change was made to addresses
+     * the array must be null.
      *
      * @param string $customerEmail
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
