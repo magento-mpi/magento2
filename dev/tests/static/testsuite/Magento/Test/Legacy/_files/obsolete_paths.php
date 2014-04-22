@@ -174,4 +174,7 @@ return [
     ['/lib/Magento/Url', '/lib/Magento/Framework/Url'],
     ['/dev/tests/unit/testsuite/Magento/Url', '/dev/tests/unit/testsuite/Magento/Framework/Url'],
     ['/dev/tests/integration/testsuite/Magento/Url', '/dev/tests/integration/testsuite/Magento/Framework/Url'],
+    ['/lib/Magento/Mview', '/lib/Magento/Framework/Mview'],
+    ['/dev/tests/unit/testsuite/Magento/Mview', '/dev/tests/unit/testsuite/Magento/Framework/Mview'],
+    ['/dev/tests/integration/testsuite/Magento/Mview', '/dev/tests/integration/testsuite/Magento/Framework/Mview'],
 ];
