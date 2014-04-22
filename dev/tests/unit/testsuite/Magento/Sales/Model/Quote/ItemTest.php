@@ -60,7 +60,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->modelContext = $this->getMockBuilder('Magento\Model\Context')
+        $this->modelContext = $this->getMockBuilder('Magento\Framework\Model\Context')
             ->disableOriginalConstructor()
             ->setMethods(['getEventDispatcher'])
             ->getMock();

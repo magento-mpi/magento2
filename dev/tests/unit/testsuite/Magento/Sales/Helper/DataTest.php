@@ -30,11 +30,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
+        $contextMock = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->scopeConfigMock = $this->getMockBuilder('Magento\App\Config')
+        $this->scopeConfigMock = $this->getMockBuilder('Magento\Framework\App\Config')
             ->setMethods(['isSetFlag'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -43,7 +43,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $appStateMock = $this->getMockBuilder('Magento\App\State')
+        $appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $pricingCurrencyMock = $this->getMockBuilder('Magento\Pricing\PriceCurrencyInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -51,7 +55,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $contextMock,
             $this->scopeConfigMock,
             $storeManagerMock,
-            $appStateMock
+            $appStateMock,
+            $pricingCurrencyMock
         );
 
         $this->storeMock = $this->getMockBuilder('Magento\Sales\Model\Store')

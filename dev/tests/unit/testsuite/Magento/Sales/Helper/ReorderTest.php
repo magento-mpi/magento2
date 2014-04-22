@@ -16,7 +16,7 @@ class ReorderTest extends \PHPUnit_Framework_TestCase
     protected $helper;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\Config\ScopeConfigInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfigMock;
 
@@ -40,11 +40,11 @@ class ReorderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
+        $contextMock = $this->getMockBuilder('Magento\Framework\App\Helper\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->scopeConfigMock = $this->getMockBuilder('Magento\App\Config')
+        $this->scopeConfigMock = $this->getMockBuilder('Magento\Framework\App\Config')
             ->setMethods(['getValue'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -53,11 +53,15 @@ class ReorderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $appStateMock = $this->getMockBuilder('Magento\App\State')
+        $appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->customerSessionMock = $this->getMockBuilder('Magento\Customer\Model\Session')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $pricingCurrencyMock = $this->getMockBuilder('Magento\Pricing\PriceCurrencyInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,6 +70,7 @@ class ReorderTest extends \PHPUnit_Framework_TestCase
             $this->scopeConfigMock,
             $storeManagerMock,
             $appStateMock,
+            $pricingCurrencyMock,
             $this->customerSessionMock
         );
 

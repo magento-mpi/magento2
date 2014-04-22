@@ -344,7 +344,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new ObjectManager($this);
         $context = $objectManagerHelper->getObject(
-            'Magento\App\Helper\Context'
+            'Magento\Framework\App\Helper\Context'
         );
         $helper = $objectManagerHelper->getObject(
             'Magento\Checkout\Helper\Data',
