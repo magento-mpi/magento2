@@ -115,6 +115,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_encryptorMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\UrlInterface
+     */
+    private $_urlMock;
+
+    /**
      * @var SearchCriteriaBuilder
      */
     protected $_searchBuilder;
@@ -631,8 +636,16 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testSendPasswordResetLink()
     {
         $email = 'foo@example.com';
+        $storeId = 42;
 
-        $this->_customerModelMock->expects($this->once())->method('sendPasswordResetConfirmationEmail');
+        $this->_customerModelMock->expects($this->once())
+            ->method('sendPasswordResetConfirmationEmail');
+        $this->_customerModelMock->expects($this->atLeastOnce())
+            ->method('getStoreId')
+            ->will($this->returnValue($storeId));
+        $this->_urlMock->expects($this->once())
+            ->method('setScope')->with($storeId)
+            ->will($this->returnSelf());
 
         $customerService = $this->_createService();
 
@@ -1832,7 +1845,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'customerMetadataService' => $this->_customerMetadataService,
                 'customerRegistry' => $this->_customerRegistry,
                 'encryptor' => $this->_encryptorMock,
-                'logger' => $this->_loggerMock
+                'logger' => $this->_loggerMock,
+                'url' => $this->_urlMock,
             ]
         );
         return $customerService;
