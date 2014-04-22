@@ -13,21 +13,21 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     /**
      * Context mock
      *
-     * @var \Magento\View\Element\Template\Context
+     * @var \Magento\View\Element\Template\Context | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
     /**
      * Price currency model mock
      *
-     * @var \Magento\Directory\Model\PriceCurrency
+     * @var \Magento\Directory\Model\PriceCurrency | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceCurrencyMock;
 
     /**
      * Price helper mock
      *
-     * @var \Magento\Tax\Helper\Data
+     * @var \Magento\Tax\Helper\Data | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $taxHelperMock;
 
@@ -275,5 +275,94 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $result = $this->model->displayPriceExcludingTax();
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testGetHtmlExcluding()
+    {
+        $arguments = [];
+        $totalDisplayValue = 10.0;
+        $taxAdjustment = 2.0;
+        $displayValue = 8.0;
+
+        $amountRender = $this->getMockForAbstractClass('Magento\Pricing\Render\AmountRenderInterface');
+        $amountMock = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $amountMock->expects($this->once())
+            ->method('getAdjustmentAmount')
+            ->with(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE)
+            ->will($this->returnValue($taxAdjustment));
+
+        $this->taxHelperMock->expects($this->once())
+            ->method('displayBothPrices')
+            ->will($this->returnValue(false));
+        $this->taxHelperMock->expects($this->once())
+            ->method('displayPriceExcludingTax')
+            ->will($this->returnValue(true));
+
+        $amountRender->expects($this->at(0))
+            ->method('getDisplayValue')
+            ->will($this->returnValue($totalDisplayValue));
+        $amountRender->expects($this->at(1))
+            ->method('getAmount')
+            ->will($this->returnValue($amountMock));
+        $amountRender->expects($this->at(2))
+            ->method('setDisplayValue')
+            ->with($displayValue);
+
+        $this->model->render($amountRender, $arguments);
+    }
+
+    public function testGetHtmlBoth()
+    {
+        $arguments = [];
+        $totalDisplayValue = 10.0;
+        $taxAdjustment = 2.0;
+        $displayValue = 8.0;
+        $this->model->setZone(\Magento\Pricing\Render::ZONE_ITEM_VIEW);
+
+        $amountRender = $this->getMock(
+            'Magento\Pricing\Render\Amount',
+            [
+                'setPriceDisplayLabel',
+                'setPriceId',
+                'getSaleableItem',
+                'getDisplayValue',
+                'getAmount',
+                'setDisplayValue'
+            ],
+            [],
+            '',
+            false
+        );
+        $amountMock = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $amountMock->expects($this->once())
+            ->method('getAdjustmentAmount')
+            ->with(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE)
+            ->will($this->returnValue($taxAdjustment));
+        $product = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
+        $product->expects($this->once())
+            ->method('getId');
+
+        $this->taxHelperMock->expects($this->once())
+            ->method('displayBothPrices')
+            ->will($this->returnValue(true));
+
+        $amountRender->expects($this->at(0))
+            ->method('setPriceDisplayLabel');
+        $amountRender->expects($this->at(1))
+            ->method('getSaleableItem')
+            ->will($this->returnValue($product));
+        $amountRender->expects($this->at(2))
+            ->method('setPriceId');
+        $amountRender->expects($this->at(3))
+            ->method('getDisplayValue')
+            ->will($this->returnValue($totalDisplayValue));
+        $amountRender->expects($this->at(4))
+            ->method('getAmount')
+            ->will($this->returnValue($amountMock));
+        $amountRender->expects($this->at(5))
+            ->method('setDisplayValue')
+            ->with($displayValue);
+
+        $this->model->render($amountRender, $arguments);
     }
 }
