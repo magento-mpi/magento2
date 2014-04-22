@@ -26,8 +26,6 @@
                 <block class="Magento\Checkout\Block\Cart\Totals" name="paypal.express.review.details.totals"
                        as="totals" template="onepage/review/totals.phtml"/>
             </block>
-            <block class="Magento\Checkout\Block\Agreements" name="paypal.express.review.details.agreements"
-                   as="agreements" template="agreements.phtml"/>
         </block>
     </referenceContainer>
     <referenceBlock name="head">

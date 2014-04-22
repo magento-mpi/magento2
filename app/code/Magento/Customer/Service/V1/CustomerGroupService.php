@@ -219,7 +219,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function getDefaultGroup($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getCurrentStore();
+            $storeId = $this->_storeManager->getStore()->getCode();
         }
         try {
             $groupId = $this->_scopeConfig->getValue(

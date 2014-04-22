@@ -147,7 +147,7 @@ class Proxy extends \Magento\Framework\App\AreaList
      * Retrieve application area
      *
      * @param   string $code
-     * @return  \Magento\Core\Model\App\Area
+     * @return  \Magento\Framework\App\Area
      */
     public function getArea($code)
     {

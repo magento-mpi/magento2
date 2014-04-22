@@ -417,7 +417,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
             if ($storeId != $defaultStoreId) {
-                $defaultStore = $this->_storeManager->getAnyStoreView();
+                $defaultStore = $this->_storeManager->getDefaultStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
                 }
