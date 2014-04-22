@@ -25,14 +25,14 @@ class Lite implements \Magento\Framework\Code\Minifier\StrategyInterface
     protected $adapter;
 
     /**
-     * @var Read
-     */
-    protected $rootDirectory;
-
-    /**
      * @var Write
      */
     protected $pubViewCacheDir;
+
+    /**
+     * @var Read
+     */
+    protected $rootDirectory;
 
     /**
      * @param \Magento\Framework\Code\Minifier\AdapterInterface $adapter
