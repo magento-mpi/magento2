@@ -54,7 +54,7 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfoMock));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->price = $objectManager->getObject(
-            'Magento\Catalog\Pricing\Price\Stub',
+            'Magento\Pricing\Price\Stub',
             [
                 'saleableItem' => $this->saleableItemMock,
                 'quantity' => $qty,
