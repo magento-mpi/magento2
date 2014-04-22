@@ -213,6 +213,7 @@ class Group extends \Magento\Backend\App\Action
      * Store Customer Group Data to session
      *
      * @param array $customerGroupData
+     * @return void
      */
     protected function storeCustomerGroupDataToSession($customerGroupData)
     {
