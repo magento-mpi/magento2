@@ -186,13 +186,13 @@ class Rest implements \Magento\App\FrontControllerInterface
             $result = [];
             foreach ($data as $datum) {
                 if ($datum instanceof AbstractObject) {
-                    $datum = $this->processDataObject($datum);
+                    $datum = $this->processDataObject($datum->__toArray());
                 }
                 $result[] = $datum;
             }
             return $result;
         } else if ($data instanceof AbstractObject) {
-            return $this->processDataObject($data);
+            return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
             return [];
         } else {
@@ -204,16 +204,20 @@ class Rest implements \Magento\App\FrontControllerInterface
     /**
      * Convert data object to array and process available custom attributes
      *
-     * @param AbstractObject $dataObject
+     * @param array $dataObjectArray
      * @return array
      */
-    protected function processDataObject($dataObject)
+    protected function processDataObject($dataObjectArray)
     {
-        $dataObject = $dataObject->__toArray();
-        if (isset($dataObject[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
-            $dataObject = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObject);
-            return $dataObject;
+        if (isset($dataObjectArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataObjectArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
         }
-        return $dataObject;
+        //Check for nested custom_attributes
+        foreach ($dataObjectArray as $key => $value) {
+            if (is_array($value)) {
+                $dataObjectArray[$key] = $this->processDataObject($value);
+            }
+        }
+        return $dataObjectArray;
     }
 }
