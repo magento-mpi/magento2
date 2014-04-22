@@ -124,7 +124,7 @@ class File
     {
         if (null === $this->identifier) {
             $theme = $this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base';
-            $this->identifier = ($this->isBase ? 'base' : '') . $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
+            $this->identifier = ($this->isBase ? 'base|' : '') . $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
         }
         return $this->identifier;
     }
