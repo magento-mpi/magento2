@@ -59,7 +59,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\FilesystemException
+     * @expectedException \Magento\Framework\Filesystem\FilesystemException
      */
     public function testAddDefinedDirectory()
     {

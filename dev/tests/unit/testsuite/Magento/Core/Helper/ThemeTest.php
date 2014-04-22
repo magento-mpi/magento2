@@ -28,7 +28,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0))
         ;
         $helper = new \Magento\Core\Helper\Theme(
-            $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
             $layoutMergeFactory,
             $assetRepo
         );

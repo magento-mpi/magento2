@@ -550,7 +550,7 @@ return array(
         '\Magento\Catalog\Model\Product\Type',
         '\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE'
     ),
-    array('LIB_DIR', '\Magento\App\Filesystem', '\Magento\App\Filesystem::LIB_INTERNAL'),
+    array('LIB_DIR', '\Magento\Framework\App\Filesystem', '\Magento\Framework\App\Filesystem::LIB_INTERNAL'),
     array(
         'PERIOD_UNIT_DAY',
         '\Magento\Payment\Model\Recurring\Profile',

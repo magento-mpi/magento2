@@ -42,8 +42,8 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->tmpDirectory = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\WriteInterface');
-        $this->rootDirectory = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
+        $this->tmpDirectory = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->rootDirectory = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->rootDirectory->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnArgument(0));
@@ -52,7 +52,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function ($file) {
                 return "content of '$file'";
             }));
-        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(\Magento\Framework\App\Filesystem::VAR_DIR)

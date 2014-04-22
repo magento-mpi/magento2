@@ -28,11 +28,11 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $flyweightThemeFactory = $this->getMock(
             '\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
-        $config = $this->getMockForAbstractClass('\Magento\App\ConfigInterface');
+        $config = $this->getMockForAbstractClass('\Magento\Framework\App\ConfigInterface');
         $storeConfig = $this->getMockForAbstractClass('\Magento\Core\Model\Store\ConfigInterface');
         $themeFactory = $this->getMock('\Magento\Core\Model\ThemeFactory');
         $this->app = $this->getMock('\Magento\Core\Model\App', array(), array(), '', false);
-        $state = $this->getMock('\Magento\App\State', array(), array(), '', false);
+        $state = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $themes = array();
         $this->model = new \Magento\Core\Model\View\Design(
             $storeManager, $flyweightThemeFactory, $config, $storeConfig, $themeFactory, $this->app, $state, $themes

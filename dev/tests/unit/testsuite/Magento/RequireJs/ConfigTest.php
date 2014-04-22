@@ -41,8 +41,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '\Magento\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
-        $this->baseDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');
-        $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
+        $this->baseDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
+        $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)

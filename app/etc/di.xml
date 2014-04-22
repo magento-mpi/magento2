@@ -126,12 +126,12 @@
     </type>
     <type name="Magento\Framework\View\Asset\Repository">
         <arguments>
-            <argument name="appMode" xsi:type="init_parameter">Magento\App\State::PARAM_MODE</argument>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\Asset\MinifyService">
         <arguments>
-            <argument name="appMode" xsi:type="init_parameter">Magento\App\State::PARAM_MODE</argument>
+            <argument name="appMode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Arguments\Loader">

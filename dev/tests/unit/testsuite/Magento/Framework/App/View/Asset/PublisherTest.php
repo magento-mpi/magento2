@@ -44,13 +44,13 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->object = new Publisher($this->appState, $this->filesystem);
 
-        $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
-        $this->staticDirRead = $this->getMockForAbstractClass('Magento\Filesystem\Directory\ReadInterface');
-        $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Filesystem\Directory\WriteInterface');
+        $this->rootDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->staticDirRead = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\ReadInterface');
+        $this->staticDirWrite = $this->getMockForAbstractClass('Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->filesystem->expects($this->any())
             ->method('getDirectoryRead')
             ->with(\Magento\Framework\App\Filesystem::STATIC_VIEW_DIR)

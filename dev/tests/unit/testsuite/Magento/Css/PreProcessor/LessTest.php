@@ -87,7 +87,7 @@ class LessTest extends \PHPUnit_Framework_TestCase
     public function processExceptionDataProvider()
     {
         return [
-            'filesystem exception' => [new \Magento\Filesystem\FilesystemException('Exception message')],
+            'filesystem exception' => [new \Magento\Framework\Filesystem\FilesystemException('Exception message')],
             'adapter exception'    => [new \Magento\Css\PreProcessor\Adapter\AdapterException('Exception message')],
         ];
     }
