@@ -11,6 +11,11 @@ use Magento\Object;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
 
+/**
+ * Tests Magento\Sales\Model\Observer
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
