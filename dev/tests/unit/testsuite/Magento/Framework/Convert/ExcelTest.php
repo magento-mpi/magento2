@@ -9,9 +9,9 @@
  */
 
 /**
- * Magento_Convert Test Case for \Magento\Convert\Excel Export
+ * Magento_Convert Test Case for \Magento\Framework\Convert\Excel Export
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 class ExcelTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,14 +61,14 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Convert\Excel->convert()
-     * \Magento\Convert\Excel($iterator)
+     * Test \Magento\Framework\Convert\Excel->convert()
+     * \Magento\Framework\Convert\Excel($iterator)
      *
      * @return void
      */
     public function testConvert()
     {
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($this->_testData));
         $convert->setDataHeader($this->_testHeader);
         $convert->setDataFooter($this->_testFooter);
         $isEqual = (file_get_contents($this->_getSampleOutputFile()) == $convert->convert());
@@ -76,14 +76,14 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Convert\Excel->convert()
-     * \Magento\Convert\Excel($iterator, $callbackMethod)
+     * Test \Magento\Framework\Convert\Excel->convert()
+     * \Magento\Framework\Convert\Excel($iterator, $callbackMethod)
      *
      * @return void
      */
     public function testConvertCallback()
     {
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
         $this->assertContains('_TRUE_', $convert->convert(), 'Failed asserting that callback method is called.');
     }
 
@@ -106,11 +106,11 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         $stream->lock();
 
         if (!$callback) {
-            $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));
+            $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($this->_testData));
             $convert->setDataHeader($this->_testHeader);
             $convert->setDataFooter($this->_testFooter);
         } else {
-            $convert = new \Magento\Convert\Excel(
+            $convert = new \Magento\Framework\Convert\Excel(
                 new \ArrayIterator($this->_testData),
                 array($this, 'callbackMethod')
             );
@@ -124,8 +124,8 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Convert\Excel->write()
-     * \Magento\Convert\Excel($iterator)
+     * Test \Magento\Framework\Convert\Excel->write()
+     * \Magento\Framework\Convert\Excel($iterator)
      *
      * @return void
      */
@@ -137,8 +137,8 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Convert\Excel->write()
-     * \Magento\Convert\Excel($iterator, $callbackMethod)
+     * Test \Magento\Framework\Convert\Excel->write()
+     * \Magento\Framework\Convert\Excel($iterator, $callbackMethod)
      *
      * @return void
      */

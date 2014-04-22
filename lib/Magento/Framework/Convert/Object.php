@@ -16,7 +16,7 @@
  * @package    Magento_Convert
  * @author     Magento Extensibility Team <DL-X-Extensibility-Team@corp.ebay.com>
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 class Object
 {

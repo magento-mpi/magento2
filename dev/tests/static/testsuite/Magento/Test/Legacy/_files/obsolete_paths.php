@@ -138,6 +138,15 @@ return [
     ['/lib/Magento/Simplexml', '/lib/Magento/Framework/Simplexml'],
     ['/dev/tests/unit/testsuite/Magento/Simplexml', '/dev/tests/unit/testsuite/Magento/Framework/Simplexml'],
     ['/dev/tests/integration/testsuite/Magento/Simplexml', '/dev/tests/integration/testsuite/Magento/Framework/Simplexml'],
+    ['/lib/Magento/Controller', '/lib/Magento/Framework/Controller'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Controller',
+        '/dev/tests/integration/testsuite/Magento/Framework/Controller'
+    ],
+    ['/dev/tests/unit/testsuite/Magento/Controller', '/dev/tests/unit/testsuite/Magento/Framework/Controller'],
+    ['/lib/Magento/Convert', '/lib/Magento/Framework/Convert'],
+    ['/dev/tests/integration/testsuite/Magento/Convert', '/dev/tests/integration/testsuite/Magento/Framework/Convert'],
+    ['/dev/tests/unit/testsuite/Magento/Convert', '/dev/tests/unit/testsuite/Magento/Framework/Convert'],
     ['/lib/Magento/Shell', '/lib/Magento/Framework/Shell'],
     ['/dev/tests/unit/testsuite/Magento/Shell', '/dev/tests/unit/testsuite/Magento/Framework/Shell'],
     ['/dev/tests/integration/testsuite/Magento/Shell', '/dev/tests/integration/testsuite/Magento/Framework/Shell'],

@@ -426,7 +426,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     {
         $collection = $this->_getRowCollection();
 
-        $convert = new \Magento\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Framework\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
@@ -489,7 +489,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 

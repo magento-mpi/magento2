@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $model;
 

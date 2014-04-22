@@ -20,7 +20,7 @@ class Data extends \Magento\Core\Helper\Data
     protected $filesystem;
 
     /**
-     * @var \Magento\Convert\Xml
+     * @var \Magento\Framework\Convert\Xml
      */
     protected $_xmlConverter;
 
@@ -36,7 +36,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Convert\Xml $xmlConverter
+     * @param \Magento\Framework\Convert\Xml $xmlConverter
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Convert\Xml $xmlConverter,
+        \Magento\Framework\Convert\Xml $xmlConverter,
         $dbCompatibleMode = true
     ) {
         $this->filesystem = $filesystem;

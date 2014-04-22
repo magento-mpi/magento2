@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 /**
  * Convert xml data (SimpleXMLElement object) to array

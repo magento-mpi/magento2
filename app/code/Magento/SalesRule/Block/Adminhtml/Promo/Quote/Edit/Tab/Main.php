@@ -29,7 +29,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     protected $_customerGroupService;
 
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $_objectConverter;
 
@@ -44,7 +44,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Model\RuleFactory $salesRule
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Convert\Object $objectConverter
+     * @param \Magento\Framework\Convert\Object $objectConverter
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
@@ -54,7 +54,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\SalesRule\Model\RuleFactory $salesRule,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
-        \Magento\Convert\Object $objectConverter,
+        \Magento\Framework\Convert\Object $objectConverter,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {

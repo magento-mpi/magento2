@@ -34,7 +34,7 @@ class Main extends Generic implements TabInterface
     protected $_customerGroup;
 
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $_objectConverter;
 
@@ -43,7 +43,7 @@ class Main extends Generic implements TabInterface
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroup
-     * @param \Magento\Convert\Object $objectConverter
+     * @param \Magento\Framework\Convert\Object $objectConverter
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
@@ -52,7 +52,7 @@ class Main extends Generic implements TabInterface
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroup,
-        \Magento\Convert\Object $objectConverter,
+        \Magento\Framework\Convert\Object $objectConverter,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {

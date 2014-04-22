@@ -8,7 +8,7 @@
 namespace Magento\Service;
 
 use Magento\Service\Data\AbstractObject;
-use Magento\Convert\ConvertArray;
+use Magento\Framework\Convert\ConvertArray;
 
 class DataObjectConverter
 {

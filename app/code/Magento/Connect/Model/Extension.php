@@ -34,7 +34,7 @@ class Extension extends \Magento\Object
     protected $filesystem;
 
     /**
-     * @var \Magento\Convert\ConvertArray
+     * @var \Magento\Framework\Convert\ConvertArray
      */
     protected $_convertArray;
 
@@ -58,14 +58,14 @@ class Extension extends \Magento\Object
     /**
      * Constructor
      *
-     * @param \Magento\Convert\ConvertArray $convertArray
+     * @param \Magento\Framework\Convert\ConvertArray $convertArray
      * @param \Magento\Framework\App\Filesystem           $filesystem
      * @param Session                       $session
      * @param \Magento\Framework\Logger               $logger
      * @param array                         $data
      */
     public function __construct(
-        \Magento\Convert\ConvertArray $convertArray,
+        \Magento\Framework\Convert\ConvertArray $convertArray,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Connect\Model\Session $session,
         \Magento\Framework\Logger $logger,

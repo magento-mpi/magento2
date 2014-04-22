@@ -1128,7 +1128,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         $this->_isExport = true;
         $this->_prepareGrid();
 
-        $convert = new \Magento\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Framework\Convert\Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
@@ -1195,7 +1195,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 

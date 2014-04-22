@@ -42,5 +42,7 @@ return [
     ['Magento\Pricing', 'Magento\Framework\Pricing'],
     ['Magento\Profiler', 'Magento\Framework\Profiler'],
     ['Magento\Simplexml', 'Magento\Framework\Simplexml'],
+    ['Magento\Controller', 'Magento\Framework\Controller'],
+    ['Magento\Convert', 'Magento\Framework\Convert'],
     ['Magento\Shell', 'Magento\Framework\Shell'],
 ];

@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Convert;
+namespace Magento\Framework\Convert;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Convert\Xml
+     * @var \Magento\Framework\Convert\Xml
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Convert\Xml();
+        $this->_model = new \Magento\Framework\Convert\Xml();
     }
 
     public function testXmlToAssoc()
