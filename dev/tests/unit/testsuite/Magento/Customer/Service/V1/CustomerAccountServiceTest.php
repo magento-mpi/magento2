@@ -111,7 +111,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Config\Share */
     private $_configShareMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Encryption\EncryptorInterface  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Encryption\EncryptorInterface  */
     private $_encryptorMock;
 
     /**
@@ -266,7 +266,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_encryptorMock = $this->getMockBuilder('Magento\Encryption\EncryptorInterface')
+        $this->_encryptorMock = $this->getMockBuilder('Magento\Framework\Encryption\EncryptorInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

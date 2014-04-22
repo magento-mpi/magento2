@@ -26,7 +26,7 @@ use Magento\Math\Random;
 use Magento\Service\V1\Data\SearchCriteria;
 use Magento\UrlInterface;
 use Magento\Framework\Logger;
-use Magento\Encryption\EncryptorInterface as Encryptor;
+use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\AddressRegistry;
 use Magento\Service\V1\Data\Filter;

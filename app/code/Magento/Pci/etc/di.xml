@@ -8,5 +8,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Pci\Model\Encryption" />
+    <preference for="Magento\Framework\Encryption\EncryptorInterface" type="Magento\Pci\Model\Encryption" />
 </config>

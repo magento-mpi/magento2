@@ -44,4 +44,5 @@ return [
     ['Magento\Simplexml', 'Magento\Framework\Simplexml'],
     ['Magento\Controller', 'Magento\Framework\Controller'],
     ['Magento\Convert', 'Magento\Framework\Convert'],
+    ['Magento\Encryption', 'Magento\Framework\Encryption'],
 ];

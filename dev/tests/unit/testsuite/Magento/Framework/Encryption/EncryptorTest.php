@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 class EncryptorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Encryption\Encryptor
+     * @var \Magento\Framework\Encryption\Encryptor
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_randomGenerator = $this->getMock('Magento\Math\Random', array(), array(), '', false);
-        $this->_cryptFactory = $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false);
+        $this->_cryptFactory = $this->getMock('Magento\Framework\Encryption\CryptFactory', array(), array(), '', false);
         $this->_model = new Encryptor($this->_randomGenerator, $this->_cryptFactory, 'cryptKey');
     }
 
@@ -145,7 +145,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
         $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
         $crypt->expects($this->once())->method('encrypt')->with($value)->will($this->returnArgument(0));
         $actual = $this->_model->encrypt($value);
@@ -165,7 +165,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
         $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
         $crypt->expects($this->once())->method('decrypt')->with($expected)->will($this->returnValue($expected));
         $actual = $this->_model->decrypt($value);
@@ -179,7 +179,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateKey()
     {
-        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
         $this->_cryptFactory->expects(
             $this->once()
         )->method(
@@ -194,7 +194,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateKeyDefault()
     {
-        $crypt = $this->getMock('Magento\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
         $this->_cryptFactory->expects(
             $this->once()
         )->method(

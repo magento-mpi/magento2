@@ -35,6 +35,6 @@ dev/tests/unit/testsuite/Magento/Backend/Model/_files
 # don't format the test files in these directories. 
 dev/tests/unit/testsuite/Magento/Core/Model/Layout/_files
 # don't format the test files in these directories. 
-dev/tests/unit/testsuite/Magento/Encryption/Crypt/_files
+dev/tests/unit/testsuite/Framework/Magento/Encryption/Crypt/_files
 # Ignore the test class in anticipation of the Mage class being removed
 dev/tests/integration/testsuite/MageTest.php

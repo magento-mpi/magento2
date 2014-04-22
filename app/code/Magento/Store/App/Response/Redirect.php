@@ -22,7 +22,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\Encryption\UrlCoder
+     * @var \Magento\Framework\Encryption\UrlCoder
      */
     protected $_urlCoder;
 
@@ -49,7 +49,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Encryption\UrlCoder $urlCoder
+     * @param \Magento\Framework\Encryption\UrlCoder $urlCoder
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\UrlInterface $urlBuilder
@@ -58,7 +58,7 @@ class Redirect implements \Magento\Framework\App\Response\RedirectInterface
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Encryption\UrlCoder $urlCoder,
+        \Magento\Framework\Encryption\UrlCoder $urlCoder,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\UrlInterface $urlBuilder,

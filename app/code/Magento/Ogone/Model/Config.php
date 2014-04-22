@@ -22,7 +22,7 @@ class Config extends \Magento\Payment\Model\Config
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -33,7 +33,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param \Magento\Framework\Config\DataInterface $dataStorage
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -42,7 +42,7 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Encryption\EncryptorInterface $encryptor
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($scopeConfig, $coreConfig, $paymentMethodFactory, $localeLists, $dataStorage);
         $this->_urlBuilder = $urlBuilder;

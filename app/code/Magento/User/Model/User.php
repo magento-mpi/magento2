@@ -104,7 +104,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     protected $_roleFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -131,7 +131,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      * @param \Magento\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -148,7 +148,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         \Magento\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -210,7 +210,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $this->_registry = $objectManager->get('Magento\Registry');
         $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
-        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+        $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $this->_transportBuilder = $objectManager->get('Magento\Mail\Template\TransportBuilder');
         $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
     }

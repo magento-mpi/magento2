@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 /**
  * Encryptor interface
@@ -65,7 +65,7 @@ interface EncryptorInterface
      * Return crypt model, instantiate if it is empty
      *
      * @param string $key
-     * @return \Magento\Encryption\Crypt
+     * @return \Magento\Framework\Encryption\Crypt
      */
     public function validateKey($key);
 }

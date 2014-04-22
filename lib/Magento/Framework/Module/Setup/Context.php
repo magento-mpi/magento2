@@ -45,7 +45,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_migrationFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -64,7 +64,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Module\ResourceInterface $resourceResource
      * @param \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Module\ResourceInterface $resourceResource,
         \Magento\Framework\Module\Setup\MigrationFactory $migrationFactory,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_logger = $logger;
@@ -146,7 +146,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Encryption\EncryptorInterface
+     * @return \Magento\Framework\Encryption\EncryptorInterface
      */
     public function getEncryptor()
     {

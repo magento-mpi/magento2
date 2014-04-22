@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 /**
  * Class encapsulates cryptographic algorithm

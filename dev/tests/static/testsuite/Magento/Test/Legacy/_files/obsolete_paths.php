@@ -147,4 +147,10 @@ return [
     ['/lib/Magento/Convert', '/lib/Magento/Framework/Convert'],
     ['/dev/tests/integration/testsuite/Magento/Convert', '/dev/tests/integration/testsuite/Magento/Framework/Convert'],
     ['/dev/tests/unit/testsuite/Magento/Convert', '/dev/tests/unit/testsuite/Magento/Framework/Convert'],
+    ['/lib/Magento/Encryption', '/lib/Magento/Framework/Encryption'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Encryption',
+        '/dev/tests/integration/testsuite/Magento/Framework/Encryption'
+    ],
+    ['/dev/tests/unit/testsuite/Magento/Encryption', '/dev/tests/unit/testsuite/Magento/Framework/Encryption'],
 ];

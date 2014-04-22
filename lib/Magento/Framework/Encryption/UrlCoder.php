@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Encryption;
+namespace Magento\Framework\Encryption;
 
 class UrlCoder
 {
