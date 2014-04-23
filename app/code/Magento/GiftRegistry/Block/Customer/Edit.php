@@ -9,8 +9,6 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-namespace Magento\GiftRegistry\Block\Customer;
-
 /**
  * Customer giftregistry list block
  */

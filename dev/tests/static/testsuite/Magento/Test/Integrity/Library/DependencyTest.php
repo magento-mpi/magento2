@@ -56,7 +56,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 '#^(\\\\|)' . implode('|', $this->getForbiddenNamespaces()) . '\\\\#',
                 $dependency
             ) && !file_exists(
-                BP . '/lib/internla/' . str_replace('\\', '/', $dependency) . '.php'
+                BP . '/lib/internal/' . str_replace('\\', '/', $dependency) . '.php'
             )
             ) {
                 $this->errors[$fileReflection->getFileName()][] = $dependency;
