@@ -14,6 +14,7 @@
   * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
   * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
+  * Fixed: Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
 * Framework Improvements:
   * Covered Magento Store components with unit tests:
     * `Magento\Store\Model\*`
@@ -35,6 +36,29 @@
     * `Sales/Model/Email/Template.php`
     * `Sales/Model/Observer/Backend/CustomerQuote.php`
     * `Sales/Model/Status/ListStatus.php`
+  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
+    * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
+    * `lib/Magento/Framework/Data/Form/Element/Button.php`
+    * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
+    * `lib/Magento/Framework/Data/Form/Element/CollectionFactory.php`
+    * `lib/Magento/Framework/Data/Form/Element/Column.php`
+    * `lib/Magento/Framework/Data/Form/Element/File.php`
+    * `lib/Magento/Framework/Data/Form/Element/Hidden.php`
+    * `lib/Magento/Framework/Data/Form/Element/Editablemultiselect.php`
+    * `lib/Magento/Framework/Data/Form/Element/Factory.php`
+    * `lib/Magento/Framework/Data/Form/Element/Image.php`
+    * `lib/Magento/Framework/Data/Form/Element/Imagefile.php`
+    * `lib/Magento/Framework/Data/Form/Element/Label.php`
+    * `lib/Magento/Framework/Data/Form/Element/Link.php`
+    * `lib/Magento/Framework/Data/Form/Element/Multiselect.php`
+    * `lib/Magento/Framework/Data/Form/Element/Note.php`
+    * `lib/Magento/Framework/Data/Form/Element/Obscure.php`
+    * `lib/Magento/Framework/Data/Form/Element/Password.php`
+    * `lib/Magento/Framework/Data/Form/Element/Radio.php`
+    * `lib/Magento/Framework/Data/Form/Element/Reset.php`
+    * `lib/Magento/Framework/Data/Form/Element/Submit.php`
+    * `lib/Magento/Framework/Data/Form/Element/Text.php`
+    * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
 * Refactored the following modules to use Customer Service:
   * Refactored Persistent Module (MAGETWO-20877)
   * Refactored GoogleShopping module (MAGETWO-20474)
