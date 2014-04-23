@@ -108,7 +108,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -122,7 +122,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -136,7 +136,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,

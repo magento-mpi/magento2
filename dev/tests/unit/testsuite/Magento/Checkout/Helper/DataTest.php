@@ -53,7 +53,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $this->_transportBuilder = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder',
+            '\Magento\Framework\Mail\Template\TransportBuilder',
             array(),
             array(),
             '',
@@ -149,7 +149,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTransport'
         )->will(
-            $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
+            $this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface'))
         );
 
         $this->_translator->expects($this->at(1))->method('suspend');

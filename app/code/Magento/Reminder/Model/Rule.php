@@ -93,7 +93,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $salesRule;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -116,7 +116,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
      * @param \Magento\Reminder\Model\Resource\Rule $resource
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -135,7 +135,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
         \Magento\Reminder\Model\Resource\Rule $resource,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -283,7 +283,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             try {
                 $transport->sendMessage();
                 $this->_getResource()->addNotificationLog($recipient['rule_id'], $customer->getId());
-            } catch (\Magento\Mail\Exception $e) {
+            } catch (\Magento\Framework\Mail\Exception $e) {
                 $this->_getResource()->updateFailedEmailsCounter($recipient['rule_id'], $customer->getId());
             }
         }

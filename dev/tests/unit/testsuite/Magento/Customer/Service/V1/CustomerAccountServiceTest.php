@@ -15,7 +15,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
-use Magento\Mail\Exception as MailException;
+use Magento\Framework\Mail\Exception as MailException;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService

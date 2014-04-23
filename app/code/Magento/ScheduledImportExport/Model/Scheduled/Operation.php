@@ -114,12 +114,12 @@ class Operation extends \Magento\Framework\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Io\Ftp
+     * @var \Magento\Framework\Io\Ftp
      */
     protected $ftpAdapter;
 
@@ -134,8 +134,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Io\Ftp $ftpAdapter
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Io\Ftp $ftpAdapter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -151,8 +151,8 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Io\Ftp $ftpAdapter,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Io\Ftp $ftpAdapter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -224,7 +224,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
                 $this->_transportBuilder->addBcc($email);
             }
         }
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
@@ -544,7 +544,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param string $filePath
      * @param string $fileContent
      * @return bool|int
-     * @throws \Magento\Io\IoException
+     * @throws \Magento\Framework\Io\IoException
      * @throws \Magento\Framework\Filesystem\FilesystemException
      * @throws \Magento\Framework\Model\Exception
      */
@@ -588,7 +588,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param string $source
      * @param string $destination
      * @return string
-     * @throws \Magento\Io\IoException
+     * @throws \Magento\Framework\Io\IoException
      * @throws \Magento\Framework\Filesystem\FilesystemException
      * @throws \Magento\Framework\Model\Exception
      */

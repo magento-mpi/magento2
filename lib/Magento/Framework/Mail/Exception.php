@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 class Exception extends \Exception
 {

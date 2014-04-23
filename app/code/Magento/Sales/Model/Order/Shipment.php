@@ -168,7 +168,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollectionFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -185,7 +185,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
      * @param Shipment\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -203,7 +203,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
         \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -598,7 +598,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                     $this->_transportBuilder->addBcc($email);
                 }
             }
-            /** @var \Magento\Mail\TransportInterface $transport */
+            /** @var \Magento\Framework\Mail\TransportInterface $transport */
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -710,7 +710,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                     $this->_transportBuilder->addBcc($email);
                 }
             }
-            /** @var \Magento\Mail\TransportInterface $transport */
+            /** @var \Magento\Framework\Mail\TransportInterface $transport */
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }

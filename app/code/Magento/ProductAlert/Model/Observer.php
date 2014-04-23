@@ -104,7 +104,7 @@ class Observer
     protected $_stockColFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -127,7 +127,7 @@ class Observer
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\ProductAlert\Model\EmailFactory $emailFactory
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
@@ -140,7 +140,7 @@ class Observer
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\ProductAlert\Model\EmailFactory $emailFactory,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {

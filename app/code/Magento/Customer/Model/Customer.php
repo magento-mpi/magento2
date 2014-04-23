@@ -160,7 +160,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     protected $_addressesFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -205,7 +205,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param Config\Share $configShare
      * @param AddressFactory $addressFactory
      * @param Resource\Address\CollectionFactory $addressesFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -226,7 +226,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
@@ -786,7 +786,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      */
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_scopeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->setTemplateOptions(
@@ -838,7 +838,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             $storeId = $this->_getWebsiteStoreId();
         }
 
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_RESET_PASSWORD_TEMPLATE,

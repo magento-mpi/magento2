@@ -8,9 +8,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Mail\TemplateInterface" type="Magento\Email\Model\Template" />
-    <preference for="Magento\Mail\Template\FactoryInterface" type="Magento\Mail\Template\Factory" />
-    <preference for="Magento\Mail\TransportInterface" type="Magento\Mail\Transport" />
-    <preference for="Magento\Mail\MessageInterface" type="Magento\Mail\Message" />
-    <preference for="Magento\Mail\Template\SenderResolverInterface" type="Magento\Email\Model\Template\SenderResolver" />
+    <preference for="Magento\Framework\Mail\TemplateInterface" type="Magento\Email\Model\Template" />
+    <preference for="Magento\Framework\Mail\Template\FactoryInterface" type="Magento\Framework\Mail\Template\Factory" />
+    <preference for="Magento\Framework\Mail\TransportInterface" type="Magento\Framework\Mail\Transport" />
+    <preference for="Magento\Framework\Mail\MessageInterface" type="Magento\Framework\Mail\Message" />
+    <preference for="Magento\Framework\Mail\Template\SenderResolverInterface" type="Magento\Email\Model\Template\SenderResolver" />
 </config>

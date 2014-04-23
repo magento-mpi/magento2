@@ -50,7 +50,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -71,7 +71,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Customer\Helper\View $customerHelperView
      */
@@ -82,7 +82,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Customer\Helper\View $customerHelperView
     ) {

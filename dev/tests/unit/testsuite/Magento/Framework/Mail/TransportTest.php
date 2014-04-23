@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 class TransportTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,14 +15,14 @@ class TransportTest extends \PHPUnit_Framework_TestCase
     protected $_messageMock;
 
     /**
-     * @var \Magento\Mail\Transport
+     * @var \Magento\Framework\Mail\Transport
      */
     protected $_transport;
 
     public function setUp()
     {
-        $this->_messageMock = $this->getMock('\Magento\Mail\Message', array(), array(), '', false);
-        $this->_transport = new \Magento\Mail\Transport($this->_messageMock);
+        $this->_messageMock = $this->getMock('\Magento\Framework\Mail\Message', array(), array(), '', false);
+        $this->_transport = new \Magento\Framework\Mail\Transport($this->_messageMock);
     }
 
     /**
@@ -31,13 +31,13 @@ class TransportTest extends \PHPUnit_Framework_TestCase
      */
     public function testTransportWithIncorrectMessageObject()
     {
-        $this->_messageMock = $this->getMock('\Magento\Mail\MessageInterface');
-        $this->_transport = new \Magento\Mail\Transport($this->_messageMock);
+        $this->_messageMock = $this->getMock('\Magento\Framework\Mail\MessageInterface');
+        $this->_transport = new \Magento\Framework\Mail\Transport($this->_messageMock);
     }
 
     /**
-     * @covers \Magento\Mail\Transport::sendMessage
-     * @expectedException \Magento\Mail\Exception
+     * @covers \Magento\Framework\Mail\Transport::sendMessage
+     * @expectedException \Magento\Framework\Mail\Exception
      * @expectedExceptionMessage No body specified
      */
     public function testSendMessageBrokenMessage()

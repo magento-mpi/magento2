@@ -236,14 +236,15 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR) . '/' . $this->_entityTypeCode;
+        $path = $this->_fileSystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)
+            . '/' . $this->_entityTypeCode;
 
         $result = $original;
         // unlink entity file
         if ($toDelete) {
             $result = '';
             $file = $path . $original;
-            $ioFile = new \Magento\Io\File();
+            $ioFile = new \Magento\Framework\Io\File();
             if ($ioFile->fileExists($file)) {
                 $ioFile->rm($file);
             }

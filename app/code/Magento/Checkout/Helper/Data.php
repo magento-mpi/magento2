@@ -46,7 +46,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeDate;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -61,7 +61,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
@@ -70,7 +70,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_scopeConfig = $scopeConfig;

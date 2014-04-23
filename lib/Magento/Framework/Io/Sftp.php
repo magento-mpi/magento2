@@ -2,20 +2,14 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Io
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Io;
-
+namespace Magento\Framework\Io;
 
 /**
  * Sftp client interface
  *
- * @category   Magento
- * @package    Magento_Io
- * @author      Magento Core Team <core@magentocommerce.com>
  * @link        http://www.php.net/manual/en/function.ssh2-connect.php
  */
 require_once 'phpseclib/Net/SFTP.php';

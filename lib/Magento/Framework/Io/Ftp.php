@@ -2,19 +2,13 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Io
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Io;
+namespace Magento\Framework\Io;
 
 /**
  * FTP client
- *
- * @category   Magento
- * @package    Magento_Io
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Ftp extends AbstractIo
 {

@@ -110,7 +110,7 @@ lib/Magento/HTTP/Client/Socket.php
 lib/Magento/HTTP/IClient.php
 lib/Magento/Image
 lib/Magento/Image.php
-lib/Magento/Io
+lib/Magento/Framework/Io
 lib/Magento/Object
 lib/Magento/Object.php
 lib/Magento/Framework/Pear

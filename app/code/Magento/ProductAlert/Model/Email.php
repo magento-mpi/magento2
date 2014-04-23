@@ -103,7 +103,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -121,7 +121,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $customerHelper
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -135,7 +135,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerHelper,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

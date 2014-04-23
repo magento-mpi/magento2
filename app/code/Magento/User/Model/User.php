@@ -114,7 +114,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     protected $dateTime;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -130,7 +130,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -147,7 +147,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         \Magento\Backend\App\ConfigInterface $config,
         \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -211,7 +211,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $this->_validatorObject = $objectManager->get('Magento\Framework\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
-        $this->_transportBuilder = $objectManager->get('Magento\Mail\Template\TransportBuilder');
+        $this->_transportBuilder = $objectManager->get('Magento\Framework\Mail\Template\TransportBuilder');
         $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
     }
 
@@ -423,7 +423,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     public function sendPasswordResetConfirmationEmail()
     {
         // Set all required params and send emails
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_FORGOT_EMAIL_TEMPLATE)
         )->setTemplateOptions(
@@ -449,7 +449,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     public function sendPasswordResetNotificationEmail()
     {
         // Set all required params and send emails
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE)
         )->setTemplateOptions(

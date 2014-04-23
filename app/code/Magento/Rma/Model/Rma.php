@@ -84,7 +84,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Mail transport builder
      *
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -238,7 +238,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Config $rmaConfig
@@ -272,7 +272,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,

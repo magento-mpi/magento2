@@ -250,7 +250,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
 
             try {
                 $transport->sendMessage();
-            } catch (\Magento\Mail\Exception $e) {
+            } catch (\Magento\Framework\Mail\Exception $e) {
                 /** @var \Magento\Newsletter\Model\Problem $problem */
                 $problem = $this->_problemFactory->create();
                 $problem->addSubscriberData($item);

@@ -38,7 +38,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Mail transport builder
      *
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -60,7 +60,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -73,7 +73,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

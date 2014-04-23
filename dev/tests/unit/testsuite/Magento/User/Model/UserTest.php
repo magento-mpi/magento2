@@ -24,7 +24,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Helper\Data */
     protected $_coreData;
 
-    /** @var \Magento\Mail\Template\TransportBuilder|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Mail\Template\TransportBuilder|PHPUnit_Framework_MockObject_MockObject */
     protected $_transportBuilderMock;
 
     /** @var \Magento\Framework\Model\Context|PHPUnit_Framework_MockObject_MockObject */
@@ -36,7 +36,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Data\Collection\Db|PHPUnit_Framework_MockObject_MockObject */
     protected $_collectionMock;
 
-    /** @var \Magento\Mail\TransportInterface|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Mail\TransportInterface|PHPUnit_Framework_MockObject_MockObject */
     protected $_transportMock;
 
     /** @var \Magento\Store\Model\StoreManagerInterface|PHPUnit_Framework_MockObject_MockObject */
@@ -99,12 +99,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
             array('create')
         )->getMock();
         $this->_transportMock = $this->getMockBuilder(
-            'Magento\Mail\TransportInterface'
+            'Magento\Framework\Mail\TransportInterface'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();
         $this->_transportBuilderMock = $this->getMockBuilder(
-            '\Magento\Mail\Template\TransportBuilder'
+            '\Magento\Framework\Mail\Template\TransportBuilder'
         )->disableOriginalConstructor()->setMethods(
             array()
         )->getMock();

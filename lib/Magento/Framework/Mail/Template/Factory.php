@@ -7,9 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
-class Factory implements \Magento\Mail\Template\FactoryInterface
+class Factory implements \Magento\Framework\Mail\Template\FactoryInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager
@@ -27,7 +27,7 @@ class Factory implements \Magento\Mail\Template\FactoryInterface
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        $instanceName = 'Magento\Mail\TemplateInterface'
+        $instanceName = 'Magento\Framework\Mail\TemplateInterface'
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

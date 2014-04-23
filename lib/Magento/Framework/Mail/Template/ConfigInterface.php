@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 interface ConfigInterface
 {

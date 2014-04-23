@@ -7,13 +7,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 interface FactoryInterface
 {
     /**
      * @param string $identifier
-     * @return \Magento\Mail\TemplateInterface
+     * @return \Magento\Framework\Mail\TemplateInterface
      */
     public function get($identifier);
 }

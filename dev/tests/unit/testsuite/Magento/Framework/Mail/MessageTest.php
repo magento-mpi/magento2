@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_messageMock = $this->getMock(
-            '\Magento\Mail\Message',
+            '\Magento\Framework\Mail\Message',
             array('getBodyText', 'getBodyHtml', 'setBodyText', 'setBodyHtml')
         );
     }
@@ -26,8 +26,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      * @param string $messageType
      * @param string $method
      *
-     * @covers \Magento\Mail\Message::setBody
-     * @covers \Magento\Mail\Message::setMessageType
+     * @covers \Magento\Framework\Mail\Message::setBody
+     * @covers \Magento\Framework\Mail\Message::setMessageType
      * @dataProvider setBodyDataProvider
      */
     public function testSetBody($messageType, $method)
@@ -62,8 +62,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      * @param string $messageType
      * @param string $method
      *
-     * @covers \Magento\Mail\Message::getBody
-     * @covers \Magento\Mail\Message::setMessageType
+     * @covers \Magento\Framework\Mail\Message::getBody
+     * @covers \Magento\Framework\Mail\Message::setMessageType
      * @dataProvider getBodyDataProvider
      */
     public function testGetBody($messageType, $method)

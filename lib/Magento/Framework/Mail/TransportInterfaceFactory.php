@@ -6,10 +6,10 @@
  * @license   {license_link}
  */
 
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 /**
- * Factory class for \Magento\Mail\TransportInterface
+ * Factory class for \Magento\Framework\Mail\TransportInterface
  */
 class TransportInterfaceFactory
 {
@@ -35,7 +35,7 @@ class TransportInterfaceFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        $instanceName = 'Magento\Mail\TransportInterface'
+        $instanceName = 'Magento\Framework\Mail\TransportInterface'
     ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;

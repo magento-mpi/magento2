@@ -289,8 +289,12 @@ return array(
     array('cleanDbRow', 'Magento\Framework\App\Resource'),
     array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package', 'Magento\Framework\View\Asset\MergeService'),
     array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\Framework\View\Asset\MergeService'),
-    array('cleanMergedJsCss', 'Magento\Core\Model\Design\PackageInterface', 'Magento\Framework\View\Asset\MergeService'),
-    array('cleanVarFolder', '', 'Magento_Io_File::rmdirRecursive()'),
+    array(
+        'cleanMergedJsCss',
+        'Magento\Core\Model\Design\PackageInterface',
+        'Magento\Framework\View\Asset\MergeService'
+    ),
+    array('cleanVarFolder', '', 'Magento\Framework\Io\File::rmdirRecursive()'),
     array(
         'cleanVarSubFolders',
         '',

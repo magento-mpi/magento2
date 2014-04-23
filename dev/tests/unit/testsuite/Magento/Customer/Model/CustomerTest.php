@@ -33,10 +33,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_scopeConfigMock;
 
-    /** @var \Magento\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $_transportBuilderMock;
 
-    /** @var \Magento\Mail\TransportInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Mail\TransportInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_transportMock;
 
     /** @var \Magento\Framework\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -51,13 +51,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_storetMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_transportBuilderMock = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder',
+            '\Magento\Framework\Mail\Template\TransportBuilder',
             array(),
             array(),
             '',
             false
         );
-        $this->_transportMock = $this->getMock('Magento\Mail\TransportInterface', array(), array(), '', false);
+        $this->_transportMock = $this->getMock('Magento\Framework\Mail\TransportInterface', array(), array(), '', false);
         $this->_encryptor = $this->getMock('Magento\Framework\Encryption\EncryptorInterface');
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(

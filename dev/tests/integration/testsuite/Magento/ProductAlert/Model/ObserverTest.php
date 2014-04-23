@@ -65,7 +65,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
                     'Magento\TestFramework\Mail\Template\TransportBuilder' =>
                         'Magento\TestFramework\Mail\Template\TransportBuilderMock'
                 ]
