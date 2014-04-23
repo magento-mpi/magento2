@@ -2,6 +2,11 @@
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from “Magento\Core\Model\App”
 * Fixed bugs:
+  * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
+  * Fatal error on customer registration if mail server is off(MAGETWO-23558)
+  * Customer with middle name can't be found in grid by name(MAGETWO-23615)
+  * Related products are not displayed on product page(MAGETWO-23680)
+  * View Files Population Tool is Broken(MAGETWO-23659)
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
@@ -29,6 +34,13 @@
   * Refactor the rest of Customer Group usages (MAGETWO-23278)
   * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
   * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
+* JavaScript improvements:
+  * Implemented dialog widget (MAGETWO-22996)
+  * Implemented validation widget (MAGETWO-22996)
+  * Implemented tooltip widget (MAGETWO-22996)
+  * Implemented popup/modal window widget (MAGETWO-22996)
+  * Implemented calendar widget (MAGETWO-22996)
+  * Implemented suggest widget (MAGETWO-22996)
 
 2.0.0.0-dev74
 =============

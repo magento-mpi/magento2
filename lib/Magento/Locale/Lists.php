@@ -30,16 +30,10 @@ class Lists implements \Magento\Locale\ListsInterface
     protected $_localeResolver;
 
     /**
-     * @var string
-     */
-    protected $_currencyInstalled;
-
-    /**
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ConfigInterface $config
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param string $currencyInstalled
      * @param string $locale
      */
     public function __construct(
@@ -47,7 +41,6 @@ class Lists implements \Magento\Locale\ListsInterface
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ConfigInterface $config,
         \Magento\Locale\ResolverInterface $localeResolver,
-        $currencyInstalled,
         $locale = null
     ) {
         $this->_appState = $appState;
@@ -57,7 +50,6 @@ class Lists implements \Magento\Locale\ListsInterface
         if ($locale !== null) {
             $this->_localeResolver->setLocale($locale);
         }
-        $this->_currencyInstalled = $currencyInstalled;
     }
 
     /**
@@ -193,7 +185,7 @@ class Lists implements \Magento\Locale\ListsInterface
     protected function _getAllowedCurrencies()
     {
         if ($this->_appState->isInstalled()) {
-            $allowed = explode(',', $this->_scopeResolver->getScope()->getConfig($this->_currencyInstalled));
+            $allowed = $this->_scopeResolver->getScope()->getAllowedCurrencies();
         } else {
             $allowed = $this->_config->getAllowedCurrencies();
         }
