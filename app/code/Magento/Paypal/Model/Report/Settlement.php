@@ -214,11 +214,11 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param \Magento\Io\Sftp $connection
+     * @param \Magento\Framework\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
      * @throws \Magento\Framework\Model\Exception
      */
-    public function fetchAndSave(\Magento\Io\Sftp $connection)
+    public function fetchAndSave(\Magento\Framework\Io\Sftp $connection)
     {
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
@@ -274,7 +274,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      * Connect to an SFTP server using specified configuration
      *
      * @param array $config
-     * @return \Magento\Io\Sftp
+     * @return \Magento\Framework\Io\Sftp
      * @throws \InvalidArgumentException
      */
     public static function createConnection(array $config)
@@ -291,7 +291,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         ) {
             throw new \InvalidArgumentException('Required config elements: hostname, username, password, path');
         }
-        $connection = new \Magento\Io\Sftp();
+        $connection = new \Magento\Framework\Io\Sftp();
         $connection->open(
             array('host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password'])
         );

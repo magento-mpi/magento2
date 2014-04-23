@@ -102,6 +102,7 @@
     * Moved lib/Magento/Interception to lib/Magento/Framework/Interception
     * Moved lib/Magento/Json to lib/Magento/Framework/Json
     * Moved lib/Magento/Less to lib/Magento/Framework/Less
+    * Moved lib/Magento/Io to lib/Magento/Framework/Io
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

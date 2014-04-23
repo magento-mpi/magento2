@@ -198,4 +198,7 @@ return [
     ['/lib/Magento/Less', '/lib/Magento/Framework/Less'],
     ['/dev/tests/unit/testsuite/Magento/Less', '/dev/tests/unit/testsuite/Magento/Framework/Less'],
     ['/dev/tests/integration/testsuite/Magento/Less', '/dev/tests/integration/testsuite/Magento/Framework/Less'],
+    ['/lib/Magento/Io', '/lib/Magento/Framework/Io'],
+    ['/dev/tests/unit/testsuite/Magento/Io', '/dev/tests/unit/testsuite/Magento/Framework/Io'],
+    ['/dev/tests/integration/testsuite/Magento/Io', '/dev/tests/integration/testsuite/Magento/Framework/Io'],
 ];

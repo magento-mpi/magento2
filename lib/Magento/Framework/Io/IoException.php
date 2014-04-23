@@ -8,16 +8,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Io;
 
 /**
  * Io exception
- *
- * @category   Magento
- * @package    Magento_Io
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Io;
-
 class IoException extends \Magento\Framework\Exception
 {
 }

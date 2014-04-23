@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Io;
+namespace Magento\Framework\Io;
 
 /**
  * Filesystem client

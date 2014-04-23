@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Io
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Io;
 
 /**
  * Install and upgrade client abstract class
- *
- * @category   Magento
- * @package    Magento_Io
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Io;
-
 abstract class AbstractIo implements IoInterface
 {
     /**
