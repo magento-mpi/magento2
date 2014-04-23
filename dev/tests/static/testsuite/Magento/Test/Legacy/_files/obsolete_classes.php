@@ -2297,7 +2297,7 @@ return array(
     ['Magento\Rating\Model\Observer'],
     ['Magento\Core\Model\App\Area\CacheIdentifierPlugin', 'Magento\PageCache\App\CacheIdentifierPlugin'],
     ['Magento\Core\Model\App\Area', 'Magento\Framework\App\Area'],
-    ['Magento\Core\Model\App\Area\DesignExceptions', 'Magento\View\DesignExceptions'],
+    ['Magento\Core\Model\App\Area\DesignExceptions', 'Magento\Framework\View\DesignExceptions'],
     ['Magento\Checkout\Block\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'],
     ['Magento\Checkout\Block\Adminhtml\Agreement\Edit', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'],
     [

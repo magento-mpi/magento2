@@ -368,7 +368,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $model->setData('base_currency', false);
         $model->setData('current_currency', false);
         $model->setData('default_currency', false);
-        $this->assertInstanceOf('\Magento\Filter\Sprintf', $model->getPriceFilter());
+        $this->assertInstanceOf('\Magento\Framework\Filter\Sprintf', $model->getPriceFilter());
 
         $filter = $this->getMock('\Magento\Directory\Model\Currency\Filter', array(), array(), '', false);
 

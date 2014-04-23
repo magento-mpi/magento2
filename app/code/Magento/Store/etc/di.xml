@@ -72,7 +72,7 @@
     </type>
     <type name="Magento\Store\Model\Store">
         <arguments>
-            <argument name="session" xsi:type="object" shared="false">Magento\Session\Generic\Proxy</argument>
+            <argument name="session" xsi:type="object" shared="false">Magento\Framework\Session\Generic\Proxy</argument>
             <argument name="isCustomEntryPoint" xsi:type="init_parameter">Magento\Store\Model\Store::CUSTOM_ENTRY_POINT_PARAM</argument>
             <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
         </arguments>
@@ -148,7 +148,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\View\DesignExceptions">
+    <type name="Magento\Framework\View\DesignExceptions">
         <arguments>
             <argument name="exceptionConfigPath" xsi:type="string">design/theme/ua_regexp</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>

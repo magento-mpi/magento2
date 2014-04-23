@@ -65,7 +65,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_diConfigLoader;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -82,7 +82,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_scopeResolver;
 
     /**
-     * @var \Magento\View\DesignExceptions
+     * @var \Magento\Framework\View\DesignExceptions
      */
     protected $_designExceptions;
 
@@ -94,7 +94,7 @@ class Area implements \Magento\Framework\App\AreaInterface
      * @param \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\View\DesignExceptions $designExceptions
+     * @param \Magento\Framework\View\DesignExceptions $designExceptions
      * @param string $areaCode
      */
     public function __construct(
@@ -105,7 +105,7 @@ class Area implements \Magento\Framework\App\AreaInterface
         \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\View\DesignExceptions $designExceptions,
+        \Magento\Framework\View\DesignExceptions $designExceptions,
         $areaCode
     ) {
         $this->_code = $areaCode;

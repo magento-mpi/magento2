@@ -19,7 +19,7 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\View\DesignExceptions
+     * @var \Magento\Framework\View\DesignExceptions
      */
     protected $designExceptionsMock;
 
@@ -39,7 +39,7 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->designExceptionsMock = $this->getMock(
-            'Magento\View\DesignExceptions',
+            'Magento\Framework\View\DesignExceptions',
             ['getThemeByRequest'],
             [],
             '',

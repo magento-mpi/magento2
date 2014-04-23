@@ -24,7 +24,7 @@ interface DesignInterface
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param \Magento\View\DesignInterface $packageInto
+     * @param \Magento\Framework\View\DesignInterface $packageInto
      * @return $this
      */
     public function changeDesign(\Magento\Framework\View\DesignInterface $packageInto);

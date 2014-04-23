@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\View;
+namespace Magento\Framework\View;
 
 /**
  * Class DesignExceptions
