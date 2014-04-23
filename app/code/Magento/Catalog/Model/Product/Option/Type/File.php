@@ -766,7 +766,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 $this->_rootDirectory->getAbsolutePath($quotePath),
                 $this->_rootDirectory->getAbsolutePath($orderPath)
             );
-            $this->_rootDirectory->copyFile($quotePath, $orderPath);
         } catch (\Exception $e) {
             return $this;
         }
