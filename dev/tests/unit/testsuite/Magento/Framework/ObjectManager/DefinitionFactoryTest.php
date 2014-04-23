@@ -57,7 +57,7 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemDriverMock->expects($this->never())->method('isReadable');
         $this->assertInstanceOf(
-            '\Magento\ObjectManager\Definition\Runtime',
+            '\Magento\Framework\ObjectManager\Definition\Runtime',
             $this->model->createClassDefinition(null, false)
         );
         $autoloadFunctions = spl_autoload_functions();
