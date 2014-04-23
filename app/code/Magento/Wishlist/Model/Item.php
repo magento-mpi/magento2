@@ -8,7 +8,7 @@
 namespace Magento\Wishlist\Model;
 
 use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Wishlist\Model\Item\Option;
 use Magento\Wishlist\Model\Item\OptionFactory;
 use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
