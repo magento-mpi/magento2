@@ -76,7 +76,7 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
 
-        $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', array(), array(), '', false);
+        $lessFile = $this->getMock('Magento\Framework\Less\PreProcessor\File\Less', array(), array(), '', false);
         $lessFile->expects($this->any())->method('getFilePath')->will($this->returnValue($filePath));
         $lessFile->expects($this->any())->method('getSourcePath')->will($this->returnValue($this->absoluteFilePath));
         $lessFile->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($this->rootDirectory));

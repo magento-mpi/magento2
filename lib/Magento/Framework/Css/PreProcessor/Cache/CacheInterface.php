@@ -23,7 +23,7 @@ interface CacheInterface
     public function get();
 
     /**
-     * @param \Magento\Less\PreProcessor\File\Less $lessFile
+     * @param \Magento\Framework\Less\PreProcessor\File\Less $lessFile
      * @return void
      */
     public function add($lessFile);

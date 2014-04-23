@@ -139,7 +139,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            $this->isInstanceOf('Magento\Less\PreProcessor\File\Less')
+            $this->isInstanceOf('Magento\Framework\Less\PreProcessor\File\Less')
         )->will(
             $this->returnValue('entity_object_here')
         );
@@ -214,7 +214,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $filesData
-     * @return \Magento\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function getLessFile($filesData)
     {
@@ -242,7 +242,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->returnValue(isset($fileData['mtime']) ? $fileData['mtime'] : null)
             );
-            $lessFile = $this->getMock('Magento\Less\PreProcessor\File\Less', array(), array(), '', false);
+            $lessFile = $this->getMock('Magento\Framework\Less\PreProcessor\File\Less', array(), array(), '', false);
             $lessFile->expects($this->any())->method('getFilePath')->will($this->returnValue($fileData['filePath']));
             $lessFile->expects(
                 $this->any()
@@ -316,7 +316,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $factoryCallback = $this->returnCallback(
             function ($lessFile) {
-                /** @var $lessFile \Magento\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject */
+                /** @var $lessFile \Magento\Framework\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject */
                 $importEntity = $this->getMock(
                     'Magento\Framework\Css\PreProcessor\Cache\Import\ImportEntity',
                     array(),
