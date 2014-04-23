@@ -891,7 +891,7 @@
 * Moved the following methods from Core Helpers to the appropriate libraries:
   * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
   * Moved the Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
-  * Moved the Data Helper functions that copy data from one object to another to \Magento\Framework\Object\Copy
+  * Moved the Data Helper functions that copy data from one object to another to \Magento\Object\Copy
 
 2.0.0.0-dev51
 =============
