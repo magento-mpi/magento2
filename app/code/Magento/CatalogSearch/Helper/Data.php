@@ -27,6 +27,11 @@ use Magento\Stdlib\String;
 class Data extends AbstractHelper
 {
     /**
+     * @var array
+     */
+    protected $_suggestData = null;
+
+    /**
      * Query variable
      */
     const QUERY_VAR_NAME = 'q';
@@ -398,5 +403,33 @@ class Data extends AbstractHelper
             }
         }
         return join($separator, $_index);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestData()
+    {
+        if (!$this->_suggestData) {
+            $collection = $this->getSuggestCollection();
+            $query = $this->getQueryText();
+            $counter = 0;
+            $data = array();
+            foreach ($collection as $item) {
+                $_data = array(
+                    'title' => $item->getQueryText(),
+                    'row_class' => ++$counter % 2 ? 'odd' : 'even',
+                    'num_of_results' => $item->getNumResults()
+                );
+
+                if ($item->getQueryText() == $query) {
+                    array_unshift($data, $_data);
+                } else {
+                    $data[] = $_data;
+                }
+            }
+            $this->_suggestData = $data;
+        }
+        return $this->_suggestData;
     }
 }
