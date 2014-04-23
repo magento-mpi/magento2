@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\File\Transfer\Adapter;
+namespace Magento\Framework\File\Transfer\Adapter;
 
 /**
  * Csv parse

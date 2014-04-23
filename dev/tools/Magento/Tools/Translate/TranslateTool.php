@@ -21,9 +21,9 @@ class TranslateTool
     private static $opts;
 
     /**
-     * Object of \Magento\File\Csv\multy
+     * Object of \Magento\Framework\File\Csv\multy
      *
-     * @var \Magento\File\CsvMulty
+     * @var \Magento\Framework\File\CsvMulty
      */
     private static $csv;
 
@@ -63,7 +63,7 @@ class TranslateTool
     {
         self::$CONFIG = $config;
         \Magento\Tools\Translate\ModuleTranslations::setConfig($config);
-        self::$csv = new \Magento\File\CsvMulty();
+        self::$csv = new \Magento\Framework\File\CsvMulty();
         try {
             self::$opts = new \Magento\Tools\Translate\MultyGetopt(
                 array(

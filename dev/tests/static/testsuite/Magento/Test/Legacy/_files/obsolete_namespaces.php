@@ -56,6 +56,7 @@ return [
     ['Magento\Interception', 'Magento\Framework\Interception'],
     ['Magento\Json', 'Magento\Framework\Json'],
     ['Magento\Less', 'Magento\Framework\Less'],
+    ['Magento\File', 'Magento\Framework\File'],
     ['Magento\Io', 'Magento\Framework\Io'],
     ['Magento\Mail', 'Magento\Framework\Mail'],
 ];

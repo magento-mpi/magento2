@@ -68,7 +68,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_orderPath = '/custom_options/order';
 
     /**
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileSize;
 
@@ -106,7 +106,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
@@ -117,7 +117,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -857,7 +857,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Get file storage helper
      *
-     * @return \Magento\File\Size
+     * @return \Magento\Framework\File\Size
      */
     public function getFileSizeService()
     {

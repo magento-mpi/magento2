@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\File;
+namespace Magento\Framework\File;
 
 /**
  * Csv parse
@@ -42,7 +42,7 @@ class Csv
      * Set max file line length
      *
      * @param   int $length
-     * @return  \Magento\File\Csv
+     * @return  \Magento\Framework\File\Csv
      */
     public function setLineLength($length)
     {
@@ -54,7 +54,7 @@ class Csv
      * Set CSV column delimiter
      *
      * @param   string $delimiter
-     * @return  \Magento\File\Csv
+     * @return  \Magento\Framework\File\Csv
      */
     public function setDelimiter($delimiter)
     {
@@ -66,7 +66,7 @@ class Csv
      * Set CSV column value enclosure
      *
      * @param   string $enclosure
-     * @return  \Magento\File\Csv
+     * @return  \Magento\Framework\File\Csv
      */
     public function setEnclosure($enclosure)
     {

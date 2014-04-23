@@ -244,7 +244,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
 
         if (!empty($value['tmp_name'])) {
             try {
-                $uploader = new \Magento\File\Uploader($value);
+                $uploader = new \Magento\Framework\File\Uploader($value);
                 $uploader->setFilesDispersion(true);
                 $uploader->setFilenamesCaseSensitivity(false);
                 $uploader->setAllowRenameFiles(true);

@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\File;
+namespace Magento\Framework\File;
 
 /**
  * File upload class
@@ -40,7 +40,7 @@ class Uploader
     /**
      * Upload type. Used to right handle $_FILES array.
      *
-     * @var \Magento\File\Uploader::SINGLE_STYLE|\Magento\File\Uploader::MULTIPLE_STYLE
+     * @var \Magento\Framework\File\Uploader::SINGLE_STYLE|\Magento\Framework\File\Uploader::MULTIPLE_STYLE
      * @access protected
      */
     protected $_uploadType;
@@ -298,7 +298,7 @@ class Uploader
      * @param object $callbackObject
      * @param string $callbackMethod    Method name of $callbackObject. It must
      *                                  have interface (string $tmpFilePath)
-     * @return \Magento\File\Uploader
+     * @return \Magento\Framework\File\Uploader
      */
     public function addValidateCallback($callbackName, $callbackObject, $callbackMethod)
     {
@@ -311,7 +311,7 @@ class Uploader
      *
      * @param string $callbackName
      * @access public
-     * @return \Magento\File\Uploader
+     * @return \Magento\Framework\File\Uploader
      */
     public function removeValidateCallback($callbackName)
     {
@@ -529,7 +529,7 @@ class Uploader
      * Create destination folder
      *
      * @param string $destinationFolder
-     * @return \Magento\File\Uploader
+     * @return \Magento\Framework\File\Uploader
      * @throws \Exception
      */
     private function _createDestinationFolder($destinationFolder)

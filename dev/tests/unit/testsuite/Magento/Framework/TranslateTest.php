@@ -54,7 +54,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\RequestInterface */
     protected $_request;
 
-    /** @var \Magento\File\Csv */
+    /** @var \Magento\Framework\File\Csv */
     protected $_csvParser;
 
     /** @var \Magento\Framework\Filesystem\Directory\ReadInterface */
@@ -73,7 +73,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_locale = $this->getMock('\Magento\Framework\Locale\ResolverInterface', [], [], '', false);
         $this->_appState = $this->getMock('\Magento\Framework\App\State', [], [], '', false);
         $this->_request = $this->getMock('\Magento\Framework\App\RequestInterface', [], [], '', false);
-        $this->_csvParser = $this->getMock('\Magento\File\Csv', [], [], '', false);
+        $this->_csvParser = $this->getMock('\Magento\Framework\File\Csv', [], [], '', false);
 
         $this->_directory = $this->getMock('\Magento\Framework\Filesystem\Directory\ReadInterface', [], [], '', false);
         $filesystem = $this->getMock('\Magento\Framework\App\Filesystem', [], [], '', false);

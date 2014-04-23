@@ -12,7 +12,7 @@
 /**
  * Magento file size lib
  */
-namespace Magento\File;
+namespace Magento\Framework\File;
 
 class Size
 {

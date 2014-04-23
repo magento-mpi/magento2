@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\File;
+namespace Magento\Framework\File;
 
 class UploaderFactory
 {
@@ -32,6 +32,6 @@ class UploaderFactory
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento\File\Uploader', $data);
+        return $this->_objectManager->create('Magento\Framework\File\Uploader', $data);
     }
 }

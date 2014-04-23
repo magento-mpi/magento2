@@ -211,7 +211,7 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\O
     public function setImage($value)
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
-        if ($value instanceof \Magento\File\Uploader) {
+        if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save(
                 $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
             );
