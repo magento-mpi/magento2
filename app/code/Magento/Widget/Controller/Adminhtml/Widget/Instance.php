@@ -33,7 +33,7 @@ class Instance extends \Magento\Backend\App\Action
     protected $_logger;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -47,7 +47,7 @@ class Instance extends \Magento\Backend\App\Action
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Instance extends \Magento\Backend\App\Action
         \Magento\Registry $coreRegistry,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Framework\Logger $logger,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Translate\InlineInterface $translateInline
     ) {
         $this->_translateInline = $translateInline;

@@ -81,7 +81,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
     protected $_cookie;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -100,7 +100,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -114,7 +114,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

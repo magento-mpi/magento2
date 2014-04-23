@@ -40,7 +40,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param Paypal $paypal
      * @param string $formBlock
@@ -59,7 +59,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         Paypal $paypal,
         $formBlock,

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Math;
+namespace Magento\Framework\Math;
 
 class DivisionTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetExactDivision($dividend, $divisor, $expected)
     {
-        $mathDivision = new \Magento\Math\Division();
+        $mathDivision = new \Magento\Framework\Math\Division();
         $remainder = $mathDivision->getExactDivision($dividend, $divisor);
         $this->assertEquals($expected, $remainder);
     }

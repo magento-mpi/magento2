@@ -87,7 +87,7 @@ class Index extends \Magento\Backend\App\Action
     /** @var  \Magento\Customer\Helper\View */
     protected $_viewHelper;
 
-    /** @var \Magento\Math\Random */
+    /** @var \Magento\Framework\Math\Random */
     protected $_random;
 
     /**
@@ -105,7 +105,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Customer\Helper\Data $helper
-     * @param \Magento\Math\Random $random
+     * @param \Magento\Framework\Math\Random $random
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -124,7 +124,7 @@ class Index extends \Magento\Backend\App\Action
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Customer\Helper\Data $helper,
-        \Magento\Math\Random $random
+        \Magento\Framework\Math\Random $random
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;

@@ -23,7 +23,7 @@ class Encryptor implements EncryptorInterface
     const DEFAULT_SALT_LENGTH = 32;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $_randomGenerator;
 
@@ -45,12 +45,12 @@ class Encryptor implements EncryptorInterface
     protected $_crypt;
 
     /**
-     * @param \Magento\Math\Random $randomGenerator
+     * @param \Magento\Framework\Math\Random $randomGenerator
      * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\Math\Random $randomGenerator,
+        \Magento\Framework\Math\Random $randomGenerator,
         \Magento\Framework\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {

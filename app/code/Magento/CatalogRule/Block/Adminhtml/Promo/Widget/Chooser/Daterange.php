@@ -43,20 +43,20 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
     protected $_formFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;

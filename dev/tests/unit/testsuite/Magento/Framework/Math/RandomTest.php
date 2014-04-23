@@ -1,13 +1,13 @@
 <?php
 /**
- * Test \Magento\Math\Random
+ * Test \Magento\Framework\Math\Random
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Math;
+namespace Magento\Framework\Math;
 
 class RandomTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class RandomTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRandomString($length, $chars = null)
     {
-        $mathRandom = new \Magento\Math\Random();
+        $mathRandom = new \Magento\Framework\Math\Random();
         $string = $mathRandom->getRandomString($length, $chars);
 
         $this->assertEquals($length, strlen($string));
@@ -33,21 +33,21 @@ class RandomTest extends \PHPUnit_Framework_TestCase
         return array(
             array(0),
             array(10),
-            array(10, \Magento\Math\Random::CHARS_LOWERS),
-            array(10, \Magento\Math\Random::CHARS_UPPERS),
-            array(10, \Magento\Math\Random::CHARS_DIGITS),
+            array(10, \Magento\Framework\Math\Random::CHARS_LOWERS),
+            array(10, \Magento\Framework\Math\Random::CHARS_UPPERS),
+            array(10, \Magento\Framework\Math\Random::CHARS_DIGITS),
             array(
                 20,
-                \Magento\Math\Random::CHARS_LOWERS .
-                \Magento\Math\Random::CHARS_UPPERS .
-                \Magento\Math\Random::CHARS_DIGITS
+                \Magento\Framework\Math\Random::CHARS_LOWERS .
+                \Magento\Framework\Math\Random::CHARS_UPPERS .
+                \Magento\Framework\Math\Random::CHARS_DIGITS
             )
         );
     }
 
     public function testGetUniqueHash()
     {
-        $mathRandom = new \Magento\Math\Random();
+        $mathRandom = new \Magento\Framework\Math\Random();
         $hashOne = $mathRandom->getUniqueHash();
         $hashTwo = $mathRandom->getUniqueHash();
         $this->assertTrue(is_string($hashOne));

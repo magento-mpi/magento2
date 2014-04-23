@@ -19,7 +19,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     protected $_authorization;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -64,7 +64,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\Framework\Code\NameBuilder $nameBuilder
      *
@@ -96,7 +96,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\Framework\Code\NameBuilder $nameBuilder
     ) {
@@ -161,7 +161,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Math\Random
+     * @return \Magento\Framework\Math\Random
      */
     public function getMathRandom()
     {

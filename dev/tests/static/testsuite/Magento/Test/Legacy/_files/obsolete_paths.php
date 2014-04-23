@@ -208,4 +208,7 @@ return [
     ['/lib/Magento/Mail', '/lib/Magento/Framework/Mail'],
     ['/dev/tests/unit/testsuite/Magento/Mail', '/dev/tests/unit/testsuite/Magento/Framework/Mail'],
     ['/dev/tests/integration/testsuite/Magento/Mail', '/dev/tests/integration/testsuite/Magento/Framework/Mail'],
+    ['/lib/Magento/Math', '/lib/Magento/Framework/Math'],
+    ['/dev/tests/unit/testsuite/Magento/Math', '/dev/tests/unit/testsuite/Magento/Framework/Math'],
+    ['/dev/tests/integration/testsuite/Magento/Math', '/dev/tests/integration/testsuite/Magento/Framework/Math'],
 ];

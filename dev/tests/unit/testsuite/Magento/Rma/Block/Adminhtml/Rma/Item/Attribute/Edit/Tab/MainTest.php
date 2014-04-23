@@ -94,7 +94,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $backendSession;
 
-    /** @var \Magento\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
     protected $random;
 
     /** @var \Magento\Framework\Data\Form\FormKey|\PHPUnit_Framework_MockObject_MockObject */
@@ -160,7 +160,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->authorizationInterface = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
-        $this->random = $this->getMock('Magento\Math\Random');
+        $this->random = $this->getMock('Magento\Framework\Math\Random');
         $this->formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
         $this->nameBuilder = $this->getMock('Magento\Framework\Code\NameBuilder');
 

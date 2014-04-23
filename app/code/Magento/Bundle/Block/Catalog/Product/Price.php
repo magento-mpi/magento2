@@ -29,7 +29,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Tax\Model\Calculation $taxCalc
      * @param array $data
@@ -41,7 +41,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $registry,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Tax\Model\Calculation $taxCalc,
         array $data = array()

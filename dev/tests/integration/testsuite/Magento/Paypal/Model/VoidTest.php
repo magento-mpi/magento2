@@ -29,7 +29,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
         $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
-        $mathRandom = $objectManager->get('Magento\Math\Random');
+        $mathRandom = $objectManager->get('Magento\Framework\Math\Random');
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = $objectManager->create('Magento\Sales\Model\Order');

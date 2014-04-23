@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Math;
+namespace Magento\Framework\Math;
 
 /**
  * Calculations Library

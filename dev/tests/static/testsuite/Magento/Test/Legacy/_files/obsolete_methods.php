@@ -1029,7 +1029,7 @@ return array(
     array('uc_words'),
     array('is_empty_date'),
     array('now'),
-    array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Math\Random::getUniqueHash'),
+    array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Framework\Math\Random::getUniqueHash'),
     array(
         'getMerchantCountryCode',
         '\Magento\Core\Helper\Data',
@@ -1049,7 +1049,7 @@ return array(
         '\Magento\Core\Model\File\Validator\NotProtectedExtension::getProtectedFileExtensions'
     ),
     array('getStoreId', '\Magento\Core\Helper\Data'),
-    array('getExactDivision', '\Magento\Core\Helper\Data', '\Magento\Math\Division::getExactDivision'),
+    array('getExactDivision', '\Magento\Core\Helper\Data', '\Magento\Framework\Math\Division::getExactDivision'),
     array('getPublicFilesValidPath', '\Magento\Core\Helper\Data'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
     array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),

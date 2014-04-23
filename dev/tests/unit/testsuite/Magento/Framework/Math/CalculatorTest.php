@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Math;
+namespace Magento\Framework\Math;
 
 class CalculatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Math\Calculator
+     * @var \Magento\Framework\Math\Calculator
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                 return round($argument, 2);
             }));
 
-        $this->_model = new \Magento\Math\Calculator($this->_scopeMock);
+        $this->_model = new \Magento\Framework\Math\Calculator($this->_scopeMock);
     }
 
     /**
@@ -36,8 +36,8 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
      * @param bool $negative
      * @param float $expected
      * @dataProvider deltaRoundDataProvider
-     * @covers \Magento\Math\Calculator::deltaRound
-     * @covers \Magento\Math\Calculator::__construct
+     * @covers \Magento\Framework\Math\Calculator::deltaRound
+     * @covers \Magento\Framework\Math\Calculator::__construct
      */
     public function testDeltaRound($price, $negative, $expected)
     {

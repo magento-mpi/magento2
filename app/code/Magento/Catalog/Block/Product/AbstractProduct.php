@@ -109,7 +109,7 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_catalogConfig;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $_mathRandom;
 

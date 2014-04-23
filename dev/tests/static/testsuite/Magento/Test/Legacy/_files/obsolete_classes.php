@@ -2065,7 +2065,7 @@ return array(
     array('Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringPayment\Controller\Payment'),
     array('Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'),
     array('Magento\Core\Model\AbstractShell', 'Magento\Framework\App\AbstractShell'),
-    array('Magento\Core\Model\Calculator', 'Magento\Math\Calculator'),
+    array('Magento\Core\Model\Calculator', 'Magento\Framework\Math\Calculator'),
     array('Magento\Core\Model\Log\Adapter', 'Magento\Framework\Logger\Adapter'),
     array('Magento\Core\Model\Input\Filter', 'Magento\Framework\Filter\Input'),
     array('Magento\Core\Model\Input\Filter\MaliciousCode', 'Magento\Framework\Filter\Input\MaliciousCode'),

@@ -38,7 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Backend\Model\Url', array(), array(), '', false),
             $this->getMock('\Magento\Backend\Model\Auth', array(), array(), '', false),
             $this->_frontResolverMock,
-            $this->getMock('\Magento\Math\Random', array(), array(), '', false),
+            $this->getMock('\Magento\Framework\Math\Random', array(), array(), '', false),
             $this->getMock('\Magento\Framework\App\RequestInterface')
         );
     }

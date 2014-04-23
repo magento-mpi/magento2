@@ -231,7 +231,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_orderResourceFactory;
 
     /**
-     * @var \Magento\Math\CalculatorFactory
+     * @var \Magento\Framework\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -266,7 +266,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param Invoice\Config $invoiceConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
-     * @param \Magento\Math\CalculatorFactory $calculatorFactory
+     * @param \Magento\Framework\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory
      * @param Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory
@@ -286,7 +286,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
-        \Magento\Math\CalculatorFactory $calculatorFactory,
+        \Magento\Framework\Math\CalculatorFactory $calculatorFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory,
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory,

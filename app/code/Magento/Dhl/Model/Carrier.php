@@ -168,7 +168,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_configReader;
 
     /**
-     * @var \Magento\Math\Division
+     * @var \Magento\Framework\Math\Division
      */
     protected $mathDivision;
 
@@ -208,7 +208,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * @param \Magento\Framework\Module\Dir\Reader $configReader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\HTTP\ZendClientFactory $httpClientFactory
@@ -233,7 +233,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Framework\Module\Dir\Reader $configReader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Math\Division $mathDivision,
+        \Magento\Framework\Math\Division $mathDivision,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\HTTP\ZendClientFactory $httpClientFactory,

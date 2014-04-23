@@ -195,7 +195,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     protected $_configFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -210,7 +210,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -226,7 +226,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\ConfigFactory $configFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

@@ -125,7 +125,7 @@ class Onepage
     /** @var AddressBuilder */
     protected $_addressBuilder;
 
-    /** @var \Magento\Math\Random */
+    /** @var \Magento\Framework\Math\Random */
     protected $mathRandom;
 
     /** @var CustomerAddressServiceInterface */
@@ -154,7 +154,7 @@ class Onepage
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
      */
@@ -177,7 +177,7 @@ class Onepage
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService

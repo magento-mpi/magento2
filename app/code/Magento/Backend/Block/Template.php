@@ -22,7 +22,7 @@ class Template extends \Magento\Framework\View\Element\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
