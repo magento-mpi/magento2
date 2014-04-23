@@ -55,7 +55,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_transportBuilderMock = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder',
+            '\Magento\Framework\Mail\Template\TransportBuilder',
             array(),
             array(),
             '',
@@ -78,7 +78,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTransport'
         )->will(
-            $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
+            $this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface'))
         );
 
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));

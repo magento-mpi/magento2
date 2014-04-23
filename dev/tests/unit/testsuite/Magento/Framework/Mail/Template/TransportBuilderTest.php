@@ -5,27 +5,27 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 class TransportBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
      */
-    protected $builderClassName = '\Magento\Mail\Template\TransportBuilder';
+    protected $builderClassName = '\Magento\Framework\Mail\Template\TransportBuilder';
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $builder;
 
     /**
-     * @var \Magento\Mail\Template\FactoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Mail\Template\FactoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $templateFactoryMock;
 
     /**
-     * @var \Magento\Mail\Message | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Mail\Message | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $messageMock;
 
@@ -35,7 +35,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerMock;
 
     /**
-     * @var \Magento\Mail\Template\SenderResolverInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Mail\Template\SenderResolverInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $senderResolverMock;
 
@@ -47,12 +47,12 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->templateFactoryMock = $this->getMock('Magento\Mail\Template\FactoryInterface');
-        $this->messageMock = $this->getMock('Magento\Mail\Message');
+        $this->templateFactoryMock = $this->getMock('Magento\Framework\Mail\Template\FactoryInterface');
+        $this->messageMock = $this->getMock('Magento\Framework\Mail\Message');
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
-        $this->senderResolverMock = $this->getMock('Magento\Mail\Template\SenderResolverInterface');
+        $this->senderResolverMock = $this->getMock('Magento\Framework\Mail\Template\SenderResolverInterface');
         $this->_mailTransportFactoryMock = $this->getMockBuilder(
-            'Magento\Mail\TransportInterfaceFactory'
+            'Magento\Framework\Mail\TransportInterfaceFactory'
         )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         $this->builder = $helper->getObject(
             $this->builderClassName,
@@ -76,7 +76,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $vars = array('reason' => 'Reason', 'customer' => 'Customer');
         $options = array('area' => 'frontend', 'store' => 1);
-        $template = $this->getMock('\Magento\Mail\TemplateInterface');
+        $template = $this->getMock('\Magento\Framework\Mail\TemplateInterface');
         $template->expects($this->once())->method('setVars')->with($this->equalTo($vars))->will($this->returnSelf());
         $template->expects(
             $this->once()
@@ -129,7 +129,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $transport = $this->getMock('\Magento\Mail\TransportInterface');
+        $transport = $this->getMock('\Magento\Framework\Mail\TransportInterface');
 
         $this->_mailTransportFactoryMock->expects(
             $this->at(0)
@@ -146,7 +146,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            $this->equalTo('Magento\Mail\Message')
+            $this->equalTo('Magento\Framework\Mail\Message')
         )->will(
             $this->returnValue($transport)
         );
@@ -155,7 +155,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->builder->getTransport();
 
-        $this->assertInstanceOf('Magento\Mail\TransportInterface', $result);
+        $this->assertInstanceOf('Magento\Framework\Mail\TransportInterface', $result);
     }
 
     public function getTransportDataProvider()
@@ -163,12 +163,12 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT,
-                \Magento\Mail\Message::TYPE_TEXT,
+                \Magento\Framework\Mail\Message::TYPE_TEXT,
                 'Plain text'
             ),
             array(
                 \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML,
-                \Magento\Mail\Message::TYPE_HTML,
+                \Magento\Framework\Mail\Message::TYPE_HTML,
                 '<h1>Html message</h1>'
             )
         );
@@ -208,7 +208,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Mail\Template\TransportBuilder::addTo
+     * @covers \Magento\Framework\Mail\Template\TransportBuilder::addTo
      */
     public function testAddTo()
     {
@@ -221,7 +221,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Mail\Template\TransportBuilder::addBcc
+     * @covers \Magento\Framework\Mail\Template\TransportBuilder::addBcc
      */
     public function testAddBcc()
     {
@@ -234,7 +234,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Mail\Template\TransportBuilder::setReplyTo
+     * @covers \Magento\Framework\Mail\Template\TransportBuilder::setReplyTo
      */
     public function testSetReplyTo()
     {

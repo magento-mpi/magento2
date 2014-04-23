@@ -6,12 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
-class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Mail\TransportInterface
+class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Framework\Mail\TransportInterface
 {
     /**
-     * @var \Magento\Mail\MessageInterface
+     * @var \Magento\Framework\Mail\MessageInterface
      */
     protected $_message;
 
@@ -20,7 +20,7 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Mail\T
      * @param null $parameters
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Mail\MessageInterface $message, $parameters = null)
+    public function __construct(\Magento\Framework\Mail\MessageInterface $message, $parameters = null)
     {
         if (!$message instanceof \Zend_Mail) {
             throw new \InvalidArgumentException('The message should be an instance of \Zend_Mail');
@@ -33,14 +33,14 @@ class Transport extends \Zend_Mail_Transport_Sendmail implements \Magento\Mail\T
      * Send a mail using this transport
      *
      * @return void
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function sendMessage()
     {
         try {
             parent::send($this->_message);
         } catch (\Exception $e) {
-            throw new \Magento\Mail\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Mail\Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

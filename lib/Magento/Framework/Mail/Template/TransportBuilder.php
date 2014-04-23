@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 class TransportBuilder
 {
@@ -35,7 +35,7 @@ class TransportBuilder
     /**
      * Mail Transport
      *
-     * @var \Magento\Mail\TransportInterface
+     * @var \Magento\Framework\Mail\TransportInterface
      */
     protected $transport;
 
@@ -56,35 +56,35 @@ class TransportBuilder
     /**
      * Message
      *
-     * @var \Magento\Mail\Message
+     * @var \Magento\Framework\Mail\Message
      */
     protected $message;
 
     /**
      * Sender resolver
      *
-     * @var \Magento\Mail\Template\SenderResolverInterface
+     * @var \Magento\Framework\Mail\Template\SenderResolverInterface
      */
     protected $_senderResolver;
 
     /**
-     * @var \Magento\Mail\TransportInterfaceFactory
+     * @var \Magento\Framework\Mail\TransportInterfaceFactory
      */
     protected $_mailTransportFactory;
 
     /**
      * @param FactoryInterface $templateFactory
-     * @param \Magento\Mail\Message $message
-     * @param \Magento\Mail\Template\SenderResolverInterface $senderResolver
+     * @param \Magento\Framework\Mail\Message $message
+     * @param \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver
      * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Mail\TransportInterfaceFactory $mailTransportFactory
+     * @param \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory
      */
     public function __construct(
-        \Magento\Mail\Template\FactoryInterface $templateFactory,
-        \Magento\Mail\Message $message,
-        \Magento\Mail\Template\SenderResolverInterface $senderResolver,
+        \Magento\Framework\Mail\Template\FactoryInterface $templateFactory,
+        \Magento\Framework\Mail\Message $message,
+        \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver,
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Mail\TransportInterfaceFactory $mailTransportFactory
+        \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory
     ) {
         $this->templateFactory = $templateFactory;
         $this->message = $message;
@@ -196,7 +196,7 @@ class TransportBuilder
     /**
      * Get mail transport
      *
-     * @return \Magento\Mail\TransportInterface
+     * @return \Magento\Framework\Mail\TransportInterface
      */
     public function getTransport()
     {
@@ -214,7 +214,7 @@ class TransportBuilder
      */
     protected function reset()
     {
-        $this->message = $this->objectManager->create('Magento\Mail\Message');
+        $this->message = $this->objectManager->create('Magento\Framework\Mail\Message');
         $this->templateIdentifier = null;
         $this->templateVars = null;
         $this->templateOptions = null;
@@ -224,7 +224,7 @@ class TransportBuilder
     /**
      * Get template
      *
-     * @return \Magento\Mail\TemplateInterface
+     * @return \Magento\Framework\Mail\TemplateInterface
      */
     protected function getTemplate()
     {
@@ -246,8 +246,8 @@ class TransportBuilder
     {
         $template = $this->getTemplate();
         $types = array(
-            \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Mail\MessageInterface::TYPE_TEXT,
-            \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML
+            \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Framework\Mail\MessageInterface::TYPE_TEXT,
+            \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => \Magento\Framework\Mail\MessageInterface::TYPE_HTML
         );
 
         $body = $template->processTemplate();

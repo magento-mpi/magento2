@@ -782,13 +782,16 @@ return array(
     array('Magento\Core\Model\Flag', 'Magento\Flag'),
     array('Magento\Core\Exception', 'Magento\Framework\Model\Exception'),
     array('Magento\Core\Model\AbstractModel', 'Magento\Framework\Model\AbstractModel'),
-    array('Magento\Core\Model\Email\Info', 'Magento\Mail\MessageInterface'),
-    array('Magento\Core\Model\Email\Sender', 'Magento\Mail\Template\TransportBuilder'),
-    array('Magento\Core\Model\Email\Template\Mailer', 'Magento\Mail\Template\TransportBuilder'),
+    array('Magento\Core\Model\Email\Info', 'Magento\Framework\Mail\MessageInterface'),
+    array('Magento\Core\Model\Email\Sender', 'Magento\Framework\Mail\Template\TransportBuilder'),
+    array('Magento\Core\Model\Email\Template\Mailer', 'Magento\Framework\Mail\Template\TransportBuilder'),
     array('Magento\Core\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\AbstractResource'),
     array('Magento\Core\Model\Resource\Db\AbstractDb', 'Magento\Framework\Model\Resource\Db\AbstractDb'),
     array('Magento\Core\Model\Resource\Db\Profiler', 'Magento\Framework\Model\Resource\Db\Profiler'),
-    array('Magento\Core\Model\Resource\Entity\AbstractEntity', 'Magento\Framework\Model\Resource\Entity\AbstractEntity'),
+    array(
+        'Magento\Core\Model\Resource\Entity\AbstractEntity',
+        'Magento\Framework\Model\Resource\Entity\AbstractEntity'
+    ),
     array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Framework\Model\Resource\Entity\Table'),
     array('Magento\Core\Model\Resource\Flag', 'Magento\Flag\Resource'),
     array('Magento\Core\Model\Resource\Iterator', 'Magento\Framework\Model\Resource\Iterator'),
@@ -800,9 +803,9 @@ return array(
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
         'Magento\Framework\Model\Resource\Db\Collection\AbstractCollection'
     ),
-    array('Magento\Email\Model\Info', 'Magento\Mail\MessageInterface'),
-    array('Magento\Email\Model\Sender', 'Magento\Mail\Template\TransportBuilder'),
-    array('Magento\Email\Model\Template\Mailer', 'Magento\Mail\Template\TransportBuilder'),
+    array('Magento\Email\Model\Info', 'Magento\Framework\Mail\MessageInterface'),
+    array('Magento\Email\Model\Sender', 'Magento\Framework\Mail\Template\TransportBuilder'),
+    array('Magento\Email\Model\Template\Mailer', 'Magento\Framework\Mail\Template\TransportBuilder'),
     array('Magento\Core\Model\Email\Template', 'Magento\Email\Model\Template'),
     array('Magento\Core\Model\Email\Transport', 'Magento\Email\Model\Transport'),
     array('Magento\Core\Model\Email\Template\Config', 'Magento\Email\Model\Template\Config'),
@@ -1386,8 +1389,14 @@ return array(
     array('Magento\Core\Model\View\DesignInterface', 'Magento\Framework\View\DesignInterface'),
     array('Magento\Core\Model\Layout\Element', 'Magento\Framework\View\Layout\Element'),
     array('Magento\Core\Helper\Hint', 'Magento\Backend\Block\Store\Switcher'),
-    array('Magento\Core\Model\Design\Fallback\Rule\ModularSwitch', 'Magento\Framework\View\Design\Fallback\Rule\ModularSwitch'),
-    array('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', 'Magento\Framework\View\Design\Fallback\Rule\RuleInterface'),
+    array(
+        'Magento\Core\Model\Design\Fallback\Rule\ModularSwitch',
+        'Magento\Framework\View\Design\Fallback\Rule\ModularSwitch'
+    ),
+    array(
+        'Magento\Core\Model\Design\Fallback\Rule\RuleInterface',
+        'Magento\Framework\View\Design\Fallback\Rule\RuleInterface'
+    ),
     array('Magento\Core\Model\Design\Fallback\Rule\Simple', 'Magento\Framework\View\Design\Fallback\Rule\Simple'),
     array('Magento\Core\Model\Design\Fallback\Factory', 'Magento\Framework\View\Design\Fallback\Factory'),
     array(
@@ -1398,7 +1407,10 @@ return array(
         'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         'Magento\Framework\View\Design\FileResolution\Strategy\Fallback'
     ),
-    array('Magento\Core\Model\Design\FileResolution\StrategyPool', 'Magento\Framework\View\Design\FileResolution\StrategyPool'),
+    array(
+        'Magento\Core\Model\Design\FileResolution\StrategyPool',
+        'Magento\Framework\View\Design\FileResolution\StrategyPool'
+    ),
     array('Magento\Core\Model\Layout\File', 'Magento\Framework\View\Layout\File'),
     array('Magento\Core\Model\Layout\File\Factory', 'Magento\Framework\View\Layout\File\Factory'),
     array('Magento\Core\Model\Layout\File\FileList\Factory', 'Magento\Framework\View\Layout\File\FileList\Factory'),
@@ -1767,10 +1779,19 @@ return array(
     array('Magento\Core\Model\Page\Asset\Collection', 'Magento\Framework\View\Asset\Collection'),
     array('Magento\Core\Model\Page\Asset\LocalInterface', 'Magento\Framework\View\Asset\LocalInterface'),
     array('Magento\Core\Model\Page\Asset\MergeService', 'Magento\Framework\View\Asset\MergeService'),
-    array('Magento\Core\Model\Page\Asset\MergeStrategy\Checksum', 'Magento\Framework\View\Asset\MergeStrategy\Checksum'),
+    array(
+        'Magento\Core\Model\Page\Asset\MergeStrategy\Checksum',
+        'Magento\Framework\View\Asset\MergeStrategy\Checksum'
+    ),
     array('Magento\Core\Model\Page\Asset\MergeStrategy\Direct', 'Magento\Framework\View\Asset\MergeStrategy\Direct'),
-    array('Magento\Core\Model\Page\Asset\MergeStrategy\FileExists', 'Magento\Framework\View\Asset\MergeStrategy\FileExists'),
-    array('Magento\Core\Model\Page\Asset\MergeStrategyInterface', 'Magento\Framework\View\Asset\MergeStrategyInterface'),
+    array(
+        'Magento\Core\Model\Page\Asset\MergeStrategy\FileExists',
+        'Magento\Framework\View\Asset\MergeStrategy\FileExists'
+    ),
+    array(
+        'Magento\Core\Model\Page\Asset\MergeStrategyInterface',
+        'Magento\Framework\View\Asset\MergeStrategyInterface'
+    ),
     array('Magento\Core\Model\Page\Asset\MergeableInterface', 'Magento\Framework\View\Asset\MergeableInterface'),
     array('Magento\Core\Model\Page\Asset\Merged', 'Magento\Framework\View\Asset\Merged'),
     array('Magento\Core\Model\Page\Asset\Minified', 'Magento\Framework\View\Asset\Minified'),
@@ -1788,14 +1809,20 @@ return array(
     array('Magento\Page\Block\Link\Current', 'Magento\Framework\View\Element\Html\Link\Current'),
     array('Magento\Page\Block\Links', 'Magento\Framework\View\Element\Html\Links'),
     array('Magento\Page\Block\Link', 'Magento\Framework\View\Element\Html\Link'),
-    array('Magento\Core\Model\Layout\Argument\HandlerInterface', 'Magento\Framework\View\Layout\Argument\HandlerInterface'),
+    array(
+        'Magento\Core\Model\Layout\Argument\HandlerInterface',
+        'Magento\Framework\View\Layout\Argument\HandlerInterface'
+    ),
     array('Magento\Core\Model\Layout\Argument\HandlerFactory', 'Magento\Framework\View\Layout\Argument\HandlerFactory'),
     array('Magento\Core\Model\Theme\Label', 'Magento\Framework\View\Design\Theme\Label'),
     array('Magento\Core\Model\Theme\LabelFactory', 'Magento\Framework\View\Design\Theme\LabelFactory'),
     array('Magento\Core\Model\DesignLoader', 'Magento\Framework\View\DesignLoader'),
     array('Magento\Page\Block\Switcher', 'Magento\Store\Block\Switcher'),
     array('Magento\Core\Model\Layout\PageType\Config', 'Magento\Framework\View\Layout\PageType\Config'),
-    array('Magento\Core\Model\Layout\PageType\Config\Converter', 'Magento\Framework\View\Layout\PageType\Config\Converter'),
+    array(
+        'Magento\Core\Model\Layout\PageType\Config\Converter',
+        'Magento\Framework\View\Layout\PageType\Config\Converter'
+    ),
     array('Magento\Core\Model\Layout\PageType\Config\Reader', 'Magento\Framework\View\Layout\PageType\Config\Reader'),
     array(
         'Magento\Core\Model\Layout\PageType\Config\SchemaLocator',

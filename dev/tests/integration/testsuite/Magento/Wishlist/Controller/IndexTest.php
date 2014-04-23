@@ -131,7 +131,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
                 ]
             ]
         );

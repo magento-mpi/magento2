@@ -42,7 +42,7 @@ class Observer
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -64,8 +64,7 @@ class Observer
     /**
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\TranslateInterface $translate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
@@ -73,14 +72,13 @@ class Observer
     public function __construct(
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\TranslateInterface $translate,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_importFactory = $importFactory;
         $this->_scopeConfig = $scopeConfig;
-        $this->_translate = $translate;
         $this->_importFactory = $importFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;

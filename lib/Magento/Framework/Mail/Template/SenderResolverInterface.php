@@ -7,13 +7,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 interface SenderResolverInterface
 {
     /**
      * Resolve sender data
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      * @param string|array $sender
      * @param int|null $scopeId
      * @return array

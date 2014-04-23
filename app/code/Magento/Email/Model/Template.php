@@ -57,7 +57,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento\Mail\TemplateInterface
+class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento\Framework\Mail\TemplateInterface
 {
     /**
      * Configuration path for default email templates
@@ -402,7 +402,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      *
      * @param array $variables
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function getProcessedTemplate(array $variables = array())
     {
@@ -432,7 +432,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $processedResult = $processor->setStoreId($storeId)->filter($this->getPreparedTemplateText());
         } catch (\Exception $e) {
             $this->_cancelDesignConfig();
-            throw new \Magento\Mail\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Mail\Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $processedResult;
     }
@@ -484,7 +484,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      *
      * @param array $variables
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function getProcessedTemplateSubject(array $variables)
     {
@@ -502,7 +502,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
             $processedResult = $processor->setStoreId($storeId)->filter($this->getTemplateSubject());
         } catch (\Exception $e) {
             $this->_cancelDesignConfig();
-            throw new \Magento\Mail\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Mail\Exception($e->getMessage(), $e->getCode(), $e);
         }
         $this->_cancelDesignConfig();
         return $processedResult;
@@ -584,17 +584,17 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     /**
      * Validate email template code
      *
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      * @return $this
      */
     protected function _beforeSave()
     {
         $code = $this->getTemplateCode();
         if (empty($code)) {
-            throw new \Magento\Mail\Exception(__('The template Name must not be empty.'));
+            throw new \Magento\Framework\Mail\Exception(__('The template Name must not be empty.'));
         }
         if ($this->_getResource()->checkCodeUsage($this)) {
-            throw new \Magento\Mail\Exception(__('Duplicate Of Template Name'));
+            throw new \Magento\Framework\Mail\Exception(__('Duplicate Of Template Name'));
         }
         return parent::_beforeSave();
     }
@@ -603,7 +603,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * Get processed template
      *
      * @return string
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function processTemplate()
     {
@@ -615,7 +615,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
         }
 
         if (!$this->getId()) {
-            throw new \Magento\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
+            throw new \Magento\Framework\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
         }
 
         $this->setUseAbsoluteLinks(true);

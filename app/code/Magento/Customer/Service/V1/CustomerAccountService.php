@@ -21,7 +21,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
-use Magento\Mail\Exception as MailException;
+use Magento\Framework\Mail\Exception as MailException;
 use Magento\Math\Random;
 use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Framework\UrlInterface;

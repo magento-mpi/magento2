@@ -111,7 +111,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_resource;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -197,7 +197,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param Item $itemModel
@@ -225,7 +225,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         Item $itemModel,
@@ -478,7 +478,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -591,7 +591,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -646,7 +646,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 

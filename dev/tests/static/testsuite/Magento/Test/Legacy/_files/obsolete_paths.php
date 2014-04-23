@@ -201,4 +201,7 @@ return [
     ['/lib/Magento/Io', '/lib/Magento/Framework/Io'],
     ['/dev/tests/unit/testsuite/Magento/Io', '/dev/tests/unit/testsuite/Magento/Framework/Io'],
     ['/dev/tests/integration/testsuite/Magento/Io', '/dev/tests/integration/testsuite/Magento/Framework/Io'],
+    ['/lib/Magento/Mail', '/lib/Magento/Framework/Mail'],
+    ['/dev/tests/unit/testsuite/Magento/Mail', '/dev/tests/unit/testsuite/Magento/Framework/Mail'],
+    ['/dev/tests/integration/testsuite/Magento/Mail', '/dev/tests/integration/testsuite/Magento/Framework/Mail'],
 ];

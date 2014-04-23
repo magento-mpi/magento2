@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 interface TransportInterface
 {
@@ -15,7 +15,7 @@ interface TransportInterface
      * Send a mail using this transport
      *
      * @return void
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      */
     public function sendMessage();
 }

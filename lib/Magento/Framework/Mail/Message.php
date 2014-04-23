@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 class Message extends \Zend_Mail implements MessageInterface
 {

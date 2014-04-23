@@ -105,7 +105,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     protected $_customerBalance = null;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -153,7 +153,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
@@ -171,7 +171,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
@@ -662,7 +662,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $this->setEmailSent(true)->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_SENT)->save();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $this->setEmailSent(false);
         }
     }

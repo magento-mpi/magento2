@@ -57,4 +57,5 @@ return [
     ['Magento\Json', 'Magento\Framework\Json'],
     ['Magento\Less', 'Magento\Framework\Less'],
     ['Magento\Io', 'Magento\Framework\Io'],
+    ['Magento\Mail', 'Magento\Framework\Mail'],
 ];

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Framework\Mail\Template;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,22 +22,22 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManagerMock = $this->getMock('\Magento\Framework\ObjectManager');
-        $this->_templateMock = $this->getMock('\Magento\Mail\TemplateInterface');
+        $this->_templateMock = $this->getMock('\Magento\Framework\Mail\TemplateInterface');
     }
 
     /**
-     * @covers \Magento\Mail\Template\Factory::get
-     * @covers \Magento\Mail\Template\Factory::__construct
+     * @covers \Magento\Framework\Mail\Template\Factory::get
+     * @covers \Magento\Framework\Mail\Template\Factory::__construct
      */
     public function testGet()
     {
-        $model = new \Magento\Mail\Template\Factory($this->_objectManagerMock);
+        $model = new \Magento\Framework\Mail\Template\Factory($this->_objectManagerMock);
 
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento\Mail\TemplateInterface', array('data' => array('template_id' => 'identifier')))
+            ->with('Magento\Framework\Mail\TemplateInterface', array('data' => array('template_id' => 'identifier')))
             ->will($this->returnValue($this->_templateMock));
 
-        $this->assertInstanceOf('\Magento\Mail\TemplateInterface', $model->get('identifier'));
+        $this->assertInstanceOf('\Magento\Framework\Mail\TemplateInterface', $model->get('identifier'));
     }
 }

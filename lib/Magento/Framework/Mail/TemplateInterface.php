@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail;
+namespace Magento\Framework\Mail;
 
 interface TemplateInterface extends \Magento\Framework\App\TemplateTypesInterface
 {

@@ -83,7 +83,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $stringStdLibMock;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder | Mock
+     * @var \Magento\Framework\Mail\Template\TransportBuilder | Mock
      */
     protected $transportBuilderMock;
 
@@ -137,7 +137,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->stringStdLibMock = $this->getMockBuilder('Magento\Framework\Stdlib\String')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->transportBuilderMock = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
+        $this->transportBuilderMock = $this->getMockBuilder('Magento\Framework\Mail\Template\TransportBuilder')
             ->disableOriginalConstructor()
             ->getMock();
         $this->ftpMock = $this->getMockBuilder('Magento\Framework\Io\Ftp')

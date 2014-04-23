@@ -47,7 +47,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     protected $_invoiceFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -84,7 +84,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder ,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\UrlInterface $urlModel
@@ -102,7 +102,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\UrlInterface $urlModel,

@@ -502,7 +502,7 @@ class Filter extends \Magento\Framework\Filter\Template
      * also allow additional parameter "store"
      *
      * @param string[] $construction
-     * @throws \Magento\Mail\Exception
+     * @throws \Magento\Framework\Mail\Exception
      * @return string
      */
     public function protocolDirective($construction)
@@ -513,7 +513,7 @@ class Filter extends \Magento\Framework\Filter\Template
             try {
                 $store = $this->_storeManager->getStore($params['store']);
             } catch (\Exception $e) {
-                throw new \Magento\Mail\Exception(__('Requested invalid store "%1"', $params['store']));
+                throw new \Magento\Framework\Mail\Exception(__('Requested invalid store "%1"', $params['store']));
             }
         }
         $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
