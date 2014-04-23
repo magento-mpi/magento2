@@ -67,4 +67,5 @@ return [
     ['Magento\Oauth', 'Magento\Framework\Oauth'],
     ['Magento\Currency', 'Magento\Framework\Currency'],
     ['Magento\Debug', 'Magento\Framework\Debug'],
+    ['Magento\Escaper', 'Magento\Framework\Escaper'],
 ];

@@ -274,8 +274,8 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $message = __(
                 '%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.',
-                $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                $this->_objectManager->get('Magento\Escaper')->escapeUrl($referer)
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName()),
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeUrl($referer)
             );
             $this->messageManager->addSuccess($message);
         } catch (\Magento\Framework\Model\Exception $e) {
@@ -464,7 +464,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                     $this->messageManager->addError(
                         __(
                             'Can\'t save description %1',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($description)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($description)
                         )
                     );
                 }
@@ -587,7 +587,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             if (!$cart->getQuote()->getHasError()) {
                 $message = __(
                     'You added %1 to your shopping cart.',
-                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                    $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName())
                 );
                 $this->messageManager->addSuccess($message);
             }
@@ -652,8 +652,8 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $cart->getQuote()->removeItem($itemId);
             $cart->save();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName());
-            $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
+            $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName());
+            $wishlistName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($wishlist->getName());
             $this->messageManager->addSuccess(__("%1 has been moved to wish list %2", $productName, $wishlistName));
             $wishlist->save();
         } catch (\Magento\Framework\Model\Exception $e) {

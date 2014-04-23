@@ -232,4 +232,7 @@ return [
     ['/lib/Magento/Debug', '/lib/Magento/Framework/Debug'],
     ['/dev/tests/unit/testsuite/Magento/Debug', '/dev/tests/unit/testsuite/Magento/Framework/Debug'],
     ['/dev/tests/integration/testsuite/Magento/Debug', '/dev/tests/integration/testsuite/Magento/Framework/Debug'],
+    ['/lib/Magento/Escaper', '/lib/Magento/Framework/Escaper'],
+    ['/dev/tests/unit/testsuite/Magento/Escaper', '/dev/tests/unit/testsuite/Magento/Framework/Escaper'],
+    ['/dev/tests/integration/testsuite/Magento/Escaper', '/dev/tests/integration/testsuite/Magento/Framework/Escaper'],
 ];

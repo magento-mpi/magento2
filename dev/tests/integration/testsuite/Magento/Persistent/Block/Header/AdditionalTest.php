@@ -63,9 +63,9 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
         $customerAccountService = $this->_objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
-        /** @var \Magento\Escaper $escaper */
+        /** @var \Magento\Framework\Escaper $escaper */
         $escaper = $this->_objectManager->create(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         );
         $persistentName = $escaper->escapeHtml(
             $customerViewHelper->getCustomerName(

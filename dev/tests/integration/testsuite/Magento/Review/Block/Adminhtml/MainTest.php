@@ -26,9 +26,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         $block = $layout->createBlock('Magento\Review\Block\Adminhtml\Main');
         $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
-        /** @var \Magento\Escaper $escaper */
+        /** @var \Magento\Framework\Escaper $escaper */
         $escaper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Escaper');
+            ->get('Magento\Framework\Escaper');
         $this->assertStringMatchesFormat(
             '%A' . __('All Reviews of Customer `%1`', $escaper->escapeHtml($customerName)) . '%A',
             $block->getHeaderHtml()

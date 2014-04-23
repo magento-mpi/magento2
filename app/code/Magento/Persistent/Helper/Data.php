@@ -37,7 +37,7 @@ class Data extends \Magento\Core\Helper\Data
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -53,7 +53,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -63,7 +63,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         $dbCompatibleMode = true
     ) {
         $this->_modulesReader = $modulesReader;

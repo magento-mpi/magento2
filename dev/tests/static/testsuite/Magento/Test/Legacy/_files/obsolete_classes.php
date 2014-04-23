@@ -2471,4 +2471,5 @@ return array(
     ['Magento\CurrencyFactory', 'Magento\Framework\CurrencyFactory'],
     ['Magento\CurrencyInterface', 'Magento\Framework\CurrencyInterface'],
     ['Magento\Debug', 'Magento\Framework\Debug'],
+    ['Magento\Escaper', 'Magento\Framework\Escaper'],
 );

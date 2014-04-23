@@ -52,7 +52,7 @@ class Message extends \Magento\Core\Helper\Data
     protected $_giftMessageFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -72,7 +72,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param array $skipMessageCheck
      * @param bool $dbCompatibleMode
      */
@@ -85,7 +85,7 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         $skipMessageCheck = array(),
         $dbCompatibleMode = true
     ) {

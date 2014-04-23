@@ -551,8 +551,8 @@ class Product extends \Magento\Backend\App\Action
                     $this->messageManager->addNotice(
                         __(
                             'SKU for product %1 has been changed to %2.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName()),
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getSku())
                         )
                     );
                 }

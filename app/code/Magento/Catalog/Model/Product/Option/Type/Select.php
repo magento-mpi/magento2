@@ -22,7 +22,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_formattedOptionValue;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -37,14 +37,14 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         array $data = array()
     ) {
         $this->string = $string;

@@ -20,7 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_customerViewHelper;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -64,7 +64,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Helper\View'
         );
         $this->_escaper = $this->_objectManager->create(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         );
         $this->_customerAccountService = $this->_objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'

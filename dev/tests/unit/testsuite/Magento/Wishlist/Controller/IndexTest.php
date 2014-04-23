@@ -84,7 +84,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             array('Magento\Framework\Locale\ResolverInterface', $locale),
             array('Magento\Checkout\Model\Cart', $cart),
             array('Magento\Catalog\Helper\Product', $product),
-            array('Magento\Escaper', $escaper),
+            array('Magento\Framework\Escaper', $escaper),
             array('Magento\Wishlist\Helper\Data', $wishlistHelper),
             array('Magento\Checkout\Helper\Cart', $wishlistHelper)
         );

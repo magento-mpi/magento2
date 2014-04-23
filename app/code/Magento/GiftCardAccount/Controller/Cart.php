@@ -58,7 +58,7 @@ class Cart extends \Magento\Framework\App\Action\Action
                     $code
                 )->addToCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -83,7 +83,7 @@ class Cart extends \Magento\Framework\App\Action\Action
                     $code
                 )->removeFromCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

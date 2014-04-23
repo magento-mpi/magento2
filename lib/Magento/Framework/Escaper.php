@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\Escaper
+ * @package     \Magento\Framework\Escaper
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Magento escape methods

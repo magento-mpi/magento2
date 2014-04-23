@@ -42,7 +42,7 @@ class Widget
     /**
      * Core data
      *
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -52,13 +52,13 @@ class Widget
     protected $_widgetsArray = array();
 
     /**
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\View\FileSystem $viewFileSystem

@@ -164,7 +164,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 // Escape HTML entities in quote message to prevent XSS
-                $message->setText($this->_objectManager->get('Magento\Escaper')->escapeHtml($message->getText()));
+                $message->setText($this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($message->getText()));
                 $messages[] = $message;
             }
         }
@@ -234,7 +234,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                 if (!$this->cart->getQuote()->getHasError()) {
                     $message = __(
                         'You added %1 to your shopping cart.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName())
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName())
                     );
                     $this->messageManager->addSuccess($message);
                 }
@@ -243,13 +243,13 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         } catch (\Magento\Framework\Model\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
                 $this->messageManager->addNotice(
-                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+                    $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($e->getMessage())
                 );
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
                     $this->messageManager->addError(
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($message)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($message)
                     );
                 }
             }
@@ -394,7 +394,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                 if (!$this->cart->getQuote()->getHasError()) {
                     $message = __(
                         '%1 was updated in your shopping cart.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName())
                     );
                     $this->messageManager->addSuccess($message);
                 }
@@ -481,7 +481,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $this->_checkoutSession->setCartWasUpdated(true);
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(
-                $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($e->getMessage())
             );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot update the shopping cart.'));
@@ -607,14 +607,14 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                     $this->messageManager->addSuccess(
                         __(
                             'The coupon code "%1" was applied.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                         )
                     );
                 } else {
                     $this->messageManager->addError(
                         __(
                             'The coupon code "%1" is not valid.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                         )
                     );
                 }

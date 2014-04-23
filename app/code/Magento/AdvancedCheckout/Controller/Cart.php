@@ -221,7 +221,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()) {
-                    $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->messageManager->addSuccess($message);
                 }

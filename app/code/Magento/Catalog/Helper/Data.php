@@ -149,7 +149,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_templateFilterFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -166,7 +166,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param string $templateFilterModel
      */
     public function __construct(
@@ -182,7 +182,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         $templateFilterModel
     ) {
         $this->_eavAttributeFactory = $eavAttributeFactory;

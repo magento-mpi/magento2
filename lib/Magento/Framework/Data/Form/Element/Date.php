@@ -17,7 +17,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 use Magento\Framework\Stdlib\DateTime;
 
 class Date extends AbstractElement

@@ -80,7 +80,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected $_layoutMock;
 
     /**
-     * @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_escaper;
 
@@ -136,7 +136,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMockBuilder(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         )->setMethods(
             array('escapeHtml')
         )->disableOriginalConstructor()->getMock();

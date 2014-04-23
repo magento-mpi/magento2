@@ -60,7 +60,7 @@ class Filter extends \Magento\Framework\Filter\Template
     protected $_logger;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper = null;
 
@@ -111,7 +111,7 @@ class Filter extends \Magento\Framework\Filter\Template
     /**
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
@@ -126,7 +126,7 @@ class Filter extends \Magento\Framework\Filter\Template
     public function __construct(
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Logger $logger,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,

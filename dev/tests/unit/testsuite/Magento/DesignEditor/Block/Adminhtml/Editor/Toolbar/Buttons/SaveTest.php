@@ -26,9 +26,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $escaper \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $escaper \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject */
         $escaper = $this->getMockBuilder(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         )->disableOriginalConstructor()->setMethods(
             array('escapeHtml')
         )->getMock();

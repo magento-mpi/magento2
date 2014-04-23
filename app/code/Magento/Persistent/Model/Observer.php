@@ -101,7 +101,7 @@ class Observer
     protected $_websiteCollectionFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -144,7 +144,7 @@ class Observer
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
@@ -165,7 +165,7 @@ class Observer
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
         \Magento\Customer\Helper\View $customerViewHelper,

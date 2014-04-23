@@ -78,7 +78,7 @@ class Account extends \Magento\Framework\App\Action\Action
     /** @var \Magento\Core\Helper\Data */
     protected $coreHelperData;
 
-    /** @var \Magento\Escaper */
+    /** @var \Magento\Framework\Escaper */
     protected $escaper;
 
     /** @var \Magento\Framework\App\State */
@@ -115,7 +115,7 @@ class Account extends \Magento\Framework\App\Action\Action
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -139,7 +139,7 @@ class Account extends \Magento\Framework\App\Action\Action
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
