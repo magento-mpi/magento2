@@ -71,7 +71,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
             }
 
             // Validate the theme value
-            $design->setDesignTheme($row['value'], \Magento\Core\Model\App\Area::AREA_FRONTEND);
+            $design->setDesignTheme($row['value'], \Magento\Framework\App\Area::AREA_FRONTEND);
 
             // Compose regular exception pattern
             $exceptions[$rowKey]['regexp'] = $this->_composeRegexp($row['search']);

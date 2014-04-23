@@ -52,8 +52,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param Session $persistentSession
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
      * @param bool $dbCompatibleMode

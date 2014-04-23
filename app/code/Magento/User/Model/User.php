@@ -427,7 +427,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_FORGOT_EMAIL_TEMPLATE)
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 0)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 0)
         )->setTemplateVars(
             array('user' => $this, 'store' => $this->_storeManager->getStore(0))
         )->setFrom(
@@ -453,7 +453,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE)
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 0)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 0)
         )->setTemplateVars(
             array('user' => $this, 'store' => $this->_storeManager->getStore(0))
         )->setFrom(

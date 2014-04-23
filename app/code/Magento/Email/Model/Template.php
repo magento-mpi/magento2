@@ -240,7 +240,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     {
         return $this->_viewUrl->getViewFileUrl(
             'Magento_Email::logo_email.gif',
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND)
         );
     }
 
