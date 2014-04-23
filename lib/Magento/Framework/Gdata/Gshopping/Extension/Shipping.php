@@ -9,41 +9,41 @@
  */
 
 /**
- *
+ * Extension for <scp:shipping> element
  *
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping\Extension;
+namespace Magento\Framework\Gdata\Gshopping\Extension;
 
-class Tax extends \Zend_Gdata_App_Extension_Element
+class Shipping extends \Zend_Gdata_App_Extension_Element
 {
     /**
-     * The XML namespace prefix
+     * Root namespace alias
      *
      * @var string
      */
     protected $_rootNamespace = 'scp';
 
     /**
-     * Key-value pair of tax information
+     * Key-value pair of shipping info
      *
      * @var array
      */
-    protected $_taxInfo;
+    protected $_shippingInfo;
 
     /**
      * Creates instance of class
      *
-     * @param array $taxInfo as described in product requirements
-     * @see http://code.google.com/intl/ru/apis/shopping/content/getting-started/requirements-products.html#tax
+     * @param array $shippingInfo as described in product requirements
+     * @see http://code.google.com/intl/ru/apis/shopping/content/getting-started/requirements-products.html#shipping
      */
-    public function __construct(array $taxInfo = array())
+    public function __construct(array $shippingInfo = array())
     {
-        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
-        parent::__construct('tax', $this->_rootNamespace, $this->lookupNamespace($this->_rootNamespace));
-        $this->_taxInfo = $taxInfo;
-        foreach ($taxInfo as $key => $value) {
+        $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
+        parent::__construct('shipping', $this->_rootNamespace, $this->lookupNamespace($this->_rootNamespace));
+        $this->_shippingInfo = $shippingInfo;
+        foreach ($shippingInfo as $key => $value) {
             $this->_extensionElements[] = new \Zend_Gdata_App_Extension_Element(
                 $key,
                 $this->_rootNamespace,
@@ -54,14 +54,14 @@ class Tax extends \Zend_Gdata_App_Extension_Element
     }
 
     /**
-     * Magic getter to add access to _taxInfo data
+     * Magic getter to add access to _shippingInfo data
      *
      * @param string $name
      * @return mixed
      */
     public function __get($name)
     {
-        return isset($this->_taxInfo[$name]) ? $this->_taxInfo[$name] : parent::__get($name);
+        return isset($this->_shippingInfo[$name]) ? $this->_shippingInfo[$name] : parent::__get($name);
     }
 
     /**
@@ -75,8 +75,7 @@ class Tax extends \Zend_Gdata_App_Extension_Element
     protected function takeChildFromDOM($child)
     {
         if ($child->nodeType == XML_ELEMENT_NODE) {
-            $name = 'attribute' == $child->localName ? $child->getAttribute('name') : $child->localName;
-            $this->_taxInfo[$name] = $child->textContent;
+            $this->_shippingInfo[$child->localName] = $child->textContent;
         }
         parent::takeChildFromDOM($child);
     }

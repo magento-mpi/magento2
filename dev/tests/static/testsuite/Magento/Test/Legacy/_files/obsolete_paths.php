@@ -202,4 +202,7 @@ return [
     ['/lib/Magento/Flag', '/lib/Magento/Framework/Flag'],
     ['/dev/tests/unit/testsuite/Magento/Flag', '/dev/tests/unit/testsuite/Magento/Framework/Flag'],
     ['/dev/tests/integration/testsuite/Magento/Flag', '/dev/tests/integration/testsuite/Magento/Framework/Flag'],
+    ['/lib/Magento/Gdata', '/lib/Magento/Framework/Gdata'],
+    ['/dev/tests/unit/testsuite/Magento/Gdata', '/dev/tests/unit/testsuite/Magento/Framework/Gdata'],
+    ['/dev/tests/integration/testsuite/Magento/Gdata', '/dev/tests/integration/testsuite/Magento/Framework/Gdata'],
 ];

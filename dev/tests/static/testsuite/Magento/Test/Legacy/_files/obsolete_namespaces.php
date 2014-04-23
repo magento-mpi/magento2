@@ -58,4 +58,5 @@ return [
     ['Magento\Less', 'Magento\Framework\Less'],
     ['Magento\File', 'Magento\Framework\File'],
     ['Magento\Flag', 'Magento\Framework\Flag'],
+    ['Magento\Gdata', 'Magento\Framework\Gdata'],
 ];

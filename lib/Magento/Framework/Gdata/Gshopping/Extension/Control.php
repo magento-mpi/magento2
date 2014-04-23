@@ -14,7 +14,7 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping\Extension;
+namespace Magento\Framework\Gdata\Gshopping\Extension;
 
 class Control extends \Zend_Gdata_App_Extension_Control
 {
@@ -50,7 +50,7 @@ class Control extends \Zend_Gdata_App_Extension_Control
      */
     public function __construct(array $destinations = array(), $draft = null)
     {
-        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         parent::__construct($draft);
         $this->_destinations = $destinations;
     }

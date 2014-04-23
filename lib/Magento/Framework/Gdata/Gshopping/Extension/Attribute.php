@@ -14,7 +14,7 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping\Extension;
+namespace Magento\Framework\Gdata\Gshopping\Extension;
 
 class Attribute extends \Zend_Gdata_App_Extension_Element
 {
@@ -32,7 +32,7 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
      */
     public function __construct($name = null, $text = null, $type = null, $unit = null)
     {
-        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         $reserved = array('id', 'image_link', 'content_language', 'target_country', 'expiration_date', 'adult');
         if (null !== $unit) {
             $this->_extensionAttributes['unit'] = array('name' => 'unit', 'value' => $unit);

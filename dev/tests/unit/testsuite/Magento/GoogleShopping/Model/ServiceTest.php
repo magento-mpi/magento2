@@ -29,10 +29,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_contentMock = $this->getMockBuilder(
-            'Magento\Gdata\Gshopping\Content'
+            'Magento\Framework\Gdata\Gshopping\Content'
         )->disableOriginalConstructor()->getMock();
         $contentFactoryMock = $this->getMockBuilder(
-            'Magento\Gdata\Gshopping\ContentFactory'
+            'Magento\Framework\Gdata\Gshopping\ContentFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
@@ -51,7 +51,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetService()
     {
-        $this->assertEquals('Magento\Gdata\Gshopping\Content', get_parent_class($this->_model->getService()));
+        $this->assertEquals('Magento\Framework\Gdata\Gshopping\Content', get_parent_class($this->_model->getService()));
     }
 
     public function testSetService()

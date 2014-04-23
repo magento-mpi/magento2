@@ -14,7 +14,7 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping;
+namespace Magento\Framework\Gdata\Gshopping;
 
 class Content extends \Zend_Gdata
 {
@@ -92,7 +92,7 @@ class Content extends \Zend_Gdata
 
         $uri = $location instanceof \Zend_Gdata_Query ? $location->getQueryUrl() : $location;
 
-        $entry = $this->getEntry($uri, 'Magento\Gdata\Gshopping\Entry')->setService($this);
+        $entry = $this->getEntry($uri, 'Magento\Framework\Gdata\Gshopping\Entry')->setService($this);
         return $entry;
     }
 
@@ -110,7 +110,7 @@ class Content extends \Zend_Gdata
             $uri .= '?dry-run=true';
         }
 
-        return $this->insertEntry($entry, $uri, 'Magento\Gdata\Gshopping\Entry');
+        return $this->insertEntry($entry, $uri, 'Magento\Framework\Gdata\Gshopping\Entry');
     }
 
     /**

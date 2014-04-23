@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Gdata\Gshopping;
+namespace Magento\Framework\Gdata\Gshopping;
 
 /**
  * \Exception class parse google responses to human readble format

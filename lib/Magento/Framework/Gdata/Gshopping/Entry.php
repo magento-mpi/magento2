@@ -14,9 +14,9 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping;
+namespace Magento\Framework\Gdata\Gshopping;
 
-use Magento\Gdata\Gshopping\Extension\Attribute;
+use Magento\Framework\Gdata\Gshopping\Extension\Attribute;
 
 class Entry extends \Zend_Gdata_Entry
 {
@@ -25,7 +25,7 @@ class Entry extends \Zend_Gdata_Entry
      *
      * var @string
      */
-    protected $_entryClassName = 'Magento\Gdata\Gshopping\Entry';
+    protected $_entryClassName = 'Magento\Framework\Gdata\Gshopping\Entry';
 
     /**
      * Google Shopping attribute elements in the 'sc' and 'scp' namespaces
@@ -37,18 +37,18 @@ class Entry extends \Zend_Gdata_Entry
     /**
      * Tax element extension
      *
-     * @var array of \Magento\Gdata\Gshopping\Extension\Tax
+     * @var array of \Magento\Framework\Gdata\Gshopping\Extension\Tax
      */
     protected $_tax = array();
 
     /**
-     * Constructs a new \Magento\Gdata\Gshopping\Entry object.
+     * Constructs a new \Magento\Framework\Gdata\Gshopping\Entry object.
      *
      * @param \DOMElement $element The \DOMElement on which to base this object.
      */
     public function __construct($element = null)
     {
-        $this->registerAllNamespaces(\Magento\Gdata\Gshopping\Content::$namespaces);
+        $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         parent::__construct($element);
     }
 
@@ -70,7 +70,7 @@ class Entry extends \Zend_Gdata_Entry
             $element->appendChild($contentAttribute->getDOM($element->ownerDocument));
         }
         foreach ($this->_tax as $tax) {
-            if ($tax instanceof \Magento\Gdata\Gshopping\Extension\Tax) {
+            if ($tax instanceof \Magento\Framework\Gdata\Gshopping\Extension\Tax) {
                 $element->appendChild($tax->getDOM($element->ownerDocument));
             }
         }
@@ -109,13 +109,13 @@ class Entry extends \Zend_Gdata_Entry
 
             case "{$sc}:group:tax":
             case "{$scp}:tax":
-                $tax = new \Magento\Gdata\Gshopping\Extension\Tax();
+                $tax = new \Magento\Framework\Gdata\Gshopping\Extension\Tax();
                 $tax->transferFromDOM($child);
                 $this->_tax[] = $tax;
                 break;
 
             case $this->lookupNamespace('app') . ':' . 'control':
-                $control = new \Magento\Gdata\Gshopping\Extension\Control();
+                $control = new \Magento\Framework\Gdata\Gshopping\Extension\Control();
                 $control->transferFromDOM($child);
                 $this->setControl($control);
                 break;
@@ -264,13 +264,13 @@ class Entry extends \Zend_Gdata_Entry
      * Set destinations for entry
      *
      * @param  array $modes Array with destination names and their statuses.
-     *            format: array(name => \Magento\Gdata\Gshopping\Extension\Control::DEST_MODE_*),
+     *            format: array(name => \Magento\Framework\Gdata\Gshopping\Extension\Control::DEST_MODE_*),
      *            for instance: array('ProductSearch' => 2)
      * @return $this
      */
     public function setDestinationsMode(array $modes)
     {
-        $this->setControl(new \Magento\Gdata\Gshopping\Extension\Control($modes));
+        $this->setControl(new \Magento\Framework\Gdata\Gshopping\Extension\Control($modes));
         return $this;
     }
 
@@ -283,7 +283,7 @@ class Entry extends \Zend_Gdata_Entry
     {
         $control = $this->getControl();
         return $control instanceof
-            \Magento\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : array();
+            \Magento\Framework\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : array();
     }
 
     /**
@@ -295,7 +295,7 @@ class Entry extends \Zend_Gdata_Entry
      */
     public function addTax(array $taxInfo)
     {
-        $this->_tax[] = new \Magento\Gdata\Gshopping\Extension\Tax($taxInfo);
+        $this->_tax[] = new \Magento\Framework\Gdata\Gshopping\Extension\Tax($taxInfo);
         return $this;
     }
 

@@ -14,7 +14,7 @@
  * @category    Magento
  * @package     Magento_Gdata
  */
-namespace Magento\Gdata\Gshopping;
+namespace Magento\Framework\Gdata\Gshopping;
 
 class ItemQuery extends \Zend_Gdata_Query
 {
