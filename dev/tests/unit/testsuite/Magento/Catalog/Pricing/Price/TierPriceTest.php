@@ -252,16 +252,21 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSavePercent($basePrice, $tierPrice, $savedPercent)
     {
+        $priceAmount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $priceAmount->expects($this->once())
+            ->method('getBaseAmount')
+            ->will($this->returnValue($basePrice));
+
         $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
         $price->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($basePrice));
+            ->method('getAmount')
+            ->will($this->returnValue($priceAmount));
 
         $this->priceInfo->expects($this->atLeastOnce())
             ->method('getPrice')
             ->will($this->returnValue($price));
 
-        $amount = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $amount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
         $amount->expects($this->atLeastOnce())
             ->method('getBaseAmount')
             ->will($this->returnValue($tierPrice));
