@@ -157,7 +157,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         $this->product->setParentId(true);
         $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
-        return $this->calculator->getAmount($amount, $this->product);
+        return $this->calculator->getAmount(floatval($amount), $this->product);
 
     }
 
