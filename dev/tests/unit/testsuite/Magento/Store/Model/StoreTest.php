@@ -448,7 +448,12 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $currencyPath = 'cur/ren/cy/path';
         $expectedResult = array('EUR', 'USD');
 
-        $configMock = $this->getMock('Magento\App\Config\ReinitableConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMockForAbstractClass(
+            'Magento\Framework\App\Config\ReinitableConfigInterface',
+            array(),
+            '',
+            false
+        );
         $configMock->expects($this->once())
             ->method('getValue')
             ->with($currencyPath, 'store', null)
