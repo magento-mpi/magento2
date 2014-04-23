@@ -479,6 +479,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
                     $this->_logger->log("Failed resource setup: {$fileName}");
                 }
             } catch (\Exception $e) {
+                echo $e->getTraceAsString();
                 throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
