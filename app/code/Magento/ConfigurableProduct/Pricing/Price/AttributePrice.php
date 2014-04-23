@@ -129,7 +129,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      */
     public function getOptionValueModified(
         array $value = [],
-        $exclude = ''
+        $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
     ) {
         $pricingValue = $this->getPricingValue($value);
         $this->product->setParentId(true);
@@ -147,7 +147,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      */
     public function getOptionValueAmount(
         array $value = [],
-        $exclude = ''
+        $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
     ) {
         $amount = $this->getPricingValue($value);
 
