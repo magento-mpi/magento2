@@ -70,6 +70,7 @@ class Import implements PreProcessorInterface
 
     /**
      * Clear the record of related files, processed so far
+     * @return void
      */
     public function resetRelatedFiles()
     {
@@ -81,6 +82,7 @@ class Import implements PreProcessorInterface
      *
      * @param string $matchedFileId
      * @param LocalInterface $asset
+     * @return void
      */
     protected function recordRelatedFile($matchedFileId, LocalInterface $asset)
     {

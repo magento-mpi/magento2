@@ -37,7 +37,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\View\Deployment\Version', array(), array(), '', false
         );
         /**
-         * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+         * @SuppressWarnings(PHPMD.UnusedLocalVariable)
          */
         $this->closureMock = function ($type = '', $secure = null) {
             return 'http://127.0.0.1/magento/pub/static/';

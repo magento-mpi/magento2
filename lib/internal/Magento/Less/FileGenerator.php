@@ -78,6 +78,8 @@ class FileGenerator
 
     /**
      * Create all asset files, referenced from already processed ones
+     *
+     * @return void
      */
     protected function generateRelatedFiles()
     {
@@ -96,6 +98,7 @@ class FileGenerator
      *
      * @param string $relatedFileId
      * @param LocalInterface $asset
+     * @return void
      */
     protected function generateRelatedFile($relatedFileId, LocalInterface $asset)
     {

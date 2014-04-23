@@ -33,6 +33,12 @@ class FileManager
      */
     private $assetRepo;
 
+    /**
+     * @param \Magento\RequireJs\Config $config
+     * @param \Magento\Framework\App\Filesystem $appFilesystem
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     */
     public function __construct(
         \Magento\RequireJs\Config $config,
         \Magento\Framework\App\Filesystem $appFilesystem,
@@ -63,6 +69,7 @@ class FileManager
      * By default write the file if it doesn't exist, but in developer mode always do it.
      *
      * @param string $relPath
+     * @return void
      */
     private function ensureSourceFile($relPath)
     {
