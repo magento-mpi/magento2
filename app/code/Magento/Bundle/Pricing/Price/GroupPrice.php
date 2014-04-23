@@ -48,7 +48,7 @@ class GroupPrice extends \Magento\Catalog\Pricing\Price\GroupPrice
     protected function getBasePrice($qty = null)
     {
         return $this->priceInfo
-            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, $qty)
+            ->getPrice(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE)
             ->getValue();
     }
 }
