@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\Bootstrap;
  * Fallback Test
  *
  * @package Magento\View
- * @magentoDataFixture Magento/View/_files/fallback/themes_registration.php
+ * @magentoDataFixture Magento/Framework/View/_files/fallback/themes_registration.php
  */
 class FallbackTest extends \PHPUnit_Framework_TestCase
 {
