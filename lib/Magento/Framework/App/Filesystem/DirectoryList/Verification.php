@@ -10,7 +10,7 @@
 namespace Magento\Framework\App\Filesystem\DirectoryList;
 
 use Magento\Framework\App\State;
-use Magento\BootstrapException;
+use Magento\Framework\BootstrapException;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 

@@ -46,7 +46,7 @@ class ObjectManagerFactory
      * @param string $rootDir
      * @param array $arguments
      * @return \Magento\Framework\ObjectManager\ObjectManager
-     * @throws \Magento\BootstrapException
+     * @throws \Magento\Framework\BootstrapException
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -200,7 +200,7 @@ class ObjectManagerFactory
      * @param mixed $argumentMapper
      * @param string $appMode
      * @return array
-     * @throws \Magento\BootstrapException
+     * @throws \Magento\Framework\BootstrapException
      */
     protected function _loadPrimaryConfig(DirectoryList $directoryList, $argumentMapper, $appMode)
     {
@@ -225,7 +225,7 @@ class ObjectManagerFactory
             );
             $configData = $reader->read('primary');
         } catch (\Exception $e) {
-            throw new \Magento\BootstrapException($e->getMessage());
+            throw new \Magento\Framework\BootstrapException($e->getMessage());
         }
         return $configData;
     }

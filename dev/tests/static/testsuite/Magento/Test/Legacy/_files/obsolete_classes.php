@@ -2469,4 +2469,5 @@ return array(
     ['Magento\Image', 'Magento\Framework\Image'],
     ['Magento\Object', 'Magento\Framework\Object'],
     ['Magento\Util', 'Magento\Framework\Util'],
+    ['Magento\BootstrapException', 'Magento\Framework\BootstrapException'],
 );
