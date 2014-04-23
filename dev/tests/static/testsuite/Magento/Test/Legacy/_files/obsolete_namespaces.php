@@ -54,4 +54,5 @@ return [
     ['Magento\Validator', 'Magento\Framework\Validator'],
     ['Magento\Xml', 'Magento\Framework\Xml'],
     ['Magento\Interception', 'Magento\Framework\Interception'],
+    ['Magento\Json', 'Magento\Framework\Json'],
 ];

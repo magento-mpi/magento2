@@ -33,7 +33,7 @@ class Account extends GenericMetadata
     protected $_systemStore;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -61,7 +61,7 @@ class Account extends GenericMetadata
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Customer\Helper\Data $customerHelper
@@ -76,7 +76,7 @@ class Account extends GenericMetadata
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Helper\Data $customerHelper,

@@ -39,7 +39,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $registry
@@ -54,7 +54,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $registry,

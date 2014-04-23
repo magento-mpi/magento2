@@ -27,14 +27,14 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         Registry $registry,
         array $data = array()

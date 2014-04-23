@@ -55,7 +55,7 @@ class Main extends \Magento\Backend\Block\Template
     protected $_groupFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -66,7 +66,7 @@ class Main extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
@@ -76,7 +76,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,

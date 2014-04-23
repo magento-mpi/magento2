@@ -48,7 +48,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
@@ -57,7 +57,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Catalog $helperCatalog,

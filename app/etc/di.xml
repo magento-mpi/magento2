@@ -50,8 +50,8 @@
     <preference for="Magento\Framework\View\Design\Theme\Domain\PhysicalInterface" type="Magento\Core\Model\Theme\Domain\Physical" />
     <preference for="Magento\Framework\View\Design\Theme\Domain\VirtualInterface" type="Magento\Core\Model\Theme\Domain\Virtual" />
     <preference for="Magento\Framework\View\Design\Theme\Domain\StagingInterface" type="Magento\Core\Model\Theme\Domain\Staging" />
-    <preference for="Magento\Json\EncoderInterface" type="Magento\Json\Encoder" />
-    <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
+    <preference for="Magento\Framework\Json\EncoderInterface" type="Magento\Framework\Json\Encoder" />
+    <preference for="Magento\Framework\Json\DecoderInterface" type="Magento\Framework\Json\Decoder" />
     <preference for="Magento\Framework\Message\ManagerInterface" type="Magento\Framework\Message\Manager" />
     <preference for="Magento\Framework\App\Config\ValueInterface" type="Magento\Framework\App\Config\Value" />
     <preference for="Magento\Framework\Module\DependencyManagerInterface" type="Magento\Framework\Module\DependencyManager" />

@@ -30,7 +30,7 @@ class Addresses extends GenericMetadata
     protected $_template = 'tab/addresses.phtml';
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -76,7 +76,7 @@ class Addresses extends GenericMetadata
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
@@ -97,7 +97,7 @@ class Addresses extends GenericMetadata
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Renderer\RegionFactory $regionFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,

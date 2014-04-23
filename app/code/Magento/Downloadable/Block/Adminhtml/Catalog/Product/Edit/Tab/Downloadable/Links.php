@@ -79,13 +79,13 @@ class Links extends \Magento\Backend\Block\Template
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Registry $coreRegistry
@@ -97,7 +97,7 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Registry $coreRegistry,

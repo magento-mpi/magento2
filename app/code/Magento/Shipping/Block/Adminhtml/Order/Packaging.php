@@ -27,7 +27,7 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -38,7 +38,7 @@ class Packaging extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -46,7 +46,7 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel,
         \Magento\Registry $coreRegistry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,

@@ -34,7 +34,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -45,7 +45,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
@@ -55,7 +55,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

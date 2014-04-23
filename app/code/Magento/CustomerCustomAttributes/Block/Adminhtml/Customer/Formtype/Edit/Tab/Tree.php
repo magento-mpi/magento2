@@ -34,13 +34,13 @@ class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     protected $_elementsFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
@@ -48,7 +48,7 @@ class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Registry $registry,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory,

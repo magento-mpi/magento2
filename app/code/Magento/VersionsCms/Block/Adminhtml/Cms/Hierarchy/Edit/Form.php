@@ -72,7 +72,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_hierarchyLock;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -80,7 +80,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode $menuListmode
@@ -95,7 +95,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode $menuListmode,

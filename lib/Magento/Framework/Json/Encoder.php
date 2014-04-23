@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Json;
+namespace Magento\Framework\Json;
 
 class Encoder implements EncoderInterface
 {

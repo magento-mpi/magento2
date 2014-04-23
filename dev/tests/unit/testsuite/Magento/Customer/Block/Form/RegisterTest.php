@@ -65,7 +65,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $this->_block = new Register(
             $context,
             $this->_coreData,
-            $this->getMockForAbstractClass('Magento\Json\EncoderInterface', array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Json\EncoderInterface', array(), '', false),
             $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Country\CollectionFactory', array(), array(), '', false),

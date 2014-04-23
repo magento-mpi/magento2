@@ -28,7 +28,7 @@ use Magento\Registry;
 use Magento\Catalog\Model\CategoryFactory ;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\Store\Model\Website;
-use Magento\Json\EncoderInterface;
+use Magento\Framework\Json\EncoderInterface;
 
 class Permissions extends AbstractCategory implements TabInterface
 {

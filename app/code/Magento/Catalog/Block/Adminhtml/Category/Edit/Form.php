@@ -34,13 +34,13 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     protected $_template = 'catalog/category/edit/form.phtml';
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory,
@@ -51,7 +51,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

@@ -61,7 +61,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
     protected $mathRandom;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -72,7 +72,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $registry
@@ -83,7 +83,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $registry,

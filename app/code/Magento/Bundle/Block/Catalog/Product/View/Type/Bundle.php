@@ -48,7 +48,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $coreData;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $jsonEncoder;
 
@@ -63,7 +63,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param array $data
      * @param array $priceBlockTypes
@@ -74,7 +74,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         array $data = array(),
         array $priceBlockTypes = array()

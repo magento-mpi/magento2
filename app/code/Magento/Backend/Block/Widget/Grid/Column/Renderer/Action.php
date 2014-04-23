@@ -19,18 +19,18 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

@@ -56,7 +56,7 @@ class Options extends \Magento\Framework\View\Element\Template
     protected $_catalogProduct;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -68,7 +68,7 @@ class Options extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Registry $registry
@@ -78,7 +78,7 @@ class Options extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Registry $registry,

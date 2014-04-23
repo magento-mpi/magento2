@@ -12,20 +12,20 @@ namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Con
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

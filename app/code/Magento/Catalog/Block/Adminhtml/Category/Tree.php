@@ -39,7 +39,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -48,7 +48,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Backend\Model\Auth\Session $backendSession
      * @param array $data
@@ -58,7 +58,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Backend\Model\Auth\Session $backendSession,
         array $data = array()

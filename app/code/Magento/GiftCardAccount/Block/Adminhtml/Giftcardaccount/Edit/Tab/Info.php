@@ -22,13 +22,13 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_systemStore;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -38,7 +38,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {

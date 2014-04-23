@@ -24,7 +24,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Json encoder
      *
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -44,7 +44,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
@@ -54,7 +54,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,

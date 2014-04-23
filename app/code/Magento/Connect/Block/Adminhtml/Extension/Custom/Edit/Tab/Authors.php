@@ -22,13 +22,13 @@ use Magento\Backend\Block\Widget\Form\Generic;
 class Authors extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Connect\Model\Session $session
@@ -39,7 +39,7 @@ class Authors extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab
         \Magento\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Connect\Model\Session $session,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Json;
+namespace Magento\Framework\Json;
 
 /**
- * @package Magento\Json
+ * @package Magento\Framework\Json
  */
 class Decoder implements DecoderInterface
 {

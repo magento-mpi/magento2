@@ -26,7 +26,7 @@ class Calendar extends \Magento\Framework\View\Element\Template
     /**
      * JSON Encoder
      *
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $encoder;
 
@@ -40,14 +40,14 @@ class Calendar extends \Magento\Framework\View\Element\Template
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Json\EncoderInterface $encoder
+     * @param \Magento\Framework\Json\EncoderInterface $encoder
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Magento\Json\EncoderInterface $encoder,
+        \Magento\Framework\Json\EncoderInterface $encoder,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {

@@ -192,4 +192,7 @@ return [
         '/dev/tests/integration/testsuite/Magento/Interception',
         '/dev/tests/integration/testsuite/Magento/Framework/Interception'
     ],
+    ['/lib/Magento/Json', '/lib/Magento/Framework/Json'],
+    ['/dev/tests/unit/testsuite/Magento/Json', '/dev/tests/unit/testsuite/Magento/Framework/Json'],
+    ['/dev/tests/integration/testsuite/Magento/Json', '/dev/tests/integration/testsuite/Magento/Framework/Json'],
 ];

@@ -44,7 +44,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $_productFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -71,7 +71,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     /**
      * @param Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Framework\Stdlib\String $string
@@ -84,7 +84,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Framework\Stdlib\String $string,
