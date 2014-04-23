@@ -51,6 +51,13 @@
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+* JavaScript improvements:
+  * Implemented dialog widget (MAGETWO-22996)
+  * Implemented validation widget (MAGETWO-22996)
+  * Implemented tooltip widget (MAGETWO-22996)
+  * Implemented popup/modal window widget (MAGETWO-22996)
+  * Implemented calendar widget (MAGETWO-22996)
+  * Implemented suggest widget (MAGETWO-22996)
 
 2.0.0.0-dev74
 =============
