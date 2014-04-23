@@ -264,7 +264,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->appFilesystem->expects($this->any())->method('getDirectoryRead')
             ->will($this->throwException(new \Exception('test')));
 
-        $this->main->setAttributeObject(new \Magento\Framework\Object(['entity_type' => new \Magento\Framework\Object([])]));
+        $this->main->setAttributeObject(
+            new \Magento\Framework\Object(['entity_type' => new \Magento\Framework\Object([])])
+        );
 
         try {
             $this->main->toHtml();

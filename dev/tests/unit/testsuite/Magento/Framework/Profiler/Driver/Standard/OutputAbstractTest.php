@@ -53,7 +53,7 @@ class OutputAbstractTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $configuration = array('filterPattern' => '/filter pattern/', 'thresholds' => array('fetchKey' => 100));
-        /** @var \Magento\Framework\Profiler\Driver\Standard\AbstractOutput|PHPUnit_Framework_MockObject_MockObject $output  */
+        /** @var $output \Magento\Framework\Profiler\Driver\Standard\AbstractOutput  */
         $output = $this->getMockForAbstractClass(
             'Magento\Framework\Profiler\Driver\Standard\AbstractOutput',
             array($configuration)

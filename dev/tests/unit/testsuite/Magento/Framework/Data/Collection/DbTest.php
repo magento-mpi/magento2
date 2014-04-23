@@ -538,7 +538,11 @@ class DbTest extends \PHPUnit_Framework_TestCase
             ->with($selectMock, array())
             ->will($this->returnValue(array($data)));
 
-        $objectMock = $this->getMock('Magento\Framework\Object', array('addData', 'setIdFieldName', 'getData'), array());
+        $objectMock = $this->getMock(
+            'Magento\Framework\Object',
+            array('addData', 'setIdFieldName', 'getData'),
+            array()
+        );
         $objectMock->expects($this->once())
             ->method('addData')
             ->with($data);

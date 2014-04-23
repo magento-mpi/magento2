@@ -316,7 +316,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $factoryCallback = $this->returnCallback(
             function ($lessFile) {
-                /** @var $lessFile \Magento\Framework\Less\PreProcessor\File\Less|\PHPUnit_Framework_MockObject_MockObject */
+                /** @var $lessFile \Magento\Framework\Less\PreProcessor\File\Less */
                 $importEntity = $this->getMock(
                     'Magento\Framework\Css\PreProcessor\Cache\Import\ImportEntity',
                     array(),

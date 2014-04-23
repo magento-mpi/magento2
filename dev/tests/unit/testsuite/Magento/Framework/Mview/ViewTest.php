@@ -50,7 +50,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             true,
             array('getView')
         );
-        $this->actionFactoryMock = $this->getMock('Magento\Framework\Mview\ActionFactory', array('get'), array(), '', false);
+        $this->actionFactoryMock = $this->getMock(
+            'Magento\Framework\Mview\ActionFactory',
+            array('get'),
+            array(),
+            '',
+            false
+        );
         $this->stateMock = $this->getMock(
             'Magento\Indexer\Model\Mview\View\State',
             array('getViewId',
@@ -155,7 +161,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->changelogMock->expects($this->once())
             ->method('create');
-        $subscriptionMock = $this->getMock('Magento\Framework\Mview\View\Subscription', array('create'), array(), '', false);
+        $subscriptionMock = $this->getMock(
+            'Magento\Framework\Mview\View\Subscription',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $subscriptionMock->expects($this->exactly(1))->method('create');
         $this->subscriptionFactoryMock->expects(
             $this->exactly(1)
@@ -219,7 +231,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->changelogMock->expects($this->once())
             ->method('drop');
-        $subscriptionMock = $this->getMock('Magento\Framework\Mview\View\Subscription', array('remove'), array(), '', false);
+        $subscriptionMock = $this->getMock(
+            'Magento\Framework\Mview\View\Subscription',
+            array('remove'),
+            array(),
+            '',
+            false
+        );
         $subscriptionMock->expects($this->exactly(1))->method('remove');
         $this->subscriptionFactoryMock->expects(
             $this->exactly(1)
@@ -258,7 +276,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getMode')
             ->will($this->returnValue(\Magento\Framework\Mview\View\StateInterface::MODE_ENABLED));
 
-        $subscriptionMock = $this->getMock('Magento\Framework\Mview\View\Subscription', array('remove'), array(), '', false);
+        $subscriptionMock = $this->getMock(
+            'Magento\Framework\Mview\View\Subscription',
+            array('remove'),
+            array(),
+            '',
+            false
+        );
         $subscriptionMock->expects($this->exactly(1))
             ->method('remove')
             ->will($this->returnCallback(

@@ -54,7 +54,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_vbMock = $this->getMock('Magento\Framework\Validator\Builder', array(), array(), '', false);
-        $this->_validatorMock = $this->getMock('Magento\Framework\Validator\ValidatorInterface', array(), array(), '', false);
+        $this->_validatorMock = $this->getMock(
+            'Magento\Framework\Validator\ValidatorInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManager = new ObjectManager($this);
         $this->_factory = $objectManager->getObject(

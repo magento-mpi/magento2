@@ -82,12 +82,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_config->createValidatorBuilder('test_entity_a', 'invalid_group');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Constraint class "stdClass" must implement \Magento\Framework\Validator\ValidatorInterface
-     */
     public function testCreateValidatorInvalidConstraintClass()
     {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'Constraint class "stdClass" must implement \Magento\Framework\Validator\ValidatorInterface'
+        );
         $this->_initConfig(array(__DIR__ . '/_files/validation/negative/invalid_constraint.xml'));
         $this->_config->createValidator('test_entity', 'test_group');
     }
@@ -212,7 +212,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'options' => array(
                     'arguments' => array(
                         new \Magento\Framework\Validator\Constraint\Option('test_string_argument'),
-                        new \Magento\Framework\Validator\Constraint\Option(array('option1' => 'value1', 'option2' => 'value2')),
+                        new \Magento\Framework\Validator\Constraint\Option(
+                            array('option1' => 'value1', 'option2' => 'value2')
+                        ),
                         new \Magento\Framework\Validator\Constraint\Option\Callback(
                             array('Magento\Framework\Validator\Test\Callback', 'getId'),
                             null,
@@ -230,7 +232,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                         'setOptionThree' => array(
                             'method' => 'setOptionThree',
                             'arguments' => array(
-                                new \Magento\Framework\Validator\Constraint\Option(array('argOption' => 'argOptionValue')),
+                                new \Magento\Framework\Validator\Constraint\Option(
+                                    array('argOption' => 'argOptionValue')
+                                ),
                                 new \Magento\Framework\Validator\Constraint\Option\Callback(
                                     array('Magento\Framework\Validator\Test\Callback', 'getId'),
                                     null,

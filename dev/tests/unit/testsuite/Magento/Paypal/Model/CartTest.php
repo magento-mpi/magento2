@@ -92,7 +92,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     new \Magento\Framework\Object(
-                        array('parent_item' => new \Magento\Framework\Object(), 'price' => 2.0, 'qty' => 3, 'name' => 'item 1')
+                        array(
+                            'parent_item' => new \Magento\Framework\Object(),
+                            'price' => 2.0,
+                            'qty' => 3,
+                            'name' => 'item 1'
+                        )
                     )
                 )
             ),

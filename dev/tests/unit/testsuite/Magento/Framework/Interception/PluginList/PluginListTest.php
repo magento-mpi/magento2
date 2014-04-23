@@ -88,7 +88,10 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             'Magento\Framework\Interception\Custom\Module\Model\ItemContainerPlugin\Simple',
-            $this->_model->getPlugin('Magento\Framework\Interception\Custom\Module\Model\ItemContainer', 'simple_plugin')
+            $this->_model->getPlugin(
+                'Magento\Framework\Interception\Custom\Module\Model\ItemContainer',
+                'simple_plugin'
+            )
         );
     }
 

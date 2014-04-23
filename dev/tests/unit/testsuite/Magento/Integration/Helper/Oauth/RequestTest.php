@@ -9,6 +9,8 @@
  */
 namespace Magento\Integration\Helper\Oauth;
 
+use Magento\Framework\Oauth\OauthInterface;
+
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Framework\Oauth\Helper\Request */
@@ -39,17 +41,20 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                new \Magento\Framework\Oauth\Exception('msg', \Magento\Framework\Oauth\OauthInterface::ERR_VERSION_REJECTED),
+                new \Magento\Framework\Oauth\Exception('msg', OauthInterface::ERR_VERSION_REJECTED),
                 new \Zend_Controller_Response_Http(),
                 array('version_rejected&message=msg', \Magento\Framework\Oauth\Helper\Request::HTTP_BAD_REQUEST)
             ),
             array(
                 new \Magento\Framework\Oauth\Exception('msg', 255),
                 new \Zend_Controller_Response_Http(),
-                array('unknown_problem&code=255&message=msg', \Magento\Framework\Oauth\Helper\Request::HTTP_INTERNAL_ERROR)
+                array(
+                    'unknown_problem&code=255&message=msg',
+                    \Magento\Framework\Oauth\Helper\Request::HTTP_INTERNAL_ERROR
+                )
             ),
             array(
-                new \Magento\Framework\Oauth\Exception('param', \Magento\Framework\Oauth\OauthInterface::ERR_PARAMETER_ABSENT),
+                new \Magento\Framework\Oauth\Exception('param', OauthInterface::ERR_PARAMETER_ABSENT),
                 new \Zend_Controller_Response_Http(),
                 array(
                     'parameter_absent&oauth_parameters_absent=param',
@@ -64,7 +69,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             array(
                 new \Exception(),
                 new \Zend_Controller_Response_Http(),
-                array('internal_error&message=empty_message', \Magento\Framework\Oauth\Helper\Request::HTTP_INTERNAL_ERROR)
+                array(
+                    'internal_error&message=empty_message',
+                    \Magento\Framework\Oauth\Helper\Request::HTTP_INTERNAL_ERROR
+                )
             )
         );
     }

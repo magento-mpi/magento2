@@ -312,7 +312,11 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
 
         \Magento\Framework\Profiler::applyConfig($config, '');
         $this->assertAttributeEquals(array($mockDriver), '_drivers', 'Magento\Framework\Profiler');
-        $this->assertAttributeEquals(array('tagName' => array('tagValue')), '_tagFilters', 'Magento\Framework\Profiler');
+        $this->assertAttributeEquals(
+            array('tagName' => array('tagValue')),
+            '_tagFilters',
+            'Magento\Framework\Profiler'
+        );
         $this->assertAttributeEquals(true, '_enabled', 'Magento\Framework\Profiler');
     }
 

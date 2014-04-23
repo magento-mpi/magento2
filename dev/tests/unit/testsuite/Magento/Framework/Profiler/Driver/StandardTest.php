@@ -154,6 +154,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     {
         $method = new \ReflectionMethod($this->_driver, '_getOutputFactory');
         $method->setAccessible(true);
-        $this->assertInstanceOf('Magento\Framework\Profiler\Driver\Standard\Output\Factory', $method->invoke($this->_driver));
+        $this->assertInstanceOf(
+            'Magento\Framework\Profiler\Driver\Standard\Output\Factory',
+            $method->invoke($this->_driver)
+        );
     }
 }

@@ -32,7 +32,10 @@ class ImageMagickTest extends \PHPUnit_Framework_TestCase
         return array(
             array('', \Magento\Framework\Image\Adapter\ImageMagick::ERROR_WATERMARK_IMAGE_ABSENT),
             array(__DIR__ . '/not_exists', \Magento\Framework\Image\Adapter\ImageMagick::ERROR_WATERMARK_IMAGE_ABSENT),
-            array(__DIR__ . '/_files/invalid_image.jpg', \Magento\Framework\Image\Adapter\ImageMagick::ERROR_WRONG_IMAGE)
+            array(
+                __DIR__ . '/_files/invalid_image.jpg',
+                \Magento\Framework\Image\Adapter\ImageMagick::ERROR_WRONG_IMAGE
+            )
         );
     }
 }

@@ -69,7 +69,10 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
     public function testGetName()
     {
         $this->model->setViewId('ViewIdTest');
-        $this->assertEquals('ViewIdTest' . '_' . \Magento\Framework\Mview\View\Changelog::NAME_SUFFIX, $this->model->getName());
+        $this->assertEquals(
+            'ViewIdTest' . '_' . \Magento\Framework\Mview\View\Changelog::NAME_SUFFIX,
+            $this->model->getName()
+        );
     }
 
     public function testGetViewId()
