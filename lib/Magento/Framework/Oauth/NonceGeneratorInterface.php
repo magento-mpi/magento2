@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Oauth;
+namespace Magento\Framework\Oauth;
 
 /**
  * Interface NonceGeneratorInterface
@@ -14,7 +14,7 @@ namespace Magento\Oauth;
  * is not already used by an existing consumer. Validation will persist the nonce if validation succeeds. A method
  * for generating a current timestamp is also provided by this interface.
  *
- * @package Magento\Oauth
+ * @package Magento\Framework\Oauth
  */
 interface NonceGeneratorInterface
 {
@@ -42,7 +42,7 @@ interface NonceGeneratorInterface
      * @param string $nonce - The nonce value.
      * @param int $timestamp - The 'oauth_timestamp' value.
      * @return void
-     * @throws \Magento\Oauth\Exception - Exceptions are thrown for validation errors.
+     * @throws \Magento\Framework\Oauth\Exception - Exceptions are thrown for validation errors.
      */
     public function validateNonce(ConsumerInterface $consumer, $nonce, $timestamp);
 }

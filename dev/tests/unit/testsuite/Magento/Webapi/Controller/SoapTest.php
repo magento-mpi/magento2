@@ -32,7 +32,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
-    /** @var \Magento\Oauth\Oauth */
+    /** @var \Magento\Framework\Oauth\Oauth */
     protected $_oauthServiceMock;
 
     /**
@@ -83,7 +83,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
 
         $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
 
-        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
+        $this->_oauthServiceMock = $this->getMockBuilder('Magento\Framework\Oauth\Oauth')
             ->disableOriginalConstructor()
             ->getMock();
 

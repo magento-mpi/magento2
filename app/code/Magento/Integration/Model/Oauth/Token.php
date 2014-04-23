@@ -7,9 +7,9 @@
  */
 namespace Magento\Integration\Model\Oauth;
 
-use Magento\Oauth\Helper\Oauth as OauthHelper;
+use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection;
-use Magento\Oauth\Exception as OauthException;
+use Magento\Framework\Oauth\Exception as OauthException;
 
 /**
  * oAuth token model

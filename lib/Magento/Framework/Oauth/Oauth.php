@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Oauth;
+namespace Magento\Framework\Oauth;
 
 class Oauth implements OauthInterface
 {
     /**
-     * @var  \Magento\Oauth\Helper\Oauth
+     * @var  \Magento\Framework\Oauth\Helper\Oauth
      */
     protected $_oauthHelper;
 
@@ -20,12 +20,12 @@ class Oauth implements OauthInterface
     protected $_httpUtility;
 
     /**
-     * @var \Magento\Oauth\NonceGeneratorInterface
+     * @var \Magento\Framework\Oauth\NonceGeneratorInterface
      */
     protected $_nonceGenerator;
 
     /**
-     * @var \Magento\Oauth\TokenProviderInterface
+     * @var \Magento\Framework\Oauth\TokenProviderInterface
      */
     protected $_tokenProvider;
 

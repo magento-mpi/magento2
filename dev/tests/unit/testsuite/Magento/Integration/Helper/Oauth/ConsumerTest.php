@@ -82,7 +82,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $oauthHelperMock = $this->getMockBuilder(
-            'Magento\Oauth\Helper\Oauth'
+            'Magento\Framework\Oauth\Helper\Oauth'
         )->disableOriginalConstructor()->getMock();
 
         $tokenProviderMock = $this->getMockBuilder(
@@ -123,8 +123,8 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateConsumer()
     {
-        $key = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY);
-        $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
+        $key = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY);
+        $secret = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
 
         $consumerData = array('name' => 'Integration Name', 'key' => $key, 'secret' => $secret);
         $this->_consumerMock->expects($this->once())->method('save')->will($this->returnSelf());
@@ -139,9 +139,9 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     {
         $consumerId = 1;
 
-        $key = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY);
-        $secret = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
-        $oauthVerifier = $this->_generateRandomString(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER);
+        $key = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY);
+        $secret = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
+        $oauthVerifier = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER);
 
         $consumerData = array('entity_id' => $consumerId, 'key' => $key, 'secret' => $secret);
 

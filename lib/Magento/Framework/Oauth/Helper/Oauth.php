@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Oauth\Helper;
+namespace Magento\Framework\Oauth\Helper;
 
 class Oauth
 {

@@ -108,6 +108,7 @@
     * Moved lib/Magento/Mail to lib/Magento/Framework/Mail
     * Moved lib/Magento/HTTP to lib/Magento/Framework/HTTP
     * Moved lib/Magento/Math to lib/Magento/Framework/Math
+    * Moved lib/Magento/Oauth to lib/Magento/Framework/Oauth
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)
   * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)

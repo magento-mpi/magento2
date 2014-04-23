@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Oauth;
+namespace Magento\Framework\Oauth;
 
 /**
  * Interface OauthInterface
@@ -14,7 +14,7 @@ namespace Magento\Oauth;
  * include creating a request token, getting an access token, and performing certain validations on tokens and
  * token requests. A method is also included for generating an OAuth header that can be used in an HTTP request.
  *
- * @package Magento\Oauth
+ * @package Magento\Framework\Oauth
  */
 interface OauthInterface
 {
@@ -91,7 +91,7 @@ interface OauthInterface
      *         'oauth_token_secret' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf'
      * )
      * </pre>
-     * @throws \Magento\Oauth\Exception - Validation errors.
+     * @throws \Magento\Framework\Oauth\Exception - Validation errors.
      */
     public function getRequestToken($params, $requestUrl, $httpMethod = 'POST');
 
@@ -120,7 +120,7 @@ interface OauthInterface
      *         'oauth_token_secret' => 'gshsjkndtyhwjhdbutfgbsnhtrequikf'
      * )
      * </pre>
-     * @throws \Magento\Oauth\Exception
+     * @throws \Magento\Framework\Oauth\Exception
      */
     public function getAccessToken($params, $requestUrl, $httpMethod = 'POST');
 
@@ -142,7 +142,7 @@ interface OauthInterface
      * @param string $requestUrl - The request Url.
      * @param string $httpMethod - (default: 'POST')
      * @return int Consumer ID.
-     * @throws \Magento\Oauth\Exception - Validation errors.
+     * @throws \Magento\Framework\Oauth\Exception - Validation errors.
      */
     public function validateAccessTokenRequest($params, $requestUrl, $httpMethod = 'POST');
 
@@ -151,7 +151,7 @@ interface OauthInterface
      *
      * @param string $accessToken - The access token.
      * @return int - Consumer ID if the access token is valid.
-     * @throws \Magento\Oauth\Exception - Validation errors.
+     * @throws \Magento\Framework\Oauth\Exception - Validation errors.
      */
     public function validateAccessToken($accessToken);
 
@@ -178,7 +178,7 @@ interface OauthInterface
      * oauth_timestamp="1381930661", oauth_consumer_key="34edf957ef88492f0a32eb7e1731e85d",
      * oauth_token="7c0709f789e1f38a17aa4b9a28e1b06c", oauth_signature="agVxK0epXOOeQK4%2Bc7UAqUXoAok%3D"
      * <pre>
-     * @throws \Magento\Oauth\Exception
+     * @throws \Magento\Framework\Oauth\Exception
      */
     public function buildAuthorizationHeader(
         $params,

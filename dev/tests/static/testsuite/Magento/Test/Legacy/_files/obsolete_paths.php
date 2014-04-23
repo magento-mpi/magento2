@@ -214,4 +214,7 @@ return [
     ['/lib/Magento/Math', '/lib/Magento/Framework/Math'],
     ['/dev/tests/unit/testsuite/Magento/Math', '/dev/tests/unit/testsuite/Magento/Framework/Math'],
     ['/dev/tests/integration/testsuite/Magento/Math', '/dev/tests/integration/testsuite/Magento/Framework/Math'],
+    ['/lib/Magento/Oauth', '/lib/Magento/Framework/Oauth'],
+    ['/dev/tests/unit/testsuite/Magento/Oauth', '/dev/tests/unit/testsuite/Magento/Framework/Oauth'],
+    ['/dev/tests/integration/testsuite/Magento/Oauth', '/dev/tests/integration/testsuite/Magento/Framework/Oauth'],
 ];

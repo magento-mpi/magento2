@@ -42,10 +42,10 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
-    /** @var \Magento\Oauth\OauthInterface */
+    /** @var \Magento\Framework\Oauth\OauthInterface */
     protected $_oauthService;
 
-    /** @var  \Magento\Oauth\Helper\Request */
+    /** @var  \Magento\Framework\Oauth\Helper\Request */
     protected $_oauthHelper;
 
     /** @var AuthorizationService */
@@ -74,8 +74,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Oauth\OauthInterface $oauthService
-     * @param \Magento\Oauth\Helper\Request $oauthHelper
+     * @param \Magento\Framework\Oauth\OauthInterface $oauthService
+     * @param \Magento\Framework\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
@@ -92,8 +92,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\Oauth\Helper\Request $oauthHelper,
+        \Magento\Framework\Oauth\OauthInterface $oauthService,
+        \Magento\Framework\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,

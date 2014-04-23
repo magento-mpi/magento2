@@ -62,4 +62,5 @@ return [
     ['Magento\Mail', 'Magento\Framework\Mail'],
     ['Magento\HTTP', 'Magento\Framework\HTTP'],
     ['Magento\Math', 'Magento\Framework\Math'],
+    ['Magento\Oauth', 'Magento\Framework\Oauth'],
 ];
