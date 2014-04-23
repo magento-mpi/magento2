@@ -12,7 +12,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
     /**
      * Registry manager
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -23,7 +23,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param mixed $connection
      * @param mixed $resource
      */
@@ -34,7 +34,7 @@ class Collection extends \Magento\CatalogSearch\Model\Resource\Query\Collection
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         $connection = null,
         $resource = null
     ) {

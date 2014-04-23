@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Review\Model\Rating\OptionFactory $optionFactory
      * @param \Magento\Framework\Session\SessionManagerInterface $session
@@ -43,7 +43,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Review\Model\Rating\OptionFactory $optionFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,

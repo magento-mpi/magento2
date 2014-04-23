@@ -15,7 +15,7 @@ use Magento\Customer\Controller\RegistryConstants;
 class Grid extends \Magento\RecurringPayment\Block\Payments
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -39,14 +39,14 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\RecurringPayment\Model\Payment $recurringPayment
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\RecurringPayment\Model\Payment $recurringPayment,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
         array $data = array()
     ) {

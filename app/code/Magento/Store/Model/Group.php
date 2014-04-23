@@ -99,7 +99,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\O
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Store\Model\Store $store
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -109,7 +109,7 @@ class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\O
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Store\Model\Store $store,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

@@ -12,14 +12,14 @@ use Magento\Framework\Service\Data\AbstractObject;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    /** @var \Magento\Registry */
+    /** @var \Magento\Framework\Registry */
     protected $_registry;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      */
-    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Registry $registry)
+    public function __construct(\Magento\Framework\App\Helper\Context $context, \Magento\Framework\Registry $registry)
     {
         $this->_registry = $registry;
         parent::__construct($context);

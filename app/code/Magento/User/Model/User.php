@@ -125,7 +125,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory
@@ -142,7 +142,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Backend\App\ConfigInterface $config,
         \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory,
@@ -207,7 +207,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $this->_eventManager = $objectManager->get('Magento\Framework\Event\ManagerInterface');
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
-        $this->_registry = $objectManager->get('Magento\Registry');
+        $this->_registry = $objectManager->get('Magento\Framework\Registry');
         $this->_validatorObject = $objectManager->get('Magento\Framework\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');

@@ -9,7 +9,7 @@
  */
 namespace Magento\ProductAlert\Model;
 
-use Resource\Stock\Customer\Collection;
+use Magento\ProductAlert\Model\Resource\Stock\Customer\Collection;
 
 /**
  * ProductAlert for back in stock model
@@ -44,7 +44,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -52,7 +52,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory $customerColFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

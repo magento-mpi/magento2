@@ -19,7 +19,7 @@ namespace Magento\Sales\Model\Resource\Order\Shipment\Order\Grid;
 class Collection extends \Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registryManager;
 
@@ -28,7 +28,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Shipment\Grid\Colle
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param null $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -37,7 +37,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Shipment\Grid\Colle
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Registry $registryManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {

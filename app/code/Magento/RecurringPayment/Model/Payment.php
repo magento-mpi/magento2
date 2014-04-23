@@ -111,7 +111,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringPayment\Block\Fields $fields
@@ -132,7 +132,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
         \Magento\RecurringPayment\Block\Fields $fields,

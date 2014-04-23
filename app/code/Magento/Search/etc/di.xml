@@ -28,7 +28,7 @@
             <argument name="searchCatalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category\Proxy</argument>
             <argument name="indexer" xsi:type="object">Magento\Index\Model\Indexer\Proxy</argument>
             <argument name="searchData" xsi:type="object">Magento\Search\Helper\Data\Proxy</argument>
-            <argument name="coreRegistry" xsi:type="object">Magento\Registry\Proxy</argument>
+            <argument name="coreRegistry" xsi:type="object">Magento\Framework\Registry\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Search\Model\Resource\Engine">
