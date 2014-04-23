@@ -308,7 +308,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $defaultStore->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(5));
         $defaultStore->expects($this->atLeastOnce())->method('isCurrentlySecure')->will($this->returnValue($secure));
 
-        $sidResolver = $this->getMockForAbstractClass('\Magento\Session\SidResolverInterface');
+        $sidResolver = $this->getMockForAbstractClass('\Magento\Framework\Session\SidResolverInterface');
         $sidResolver->expects($this->any())->method('getSessionIdQueryParam')->will($this->returnValue('SID'));
 
         $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
