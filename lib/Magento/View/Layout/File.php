@@ -123,8 +123,8 @@ class File
     public function getFileIdentifier()
     {
         if (null === $this->identifier) {
-            $theme = $this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base';
-            $this->identifier = ($this->isBase ? 'base|' : '') . $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
+            $theme = $this->getTheme() ? ('|theme:' . $this->theme->getFullPath()) : '';
+            $this->identifier = ($this->isBase ? 'base' : '') . $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
         }
         return $this->identifier;
     }

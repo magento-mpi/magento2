@@ -63,7 +63,8 @@ class Factory
             new Composite(
                 array(
                     new Theme(new Simple("{$themesDir}/<area>/<theme_path>/<namespace>_<module>")),
-                    new Simple("{$modulesDir}/<namespace>/<module>/view/<area>")
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/<area>"),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/base")
                 )
             )
         );
