@@ -70,7 +70,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeDate;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -87,7 +87,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
@@ -98,7 +98,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);

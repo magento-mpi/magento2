@@ -83,7 +83,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
@@ -97,7 +97,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,

@@ -23,7 +23,7 @@ class Shared extends AbstractController
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -31,13 +31,13 @@ class Shared extends AbstractController
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $formKeyValidator, $customerSession);

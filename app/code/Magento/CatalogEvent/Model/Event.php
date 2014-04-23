@@ -14,7 +14,7 @@ use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;

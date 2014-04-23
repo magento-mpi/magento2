@@ -100,7 +100,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
@@ -111,7 +111,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,

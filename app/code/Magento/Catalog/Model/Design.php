@@ -36,7 +36,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -45,7 +45,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

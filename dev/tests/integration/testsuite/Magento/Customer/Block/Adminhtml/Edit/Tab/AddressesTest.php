@@ -29,7 +29,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAddressServiceInterface */
     private $_addressService;
 
-    /** @var  \Magento\Registry */
+    /** @var  \Magento\Framework\Registry */
     private $_coreRegistry;
 
     /** @var \Magento\Backend\Model\Session */
@@ -50,7 +50,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_addressService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
-        $this->_coreRegistry = $this->_objectManager->get('Magento\Registry');
+        $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);

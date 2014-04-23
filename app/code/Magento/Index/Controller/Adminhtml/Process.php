@@ -16,7 +16,7 @@ class Process extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -32,13 +32,13 @@ class Process extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Index\Model\Indexer $indexer
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Index\Model\ProcessFactory $processFactory,
         \Magento\Index\Model\Indexer $indexer
     ) {

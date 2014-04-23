@@ -19,7 +19,7 @@ class AssociatedProductsCollection extends \Magento\Catalog\Model\Resource\Produ
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +49,7 @@ class AssociatedProductsCollection extends \Magento\Catalog\Model\Resource\Produ
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param mixed $connection
      *
@@ -74,7 +74,7 @@ class AssociatedProductsCollection extends \Magento\Catalog\Model\Resource\Produ
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         $connection = null
     ) {

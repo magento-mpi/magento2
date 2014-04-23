@@ -61,7 +61,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory
      * @param \Magento\GoogleShopping\Model\Config $config
@@ -73,7 +73,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GoogleShopping\Model\Resource\Attribute\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
         \Magento\GoogleShopping\Model\Config $config,

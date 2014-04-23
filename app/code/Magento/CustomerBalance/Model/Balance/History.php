@@ -73,7 +73,7 @@ class History extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $design
@@ -84,7 +84,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $design,

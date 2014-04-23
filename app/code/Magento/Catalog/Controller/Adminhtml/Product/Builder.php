@@ -11,7 +11,7 @@ namespace Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Cms\Model\Wysiwyg;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Logger;
 
 class Builder
@@ -27,7 +27,7 @@ class Builder
     protected $logger;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 

@@ -35,7 +35,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -87,7 +87,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Log\Model\CustomerFactory $logFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
@@ -102,7 +102,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Log\Model\CustomerFactory $logFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()

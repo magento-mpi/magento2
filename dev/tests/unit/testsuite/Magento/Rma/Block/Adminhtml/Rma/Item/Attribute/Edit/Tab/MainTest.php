@@ -61,7 +61,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $logger;
 
-    /** @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject */
     protected $escaper;
 
     /** @var \Magento\Framework\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject */
@@ -106,7 +106,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
     protected $context;
 
-    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registry;
 
     /** @var \Magento\Framework\Data\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -149,7 +149,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface');
         $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
-        $this->escaper = $this->getMock('Magento\Escaper');
+        $this->escaper = $this->getMock('Magento\Framework\Escaper');
         $this->filterManager = $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false);
         $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->translateState = $this->getMock('Magento\Framework\Translate\Inline\StateInterface');
@@ -199,7 +199,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->registry = $this->getMock('Magento\Registry');
+        $this->registry = $this->getMock('Magento\Framework\Registry');
         $this->formFactory = $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false);
         $this->eavHelper = $this->getMock('Magento\Eav\Helper\Data', [], [], '', false);
         $this->yesnoFactory = $this->getMock('Magento\Backend\Model\Config\Source\YesnoFactory', ['create']);

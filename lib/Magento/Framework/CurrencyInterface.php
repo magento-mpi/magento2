@@ -5,7 +5,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 interface CurrencyInterface
 {
@@ -25,7 +25,7 @@ interface CurrencyInterface
      * actual set locale will be used
      *
      * @param  array $options (Optional) Options to set
-     * @return \Magento\CurrencyInterface
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function setFormat(array $options = array());
 
@@ -91,7 +91,7 @@ interface CurrencyInterface
     public static function getCache();
 
     /**
-     * Sets a cache for \Magento\Currency
+     * Sets a cache for \Magento\Framework\Currency
      *
      * @param  \Zend_Cache_Core $cache Cache to set
      * @return void
@@ -148,71 +148,71 @@ interface CurrencyInterface
     /**
      * Adds a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Add this value to currency
-     * @param string|\Magento\CurrencyInterface        $currency The currency to add
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Add this value to currency
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to add
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function setValue($value, $currency = null);
 
     /**
      * Adds a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Add this value to currency
-     * @param string|\Magento\CurrencyInterface        $currency The currency to add
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Add this value to currency
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to add
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function add($value, $currency = null);
 
     /**
      * Substracts a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Substracts this value from currency
-     * @param string|\Magento\CurrencyInterface        $currency The currency to substract
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Substracts this value from currency
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to substract
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function sub($value, $currency = null);
 
     /**
      * Divides a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Divides this value from currency
-     * @param string|\Magento\CurrencyInterface        $currency The currency to divide
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Divides this value from currency
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to divide
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function div($value, $currency = null);
 
     /**
      * Multiplies a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Multiplies this value from currency
-     * @param string|\Magento\CurrencyInterface        $currency The currency to multiply
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Multiplies this value from currency
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to multiply
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function mul($value, $currency = null);
 
     /**
      * Calculates the modulo from a currency
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Calculate modulo from this value
-     * @param string|\Magento\CurrencyInterface        $currency The currency to calculate the modulo
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Calculate modulo from this value
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to calculate the modulo
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function mod($value, $currency = null);
 
     /**
      * Compares two currencies
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Compares the currency with this value
-     * @param string|\Magento\CurrencyInterface        $currency The currency to compare this value from
-     * @return \Magento\CurrencyInterface
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Compares the currency with this value
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to compare this value from
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function compare($value, $currency = null);
 
     /**
      * Returns true when the two currencies are equal
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Compares the currency with this value
-     * @param string|\Magento\CurrencyInterface        $currency The currency to compare this value from
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Compares the currency with this value
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to compare this value from
      * @return boolean
      */
     public function equals($value, $currency = null);
@@ -220,8 +220,8 @@ interface CurrencyInterface
     /**
      * Returns true when the currency is more than the given value
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Compares the currency with this value
-     * @param string|\Magento\CurrencyInterface        $currency The currency to compare this value from
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Compares the currency with this value
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to compare this value from
      * @return boolean
      */
     public function isMore($value, $currency = null);
@@ -229,8 +229,8 @@ interface CurrencyInterface
     /**
      * Returns true when the currency is less than the given value
      *
-     * @param float|integer|\Magento\CurrencyInterface $value    Compares the currency with this value
-     * @param string|\Magento\CurrencyInterface        $currency The currency to compare this value from
+     * @param float|integer|\Magento\Framework\CurrencyInterface $value    Compares the currency with this value
+     * @param string|\Magento\Framework\CurrencyInterface        $currency The currency to compare this value from
      * @return boolean
      */
     public function isLess($value, $currency = null);
@@ -245,8 +245,8 @@ interface CurrencyInterface
     /**
      * Sets a new exchange service
      *
-     * @param string|\Magento\CurrencyInterface_CurrencyInterface $service Service class
-     * @return \Magento\CurrencyInterface
+     * @param string|\Magento\Framework\CurrencyInterface_CurrencyInterface $service Service class
+     * @return \Magento\Framework\CurrencyInterface
      */
     public function setService($service);
 }

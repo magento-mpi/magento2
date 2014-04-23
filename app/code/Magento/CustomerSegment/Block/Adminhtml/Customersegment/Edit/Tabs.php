@@ -14,7 +14,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -28,7 +28,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -36,7 +36,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_segmentFactory = $segmentFactory;

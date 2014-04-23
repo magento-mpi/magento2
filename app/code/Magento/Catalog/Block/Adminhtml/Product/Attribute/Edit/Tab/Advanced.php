@@ -38,7 +38,7 @@ class Advanced extends Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param Yesno $yesNo
      * @param Data $eavData
@@ -46,7 +46,7 @@ class Advanced extends Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         Yesno $yesNo,
         Data $eavData,

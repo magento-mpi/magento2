@@ -217,7 +217,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Escaper
      *
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -235,7 +235,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -257,7 +257,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -269,7 +269,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -291,7 +291,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Message\ManagerInterface $messageManager,

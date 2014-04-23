@@ -56,7 +56,7 @@ class Rviewed extends AbstractAccordion
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
@@ -70,7 +70,7 @@ class Rviewed extends AbstractAccordion
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,

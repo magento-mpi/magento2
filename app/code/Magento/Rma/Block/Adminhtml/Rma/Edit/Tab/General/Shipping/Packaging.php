@@ -33,7 +33,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -54,7 +54,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param array $data
@@ -62,7 +62,7 @@ class Packaging extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         GenericInterface $sourceSizeModel,
         array $data = array()

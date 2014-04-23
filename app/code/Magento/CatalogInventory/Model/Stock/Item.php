@@ -189,7 +189,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
@@ -206,7 +206,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,

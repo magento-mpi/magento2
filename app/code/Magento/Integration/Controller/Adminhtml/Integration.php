@@ -29,7 +29,7 @@ class Integration extends Action
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -49,29 +49,29 @@ class Integration extends Action
     protected $_integrationData;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $escaper;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param IntegrationOauthService $oauthService
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Integration\Helper\Data $integrationData
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Logger $logger,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Integration\Helper\Data $integrationData,
-        \Magento\Escaper $escaper
+        \Magento\Framework\Escaper $escaper
     ) {
         parent::__construct($context);
         $this->_registry = $registry;

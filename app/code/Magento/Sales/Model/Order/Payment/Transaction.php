@@ -160,7 +160,7 @@ class Transaction extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
@@ -171,7 +171,7 @@ class Transaction extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,

@@ -21,7 +21,7 @@ class Invoice extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstract
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Filter\FilterManager $filterManager
@@ -35,7 +35,7 @@ class Invoice extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstract
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Filter\FilterManager $filterManager,

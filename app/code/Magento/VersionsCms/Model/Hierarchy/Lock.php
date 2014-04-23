@@ -55,7 +55,7 @@ class Lock extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -64,7 +64,7 @@ class Lock extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

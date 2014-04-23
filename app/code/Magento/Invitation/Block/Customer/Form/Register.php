@@ -18,7 +18,7 @@ class Register extends \Magento\Customer\Block\Form\Register
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -32,7 +32,7 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -47,7 +47,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

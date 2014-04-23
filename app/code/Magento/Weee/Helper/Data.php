@@ -30,7 +30,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -63,7 +63,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_storeManager = $storeManager;

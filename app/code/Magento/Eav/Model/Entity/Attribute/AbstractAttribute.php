@@ -99,7 +99,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
@@ -112,7 +112,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel 
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,

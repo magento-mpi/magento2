@@ -59,13 +59,13 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             $constructArguments
         );
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
-        $registryMock = $this->getMock('Magento\Registry', array(), array(), '', false, false);
+        $registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false, false);
         $this->_objectManager->expects(
             $this->any()
         )->method(
             'get'
         )->with(
-            $this->equalTo('Magento\Registry')
+            $this->equalTo('Magento\Framework\Registry')
         )->will(
             $this->returnValue($registryMock)
         );

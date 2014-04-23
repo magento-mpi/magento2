@@ -120,7 +120,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -134,7 +134,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Catalog\Model\ProductFactory $productFactory,

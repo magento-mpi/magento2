@@ -95,7 +95,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Framework\Session\SessionManagerInterface $session
@@ -114,7 +114,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,

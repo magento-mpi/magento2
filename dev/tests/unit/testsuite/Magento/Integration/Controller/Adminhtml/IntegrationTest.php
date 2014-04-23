@@ -52,7 +52,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Service\OauthV1|\PHPUnit_Framework_MockObject_MockObject */
     protected $_oauthSvcMock;
 
-    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $_registryMock;
 
     /** @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject */
@@ -80,7 +80,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected $_layoutMock;
 
     /**
-     * @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_escaper;
 
@@ -125,7 +125,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->getMock();
-        $this->_registryMock = $this->getMockBuilder('Magento\Registry')->disableOriginalConstructor()->getMock();
+        $this->_registryMock = $this->getMockBuilder('Magento\Framework\Registry')->disableOriginalConstructor()->getMock();
         $this->_configScopeMock = $this->getMockBuilder(
             'Magento\Framework\Config\ScopeInterface'
         )->disableOriginalConstructor()->getMock();
@@ -136,7 +136,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_escaper = $this->getMockBuilder(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         )->setMethods(
             array('escapeHtml')
         )->disableOriginalConstructor()->getMock();

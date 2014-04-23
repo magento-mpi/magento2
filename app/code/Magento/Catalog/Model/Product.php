@@ -248,7 +248,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -277,7 +277,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,

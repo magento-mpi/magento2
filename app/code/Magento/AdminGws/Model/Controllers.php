@@ -37,7 +37,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
@@ -87,7 +87,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -103,7 +103,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

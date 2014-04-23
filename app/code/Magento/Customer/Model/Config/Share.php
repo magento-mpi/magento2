@@ -44,7 +44,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      * Constructor
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
@@ -54,7 +54,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,

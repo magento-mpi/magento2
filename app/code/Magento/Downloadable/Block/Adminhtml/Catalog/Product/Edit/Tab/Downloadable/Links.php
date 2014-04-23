@@ -54,7 +54,7 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -88,7 +88,7 @@ class Links extends \Magento\Backend\Block\Template
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceModel
      * @param \Magento\Downloadable\Model\Link $link
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -100,7 +100,7 @@ class Links extends \Magento\Backend\Block\Template
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceModel,
         \Magento\Downloadable\Model\Link $link,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,

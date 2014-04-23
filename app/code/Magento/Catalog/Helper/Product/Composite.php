@@ -16,7 +16,7 @@ use Magento\Catalog\Model\ProductFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Model\Converter;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Adminhtml catalog product composite helper

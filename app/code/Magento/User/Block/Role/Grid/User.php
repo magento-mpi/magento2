@@ -17,7 +17,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -37,7 +37,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param array $data
      */
@@ -45,7 +45,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\User\Model\RoleFactory $roleFactory,
         array $data = array()
     ) {

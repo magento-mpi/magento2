@@ -21,7 +21,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
@@ -57,7 +57,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Framework\App\State', array(), array(), '', false),
             $this->actionValidatorMock
         );
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(

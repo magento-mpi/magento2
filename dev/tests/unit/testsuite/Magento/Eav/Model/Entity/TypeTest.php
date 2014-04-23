@@ -52,7 +52,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->attrFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\AttributeFactory',
             array(),

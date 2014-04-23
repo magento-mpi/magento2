@@ -11,7 +11,7 @@ namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail;
 class Collection extends \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -26,7 +26,7 @@ class Collection extends \Magento\CustomerSegment\Model\Resource\Report\Customer
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param mixed $connection
      * @param string $modelName
      *
@@ -43,7 +43,7 @@ class Collection extends \Magento\CustomerSegment\Model\Resource\Report\Customer
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\Object\Copy\Config $fieldsetConfig,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Registry $registryManager,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {

@@ -185,7 +185,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
@@ -200,7 +200,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,

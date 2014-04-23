@@ -36,8 +36,8 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
      */
     protected function tearDown()
     {
-        /** @var \Magento\Registry $registry */
-        $registry = Bootstrap::getObjectManager()->get('Magento\Registry');
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
         $registry->unregister('isSecureArea');
         $registry->register('isSecureArea', true);
 

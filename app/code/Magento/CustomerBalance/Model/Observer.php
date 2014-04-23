@@ -26,7 +26,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -59,7 +59,7 @@ class Observer
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Converter $customerConverter
      */
     public function __construct(
@@ -68,7 +68,7 @@ class Observer
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_onePageCheckout = $onePageCheckout;

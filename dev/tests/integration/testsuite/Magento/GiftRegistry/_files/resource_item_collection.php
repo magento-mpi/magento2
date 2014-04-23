@@ -71,5 +71,5 @@ $product->load(1);
 $item = $objectManager->create('Magento\GiftRegistry\Model\Item');
 $item->setEntityId($giftRegistry->getId())->setProductId($product->getId())->setQty(2)->save();
 
-$objectManager->get('Magento\Registry')->register('test_gift_registry', $giftRegistry);
-$objectManager->get('Magento\Registry')->register('test_product', $product);
+$objectManager->get('Magento\Framework\Registry')->register('test_gift_registry', $giftRegistry);
+$objectManager->get('Magento\Framework\Registry')->register('test_product', $product);

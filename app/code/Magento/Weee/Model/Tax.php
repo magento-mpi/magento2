@@ -86,7 +86,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\CalculationFactory $calculationFactory
@@ -100,7 +100,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\CalculationFactory $calculationFactory,

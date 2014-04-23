@@ -28,19 +28,19 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Cache\FrontendInterface $attributeLabelCache
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Cache\FrontendInterface $attributeLabelCache,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_attributeLabelCache = $attributeLabelCache;
@@ -207,7 +207,7 @@ class Attribute extends \Magento\Backend\App\Action
             $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set');
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
-                $setName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($setName);
+                $setName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($setName);
                 $this->messageManager->addError(__('Attribute Set with name \'%1\' already exists.', $setName));
 
                 $this->_view->getLayout()->initMessages();

@@ -39,7 +39,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
      * @param \Magento\Core\Helper\Data $coreHelper
@@ -48,7 +48,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,
         \Magento\Core\Helper\Data $coreHelper,

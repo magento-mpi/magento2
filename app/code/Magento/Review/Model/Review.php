@@ -105,7 +105,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory
      * @param \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory
      * @param \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory
@@ -119,7 +119,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productFactory,
         \Magento\Review\Model\Resource\Review\Status\CollectionFactory $statusFactory,
         \Magento\Review\Model\Resource\Review\Summary\CollectionFactory $summaryFactory,

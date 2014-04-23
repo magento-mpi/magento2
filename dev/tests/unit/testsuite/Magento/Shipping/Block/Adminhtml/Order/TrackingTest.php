@@ -15,7 +15,7 @@ class TrackingTest extends \PHPUnit_Framework_TestCase
 
         $shipment = new \Magento\Framework\Object(array('store_id' => 1));
 
-        $registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
+        $registry = $this->getMock('Magento\Framework\Registry', array('registry'), array(), '', false);
         $registry->expects(
             $this->once()
         )->method(

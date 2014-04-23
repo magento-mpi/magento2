@@ -34,7 +34,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -82,7 +82,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Theme\Helper\Layout $pageLayout
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\ViewInterface $view
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $messageGroups
@@ -93,7 +93,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Theme\Helper\Layout $pageLayout,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\ViewInterface $view,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         array $messageGroups = array()

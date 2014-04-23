@@ -110,6 +110,11 @@
     * Moved lib/Magento/Image to lib/Magento/Framework/Image
     * Moved lib/Magento/Oauth to lib/Magento/Framework/Oauth
     * Moved lib/Magento/Object to lib/Magento/Framework/Object
+    * Moved lib/Magento/Currency to lib/Magento/Framework/Currency
+    * Moved lib/Magento/Debug to lib/Magento/Framework/Debug
+    * Moved lib/Magento/Escaper to lib/Magento/Framework/Escaper
+    * Moved lib/Magento/OsInfo to lib/Magento/Framework/OsInfo
+    * Moved lib/Magento/Registry to lib/Magento/Framework/Registry
     * Moved lib/Magento/Util to lib/Magento/Framework/Util
     * Moved lib/Magento/BootstrapException to lib/Magento/Framework/BootstrapException
 * Refactored the following modules to use Customer Service

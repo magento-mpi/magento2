@@ -32,7 +32,7 @@ class Product extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -73,7 +73,7 @@ class Product extends \Magento\Backend\App\Action
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
@@ -85,7 +85,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
@@ -551,8 +551,8 @@ class Product extends \Magento\Backend\App\Action
                     $this->messageManager->addNotice(
                         __(
                             'SKU for product %1 has been changed to %2.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName()),
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getSku())
                         )
                     );
                 }

@@ -167,7 +167,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -182,7 +182,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,

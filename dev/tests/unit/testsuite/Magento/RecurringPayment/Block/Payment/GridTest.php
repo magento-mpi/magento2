@@ -30,7 +30,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $customerId = 1;
         $registry = $this->getMockBuilder(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
             array('registry')
         )->getMock();

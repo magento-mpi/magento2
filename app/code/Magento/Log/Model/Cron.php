@@ -64,7 +64,7 @@ class Cron extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Log\Model\Log $log
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -76,7 +76,7 @@ class Cron extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Log\Model\Log $log,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

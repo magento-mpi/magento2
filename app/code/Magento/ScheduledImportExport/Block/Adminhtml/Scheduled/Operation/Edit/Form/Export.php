@@ -36,7 +36,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
@@ -50,7 +50,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,

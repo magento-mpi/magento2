@@ -83,7 +83,7 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 

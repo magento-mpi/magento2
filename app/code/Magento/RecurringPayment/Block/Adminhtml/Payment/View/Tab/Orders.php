@@ -16,7 +16,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     /**
      * Core registry
      *
-     * @var \Magento\Registry|null
+     * @var \Magento\Framework\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -38,7 +38,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param \Magento\RecurringPayment\Model\Resource\Order\CollectionFilter $recurringCollectionFilter
@@ -47,7 +47,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollection,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         \Magento\RecurringPayment\Model\Resource\Order\CollectionFilter $recurringCollectionFilter,

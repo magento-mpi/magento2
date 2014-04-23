@@ -66,5 +66,5 @@ $customer->save();
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Registry')->unregister('_fixture/Magento_ImportExport_Customer');
-$objectManager->get('Magento\Registry')->register('_fixture/Magento_ImportExport_Customer', $customer);
+$objectManager->get('Magento\Framework\Registry')->unregister('_fixture/Magento_ImportExport_Customer');
+$objectManager->get('Magento\Framework\Registry')->register('_fixture/Magento_ImportExport_Customer', $customer);

@@ -33,7 +33,7 @@ class Onepage extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -52,7 +52,7 @@ class Onepage extends Action
      * @param \Magento\Customer\Model\Session $customerSession
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
@@ -61,7 +61,7 @@ class Onepage extends Action
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {

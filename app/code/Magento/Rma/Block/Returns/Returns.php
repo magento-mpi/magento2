@@ -21,7 +21,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +49,7 @@ class Returns extends \Magento\Framework\View\Element\Template
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
@@ -58,7 +58,7 @@ class Returns extends \Magento\Framework\View\Element\Template
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {

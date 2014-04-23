@@ -16,7 +16,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +35,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\User\Model\Resource\Role\CollectionFactory $userRolesFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

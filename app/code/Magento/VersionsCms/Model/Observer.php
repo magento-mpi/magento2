@@ -27,7 +27,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -53,7 +53,7 @@ class Observer
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $coreUrl
@@ -61,7 +61,7 @@ class Observer
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $coreUrl,

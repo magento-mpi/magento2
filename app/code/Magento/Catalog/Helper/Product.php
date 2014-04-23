@@ -55,7 +55,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -121,7 +121,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\View\Url $viewUrl
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
@@ -135,7 +135,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\View\Url $viewUrl,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,

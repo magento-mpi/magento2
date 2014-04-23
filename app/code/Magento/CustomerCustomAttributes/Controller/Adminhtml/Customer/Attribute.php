@@ -24,7 +24,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -45,14 +45,14 @@ class Attribute extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory

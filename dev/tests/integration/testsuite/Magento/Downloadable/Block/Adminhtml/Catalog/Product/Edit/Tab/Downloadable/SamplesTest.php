@@ -32,7 +32,7 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_product',
             new \Magento\Framework\Object(array('type_id' => 'simple'))
@@ -61,7 +61,7 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_product',
             new \Magento\Framework\Object(array('type_id' => $productType, 'id' => '1', 'samples_title' => $samplesTitle))

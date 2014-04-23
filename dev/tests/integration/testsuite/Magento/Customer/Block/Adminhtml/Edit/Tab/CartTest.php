@@ -21,7 +21,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Block\Template\Context */
     private $_context;
 
-    /** @var \Magento\Registry */
+    /** @var \Magento\Framework\Registry */
     private $_coreRegistry;
 
     /** @var \Magento\Store\Model\StoreManagerInterface */
@@ -43,7 +43,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             array('storeManager' => $this->_storeManager)
         );
 
-        $this->_coreRegistry = $this->_objectManager->get('Magento\Registry');
+        $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, self::CUSTOMER_ID_VALUE);
 
         $this->_block = $this->_objectManager->get(

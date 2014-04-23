@@ -185,7 +185,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -198,7 +198,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Framework\Locale\FormatInterface $localeFormat,

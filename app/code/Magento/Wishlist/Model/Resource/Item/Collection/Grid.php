@@ -18,7 +18,7 @@ use Magento\Customer\Controller\RegistryConstants as RegistryConstants;
 class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -40,7 +40,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Zend_Db_Adapter_Abstract $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -63,7 +63,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Model\Resource\Item $resource,
         \Magento\Framework\App\State $appState,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         $connection = null
     ) {
         $this->_registryManager = $registry;

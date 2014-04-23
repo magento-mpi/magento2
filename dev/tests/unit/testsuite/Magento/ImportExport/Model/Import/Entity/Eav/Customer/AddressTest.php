@@ -213,7 +213,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array(
                     $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false, false),
-                    $this->getMock('Magento\Registry'),
+                    $this->getMock('Magento\Framework\Registry'),
                     $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Entity\TypeFactory'),

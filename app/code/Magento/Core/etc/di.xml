@@ -55,7 +55,7 @@
     <preference for="Magento\Framework\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\Framework\LocaleInterface" type="Magento\Framework\Locale" />
     <preference for="Magento\Framework\Locale\CurrencyInterface" type="Magento\Framework\Locale\Currency" />
-    <preference for="Magento\CurrencyInterface" type="Magento\Currency" />
+    <preference for="Magento\Framework\CurrencyInterface" type="Magento\Framework\Currency" />
     <preference for="Magento\Framework\Locale\FormatInterface" type="Magento\Framework\Locale\Format" />
     <preference for="Magento\Framework\Locale\ResolverInterface" type="Magento\Framework\Locale\Resolver" />
     <preference for="Magento\Framework\Stdlib\DateTime\TimezoneInterface" type="Magento\Framework\Stdlib\DateTime\Timezone" />

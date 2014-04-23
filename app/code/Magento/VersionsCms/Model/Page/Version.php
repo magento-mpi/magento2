@@ -82,7 +82,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement
@@ -96,7 +96,7 @@ class Version extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement,

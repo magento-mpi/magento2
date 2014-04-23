@@ -306,7 +306,7 @@ class Store extends AbstractModel implements
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\Resource\Store $resource
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -327,7 +327,7 @@ class Store extends AbstractModel implements
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\Resource\Store $resource,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,

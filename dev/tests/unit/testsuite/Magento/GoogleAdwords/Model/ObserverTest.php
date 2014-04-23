@@ -42,7 +42,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
-        $this->_registryMock = $this->getMock('Magento\Registry', array(), array(), '', true);
+        $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', true);
         $this->_collectionMock = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Collection',
             array(),

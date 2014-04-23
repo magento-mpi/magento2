@@ -67,7 +67,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -109,7 +109,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -129,7 +129,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,

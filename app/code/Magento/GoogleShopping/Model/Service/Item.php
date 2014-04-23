@@ -32,7 +32,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
 
     /**
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
@@ -41,7 +41,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      */
     public function __construct(
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,

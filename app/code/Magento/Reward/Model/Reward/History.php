@@ -89,7 +89,7 @@ class History extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -101,7 +101,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

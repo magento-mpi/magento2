@@ -37,7 +37,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
@@ -50,7 +50,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,

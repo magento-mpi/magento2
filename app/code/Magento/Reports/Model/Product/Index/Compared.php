@@ -44,7 +44,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
@@ -58,7 +58,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,

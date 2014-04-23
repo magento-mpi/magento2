@@ -41,7 +41,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Framework\View\LayoutInterface $layout
@@ -51,7 +51,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Framework\View\LayoutInterface $layout,

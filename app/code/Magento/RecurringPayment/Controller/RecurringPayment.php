@@ -25,7 +25,7 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,13 +38,13 @@ class RecurringPayment extends \Magento\Framework\App\Action\Action
      * Initialize dependencies
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Action\Title $title
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Action\Title $title,
         \Magento\Customer\Model\Session $customerSession
     ) {

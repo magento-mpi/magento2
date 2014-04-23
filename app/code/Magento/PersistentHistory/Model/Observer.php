@@ -23,7 +23,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -120,7 +120,7 @@ class Observer
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
      * @param \Magento\Persistent\Helper\Data $mPersistentData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Customer\Model\Session $customerSession
@@ -139,7 +139,7 @@ class Observer
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\PersistentHistory\Helper\Data $ePersistentData,
         \Magento\Persistent\Helper\Data $mPersistentData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,

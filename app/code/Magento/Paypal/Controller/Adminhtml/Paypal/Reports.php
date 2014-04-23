@@ -17,7 +17,7 @@ class Reports extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -38,14 +38,14 @@ class Reports extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory
      * @param \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory
      * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Paypal\Model\Report\Settlement\RowFactory $rowFactory,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
         \Magento\Framework\Logger $logger

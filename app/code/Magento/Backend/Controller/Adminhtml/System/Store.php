@@ -23,7 +23,7 @@ class Store extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -34,12 +34,12 @@ class Store extends Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Filter\FilterManager $filterManager
     ) {
         $this->_coreRegistry = $coreRegistry;

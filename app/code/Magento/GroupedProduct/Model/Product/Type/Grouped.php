@@ -88,7 +88,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -107,7 +107,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

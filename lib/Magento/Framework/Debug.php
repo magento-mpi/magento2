@@ -2,19 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Debug
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Magento Debug methods
- *
- * @category    Magento
- * @package     Magento_Debug
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Debug
 {

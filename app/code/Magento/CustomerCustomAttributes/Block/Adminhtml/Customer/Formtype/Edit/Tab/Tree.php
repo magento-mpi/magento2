@@ -19,7 +19,7 @@ class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -41,7 +41,7 @@ class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      * @param array $data
@@ -49,7 +49,7 @@ class Tree extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Resource\Form\Fieldset\CollectionFactory $fieldsetFactory,
         \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory,
         array $data = array()

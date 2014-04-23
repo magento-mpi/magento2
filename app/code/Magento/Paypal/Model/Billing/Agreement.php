@@ -56,7 +56,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
@@ -66,7 +66,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,

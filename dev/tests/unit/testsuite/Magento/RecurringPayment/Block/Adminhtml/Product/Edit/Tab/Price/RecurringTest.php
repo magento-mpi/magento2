@@ -15,7 +15,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
     protected $_blockFactory;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -51,7 +51,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_registry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
         $this->_eventManager = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');

@@ -42,7 +42,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Framework\Url\Validator $urlValidator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -51,7 +51,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Framework\Url\Validator $urlValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

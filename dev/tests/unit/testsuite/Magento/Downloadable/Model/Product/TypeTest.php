@@ -31,7 +31,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMockBuilder('Magento\Framework\App\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $sampleResFactory = $this->getMock(

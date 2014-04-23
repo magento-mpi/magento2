@@ -173,7 +173,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $request;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -194,7 +194,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -212,7 +212,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
@@ -222,7 +222,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -240,7 +240,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,

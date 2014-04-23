@@ -35,7 +35,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
     protected $stateMock;
 
-    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registryMock;
 
     /** @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
@@ -59,7 +59,7 @@ class GuestTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfigInterfaceMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->storeManagerInterfaceMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
-        $this->registryMock = $this->getMock('Magento\Registry');
+        $this->registryMock = $this->getMock('Magento\Framework\Registry');
         $this->sessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', [], [], '', false);
         $this->managerInterfaceMock = $this->getMock('Magento\Framework\Message\ManagerInterface');

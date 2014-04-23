@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Resource\Customer;
 
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Resource collection of customers matched by reminder rule

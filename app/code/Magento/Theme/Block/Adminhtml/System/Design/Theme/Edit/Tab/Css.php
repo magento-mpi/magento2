@@ -41,7 +41,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
@@ -50,7 +50,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,

@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Helper\Product;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -30,7 +30,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->helper = Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Product\Composite');
-        $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
+        $this->registry = Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
     }
 
     protected function tearDown()

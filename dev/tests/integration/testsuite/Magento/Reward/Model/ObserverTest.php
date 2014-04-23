@@ -28,7 +28,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $objectManager->get('Magento\Registry')->registry('_fixture/Magento_ImportExport_Customer');
+        $customer = $objectManager->get('Magento\Framework\Registry')->registry('_fixture/Magento_ImportExport_Customer');
 
         /** @var CustomerAccountServiceInterface $customerAccountService */
         $customerAccountService = $objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');

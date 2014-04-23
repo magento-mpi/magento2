@@ -16,7 +16,7 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
      *
      * @var array
      */
-    protected $_classesToDestruct = array('Magento\Framework\View\Layout', 'Magento\Registry');
+    protected $_classesToDestruct = array('Magento\Framework\View\Layout', 'Magento\Framework\Registry');
 
     /**
      * @var array

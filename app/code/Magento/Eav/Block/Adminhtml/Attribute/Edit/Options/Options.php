@@ -22,7 +22,7 @@ use Magento\Store\Model\Resource\Store\Collection;
 class Options extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -43,14 +43,14 @@ class Options extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         array $data = array()

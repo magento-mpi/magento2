@@ -28,7 +28,7 @@ class Send extends \Magento\Framework\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -51,7 +51,7 @@ class Send extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
@@ -60,7 +60,7 @@ class Send extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()

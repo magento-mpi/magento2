@@ -17,7 +17,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -34,14 +34,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {

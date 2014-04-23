@@ -283,7 +283,7 @@ class Create extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __(
                         '"%1" coupon code is not valid.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                     )
                 );
             } else {

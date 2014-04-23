@@ -34,7 +34,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         );
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'cms_page',
             $objectManager->create('Magento\Cms\Model\Page')

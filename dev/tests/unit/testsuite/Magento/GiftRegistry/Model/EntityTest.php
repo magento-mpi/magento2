@@ -119,7 +119,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             false
         );
         $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
@@ -142,7 +142,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             false
         );
         $request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
-        $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
+        $escaper = $this->getMock('Magento\Framework\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false, false);
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');

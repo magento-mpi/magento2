@@ -24,7 +24,7 @@ use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions 
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Catalog\Model\CategoryFactory ;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\Store\Model\Website;

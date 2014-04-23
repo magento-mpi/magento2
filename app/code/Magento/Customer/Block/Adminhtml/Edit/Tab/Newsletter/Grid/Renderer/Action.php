@@ -15,18 +15,18 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

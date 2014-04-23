@@ -10,7 +10,7 @@ namespace Magento\GroupedProduct\Controller\Adminhtml;
 class Edit extends \Magento\Backend\App\AbstractAction
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -26,13 +26,13 @@ class Edit extends \Magento\Backend\App\AbstractAction
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $factory
      * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $factory,
         \Magento\Framework\Logger $logger
     ) {

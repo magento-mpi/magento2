@@ -31,7 +31,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getPriceInfo', 'hasPreconfiguredValues', 'getPreconfiguredValues', '__wakeup'])
             ->getMock();
 
-        $registry = $this->getMockBuilder('Magento\Registry')
+        $registry = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -17,7 +17,7 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Collection;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Helper\Adminhtml\Event;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Json\EncoderInterface;
 

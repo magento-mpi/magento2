@@ -56,7 +56,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -67,7 +67,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
