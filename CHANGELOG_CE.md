@@ -35,6 +35,8 @@
   * Implemented popup/modal window widget (MAGETWO-22996)
   * Implemented calendar widget (MAGETWO-22996)
   * Implemented suggest widget (MAGETWO-22996)
+  * Removed head.js usages from frontend (MAGETWO-18032)
+  * Removed head.js usages from adminhtml (MAGETWO-18053)
 
 2.0.0.0-dev74
 =============
