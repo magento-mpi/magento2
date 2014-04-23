@@ -249,7 +249,7 @@ class View extends AbstractProduct implements \Magento\View\Block\IdentityInterf
                 false
             ),
             'productOldPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getBaseAmount(),
+                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
                 false,
                 false
             ),
