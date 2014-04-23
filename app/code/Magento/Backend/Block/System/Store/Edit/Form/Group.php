@@ -31,7 +31,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Store\Model\Website\Factory
+     * @var \Magento\Store\Model\WebsiteFactory
      */
     protected $_websiteFactory;
 
@@ -41,7 +41,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Model\Config\Source\Category $category
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\Config\Source\Category $category,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
         array $data = array()
     ) {
         $this->_category = $category;

@@ -232,7 +232,7 @@ class Observer
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $vars
         )->setFrom(

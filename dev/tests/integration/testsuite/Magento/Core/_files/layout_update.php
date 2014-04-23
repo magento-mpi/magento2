@@ -13,7 +13,7 @@
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+    ->load(\Magento\Framework\App\Area::PART_CONFIG);
 /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
 $theme = $objectManager->create('Magento\Framework\View\Design\ThemeInterface');
 $theme->setThemePath(
