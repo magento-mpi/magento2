@@ -115,8 +115,8 @@ class Product extends \Magento\Framework\App\Action\Action
      */
     protected function _initSendToFriendModel()
     {
-        /** @var \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress */
-        $remoteAddress = $this->_objectManager->get('Magento\HTTP\PhpEnvironment\RemoteAddress');
+        /** @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress */
+        $remoteAddress = $this->_objectManager->get('Magento\Framework\HTTP\PhpEnvironment\RemoteAddress');
 
         /** @var \Magento\Framework\Stdlib\Cookie $cookie */
         $cookie = $this->_objectManager->get('Magento\Framework\Stdlib\Cookie');

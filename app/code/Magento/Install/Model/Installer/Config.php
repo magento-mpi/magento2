@@ -216,7 +216,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $staticUrl = $baseUrl . $this->_filesystem->getUri(
                 \Magento\Framework\App\Filesystem::PUB_LIB_DIR
             ) . '/' . $staticFile;
-            $client = new \Magento\HTTP\ZendClient($staticUrl);
+            $client = new \Magento\Framework\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (\Exception $e) {
             $this->messageManager->addError(__('The URL "%1" is not accessible.', $baseUrl));

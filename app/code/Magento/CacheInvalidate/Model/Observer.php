@@ -27,7 +27,7 @@ class Observer
     protected $_helper;
 
     /**
-     * @var \Magento\HTTP\Adapter\Curl
+     * @var \Magento\Framework\HTTP\Adapter\Curl
      */
     protected $_curlAdapter;
 
@@ -36,12 +36,12 @@ class Observer
      *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\PageCache\Helper\Data $helper
-     * @param \Magento\HTTP\Adapter\Curl $curlAdapter
+     * @param \Magento\Framework\HTTP\Adapter\Curl $curlAdapter
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\PageCache\Helper\Data $helper,
-        \Magento\HTTP\Adapter\Curl $curlAdapter
+        \Magento\Framework\HTTP\Adapter\Curl $curlAdapter
     ) {
         $this->_config = $config;
         $this->_helper = $helper;

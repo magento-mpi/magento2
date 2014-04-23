@@ -36,7 +36,7 @@ class Validator implements ValidatorInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -52,13 +52,13 @@ class Validator implements ValidatorInterface
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param string $scopeType
      * @param array $skippedUserAgentList
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         $scopeType,
         array $skippedUserAgentList = array()
     ) {

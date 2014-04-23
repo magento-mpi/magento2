@@ -53,7 +53,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         $this->_request->expects($this->at(1))->method('getParam')->with('h')->will($this->returnValue($fixture));
         $tunnelResponse = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
         $httpClient = $this->getMock(
-            'Magento\HTTP\ZendClient',
+            'Magento\Framework\HTTP\ZendClient',
             array('setUri', 'setParameterGet', 'setConfig', 'request', 'getHeaders')
         );
         /** @var $helper \Magento\Backend\Helper\Dashboard\Data|PHPUnit_Framework_MockObject_MockObject */
@@ -81,7 +81,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\HTTP\ZendClient'
+            'Magento\Framework\HTTP\ZendClient'
         )->will(
             $this->returnValue($httpClient)
         );
@@ -179,7 +179,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\HTTP\ZendClient'
+            'Magento\Framework\HTTP\ZendClient'
         )->will(
             $this->throwException($exceptionMock)
         );

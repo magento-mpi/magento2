@@ -99,7 +99,7 @@ class AbstractApi extends \Magento\Object
         $response = null;
         $debugData = array('request' => $request);
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $config = array('timeout' => 60);
             $http->setConfig($config);
             $http->write(

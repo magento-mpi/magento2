@@ -35,7 +35,7 @@ class Rest
 
     /**
      * HTTP Loader
-     * @var \Magento\HTTP\IClient
+     * @var \Magento\Framework\HTTP\IClient
      */
     protected $_loader = null;
 
@@ -101,7 +101,7 @@ class Rest
     /**
      * Get HTTP loader
      *
-     * @return \Magento\HTTP\IClient|\Magento\Framework\Connect\Loader\Ftp
+     * @return \Magento\Framework\HTTP\IClient|\Magento\Framework\Connect\Loader\Ftp
      */
     public function getLoader()
     {

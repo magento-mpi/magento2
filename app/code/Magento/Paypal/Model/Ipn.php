@@ -34,7 +34,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     /**
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\HTTP\Adapter\CurlFactory $curlFactory
+     * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param Info $paypalInfo
      * @param array $data
@@ -42,7 +42,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     public function __construct(
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\HTTP\Adapter\CurlFactory $curlFactory,
+        \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         Info $paypalInfo,
         array $data = array()

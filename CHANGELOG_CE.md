@@ -106,6 +106,7 @@
     * Moved lib/Magento/Flag to lib/Magento/Framework/Flag
     * Moved lib/Magento/Io to lib/Magento/Framework/Io
     * Moved lib/Magento/Mail to lib/Magento/Framework/Mail
+    * Moved lib/Magento/HTTP to lib/Magento/Framework/HTTP
     * Moved lib/Magento/Math to lib/Magento/Framework/Math
 * Refactored the following modules to use Customer Service
   * Implement Caching strategy for the Customer services (MAGETWO-22429)

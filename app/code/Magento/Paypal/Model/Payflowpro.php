@@ -523,7 +523,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
     {
         $debugData = array('request' => $request->getData());
 
-        $client = new \Magento\HTTP\ZendClient();
+        $client = new \Magento\Framework\HTTP\ZendClient();
         $result = new \Magento\Object();
 
         $_config = array('maxredirects' => 5, 'timeout' => 30, 'verifypeer' => $this->getConfigData('verify_peer'));

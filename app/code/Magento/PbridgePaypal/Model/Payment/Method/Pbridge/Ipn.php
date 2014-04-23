@@ -179,7 +179,7 @@ class Ipn
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $http->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
         } catch (\Exception $e) {

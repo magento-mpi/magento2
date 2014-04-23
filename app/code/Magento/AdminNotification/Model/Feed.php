@@ -173,7 +173,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      */
     public function getFeedData()
     {
-        $curl = new \Magento\HTTP\Adapter\Curl();
+        $curl = new \Magento\Framework\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout' => 2));
         $curl->write(\Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
         $data = $curl->read();
