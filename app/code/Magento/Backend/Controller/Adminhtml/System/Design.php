@@ -80,7 +80,7 @@ class Design extends Action
         $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id = (int)$this->getRequest()->getParam('id');
-        $design = $this->_objectManager->create('Magento\Core\Model\Design');
+        $design = $this->_objectManager->create('Magento\Framework\App\DesignInterface');
 
         if ($id) {
             $design->load($id);
@@ -108,7 +108,7 @@ class Design extends Action
             $data['design'] = $this->_filterPostData($data['design']);
             $id = (int)$this->getRequest()->getParam('id');
 
-            $design = $this->_objectManager->create('Magento\Core\Model\Design');
+            $design = $this->_objectManager->create('Magento\Framework\App\DesignInterface');
             if ($id) {
                 $design->load($id);
             }
@@ -139,7 +139,7 @@ class Design extends Action
     {
         $id = $this->getRequest()->getParam('id');
         if ($id) {
-            $design = $this->_objectManager->create('Magento\Core\Model\Design')->load($id);
+            $design = $this->_objectManager->create('Magento\Framework\App\DesignInterface')->load($id);
 
             try {
                 $design->delete();

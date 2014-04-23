@@ -160,19 +160,37 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this->_redirect(
                 $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->getAnyStoreView()->getWebsite()->getCode())
                 )
             );
         }
+        $store = $this->getAnyStoreView();
         $this->_redirect(
             $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                    'website' => $store->getWebsite()->getCode(),
+                    'store' => $store->getCode()
                 )
             )
         );
+    }
+
+    /**
+     * Get either default or any store view
+     *
+     * @return \Magento\Store\Model\Store|null
+     */
+    protected function getAnyStoreView()
+    {
+        $store = $this->_storeManager->getDefaultStoreView();
+        if ($store) {
+            return $store;
+        }
+        foreach ($this->_storeManager->getStores() as $store) {
+            return $store;
+        }
+        return null;
     }
 
     /**
@@ -413,7 +431,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this->_redirect(
                 array(
                     '*/*/*',
-                    'store' => $this->_storeManager->getAnyStoreView()->getId(),
+                    'store' => $this->getAnyStoreView()->getId(),
                     'id' => $catalogEvent->getId()
                 )
             );
@@ -908,7 +926,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento\Checkout\Model\Agreement')->load($id);
+            $object = $this->_objectManager->create('Magento\CheckoutAgreements\Model\Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {

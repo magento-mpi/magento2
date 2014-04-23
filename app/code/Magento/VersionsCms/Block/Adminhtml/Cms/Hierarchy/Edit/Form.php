@@ -120,13 +120,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_hierarchyVisibility = $hierarchyVisibility;
         $this->_menuLayout = $menuLayout;
         $this->_hierarchyLock = $hierarchyLock;
-        $this->_nodePreviewStoreId = $this
-            ->_storeManager
-            ->isSingleStoreMode() ? $this
-            ->_storeManager
-            ->getAnyStoreView()
-            ->getId() : $this
-            ->_currentStore;
+        $this->_nodePreviewStoreId = $this->_storeManager->isSingleStoreMode() ?
+            $this->_storeManager->getStore(true)->getId() :
+            $this->_currentStore;
     }
 
     /**
@@ -690,7 +686,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         if (!$store) {
-            $store = $this->_storeManager->getAnyStoreView();
+            $store = $this->_storeManager->getDefaultStoreView();
+            if (!$store) {
+                foreach ($this->getStores() as $store) {
+                    return $store;
+                }
+            }
         }
 
         return $store;
