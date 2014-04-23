@@ -48,8 +48,9 @@ class Adjustment extends AbstractAdjustment
     {
         if ($this->displayBothPrices()) {
             if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
-                $this->amountRender->setPriceDisplayLabel(__('Excl. Tax:'));
+                $this->amountRender->setPriceDisplayLabel(__('Excl. Tax'));
             }
+            $this->amountRender->setPriceWrapperCss('price-excluding-tax');
             $this->amountRender->setPriceId(
                 $this->buildIdWithPrefix('price-excluding-tax-')
             );

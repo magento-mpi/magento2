@@ -25,8 +25,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * This not a joke, this dependency really exists, see: \Magento\Cron\Model\Config\Backend\Product\Alert
-     *
      * @magentoConfigFixture current_store crontab/default/jobs/catalog_product_alert/schedule/cron_expr 8 * * * *
      */
     public function testDispatchScheduled()
