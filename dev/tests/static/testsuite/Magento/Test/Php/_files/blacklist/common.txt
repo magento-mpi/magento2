@@ -102,14 +102,14 @@ lib/Magento/Framework/File/Csv.php
 lib/Magento/Framework/File/CsvMulty.php
 lib/Magento/Framework/File/Transfer/Adapter/Http.php
 lib/Magento/Framework/File/Uploader.php
-lib/Magento/Gdata
+lib/Magento/Framework/Gdata
 lib/Magento/Framework/HTTP/Adapter/Curl.php
 lib/Magento/Framework/HTTP/Client.php
 lib/Magento/Framework/HTTP/Client/Curl.php
 lib/Magento/Framework/HTTP/Client/Socket.php
 lib/Magento/Framework/HTTP/IClient.php
-lib/Magento/Image
-lib/Magento/Image.php
+lib/Magento/Framework/Image
+lib/Magento/Framework/Image.php
 lib/Magento/Framework/Io
 lib/Magento/Object
 lib/Magento/Object.php

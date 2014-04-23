@@ -27,7 +27,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var \Magento\Image|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Image|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageMock;
 
@@ -73,8 +73,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_directoryMock)
         );
-        $imageFactory = $this->getMock('Magento\Image\Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
+        $imageFactory = $this->getMock('Magento\Framework\Image\Factory', array(), array(), '', false, false);
+        $this->_imageMock = $this->getMock('Magento\Framework\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
         $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false, false);

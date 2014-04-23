@@ -1595,10 +1595,10 @@ return array(
     array('Magento\Core\Model\View\Service', 'Magento\Framework\View\Service'),
     array('Magento\Core\Model\View\Url', 'Magento\Framework\View\Url'),
     array('Magento\Core\Model\View\Config', 'Magento\Framework\View\Config'),
-    array('Magento\Core\Model\Image\Factory', 'Magento\Image\Factory'),
+    array('Magento\Core\Model\Image\Factory', 'Magento\Framework\Image\Factory'),
     array('Magento\Core\Model\Theme\Image', 'Magento\Framework\View\Design\Theme\Image'),
     array('Magento\Core\Model\Theme\FlyweightFactory', 'Magento\Framework\View\Design\Theme\FlyweightFactory'),
-    array('Magento\Core\Model\Image\AdapterFactory', 'Magento\Image\AdapterFactory'),
+    array('Magento\Core\Model\Image\AdapterFactory', 'Magento\Framework\Image\AdapterFactory'),
     array('Magento\Core\Model\EntryPoint\Cron', 'Magento\Framework\App\Cron'),
     array(
         'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
@@ -2063,7 +2063,7 @@ return array(
         'Magento\RecurringPayment\Controller\Adminhtml\Payment'
     ),
     array('Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringPayment\Controller\Payment'),
-    array('Magento\Core\Model\Image\Adapter\Config', 'Magento\Image\Adapter\Config'),
+    array('Magento\Core\Model\Image\Adapter\Config', 'Magento\Framework\Image\Adapter\Config'),
     array('Magento\Core\Model\AbstractShell', 'Magento\Framework\App\AbstractShell'),
     array('Magento\Core\Model\Calculator', 'Magento\Framework\Math\Calculator'),
     array('Magento\Core\Model\Log\Adapter', 'Magento\Framework\Logger\Adapter'),
@@ -2466,4 +2466,5 @@ return array(
     ['Magento\ValidatorFactory', 'Magento\Framework\ValidatorFactory'],
     ['Magento\Flag', 'Magento\Framework\Flag'],
     ['Magento\FlagFactory', 'Magento\Framework\FlagFactory'],
+    ['Magento\Image', 'Magento\Framework\Image'],
 );

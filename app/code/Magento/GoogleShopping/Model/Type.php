@@ -10,7 +10,7 @@
 namespace Magento\GoogleShopping\Model;
 
 use Magento\Catalog\Model\Product as CatalogModelProduct;
-use Magento\Gdata\Gshopping\Entry;
+use Magento\Framework\Gdata\Gshopping\Entry;
 
 /**
  * Google Content Item Types Model

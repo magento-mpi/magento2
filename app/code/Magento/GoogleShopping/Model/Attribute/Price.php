@@ -10,7 +10,7 @@
 namespace Magento\GoogleShopping\Model\Attribute;
 
 use Magento\Catalog\Model\Product;
-use Magento\Gdata\Gshopping\Entry;
+use Magento\Framework\Gdata\Gshopping\Entry;
 use Magento\Tax\Model\Config;
 
 /**
