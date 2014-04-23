@@ -111,12 +111,17 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
     }
 
-    /**
-     * Execute per test cleanup.
-     */
     public function tearDown()
     {
         unset($this->customerAccountService);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
+        $model->load('address_user_attribute', 'attribute_code')
+            ->delete();
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
+        $model->load('user_attribute', 'attribute_code')
+            ->delete();
     }
 
     public function testCreateCustomer()
@@ -854,18 +859,18 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals(0, $searchResults['total_count']);
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address.php
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
+     */
     public function testCustomAttributes()
     {
-        //@magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address.php
-        //@magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
-        $this->markTestSkipped('This test should be enabled after the fixtures populate custom attributes correctly.');
-
         //Sample customer data comes with the  disable_auto_group_change custom attribute
         $customerDetails = $this->_createSampleCustomerDetailsData();
         //address attribute code from fixture
         $fixtureAddressAttributeCode = 'address_user_attribute';
         //customer attribute code from fixture
-        $fixtureCustomerAttributeCode = 'user_attribute1';
+        $fixtureCustomerAttributeCode = 'user_attribute';
         //Custom Attribute Values
         $address1CustomAttributeValue = 'value1';
         $address2CustomAttributeValue = 'value2';
@@ -902,7 +907,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount'
+                'operation' => self::SERVICE_NAME . 'CreateCustomer'
             ]
         ];
 

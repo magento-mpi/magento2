@@ -6,16 +6,11 @@
  * @license     {license_link}
  */
 
-if (!defined('FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME')) {
-    define('FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME', 'user_attribute');
-    define('FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_FRONTEND_LABEL', 'frontend_label');
-}
-
 /** @var Magento\Customer\Model\Attribute $model */
 $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
 
 $model->setName(
-    FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME
+    'user_attribute'
 )->setEntityTypeId(
     1
 )->setIsUserDefined(
@@ -27,7 +22,7 @@ $model->setName(
 )->setFrontendInput(
     'text'
 )->setFrontendLabel(
-    FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_FRONTEND_LABEL
+    'user_attribute'
 );
 
 $model->save();
