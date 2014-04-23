@@ -28,6 +28,7 @@
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+* Added configuration for Travis CI (MAGETWO-21884)
 
 2.0.0.0-dev74
 =============
