@@ -98,7 +98,7 @@ class Image
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,
         \Magento\Logger $logger,
-        $imageParams = [self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT],
+        array $imageParams = array(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT),
         ThemeInterface $theme = null
     ) {
         $this->mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
