@@ -7,12 +7,12 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Tax\Test\Fixture\TaxClassInjectable">
+<fixture class="Magento\Tax\Test\Fixture\TaxClass">
     <module>Magento_Tax</module>
     <type>flat</type>
     <entity_type>tax_class</entity_type>
-    <collection>Magento\Tax\Model\Resource\Calculation\Rate\Collection</collection>
-    <identifier>code</identifier>
+    <collection>Magento\Tax\Model\Resource\TaxClass\Collection</collection>
+    <identifier></identifier>
     <fields>
         <class_id>
             <attribute_code>class_id</attribute_code>
@@ -25,7 +25,7 @@
             <attribute_code>class_name</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
-            <default_value></default_value>
+            <default_value>TaxClass%isolation%</default_value>
             <input></input>
         </class_name>
         <class_type>
@@ -36,8 +36,6 @@
             <input></input>
         </class_type>
     </fields>
-    <data_set></data_set>
-    <data_config></data_config>
     <repository_class>Magento\Tax\Test\Repository\TaxClass</repository_class>
     <handler_interface>Magento\Tax\Test\Handler\TaxClass\TaxClassInterface</handler_interface>
 </fixture>

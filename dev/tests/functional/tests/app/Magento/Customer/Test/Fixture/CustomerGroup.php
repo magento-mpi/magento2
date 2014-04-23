@@ -18,10 +18,11 @@ use Mtf\Fixture\InjectableFixture;
 class CustomerGroup extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'code' => 'customer_code_%isolation%',
+        'customer_group_code' => 'customer_code_%isolation%',
+        'tax_class_id' => 'Retail Customer',
     ];
 
-    protected $code = [
+    protected $customer_group_code = [
         'attribute_code' => 'code',
         'backend_type' => 'varchar',
         'is_required' => '1',
@@ -29,7 +30,7 @@ class CustomerGroup extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $tax_class = [
+    protected $tax_class_id = [
         'attribute_code' => 'tax_class',
         'backend_type' => 'varchar',
         'is_required' => '1',
@@ -38,13 +39,13 @@ class CustomerGroup extends InjectableFixture
         'fixture' => 'Magento\Customer\Test\Fixture\CustomerGroup\TaxClassIds',
     ];
 
-    public function getCode()
+    public function getCustomerGroupCode()
     {
-        return $this->getData('code');
+        return $this->getData('customer_group_code');
     }
 
-    public function getTaxClass()
+    public function getTaxClassId()
     {
-        return $this->getData('tax_class');
+        return $this->getData('tax_class_id');
     }
 }

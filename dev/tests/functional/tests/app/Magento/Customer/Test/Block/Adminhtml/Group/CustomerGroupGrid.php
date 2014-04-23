@@ -24,18 +24,9 @@ class CustomerGroupGrid extends Grid
      * @var array $filters
      */
     protected $filters = [
-        'type' => [
+        'code' => [
             'selector' => '#customerGroupGrid_filter_type'
         ]
     ];
 
-    /**
-     * Update attributes for selected items
-     *
-     * @param array $items
-     */
-    public function updateAttributes(array $items = array())
-    {
-        $this->massaction('Update Attributes', $items);
-    }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -32,5 +32,23 @@
   </testcase>
   <testcase>
     <id>MTA-46</id>
+  </testcase>
+  <testcase>
+    <id>MTA-42</id>
+    <ticketId>MTA-42</ticketId>
+    <name>CreateCustomerGroupEntityTest</name>
+    <description>Test Creation for CreateCustomerGroupEntity</description>
+    <module>Customer</module>
+    <components>
+      <component>Customer Groups (MX)</component>
+    </components>
+    <steps>
+      <step>Log in to backend as admin user.</step>
+      <step>Navigate to Stores&gt;Other Settings&gt;Customer Groups.</step>
+      <step>Start to create new Customer Group.</step>
+      <step>Fill in all data according to data set.</step>
+      <step>Click "Save Customer Group" button.</step>
+      <step>Perform all assertions.</step>
+    </steps>
   </testcase>
 </testcases>

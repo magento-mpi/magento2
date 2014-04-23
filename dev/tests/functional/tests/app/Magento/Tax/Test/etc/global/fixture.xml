@@ -10,30 +10,20 @@
 <fixture>
     <taxClass module="Magento_Tax">
         <type>flat</type>
-        <entity_type>tax_calculation_rate</entity_type>
+        <entity_type>tax_class</entity_type>
         <collection>Magento\Tax\Model\Resource\TaxClass\Collection</collection>
-        <identifier />
-
+        <identifier>class_name</identifier>
     </taxClass>
-    <taxClassInjectable module="Magento_Tax">
-        <type>flat</type>
-        <entity_type>tax_calculation_rate</entity_type>
-        <collection>Magento\Tax\Model\Resource\TaxClass\Collection</collection>
-        <identifier />
-
-    </taxClassInjectable>
     <taxRate module="Magento_Tax">
         <type>flat</type>
-        <entity_type>tax_class</entity_type>
+        <entity_type>tax_calculation_rate</entity_type>
         <collection>Magento\Tax\Model\Resource\Calculation\Rate\Collection</collection>
         <identifier>code</identifier>
-
     </taxRate>
     <taxRule module="Magento_Tax">
         <type>flat</type>
         <entity_type>tax_calculation_rule</entity_type>
         <collection>Magento\Tax\Model\Resource\Calculation\Rule\Collection</collection>
         <identifier>code</identifier>
-
     </taxRule>
 </fixture>

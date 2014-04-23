@@ -46,7 +46,7 @@ class AssertCustomerGroupNotInGrid extends AbstractConstraint
     }
 
     /**
-     * Text of customer group not in grid.
+     * Success assert of  customer group not in grid.
      *
      * @return string
      */
