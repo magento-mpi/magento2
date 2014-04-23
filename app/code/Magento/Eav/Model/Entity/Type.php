@@ -87,7 +87,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory
      * @param \Magento\Eav\Model\Entity\StoreFactory $storeFactory
@@ -98,7 +98,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attSetFactory,
         \Magento\Eav\Model\Entity\StoreFactory $storeFactory,

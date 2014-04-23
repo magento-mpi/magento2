@@ -35,7 +35,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
@@ -47,7 +47,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\App\Config\ScopeConfigInterface $configuration,

@@ -22,7 +22,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\CatalogRule\Model\Rule\Job;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Rule\Model\Condition\AbstractCondition;
 use Magento\Rule\Model\Action\AbstractAction;
 

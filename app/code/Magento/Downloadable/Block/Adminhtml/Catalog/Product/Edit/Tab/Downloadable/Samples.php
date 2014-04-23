@@ -47,7 +47,7 @@ class Samples extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -71,7 +71,7 @@ class Samples extends \Magento\Backend\Block\Widget
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Downloadable\Model\Sample $sampleModel
      * @param \Magento\Backend\Model\UrlFactory $urlFactory
      * @param array $data
@@ -81,7 +81,7 @@ class Samples extends \Magento\Backend\Block\Widget
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Downloadable\Model\Sample $sampleModel,
         \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()

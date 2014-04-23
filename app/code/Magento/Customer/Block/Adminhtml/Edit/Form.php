@@ -26,14 +26,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         CustomerAccountServiceInterface $customerAccountService,
         array $data = array()

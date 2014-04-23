@@ -130,7 +130,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -146,7 +146,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Resource\Invitation $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

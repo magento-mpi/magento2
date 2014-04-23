@@ -23,7 +23,7 @@ use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
 use Magento\CatalogSearch\Model\Fulltext as ModelFulltext;
 use Magento\CatalogSearch\Model\Resource\Indexer\Fulltext as IndexerFulltext;
 use Magento\Framework\Model\Context;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\Group;

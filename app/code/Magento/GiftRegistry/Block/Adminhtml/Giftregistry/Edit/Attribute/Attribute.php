@@ -43,13 +43,13 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
      * @param \Magento\GiftRegistry\Model\Type $defaultTypeInstance
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -57,7 +57,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,

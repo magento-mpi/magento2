@@ -61,7 +61,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -72,7 +72,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Model\Resource\Stock\Item\CollectionFactory $collectionFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

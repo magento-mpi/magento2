@@ -108,7 +108,7 @@ class Option extends AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param Option\Value $productOptionValue
      * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
      * @param \Magento\Framework\Stdlib\String $string
@@ -118,7 +118,7 @@ class Option extends AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Framework\Stdlib\String $string,

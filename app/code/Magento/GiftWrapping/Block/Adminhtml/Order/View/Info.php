@@ -27,7 +27,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
@@ -36,7 +36,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,

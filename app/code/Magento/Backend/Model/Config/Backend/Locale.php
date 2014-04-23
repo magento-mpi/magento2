@@ -37,7 +37,7 @@ class Locale extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
@@ -51,7 +51,7 @@ class Locale extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,

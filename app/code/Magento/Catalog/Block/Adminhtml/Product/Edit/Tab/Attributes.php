@@ -33,7 +33,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -41,7 +41,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Catalog\Helper\Data $catalogData,

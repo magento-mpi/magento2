@@ -97,7 +97,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      * Initialize dependencies.
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Framework\Url\Validator $urlValidator
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -111,7 +111,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Framework\Url\Validator $urlValidator,
         \Magento\Framework\Stdlib\DateTime $dateTime,

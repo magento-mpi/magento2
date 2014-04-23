@@ -61,7 +61,7 @@ class Design extends AbstractModel implements \Magento\Object\IdentityInterface,
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param AbstractResource $resource
@@ -70,7 +70,7 @@ class Design extends AbstractModel implements \Magento\Object\IdentityInterface,
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         AbstractResource $resource = null,

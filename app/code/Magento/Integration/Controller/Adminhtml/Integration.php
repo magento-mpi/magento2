@@ -29,7 +29,7 @@ class Integration extends Action
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -55,7 +55,7 @@ class Integration extends Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param IntegrationOauthService $oauthService
@@ -65,7 +65,7 @@ class Integration extends Action
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Logger $logger,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,

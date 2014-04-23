@@ -25,12 +25,12 @@ class Observer
      * Constructor
      *
      * @param \Magento\GoogleAdwords\Helper\Data $helper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      */
     public function __construct(
         \Magento\GoogleAdwords\Helper\Data $helper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection
     ) {
         $this->_helper = $helper;

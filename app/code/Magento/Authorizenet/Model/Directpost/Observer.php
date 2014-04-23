@@ -19,7 +19,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +55,7 @@ class Observer
     /**
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Authorizenet\Model\Directpost $payment
      * @param \Magento\Authorizenet\Model\Directpost\Session $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -63,7 +63,7 @@ class Observer
     public function __construct(
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Authorizenet\Model\Directpost $payment,
         \Magento\Authorizenet\Model\Directpost\Session $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager

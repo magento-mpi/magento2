@@ -82,7 +82,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -90,7 +90,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()

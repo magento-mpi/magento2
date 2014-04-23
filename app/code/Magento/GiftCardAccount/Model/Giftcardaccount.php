@@ -149,7 +149,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
@@ -167,7 +167,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,

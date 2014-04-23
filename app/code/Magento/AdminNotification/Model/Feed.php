@@ -45,7 +45,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -54,7 +54,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

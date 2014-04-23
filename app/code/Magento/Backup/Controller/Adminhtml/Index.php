@@ -19,7 +19,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,14 +40,14 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Backup\Factory $backupFactory
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Backup\Factory $backupFactory,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Backup\Model\BackupFactory $backupModelFactory

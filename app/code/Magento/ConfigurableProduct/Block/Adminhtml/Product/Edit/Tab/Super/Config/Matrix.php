@@ -20,7 +20,7 @@ class Matrix extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,7 +49,7 @@ class Matrix extends \Magento\Backend\Block\Template
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
@@ -58,7 +58,7 @@ class Matrix extends \Magento\Backend\Block\Template
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {

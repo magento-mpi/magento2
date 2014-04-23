@@ -68,7 +68,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Constructor
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory
      * @param \Magento\Catalog\Model\Url $catalogUrl
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -77,7 +77,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Resource\UrlFactory $catalogResourceUrlFactory,
         \Magento\Catalog\Model\Url $catalogUrl,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

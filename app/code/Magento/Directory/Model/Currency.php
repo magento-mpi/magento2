@@ -70,7 +70,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Helper\Data $directoryHelper
@@ -82,7 +82,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Helper\Data $directoryHelper,

@@ -55,7 +55,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -65,7 +65,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,

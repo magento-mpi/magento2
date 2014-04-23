@@ -21,7 +21,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
     /**
      * Registry instance
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
@@ -58,7 +58,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -84,7 +84,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Registry $registryManager,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $connection = null

@@ -150,7 +150,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory $typeConfigurableFactory
      * @param \Magento\Eav\Model\EntityFactory $entityFactory
@@ -174,7 +174,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory $typeConfigurableFactory,
         \Magento\Eav\Model\EntityFactory $entityFactory,

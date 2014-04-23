@@ -29,7 +29,7 @@ class Search extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -98,7 +98,7 @@ class Search extends \Magento\Framework\App\Action\Action
      * Construct
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
@@ -111,7 +111,7 @@ class Search extends \Magento\Framework\App\Action\Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
