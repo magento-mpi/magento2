@@ -103,6 +103,7 @@
     * Moved lib/Magento/Json to lib/Magento/Framework/Json
     * Moved lib/Magento/Less to lib/Magento/Framework/Less
     * Moved lib/Magento/File to lib/Magento/Framework/File
+    * Moved lib/Magento/Flag to lib/Magento/Framework/Flag
     * Moved lib/Magento/Io to lib/Magento/Framework/Io
     * Moved lib/Magento/Mail to lib/Magento/Framework/Mail
 * Refactored the following modules to use Customer Service
