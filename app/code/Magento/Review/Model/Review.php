@@ -205,7 +205,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
     public function getEntitySummary($product, $storeId = 0)
     {
         $summaryData = $this->_summaryModFactory->create()->setStoreId($storeId)->load($product->getId());
-        $summary = new \Magento\Object();
+        $summary = new \Magento\Framework\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
     }

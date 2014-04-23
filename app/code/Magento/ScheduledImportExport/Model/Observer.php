@@ -189,7 +189,7 @@ class Observer
     /**
      * Run operation in crontab
      *
-     * @param \Magento\Cron\Model\Schedule|\Magento\Object $schedule
+     * @param \Magento\Cron\Model\Schedule|\Magento\Framework\Object $schedule
      * @param bool $forceRun
      * @return bool
      */

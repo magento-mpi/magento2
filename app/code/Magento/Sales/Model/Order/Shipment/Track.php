@@ -118,7 +118,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      * Tracking number setter
      *
      * @param string $number
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setNumber($number)
     {

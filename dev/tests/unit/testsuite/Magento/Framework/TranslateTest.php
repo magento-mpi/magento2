@@ -211,9 +211,9 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected function _expectsSetConfig()
     {
         $this->_locale->expects($this->any())->method('getLocaleCode')->will($this->returnValue('en_US'));
-        $scope = new \Magento\Object();
+        $scope = new \Magento\Framework\Object();
         $this->_scopeResolver->expects($this->any())->method('getScope')->will($this->returnValue($scope));
-        $designTheme = new \Magento\Object(['id' => 'themeId']);
+        $designTheme = new \Magento\Framework\Object(['id' => 'themeId']);
         $this->_viewDesign->expects($this->any())->method('getDesignTheme')->will($this->returnValue($designTheme));
     }
 }

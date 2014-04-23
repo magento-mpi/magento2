@@ -169,8 +169,8 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $page->drawText($packageText, 525, $this->y, 'UTF-8');
             $packageNum++;
 
-            $package = new \Magento\Object($package);
-            $params = new \Magento\Object($package->getParams());
+            $package = new \Magento\Framework\Object($package);
+            $params = new \Magento\Framework\Object($package->getParams());
             $dimensionUnits = $this->_carrierHelper->getMeasureDimensionName($params->getDimensionUnits());
 
             $typeText = __('Type') . ' : ' . $packaging->getContainerTypeByCode($params->getContainer());
@@ -291,7 +291,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
             $i = 0;
             foreach ($package->getItems() as $itemId => $item) {
-                $item = new \Magento\Object($item);
+                $item = new \Magento\Framework\Object($item);
                 $i = 0;
 
                 $page->setFillColor(new \Zend_Pdf_Color_GrayScale(1));

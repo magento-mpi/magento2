@@ -240,7 +240,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     ? $selection['inclTaxPrice']
                     : $selection['exclTaxPrice'];
 
-                $responseObject = new \Magento\Object();
+                $responseObject = new \Magento\Framework\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
                 $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {

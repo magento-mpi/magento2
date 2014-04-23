@@ -96,7 +96,7 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
                 // If all was selected save it only and nothing else.
                 if ($postedResources === array($this->_rootResource->getId())) {
-                    $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
+                    $insertData = $this->_prepareDataForTable(new \Magento\Framework\Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
@@ -106,7 +106,7 @@ class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
                         $row['resource_id'] = $resourceId;
 
-                        $insertData = $this->_prepareDataForTable(new \Magento\Object($row), $this->getMainTable());
+                        $insertData = $this->_prepareDataForTable(new \Magento\Framework\Object($row), $this->getMainTable());
                         $adapter->insert($this->getMainTable(), $insertData);
                     }
                 }

@@ -122,7 +122,7 @@ class Term extends Template
     }
 
     /**
-     * @param /Magento/Object $obj
+     * @param \Magento\Framework\Object $obj
      * @return string
      */
     public function getSearchUrl($obj)

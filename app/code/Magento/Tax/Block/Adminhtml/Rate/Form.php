@@ -110,7 +110,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        $rateObject = new \Magento\Object($this->_rate->getData());
+        $rateObject = new \Magento\Framework\Object($this->_rate->getData());
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 

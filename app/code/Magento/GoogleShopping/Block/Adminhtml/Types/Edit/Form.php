@@ -250,7 +250,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $ids = array();
         $itemType = $this->getItemType();
-        if (!($itemType instanceof \Magento\Object && $itemType->getId())) {
+        if (!($itemType instanceof \Magento\Framework\Object && $itemType->getId())) {
             $typesCollection = $this->_typeCollectionFactory->create()->addCountryFilter($targetCountry)->load();
             foreach ($typesCollection as $type) {
                 $ids[] = $type->getAttributeSetId();

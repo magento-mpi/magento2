@@ -224,7 +224,7 @@ class Reminder extends \Magento\Backend\App\Action
                 );
                 $data = $inputFilter->getUnescaped();
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);

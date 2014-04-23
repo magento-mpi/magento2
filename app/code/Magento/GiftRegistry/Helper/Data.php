@@ -208,7 +208,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new \Magento\Object(
+                $result[] = new \Magento\Framework\Object(
                     array('value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle()))
                 );
             }

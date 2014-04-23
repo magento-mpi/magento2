@@ -22,7 +22,7 @@ use Magento\Index\Model\Indexer;
  * @method \Magento\Index\Model\Event setCreatedAt(string $value)
  * @method \Magento\Index\Model\Event setOldData(string $value)
  * @method \Magento\Index\Model\Event setNewData(string $value)
- * @method \Magento\Object getDataObject()
+ * @method \Magento\Framework\Object getDataObject()
  *
  * @category    Magento
  * @package     Magento_Index

@@ -281,11 +281,11 @@ class Template extends AbstractBlock
     /**
      * Get data from specified object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $key
      * @return mixed
      */
-    public function getObjectData(\Magento\Object $object, $key)
+    public function getObjectData(\Magento\Framework\Object $object, $key)
     {
         return $object->getDataUsingMethod((string)$key);
     }

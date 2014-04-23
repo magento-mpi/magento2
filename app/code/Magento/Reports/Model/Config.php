@@ -12,7 +12,7 @@ namespace Magento\Reports\Model;
 /**
  * Configuration for reports
  */
-class Config extends \Magento\Object
+class Config extends \Magento\Framework\Object
 {
     /**
      * @var \Magento\Framework\Module\Dir\Reader

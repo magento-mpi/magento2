@@ -98,7 +98,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'), 'Property value', true),
-            array(new \Magento\Object(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
+            array(new \Magento\Framework\Object(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
             array(new \ArrayObject(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
             array(
                 array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'),

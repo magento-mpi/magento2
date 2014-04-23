@@ -46,8 +46,6 @@
   * Fixed: Improve backend grids UI (MAGETWO-23338)
 * Framework Improvements:
   * Simplify Search related Data Objects (MAGETWO-22613)
-  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
   * Covered Magento Store components with unit tests:
      * Magento\Store\Model\*
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
@@ -111,6 +109,7 @@
     * Moved lib/Magento/Gdata to lib/Magento/Framework/Gdata
     * Moved lib/Magento/Image to lib/Magento/Framework/Image
     * Moved lib/Magento/Oauth to lib/Magento/Framework/Oauth
+    * Moved lib/Magento/Object to lib/Magento/Framework/Object
     * Moved lib/Magento/Currency to lib/Magento/Framework/Currency
     * Moved lib/Magento/Debug to lib/Magento/Framework/Debug
     * Moved lib/Magento/Escaper to lib/Magento/Framework/Escaper
@@ -890,7 +889,7 @@
 * Moved the following methods from Core Helpers to the appropriate libraries:
   * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
   * Moved the Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
-  * Moved the Data Helper functions that copy data from one object to another to \Magento\Object\Copy
+  * Moved the Data Helper functions that copy data from one object to another to \Magento\Framework\Object\Copy
 
 2.0.0.0-dev51
 =============

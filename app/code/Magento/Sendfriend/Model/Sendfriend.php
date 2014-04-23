@@ -44,7 +44,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     /**
      * Sender data array
      *
-     * @var \Magento\Object|array
+     * @var \Magento\Framework\Object|array
      */
     protected $_sender = array();
 
@@ -360,19 +360,19 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             $emails = array_keys($emails);
         }
 
-        return $this->setData('_recipients', new \Magento\Object(array('emails' => $emails, 'names' => $names)));
+        return $this->setData('_recipients', new \Magento\Framework\Object(array('emails' => $emails, 'names' => $names)));
     }
 
     /**
      * Retrieve Recipients object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getRecipients()
     {
         $recipients = $this->_getData('_recipients');
-        if (!$recipients instanceof \Magento\Object) {
-            $recipients = new \Magento\Object(array('emails' => array(), 'names' => array()));
+        if (!$recipients instanceof \Magento\Framework\Object) {
+            $recipients = new \Magento\Framework\Object(array('emails' => array(), 'names' => array()));
             $this->setData('_recipients', $recipients);
         }
         return $recipients;
@@ -416,19 +416,19 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             __('Invalid Sender Information');
         }
 
-        return $this->setData('_sender', new \Magento\Object($sender));
+        return $this->setData('_sender', new \Magento\Framework\Object($sender));
     }
 
     /**
      * Retrieve Sender Information Object
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getSender()
     {
         $sender = $this->_getData('_sender');
-        if (!$sender instanceof \Magento\Object) {
+        if (!$sender instanceof \Magento\Framework\Object) {
             throw new \Magento\Framework\Model\Exception(__('Please define the correct Sender information.'));
         }
         return $sender;

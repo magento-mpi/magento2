@@ -324,7 +324,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function jsonProductInfoAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $id = $this->getRequest()->getParam('id');
         if (intval($id) > 0) {
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($id);

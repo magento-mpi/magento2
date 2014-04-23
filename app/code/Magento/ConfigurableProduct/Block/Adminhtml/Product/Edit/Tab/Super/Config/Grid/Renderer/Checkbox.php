@@ -35,10 +35,10 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
     /**
      * Renders grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $result = parent::render($row);
         return $result . '<input type="hidden" class="value-json" value="' . htmlspecialchars(
@@ -49,10 +49,10 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
     /**
      * Get attributes json
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function getAttributesJson(\Magento\Object $row)
+    public function getAttributesJson(\Magento\Framework\Object $row)
     {
         if (!$this->getColumn()->getAttributes()) {
             return '[]';

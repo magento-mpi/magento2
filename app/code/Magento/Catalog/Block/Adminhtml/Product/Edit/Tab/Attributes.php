@@ -205,7 +205,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg'
         );
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
 

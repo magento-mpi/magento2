@@ -281,7 +281,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
             'tierPricesInclTax' => $_tierPricesInclTax
         );
 
-        $responseObject = new \Magento\Object();
+        $responseObject = new \Magento\Framework\Object();
         $this->_eventManager->dispatch('catalog_product_view_config', array('response_object' => $responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option => $value) {

@@ -63,7 +63,7 @@ class Observer
         $product = $observer->getEvent()->getProduct();
 
         $this->_indexer->logEvent(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'id' => $product->getId(),
                     'store_id' => $product->getStoreId(),
@@ -104,7 +104,7 @@ class Observer
             $observer->getDataObject()->isValueChanged()
         ) {
             $this->_indexer->logEvent(
-                new \Magento\Object(array('type_id' => null, 'store' => null)),
+                new \Magento\Framework\Object(array('type_id' => null, 'store' => null)),
                 \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
                 \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
             );

@@ -440,11 +440,11 @@ class Shipping implements RateCollectorInterface
     /**
      * Collect rates by address
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @param null|bool|array $limitCarrier
      * @return $this
      */
-    public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
+    public function collectRatesByAddress(\Magento\Framework\Object $address, $limitCarrier = null)
     {
         /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
         $request = $this->_shipmentRequestFactory->create();

@@ -18,7 +18,7 @@
  */
 namespace Magento\Framework;
 
-class Event extends \Magento\Object
+class Event extends \Magento\Framework\Object
 {
     /**
      * Observers collection

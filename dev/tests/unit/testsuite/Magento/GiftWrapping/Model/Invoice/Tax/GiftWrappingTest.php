@@ -26,11 +26,11 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             array('getAllItems', 'getOrder', '__wakeup', 'isLast', 'setGwItemsBaseTaxAmount', 'setGwItemsTaxAmount')
         )->getMock();
 
-        $item = new \Magento\Object();
-        $orderItem = new \Magento\Object(array('gw_id' => 1, 'gw_base_tax_amount' => 5, 'gw_tax_amount' => 10));
+        $item = new \Magento\Framework\Object();
+        $orderItem = new \Magento\Framework\Object(array('gw_id' => 1, 'gw_base_tax_amount' => 5, 'gw_tax_amount' => 10));
 
         $item->setQty(2)->setOrderItem($orderItem);
-        $order = new \Magento\Object();
+        $order = new \Magento\Framework\Object();
 
         $invoice->expects($this->any())->method('getAllItems')->will($this->returnValue(array($item)));
         $invoice->expects($this->any())->method('isLast')->will($this->returnValue(true));

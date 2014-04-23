@@ -77,7 +77,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->method('convertStdObjectToArray')
             ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
-        $className = 'Magento\Object';
+        $className = 'Magento\Framework\Object';
         $methodName = 'testMethod';
         $isSecure = false;
         $aclResources = array('Magento_TestModule::resourceA');

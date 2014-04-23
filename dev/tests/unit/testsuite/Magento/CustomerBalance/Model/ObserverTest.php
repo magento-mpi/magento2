@@ -18,7 +18,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_event;
 
@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\CustomerBalance\Model\Observer');
-        $this->_event = new \Magento\Object();
+        $this->_event = new \Magento\Framework\Object();
         $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
     }
 

@@ -59,10 +59,10 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
     /**
      * Getter for details row label
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function getItemDetailsRowLabel(\Magento\Object $row)
+    public function getItemDetailsRowLabel(\Magento\Framework\Object $row)
     {
         return $row->getLabel();
     }
@@ -70,10 +70,10 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
     /**
      * Getter for details row amount
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function getItemDetailsRowAmount(\Magento\Object $row)
+    public function getItemDetailsRowAmount(\Magento\Framework\Object $row)
     {
         return $row->getAmount();
     }
@@ -81,10 +81,10 @@ class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
     /**
      * Getter for details row compounded state
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return bool
      */
-    public function getItemDetailsRowIsCompounded(\Magento\Object $row)
+    public function getItemDetailsRowIsCompounded(\Magento\Framework\Object $row)
     {
         return $row->getIsCompounded();
     }

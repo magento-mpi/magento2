@@ -770,7 +770,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
     /**
      * Return Hierarchy Menu Layout Info object for Node
      *
-     * @return \Magento\Object|null
+     * @return \Magento\Framework\Object|null
      */
     public function getMenuLayout()
     {

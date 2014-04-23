@@ -478,7 +478,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve customer group ID based on his VAT number
      *
      * @param string $customerCountryCode
-     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Framework\Object $vatValidationResult
      * @param \Magento\Store\Model\Store|string|int $store
      * @return null|int
      */
@@ -514,12 +514,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $requesterCountryCode
      * @param string $requesterVatNumber
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkVatNumber($countryCode, $vatNumber, $requesterCountryCode = '', $requesterVatNumber = '')
     {
         // Default response
-        $gatewayResponse = new \Magento\Object(
+        $gatewayResponse = new \Magento\Framework\Object(
             array('is_valid' => false, 'request_date' => '', 'request_identifier' => '', 'request_success' => false)
         );
 
@@ -598,7 +598,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get VAT class
      *
      * @param string $customerCountryCode
-     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Framework\Object $vatValidationResult
      * @param \Magento\Store\Model\Store|string|int|null $store
      * @return null|string
      */

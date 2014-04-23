@@ -11,7 +11,7 @@ namespace Magento\Framework\Simplexml\Config\Cache;
 /**
  * Abstract class for configuration cache
  */
-abstract class AbstractCache extends \Magento\Object
+abstract class AbstractCache extends \Magento\Framework\Object
 {
     /**
      * Constructor

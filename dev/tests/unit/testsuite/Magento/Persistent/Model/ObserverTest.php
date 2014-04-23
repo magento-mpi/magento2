@@ -126,7 +126,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $expectedActionName = 'realAction';
         $unexpectedActionName = 'notAction';
-        $request = new \Magento\Object();
+        $request = new \Magento\Framework\Object();
         $request->setActionName($unexpectedActionName);
         $expressRedirectMock = $this->getMockBuilder(
             'Magento\Checkout\Controller\Express\RedirectLoginInterface'

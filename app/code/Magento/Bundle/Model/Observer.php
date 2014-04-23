@@ -71,7 +71,7 @@ class Observer
     /**
      * Append bundles in upsell list for current product
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function appendUpsellProducts($observer)
@@ -136,7 +136,7 @@ class Observer
             foreach ($bundleCollection as $item) {
                 $collection->addItem($item);
             }
-        } elseif ($collection instanceof \Magento\Object) {
+        } elseif ($collection instanceof \Magento\Framework\Object) {
             $items = $collection->getItems();
             foreach ($bundleCollection as $item) {
                 $items[$item->getEntityId()] = $item;
@@ -166,7 +166,7 @@ class Observer
     /**
      * Setting attribute tab block for bundle
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function setAttributeTabBlock($observer)

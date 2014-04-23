@@ -77,10 +77,10 @@ class View extends \Magento\Framework\View\Element\Template
     /**
      * Get rendered row value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function renderRowValue(\Magento\Object $row)
+    public function renderRowValue(\Magento\Framework\Object $row)
     {
         $value = $row->getValue();
         if (is_array($value)) {
@@ -101,7 +101,7 @@ class View extends \Magento\Framework\View\Element\Template
      */
     protected function _addInfo(array $data, $key = null)
     {
-        $object = new \Magento\Object($data);
+        $object = new \Magento\Framework\Object($data);
         if ($key) {
             $this->_info[$key] = $object;
         } else {

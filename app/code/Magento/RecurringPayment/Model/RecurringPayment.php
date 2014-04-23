@@ -255,12 +255,12 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      * Collect needed information from buy request
      * Then filter data
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      * @throws \Exception
      */
-    public function importBuyRequest(\Magento\Object $buyRequest)
+    public function importBuyRequest(\Magento\Framework\Object $buyRequest)
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
@@ -335,7 +335,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     public function exportScheduleInfo()
     {
         $result = array(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'title' => __('Billing Period'),
                     'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles')
@@ -344,7 +344,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         );
         $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
         if ($trial) {
-            $result[] = new \Magento\Object(array('title' => __('Trial Period'), 'schedule' => $trial));
+            $result[] = new \Magento\Framework\Object(array('title' => __('Trial Period'), 'schedule' => $trial));
         }
         return $result;
     }

@@ -83,16 +83,16 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
      * );
      *
      * @param string $itemId
-     * @param array|\Magento\Object $item
+     * @param array|\Magento\Framework\Object $item
      * @return $this
      */
     public function addItem($itemId, $item)
     {
         if (is_array($item)) {
-            $item = new \Magento\Object($item);
+            $item = new \Magento\Framework\Object($item);
         }
 
-        if ($item instanceof \Magento\Object) {
+        if ($item instanceof \Magento\Framework\Object) {
             $item->setId($itemId);
             $item->setUrl($this->getUrl($item->getUrl()));
             $this->_items[$itemId] = $item;

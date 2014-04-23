@@ -15,9 +15,9 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     /**#@+
      * Source and result class parameters
      */
-    const SOURCE_CLASS = 'Magento\Object';
+    const SOURCE_CLASS = 'Magento\Framework\Object';
 
-    const RESULT_CLASS = 'Magento\Object_MyResult';
+    const RESULT_CLASS = 'Magento\Framework\Object_MyResult';
 
     const RESULT_FILE = 'MyResult/MyResult.php';
 

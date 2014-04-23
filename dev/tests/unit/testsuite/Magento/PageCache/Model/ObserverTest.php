@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Cache\TypeListInterface */
     protected $_typeListMock;
 
-    /** @var \Magento\Object */
+    /** @var \Magento\Framework\Object */
     protected $_transport;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Observer */
@@ -96,7 +96,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             true,
             array('getTtl', 'isScopePrivate', 'getNameInLayout', 'getUrl')
         );
-        $this->_transport = new \Magento\Object(array('output' => 'test output html'));
+        $this->_transport = new \Magento\Framework\Object(array('output' => 'test output html'));
         $this->_observerObject = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
     }
 

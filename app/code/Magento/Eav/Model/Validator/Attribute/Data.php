@@ -120,7 +120,7 @@ class Data extends \Magento\Framework\Validator\AbstractValidator
         $data = array();
         if ($this->_data) {
             $data = $this->_data;
-        } elseif ($entity instanceof \Magento\Object) {
+        } elseif ($entity instanceof \Magento\Framework\Object) {
             $data = $entity->getData();
         }
 

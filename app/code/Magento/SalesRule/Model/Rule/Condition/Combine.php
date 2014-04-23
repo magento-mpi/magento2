@@ -77,7 +77,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
             )
         );
 
-        $additional = new \Magento\Object();
+        $additional = new \Magento\Framework\Object();
         $this->_eventManager->dispatch('salesrule_rule_condition_combine', array('additional' => $additional));
         $additionalConditions = $additional->getConditions();
         if ($additionalConditions) {

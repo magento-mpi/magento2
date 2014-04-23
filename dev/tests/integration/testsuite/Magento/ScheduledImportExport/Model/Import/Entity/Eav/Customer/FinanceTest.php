@@ -77,7 +77,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $userName = 'TestAdmin';
-        $user = new \Magento\Object(array('username' => $userName));
+        $user = new \Magento\Framework\Object(array('username' => $userName));
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = $objectManager->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);

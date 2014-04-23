@@ -55,7 +55,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $response = new \Magento\Object(
+        $response = new \Magento\Framework\Object(
             array(
                 'result' => '0',
                 'pnref' => 'V19A3D27B61E',
@@ -70,7 +70,7 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $instance->expects($this->any())->method('_postRequest')->will($this->returnValue($response));
 
         $payment->setMethodInstance($instance);
-        $payment->void(new \Magento\Object());
+        $payment->void(new \Magento\Framework\Object());
         $order->save();
 
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');

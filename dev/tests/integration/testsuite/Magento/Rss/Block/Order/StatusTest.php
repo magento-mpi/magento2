@@ -22,7 +22,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($block->toHtml());
 
         $uniqid = uniqid();
-        $order = $this->getMock('Magento\Object', array('formatPrice'), array(array('id' => $uniqid)));
+        $order = $this->getMock('Magento\Framework\Object', array('formatPrice'), array(array('id' => $uniqid)));
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Framework\Registry')->register('current_order', $order);

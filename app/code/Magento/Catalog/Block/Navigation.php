@@ -206,7 +206,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
     /**
      * Checkin activity of category
      *
-     * @param   \Magento\Object $category
+     * @param   \Magento\Framework\Object $category
      * @return  bool
      */
     public function isCategoryActive($category)

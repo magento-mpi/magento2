@@ -10,8 +10,8 @@
  * @license     {license_link}
  */
 return array(
-    array('__get', 'Magento\Object'),
-    array('__set', 'Magento\Object'),
+    array('__get', 'Magento\Framework\Object'),
+    array('__set', 'Magento\Framework\Object'),
     array('_addItem', 'Magento\Theme\Block\Html\Head'),
     array('_addLink', 'Magento\Customer\Block\Account\Link'),
     array('_addMinimalPrice', 'Magento\Catalog\Model\Resource\Product\Collection'),
@@ -1080,7 +1080,7 @@ return array(
     array('getPlainTemplateMode', '\Magento\Email\Model\Template\Filter'),
     array('getMessage', '\Magento\Core\Model\Session\Context', 'getMessageFactory'),
     array('getMessageFactory', '\Magento\Core\Model\Session\Context', 'getMessagesFactory'),
-    array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Object\Copy::copyFieldsetToTarget'),
+    array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Framework\Object\Copy::copyFieldsetToTarget'),
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
     array('getCustomer', 'Magento\Backend\Model\Session\Quote', 'Magento\Backend\Model\Session\Quote::getCustomerId'),

@@ -367,7 +367,7 @@ abstract class AbstractGroupprice extends Price
 
         if (!empty($insert)) {
             foreach ($insert as $data) {
-                $price = new \Magento\Object($data);
+                $price = new \Magento\Framework\Object($data);
                 $price->setEntityId($productId);
                 $this->_getResource()->savePriceData($price);
 
@@ -378,7 +378,7 @@ abstract class AbstractGroupprice extends Price
         if (!empty($update)) {
             foreach ($update as $k => $v) {
                 if ($old[$k]['price'] != $v['value']) {
-                    $price = new \Magento\Object(array('value_id' => $old[$k]['price_id'], 'value' => $v['value']));
+                    $price = new \Magento\Framework\Object(array('value_id' => $old[$k]['price_id'], 'value' => $v['value']));
                     $this->_getResource()->savePriceData($price);
 
                     $isChanged = true;

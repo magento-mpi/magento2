@@ -227,7 +227,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Instantiate state and set it to state object
      *
      * @param string $paymentAction
-     * @param \Magento\Object $stateObject
+     * @param \Magento\Framework\Object $stateObject
      * @return void
      */
     public function initialize($paymentAction, $stateObject)
@@ -444,7 +444,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Build request for getting token
      *
      * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _buildTokenRequest(\Magento\Sales\Model\Order\Payment $payment)
     {
@@ -540,10 +540,10 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     /**
      * Return request object with basic information for gateway request
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return \Magento\Paypal\Model\Payflow\Request
      */
-    protected function _buildBasicRequest(\Magento\Object $payment)
+    protected function _buildBasicRequest(\Magento\Framework\Object $payment)
     {
         /** @var \Magento\Paypal\Model\Payflow\Request $request */
         $request = $this->_requestFactory->create();
@@ -632,7 +632,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * If response is failed throw exception
      * Set token data in payment object
      *
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @return void
      * @throws \Magento\Framework\Model\Exception
@@ -683,7 +683,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Add transaction with correct transaction Id
      *
      * @deprecated since 1.6.2.0
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param string $txnId
      * @return void
      */
@@ -695,11 +695,11 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Initialize request
      *
      * @deprecated since 1.6.2.0
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param mixed $amount
      * @return $this
      */
-    protected function _initialize(\Magento\Object $payment, $amount)
+    protected function _initialize(\Magento\Framework\Object $payment, $amount)
     {
         return $this;
     }
@@ -720,13 +720,13 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Additional authorization logic for Account Verification
      *
      * @deprecated since 1.6.2.0
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param mixed $amount
      * @param \Magento\Paypal\Model\Payment\Transaction $transaction
      * @param string $txnId
      * @return $this
      */
-    protected function _authorize(\Magento\Object $payment, $amount, $transaction, $txnId)
+    protected function _authorize(\Magento\Framework\Object $payment, $amount, $transaction, $txnId)
     {
         return $this;
     }
@@ -735,10 +735,10 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      * Operate with order or quote using information from silent post
      *
      * @deprecated since 1.6.2.0
-     * @param \Magento\Object $document
+     * @param \Magento\Framework\Object $document
      * @return void
      */
-    protected function _process(\Magento\Object $document)
+    protected function _process(\Magento\Framework\Object $document)
     {
     }
 

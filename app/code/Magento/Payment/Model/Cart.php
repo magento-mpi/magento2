@@ -395,11 +395,11 @@ class Cart
      * @param int $qty
      * @param float $amount
      * @param null|string $identifier
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _createItemFromData($name, $qty, $amount, $identifier = null)
     {
-        $item = new \Magento\Object(array('name' => $name, 'qty' => $qty, 'amount' => (double)$amount));
+        $item = new \Magento\Framework\Object(array('name' => $name, 'qty' => $qty, 'amount' => (double)$amount));
 
         if ($identifier) {
             $item->setData('id', $identifier);

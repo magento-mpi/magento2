@@ -81,7 +81,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testHelperWithInvalidClass()
     {
-        $class = 'Magento\Object';
+        $class = 'Magento\Framework\Object';
         $object = $this->getMock($class, array(), array(), '', false);
         $this->_helperFactoryMock->expects(
             $this->once()

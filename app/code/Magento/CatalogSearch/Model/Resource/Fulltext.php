@@ -726,12 +726,12 @@ class Fulltext extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Retrieve Product Emulator (Magento Object)
      *
      * @param string $typeId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getProductEmulator($typeId)
     {
         if (!isset($this->_productEmulators[$typeId])) {
-            $productEmulator = new \Magento\Object();
+            $productEmulator = new \Magento\Framework\Object();
             $productEmulator->setIdFieldName('entity_id')->setTypeId($typeId);
             $this->_productEmulators[$typeId] = $productEmulator;
         }

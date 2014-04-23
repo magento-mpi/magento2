@@ -22,10 +22,10 @@ class Textinput extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Col
     /**
      * Renders quantity as integer
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return int|string
      */
-    public function _getValue(\Magento\Object $row)
+    public function _getValue(\Magento\Framework\Object $row)
     {
         $quantity = parent::_getValue($row);
         if (!$row->getIsQtyDecimal()) {
@@ -37,10 +37,10 @@ class Textinput extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Col
     /**
      * Renders column as input when it is editable
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if (!$row->getIsQtyDecimal() && !is_null($value)) {

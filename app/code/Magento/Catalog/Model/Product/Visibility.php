@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-class Visibility extends \Magento\Object
+class Visibility extends \Magento\Framework\Object
 {
     const VISIBILITY_NOT_VISIBLE = 1;
 

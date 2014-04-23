@@ -13,7 +13,7 @@ namespace Magento\Framework\Model;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractModel extends \Magento\Object
+abstract class AbstractModel extends \Magento\Framework\Object
 {
     /**
      * Prefix of model events names
@@ -148,7 +148,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_logger = $context->getLogger();
         $this->_actionValidator = $context->getActionValidator();
 
-        if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
+        if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Framework\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
         }
 

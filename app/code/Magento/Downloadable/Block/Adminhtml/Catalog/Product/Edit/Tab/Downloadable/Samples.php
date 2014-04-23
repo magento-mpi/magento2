@@ -21,7 +21,7 @@ class Samples extends \Magento\Backend\Block\Widget
     /**
      * Block config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_config;
 
@@ -179,7 +179,7 @@ class Samples extends \Magento\Backend\Block\Widget
             if ($this->getProduct() && $item->getStoreTitle()) {
                 $tmpSampleItem['store_title'] = $item->getStoreTitle();
             }
-            $samplesArr[] = new \Magento\Object($tmpSampleItem);
+            $samplesArr[] = new \Magento\Framework\Object($tmpSampleItem);
         }
 
         return $samplesArr;
@@ -263,12 +263,12 @@ class Samples extends \Magento\Backend\Block\Widget
     /**
      * Retrieve config object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new \Magento\Object();
+            $this->_config = new \Magento\Framework\Object();
         }
 
         return $this->_config;

@@ -48,8 +48,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $factory->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($className) {
-                    if ($className === 'Magento\Object') {
-                        return $this->getMock('Magento\Object', array(), array(), '', false);
+                    if ($className === 'Magento\Framework\Object') {
+                        return $this->getMock('Magento\Framework\Object', array(), array(), '', false);
                     }
                 }
             )
@@ -85,12 +85,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $model->addSharedInstance($resource, 'Magento\Framework\App\Resource');
-        $instance1 = $model->get('Magento\Object');
+        $instance1 = $model->get('Magento\Framework\Object');
 
-        $this->assertSame($instance1, $model->get('Magento\Object'));
+        $this->assertSame($instance1, $model->get('Magento\Framework\Object'));
         $this->assertSame($model, $model->clearCache());
         $this->assertSame($model, $model->get('Magento\Framework\ObjectManager'));
         $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
-        $this->assertNotSame($instance1, $model->get('Magento\Object'));
+        $this->assertNotSame($instance1, $model->get('Magento\Framework\Object'));
     }
 }

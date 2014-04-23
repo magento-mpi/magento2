@@ -73,7 +73,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
      * Get custom layout settings
      *
      * @param \Magento\Catalog\Model\Category|\Magento\Catalog\Model\Product $object
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignSettings($object)
     {
@@ -103,11 +103,11 @@ class Design extends \Magento\Framework\Model\AbstractModel
      * Extract custom layout settings from category or product object
      *
      * @param \Magento\Catalog\Model\Category|\Magento\Catalog\Model\Product $object
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _extractSettings($object)
     {
-        $settings = new \Magento\Object();
+        $settings = new \Magento\Framework\Object();
         if (!$object) {
             return $settings;
         }
@@ -138,9 +138,9 @@ class Design extends \Magento\Framework\Model\AbstractModel
     /**
      * Merge custom design settings
      *
-     * @param \Magento\Object $categorySettings
-     * @param \Magento\Object $productSettings
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $categorySettings
+     * @param \Magento\Framework\Object $productSettings
+     * @return \Magento\Framework\Object
      */
     protected function _mergeSettings($categorySettings, $productSettings)
     {

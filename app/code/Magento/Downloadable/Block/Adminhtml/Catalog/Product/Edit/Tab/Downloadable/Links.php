@@ -21,7 +21,7 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Block config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_config;
 
@@ -324,7 +324,7 @@ class Links extends \Magento\Backend\Block\Template
             if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
                 $tmpLinkItem['website_price'] = $item->getWebsitePrice();
             }
-            $linkArr[] = new \Magento\Object($tmpLinkItem);
+            $linkArr[] = new \Magento\Framework\Object($tmpLinkItem);
         }
         return $linkArr;
     }
@@ -428,12 +428,12 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Retrieve config object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new \Magento\Object();
+            $this->_config = new \Magento\Framework\Object();
         }
 
         return $this->_config;

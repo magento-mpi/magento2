@@ -121,14 +121,14 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
     /**
      * Authorize payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         $payment->setCart($this->_pbridgeData->prepareCart($payment->getOrder()));
-        $result = new \Magento\Object($this->_paypal->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new \Magento\Framework\Object($this->_paypal->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
@@ -138,11 +138,11 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
     /**
      * Capture payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -153,11 +153,11 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
     /**
      * Refund payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -166,10 +166,10 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
     /**
      * Void payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;

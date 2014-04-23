@@ -302,7 +302,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param array $children
      * @param string $path
-     * @param \Magento\Object $parent
+     * @param \Magento\Framework\Object $parent
      * @return void
      */
     public function addChildNodes($children, $path, $parent)
@@ -419,7 +419,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param integer $nodeId
      * @param array $nodes
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getNodeById($nodeId, $nodes = null)
     {

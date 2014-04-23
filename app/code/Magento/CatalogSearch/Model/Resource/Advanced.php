@@ -64,12 +64,12 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Return response object
      *
      * @param \Magento\Framework\DB\Select $select
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _dispatchPreparePriceEvent($select)
     {
         // prepare response object for event
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setAdditionalCalculations(array());
 
         // prepare event arguments

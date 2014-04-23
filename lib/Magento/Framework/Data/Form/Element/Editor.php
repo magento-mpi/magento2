@@ -405,8 +405,8 @@ class Editor extends Textarea
      */
     public function getConfig($key = null)
     {
-        if (!$this->_getData('config') instanceof \Magento\Object) {
-            $config = new \Magento\Object();
+        if (!$this->_getData('config') instanceof \Magento\Framework\Object) {
+            $config = new \Magento\Framework\Object();
             $this->setConfig($config);
         }
         if ($key !== null) {

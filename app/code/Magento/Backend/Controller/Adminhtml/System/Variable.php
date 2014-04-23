@@ -127,7 +127,7 @@ class Variable extends Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(array('error' => false));
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();

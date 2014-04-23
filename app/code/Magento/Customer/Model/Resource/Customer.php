@@ -90,12 +90,12 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check customer scope, email and confirmation key before saving
      *
-     * @param \Magento\Object $customer
+     * @param \Magento\Framework\Object $customer
      * @return $this
      * @throws \Magento\Customer\Exception
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave(\Magento\Object $customer)
+    protected function _beforeSave(\Magento\Framework\Object $customer)
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         parent::_beforeSave($customer);
@@ -168,7 +168,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Customer\Model\Customer $customer
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $customer)
+    protected function _afterSave(\Magento\Framework\Object $customer)
     {
         $this->_saveAddresses($customer);
         return parent::_afterSave($customer);
@@ -230,7 +230,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string|int $rowId
      * @return \Magento\Framework\DB\Select
      */
@@ -371,10 +371,10 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Custom setter of increment ID if its needed
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    public function setNewIncrementId(\Magento\Object $object)
+    public function setNewIncrementId(\Magento\Framework\Object $object)
     {
         if ($this->_scopeConfig->getValue(
             \Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID,

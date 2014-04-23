@@ -125,7 +125,7 @@ class Collection extends \Magento\Framework\Data\Collection
                 )
             );
             foreach ($data as $value) {
-                $item = new \Magento\Object();
+                $item = new \Magento\Framework\Object();
                 $item->setData($value);
                 $this->addItem($item);
             }

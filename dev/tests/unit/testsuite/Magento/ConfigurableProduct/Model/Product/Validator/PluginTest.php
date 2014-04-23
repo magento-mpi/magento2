@@ -84,7 +84,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->responseMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('setError', 'setMessage', 'setAttributes'),
             array(),
             '',

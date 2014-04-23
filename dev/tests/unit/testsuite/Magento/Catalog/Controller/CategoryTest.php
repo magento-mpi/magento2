@@ -161,7 +161,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $this->categoryHelper->expects($this->any())->method('canShow')->will($this->returnValue(true));
 
-        $settings = $this->getMock('Magento\Object', ['getPageLayout'], [], '', false);
+        $settings = $this->getMock('Magento\Framework\Object', ['getPageLayout'], [], '', false);
         $settings->expects($this->atLeastOnce())->method('getPageLayout')->will($this->returnValue($pageLayout));
 
         $this->catalogDesign->expects($this->any())->method('getDesignSettings')->will($this->returnValue($settings));

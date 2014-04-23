@@ -328,7 +328,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for method renderWeeeTaxAttribute
      *
-     * @param \Magento\Object $attribute
+     * @param \Magento\Framework\Object $attribute
      * @param string $expectedResult
      * @dataProvider renderWeeeTaxAttributeDataProvider
      */
@@ -348,10 +348,10 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     public function renderWeeeTaxAttributeDataProvider()
     {
         return [
-            [new \Magento\Object(['name' => 'name1', 'amount' => 51]), 'name1: 51'],
-            [new \Magento\Object(['name' => 'name1', 'amount' => false]), 'name1: '],
-            [new \Magento\Object(['name' => false, 'amount' => 51]), ': 51'],
-            [new \Magento\Object(['name' => false, 'amount' => false]), ': '],
+            [new \Magento\Framework\Object(['name' => 'name1', 'amount' => 51]), 'name1: 51'],
+            [new \Magento\Framework\Object(['name' => 'name1', 'amount' => false]), 'name1: '],
+            [new \Magento\Framework\Object(['name' => false, 'amount' => 51]), ': 51'],
+            [new \Magento\Framework\Object(['name' => false, 'amount' => false]), ': '],
         ];
     }
 }

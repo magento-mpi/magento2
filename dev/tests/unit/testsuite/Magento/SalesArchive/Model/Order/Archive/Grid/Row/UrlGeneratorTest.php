@@ -69,7 +69,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
-        $this->assertFalse($this->_model->getUrl(new \Magento\Object()));
+        $this->assertFalse($this->_model->getUrl(new \Magento\Framework\Object()));
     }
 
     /**
@@ -95,8 +95,8 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     public function itemsDataProvider()
     {
         return array(
-            array(new \Magento\Object(), 'http://localhost/backend/admin/sales_order/view/order_id/'),
-            array(new \Magento\Object(array('id' => 1)), 'http://localhost/backend/admin/sales_order/view/order_id/1')
+            array(new \Magento\Framework\Object(), 'http://localhost/backend/admin/sales_order/view/order_id/'),
+            array(new \Magento\Framework\Object(array('id' => 1)), 'http://localhost/backend/admin/sales_order/view/order_id/1')
         );
     }
 }

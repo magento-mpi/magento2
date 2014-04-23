@@ -311,7 +311,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         $attributeList = array();
         foreach ($this->_customerAttributes as $code) {
-            $attribute = new \Magento\Object(array('attribute_code' => $code));
+            $attribute = new \Magento\Framework\Object(array('attribute_code' => $code));
             $attributeList[] = $attribute;
         }
         $customerEntity->expects(
@@ -347,7 +347,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         $attributeList = array();
         foreach ($this->_addressAttributes as $code) {
-            $attribute = new \Magento\Object(array('attribute_code' => $code));
+            $attribute = new \Magento\Framework\Object(array('attribute_code' => $code));
             $attributeList[] = $attribute;
         }
         $addressEntity->expects(

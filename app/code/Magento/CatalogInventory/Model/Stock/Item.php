@@ -639,11 +639,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param int|float $qty quantity of this item (item qty x parent item qty)
      * @param int|float $summaryQty quantity of this product
      * @param int|float $origQty original qty of item (not multiplied on parent item qty)
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
@@ -787,11 +787,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * Check qty increments
      *
      * @param int|float $qty
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkQtyIncrements($qty)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         if ($this->getSuppressCheckQtyIncrements()) {
             return $result;
         }

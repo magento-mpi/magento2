@@ -96,7 +96,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
             )->setOption(
                 $option
             )->setRequest(
-                new \Magento\Object($request)
+                new \Magento\Framework\Object($request)
             )->setProduct(
                 $this->_product
             )->setUseQuotePath(

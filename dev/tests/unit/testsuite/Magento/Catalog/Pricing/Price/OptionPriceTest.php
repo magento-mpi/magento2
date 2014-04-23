@@ -136,7 +136,7 @@ class OptionPriceTest extends \PHPUnit_Framework_TestCase
         $optionValueMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($optionValue));
-        $optionIds = new \Magento\Object(['value' => '1']);
+        $optionIds = new \Magento\Framework\Object(['value' => '1']);
 
         $customOptions = ['option_ids' => $optionIds, 'option_1' => $optionValueMock];
         $this->product->setCustomOptions($customOptions);

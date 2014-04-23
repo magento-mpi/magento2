@@ -26,7 +26,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         $customerTaxClasses = $taxRule->getTaxCustomerClass();
         $productTaxClasses = $taxRule->getTaxProductClass();
         $taxRate = $objectManager->get('Magento\Framework\Registry')->registry('_fixture/Magento_Tax_Model_Calculation_Rate');
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setData(
             array(
                 'country_id' => 'US',

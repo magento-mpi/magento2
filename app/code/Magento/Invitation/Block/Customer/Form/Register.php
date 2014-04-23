@@ -69,14 +69,14 @@ class Register extends \Magento\Customer\Block\Form\Register
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = $this->_customerSession->getCustomerFormData(true);
-            $data = new \Magento\Object($customerFormData ?: array());
+            $data = new \Magento\Framework\Object($customerFormData ?: array());
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 

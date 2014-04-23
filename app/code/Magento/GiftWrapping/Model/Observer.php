@@ -86,7 +86,7 @@ class Observer
     /**
      * Process gift wrapping options on checkout proccess
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function checkoutProcessWrappingInfo($observer)

@@ -23,8 +23,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveAllItems()
     {
-        $this->_model->addItem(new \Magento\Object());
-        $this->_model->addItem(new \Magento\Object());
+        $this->_model->addItem(new \Magento\Framework\Object());
+        $this->_model->addItem(new \Magento\Framework\Object());
         $this->assertCount(2, $this->_model->getItems());
         $this->_model->removeAllItems();
         $this->assertEmpty($this->_model->getItems());
@@ -44,12 +44,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setItemObjectClassDataProvider()
     {
-        return array(array('Magento\Framework\Url'), array('Magento\Object'));
+        return array(array('Magento\Framework\Url'), array('Magento\Framework\Object'));
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Incorrect_ClassName does not extend \Magento\Object
+     * @expectedExceptionMessage Incorrect_ClassName does not extend \Magento\Framework\Object
      */
     public function testSetItemObjectClassException()
     {

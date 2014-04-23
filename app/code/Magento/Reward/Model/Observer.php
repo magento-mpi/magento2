@@ -557,7 +557,7 @@ class Observer
      * set zero subtotal checkout payment if need
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param bool $useRewardPoints
      * @return $this
      */

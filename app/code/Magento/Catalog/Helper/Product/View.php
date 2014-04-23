@@ -114,7 +114,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Framework\App\Action\Action $controller
-     * @param null|\Magento\Object $params
+     * @param null|\Magento\Framework\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
      */
@@ -195,13 +195,13 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * $params can have all values as $params in \Magento\Catalog\Helper\Product - initProduct().
      * Plus following keys:
-     *   - 'buy_request' - \Magento\Object holding buyRequest to configure product
+     *   - 'buy_request' - \Magento\Framework\Object holding buyRequest to configure product
      *   - 'specify_options' - boolean, whether to show 'Specify options' message
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
      * @param \Magento\Framework\App\Action\Action $controller
-     * @param null|\Magento\Object $params
+     * @param null|\Magento\Framework\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
      * @throws \Magento\Framework\Model\Exception
@@ -211,7 +211,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         // Prepare data
         $productHelper = $this->_catalogProduct;
         if (!$params) {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
         }
 
         // Standard algorithm to prepare and render product view page

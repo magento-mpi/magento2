@@ -170,11 +170,11 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new \Magento\Object(array('product' => $id, 'qty' => $qty));
+            $buyRequest = new \Magento\Framework\Object(array('product' => $id, 'qty' => $qty));
 
             $params->setBuyRequest($buyRequest);
 
@@ -203,7 +203,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
     {
         $hasError = false;
         $id = (int)$this->getRequest()->getParam('id');
-        $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+        $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
         try {
             $cart = $this->_getCart();
 

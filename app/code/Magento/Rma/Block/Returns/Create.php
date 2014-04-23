@@ -89,13 +89,13 @@ class Create extends \Magento\Rma\Block\Form
 
         $formData = $this->_session->getRmaFormData(true);
         if (!empty($formData)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
         $errorKeys = $this->_session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $data->addData($errorKeys);
             $this->setErrorKeys($data);
         }

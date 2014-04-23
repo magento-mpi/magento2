@@ -65,7 +65,7 @@ class Constraint extends \Magento\Framework\Validator\AbstractValidator
     protected function _getValidatorValue($value)
     {
         if (is_array($value)) {
-            $value = new \Magento\Object($value);
+            $value = new \Magento\Framework\Object($value);
         }
         return $value;
     }

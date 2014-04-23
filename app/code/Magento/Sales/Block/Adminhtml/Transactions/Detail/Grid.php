@@ -72,7 +72,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $collection = $this->_collectionFactory->create();
         foreach ($this->getTransactionAdditionalInfo() as $key => $value) {
-            $data = new \Magento\Object(array('key' => $key, 'value' => $value));
+            $data = new \Magento\Framework\Object(array('key' => $key, 'value' => $value));
             $collection->addItem($data);
         }
 

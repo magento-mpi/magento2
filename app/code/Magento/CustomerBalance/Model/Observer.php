@@ -307,7 +307,7 @@ class Observer
      * Analyze payment data for quote and set free shipping if grand total is covered by balance
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Object|\Magento\Sales\Model\Quote\Payment $payment
+     * @param \Magento\Framework\Object|\Magento\Sales\Model\Quote\Payment $payment
      * @param bool $shouldUseBalance
      * @return void
      */
@@ -671,7 +671,7 @@ class Observer
      */
     public function extendSalesAmountExpression(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $expressionTransferObject \Magento\Object */
+        /** @var $expressionTransferObject \Magento\Framework\Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
         /** @var $adapter \Magento\Framework\DB\Adapter\AdapterInterface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();

@@ -12,7 +12,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
 /**
  * Block with description of why item has not been added to ordered items list
  *
- * @method \Magento\Object                                                   getItem()
+ * @method \Magento\Framework\Object                                                   getItem()
  * @method \Magento\Catalog\Model\Product                                      getProduct()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setItem()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setProduct()
@@ -99,7 +99,7 @@ class Description extends \Magento\Backend\Block\Template
     /**
      * Returns error message of the item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      *
      * @see \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_* constants for $code

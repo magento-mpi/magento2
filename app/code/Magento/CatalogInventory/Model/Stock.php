@@ -213,11 +213,11 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     /**
      * Subtract ordered qty for product
      *
-     * @param  \Magento\Object $item
+     * @param  \Magento\Framework\Object $item
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function registerItemSale(\Magento\Object $item)
+    public function registerItemSale(\Magento\Framework\Object $item)
     {
         $productId = $item->getProductId();
         if ($productId) {

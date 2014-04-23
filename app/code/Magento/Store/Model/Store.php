@@ -25,7 +25,7 @@ use Magento\Framework\Model\AbstractModel;
 class Store extends AbstractModel implements
     \Magento\Framework\App\ScopeInterface,
     \Magento\Framework\Url\ScopeInterface,
-    \Magento\Object\IdentityInterface
+    \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Entity name

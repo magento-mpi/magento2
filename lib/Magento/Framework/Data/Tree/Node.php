@@ -19,7 +19,7 @@ use Magento\Framework\Data\Tree\Node\Collection;
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Node extends \Magento\Object
+class Node extends \Magento\Framework\Object
 {
     /**
      * Parent node

@@ -21,14 +21,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $mockFirst = $this->getMock('Magento\Object', array('getId', 'getCode'), array());
+        $mockFirst = $this->getMock('Magento\Framework\Object', array('getId', 'getCode'), array());
         $mockFirst->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(1));
         $mockFirst->expects($this->once())
             ->method('getCode')
             ->will($this->returnValue('code1'));
-        $mockSecond = $this->getMock('Magento\Object', array('getId', 'getCode'), array());
+        $mockSecond = $this->getMock('Magento\Framework\Object', array('getId', 'getCode'), array());
         $mockSecond->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
@@ -53,14 +53,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionHash()
     {
-        $mockFirst = $this->getMock('Magento\Object', array('getSome', 'getId'), array());
+        $mockFirst = $this->getMock('Magento\Framework\Object', array('getSome', 'getId'), array());
         $mockFirst->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(3));
         $mockFirst->expects($this->once())
             ->method('getSome')
             ->will($this->returnValue('code3'));
-        $mockSecond = $this->getMock('Magento\Object', array('getSome', 'getId'), array());
+        $mockSecond = $this->getMock('Magento\Framework\Object', array('getSome', 'getId'), array());
         $mockSecond->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(4));
@@ -87,8 +87,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         $object = new \stdClass();
         $object->a = array(array(1));
-        $mockFirst = $this->getMock('Magento\Object', array('getData'));
-        $mockSecond = $this->getMock('Magento\Object', array('getData'));
+        $mockFirst = $this->getMock('Magento\Framework\Object', array('getData'));
+        $mockSecond = $this->getMock('Magento\Framework\Object', array('getData'));
 
         $mockFirst->expects($this->any())
             ->method('getData')

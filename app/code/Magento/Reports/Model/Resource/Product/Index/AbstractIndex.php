@@ -191,11 +191,11 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     /**
      * Add information about product ids to visitor/customer
      *
-     * @param \Magento\Object|\Magento\Reports\Model\Product\Index\AbstractIndex $object
+     * @param \Magento\Framework\Object|\Magento\Reports\Model\Product\Index\AbstractIndex $object
      * @param array $productIds
      * @return $this
      */
-    public function registerIds(\Magento\Object $object, $productIds)
+    public function registerIds(\Magento\Framework\Object $object, $productIds)
     {
         $row = array(
             'visitor_id' => $object->getVisitorId(),

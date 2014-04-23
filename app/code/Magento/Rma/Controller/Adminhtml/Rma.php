@@ -1079,7 +1079,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function saveShippingAction()
     {
-        $responseAjax = new \Magento\Object();
+        $responseAjax = new \Magento\Framework\Object();
 
         try {
             $model = $this->_initModel();
@@ -1112,7 +1112,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function createLabelAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {

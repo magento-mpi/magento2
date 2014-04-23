@@ -1,6 +1,6 @@
 <?php
 /**
- * Validates properties of entity (\Magento\Object).
+ * Validates properties of entity (\Magento\Framework\Object).
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Validator\Entity;
 
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Properties extends \Magento\Framework\Validator\AbstractValidator
 {
@@ -30,19 +30,19 @@ class Properties extends \Magento\Framework\Validator\AbstractValidator
     }
 
     /**
-     * Successful if $value is \Magento\Object an all condition are fulfilled.
+     * Successful if $value is \Magento\Framework\Object an all condition are fulfilled.
      *
      * If read-only properties are set than $value mustn't have changes in them.
      *
      * @param Object $value
      * @return bool
-     * @throws \InvalidArgumentException when $value is not instanceof \Magento\Object
+     * @throws \InvalidArgumentException when $value is not instanceof \Magento\Framework\Object
      */
     public function isValid($value)
     {
         $this->_clearMessages();
         if (!$value instanceof Object) {
-            throw new \InvalidArgumentException('Instance of \Magento\Object is expected.');
+            throw new \InvalidArgumentException('Instance of \Magento\Framework\Object is expected.');
         }
         if ($this->_readOnlyProperties) {
             if (!$value->hasDataChanges()) {

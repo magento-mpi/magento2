@@ -245,7 +245,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         }
 
         try {
-            $buyRequest = new \Magento\Object($requestParams);
+            $buyRequest = new \Magento\Framework\Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
@@ -313,7 +313,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
 
             $this->_coreRegistry->register('wishlist_item', $item);
 
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $buyRequest = $item->getBuyRequest();
@@ -376,7 +376,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                 return;
             }
 
-            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
 
             $wishlist->updateItem($id, $buyRequest)->save();
 

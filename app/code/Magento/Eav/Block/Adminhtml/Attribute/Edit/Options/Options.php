@@ -142,7 +142,7 @@ class Options extends \Magento\Backend\Block\Template
                 $defaultValues
             );
             foreach ($bunch as $value) {
-                $values[] = new \Magento\Object($value);
+                $values[] = new \Magento\Framework\Object($value);
             }
         }
 

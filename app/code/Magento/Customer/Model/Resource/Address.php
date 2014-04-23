@@ -75,10 +75,10 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Set default shipping to address
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $address)
+    protected function _afterSave(\Magento\Framework\Object $address)
     {
         if ($address->getIsCustomerSaveTransaction()) {
             return $this;
@@ -100,10 +100,10 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check customer address before saving
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @return $this
      */
-    protected function _beforeSave(\Magento\Object $address)
+    protected function _beforeSave(\Magento\Framework\Object $address)
     {
         parent::_beforeSave($address);
 
@@ -115,7 +115,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Validate customer address entity
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @return void
      * @throws \Magento\Framework\Validator\ValidatorException When validation failed
      */

@@ -135,7 +135,7 @@ class Grid extends \Magento\Banner\Block\Adminhtml\Banner\Grid
     /**
      * Define row click callback
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

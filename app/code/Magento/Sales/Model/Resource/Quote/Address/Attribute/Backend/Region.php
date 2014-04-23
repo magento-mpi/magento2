@@ -32,7 +32,7 @@ class Region extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Set region to the attribute
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)

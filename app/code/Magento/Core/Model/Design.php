@@ -26,7 +26,7 @@ use Magento\Framework\Model\AbstractModel;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends AbstractModel implements \Magento\Object\IdentityInterface, \Magento\Framework\App\DesignInterface
+class Design extends AbstractModel implements \Magento\Framework\Object\IdentityInterface, \Magento\Framework\App\DesignInterface
 {
     /**
      * Cache tag

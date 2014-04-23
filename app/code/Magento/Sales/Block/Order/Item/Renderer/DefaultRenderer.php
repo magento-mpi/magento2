@@ -44,10 +44,10 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return $this
      */
-    public function setItem(\Magento\Object $item)
+    public function setItem(\Magento\Framework\Object $item)
     {
         $this->setData('item', $item);
         return $this;

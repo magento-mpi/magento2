@@ -54,7 +54,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Raw rate request data
      *
-     * @var \Magento\Object|null
+     * @var \Magento\Framework\Object|null
      */
     protected $_rawRequest = null;
 
@@ -362,10 +362,10 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Fills request object with Dhl config parameters
      *
-     * @param \Magento\Object $requestObject
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $requestObject
+     * @return \Magento\Framework\Object
      */
-    protected function _addParams(\Magento\Object $requestObject)
+    protected function _addParams(\Magento\Framework\Object $requestObject)
     {
         $request = $this->_request;
         foreach ($this->_requestVariables as $code => $objectCode) {
@@ -382,15 +382,15 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Prepare and set request in property of current instance
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
-    public function setRequest(\Magento\Object $request)
+    public function setRequest(\Magento\Framework\Object $request)
     {
         $this->_request = $request;
         $this->setStore($request->getStoreId());
 
-        $requestObject = new \Magento\Object();
+        $requestObject = new \Magento\Framework\Object();
 
         $requestObject->setIsGenerateLabelReturn($request->getIsGenerateLabelReturn());
 
@@ -1039,7 +1039,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return bool|\Magento\Object|Result|Error
+     * @return bool|\Magento\Framework\Object|Result|Error
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _parseResponse($response)
@@ -1242,7 +1242,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * Get Country Params by Country Code
      *
      * @param string $countryCode
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      *
      * @see $countryCode ISO 3166 Codes (Countries) A2
      */
@@ -1255,18 +1255,18 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
             $this->_countryParams = $this->_xmlElFactory->create(array('data' => $countriesXml));
         }
         if (isset($this->_countryParams->{$countryCode})) {
-            $countryParams = new \Magento\Object($this->_countryParams->{$countryCode}->asArray());
+            $countryParams = new \Magento\Framework\Object($this->_countryParams->{$countryCode}->asArray());
         }
-        return isset($countryParams) ? $countryParams : new \Magento\Object();
+        return isset($countryParams) ? $countryParams : new \Magento\Framework\Object();
     }
 
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      */
-    protected function _doShipmentRequest(\Magento\Object $request)
+    protected function _doShipmentRequest(\Magento\Framework\Object $request)
     {
         $this->_prepareShipmentRequest($request);
         $this->_mapRequestToShipment($request);
@@ -1331,10 +1331,10 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Return container types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array
      */
-    public function getContainerTypes(\Magento\Object $params = null)
+    public function getContainerTypes(\Magento\Framework\Object $params = null)
     {
         return array(
             self::DHL_CONTENT_TYPE_DOC => __('Documents'),
@@ -1345,11 +1345,11 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Map request to shipment
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _mapRequestToShipment(\Magento\Object $request)
+    protected function _mapRequestToShipment(\Magento\Framework\Object $request)
     {
         $request->setOrigCountryId($request->getShipperAddressCountryCode());
         $this->_rawRequest = $request;
@@ -1407,7 +1407,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     /**
      * Do rate request and handle errors
      *
-     * @return Result|\Magento\Object
+     * @return Result|\Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _doRequest()
@@ -1904,7 +1904,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * Do request to shipment
      *
      * @param \Magento\Shipping\Model\Shipment\Request $request
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment($request)
@@ -1915,7 +1915,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         }
         $result = $this->_doShipmentRequest($request);
 
-        $response = new \Magento\Object(
+        $response = new \Magento\Framework\Object(
             array(
                 'info' => array(
                     array(
@@ -1957,12 +1957,12 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * Prepare shipping label data
      *
      * @param \SimpleXMLElement $xml
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _prepareShippingLabelContent(\SimpleXMLElement $xml)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         try {
             if (!isset($xml->AirwayBillNumber) || !isset($xml->LabelImage->OutputImage)) {
                 throw new \Magento\Framework\Model\Exception('Unable to retrieve shipping label');

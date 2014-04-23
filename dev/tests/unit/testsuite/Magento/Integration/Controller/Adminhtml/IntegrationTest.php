@@ -879,11 +879,11 @@ HANDLE;
     /**
      * Return sample Integration Data
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getSampleIntegrationData()
     {
-        return new \Magento\Object(
+        return new \Magento\Framework\Object(
             array(
                 Info::DATA_NAME => 'nameTest',
                 Info::DATA_ID => self::INTEGRATION_ID,

@@ -11,7 +11,7 @@ namespace Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Search extends \Magento\Catalog\Model\Layer
 {

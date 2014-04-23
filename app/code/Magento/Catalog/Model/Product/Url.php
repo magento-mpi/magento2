@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-class Url extends \Magento\Object
+class Url extends \Magento\Framework\Object
 {
     const CACHE_TAG = 'url_rewrite';
 

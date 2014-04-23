@@ -16,7 +16,7 @@ use Magento\Framework\Logger;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class AbstractApi extends \Magento\Object
+class AbstractApi extends \Magento\Framework\Object
 {
     /**
      * Api response

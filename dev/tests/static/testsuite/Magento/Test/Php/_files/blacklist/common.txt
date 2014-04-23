@@ -111,8 +111,8 @@ lib/Magento/Framework/HTTP/IClient.php
 lib/Magento/Framework/Image
 lib/Magento/Framework/Image.php
 lib/Magento/Framework/Io
-lib/Magento/Object
-lib/Magento/Object.php
+lib/Magento/Framework/Object
+lib/Magento/Framework/Object.php
 lib/Magento/Framework/Pear
 lib/Magento/Framework/Pear.php
 lib/Magento/Framework/Simplexml

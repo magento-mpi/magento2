@@ -138,7 +138,7 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
     protected function _updateRelations()
     {
         $themeItems = $this->getItems();
-        /** @var $theme \Magento\Object|ThemeInterface */
+        /** @var $theme \Magento\Framework\Object|ThemeInterface */
         foreach ($themeItems as $theme) {
             $parentThemePath = $theme->getData('parent_theme_path');
             if ($parentThemePath) {
@@ -270,10 +270,10 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
     /**
      * Retrieve item id
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    protected function _getItemId(\Magento\Object $item)
+    protected function _getItemId(\Magento\Framework\Object $item)
     {
         return $item->getFullPath();
     }

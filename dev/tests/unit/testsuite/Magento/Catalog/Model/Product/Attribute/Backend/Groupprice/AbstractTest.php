@@ -74,7 +74,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setAttribute($attribute);
 
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $object->setGroupPrice(array(array('price_id' => 10)));
         $object->setId(555);
 

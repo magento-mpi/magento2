@@ -41,7 +41,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
-        $user = new \Magento\Object();
+        $user = new \Magento\Framework\Object();
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Backend\Model\Auth\Session'
         );

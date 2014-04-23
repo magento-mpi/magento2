@@ -150,7 +150,7 @@ class Packaging extends \Magento\Backend\Block\Template
             $storeId
         );
         if ($carrier) {
-            $params = new \Magento\Object(
+            $params = new \Magento\Framework\Object(
                 array(
                     'method' => $order->getShippingMethod(true)->getMethod(),
                     'country_shipper' => $countryShipper,
@@ -207,7 +207,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $order = $this->getShipment()->getOrder();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         if ($carrier) {
-            $params = new \Magento\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $confirmationType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $confirmationType;
@@ -245,7 +245,7 @@ class Packaging extends \Magento\Backend\Block\Template
      *
      * @param string $itemId
      * @param string $itemsOf
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getShipmentItem($itemId, $itemsOf)
     {
@@ -259,7 +259,7 @@ class Packaging extends \Magento\Backend\Block\Template
                 }
             }
         }
-        return new \Magento\Object();
+        return new \Magento\Framework\Object();
     }
 
     /**
@@ -294,7 +294,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
         $order = $this->getShipment()->getOrder();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
-        $params = new \Magento\Object(array('country_recipient' => $countryId));
+        $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
         if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
             return $carrier->getDeliveryConfirmationTypes($params);
         }
@@ -356,7 +356,7 @@ class Packaging extends \Magento\Backend\Block\Template
             $storeId
         );
         if ($carrier) {
-            $params = new \Magento\Object(
+            $params = new \Magento\Framework\Object(
                 array(
                     'method' => $order->getShippingMethod(true)->getMethod(),
                     'country_shipper' => $countryShipper,

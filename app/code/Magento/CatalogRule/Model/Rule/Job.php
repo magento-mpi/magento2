@@ -26,7 +26,7 @@
  */
 namespace Magento\CatalogRule\Model\Rule;
 
-class Job extends \Magento\Object
+class Job extends \Magento\Framework\Object
 {
     /**
      * Instance of event manager model

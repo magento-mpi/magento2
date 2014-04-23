@@ -156,7 +156,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve the Url for a specified sales order row.
      *
-     * @param \Magento\Sales\Model\Order|\Magento\Object $row
+     * @param \Magento\Sales\Model\Order|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

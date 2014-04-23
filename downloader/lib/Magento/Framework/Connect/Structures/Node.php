@@ -156,7 +156,7 @@ class Node
      * Connect this node to another one.
      * If the graph is not directed, the reverse arc, connecting $destinationNode to $this is also created.
      *
-     * @param \Magento\Object &$destinationNode  Structures_Graph Node to connect to
+     * @param \Magento\Framework\Object &$destinationNode  Structures_Graph Node to connect to
      * @return void
      * @throws \Exception
      */

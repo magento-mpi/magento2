@@ -43,7 +43,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
@@ -75,7 +75,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
     public function validate($object)

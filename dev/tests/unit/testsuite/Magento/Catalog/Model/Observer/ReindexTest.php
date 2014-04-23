@@ -60,7 +60,7 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
         );
 
         $observer = new \Magento\Framework\Event\Observer(
-            array('data_object' => new \Magento\Object(array('affected_product_ids' => $affectedProduct)))
+            array('data_object' => new \Magento\Framework\Object(array('affected_product_ids' => $affectedProduct)))
         );
 
         /** @var $objectManager \Magento\Framework\ObjectManager */

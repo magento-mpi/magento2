@@ -82,7 +82,7 @@ abstract class AbstractBlock extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve current installation step
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCurrentStep()
     {

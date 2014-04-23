@@ -48,7 +48,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
     protected $_currencyMock;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_row;
 
@@ -85,7 +85,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         );
         $currencyFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_currencyMock));
 
-        $this->_row = new \Magento\Object(array('columnIndex' => '10'));
+        $this->_row = new \Magento\Framework\Object(array('columnIndex' => '10'));
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_blockCurrency = $helper->getObject(

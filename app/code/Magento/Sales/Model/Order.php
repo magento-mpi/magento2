@@ -1482,7 +1482,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Retrieve shipping method
      *
      * @param bool $asObject return carrier code and shipping method data as object
-     * @return string|\Magento\Object
+     * @return string|\Magento\Framework\Object
      */
     public function getShippingMethod($asObject = false)
     {
@@ -1491,7 +1491,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             return $shippingMethod;
         } else {
             list($carrierCode, $method) = explode('_', $shippingMethod, 2);
-            return new \Magento\Object(array('carrier_code' => $carrierCode, 'method' => $method));
+            return new \Magento\Framework\Object(array('carrier_code' => $carrierCode, 'method' => $method));
         }
     }
 
@@ -1883,7 +1883,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param mixed $itemId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemById($itemId)
     {
@@ -1892,7 +1892,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param mixed $quoteItemId
-     * @return  \Magento\Object|null
+     * @return  \Magento\Framework\Object|null
      */
     public function getItemByQuoteItemId($quoteItemId)
     {

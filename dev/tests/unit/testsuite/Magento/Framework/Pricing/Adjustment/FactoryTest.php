@@ -69,7 +69,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithException()
     {
-        $invalidAdjustmentInterface = 'Magento\Object';
+        $invalidAdjustmentInterface = 'Magento\Framework\Object';
         $adjustmentFactory = $this->prepareAdjustmentFactory($invalidAdjustmentInterface);
         $adjustmentFactory->create($invalidAdjustmentInterface);
     }

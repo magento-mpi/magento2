@@ -19,7 +19,7 @@ namespace Magento\Core\Model\App;
 
 use Magento\Framework\Translate\Inline\ConfigInterface;
 
-class Emulation extends \Magento\Object
+class Emulation extends \Magento\Framework\Object
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -99,7 +99,7 @@ class Emulation extends \Magento\Object
      * @param integer $storeId
      * @param string $area
      * @param bool $emulateStoreInlineTranslation emulate inline translation of the specified store or just disable it
-     * @return \Magento\Object information about environment of the initial store
+     * @return \Magento\Framework\Object information about environment of the initial store
      */
     public function startEnvironmentEmulation(
         $storeId,
@@ -117,7 +117,7 @@ class Emulation extends \Magento\Object
         $this->_storeManager->setCurrentStore($storeId);
         $initialLocaleCode = $this->_emulateLocale($storeId, $area);
 
-        $initialEnvironmentInfo = new \Magento\Object();
+        $initialEnvironmentInfo = new \Magento\Framework\Object();
         $initialEnvironmentInfo->setInitialTranslateInline(
             $initialTranslateInline
         )->setInitialDesign(
@@ -134,10 +134,10 @@ class Emulation extends \Magento\Object
      *
      * Function restores initial store environment
      *
-     * @param \Magento\Object $initialEnvironmentInfo information about environment of the initial store
+     * @param \Magento\Framework\Object $initialEnvironmentInfo information about environment of the initial store
      * @return \Magento\Core\Model\App\Emulation
      */
-    public function stopEnvironmentEmulation(\Magento\Object $initialEnvironmentInfo)
+    public function stopEnvironmentEmulation(\Magento\Framework\Object $initialEnvironmentInfo)
     {
         $this->_restoreInitialInlineTranslation($initialEnvironmentInfo->getInitialTranslateInline());
         $initialDesign = $initialEnvironmentInfo->getInitialDesign();

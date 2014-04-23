@@ -331,7 +331,7 @@ class Fulltext extends AbstractIndexer
                 $event->addNewData('catalogsearch_delete_product_id', $product->getId());
                 break;
             case Event::TYPE_MASS_ACTION:
-                /* @var $actionObject \Magento\Object */
+                /* @var $actionObject \Magento\Framework\Object */
                 $actionObject = $event->getDataObject();
 
                 $reindexData = array();

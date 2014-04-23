@@ -47,7 +47,7 @@ namespace Magento\VersionsCms\Model\Page;
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  */
-class Revision extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Revision extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Cache tag

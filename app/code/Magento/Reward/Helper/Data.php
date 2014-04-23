@@ -261,7 +261,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new \Magento\Object(
+                $result[$websiteId] = new \Magento\Framework\Object(
                     array(
                         'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                         'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),

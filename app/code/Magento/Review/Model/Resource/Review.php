@@ -365,7 +365,7 @@ class Review extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
             $oldData = $readAdapter->fetchRow($select, $bind);
 
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
 
             $data->setReviewsCount(
                 $reviewsCount

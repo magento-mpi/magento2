@@ -795,7 +795,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setError(0);
 
         $customer = $this->_validateCustomer($response);
@@ -814,7 +814,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Customer validation
      *
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @return Customer|null
      */
     protected function _validateCustomer($response)
@@ -862,7 +862,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Customer address validation.
      *
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @return void
      */
     protected function _validateCustomerAddress($response)

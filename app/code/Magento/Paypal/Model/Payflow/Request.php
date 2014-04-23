@@ -16,7 +16,7 @@ namespace Magento\Paypal\Model\Payflow;
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Request extends \Magento\Object
+class Request extends \Magento\Framework\Object
 {
     /**
      * Set/Get attribute wrapper

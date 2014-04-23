@@ -206,7 +206,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                     // check per customer usage limit
                     $customerId = $address->getQuote()->getCustomerId();
                     if ($customerId && $coupon->getUsagePerCustomer()) {
-                        $couponUsage = new \Magento\Object();
+                        $couponUsage = new \Magento\Framework\Object();
                         $this->_usageFactory->create()->loadByCustomerCoupon(
                             $couponUsage,
                             $customerId,

@@ -141,7 +141,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return boolean
      */
@@ -163,7 +163,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         if ($instance instanceof AbstractBackend && ($method == 'beforeSave' || ($method = 'afterSave'))) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false
+            if (isset($args[0]) && $args[0] instanceof \Magento\Framework\Object && $args[0]->getData($attributeCode) === false
             ) {
                 return false;
             }
@@ -175,7 +175,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Reset firstly loaded attributes
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param integer $entityId
      * @param array|null $attributes
      * @return AbstractResource

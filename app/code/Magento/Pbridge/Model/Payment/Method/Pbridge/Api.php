@@ -54,7 +54,7 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
     /**
      * Authorize
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doAuthorize($request)
@@ -69,7 +69,7 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
     /**
      * Capture
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doCapture($request)
@@ -84,7 +84,7 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
     /**
      * Refund
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doRefund($request)
@@ -99,7 +99,7 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
     /**
      * Void
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doVoid($request)

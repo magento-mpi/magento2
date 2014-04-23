@@ -328,7 +328,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * Add new product to registry
      *
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
-     * @param null|\Magento\Object $request
+     * @param null|\Magento\Framework\Object $request
      * @return false|Item
      * @throws \Magento\Framework\Model\Exception
      */
@@ -356,7 +356,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new \Magento\Object();
+                $request = new \Magento\Framework\Object();
                 //Bundle options mocking for compatibility
                 $request->setBundleOption(array());
             }
@@ -490,14 +490,14 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     /**
      * Send share emails
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_escaper->escapeHtml($this->getSenderName());
         $senderEmail = $this->_escaper->escapeHtml($this->getSenderEmail());
-        $result = new \Magento\Object(array('is_success' => false));
+        $result = new \Magento\Framework\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(__('You need to enter sender data.'));

@@ -95,7 +95,7 @@ class ArchivalList
     /**
      * Return entity by object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return string|false
      */
     public function getEntityByObject($object)

@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Filter\Object;
 
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Grid extends \Magento\Framework\Filter\Object
 {

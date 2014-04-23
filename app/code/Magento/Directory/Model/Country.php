@@ -117,11 +117,11 @@ class Country extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @param bool $html
      * @return string
      */
-    public function formatAddress(\Magento\Object $address, $html = false)
+    public function formatAddress(\Magento\Framework\Object $address, $html = false)
     {
         //TODO: is it still used?
         $address->getRegion();

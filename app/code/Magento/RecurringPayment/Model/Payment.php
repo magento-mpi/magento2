@@ -278,7 +278,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      */
     public function fetchUpdate()
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $this->getManager()->getDetails($this->getReferenceId(), $result);
 
         if ($result->getIsPaymentActive()) {
@@ -305,7 +305,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Initialize new order based on payment data
      *
-     * Takes arbitrary number of \Magento\Object instances to be treated as items for new order
+     * Takes arbitrary number of \Magento\Framework\Object instances to be treated as items for new order
      *
      * @return \Magento\Sales\Model\Order
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -550,7 +550,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
                 return $info[$infoValueKey];
             }
         } else {
-            if ($info instanceof \Magento\Object) {
+            if ($info instanceof \Magento\Framework\Object) {
                 return $info->getDataUsingMethod($infoValueKey);
             } elseif (isset($info->{$infoValueKey})) {
                 return $info->{$infoValueKey};
@@ -653,7 +653,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Create and return new order item based on payment item data and $itemInfo
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      * @throws \Exception
      */
@@ -680,7 +680,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for regular payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getRegularItem($itemInfo)
@@ -717,7 +717,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for trial payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getTrialItem($itemInfo)
@@ -737,7 +737,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Create and return new order item based on payment item data and $itemInfo
      * for initial payment
      *
-     * @param \Magento\Object $itemInfo
+     * @param \Magento\Framework\Object $itemInfo
      * @return \Magento\Sales\Model\Order\Item
      */
     protected function _getInitialItem($itemInfo)

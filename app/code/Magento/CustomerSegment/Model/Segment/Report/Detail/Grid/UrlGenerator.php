@@ -33,7 +33,7 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
     /**
      * Convert template params array and merge with preselected params
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return array|mixed
      */
     protected function _prepareParameters($item)

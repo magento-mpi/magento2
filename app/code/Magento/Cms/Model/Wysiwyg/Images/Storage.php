@@ -16,7 +16,7 @@ use Magento\Cms\Helper\Wysiwyg\Images;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Storage extends \Magento\Object
+class Storage extends \Magento\Framework\Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 

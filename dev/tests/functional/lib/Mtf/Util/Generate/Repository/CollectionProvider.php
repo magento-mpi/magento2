@@ -53,7 +53,7 @@ class CollectionProvider implements CollectionProviderInterface
 
         $items = [];
         foreach ($collection as $model) {
-            /** @var $model \Magento\Object */
+            /** @var $model \Magento\Framework\Object */
             $item = $model->toArray($keys);
             $item['id'] = $model->getId();
             $items[] = $item;
@@ -66,7 +66,7 @@ class CollectionProvider implements CollectionProviderInterface
      * Get collection of objects for which eav or flat type is not exist
      *
      * @param array $fixture
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     protected function tableCollection(array $fixture)
     {
@@ -80,7 +80,7 @@ class CollectionProvider implements CollectionProviderInterface
      * Get collection of objects for flat type
      *
      * @param array $fixture
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     protected function flatCollection(array $fixture)
     {
@@ -96,7 +96,7 @@ class CollectionProvider implements CollectionProviderInterface
      * Get collection of objects for eav type
      *
      * @param array $fixture
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     protected function eavCollection(array $fixture)
     {

@@ -31,7 +31,7 @@ class Element extends \Magento\Backend\Block\Template
     protected $_form;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_formBlock;
 
@@ -61,7 +61,7 @@ class Element extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Object $formBlock
+     * @param \Magento\Framework\Object $formBlock
      * @return $this
      */
     public function setFormBlock($formBlock)

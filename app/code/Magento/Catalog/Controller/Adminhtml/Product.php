@@ -440,7 +440,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setError(false);
 
         try {
@@ -726,7 +726,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         if ($session->hasCompositeProductResult()
-            && $session->getCompositeProductResult() instanceof \Magento\Object
+            && $session->getCompositeProductResult() instanceof \Magento\Framework\Object
         ) {
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
                 ->renderUpdateResult($session->getCompositeProductResult());
@@ -830,7 +830,7 @@ class Product extends \Magento\Backend\App\Action
 
             $this->getResponse()->setBody($attribute->toJson());
         } catch (\Exception $e) {
-            $response = new \Magento\Object();
+            $response = new \Magento\Framework\Object();
             $response->setError(false);
             $response->setMessage($e->getMessage());
             $this->getResponse()->setBody($response->toJson());

@@ -132,7 +132,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get rma returns view url
      *
-     * @param \Magento\Object $return
+     * @param \Magento\Framework\Object $return
      * @return string
      */
     public function getViewUrl($return)
@@ -153,7 +153,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get sales order reorder url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getReorderUrl($order)
@@ -164,7 +164,7 @@ class Returns extends \Magento\Framework\View\Element\Template
     /**
      * Get sales guest print url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getPrintUrl($order)

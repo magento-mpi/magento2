@@ -40,7 +40,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFronten
     /**
      * Return image url
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return string|null
      */
     public function getUrl($object)

@@ -255,7 +255,7 @@ class Template implements \Zend_Filter_Interface
                 $stackVars[$i]['variable'] =& $this->_templateVars[$stackVars[$i]['name']];
             } elseif (isset(
                 $stackVars[$i - 1]['variable']
-            ) && $stackVars[$i - 1]['variable'] instanceof \Magento\Object
+            ) && $stackVars[$i - 1]['variable'] instanceof \Magento\Framework\Object
             ) {
                 // If object calling methods or getting properties
                 if ($stackVars[$i]['type'] == 'property') {

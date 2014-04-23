@@ -12,7 +12,7 @@ namespace Magento\Connect\Model;
 /**
  * Extension model
  */
-class Extension extends \Magento\Object
+class Extension extends \Magento\Framework\Object
 {
     /**
      * Cache for targets

@@ -57,7 +57,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         )->with(
             'pbridge'
         )->will(
-            $this->returnValue(new \Magento\Object())
+            $this->returnValue(new \Magento\Framework\Object())
         );
 
         $this->_model = new \Magento\Pbridge\Model\Payment\Method(
@@ -108,7 +108,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPbridgeMethodInstance()
     {
-        $this->assertInstanceOf('\Magento\Object', $this->_model->getPbridgeMethodInstance());
+        $this->assertInstanceOf('\Magento\Framework\Object', $this->_model->getPbridgeMethodInstance());
     }
 
     public function testGetOriginalCode()

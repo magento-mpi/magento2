@@ -83,7 +83,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createEventObserverForUpdateConfigurableProductOptions()
     {
-        $response = new \Magento\Object(array('additional_options' => array()));
+        $response = new \Magento\Framework\Object(array('additional_options' => array()));
         $event = new \Magento\Framework\Event(array('response_object' => $response));
         return new \Magento\Framework\Event\Observer(array('event' => $event));
     }

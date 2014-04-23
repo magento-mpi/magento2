@@ -36,7 +36,7 @@ class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
     /**
      * Before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)

@@ -253,12 +253,12 @@ class Messages extends Template
     /**
      * Dispatch render after event
      *
-     * @param null|string|array|\Magento\Object &$html
+     * @param null|string|array|\Magento\Framework\Object &$html
      * @return void
      */
     protected function _dispatchRenderGroupedAfterEvent(&$html)
     {
-        $transport = new \Magento\Object(array('output' => $html));
+        $transport = new \Magento\Framework\Object(array('output' => $html));
         $params = array(
             'element_name' => $this->getNameInLayout(),
             'layout' => $this->getLayout(),

@@ -557,7 +557,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
-        $this->assertInstanceOf('Magento\Object', $item);
+        $this->assertInstanceOf('Magento\Framework\Object', $item);
         $this->assertEquals('magento_image.jpg', $item->getFile());
         $this->assertEquals('Image Label', $item->getLabel());
     }

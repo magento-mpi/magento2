@@ -121,7 +121,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
          */
         $this->assertNotEmpty($block->getGridColumns());
         $expectedResult = array(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'increment_id' => 1,
                     'increment_id_link_url' => null,

@@ -47,14 +47,14 @@ class Object extends \Zend_Filter
     }
 
     /**
-     * @param \Magento\Object $object
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $object
+     * @return \Magento\Framework\Object
      * @throws \Exception
      */
     public function filter($object)
     {
-        if (!$object instanceof \Magento\Object) {
-            throw new \InvalidArgumentException('Expecting an instance of \Magento\Object');
+        if (!$object instanceof \Magento\Framework\Object) {
+            throw new \InvalidArgumentException('Expecting an instance of \Magento\Framework\Object');
         }
         $class = get_class($object);
         $out = $this->_entityFactory->create($class);

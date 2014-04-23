@@ -178,7 +178,7 @@ class Category extends \Magento\Backend\App\Action
             );
             $this->_view->loadLayout();
 
-            $eventResponse = new \Magento\Object(
+            $eventResponse = new \Magento\Framework\Object(
                 array(
                     'content' => $this->_view->getLayout()->getBlock(
                         'category.edit'

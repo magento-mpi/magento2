@@ -791,7 +791,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getBuyRequest()
     {
@@ -799,7 +799,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         if (!$option) {
             $option = array();
         }
-        $buyRequest = new \Magento\Object($option);
+        $buyRequest = new \Magento\Framework\Object($option);
         $buyRequest->setQty($this->getQtyOrdered() * 1);
         return $buyRequest;
     }
