@@ -24,6 +24,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_model->dispatch('this argument is not used');
     }
 
+    /**
+     * This not a joke, this dependency really exists, see: \Magento\Cron\Model\Config\Backend\Product\Alert
+     *
+     * @magentoConfigFixture current_store crontab/default/jobs/catalog_product_alert/schedule/cron_expr 8 * * * *
+     */
     public function testDispatchScheduled()
     {
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
