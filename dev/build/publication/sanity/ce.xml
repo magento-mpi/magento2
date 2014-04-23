@@ -147,7 +147,7 @@
         </item>
         <item>
             <word>Enterprise</word>
-            <path>lib/Magento/Framework/DB/ExpressionConverter.php</path>
+            <path>lib/internal/Magento/Framework/DB/ExpressionConverter.php</path>
         </item>
         <item>
             <path>lib/internal/LinLibertineFont</path>

@@ -44,7 +44,7 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public static function replaceCssRelativeUrlsDataProvider()
+    public function aggregateImportDirectivesDataProvider()
     {
         $fixturePath = __DIR__ . '/_files/';
         $source = file_get_contents($fixturePath . 'sourceImport.css');

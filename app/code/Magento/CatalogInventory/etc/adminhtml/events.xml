@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Event/etc/events.xsd">
     <event name="after_reindex_process_cataloginventory_stock">
         <observer name="cataloginventory" instance="Magento\CatalogInventory\Model\Observer" method="reindexProductsMassAction" />
     </event>

@@ -26,21 +26,20 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     private $deploymentVersion;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var callable
      */
-    private $invocationChain;
+    private $closureMock;
 
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Framework\View\Url\ConfigInterface');
         $this->deploymentVersion = $this->getMock('Magento\Framework\App\View\Deployment\Version', array(), array(), '', false);
-        $this->invocationChain = $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
-        $this->invocationChain
-            ->expects($this->once())
-            ->method('proceed')
-            ->with($this->logicalNot($this->isEmpty()))
-            ->will($this->returnValue('http://127.0.0.1/magento/pub/static/'))
-        ;
+        /**
+         * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+         */
+        $this->closureMock = function($type = '', $secure = null) {
+            return 'http://127.0.0.1/magento/pub/static/';
+        };
         $this->object = new Signature($this->config, $this->deploymentVersion);
     }
 
@@ -59,8 +58,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         ;
         $this->deploymentVersion->expects($this->never())->method($this->anything());
 
-        $methodArgs = array($inputUrlType);
-        $actualResult = $this->object->aroundGetBaseUrl($methodArgs, $this->invocationChain);
+        $url = $this->getMockForAbstractClass('\Magento\Url\ScopeInterface');
+        $actualResult = $this->object->aroundGetBaseUrl($url, $this->closureMock, $inputUrlType);
         $this->assertEquals('http://127.0.0.1/magento/pub/static/', $actualResult);
     }
 
@@ -82,8 +81,8 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         ;
         $this->deploymentVersion->expects($this->once())->method('getValue')->will($this->returnValue('123'));
 
-        $methodArgs = array(\Magento\UrlInterface::URL_TYPE_STATIC);
-        $actualResult = $this->object->aroundGetBaseUrl($methodArgs, $this->invocationChain);
+        $url = $this->getMockForAbstractClass('\Magento\Url\ScopeInterface');
+        $actualResult = $this->object->aroundGetBaseUrl($url, $this->closureMock, \Magento\UrlInterface::URL_TYPE_STATIC);
         $this->assertEquals('http://127.0.0.1/magento/pub/static/version123/', $actualResult);
     }
 }

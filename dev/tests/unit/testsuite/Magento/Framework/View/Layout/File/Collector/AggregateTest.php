@@ -169,6 +169,6 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
 
         $this->_fileList->expects($this->atLeastOnce())->method('getAll')->will($this->returnValue($files));
 
-        $this->assertSame($files, $this->_model->getFiles($theme));
+        $this->assertSame($files, $this->_model->getFiles($theme, '*'));
     }
 }

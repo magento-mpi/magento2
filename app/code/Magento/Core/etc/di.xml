@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Acl\CacheInterface" type="Magento\Acl\Cache" />
     <preference for="Magento\Framework\App\AreaInterface" type="Magento\Core\Model\App\Area" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Module\Setup" />

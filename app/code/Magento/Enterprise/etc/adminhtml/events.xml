@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Event/etc/events.xsd">
     <event name="backend_auth_user_login_success">
         <observer name="magento_enterprise" instance="Magento\Enterprise\Model\Observer" method="setHideSurveyQuestion" />
     </event>

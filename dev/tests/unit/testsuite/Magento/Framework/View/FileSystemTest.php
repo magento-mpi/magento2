@@ -46,12 +46,8 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_strategyPool = $this->getMock(
-            'Magento\Framework\View\Design\FileResolution\Fallback\File',
-            array(),
-            array(),
-            '',
-            false
+        $this->_fileResolution = $this->getMock('Magento\Framework\View\Design\FileResolution\Fallback\File', array(),
+            array(), '', false
         );
         $this->_templateFileResolution = $this->getMock(
             'Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile', array(), array(), '', false

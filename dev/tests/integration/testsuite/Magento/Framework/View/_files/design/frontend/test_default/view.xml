@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../lib/Magento/Framework/Config/etc/view.xsd">
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../lib/internal/Magento/Framework/Config/etc/view.xsd">
     <vars module="Magento_Core">
         <var name="var1">Core Value1</var>
     </vars>

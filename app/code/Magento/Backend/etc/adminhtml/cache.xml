@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Cache/etc/cache.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Cache/etc/cache.xsd">
     <type name="config" translate="description">
         <description>System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).</description>
     </type>

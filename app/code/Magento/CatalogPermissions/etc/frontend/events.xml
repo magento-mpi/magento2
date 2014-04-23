@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Event/etc/events.xsd">
     <event name="catalog_product_collection_before_add_count_to_categories">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="applyProductPermissionOnCollection" />
     </event>

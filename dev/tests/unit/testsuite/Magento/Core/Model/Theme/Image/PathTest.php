@@ -71,7 +71,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             $this->_storeManager
         );
 
-        $this->_model = new Path($this->_filesystem, $this->_viewUrlMock, $this->_storeManagerMock);
+        $this->_model = new Path($this->filesystem, $this->_assetRepo, $this->_storeManager);
     }
 
     public function testGetPreviewImageUrlPhysicalTheme()

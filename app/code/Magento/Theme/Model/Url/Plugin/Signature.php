@@ -8,8 +8,6 @@
 
 namespace Magento\Theme\Model\Url\Plugin;
 
-use Magento\Code\Plugin\InvocationChain;
-
 /**
  * Plugin that activates signing of static file URLs with corresponding deployment version
  */
@@ -50,16 +48,20 @@ class Signature
     /**
      * Append signature to rendered base URL for static view files
      *
-     * @param array $methodArguments
-     * @param InvocationChain $invocationChain
+     * @param \Magento\Url\ScopeInterface $subject
+     * @param callable $proceed
+     * @param string $type
+     * @param null $secure
      * @return string
      * @see \Magento\Url\ScopeInterface::getBaseUrl()
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundGetBaseUrl(array $methodArguments, InvocationChain $invocationChain)
-    {
-        $baseUrl = $invocationChain->proceed($methodArguments);
-        $urlType = isset($methodArguments[0]) ? $methodArguments[0] : '';
-        if ($urlType == \Magento\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
+    public function aroundGetBaseUrl(
+        \Magento\Url\ScopeInterface $subject, \Closure $proceed, $type = '', $secure = null
+    ) {
+        $baseUrl = $proceed($type, $secure);
+        if ($type == \Magento\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
             $baseUrl .= $this->renderUrlSignature() . '/';
         }
         return $baseUrl;

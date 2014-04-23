@@ -70,8 +70,8 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
         foreach ($assetsToMerge as $asset) {
             $result[] = $this->preProcessBeforeMerging($asset, $resultAsset, $asset->getContent());
         }
-        $delimiter = $this->_getFilesContentDelimiter($asset->getContent());
-        $result = $this->preProcessMergeResult($resultAsset, ltrim($delimiter, implode($result)));
+        $delimiter = $this->_getFilesContentDelimiter($resultAsset->getContent());
+        $result = $this->preProcessMergeResult($resultAsset, ltrim(implode($delimiter, $result)));
         return $result;
     }
 

@@ -51,9 +51,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMockForAbstractClass('\Magento\Event\ManagerInterface')))
         ;
         $this->context->expects($this->once())
-            ->method('getStoreConfig')
+            ->method('getScopeConfig')
             ->will($this->returnValue(
-                $this->getMock('\Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false)
+                $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface')
             ))
         ;
         $this->config->expects($this->once())->method('getBaseConfig')->will($this->returnValue('the config data'));

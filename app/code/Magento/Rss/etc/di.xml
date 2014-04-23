@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/ObjectManager/etc/config.xsd">
     <virtualType name="Magento\Rss\Block\Context" type="Magento\Catalog\Block\Product\Context">
         <arguments>
             <argument name="wishlistHelper" xsi:type="object">Magento\Rss\Helper\WishlistRss</argument>

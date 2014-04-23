@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Authz\Service\AuthorizationV1Interface" type="Magento\Authz\Service\AuthorizationV1"/>
     <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Authz\Model\UserLocator\Guest"/>
 </config>

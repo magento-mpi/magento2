@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Event/etc/events.xsd">
     <event name="controller_action_predispatch_adminhtml_auth_forgotpassword">
         <observer name="captcha" instance="Magento\Captcha\Model\Observer" method="checkUserForgotPasswordBackend" />
     </event>

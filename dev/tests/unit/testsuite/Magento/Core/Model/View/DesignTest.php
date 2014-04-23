@@ -13,9 +13,9 @@ namespace Magento\Core\Model\View;
 class DesignTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $app;
+    private $locale;
 
     /**
      * @var \Magento\Core\Model\View\Design::__construct
@@ -24,31 +24,26 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $storeManager = $this->getMockForAbstractClass('\Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $flyweightThemeFactory = $this->getMock(
             '\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false
         );
-        $config = $this->getMockForAbstractClass('\Magento\Framework\App\ConfigInterface');
-        $storeConfig = $this->getMockForAbstractClass('\Magento\Core\Model\Store\ConfigInterface');
+        $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface');
         $themeFactory = $this->getMock('\Magento\Core\Model\ThemeFactory');
-        $this->app = $this->getMock('\Magento\Core\Model\App', array(), array(), '', false);
+        $this->locale = $this->getMockForAbstractClass('\Magento\Locale\ResolverInterface');
         $state = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
         $themes = array();
         $this->model = new \Magento\Core\Model\View\Design(
-            $storeManager, $flyweightThemeFactory, $config, $storeConfig, $themeFactory, $this->app, $state, $themes
+            $storeManager, $flyweightThemeFactory, $config, $themeFactory, $this->locale, $state, $themes
         );
     }
 
     public function testGetLocale()
     {
         $expected = 'locale';
-        $locale = $this->getMock('\Magento\Core\Model\LocaleInterface');
-        $locale->expects($this->once())
+        $this->locale->expects($this->once())
             ->method('getLocaleCode')
             ->will($this->returnValue($expected));
-        $this->app->expects($this->once())
-            ->method('getLocale')
-            ->will($this->returnValue($locale));
         $actual = $this->model->getLocale();
         $this->assertSame($expected, $actual);
     }
