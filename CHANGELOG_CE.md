@@ -42,6 +42,13 @@
 * Customer Service usage:
   * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
   * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
+* JavaScript improvements:
+  * Implemented dialog widget (MAGETWO-22996)
+  * Implemented validation widget (MAGETWO-22996)
+  * Implemented tooltip widget (MAGETWO-22996)
+  * Implemented popup/modal window widget (MAGETWO-22996)
+  * Implemented calendar widget (MAGETWO-22996)
+  * Implemented suggest widget (MAGETWO-22996)
 
 2.0.0.0-dev74
 =============
