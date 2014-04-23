@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Universal data container with array access implementation
