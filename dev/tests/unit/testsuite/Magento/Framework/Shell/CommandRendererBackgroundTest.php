@@ -17,13 +17,13 @@ class CommandRendererBackgroundTest extends \PHPUnit_Framework_TestCase
     protected $testCommand = 'php -r test.php';
 
     /**
-     * @var \Magento\OsInfo|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\OsInfo|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $osInfo;
 
     public function setUp()
     {
-        $this->osInfo = $this->getMockBuilder('Magento\OsInfo')->getMock();
+        $this->osInfo = $this->getMockBuilder('Magento\Framework\OsInfo')->getMock();
     }
 
     /**

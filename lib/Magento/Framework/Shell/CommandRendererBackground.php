@@ -7,12 +7,12 @@
  */
 namespace Magento\Framework\Shell;
 
-use Magento\OsInfo;
+use Magento\Framework\OsInfo;
 
 class CommandRendererBackground extends CommandRenderer
 {
     /**
-     * @var \Magento\OsInfo
+     * @var \Magento\Framework\OsInfo
      */
     protected $osInfo;
 

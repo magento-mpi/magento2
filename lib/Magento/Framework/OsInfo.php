@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_OSInfo
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Wrapper on PHP_OS constant

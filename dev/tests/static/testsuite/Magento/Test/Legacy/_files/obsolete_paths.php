@@ -235,4 +235,7 @@ return [
     ['/lib/Magento/Escaper', '/lib/Magento/Framework/Escaper'],
     ['/dev/tests/unit/testsuite/Magento/Escaper', '/dev/tests/unit/testsuite/Magento/Framework/Escaper'],
     ['/dev/tests/integration/testsuite/Magento/Escaper', '/dev/tests/integration/testsuite/Magento/Framework/Escaper'],
+    ['/lib/Magento/OsInfo', '/lib/Magento/Framework/OsInfo'],
+    ['/dev/tests/unit/testsuite/Magento/OsInfo', '/dev/tests/unit/testsuite/Magento/Framework/OsInfo'],
+    ['/dev/tests/integration/testsuite/Magento/OsInfo', '/dev/tests/integration/testsuite/Magento/Framework/OsInfo'],
 ];
