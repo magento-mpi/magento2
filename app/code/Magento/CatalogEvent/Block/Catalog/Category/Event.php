@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Block\Catalog\Category;
 
-class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\View\Block\IdentityInterface
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Core registry
@@ -28,14 +28,14 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
     protected $_catalogEventData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
@@ -69,7 +69,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
     /**
      * Return category url
      *
-     * @param \Magento\Data\Tree\Node $category
+     * @param \Magento\Framework\Data\Tree\Node $category
      * @return string
      */
     public function getCategoryUrl($category = null)

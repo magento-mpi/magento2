@@ -9,7 +9,7 @@
  */
 namespace Magento\Event\Config;
 
-class Data extends \Magento\Config\Data\Scoped
+class Data extends \Magento\Framework\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
@@ -25,15 +25,15 @@ class Data extends \Magento\Config\Data\Scoped
 
     /**
      * @param \Magento\Event\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Framework\App\State $appState
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Event\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Framework\App\State $appState,
         $cacheId = 'event_config_cache'
     ) {

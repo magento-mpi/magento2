@@ -63,7 +63,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         );
 
         $layout = $this->getMockBuilder(
-            'Magento\View\Layout'
+            'Magento\Framework\View\Layout'
         )->disableOriginalConstructor()->setMethods(
             array('helper')
         )->getMock();

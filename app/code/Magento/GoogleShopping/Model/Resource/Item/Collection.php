@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model\Resource\Item;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Config
@@ -28,29 +28,29 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Eav\Model\Config $config
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Eav\Model\Config $config,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
         $this->_eavConfig = $config;
@@ -116,7 +116,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
                 $this->getConnection()->getIfNullSql('p.value', 'p_d.value'),
                 $condition
             );
-            $this->getSelect()->where($conditionSql, null, \Magento\DB\Select::TYPE_CONDITION);
+            $this->getSelect()->where($conditionSql, null, \Magento\Framework\DB\Select::TYPE_CONDITION);
             return $this;
         } else {
             return parent::addFieldToFilter($field, $condition);

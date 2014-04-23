@@ -35,7 +35,7 @@ class ConnectionFactory
      * Create connection adapter instance
      *
      * @param string $connectionName
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      * @throws \InvalidArgumentException
      */
     public function create($connectionName)

@@ -25,36 +25,36 @@ foreach ($storeGroups as $storeGroup) {
     $categoryPath[$i] = '';
     $i++;
 }
-$group_number = 0;
+$groupNumber = 0;
 $anchorStep = 2;
 $categoryIndex = 1;
 
 while ($categoryIndex <= $categoriesNumber) {
     $category->setId(null)
         ->setName("Category $categoryIndex")
-        ->setParentId($parentCategoryId[$group_number])
-        ->setPath($nestingPath[$group_number])
-        ->setLevel($nestingLevel[$group_number])
+        ->setParentId($parentCategoryId[$groupNumber])
+        ->setPath($nestingPath[$groupNumber])
+        ->setLevel($nestingLevel[$groupNumber])
         ->setAvailableSortBy('name')
         ->setDefaultSortBy('name')
         ->setIsActive(true)
         //->setIsAnchor($categoryIndex++ % $anchorStep == 0)
         ->save();
     $categoryIndex++;
-    $categoryPath[$group_number] .=  '/' . $category->getName();
+    $categoryPath[$groupNumber] .=  '/' . $category->getName();
 
-    if ($nestingLevel[$group_number]++ == $maxNestingLevel) {
-        $nestingLevel[$group_number] = 1;
-        $parentCategoryId[$group_number] = $defaultParentCategoryId[$group_number];
-        $nestingPath[$group_number] = '1';
-        $categoryPath[$group_number] = '';
+    if ($nestingLevel[$groupNumber]++ == $maxNestingLevel) {
+        $nestingLevel[$groupNumber] = 1;
+        $parentCategoryId[$groupNumber] = $defaultParentCategoryId[$groupNumber];
+        $nestingPath[$groupNumber] = '1';
+        $categoryPath[$groupNumber] = '';
     } else {
-        $parentCategoryId[$group_number] = $category->getId();
+        $parentCategoryId[$groupNumber] = $category->getId();
     }
-    $nestingPath[$group_number] .= "/$parentCategoryId[$group_number]";
+    $nestingPath[$groupNumber] .= "/$parentCategoryId[$groupNumber]";
 
-    $group_number++;
-    if ($group_number==count($defaultParentCategoryId)) {
-        $group_number = 0;
+    $groupNumber++;
+    if ($groupNumber==count($defaultParentCategoryId)) {
+        $groupNumber = 0;
     }
 }

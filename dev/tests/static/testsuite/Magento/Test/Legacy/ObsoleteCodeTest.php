@@ -305,7 +305,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                 '/[^a-z\d_]getChild\s*\(/iS',
                 $content,
                 'Block method getChild() is obsolete. ' .
-                'Replacement suggestion: \Magento\View\Element\AbstractBlock::getChildBlock()'
+                'Replacement suggestion: \Magento\Framework\View\Element\AbstractBlock::getChildBlock()'
             );
         }
     }

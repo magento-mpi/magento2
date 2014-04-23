@@ -187,11 +187,11 @@ class State
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
             $this->_mutableConfig->setValue(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
+                \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID,
                 $themeId,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-            $this->_configuration->setValue(\Magento\View\DesignInterface::XML_PATH_THEME_ID, $themeId);
+            $this->_configuration->setValue(\Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID, $themeId);
         }
     }
 

@@ -23,7 +23,7 @@
         <arguments>
             <argument name="templateFileName" xsi:type="string">Magento_Translation::translate_inline.phtml</argument>
             <argument name="translatorRoute" xsi:type="string">adminhtml/ajax/translate</argument>
-            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
+            <argument name="layout" xsi:type="object">Magento\Framework\View\LayoutInterface\Proxy</argument>
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
             <argument name="scope" xsi:type="string">admin</argument>
         </arguments>

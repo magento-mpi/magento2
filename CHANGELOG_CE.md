@@ -1,3 +1,29 @@
+* Modularity improvements:
+  * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
+  * Moved library related logic from “Magento\Core\Model\App”
+* Fixed bugs:
+  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
+  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
+  * Fixed error on place order with cache turned on (MAGETWO-23523)
+* Framework Improvements:
+  * Covered Magento Store components with unit tests:
+     * Magento\Store\Model\*
+  * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
+    * Moved lib/Magento/App to lib/Magento/Framework/App
+  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
+    * Moved lib/Magento/Data to lib/Magento/Framework/Data
+    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
+    * Moved lib/Magento/Config to lib/Magento/Framework/Config
+    * Moved lib/Magento/Model to lib/Magento/Framework/Model
+    * Moved lib/Magento/DB to lib/Magento/Framework/DB
+    * Moved lib/Magento/View to lib/Magento/Framework/View
+* Refactored the following modules to use Customer Service:
+  * Refactored Persistent Module (MAGETWO-20877)
+  * Refactored GoogleShopping module (MAGETWO-20474)
+  * Refactored ProductAlert module (MAGETWO-20481)
+  * Refactored SendFriend module (MAGETWO-20497)
+
 2.0.0.0-dev74
 =============
 * Pricing Improvements:

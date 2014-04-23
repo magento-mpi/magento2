@@ -18,12 +18,12 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-use Magento\View\Element\BlockInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class AbstractProduct
  */
-abstract class AbstractProduct extends \Magento\View\Element\Template
+abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
@@ -287,7 +287,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * Prepares and returns block to render some product type
      *
      * @param string $productType
-     * @return \Magento\View\Element\Template
+     * @return \Magento\Framework\View\Element\Template
      */
     public function _preparePriceRenderer($productType)
     {

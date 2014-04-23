@@ -84,9 +84,9 @@ class Observer
     protected $_priceColFactory;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerFactory;
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -123,7 +123,7 @@ class Observer
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
@@ -136,7 +136,7 @@ class Observer
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
@@ -148,7 +148,7 @@ class Observer
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_priceColFactory = $priceColFactory;
-        $this->_customerFactory = $customerFactory;
+        $this->_customerAccountService = $customerAccountService;
         $this->_productFactory = $productFactory;
         $this->_dateFactory = $dateFactory;
         $this->_stockColFactory = $stockColFactory;
@@ -211,7 +211,7 @@ class Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = $this->_customerFactory->create()->load($alert->getCustomerId());
+                        $customer = $this->_customerAccountService->getCustomer($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -220,7 +220,7 @@ class Observer
                         }
                         $previousCustomer = $customer;
                         $email->clean();
-                        $email->setCustomer($customer);
+                        $email->setCustomerData($customer);
                     } else {
                         $customer = $previousCustomer;
                     }
@@ -301,7 +301,7 @@ class Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = $this->_customerFactory->create()->load($alert->getCustomerId());
+                        $customer = $this->_customerAccountService->getCustomer($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
@@ -310,7 +310,7 @@ class Observer
                         }
                         $previousCustomer = $customer;
                         $email->clean();
-                        $email->setCustomer($customer);
+                        $email->setCustomerData($customer);
                     } else {
                         $customer = $previousCustomer;
                     }
@@ -377,7 +377,7 @@ class Observer
                 )
             )->setTemplateOptions(
                 array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
                 )
             )->setTemplateVars(

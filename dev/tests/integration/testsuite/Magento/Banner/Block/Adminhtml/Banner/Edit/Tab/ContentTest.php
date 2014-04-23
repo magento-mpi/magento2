@@ -17,7 +17,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->createBlock(
                 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'
             )

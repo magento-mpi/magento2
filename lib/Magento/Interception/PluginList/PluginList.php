@@ -9,10 +9,10 @@
  */
 namespace Magento\Interception\PluginList;
 
-use Magento\Config\ReaderInterface;
-use Magento\Config\ScopeInterface;
-use Magento\Config\CacheInterface;
-use Magento\Config\Data\Scoped;
+use Magento\Framework\Config\ReaderInterface;
+use Magento\Framework\Config\ScopeInterface;
+use Magento\Framework\Config\CacheInterface;
+use Magento\Framework\Config\Data\Scoped;
 use Magento\Interception\Definition;
 use Magento\Interception\PluginList as InterceptionPluginList;
 use Magento\Interception\ObjectManager\Config;

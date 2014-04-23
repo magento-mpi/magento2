@@ -19,7 +19,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
         $converter = new \Magento\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock('Magento\Module\Declaration\SchemaLocator', array(), array(), '', false);
-        $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
+        $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
 
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
@@ -92,10 +92,10 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = new \Magento\Framework\App\Filesystem(
             new \Magento\Framework\App\Filesystem\DirectoryList($baseDir),
-            new \Magento\Filesystem\Directory\ReadFactory(),
-            new \Magento\Filesystem\Directory\WriteFactory()
+            new \Magento\Framework\Filesystem\Directory\ReadFactory(),
+            new \Magento\Framework\Filesystem\Directory\WriteFactory()
         );
-        $iteratorFactory = new \Magento\Config\FileIteratorFactory();
+        $iteratorFactory = new \Magento\Framework\Config\FileIteratorFactory();
 
         return new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
     }

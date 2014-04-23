@@ -451,7 +451,7 @@ class Product extends AbstractResource
                     $select,
                     $tableName,
                     array('entity_type_id', 'attribute_id', 'store_id', 'entity_id', 'value'),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }

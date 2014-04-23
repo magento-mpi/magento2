@@ -314,7 +314,7 @@ class Config
      *
      * @param int|string $code
      * @return Type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getEntityType($code)
     {
@@ -349,7 +349,7 @@ class Config
             }
 
             if (!$entityType->getId()) {
-                throw new \Magento\Model\Exception(__('Invalid entity_type specified: %1', $code));
+                throw new \Magento\Framework\Model\Exception(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

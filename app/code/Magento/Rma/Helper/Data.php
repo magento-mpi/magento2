@@ -227,7 +227,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param  int|\Magento\Sales\Model\Order $orderId
      * @param  bool $onlyParents If needs only parent items (only for backend)
      * @return \Magento\Sales\Model\Resource\Order\Item\Collection
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getOrderItems($orderId, $onlyParents = false)
     {
@@ -235,7 +235,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $orderId = $orderId->getId();
         }
         if (!is_numeric($orderId)) {
-            throw new \Magento\Model\Exception(__('This is not a valid order.'));
+            throw new \Magento\Framework\Model\Exception(__('This is not a valid order.'));
         }
         if (is_null($this->_orderItems) || !isset($this->_orderItems[$orderId])) {
             $this->_orderItems[$orderId] = $this->_itemFactory->create()->getOrderItems($orderId);

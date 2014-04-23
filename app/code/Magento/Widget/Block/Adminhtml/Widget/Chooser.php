@@ -20,7 +20,7 @@ namespace Magento\Widget\Block\Adminhtml\Widget;
 class Chooser extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Data\Form\Element\Factory
+     * @var \Magento\Framework\Data\Form\Element\Factory
      */
     protected $_elementFactory;
 
@@ -32,13 +32,13 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Data\Form\Element\Factory $elementFactory
+     * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Data\Form\Element\Factory $elementFactory,
+        \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -59,7 +59,7 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * Chooser form element getter
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -139,7 +139,7 @@ class Chooser extends \Magento\Backend\Block\Template
     protected function _toHtml()
     {
         $element = $this->getElement();
-        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $element->getForm()->getElement($this->getFieldsetId());
         $chooserId = $this->getUniqId();
         $config = $this->getConfig();

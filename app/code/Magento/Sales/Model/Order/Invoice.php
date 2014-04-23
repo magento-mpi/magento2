@@ -256,7 +256,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -271,12 +271,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
@@ -291,8 +291,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -723,12 +723,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Model\Exception(__('We cannot register an existing invoice'));
+            throw new \Magento\Framework\Model\Exception(__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -910,7 +910,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -947,7 +947,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,
@@ -1023,7 +1023,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -1059,7 +1059,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,
@@ -1101,7 +1101,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

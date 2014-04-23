@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Customer\Attribute\Backend;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer password attribute backend
@@ -45,7 +45,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
      *
      * @param \Magento\Object $object
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function beforeSave($object)
     {

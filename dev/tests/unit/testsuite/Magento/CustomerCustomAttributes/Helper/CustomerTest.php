@@ -82,7 +82,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('Magento\Model\Exception');
+        $this->setExpectedException('Magento\Framework\Model\Exception');
         $helper->filterPostData($data);
     }
 

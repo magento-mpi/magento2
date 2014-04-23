@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Config\Control;
 /**
  * Controls configuration
  */
-abstract class AbstractControl extends \Magento\Config\AbstractXml
+abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
 {
     /**
      * Keys of layout params attributes

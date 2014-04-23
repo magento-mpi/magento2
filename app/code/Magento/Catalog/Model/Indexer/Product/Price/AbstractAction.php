@@ -31,7 +31,7 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -124,7 +124,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection instance
      *
-     * @return bool|\Magento\DB\Adapter\AdapterInterface
+     * @return bool|\Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function _getConnection()
     {
@@ -402,7 +402,7 @@ abstract class AbstractAction
             $select,
             $destTable,
             $targetColumns,
-            \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+            \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
         );
         $connection->query($query);
     }

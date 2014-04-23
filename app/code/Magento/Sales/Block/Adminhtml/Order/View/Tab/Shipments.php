@@ -12,7 +12,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 /**
  * Order Shipments grid
  */
-class Shipments extends \Magento\View\Element\Text\ListText implements
+class Shipments extends \Magento\Framework\View\Element\Text\ListText implements
     \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -25,12 +25,12 @@ class Shipments extends \Magento\View\Element\Text\ListText implements
     /**
      * Collection factory
      *
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\Registry $coreRegistry,
         array $data = array()
     ) {

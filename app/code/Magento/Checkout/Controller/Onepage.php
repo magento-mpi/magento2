@@ -491,7 +491,7 @@ class Onepage extends Action
                 $result['fields'] = $e->getFields();
             }
             $result['error'] = $e->getMessage();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -560,23 +560,17 @@ class Onepage extends Action
 
         $result = array();
         try {
-            $requiredAgreements = $this->_objectManager->get(
-                'Magento\Checkout\Helper\Data'
-            )->getRequiredAgreementIds();
-            if ($requiredAgreements) {
-                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-                $agreementsDiff = array_diff($requiredAgreements, $postedAgreements);
-                if ($agreementsDiff) {
-                    $result['success'] = false;
-                    $result['error'] = true;
-                    $result['error_messages'] = __(
-                        'Please agree to all the terms and conditions before placing the order.'
-                    );
-                    $this->getResponse()->setBody(
-                        $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
-                    );
-                    return;
-                }
+            $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
+            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', array())))) {
+                $result['success'] = false;
+                $result['error'] = true;
+                $result['error_messages'] = __(
+                    'Please agree to all the terms and conditions before placing the order.'
+                );
+                $this->getResponse()->setBody(
+                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
+                );
+                return;
             }
 
             $data = $this->getRequest()->getPost('payment', array());
@@ -603,7 +597,7 @@ class Onepage extends Action
             }
             $result['goto_section'] = 'payment';
             $result['update_section'] = array('name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml());
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get(
                 'Magento\Checkout\Helper\Data'

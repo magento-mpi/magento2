@@ -21,7 +21,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Form, created in parent block
      *
-     * @var \Magento\Data\Form
+     * @var \Magento\Framework\Data\Form
      */
     protected $_parentForm = null;
 
@@ -49,7 +49,7 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
     /**
      * Get Form Object Which is Parent to this block
      *
-     * @return null|\Magento\Data\Form
+     * @return null|\Magento\Framework\Data\Form
      */
     public function getParentForm()
     {

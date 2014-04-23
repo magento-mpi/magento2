@@ -8,11 +8,13 @@
 namespace Magento\ConfigurableProduct\Block\Cart\Item\Renderer;
 
 use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
+use Magento\Checkout\Block\Cart\Item\Renderer;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Shopping cart item render block for configurable products.
  */
-class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Magento\View\Block\IdentityInterface
+class Configurable extends Renderer implements IdentityInterface
 {
     /**
      * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
@@ -20,7 +22,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements
     const CONFIG_THUMBNAIL_SOURCE = 'checkout/cart/configurable_product_image';
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -29,7 +31,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,

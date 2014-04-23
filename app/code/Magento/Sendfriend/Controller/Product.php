@@ -224,7 +224,7 @@ class Product extends \Magento\Framework\App\Action\Action
                     $this->messageManager->addError(__('We found some problems with the data.'));
                 }
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Some emails were not sent.'));

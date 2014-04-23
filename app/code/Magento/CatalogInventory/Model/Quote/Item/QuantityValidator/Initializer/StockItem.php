@@ -41,7 +41,7 @@ class StockItem
      * @param int $qty
      *
      * @return \Magento\Object
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function initialize(
         \Magento\CatalogInventory\Model\Stock\Item $stockItem,

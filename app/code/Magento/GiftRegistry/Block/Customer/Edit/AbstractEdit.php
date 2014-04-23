@@ -63,7 +63,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_registry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -75,7 +75,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -254,7 +254,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $id, 'class' => 'select global-scope ' . $class)
         )->setName(

@@ -553,7 +553,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
-        $this->assertInstanceOf('Magento\Data\Collection', $gallery);
+        $this->assertInstanceOf('Magento\Framework\Data\Collection', $gallery);
         $items = $gallery->getItems();
         $this->assertCount(1, $items);
         $item = array_pop($items);
@@ -567,7 +567,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixture()
     {
-        /** @var \Magento\Filesystem\Directory\Write $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $mediaDirectory */
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
@@ -583,7 +583,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixtureRollback()
     {
-        /** @var \Magento\Filesystem\Directory\Write $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $mediaDirectory */
         $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(

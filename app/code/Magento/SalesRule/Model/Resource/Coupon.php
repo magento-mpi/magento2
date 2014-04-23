@@ -9,7 +9,7 @@
  */
 namespace Magento\SalesRule\Model\Resource;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * SalesRule Resource Coupon
@@ -18,7 +18,7 @@ use Magento\Model\AbstractModel;
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Coupon extends \Magento\Model\Resource\Db\AbstractDb
+class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor adds unique fields

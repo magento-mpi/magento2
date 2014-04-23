@@ -17,7 +17,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;
 use Magento\CatalogEvent\Model\EventFactory;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Stdlib\DateTime\Filter\DateTime;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Registry;
@@ -170,7 +170,7 @@ class Event extends Action
      * Save action
      *
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveAction()
     {

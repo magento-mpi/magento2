@@ -180,7 +180,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
@@ -225,7 +225,7 @@ class Account extends \Magento\Customer\Controller\Account
 
             $this->_redirect('customer/account/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $_definedErrorCodes = array(
                 \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS,
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA

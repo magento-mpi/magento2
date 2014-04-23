@@ -17,7 +17,7 @@ $connection->changeColumn(
     'password',
     'password',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'User Password'

@@ -198,7 +198,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Set collection object
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return void
      */
     public function setCollection($collection)
@@ -209,7 +209,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {
@@ -229,13 +229,13 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Retrieve export block
      *
-     * @throws \Magento\Model\Exception
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            throw new \Magento\Model\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
+            throw new \Magento\Framework\Model\Exception('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -264,7 +264,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return \Magento\View\Element\AbstractBlock|bool
+     * @return \Magento\Framework\View\Element\AbstractBlock|bool
      */
     public function getColumn($columnId)
     {
@@ -336,7 +336,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get prepared collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getPreparedCollection()
     {
@@ -434,7 +434,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get massaction block
      *
-     * @return bool|\Magento\View\Element\AbstractBlock
+     * @return bool|\Magento\Framework\View\Element\AbstractBlock
      */
     public function getMassactionBlock()
     {

@@ -23,7 +23,7 @@ class Archive extends \Magento\Object
     protected $file = '';
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directory;
 

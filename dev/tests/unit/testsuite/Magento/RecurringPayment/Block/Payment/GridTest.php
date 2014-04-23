@@ -146,12 +146,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * Get layout mock
      *
-     * @return \Magento\View\LayoutInterface
+     * @return \Magento\Framework\View\LayoutInterface
      */
     protected function _getMockLayout()
     {
         $layout = $this->getMockBuilder(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->disableOriginalConstructor()->setMethods(
             array('createBlock', 'getChildName', 'setChild')
         )->getMockForAbstractClass();

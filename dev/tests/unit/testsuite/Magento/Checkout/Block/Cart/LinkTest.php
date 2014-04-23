@@ -30,7 +30,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $helper = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
 
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             array('urlBuilder' => $urlBuilder)
         );
         $link = $this->_objectManagerHelper->getObject(

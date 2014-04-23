@@ -13,9 +13,9 @@ use Magento\Catalog\Model\Layer\Search as Layer;
 use Magento\CatalogSearch\Model\Advanced;
 use Magento\CatalogSearch\Model\Resource\Advanced\Collection;
 use Magento\UrlFactory;
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\Template;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
 
 /**
  * Advanced search result

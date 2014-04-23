@@ -18,7 +18,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -37,7 +37,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('current_recurring_payment', $this->_payment);
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
         $this->_block = $this->_layout->createBlock('Magento\RecurringPayment\Block\Payment\View', 'block');
     }
@@ -57,9 +57,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
         $this->_block->setShouldPrepareInfoTabs(true);
-        $childOne = $this->_layout->addBlock('Magento\View\Element\Text', 'child1', 'block');
+        $childOne = $this->_layout->addBlock('Magento\Framework\View\Element\Text', 'child1', 'block');
         $this->_layout->addToParentGroup('child1', 'info_tabs');
-        $childTwo = $this->_layout->addBlock('Magento\View\Element\Text', 'child2', 'block');
+        $childTwo = $this->_layout->addBlock('Magento\Framework\View\Element\Text', 'child2', 'block');
         $this->_layout->addToParentGroup('child2', 'info_tabs');
 
         $this->assertEmpty($childOne->getViewUrl());

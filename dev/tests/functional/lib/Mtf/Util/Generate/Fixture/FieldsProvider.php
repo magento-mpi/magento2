@@ -107,7 +107,7 @@ class FieldsProvider implements FieldsProviderInterface
     {
         $entityType = $fixture['entity_type'];
 
-        /** @var $connection \Magento\DB\Adapter\AdapterInterface */
+        /** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
         $connection = $this->resource->getConnection('core_write');
         $fields = $connection->describeTable($entityType);
 

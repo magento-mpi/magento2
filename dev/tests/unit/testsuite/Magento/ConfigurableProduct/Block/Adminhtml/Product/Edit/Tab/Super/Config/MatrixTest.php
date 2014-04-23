@@ -34,7 +34,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $data = array(
             'context' => $context,
             'localeCurrency' => $this->_locale,
-            'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+            'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
             'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false)
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

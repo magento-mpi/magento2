@@ -70,7 +70,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
             array('localeResolver' => $localeResolver)
         );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getLocaleDate')->will($this->returnValue($timezone));
 
         $this->_attribute = $this->getMock(

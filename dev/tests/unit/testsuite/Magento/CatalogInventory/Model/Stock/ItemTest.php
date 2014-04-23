@@ -45,7 +45,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             false
         );
         $context = $this->getMock(
-            '\Magento\Model\Context',
+            '\Magento\Framework\Model\Context',
             ['getEventDispatcher'],
             [],
             '',

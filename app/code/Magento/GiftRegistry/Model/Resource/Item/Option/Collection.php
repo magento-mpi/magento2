@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource\Item\Option;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * List of option ids grouped by item id

@@ -10,7 +10,7 @@
  */
 
 /**
- * Tests usage of \Magento\View\Element\AbstractBlock
+ * Tests usage of \Magento\Framework\View\Element\AbstractBlock
  */
 namespace Magento\Test\Legacy\Magento\Core\Block;
 

@@ -232,13 +232,13 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Call safe delete for model
      *
-     * @param \Magento\Model\AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param bool $secure
      * @return \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public static function callModelDelete($model, $secure = false)
     {
-        if ($model instanceof \Magento\Model\AbstractModel && $model->getId()) {
+        if ($model instanceof \Magento\Framework\Model\AbstractModel && $model->getId()) {
             if ($secure) {
                 self::_enableSecureArea();
             }
@@ -252,7 +252,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     /**
      * Call safe delete for model
      *
-     * @param \Magento\Model\AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      * @param bool $secure
      * @return \Magento\TestFramework\TestCase\WebapiAbstract
      */
@@ -346,7 +346,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
     {
         if ($this->_modelsToDelete) {
             foreach ($this->_modelsToDelete as $key => $modelData) {
-                /** @var $model \Magento\Model\AbstractModel */
+                /** @var $model \Magento\Framework\Model\AbstractModel */
                 $model = $modelData['model'];
                 $this->callModelDelete($model, $modelData['secure']);
                 unset($this->_modelsToDelete[$key]);

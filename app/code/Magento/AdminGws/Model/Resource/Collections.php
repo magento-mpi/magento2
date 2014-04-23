@@ -18,7 +18,7 @@
  */
 namespace Magento\AdminGws\Model\Resource;
 
-class Collections extends \Magento\Model\Resource\Db\AbstractDb
+class Collections extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Admin gws data

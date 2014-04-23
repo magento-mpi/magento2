@@ -127,7 +127,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
      * Admin will be notified on errors.
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _processOrder()
     {
@@ -149,7 +149,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
                     $this->_registerTransaction();
                     break;
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
             $comment->save();
             throw $e;
@@ -202,7 +202,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
      * Process regular IPN notifications
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @throws Exception
      */
     protected function _registerTransaction()
@@ -248,7 +248,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
                 default:
                     throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
             $comment->save();
             throw $e;

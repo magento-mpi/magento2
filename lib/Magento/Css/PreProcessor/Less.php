@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor;
 
-use Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface;
 
 /**
  * Css pre-processor less
@@ -35,7 +35,7 @@ class Less implements PreProcessorInterface
     protected $logger;
 
     /**
-     * @var \Magento\View\Publisher\FileFactory
+     * @var \Magento\Framework\View\Publisher\FileFactory
      */
     protected $fileFactory;
 
@@ -43,13 +43,13 @@ class Less implements PreProcessorInterface
      * @param \Magento\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
      * @param \Magento\Logger $logger
-     * @param \Magento\View\Publisher\FileFactory $fileFactory
+     * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Less\PreProcessor $lessPreProcessor,
         AdapterInterface $adapter,
         \Magento\Logger $logger,
-        \Magento\View\Publisher\FileFactory $fileFactory
+        \Magento\Framework\View\Publisher\FileFactory $fileFactory
     ) {
         $this->lessPreProcessor = $lessPreProcessor;
         $this->adapter = $adapter;
@@ -60,11 +60,11 @@ class Less implements PreProcessorInterface
     /**
      * Process LESS file content
      *
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
-     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return \Magento\View\Publisher\FileInterface
+     * @param \Magento\Framework\View\Publisher\FileInterface $publisherFile
+     * @param \Magento\Framework\Filesystem\Directory\WriteInterface $targetDirectory
+     * @return \Magento\Framework\View\Publisher\FileInterface
      */
-    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
+    public function process(\Magento\Framework\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         // if css file has being already found_by_fallback or prepared_by_previous_pre-processor
         if ($publisherFile->getSourcePath()) {
@@ -81,7 +81,7 @@ class Less implements PreProcessorInterface
             if (empty($cssTrimmedContent)) {
                 return $publisherFile;
             }
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             // It has 'null' source path
             return $publisherFile;

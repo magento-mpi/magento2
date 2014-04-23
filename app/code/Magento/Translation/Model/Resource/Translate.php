@@ -7,7 +7,7 @@
  */
 namespace Magento\Translation\Model\Resource;
 
-class Translate extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
+class Translate extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
 {
     /**
      * @var \Magento\Framework\App\State

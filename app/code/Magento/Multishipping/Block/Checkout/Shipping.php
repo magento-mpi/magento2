@@ -31,14 +31,14 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     protected $_taxHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,

@@ -17,7 +17,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('admin_user'),
     'rp_token',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 256,
         'nullable' => true,
         'default' => null,
@@ -30,7 +30,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('admin_user'),
     'rp_token_created_at',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         'nullable' => true,
         'default' => null,
         'comment' => 'Reset Password Link Token Creation Date'

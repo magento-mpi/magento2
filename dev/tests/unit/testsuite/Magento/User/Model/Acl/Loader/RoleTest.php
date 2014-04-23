@@ -66,10 +66,10 @@ class RoleTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnValue($selectMock));
 
-        $this->_adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $this->_adapterMock = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
 
         $this->_resourceMock->expects(

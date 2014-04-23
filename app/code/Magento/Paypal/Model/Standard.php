@@ -174,7 +174,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      * Create main block for standard form
      *
      * @param string $name
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function createFormBlock($name)
     {
