@@ -178,7 +178,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_escaper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -213,7 +213,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
@@ -241,7 +241,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,

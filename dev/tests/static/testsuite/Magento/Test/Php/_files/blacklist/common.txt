@@ -103,11 +103,11 @@ lib/Magento/Framework/File/CsvMulty.php
 lib/Magento/Framework/File/Transfer/Adapter/Http.php
 lib/Magento/Framework/File/Uploader.php
 lib/Magento/Framework/Gdata
-lib/Magento/HTTP/Adapter/Curl.php
-lib/Magento/HTTP/Client.php
-lib/Magento/HTTP/Client/Curl.php
-lib/Magento/HTTP/Client/Socket.php
-lib/Magento/HTTP/IClient.php
+lib/Magento/Framework/HTTP/Adapter/Curl.php
+lib/Magento/Framework/HTTP/Client.php
+lib/Magento/Framework/HTTP/Client/Curl.php
+lib/Magento/Framework/HTTP/Client/Socket.php
+lib/Magento/Framework/HTTP/IClient.php
 lib/Magento/Framework/Image
 lib/Magento/Framework/Image.php
 lib/Magento/Framework/Io

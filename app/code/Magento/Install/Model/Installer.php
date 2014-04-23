@@ -131,7 +131,7 @@ class Installer extends \Magento\Object
     protected $_encryptor;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -185,7 +185,7 @@ class Installer extends \Magento\Object
      * @param Installer\Config $installerConfig
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Module\DependencyManagerInterface $dependencyManager
@@ -212,7 +212,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Module\DependencyManagerInterface $dependencyManager,

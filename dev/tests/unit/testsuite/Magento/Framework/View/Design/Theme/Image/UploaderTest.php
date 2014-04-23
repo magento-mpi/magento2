@@ -47,7 +47,7 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
         $this->_transferAdapterMock = $this->getMock('Zend_File_Transfer_Adapter_Http', array(), array(), '', false);
         $this->_fileUploader = $this->getMock('Magento\Framework\File\Uploader', array(), array(), '', false);
 
-        $adapterFactory = $this->getMock('Magento\HTTP\Adapter\FileTransferFactory');
+        $adapterFactory = $this->getMock('Magento\Framework\HTTP\Adapter\FileTransferFactory');
         $adapterFactory->expects(
             $this->once()
         )->method(

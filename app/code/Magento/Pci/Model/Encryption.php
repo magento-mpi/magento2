@@ -55,12 +55,12 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
     protected $_keys = array();
 
     /**
-     * @param \Magento\Math\Random $randomGenerator
+     * @param \Magento\Framework\Math\Random $randomGenerator
      * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\Math\Random $randomGenerator,
+        \Magento\Framework\Math\Random $randomGenerator,
         \Magento\Framework\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {

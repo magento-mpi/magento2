@@ -1159,7 +1159,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $debugData = array('url' => $this->getApiEndpoint(), $methodName => $request);
 
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $config = array('timeout' => 60, 'verifypeer' => $this->_config->verifyPeer);
             if ($this->getUseProxy()) {
                 $config['proxy'] = $this->getProxyHost() . ':' . $this->getProxyPort();

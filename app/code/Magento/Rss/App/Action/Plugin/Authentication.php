@@ -16,7 +16,7 @@ use Magento\Backend\App\AbstractAction;
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
-     * @var \Magento\HTTP\Authentication
+     * @var \Magento\Framework\HTTP\Authentication
      */
     protected $_httpAuthentication;
 
@@ -45,7 +45,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param ResponseInterface $response
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\HTTP\Authentication $httpAuthentication
+     * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\AuthorizationInterface $authorization
      */
@@ -55,7 +55,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
         ResponseInterface $response,
         \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\HTTP\Authentication $httpAuthentication,
+        \Magento\Framework\HTTP\Authentication $httpAuthentication,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\AuthorizationInterface $authorization
     ) {

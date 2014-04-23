@@ -44,14 +44,14 @@ class Oauth
     const CALLBACK_ESTABLISHED = 'oob';
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $_mathRandom;
 
     /**
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      */
-    public function __construct(\Magento\Math\Random $mathRandom)
+    public function __construct(\Magento\Framework\Math\Random $mathRandom)
     {
         $this->_mathRandom = $mathRandom;
     }
@@ -75,7 +75,7 @@ class Oauth
             // fallback to mt_rand() if openssl is not installed
             $randomString = $this->_mathRandom->getRandomString(
                 $length,
-                \Magento\Math\Random::CHARS_DIGITS . \Magento\Math\Random::CHARS_LOWERS
+                \Magento\Framework\Math\Random::CHARS_DIGITS . \Magento\Framework\Math\Random::CHARS_LOWERS
             );
         }
 

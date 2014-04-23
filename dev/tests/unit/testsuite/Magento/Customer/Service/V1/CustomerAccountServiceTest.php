@@ -198,7 +198,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_setupStoreMock();
 
         $this->_mathRandomMock = $this->getMockBuilder(
-            '\Magento\Math\Random'
+            '\Magento\Framework\Math\Random'
         )->disableOriginalConstructor()->getMock();
 
         $this->_validator = $this->getMockBuilder(

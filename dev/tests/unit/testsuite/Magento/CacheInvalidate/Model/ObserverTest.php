@@ -17,7 +17,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Event\Observer */
     protected $_observerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\HTTP\Adapter\Curl */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\HTTP\Adapter\Curl */
     protected $_curlMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\PageCache\Model\Config */
@@ -43,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array('getUrl'), array(), '', false);
         $this->_curlMock = $this->getMock(
-            '\Magento\HTTP\Adapter\Curl',
+            '\Magento\Framework\HTTP\Adapter\Curl',
             array('setOptions', 'write', 'read', 'close'),
             array(),
             '',

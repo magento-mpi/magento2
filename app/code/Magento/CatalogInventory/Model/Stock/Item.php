@@ -178,7 +178,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var \Magento\Math\Division
+     * @var \Magento\Framework\Math\Division
      */
     protected $mathDivision;
 
@@ -198,7 +198,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
-     * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -215,7 +215,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        \Magento\Math\Division $mathDivision,
+        \Magento\Framework\Math\Division $mathDivision,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

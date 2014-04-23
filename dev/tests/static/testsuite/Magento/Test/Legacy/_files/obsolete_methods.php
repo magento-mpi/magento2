@@ -262,9 +262,9 @@ return array(
     array('asSimplexml', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('asString', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('authAdmin'),
-    array('authFailed', '', '\Magento\HTTP\Authentication::setAuthenticationFailed'),
+    array('authFailed', '', '\Magento\Framework\HTTP\Authentication::setAuthenticationFailed'),
     array('authFrontend'),
-    array('authValidate', '', '\Magento\HTTP\Authentication::getCredentials'),
+    array('authValidate', '', '\Magento\Framework\HTTP\Authentication::getCredentials'),
     array('bundlesAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('calcTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('callbackQueryHook', 'Magento\Core\Model\Resource\Setup'),
@@ -1029,7 +1029,7 @@ return array(
     array('uc_words'),
     array('is_empty_date'),
     array('now'),
-    array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Math\Random::getUniqueHash'),
+    array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Framework\Math\Random::getUniqueHash'),
     array(
         'getMerchantCountryCode',
         '\Magento\Core\Helper\Data',
@@ -1049,7 +1049,7 @@ return array(
         '\Magento\Core\Model\File\Validator\NotProtectedExtension::getProtectedFileExtensions'
     ),
     array('getStoreId', '\Magento\Core\Helper\Data'),
-    array('getExactDivision', '\Magento\Core\Helper\Data', '\Magento\Math\Division::getExactDivision'),
+    array('getExactDivision', '\Magento\Core\Helper\Data', '\Magento\Framework\Math\Division::getExactDivision'),
     array('getPublicFilesValidPath', '\Magento\Core\Helper\Data'),
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
     array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
@@ -1060,21 +1060,21 @@ return array(
     array('mageDebugBacktrace'),
     array('mageDelTree'),
     array('mageParseCsv'),
-    array('getHttpAuthCredentials', '\Magento\Core\Helper\Http', '\Magento\HTTP\Authentication::getCredentials'),
+    array('getHttpAuthCredentials', '\Magento\Core\Helper\Http', '\Magento\Framework\HTTP\Authentication::getCredentials'),
     array(
         'failHttpAuthentication',
         '\Magento\Core\Helper\Http',
-        '\Magento\HTTP\Authentication::setAuthenticationFailed'
+        '\Magento\Framework\HTTP\Authentication::setAuthenticationFailed'
     ),
-    array('getRequestUri', '\Magento\Core\Helper\Http', '\Magento\HTTP\Header::getRequestUri'),
+    array('getRequestUri', '\Magento\Core\Helper\Http', '\Magento\Framework\HTTP\Header::getRequestUri'),
     array(
         'getRequiredAgreementIds',
         '\Magento\Checkout\Helper\Data',
         '\Magento\CheckoutAgreements\Model\AgreementsProvider::getRequiredAgreementIds'
     ),
     array('validateIpAddr', '\Magento\Core\Helper\Http', '\Zend_Validate_Ip::isValid'),
-    array('getRemoteAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\RemoteAddress::getRemoteAddress'),
-    array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
+    array('getRemoteAddr', '\Magento\Core\Helper\Http', 'Magento\Framework\HTTP\PhpEnvironment\RemoteAddress::getRemoteAddress'),
+    array('getServerAddr', '\Magento\Core\Helper\Http', 'Magento\Framework\HTTP\PhpEnvironment\ServerAddress::getServerAddress'),
     array('formatDate', 'Magento\Framework\Model\Resource\AbstractResource', '\Magento\Framework\Stdlib\DateTime::formatDate'),
     array('mktime', 'Magento\Framework\Model\Resource\AbstractResource', '\Magento\Framework\Stdlib\DateTime::toTimestamp'),
     array('getPlainTemplateMode', '\Magento\Email\Model\Template\Filter'),

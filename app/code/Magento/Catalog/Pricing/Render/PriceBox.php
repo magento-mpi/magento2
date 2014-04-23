@@ -15,7 +15,7 @@ use Magento\Framework\Pricing\Render\PriceBox as PriceBoxRender;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Pricing\Render\RendererPool;
 use Magento\Core\Helper\Data;
-use Magento\Math\Random;
+use Magento\Framework\Math\Random;
 
 /**
  * Default catalog price box render
@@ -32,7 +32,7 @@ class PriceBox extends PriceBoxRender
     protected $coreDataHelper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 

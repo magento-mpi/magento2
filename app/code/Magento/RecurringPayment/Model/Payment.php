@@ -100,7 +100,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     protected $_orderItemFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -123,7 +123,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param States $states
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -144,7 +144,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         States $states,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

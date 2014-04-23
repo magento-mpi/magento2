@@ -17,7 +17,7 @@ class FormKey
     const FORM_KEY = '_form_key';
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -27,11 +27,11 @@ class FormKey
     protected $session;
 
     /**
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      */
     public function __construct(
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Session\SessionManagerInterface $session
     ) {
         $this->mathRandom = $mathRandom;

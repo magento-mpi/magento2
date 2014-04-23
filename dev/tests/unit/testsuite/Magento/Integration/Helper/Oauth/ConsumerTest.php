@@ -18,7 +18,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Model\Oauth\Consumer */
     protected $_consumerMock;
 
-    /** @var \Magento\HTTP\ZendClient */
+    /** @var \Magento\Framework\HTTP\ZendClient */
     protected $_httpClientMock;
 
     /** @var \Magento\Integration\Model\Oauth\Token\Factory */
@@ -90,7 +90,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $this->_httpClientMock = $this->getMockBuilder(
-            'Magento\HTTP\ZendClient'
+            'Magento\Framework\HTTP\ZendClient'
         )->disableOriginalConstructor()->getMock();
         $this->_loggerMock = $this->getMockBuilder(
             'Magento\Framework\Logger'

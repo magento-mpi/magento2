@@ -118,7 +118,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_productCollectionFactory;
 
     /**
-     * @var \Magento\HTTP\ZendClientFactory
+     * @var \Magento\Framework\HTTP\ZendClientFactory
      */
     protected $_httpClientFactory;
 
@@ -138,7 +138,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\HTTP\ZendClientFactory $httpClientFactory
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -159,7 +159,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         \Magento\Directory\Helper\Data $directoryData,
         CarrierHelper $carrierHelper,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\HTTP\ZendClientFactory $httpClientFactory,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->_carrierHelper = $carrierHelper;

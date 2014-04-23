@@ -56,7 +56,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
     protected $string;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -77,7 +77,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $registry
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param array $data
      */
@@ -88,7 +88,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $registry,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         array $data = array()
     ) {

@@ -61,7 +61,7 @@ class Packager
 
     /**
      * HTTP Client (Curl/Socket etc)
-     * @var \Magento\HTTP\IClient
+     * @var \Magento\Framework\HTTP\IClient
      */
     protected $_http = null;
 
@@ -80,12 +80,12 @@ class Packager
 
     /**
      * Returns HTTP Client
-     * @return \Magento\HTTP\IClient|null
+     * @return \Magento\Framework\HTTP\IClient|null
      */
     public function getDownloader()
     {
         if (is_null($this->_http)) {
-            $this->_http = \Magento\HTTP\Client::getInstance();
+            $this->_http = \Magento\Framework\HTTP\Client::getInstance();
         }
         return $this->_http;
     }

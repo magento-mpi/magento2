@@ -55,7 +55,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     protected $catalogHelper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -92,7 +92,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
      * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Catalog\Helper\Data $catalogHelper
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
@@ -130,7 +130,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
         \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
@@ -225,7 +225,7 @@ class Context extends \Magento\Framework\View\Element\Template\Context
     }
 
     /**
-     * @return \Magento\Math\Random
+     * @return \Magento\Framework\Math\Random
      */
     public function getMathRandom()
     {

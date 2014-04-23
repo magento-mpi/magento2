@@ -168,7 +168,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_configReader;
 
     /**
-     * @var \Magento\Math\Division
+     * @var \Magento\Framework\Math\Division
      */
     protected $mathDivision;
 
@@ -185,7 +185,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_dateTime;
 
     /**
-     * @var \Magento\HTTP\ZendClientFactory
+     * @var \Magento\Framework\HTTP\ZendClientFactory
      */
     protected $_httpClientFactory;
 
@@ -208,10 +208,10 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * @param \Magento\Framework\Module\Dir\Reader $configReader
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\String $string
-     * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\HTTP\ZendClientFactory $httpClientFactory
+     * @param \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory
      * @param array $data
      */
     public function __construct(
@@ -233,10 +233,10 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Framework\Module\Dir\Reader $configReader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\String $string,
-        \Magento\Math\Division $mathDivision,
+        \Magento\Framework\Math\Division $mathDivision,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\HTTP\ZendClientFactory $httpClientFactory,
+        \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
@@ -1577,7 +1577,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
-                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
+                $responseBody = $client->request(\Magento\Framework\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (\Exception $e) {
@@ -1767,11 +1767,11 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         if ($responseBody === null) {
             $debugData = array('request' => $request);
             try {
-                $client = new \Magento\HTTP\ZendClient();
+                $client = new \Magento\Framework\HTTP\ZendClient();
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
-                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
+                $responseBody = $client->request(\Magento\Framework\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             } catch (\Exception $e) {

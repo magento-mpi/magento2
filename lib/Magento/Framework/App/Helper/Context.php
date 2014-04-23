@@ -47,12 +47,12 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\HTTP\Header
+     * @var \Magento\Framework\HTTP\Header
      */
     protected $_httpHeader;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -64,8 +64,8 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
      * @param \Magento\Framework\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param \Magento\HTTP\Header $httpHeader
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\Header $httpHeader
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -77,8 +77,8 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
         \Magento\Framework\Cache\ConfigInterface $cacheConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\HTTP\Header $httpHeader,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\Header $httpHeader,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->translateInline = $translateInline;
         $this->_moduleManager = $moduleManager;
@@ -148,7 +148,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\HTTP\Header
+     * @return \Magento\Framework\HTTP\Header
      */
     public function getHttpHeader()
     {
@@ -156,7 +156,7 @@ class Context implements \Magento\Framework\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @return \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     public function getRemoteAddress()
     {

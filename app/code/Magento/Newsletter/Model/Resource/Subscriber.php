@@ -54,7 +54,7 @@ class Subscriber extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_date;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -63,12 +63,12 @@ class Subscriber extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Magento\Math\Random $mathRandom
+        \Magento\Framework\Math\Random $mathRandom
     ) {
         $this->_date = $date;
         $this->mathRandom = $mathRandom;

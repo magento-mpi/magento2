@@ -68,7 +68,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\StoreManager */
     protected $_storeManagerMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Math\Random */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Math\Random */
     protected $_mathMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Data\Form\FormKey */
@@ -102,7 +102,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $filterManagerMock          = $this->_makeMock('Magento\Framework\Filter\FilterManager');
         $backendSessionMock         = $this->_makeMock('Magento\Backend\Model\Session');
         $appState                   = $this->_makeMock('Magento\Framework\App\State');
-        $this->_mathMock            = $this->_makeMock('Magento\Math\Random');
+        $this->_mathMock            = $this->_makeMock('Magento\Framework\Math\Random');
         $this->_formKey             = $this->_makeMock('Magento\Framework\Data\Form\FormKey');
 
         $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);

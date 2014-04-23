@@ -60,6 +60,8 @@ return [
     ['Magento\Flag', 'Magento\Framework\Flag'],
     ['Magento\Io', 'Magento\Framework\Io'],
     ['Magento\Mail', 'Magento\Framework\Mail'],
+    ['Magento\HTTP', 'Magento\Framework\HTTP'],
+    ['Magento\Math', 'Magento\Framework\Math'],
     ['Magento\Gdata', 'Magento\Framework\Gdata'],
     ['Magento\Image', 'Magento\Framework\Image'],
 ];

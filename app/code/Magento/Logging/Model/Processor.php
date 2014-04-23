@@ -130,7 +130,7 @@ class Processor
     protected $_request;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -146,7 +146,7 @@ class Processor
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
@@ -158,7 +158,7 @@ class Processor
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;

@@ -49,7 +49,7 @@ abstract class AbstractHelper
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\HTTP\Header
+     * @var \Magento\Framework\HTTP\Header
      */
     protected $_httpHeader;
 
@@ -61,7 +61,7 @@ abstract class AbstractHelper
     protected $_eventManager;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 

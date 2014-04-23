@@ -114,7 +114,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -138,7 +138,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -154,7 +154,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

@@ -86,7 +86,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
     protected $_checkoutFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -113,7 +113,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -128,7 +128,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,

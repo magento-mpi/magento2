@@ -99,7 +99,7 @@ Magento/Wishlist/Block
 Magento/Wishlist/Model
 lib/Magento/Framework/Archive
 lib/Magento/Framework/Connect/Channel
-lib/Magento/HTTP/Client
+lib/Magento/Framework/HTTP/Client
 lib/Magento/Framework/Acl
 lib/PEAR
 lib/phpseclib

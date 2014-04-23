@@ -26,7 +26,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_randomGenerator = $this->getMock('Magento\Math\Random', array(), array(), '', false);
+        $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false);
         $this->_cryptFactory = $this->getMock('Magento\Framework\Encryption\CryptFactory', array(), array(), '', false);
         $this->_model = new Encryptor($this->_randomGenerator, $this->_cryptFactory, 'cryptKey');
     }

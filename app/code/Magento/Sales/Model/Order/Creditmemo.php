@@ -221,7 +221,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_cmItemCollectionFactory;
 
     /**
-     * @var \Magento\Math\CalculatorFactory
+     * @var \Magento\Framework\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -256,7 +256,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
-     * @param \Magento\Math\CalculatorFactory $calculatorFactory
+     * @param \Magento\Framework\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
@@ -276,7 +276,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
-        \Magento\Math\CalculatorFactory $calculatorFactory,
+        \Magento\Framework\Math\CalculatorFactory $calculatorFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,

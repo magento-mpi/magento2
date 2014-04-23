@@ -1507,7 +1507,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
 
         $result = $this->_resultFactory->create();
 
-        $client = new \Magento\HTTP\ZendClient();
+        $client = new \Magento\Framework\HTTP\ZendClient();
 
         $uri = $this->getConfigData('cgi_url');
         $client->setUri($uri ? $uri : self::CGI_URL);
@@ -1818,7 +1818,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             $transactionId
         );
 
-        $client = new \Magento\HTTP\ZendClient();
+        $client = new \Magento\Framework\HTTP\ZendClient();
         $uri = $this->getConfigData('cgi_url_td');
         $client->setUri($uri ? $uri : self::CGI_URL_TD);
         $client->setConfig(array('timeout' => 45));

@@ -101,7 +101,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $_productFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -127,7 +127,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      * @param ItemFactory $wishlistItemFactory
      * @param CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param bool $useCurrentWebsite
      * @param array $data
@@ -144,7 +144,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         ItemFactory $wishlistItemFactory,
         CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         $useCurrentWebsite = true,
         array $data = array()

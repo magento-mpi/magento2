@@ -61,7 +61,7 @@ class Survey
      */
     public function isSurveyUrlValid()
     {
-        $curl = new \Magento\HTTP\Adapter\Curl();
+        $curl = new \Magento\Framework\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout' => 5))->write(\Zend_Http_Client::GET, $this->getSurveyUrl(), '1.0');
         $response = $curl->read();
         $curl->close();

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <!-- Comment within root node -->
     <preference for="Magento\Framework\Module\UpdaterInterface" type="Magento\Framework\Module\Updaterter" />
     <preference for="Magento\Framework\App\RequestInterface" type="Magento\Framework\App\Request\Http\Proxy" />
@@ -27,7 +27,7 @@
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
     <!--Shared type-->
-    <type name="Magento\Http\Handler\Composite" shared="false">
+    <type name="Magento\Framework\HTTP\Handler\Composite" shared="false">
         <arguments>
             <argument name="test name" xsi:type="string">test value</argument>
         </arguments>

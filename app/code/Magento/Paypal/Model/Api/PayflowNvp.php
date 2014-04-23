@@ -421,7 +421,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
     );
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -432,7 +432,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -442,7 +442,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->mathRandom = $mathRandom;
