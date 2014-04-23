@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: tshevchenko
- * Date: 23.04.14
- * Time: 14:13
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Tax\Pricing\Price\Plugin;
@@ -31,8 +31,16 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     protected $adjustmentMock;
 
     /** @var  \Magento\Tax\Pricing\Price\Plugin\AttributePrice */
-    protected $model;
+    protected $plugin;
 
+    /** @var \Magento\Object|\PHPUnit_Framework_MockObject_MockObject */
+    protected $rateRequestMock;
+
+    /** @var \Magento\ConfigurableProduct\Pricing\Price\AttributePrice|\PHPUnit_Framework_MockObject_MockObject */
+    protected $attributePriceMock;
+    /**
+     * Test setup
+     */
     public function setUp()
     {
         $this->taxHelperMock = $this->getMock(
@@ -45,7 +53,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         );
         $this->calculationMock = $this->getMock(
             'Magento\Tax\Model\Calculation',
-            ['getRate', 'getRateRequest'],
+            ['getRate', 'getRateRequest', '__wakeup'],
             [],
             '',
             false,
@@ -53,7 +61,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         );
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            ['__wakeUp', 'getTaxClassId', 'getPriceInfo'],
+            ['__wakeup', 'getTaxClassId', 'getPriceInfo'],
             [],
             '',
             false,
@@ -75,16 +83,56 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->model = new \Magento\Tax\Pricing\Price\Plugin\AttributePrice(
+        $this->rateRequestMock = $this->getMock(
+            'Magento\Object',
+            ['setProductClassId', '__wakeup'],
+            [],
+            '',
+            false,
+            false
+        );
+        $this->attributePriceMock = $this->getMock(
+            'Magento\ConfigurableProduct\Pricing\Price\AttributePrice',
+            [],
+            [],
+            '',
+            false,
+            false
+        );
+
+        $this->plugin = new \Magento\Tax\Pricing\Price\Plugin\AttributePrice(
             $this->taxHelperMock,
             $this->calculationMock
         );
 
+
     }
 
-    public function afterPrepareAdjustmentConfigTest()
+    /**
+     * test for method afterPrepareAdjustmentConfig
+     */
+    public function testAfterPrepareAdjustmentConfig()
     {
-        $taxClassId = 'tax_class_id';
+        $this->productMock->expects($this->once())
+            ->method('getTaxClassId')
+            ->will($this->returnValue('tax-class-id'));
+        $this->calculationMock->expects($this->exactly(2))
+            ->method('getRateRequest')
+            ->will($this->returnValue($this->rateRequestMock));
+        $this->calculationMock->expects($this->exactly(2))
+            ->method('getRate')
+            ->with($this->equalTo($this->rateRequestMock))
+            ->will($this->returnValue(99.10));
+        $this->productMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
+        $this->priceInfoMock->expects($this->once())
+            ->method('getAdjustment')
+            ->with($this->equalTo(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE))
+            ->will($this->returnValue($this->adjustmentMock));
+        $this->adjustmentMock->expects($this->once())
+            ->method('isIncludedInBasePrice')
+            ->will($this->returnValue(true));
         $this->taxHelperMock->expects($this->once())
             ->method('displayPriceIncludingTax')
             ->will($this->returnValue(true));
@@ -92,47 +140,19 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ->method('displayBothPrices')
             ->will($this->returnValue(true));
 
-        $this->adjustmentMock->expects($this->once())
-            ->method('isIncludedInBasePrice')
-            ->will($this->returnValue(true));
+        $expected = [
+            'product' => $this->productMock,
+            'defaultTax' => 99.10,
+            'currentTax' => 99.10,
+            'includeTax' => true,
+            'showIncludeTax' => true,
+            'showBothPrices' => true
+        ];
 
-        $this->priceInfoMock->expects($this->once())
-            ->method('getAdjustment')
-            ->with($this->equalTo(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE))
-            ->will($this->returnValue($this->adjustmentMock));
-
-        $this->productMock->expects($this->once())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($this->priceInfoMock));
-        $this->productMock->expects($this->once())
-            ->method('getTaxClassId')
-            ->will($this->returnValue($taxClassId));
-
-        $rateRequest1 = new \Magento\Object();
-        $defaultTax = 20;
-        $this->calculationMock->expects($this->at(0))
-            ->method('getRateRequest')
-            ->with($this->equalTo(false), $this->equalTo(false), $this->equalTo(false), $this->equalTo(null))
-            ->will($this->returnValue($rateRequest1));
-        $rateRequest1->setProductClassId($taxClassId);
-        $this->calculationMock->expects($this->at(0))
-            ->method('getRate')
-            ->will($this->returnValue($defaultTax));
-        $rateRequest2 = new \Magento\Object();
-        $currentTax = 15;
-        $this->calculationMock->expects($this->at(0))
-            ->method('getRateRequest')
-            ->with($this->equalTo(null), $this->equalTo(null), $this->equalTo(null), $this->equalTo(null))
-            ->will($this->returnValue($rateRequest2));
-        $rateRequest2->setProductClassId($taxClassId);
-        $this->calculationMock->expects($this->at(0))
-            ->method('getRate')
-            ->will($this->returnValue($currentTax));
-
-        $attributeMock = $this->getMock('Magento\ConfigurableProduct\Pricing\Price\AttributePrice');
-        $result = [];
-        $result = $this->model->afterPrepareAdjustmentConfig($attributeMock, $result);
-
-
+        $this->assertEquals($expected, $this->plugin->afterPrepareAdjustmentConfig($this->attributePriceMock, [
+            'product' => $this->productMock,
+            'defaultTax' => 0,
+            'currentTax' => 0
+        ]));
     }
 }
