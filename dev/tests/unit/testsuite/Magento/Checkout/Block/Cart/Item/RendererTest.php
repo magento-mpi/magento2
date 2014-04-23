@@ -35,9 +35,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_imageHelper = $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false);
-        $this->layout = $this->getMock('Magento\View\LayoutInterface');
+        $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
 
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
+        $context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->once())

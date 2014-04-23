@@ -64,7 +64,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $templateContextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
             'Magento\Pricing\PriceCurrencyInterface',
