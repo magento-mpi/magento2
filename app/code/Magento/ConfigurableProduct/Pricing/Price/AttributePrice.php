@@ -29,16 +29,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     const PRICE_CODE = 'attribute_price';
 
     /**
-     * \Magento\Tax\Helper\Data $taxData     *
-     */
-    protected $taxData;
-
-    /**
-     * @var \Magento\Catalog\Helper\Product\Price
-     */
-    protected $priceHelper;
-
-    /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -50,8 +40,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param PriceModifierInterface $modifier
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -59,13 +47,9 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         $quantity,
         CalculatorInterface $calculator,
         PriceModifierInterface $modifier,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Product\Price $priceHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->priceModifier = $modifier;
-        $this->taxData = $taxData;
-        $this->priceHelper = $priceHelper;
         $this->storeManager = $storeManager;
         parent::__construct($saleableItem, $quantity, $calculator);
     }
@@ -76,23 +60,22 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $options
      * @return array
      */
-    public function prepareJsonAttributes(array $options = [])
+    public function prepareAttributes(array $options = [])
     {
         $defaultValues = [];
         $attributes = [];
-        $preConfiguredValues = $this->getPreConfiguredValues($this->product);
         $configurableAttributes = $this->product->getTypeInstance()->getConfigurableAttributes($this->product);
         foreach ($configurableAttributes as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();
             $info = [
-                'id' => $productAttribute->getId(),
+                'id' => $attributeId,
                 'code' => $productAttribute->getAttributeCode(),
                 'label' => $attribute->getLabel(),
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
             ];
-            $defaultValues[$attributeId] = $this->getAttributeConfigValue($preConfiguredValues, $attributeId);
-            if ($this->_validateAttributeInfo($info)) {
+            $defaultValues[$attributeId] = $this->getAttributeConfigValue($attributeId);
+            if ($this->validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
         }
@@ -100,7 +83,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             'priceOptions' => $attributes,
             'defaultValues' => $defaultValues
         ];
-
     }
 
     /**
@@ -115,63 +97,61 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     {
         $prices = $attribute->getPrices();
         $optionPrices = [];
-        if (is_array($prices)) {
-            foreach ($prices as $value) {
-                if (!$this->_validateAttributeValue($attributeId, $value, $options)) {
-                    continue;
-                }
+        if (!is_array($prices)) {
+            return $optionPrices;
+        }
 
-                $optionValueAmount = $this->getOptionValueAmount($value);
-                $optionValueOldAmount = $this->getOptionValueOldAmount($value);
+        foreach ($prices as $value) {
+            $optionValueModified = $this->getOptionValueModified($value);
+            $optionValueAmount = $this->getOptionValueAmount($value);
 
-                $price = $this->getOptionPrice($optionValueAmount);
-
-                // @todo resolve issue with weee specifics
-                $optionPrices[] = [
-                    'id' => $value['value_index'],
-                    'label' => $value['label'],
-                    'price' => $price,
-                    'oldPrice' => $this->_registerJsPrice(
-                        $this->_convertPrice($optionValueOldAmount->getValue()),
-                        true
-                    ),
-                    'inclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getValue()),
-                    'exclTaxPrice' => $this->_registerJsPrice($optionValueAmount->getBaseAmount()),
-                    'products' => $this->getProductsIndex($attributeId, $options, $value)
-                ];
-            }
+            $price = $this->convertPrice($optionValueAmount->getValue());
+            $optionPrices[] = [
+                'id' => $value['value_index'],
+                'label' => $value['label'],
+                'price' => $optionValueModified->getValue(),
+                'oldPrice' => $this->convertDot($price),
+                'inclTaxPrice' => $this->convertDot($optionValueModified->getValue()),
+                'exclTaxPrice' => $this->convertDot($optionValueModified->getBaseAmount()),
+                'products' => $this->getProductsIndex($attributeId, $options, $value)
+            ];
         }
 
         return $optionPrices;
     }
 
     /**
-     * Get Option Value
+     * Get Option Value including price rule
      *
      * @param array $value
+     * @param string $exclude
      * @return AmountInterface
      */
-    public function getOptionValueAmount(array $value = array())
-    {
+    public function getOptionValueModified(
+        array $value = [],
+        $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
+    ) {
         $pricingValue = $this->getPricingValue($value);
         $this->product->setParentId(true);
         $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
-        return $this->calculator->getAmount($amount, $this->product);
-
+        return $this->calculator->getAmount($amount, $this->product, $exclude);
     }
 
     /**
      * Get Option Value Amount with no Catalog Rules
      *
      * @param array $value
+     * @param string $exclude
      * @return AmountInterface
      */
-    public function getOptionValueOldAmount(array $value = array())
-    {
+    public function getOptionValueAmount(
+        array $value = [],
+        $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
+    ) {
         $amount = $this->getPricingValue($value);
 
-        return $this->calculator->getAmount($amount, $this->product);
+        return $this->calculator->getAmount($amount, $this->product, $exclude);
     }
 
     /**
@@ -180,12 +160,12 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $value
      * @return float
      */
-    protected function preparePrice(array $value = array())
+    protected function preparePrice(array $value = [])
     {
         return $this->product
-                ->getPriceInfo()
-                ->getPrice('final_price')
-                ->getValue() * $value['pricing_value'] / 100;
+            ->getPriceInfo()
+            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+            ->getValue() * $value['pricing_value'] / 100;
     }
 
     /**
@@ -194,7 +174,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $value
      * @return float
      */
-    protected function getPricingValue(array $value = array())
+    protected function getPricingValue(array $value)
     {
         if ($value['is_percent'] && !empty($value['pricing_value'])) {
             return $this->preparePrice($value);
@@ -221,54 +201,14 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     }
 
     /**
-     * @param \Magento\Object $preConfiguredValues
      * @param int $attributeId
      * @return mixed|null
      */
-    protected function getAttributeConfigValue($preConfiguredValues, $attributeId)
+    protected function getAttributeConfigValue($attributeId)
     {
-        if ($this->hasPreConfiguredValues()) {
-            return $preConfiguredValues->getData('super_attribute/' . $attributeId);
+        if ($this->product->hasPreconfiguredValues()) {
+            return $this->product->getPreconfiguredValues()->getData('super_attribute/' . $attributeId);
         }
-    }
-
-    /**
-     * Get PreConfigured Values
-     *
-     * @return array
-     */
-    protected function getPreConfiguredValues()
-    {
-        if ($this->hasPreconfiguredValues()) {
-            return $this->product->getPreconfiguredValues();
-        }
-    }
-
-    /**
-     * Get Flag if Configurable Product has PreConfiguredValues
-     *
-     * @return bool
-     */
-    protected function hasPreConfiguredValues()
-    {
-        return $this->product->hasPreconfiguredValues();
-    }
-
-    /**
-     * Validating of super product option value
-     *
-     * @param int $attributeId
-     * @param array $value
-     * @param array $options
-     * @return bool
-     */
-    protected function _validateAttributeValue($attributeId, &$value, &$options)
-    {
-        if (isset($options[$attributeId][$value['value_index']])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -277,7 +217,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $info
      * @return bool
      */
-    protected function _validateAttributeInfo(&$info)
+    protected function validateAttributeInfo($info)
     {
         if (count($info['options']) > 0) {
             return true;
@@ -291,7 +231,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param float $price
      * @return string
      */
-    protected function _registerJsPrice($price)
+    protected function convertDot($price)
     {
         return str_replace(',', '.', $price);
     }
@@ -304,7 +244,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param bool $round
      * @return float
      */
-    protected function _convertPrice($price, $round = false)
+    protected function convertPrice($price, $round = false)
     {
         if (empty($price)) {
             return 0;
@@ -319,68 +259,33 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     }
 
     /**
-     * Get Custom Option Price
-     * depending on display including or excluding Tax
-     *
-     * @param \Magento\Pricing\Amount\AmountInterface $optionValueAmount
-     * @return string
-     */
-    protected function getOptionPrice($optionValueAmount)
-    {
-        if ($this->taxData->displayPriceIncludingTax()) {
-            return $this->_registerJsPrice($optionValueAmount->getValue());
-        } else {
-            return $this->_registerJsPrice($optionValueAmount->getBaseAmount());
-        }
-    }
-
-    /**
      * Returns tax config for Configurable options
      *
      * @return array
      */
     public function getTaxConfig()
     {
-        // Use Amount->getAdjustments here
-        $defaultTax = $this->getDefaultTax($this->product);
-        $currentTax = $this->getCurrentTax($this->product);
-
-        $taxConfig = [
-            'includeTax' => $this->taxData->priceIncludesTax(),
-            'showIncludeTax' => $this->taxData->displayPriceIncludingTax(),
-            'showBothPrices' => $this->taxData->displayBothPrices(),
-            'defaultTax' => $defaultTax,
-            'currentTax' => $currentTax,
-            'inclTaxTitle' => __('Incl. Tax')
-        ];
-        return $taxConfig;
+        $config = $this->prepareAdjustmentConfig();
+        unset($config['product']);
+        return $config;
     }
 
     /**
-     * Get Default Tax value
+     * Default values for configurable options
      *
      * @return array
      */
-    protected function getDefaultTax()
+    public function prepareAdjustmentConfig()
     {
-        $_request = $this->priceHelper->getRateRequest(false, false, false);
-        $_request->setProductClassId($this->product->getTaxClassId());
-        $defaultTax = $this->priceHelper->getRate($_request);
-
-        return $defaultTax;
-    }
-
-    /**
-     * Get Current Tax Value
-     *
-     * @return float
-     */
-    protected function getCurrentTax()
-    {
-        $_request = $this->priceHelper->getRateRequest();
-        $_request->setProductClassId($this->product->getTaxClassId());
-        $currentTax = $this->priceHelper->getRate($_request);
-        return $currentTax;
+        return $taxConfig = [
+            'includeTax' => false,
+            'showIncludeTax' => false,
+            'showBothPrices' => false,
+            'defaultTax' => 0,
+            'currentTax' => 0,
+            'inclTaxTitle' => __('Incl. Tax'),
+            'product' => $this->product
+        ];
     }
 
     /**

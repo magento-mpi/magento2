@@ -11,12 +11,12 @@ namespace Magento\ConfigurableProduct\Helper;
 use \Magento\Catalog\Model\Product;
 
 /**
- * Class Image
- * Helper class for getting options images
+ * Class Data
+ * Helper class for getting options
  *
  * @package Magento\ConfigurableProduct\Helper
  */
-class Image
+class Data
 {
     /**
      * Catalog Image Helper
@@ -40,7 +40,7 @@ class Image
      * @param array $allowedProducts
      * @return array
      */
-    public function getOptionsImage($currentProduct, $allowedProducts)
+    public function getOptions($currentProduct, $allowedProducts)
     {
         $options = array();
         $baseImageUrl = (string)$this->imageHelper->init($currentProduct, 'image');
@@ -53,20 +53,9 @@ class Image
                 $productAttribute = $attribute->getProductAttribute();
                 $productAttributeId = $productAttribute->getId();
                 $attributeValue = $product->getData($productAttribute->getAttributeCode());
-                if (!isset($options[$productAttributeId])) {
-                    $options[$productAttributeId] = array();
-                }
 
-                if (!isset($options[$productAttributeId][$attributeValue])) {
-                    $options[$productAttributeId][$attributeValue] = array();
-                }
                 $options[$productAttributeId][$attributeValue][] = $productId;
-
-                if (!$product->getImage() || $product->getImage() === 'no_selection') {
-                    $options['images'][$productAttributeId][$attributeValue][$productId] = $baseImageUrl;
-                } else {
-                    $options['images'][$productAttributeId][$attributeValue][$productId] = $image;
-                }
+                $options['images'][$productAttributeId][$attributeValue][$productId] = $image ? $image : $baseImageUrl;
             }
         }
 
