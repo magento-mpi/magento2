@@ -7,7 +7,10 @@
 
 (function($) {
 	'use strict';
-	//Wrapper for widget
-	$.widget('mage.tabs', $.ui.tabs, {
+
+	$.widget('mage.tooltip', $.ui.tooltip, {
+
 	});
+
+
 })(jQuery);
