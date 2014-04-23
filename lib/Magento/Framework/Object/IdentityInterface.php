@@ -9,7 +9,7 @@ namespace Magento\Framework\Object;
 
 /**
  * Interface IdentityInterface
- * @package Magento\Object
+ * @package Magento\Framework\Object
  */
 interface IdentityInterface
 {

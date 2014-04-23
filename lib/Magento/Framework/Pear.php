@@ -265,7 +265,7 @@ class Pear
     /**
      * Run PEAR command with html output console style
      *
-     * @param array|\Magento\Object $runParams command, options, params,
+     * @param array|\Magento\Framework\Object $runParams command, options, params,
      *        comment, success_callback, failure_callback
      * @return mixed
      * @throws Exception

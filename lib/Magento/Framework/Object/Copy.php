@@ -45,10 +45,10 @@ class Copy
      *
      * @param string $fieldset
      * @param string $aspect
-     * @param array|\Magento\Object $source
-     * @param array|\Magento\Object $target
+     * @param array|\Magento\Framework\Object $source
+     * @param array|\Magento\Framework\Object $target
      * @param string $root
-     * @return array|\Magento\Object|null the value of $target
+     * @return array|\Magento\Framework\Object|null the value of $target
      */
     public function copyFieldsetToTarget($fieldset, $aspect, $source, $target, $root = 'global')
     {
@@ -90,13 +90,13 @@ class Copy
      *
      * @param string $fieldset
      * @param string $aspect a field name
-     * @param array|\Magento\Object $source
+     * @param array|\Magento\Framework\Object $source
      * @param string $root
      * @return array $data
      */
     public function getDataFromFieldset($fieldset, $aspect, $source, $root = 'global')
     {
-        if (!(is_array($source) || $source instanceof \Magento\Object)) {
+        if (!(is_array($source) || $source instanceof \Magento\Framework\Object)) {
             return null;
         }
         $fields = $this->_fieldsetConfig->getFieldset($fieldset, $root);
@@ -123,23 +123,23 @@ class Copy
     /**
      * Check if source and target are valid input for converting using fieldset
      *
-     * @param array|\Magento\Object $source
-     * @param array|\Magento\Object $target
+     * @param array|\Magento\Framework\Object $source
+     * @param array|\Magento\Framework\Object $target
      * @return bool
      */
     protected function _isFieldsetInputValid($source, $target)
     {
         return (is_array(
             $source
-        ) || $source instanceof \Magento\Object) && (is_array(
+        ) || $source instanceof \Magento\Framework\Object) && (is_array(
             $target
-        ) || $target instanceof \Magento\Object);
+        ) || $target instanceof \Magento\Framework\Object);
     }
 
     /**
      * Get value of source by code
      *
-     * @param \Magento\Object|array $source
+     * @param \Magento\Framework\Object|array $source
      * @param string $code
      * @return mixed
      * @throws \InvalidArgumentException
@@ -148,7 +148,7 @@ class Copy
     {
         if (is_array($source)) {
             $value = isset($source[$code]) ? $source[$code] : null;
-        } elseif ($source instanceof \Magento\Object) {
+        } elseif ($source instanceof \Magento\Framework\Object) {
             $value = $source->getDataUsingMethod($code);
         } else {
             throw new \InvalidArgumentException('Source should be array or Magento Object');

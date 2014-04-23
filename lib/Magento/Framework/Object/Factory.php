@@ -15,10 +15,10 @@ class Factory
      * Create Magento object with provided params
      *
      * @param array $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function create(array $data = array())
     {
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 }

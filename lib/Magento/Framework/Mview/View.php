@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Mview;
 
-class View extends \Magento\Object implements ViewInterface
+class View extends \Magento\Framework\Object implements ViewInterface
 {
     /**
      * @var string

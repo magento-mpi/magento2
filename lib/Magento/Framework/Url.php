@@ -60,7 +60,7 @@
  */
 namespace Magento\Framework;
 
-class Url extends \Magento\Object implements \Magento\Framework\UrlInterface
+class Url extends \Magento\Framework\Object implements \Magento\Framework\UrlInterface
 {
     /**
      * Configuration data cache

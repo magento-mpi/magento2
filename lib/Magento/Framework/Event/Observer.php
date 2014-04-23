@@ -11,7 +11,7 @@ namespace Magento\Framework\Event;
 
 use Magento\Framework\Event;
 
-class Observer extends \Magento\Object
+class Observer extends \Magento\Framework\Object
 {
     /**
      * Checks the observer's event_regex against event's name
@@ -61,7 +61,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setName($data)
     {
@@ -78,7 +78,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setEventName($data)
     {
@@ -95,7 +95,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setCallback($data)
     {
@@ -114,7 +114,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param mixed $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setEvent($data)
     {

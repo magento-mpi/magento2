@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Filter\Template;
 
-class Simple extends \Magento\Object implements \Zend_Filter_Interface
+class Simple extends \Magento\Framework\Object implements \Zend_Filter_Interface
 {
     /**
      * @var string

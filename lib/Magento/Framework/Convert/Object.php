@@ -10,7 +10,7 @@
 
 
 /**
- * Default converter for \Magento\Objects to arrays
+ * Default converter for \Magento\Framework\Objects to arrays
  *
  * @category   Magento
  * @package    Magento_Convert
@@ -44,7 +44,7 @@ class Object
     }
 
     /**
-     * Converts a \Magento\Object into an array, including any children objects
+     * Converts a \Magento\Framework\Object into an array, including any children objects
      *
      * @param mixed $obj array or object to convert
      * @param array $objects array of object hashes used for cycle detection
@@ -59,7 +59,7 @@ class Object
                 return self::CYCLE_DETECTED_MARK;
             }
             $objects[$hash] = true;
-            if ($obj instanceof \Magento\Object) {
+            if ($obj instanceof \Magento\Framework\Object) {
                 $data = $obj->getData();
             } else {
                 $data = (array)$obj;
@@ -74,7 +74,7 @@ class Object
                 $result[$key] = $value;
             } else if (is_array($value)) {
                 $result[$key] = $this->_convertObjectToArray($value, $objects);
-            } else if ($value instanceof \Magento\Object) {
+            } else if ($value instanceof \Magento\Framework\Object) {
                 $result[$key] = $this->_convertObjectToArray($value, $objects);
             }
         }

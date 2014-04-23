@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\Session;
 
-class Storage extends \Magento\Object implements StorageInterface
+class Storage extends \Magento\Framework\Object implements StorageInterface
 {
     /**
      * Namespace of storage

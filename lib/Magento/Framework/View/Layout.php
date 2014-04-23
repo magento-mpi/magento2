@@ -94,7 +94,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * A variable for transporting output into observer during rendering
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_renderingOutput = null;
 

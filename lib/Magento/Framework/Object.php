@@ -245,7 +245,7 @@ class Object implements \ArrayAccess
             } elseif (is_string($data)) {
                 $data = explode("\n", $data);
                 $data = isset($data[$index]) ? $data[$index] : null;
-            } elseif ($data instanceof \Magento\Object) {
+            } elseif ($data instanceof \Magento\Framework\Object) {
                 $data = $data->getData($index);
             } else {
                 $data = null;
@@ -270,7 +270,7 @@ class Object implements \ArrayAccess
         foreach ($keys as $key) {
             if (is_array($data) && isset($data[$key])) {
                 $data = $data[$key];
-            } elseif ($data instanceof \Magento\Object) {
+            } elseif ($data instanceof \Magento\Framework\Object) {
                 $data = $data->getDataByKey($key);
             } else {
                 return null;
@@ -660,7 +660,7 @@ class Object implements \ArrayAccess
                 $debug[$key] = $value;
             } elseif (is_array($value)) {
                 $debug[$key] = $this->debug($value, $objects);
-            } elseif ($value instanceof \Magento\Object) {
+            } elseif ($value instanceof \Magento\Framework\Object) {
                 $debug[$key . ' (' . get_class($value) . ')'] = $value->debug(null, $objects);
             }
         }

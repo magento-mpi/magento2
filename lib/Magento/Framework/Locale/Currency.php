@@ -80,7 +80,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
                 $options['symbol'] = $currency;
             }
 
-            $options = new \Magento\Object($options);
+            $options = new \Magento\Framework\Object($options);
             $this->_eventManager->dispatch(
                 'currency_display_options_forming',
                 array('currency_options' => $options, 'base_code' => $currency)

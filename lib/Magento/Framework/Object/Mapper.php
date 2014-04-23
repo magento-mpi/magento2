@@ -19,7 +19,7 @@ class Mapper
      * Convert data from source to target item using map array
      *
      * Will get or set data with generic or magic, or specified Magento Object methods, or with array keys
-     * from or to \Magento\Object or array
+     * from or to \Magento\Framework\Object or array
      * :)
      *
      * Map must either be associative array of keys from=>to
@@ -30,14 +30,14 @@ class Mapper
      *
      * Callbacks explanation (when $from or $to is not array):
      *   for $from:
-     *     <\Magento\Object> => $from->getData($key) (default)
-     *     array(<\Magento\Object>, <method>) => $from->$method($key)
-     *   for $to (makes sense only for \Magento\Object):
-     *     <\Magento\Object> => $from->setData($key, <from>)
-     *     array(<\Magento\Object>, <method>) => $from->$method($key, <from>)
+     *     <\Magento\Framework\Object> => $from->getData($key) (default)
+     *     array(<\Magento\Framework\Object>, <method>) => $from->$method($key)
+     *   for $to (makes sense only for \Magento\Framework\Object):
+     *     <\Magento\Framework\Object> => $from->setData($key, <from>)
+     *     array(<\Magento\Framework\Object>, <method>) => $from->$method($key, <from>)
      *
-     * @param array|\Magento\Object|callback $from
-     * @param array|\Magento\Object|callback $to
+     * @param array|\Magento\Framework\Object|callback $from
+     * @param array|\Magento\Framework\Object|callback $to
      * @param array $map
      * @param array $defaults
      * @return array|object

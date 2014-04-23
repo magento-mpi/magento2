@@ -63,7 +63,7 @@ class Packager
 
     /**
      * @param string $ftpString
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getRemoteConf($ftpString)
     {
@@ -105,7 +105,7 @@ class Packager
 
     /**
      * @param string $ftpString
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getRemoteCache($ftpString)
     {
@@ -128,7 +128,7 @@ class Packager
 
     /**
      * @param string $ftpString
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getRemoteConfig($ftpString)
     {

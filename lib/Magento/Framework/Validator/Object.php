@@ -7,7 +7,7 @@
  */
 
 /**
- * Validator encapsulates multiple validation rules for \Magento\Object.
+ * Validator encapsulates multiple validation rules for \Magento\Framework\Object.
  * Able to validate both individual fields and a whole object.
  */
 namespace Magento\Framework\Validator;
@@ -54,7 +54,7 @@ class Object implements \Zend_Validate_Interface
     /**
      * Check whether the entity is valid according to defined validation rules
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return bool
      *
      * @throws \Exception
