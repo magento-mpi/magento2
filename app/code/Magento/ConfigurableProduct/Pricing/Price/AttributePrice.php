@@ -64,7 +64,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     {
         $defaultValues = [];
         $attributes = [];
-        $preConfiguredValues = $this->getPreConfiguredValues($this->product);
+        $preConfiguredValues = $this->getPreConfiguredValues();
         $configurableAttributes = $this->product->getTypeInstance()->getConfigurableAttributes($this->product);
         foreach ($configurableAttributes as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
@@ -84,7 +84,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             'priceOptions' => $attributes,
             'defaultValues' => $defaultValues
         ];
-
     }
 
     /**
