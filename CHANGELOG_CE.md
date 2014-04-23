@@ -5,6 +5,7 @@
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
 * Framework Improvements:
   * Covered Magento Store components with unit tests:
      * Magento\Store\Model\*
