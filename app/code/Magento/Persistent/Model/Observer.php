@@ -299,9 +299,9 @@ class Observer
     {
         $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
 
-        if (!$this->_persistentData->canProcess($observer) ||
-            !$this->_persistentSession->isPersistent() ||
-            $this->_customerSession->isLoggedIn()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
+            || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
