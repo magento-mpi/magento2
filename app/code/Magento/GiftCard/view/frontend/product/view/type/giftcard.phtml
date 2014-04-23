@@ -87,6 +87,6 @@
             <?php endif; ?>
         </fieldset>
     <?php elseif ($_product->isAvailable() && $this->isConfigured($_product)): ?>
-        <?php echo $this->getPriceHtml($_product); ?>
+        <?php echo $this->getProductPrice($_product);?>
     <?php endif; ?>
 </div>
