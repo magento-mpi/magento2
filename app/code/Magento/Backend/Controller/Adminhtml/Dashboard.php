@@ -115,8 +115,8 @@ class Dashboard extends \Magento\Backend\App\Action
                 $params = json_decode(base64_decode(urldecode($gaData)), true);
                 if ($params) {
                     try {
-                        /** @var $httpClient \Magento\HTTP\ZendClient */
-                        $httpClient = $this->_objectManager->create('Magento\HTTP\ZendClient');
+                        /** @var $httpClient \Magento\Framework\HTTP\ZendClient */
+                        $httpClient = $this->_objectManager->create('Magento\Framework\HTTP\ZendClient');
                         $response = $httpClient->setUri(
                             \Magento\Backend\Block\Dashboard\Graph::API_URL
                         )->setParameterGet(

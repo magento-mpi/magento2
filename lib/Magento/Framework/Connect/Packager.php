@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Connect;
 
-use Magento\HTTP\IClient;
+use Magento\Framework\HTTP\IClient;
 
 /**
  * Class to manipulate with packages
@@ -56,7 +56,7 @@ class Packager
     public function getDownloader()
     {
         if (is_null($this->_http)) {
-            $this->_http = \Magento\HTTP\Client::getInstance();
+            $this->_http = \Magento\Framework\HTTP\Client::getInstance();
         }
         return $this->_http;
     }

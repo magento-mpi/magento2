@@ -74,17 +74,17 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     protected $_quoteFactory;
 
     /**
-     * @var \Magento\HTTP\Header
+     * @var \Magento\Framework\HTTP\Header
      */
     protected $_httpHeader;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\ServerAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\ServerAddress
      */
     protected $_serverAddress;
 
@@ -101,9 +101,9 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
-     * @param \Magento\HTTP\Header $httpHeader
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
-     * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
+     * @param \Magento\Framework\HTTP\Header $httpHeader
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -120,9 +120,9 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
-        \Magento\HTTP\Header $httpHeader,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
+        \Magento\Framework\HTTP\Header $httpHeader,
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Framework\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

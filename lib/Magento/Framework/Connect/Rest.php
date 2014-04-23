@@ -34,7 +34,7 @@ class Rest
 
     /**
      * HTTP Loader
-     * @var \Magento\HTTP\IClient
+     * @var \Magento\Framework\HTTP\IClient
      */
     protected $_loader = null;
 

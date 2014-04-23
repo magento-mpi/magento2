@@ -22,14 +22,14 @@ class Loader
     /**
      * Factory for HTTP client
      * @param string/false $protocol  'curl'/'socket' or false for auto-detect
-     * @return \Magento\HTTP\Client|\Magento\Framework\Connect\Loader\Ftp
+     * @return \Magento\Framework\HTTP\Client|\Magento\Framework\Connect\Loader\Ftp
      */
     public static function getInstance($protocol = '')
     {
         if ($protocol == 'ftp') {
             return new \Magento\Framework\Connect\Loader\Ftp();
         } else {
-            return \Magento\HTTP\Client::getInstance();
+            return \Magento\Framework\HTTP\Client::getInstance();
         }
     }
 }

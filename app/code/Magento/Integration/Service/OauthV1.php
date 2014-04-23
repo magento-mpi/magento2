@@ -45,7 +45,7 @@ class OauthV1 implements OauthV1Interface
     protected $_dataHelper;
 
     /**
-     * @var  \Magento\HTTP\ZendClient
+     * @var  \Magento\Framework\HTTP\ZendClient
      */
     protected $_httpClient;
 
@@ -71,7 +71,7 @@ class OauthV1 implements OauthV1Interface
      * @param ConsumerFactory $consumerFactory
      * @param TokenFactory $tokenFactory
      * @param IntegrationOauthHelper $dataHelper
-     * @param \Magento\HTTP\ZendClient $httpClient
+     * @param \Magento\Framework\HTTP\ZendClient $httpClient
      * @param \Magento\Framework\Logger $logger
      * @param OauthHelper $oauthHelper
      * @param TokenProvider $tokenProvider
@@ -81,7 +81,7 @@ class OauthV1 implements OauthV1Interface
         ConsumerFactory $consumerFactory,
         TokenFactory $tokenFactory,
         IntegrationOauthHelper $dataHelper,
-        \Magento\HTTP\ZendClient $httpClient,
+        \Magento\Framework\HTTP\ZendClient $httpClient,
         \Magento\Framework\Logger $logger,
         OauthHelper $oauthHelper,
         TokenProvider $tokenProvider
@@ -211,7 +211,7 @@ class OauthV1 implements OauthV1Interface
             $maxredirects = $this->_dataHelper->getConsumerPostMaxRedirects();
             $timeout = $this->_dataHelper->getConsumerPostTimeout();
             $this->_httpClient->setConfig(array('maxredirects' => $maxredirects, 'timeout' => $timeout));
-            $this->_httpClient->request(\Magento\HTTP\ZendClient::POST);
+            $this->_httpClient->request(\Magento\Framework\HTTP\ZendClient::POST);
             return $verifier->getVerifier();
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
