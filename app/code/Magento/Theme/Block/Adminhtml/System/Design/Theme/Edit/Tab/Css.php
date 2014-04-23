@@ -261,7 +261,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
             __('Allowed file types *.css.'),
             __('This file will replace the current custom.css file and can\'t be more than 2 MB.')
         );
-        $maxFileSize = $this->_objectManager->get('Magento\File\Size')->getMaxFileSizeInMb();
+        $maxFileSize = $this->_objectManager->get('Magento\Framework\File\Size')->getMaxFileSizeInMb();
         if ($maxFileSize) {
             $messages[] = __('Max file size to upload %1M', $maxFileSize);
         } else {

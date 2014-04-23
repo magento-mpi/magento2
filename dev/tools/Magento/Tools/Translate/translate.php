@@ -95,7 +95,7 @@ ini_set('include_path', ini_get('include_path') . '/' . BASE_PATH . '/lib');
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once BASE_PATH . '/lib/Magento/File/CsvMulty.php';
+require_once BASE_PATH . '/lib/Magento/Framework/File/CsvMulty.php';
 require_once __DIR__ . '/DirectoryFilter.php';
 
 require_once BASE_PATH . '/lib/Magento/Framework/Simplexml/Config.php';

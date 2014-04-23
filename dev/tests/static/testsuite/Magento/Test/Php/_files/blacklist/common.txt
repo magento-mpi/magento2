@@ -98,10 +98,10 @@ lib/Magento/Framework/Stdlib/DateTime.php
 lib/Magento/Debug.php
 lib/Magento/Framework/Event.php
 lib/Magento/Framework/Event
-lib/Magento/File/Csv.php
-lib/Magento/File/CsvMulty.php
-lib/Magento/File/Transfer/Adapter/Http.php
-lib/Magento/File/Uploader.php
+lib/Magento/Framework/File/Csv.php
+lib/Magento/Framework/File/CsvMulty.php
+lib/Magento/Framework/File/Transfer/Adapter/Http.php
+lib/Magento/Framework/File/Uploader.php
 lib/Magento/Gdata
 lib/Magento/HTTP/Adapter/Curl.php
 lib/Magento/HTTP/Client.php

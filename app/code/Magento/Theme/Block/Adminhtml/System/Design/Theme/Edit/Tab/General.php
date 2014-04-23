@@ -29,7 +29,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
     protected $_themeImagePath;
 
     /**
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileSize;
 
@@ -39,7 +39,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
@@ -48,7 +48,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\View\Design\Theme\Image\PathInterface $themeImagePath,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_themeImagePath = $themeImagePath;

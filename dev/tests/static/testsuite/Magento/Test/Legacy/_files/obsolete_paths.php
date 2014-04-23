@@ -195,4 +195,7 @@ return [
     ['/lib/Magento/Json', '/lib/Magento/Framework/Json'],
     ['/dev/tests/unit/testsuite/Magento/Json', '/dev/tests/unit/testsuite/Magento/Framework/Json'],
     ['/dev/tests/integration/testsuite/Magento/Json', '/dev/tests/integration/testsuite/Magento/Framework/Json'],
+    ['/lib/Magento/File', '/lib/Magento/Framework/File'],
+    ['/dev/tests/unit/testsuite/Magento/File', '/dev/tests/unit/testsuite/Magento/Framework/File'],
+    ['/dev/tests/integration/testsuite/Magento/File', '/dev/tests/integration/testsuite/Magento/Framework/File'],
 ];

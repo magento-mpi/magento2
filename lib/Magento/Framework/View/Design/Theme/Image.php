@@ -131,7 +131,7 @@ class Image
 
         $isCopied = false;
         try {
-            $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = \Magento\Framework\File\Uploader::getNewFileName($destinationFilePath);
             $targetRelative = $this->_mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
             $isCopied = $this->_mediaDirectory->copyFile($destinationFileRelative, $targetRelative);
             $this->_theme->setPreviewImage($destinationFileName);

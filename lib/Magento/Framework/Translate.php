@@ -113,7 +113,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     protected $request;
 
     /**
-     * @var \Magento\File\Csv
+     * @var \Magento\Framework\File\Csv
      */
     protected $_csvParser;
 
@@ -130,7 +130,7 @@ class Translate implements \Magento\Framework\TranslateInterface
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\File\Csv $csvParser
+     * @param \Magento\Framework\File\Csv $csvParser
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -147,7 +147,7 @@ class Translate implements \Magento\Framework\TranslateInterface
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\File\Csv $csvParser
+        \Magento\Framework\File\Csv $csvParser
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_cache = $cache;

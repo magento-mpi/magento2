@@ -28,7 +28,7 @@ class Service
     /**
      * File size
      *
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileSize;
 
@@ -58,13 +58,13 @@ class Service
      * Constructor
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\File\Size $fileSize
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\File\Size $fileSize,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         array $uploadLimits = array()
     ) {
