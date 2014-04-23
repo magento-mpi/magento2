@@ -36,12 +36,12 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
 
-        /** @var \Magento\Filesystem $filesystem */
+        /** @var \Magento\Framework\Filesystem $filesystem */
         $filesystem = $this->objectManager->create(
             'Magento\Framework\App\Filesystem',
             array(
                 'directoryList' => $this->objectManager->create(
-                    'Magento\Filesystem\DirectoryList',
+                    'Magento\Framework\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(
@@ -76,8 +76,8 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles($path, $themeName, $expectedFiles)
     {
-        /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
-        $themeFactory = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory */
+        $themeFactory = $this->objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeName);
         if (!count($expectedFiles)) {
             $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
@@ -85,7 +85,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $files = $this->model->getFiles($theme, $path);
         $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
 
-        /** @var $file \Magento\View\Layout\File */
+        /** @var $file \Magento\Framework\View\Layout\File */
         foreach ($files as $file) {
             if (!in_array($file->getFilename(), $expectedFiles)) {
                 $this->fail(sprintf('File "%s" is not expected but found', $file->getFilename()));

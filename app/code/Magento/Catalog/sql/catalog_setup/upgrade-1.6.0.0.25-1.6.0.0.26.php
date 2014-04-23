@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $this->getConnection();
 
 /** @var \Magento\Catalog\Model\Resource\Setup $this */

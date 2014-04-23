@@ -29,7 +29,7 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="one" sortOrder="800"/>
     </virtualType>
-    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <type name="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cacheTags" xsi:type="array">
                 <item name="const" xsi:type="const">Magento\Store\Model\Website::CACHE_TAG</item>

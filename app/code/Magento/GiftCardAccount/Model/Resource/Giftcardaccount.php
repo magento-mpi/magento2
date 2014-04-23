@@ -16,7 +16,7 @@ namespace Magento\GiftCardAccount\Model\Resource;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Giftcardaccount extends \Magento\Model\Resource\Db\AbstractDb
+class Giftcardaccount extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table  and primary key field

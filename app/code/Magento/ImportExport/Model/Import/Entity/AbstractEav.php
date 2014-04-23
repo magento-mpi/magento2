@@ -17,7 +17,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Data\Collection';
+    const ATTRIBUTE_COLLECTION_NAME = 'Magento\Framework\Data\Collection';
 
     /**
      * Store manager
@@ -71,7 +71,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     /**
      * Attributes collection
      *
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_attributeCollection;
 
@@ -236,7 +236,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     /**
      * Get attribute collection
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getAttributeCollection()
     {

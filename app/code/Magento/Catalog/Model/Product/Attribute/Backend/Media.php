@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -39,7 +39,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_mediaConfig;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_mediaDirectory;
 

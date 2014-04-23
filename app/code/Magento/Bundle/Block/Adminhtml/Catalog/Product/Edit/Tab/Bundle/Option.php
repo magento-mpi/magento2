@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class Option extends \Magento\Backend\Block\Widget
 {
@@ -276,7 +276,7 @@ class Option extends \Magento\Backend\Block\Widget
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldId() . '_{{index}}_type',
@@ -298,7 +298,7 @@ class Option extends \Magento\Backend\Block\Widget
     public function getRequireSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $this->getFieldId() . '_{{index}}_required', 'class' => 'select')
         )->setName(

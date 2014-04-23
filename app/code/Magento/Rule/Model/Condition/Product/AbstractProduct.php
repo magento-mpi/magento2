@@ -291,7 +291,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Retrieve attribute element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -389,7 +389,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Retrieve value element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {

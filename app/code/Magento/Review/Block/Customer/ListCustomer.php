@@ -35,7 +35,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -45,7 +45,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
@@ -105,7 +105,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Initializes toolbar
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -177,7 +177,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Add review summary
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

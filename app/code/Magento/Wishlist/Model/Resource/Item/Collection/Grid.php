@@ -25,7 +25,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
@@ -48,7 +48,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
@@ -108,7 +108,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
      *
      * @param   string $field
      * @param   string $direction
-     * @return  \Magento\Data\Collection\Db
+     * @return  \Magento\Framework\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -129,7 +129,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param string|array $field
      * @param null|string|array $condition
      * @see self::_getConditionSql for $condition
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function addFieldToFilter($field, $condition = null)
     {

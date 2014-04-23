@@ -9,15 +9,16 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\Theme\ListInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Theme filesystem collection
  */
-class Collection extends \Magento\Data\Collection implements \Magento\View\Design\Theme\ListInterface
+class Collection extends \Magento\Framework\Data\Collection implements ListInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directory;
 
@@ -37,10 +38,12 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      */
-    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Filesystem $filesystem)
-    {
+    public function __construct(
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Framework\Filesystem $filesystem
+    ) {
         parent::__construct($entityFactory);
         $this->_directory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::THEMES_DIR);
     }
@@ -51,7 +54,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      * @param string $area
      * @return $this
      */
-    public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
+    public function addDefaultPattern($area = \Magento\Framework\App\Area::AREA_FRONTEND)
     {
         $this->addTargetPattern(implode('/', array($area, '*/*', 'theme.xml')));
         return $this;
@@ -255,11 +258,13 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      * Return configuration model for themes
      *
      * @param string $configPath
-     * @return \Magento\Config\Theme
+     * @return \Magento\Framework\Config\Theme
      */
     protected function _getConfigModel($configPath)
     {
-        return new \Magento\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
+        return new \Magento\Framework\Config\Theme(
+            $this->_directory->readFile($this->_directory->getRelativePath($configPath))
+        );
     }
 
     /**

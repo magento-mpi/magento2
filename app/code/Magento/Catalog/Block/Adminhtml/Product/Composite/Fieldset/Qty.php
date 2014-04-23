@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset;
 
-class Qty extends \Magento\View\Element\Template
+class Qty extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry

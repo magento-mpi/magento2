@@ -36,7 +36,7 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $url;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $layout;
 
@@ -75,7 +75,7 @@ class Inline implements \Magento\Translate\InlineInterface
      *
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\UrlInterface $url
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Inline\ConfigInterface $config
      * @param Inline\ParserInterface $parser
      * @param Inline\StateInterface $state
@@ -86,7 +86,7 @@ class Inline implements \Magento\Translate\InlineInterface
     public function __construct(
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\UrlInterface $url,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Translate\Inline\ConfigInterface $config,
         \Magento\Translate\Inline\ParserInterface $parser,
         \Magento\Translate\Inline\StateInterface $state,
@@ -204,8 +204,8 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     protected function getInlineScript()
     {
-        /** @var $block \Magento\View\Element\Template */
-        $block = $this->layout->createBlock('Magento\View\Element\Template');
+        /** @var $block \Magento\Framework\View\Element\Template */
+        $block = $this->layout->createBlock('Magento\Framework\View\Element\Template');
 
         $block->setAjaxUrl($this->getAjaxUrl());
         $block->setTemplate($this->templateFileName);

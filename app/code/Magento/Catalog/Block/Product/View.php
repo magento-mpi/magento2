@@ -12,7 +12,7 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Product View block
  */
-class View extends AbstractProduct implements \Magento\View\Block\IdentityInterface
+class View extends AbstractProduct implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type

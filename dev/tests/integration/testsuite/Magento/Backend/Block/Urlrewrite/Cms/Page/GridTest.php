@@ -23,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
         );
@@ -59,7 +59,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
         );

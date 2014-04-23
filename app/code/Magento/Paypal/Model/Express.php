@@ -389,7 +389,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      *
      * @param \Magento\Object|Payment $payment
      * @param float $amount
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -424,7 +424,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
 
             if ($authorizationTransaction->getIsClosed() || $voided) {
                 if ($payment->getAdditionalInformation($this->_authorizationCountKey) > $maxAuthorizationNumber - 1) {
-                    throw new \Magento\Model\Exception(__('The maximum number of child authorizations is reached.'));
+                    throw new \Magento\Framework\Model\Exception(__('The maximum number of child authorizations is reached.'));
                 }
                 $api = $this->_callDoAuthorize($amount, $payment, $authorizationTransaction->getParentTxnId());
 

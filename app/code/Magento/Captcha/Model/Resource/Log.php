@@ -14,7 +14,7 @@ namespace Magento\Captcha\Model\Resource;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Log extends \Magento\Model\Resource\Db\AbstractDb
+class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Type Remote Address

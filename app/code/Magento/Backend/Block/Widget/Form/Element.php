@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Block\Widget\Form;
 
-use Magento\Data\Form;
+use Magento\Framework\Data\Form;
 
 /**
  * Form element widget block

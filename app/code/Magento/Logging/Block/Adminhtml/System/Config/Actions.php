@@ -61,10 +61,10 @@ class Actions extends \Magento\Backend\Block\System\Config\Form\Field
     /**
      * Render element html
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setNamePrefix($element->getName())->setHtmlId($element->getHtmlId());
         return $this->_toHtml();

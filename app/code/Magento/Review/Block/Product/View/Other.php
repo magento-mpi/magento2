@@ -12,7 +12,7 @@ namespace Magento\Review\Block\Product\View;
 /**
  * Product view other block
  */
-class Other extends \Magento\View\Element\Template
+class Other extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Registry
@@ -20,12 +20,12 @@ class Other extends \Magento\View\Element\Template
     protected $_registry;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

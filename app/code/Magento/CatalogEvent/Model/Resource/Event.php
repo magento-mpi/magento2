@@ -14,8 +14,8 @@ namespace Magento\CatalogEvent\Model\Resource;
 
 use Magento\Framework\App\Resource as AppResource;
 use Magento\Catalog\Model\Resource\Category\CollectionFactory;
-use Magento\Model\AbstractModel;
-use Magento\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -85,7 +85,7 @@ class Event extends AbstractDb
     /**
      * Before model save
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _beforeSave(AbstractModel $object)
@@ -107,7 +107,7 @@ class Event extends AbstractDb
     {
         $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        /* @var $select \Magento\DB\Select */
+        /* @var $select \Magento\Framework\DB\Select */
         $select = $this->_categoryCollectionFactory->create()->setStoreId(
             $this->_storeManager->getStore($storeId)->getId()
         )->addIsActiveFilter()->addPathsFilter(
@@ -237,7 +237,7 @@ class Event extends AbstractDb
     /**
      * After model load (loads event image)
      *
-     * @param AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
     protected function _afterLoad(AbstractModel $object)

@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * VAT ID element renderer
@@ -59,7 +59,7 @@ class Vat extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
     public function getValidateButton()
     {
         if (is_null($this->_validateButton)) {
-            /** @var $form \Magento\Data\Form */
+            /** @var $form \Magento\Framework\Data\Form */
             $form = $this->_element->getForm();
 
             $vatElementId = $this->_element->getHtmlId();

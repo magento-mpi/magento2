@@ -18,7 +18,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     protected $customerSession;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $layout;
 
@@ -44,7 +44,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Data\CustomerBuilder $customerBuilder
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\App\RequestInterface $request
@@ -53,7 +53,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\App\RequestInterface $request,

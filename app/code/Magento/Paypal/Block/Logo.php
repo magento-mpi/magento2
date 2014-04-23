@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block;
 
-class Logo extends \Magento\View\Element\Template
+class Logo extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Paypal\Model\Config
@@ -26,13 +26,13 @@ class Logo extends \Magento\View\Element\Template
     protected $_localeResolver;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\Config $paypalConfig,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()

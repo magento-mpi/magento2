@@ -50,13 +50,13 @@ class Observer
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -64,7 +64,7 @@ class Observer
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -161,7 +161,7 @@ class Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if ($this->_design->getArea() == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == \Magento\Framework\App\Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -307,7 +307,7 @@ class Observer
      */
     public function assignHtmlHeadRenderingFlag(\Magento\Event\Observer $observer)
     {
-        /** @var $layout \Magento\View\LayoutInterface */
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = $observer->getEvent()->getLayout();
         /** @var $blockHead \Magento\Theme\Block\Html\Head */
         $blockHead = $layout->getBlock('head');

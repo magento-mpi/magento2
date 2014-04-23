@@ -35,7 +35,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Review\Helper\Data $reviewData
      * @param array $data
@@ -43,7 +43,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Review\Helper\Data $reviewData,
         array $data = array()
@@ -60,7 +60,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));

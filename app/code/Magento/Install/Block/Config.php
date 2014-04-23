@@ -30,7 +30,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
     protected $_installerConfig = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
@@ -38,7 +38,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
@@ -109,7 +109,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
     public function getSessionSaveSelect()
     {
         $html = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'config[session_save]'
         )->setId(

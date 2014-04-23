@@ -21,7 +21,7 @@ class Files extends \Magento\Backend\Block\Template
     /**
      * Files collection object
      *
-     * @var \Magento\Data\Collection\Filesystem
+     * @var \Magento\Framework\Data\Collection\Filesystem
      */
     protected $_filesCollection;
 
@@ -55,7 +55,7 @@ class Files extends \Magento\Backend\Block\Template
     /**
      * Prepared Files collection for current directory
      *
-     * @return \Magento\Data\Collection\Filesystem
+     * @return \Magento\Framework\Data\Collection\Filesystem
      */
     public function getFiles()
     {

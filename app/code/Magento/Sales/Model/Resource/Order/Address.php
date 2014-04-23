@@ -80,10 +80,10 @@ class Address extends AbstractOrder
     /**
      * Update related grid table after object save
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Object $object
-     * @return \Magento\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {

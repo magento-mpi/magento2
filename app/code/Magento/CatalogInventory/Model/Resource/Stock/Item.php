@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Model\Resource\Stock;
 
-class Item extends \Magento\Model\Resource\Db\AbstractDb
+class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Core store config
@@ -73,7 +73,7 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      * @param string $field
      * @param int $value
      * @param \Magento\CatalogInventory\Model\Stock\Item $object
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

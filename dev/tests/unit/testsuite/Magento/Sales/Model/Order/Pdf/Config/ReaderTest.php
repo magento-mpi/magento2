@@ -15,7 +15,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
@@ -30,13 +30,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_schemaLocator;
 
     /**
-     * @var \Magento\Config\ValidationStateInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Config\ValidationStateInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_validationState;
 
     protected function setUp()
     {
-        $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
+        $this->_fileResolverMock = $this->getMock('Magento\Framework\Config\FileResolverInterface');
         $this->_fileResolverMock->expects(
             $this->once()
         )->method(
@@ -69,7 +69,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_schemaLocator = new \Magento\Sales\Model\Order\Pdf\Config\SchemaLocator($moduleReader);
-        $this->_validationState = $this->getMock('Magento\Config\ValidationStateInterface');
+        $this->_validationState = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $this->_validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
 
         $this->_model = new \Magento\Sales\Model\Order\Pdf\Config\Reader(

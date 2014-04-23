@@ -61,7 +61,7 @@ class Observer
     protected $_customerFactory;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -122,7 +122,7 @@ class Observer
      * @param \Magento\Persistent\Helper\Data $mPersistentData
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Persistent\Model\Observer $observer
      * @param \Magento\Catalog\Model\Product\Compare\Item $compareItem
@@ -141,7 +141,7 @@ class Observer
         \Magento\Persistent\Helper\Data $mPersistentData,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Persistent\Model\Observer $observer,
         \Magento\Catalog\Model\Product\Compare\Item $compareItem,
@@ -251,7 +251,7 @@ class Observer
     /**
      * Set whislist items count in top wishlist link block
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      * @deprecated after 1.11.2.0
      */
@@ -266,7 +266,7 @@ class Observer
     /**
      * Set persistent wishlist to wishlist sidebar block
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      * @deprecated after 1.11.2.0
      */
@@ -281,7 +281,7 @@ class Observer
     /**
      * Set persistent orders to recently orders block
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      */
     public function initReorderSidebar($block)

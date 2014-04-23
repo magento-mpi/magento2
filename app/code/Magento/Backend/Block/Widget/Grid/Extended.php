@@ -30,7 +30,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Collection object
      *
-     * @var \Magento\Data\Collection
+     * @var \Magento\Framework\Data\Collection
      */
     protected $_collection = null;
 
@@ -130,7 +130,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      *
      * @var string|null
      */
-    protected $_emptyTextCss = 'a-center';
+    protected $_emptyTextCss = 'empty-text';
 
     /**
      * @var bool
@@ -157,7 +157,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     protected $_template = 'Magento_Backend::widget/grid/extended.phtml';
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 
@@ -224,7 +224,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Retrieve column set block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getColumnSet()
     {
@@ -963,10 +963,10 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
      * Write item data to csv export file
      *
      * @param \Magento\Object $item
-     * @param \Magento\Filesystem\File\WriteInterface $stream
+     * @param \Magento\Framework\Filesystem\File\WriteInterface $stream
      * @return void
      */
-    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\File\WriteInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
     {
         $row = array();
         foreach ($this->getColumns() as $column) {
@@ -1212,7 +1212,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * Set collection object
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @return void
      */
     public function setCollection($collection)
@@ -1223,7 +1223,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
     /**
      * get collection object
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCollection()
     {

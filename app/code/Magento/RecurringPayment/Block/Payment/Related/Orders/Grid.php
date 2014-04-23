@@ -38,7 +38,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
     protected $_recurringCollectionFilter;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
@@ -47,7 +47,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,

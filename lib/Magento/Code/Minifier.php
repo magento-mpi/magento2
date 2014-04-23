@@ -7,7 +7,7 @@
  */
 namespace Magento\Code;
 
-use Magento\Filesystem\Directory\Read;
+use Magento\Framework\Filesystem\Directory\Read;
 
 class Minifier
 {

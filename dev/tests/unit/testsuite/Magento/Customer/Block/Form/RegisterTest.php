@@ -59,7 +59,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getScopeConfig')->will($this->returnValue($this->_scopeConfig));
 
         $this->_block = new Register(

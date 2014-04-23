@@ -31,7 +31,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
@@ -42,7 +42,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Module\Manager $moduleManager,
         array $data = array(),

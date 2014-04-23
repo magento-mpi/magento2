@@ -51,7 +51,7 @@ abstract class AbstractModel extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_varDirectory;
 

@@ -9,7 +9,6 @@
  */
 namespace Magento\Email\Model;
 
-use Magento\Model\Exception;
 use Magento\Email\Model\Template\Filter;
 use Magento\Filter\Template as FilterTemplate;
 use Magento\Store\Model\StoreManagerInterface;
@@ -127,12 +126,12 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_filesystem;
 
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -158,14 +157,14 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     protected $_emailFilterFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\View\Url $viewUrl
-     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Framework\View\Url $viewUrl
+     * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
@@ -174,14 +173,14 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         StoreManagerInterface $storeManager,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\View\Url $viewUrl,
-        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Framework\View\Url $viewUrl,
+        \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
@@ -241,7 +240,7 @@ class Template extends \Magento\Email\Model\AbstractTemplate implements \Magento
     {
         return $this->_viewUrl->getViewFileUrl(
             'Magento_Email::logo_email.gif',
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND)
         );
     }
 

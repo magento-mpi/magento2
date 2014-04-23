@@ -437,7 +437,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
-                'form_key'  => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key'  => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'John',
                 'lastname'  => 'Doe',
                 'email'     => 'johndoe@email.com'
@@ -478,7 +478,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
-                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key'         => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname'        => 'John',
                 'lastname'         => 'Doe',
                 'email'            => 'johndoe@email.com',
@@ -511,7 +511,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
-                'form_key'  => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key'  => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'John',
                 'lastname'  => 'Doe',
                 'email'     => 'bad-email'
@@ -535,7 +535,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
-                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key'         => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname'        => 'John',
                 'lastname'         => 'Doe',
                 'email'            => 'johndoe@email.com',
@@ -563,7 +563,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
-                'form_key'         => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'form_key'         => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname'        => 'John',
                 'lastname'         => 'Doe',
                 'email'            => 'johndoe@email.com',

@@ -208,7 +208,7 @@ class Option extends Widget
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldId() . '_${id}_type',
@@ -229,7 +229,7 @@ class Option extends Widget
     public function getRequireSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $this->getFieldId() . '_${id}_is_require', 'class' => 'select')
         )->setName(

@@ -36,7 +36,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
@@ -51,7 +51,7 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\Resource $resource,
@@ -177,10 +177,10 @@ class AbstractCollection extends \Magento\Eav\Model\Entity\Collection\AbstractCo
     }
 
     /**
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $table
      * @param string $type
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {

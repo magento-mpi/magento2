@@ -182,7 +182,7 @@ class Template extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(

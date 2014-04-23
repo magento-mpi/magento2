@@ -20,10 +20,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\PageCache\Cache */
     protected $_cacheMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Element\AbstractBlock */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Element\AbstractBlock */
     protected $_blockMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Layout */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Layout */
     protected $_layoutMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer */
@@ -75,14 +75,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
         $this->_layoutMock = $this->getMock(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
             array(),
             '',
             false
         );
         $this->_blockMock = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock',
+            'Magento\Framework\View\Element\AbstractBlock',
             array(),
             '',
             false,
@@ -303,7 +303,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setData'
         )->with(
-            \Magento\Data\Form\FormKey::FORM_KEY,
+            \Magento\Framework\Data\Form\FormKey::FORM_KEY,
             $formKey
         );
 
