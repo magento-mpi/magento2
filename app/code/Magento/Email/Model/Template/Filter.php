@@ -109,11 +109,6 @@ class Filter extends \Magento\Filter\Template
     protected $_appState;
 
     /**
-     * @var \Magento\Backend\Model\UrlInterface
-     */
-    protected $backendUrlBuilder;
-
-    /**
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
@@ -124,7 +119,6 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Backend\Model\UrlInterface $backendUrlBuilder
      * @param array $variables
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -140,7 +134,6 @@ class Filter extends \Magento\Filter\Template
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\App\State $appState,
-        \Magento\Backend\Model\UrlInterface $backendUrlBuilder,
         $variables = array()
     ) {
         $this->_escaper = $escaper;
@@ -153,7 +146,6 @@ class Filter extends \Magento\Filter\Template
         $this->_layout = $layout;
         $this->_layoutFactory = $layoutFactory;
         $this->_appState = $appState;
-        $this->backendUrlBuilder = $backendUrlBuilder;
         parent::__construct($string, $variables);
     }
 
@@ -402,12 +394,7 @@ class Filter extends \Magento\Filter\Template
             unset($params['url']);
         }
 
-        if (0 === $this->getStoreId() || \Magento\Store\Model\Store::ADMIN_CODE === $this->getStoreId()) {
-            $url = $this->backendUrlBuilder->getUrl($path, $params);
-        } else {
-            $url = $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
-        }
-        return $url;
+        return $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**
