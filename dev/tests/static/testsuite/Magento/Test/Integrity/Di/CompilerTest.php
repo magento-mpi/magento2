@@ -52,7 +52,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     /**
      * Class arguments reader
      *
-     * @var \Magento\Interception\Code\InterfaceValidator
+     * @var \Magento\Framework\Interception\Code\InterfaceValidator
      */
     protected $pluginValidator;
 
@@ -102,7 +102,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_validator->add(new \Magento\Framework\Code\Validator\ContextAggregation());
         $this->_validator->add(new \Magento\Framework\Code\Validator\TypeDuplication());
         $this->_validator->add(new \Magento\Framework\Code\Validator\ArgumentSequence());
-        $this->pluginValidator = new \Magento\Interception\Code\InterfaceValidator();
+        $this->pluginValidator = new \Magento\Framework\Interception\Code\InterfaceValidator();
     }
 
     protected function tearDown()
@@ -355,7 +355,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             if (\Magento\TestFramework\Utility\Files::init()->isModuleExists($module)) {
                 $this->pluginValidator->validate($plugin, $type);
             }
-        } catch (\Magento\Interception\Code\ValidatorException $exception) {
+        } catch (\Magento\Framework\Interception\Code\ValidatorException $exception) {
             $this->fail($exception->getMessage());
         }
     }

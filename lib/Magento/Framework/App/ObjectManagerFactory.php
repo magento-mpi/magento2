@@ -31,7 +31,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_configClassName = 'Magento\Interception\ObjectManager\Config';
+    protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\Config';
 
     /**
      * Factory
@@ -102,7 +102,7 @@ class ObjectManagerFactory
             'Magento\Framework\App\Filesystem\DirectoryList' => $directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $directoryList,
             'Magento\Framework\ObjectManager\Relations' => $relations,
-            'Magento\Interception\Definition' => $definitionFactory->createPluginDefinition(),
+            'Magento\Framework\Interception\Definition' => $definitionFactory->createPluginDefinition(),
             'Magento\Framework\ObjectManager\Config' => $diConfig,
             'Magento\Framework\ObjectManager\Definition' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
@@ -127,7 +127,7 @@ class ObjectManagerFactory
         $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
         $objectManager->get('Magento\Framework\App\Resource')
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
-        $interceptionConfig = $objectManager->get('Magento\Interception\Config\Config');
+        $interceptionConfig = $objectManager->get('Magento\Framework\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
 
         $this->configureDirectories($objectManager);
@@ -238,7 +238,7 @@ class ObjectManagerFactory
      * @param \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory
      * @param \Magento\Framework\ObjectManager\Config\Config $diConfig
      * @param \Magento\Framework\ObjectManager\Definition $definitions
-     * @return \Magento\Interception\PluginList\PluginList
+     * @return \Magento\Framework\Interception\PluginList\PluginList
      */
     protected function _createPluginList(
         \Magento\Framework\ObjectManager $objectManager,
@@ -248,7 +248,7 @@ class ObjectManagerFactory
         \Magento\Framework\ObjectManager\Definition $definitions
     ) {
         return $objectManager->create(
-            'Magento\Interception\PluginList\PluginList',
+            'Magento\Framework\Interception\PluginList\PluginList',
             [
                 'relations' => $relations,
                 'definitions' => $definitionFactory->createPluginDefinition(),

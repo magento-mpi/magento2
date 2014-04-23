@@ -89,7 +89,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $this->factory->setArguments($appArguments->get());
         $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');
 
-        $objectManager->get('Magento\Interception\PluginList')->reset();
+        $objectManager->get('Magento\Framework\Interception\PluginList')->reset();
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
@@ -130,8 +130,8 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
                     'Magento\Framework\App\Request\Http' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\ResponseInterface' => 'Magento\TestFramework\Response',
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
-                    'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
-                    'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\Framework\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Framework\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
                 ]
             );

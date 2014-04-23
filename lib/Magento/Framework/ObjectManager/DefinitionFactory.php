@@ -14,7 +14,7 @@ use Magento\Framework\Filesystem\DriverInterface;
 use Magento\Framework\ObjectManager\Definition\Runtime;
 use Magento\Framework\ObjectManager\Relations;
 use Magento\Framework\ObjectManager\Code\Generator;
-use Magento\Interception\Code\Generator as InterceptionGenerator;
+use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -106,7 +106,7 @@ class DefinitionFactory
                 array(
                     Generator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
                     Generator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor'
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor'
                 )
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
@@ -120,17 +120,17 @@ class DefinitionFactory
     /**
      * Create plugin definitions
      *
-     * @return \Magento\Interception\Definition
+     * @return \Magento\Framework\Interception\Definition
      */
     public function createPluginDefinition()
     {
         $path = $this->_definitionDir . '/plugins.php';
         if ($this->_filesystemDriver->isReadable($path)) {
-            return new \Magento\Interception\Definition\Compiled(
+            return new \Magento\Framework\Interception\Definition\Compiled(
                 $this->_unpack($this->_filesystemDriver->fileGetContents($path))
             );
         } else {
-            return new \Magento\Interception\Definition\Runtime();
+            return new \Magento\Framework\Interception\Definition\Runtime();
         }
     }
 

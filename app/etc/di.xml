@@ -38,7 +38,7 @@
     <preference for="Magento\Framework\Module\ModuleListInterface" type="Magento\Framework\Module\ModuleList" />
     <preference for="Magento\Framework\Event\ConfigInterface" type="Magento\Framework\Event\Config" />
     <preference for="Magento\Framework\Event\InvokerInterface" type="Magento\Framework\Event\Invoker\InvokerDefault" />
-    <preference for="Magento\Interception\PluginList" type="Magento\Interception\PluginList\PluginList" />
+    <preference for="Magento\Framework\Interception\PluginList" type="Magento\Framework\Interception\PluginList\PluginList" />
     <preference for="Magento\Framework\Event\ManagerInterface" type="Magento\Framework\Event\Manager\Proxy" />
     <preference for="Magento\Framework\View\LayoutInterface" type="Magento\Framework\View\Layout" />
     <preference for="Magento\Framework\View\Layout\ProcessorInterface" type="Magento\Core\Model\Layout\Merge" />
@@ -55,7 +55,7 @@
     <preference for="Magento\Framework\Message\ManagerInterface" type="Magento\Framework\Message\Manager" />
     <preference for="Magento\Framework\App\Config\ValueInterface" type="Magento\Framework\App\Config\Value" />
     <preference for="Magento\Framework\Module\DependencyManagerInterface" type="Magento\Framework\Module\DependencyManager" />
-    <preference for="Magento\Interception\Chain" type="Magento\Interception\Chain\Chain" />
+    <preference for="Magento\Framework\Interception\Chain" type="Magento\Framework\Interception\Chain\Chain" />
     <preference for="Magento\Framework\Module\Output\ConfigInterface" type="Magento\Framework\Module\Output\Config" />
     <preference for="Magento\Framework\View\Design\Theme\CustomizationInterface" type="Magento\Framework\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Image\Adapter\Config" />
@@ -199,14 +199,14 @@
             <argument name="cacheId" xsi:type="string">config_cache</argument>
         </arguments>
     </type>
-    <type name="Magento\Interception\Config\Config">
+    <type name="Magento\Framework\Interception\Config\Config">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
             <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom</argument>
             <argument name="cacheId" xsi:type="string">interception</argument>
         </arguments>
     </type>
-    <type name="Magento\Interception\PluginList\PluginList">
+    <type name="Magento\Framework\Interception\PluginList\PluginList">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Config</argument>
             <argument name="reader" xsi:type="object">Magento\Framework\ObjectManager\Config\Reader\Dom</argument>
@@ -343,8 +343,8 @@
             <argument name="generatedEntities" xsi:type="array">
                 <item name="factory" xsi:type="string">\Magento\Framework\ObjectManager\Code\Generator\Factory</item>
                 <item name="proxy" xsi:type="string">\Magento\Framework\ObjectManager\Code\Generator\Proxy</item>
-                <item name="interceptor" xsi:type="string">\Magento\Interception\Code\Generator\Interceptor</item>
-                <item name="decorator" xsi:type="string">\Magento\Interception\Code\Generator\Decorator</item>
+                <item name="interceptor" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Interceptor</item>
+                <item name="decorator" xsi:type="string">\Magento\Framework\Interception\Code\Generator\Decorator</item>
             </argument>
         </arguments>
     </type>

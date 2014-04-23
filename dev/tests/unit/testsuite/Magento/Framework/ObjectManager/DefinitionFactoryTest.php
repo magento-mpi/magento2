@@ -93,7 +93,7 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
             'plugins' => array(
                 'DefinitionDir/plugins.php',
                 'createPluginDefinition',
-                '\Magento\Interception\Definition\Compiled'
+                '\Magento\Framework\Interception\Definition\Compiled'
             ),
         );
     }
@@ -123,7 +123,7 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
             'plugins' => array(
                 'DefinitionDir/plugins.php',
                 'createPluginDefinition',
-                '\Magento\Interception\Definition\Runtime'
+                '\Magento\Framework\Interception\Definition\Runtime'
             ),
         );
     }

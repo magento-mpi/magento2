@@ -7,7 +7,7 @@
  */
 namespace Magento\TestFramework\Interception;
 
-class PluginList extends \Magento\Interception\PluginList\PluginList
+class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
 {
     /**
      * @var array
@@ -20,7 +20,7 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
      * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Framework\ObjectManager\Relations $relations
      * @param \Magento\Framework\ObjectManager\Config $omConfig
-     * @param \Magento\Interception\Definition $definitions
+     * @param \Magento\Framework\Interception\Definition $definitions
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
      * @param array $scopePriorityScheme
@@ -34,7 +34,7 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
         \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Framework\ObjectManager\Relations $relations,
         \Magento\Framework\ObjectManager\Config $omConfig,
-        \Magento\Interception\Definition $definitions,
+        \Magento\Framework\Interception\Definition $definitions,
         \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\ObjectManager\Definition $classDefinitions,
         array $scopePriorityScheme,

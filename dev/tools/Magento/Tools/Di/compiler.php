@@ -81,8 +81,8 @@ try {
         null,
         $generatorIo,
         array(
-            \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
-                'Magento\Interception\Code\Generator\Interceptor',
+            \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
+                'Magento\Framework\Interception\Code\Generator\Interceptor',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
             Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory'
         )
@@ -163,7 +163,7 @@ try {
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
     $pluginDefinitions = array();
     $pluginList = $pluginScanner->collectEntities($files);
-    $pluginDefinitionList = new \Magento\Interception\Definition\Runtime();
+    $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
     foreach ($pluginList as $type => $entityList) {
         foreach ($entityList as $entity) {
             $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);

@@ -53,4 +53,5 @@ return [
     ['Magento\Mview', 'Magento\Framework\Mview'],
     ['Magento\Validator', 'Magento\Framework\Validator'],
     ['Magento\Xml', 'Magento\Framework\Xml'],
+    ['Magento\Interception', 'Magento\Framework\Interception'],
 ];

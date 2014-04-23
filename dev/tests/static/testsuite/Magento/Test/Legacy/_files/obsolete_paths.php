@@ -186,4 +186,10 @@ return [
     ['/lib/Magento/Xml', '/lib/Magento/Framework/Xml'],
     ['/dev/tests/unit/testsuite/Magento/Xml', '/dev/tests/unit/testsuite/Magento/Framework/Xml'],
     ['/dev/tests/integration/testsuite/Magento/Xml', '/dev/tests/integration/testsuite/Magento/Framework/Xml'],
+    ['/lib/Magento/Interception', '/lib/Magento/Framework/Interception'],
+    ['/dev/tests/unit/testsuite/Magento/Interception', '/dev/tests/unit/testsuite/Magento/Framework/Interception'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Interception',
+        '/dev/tests/integration/testsuite/Magento/Framework/Interception'
+    ],
 ];
