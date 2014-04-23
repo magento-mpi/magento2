@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\Framework\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -53,7 +53,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -73,29 +73,29 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_logDirectory;
 
     /**
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Filesystem $filesystem
+        \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
+        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::LOG_DIR);
     }
 
     /**
@@ -125,11 +125,11 @@ class Observer
             try {
                 $this->_logDirectory->create($logPath);
             } catch (FilesystemException $e) {
-                throw new \Magento\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
+                throw new \Magento\Framework\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
             }
 
             if (!$this->_logDirectory->isWritable($logPath)) {
-                throw new \Magento\Model\Exception(__('The directory "%1" is not writable.', $logPath));
+                throw new \Magento\Framework\Model\Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int)$this->_scopeConfig->getValue(
                 self::SAVE_LOG_TIME_PATH,
@@ -146,7 +146,7 @@ class Observer
                     try {
                         $this->_logDirectory->delete($directory);
                     } catch (FilesystemException $e) {
-                        throw new \Magento\Model\Exception(
+                        throw new \Magento\Framework\Model\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
@@ -232,7 +232,7 @@ class Observer
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $vars
         )->setFrom(

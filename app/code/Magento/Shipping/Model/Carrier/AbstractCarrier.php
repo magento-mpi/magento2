@@ -79,7 +79,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -94,13 +94,13 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected $_logAdapterFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
@@ -269,7 +269,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
 
     /**
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return $this|bool|false|\Magento\Model\AbstractModel
+     * @return $this|bool|false|\Magento\Framework\Model\AbstractModel
      */
     public function checkAvailableShipCountries(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {

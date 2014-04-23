@@ -34,7 +34,7 @@ use Magento\Mail\Exception as MailException;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
-class Subscriber extends \Magento\Model\AbstractModel
+class Subscriber extends \Magento\Framework\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED = 1;
     const STATUS_NOT_ACTIVE = 2;
@@ -83,7 +83,7 @@ class Subscriber extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -119,31 +119,31 @@ class Subscriber extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Helper\Data $newsletterData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Newsletter\Helper\Data $newsletterData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
         $this->_newsletterData = $newsletterData;
@@ -452,13 +452,13 @@ class Subscriber extends \Magento\Model\AbstractModel
     /**
      * Unsubscribes loaded subscription
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            throw new \Magento\Model\Exception(__('This is an invalid subscription confirmation code.'));
+            throw new \Magento\Framework\Model\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
         if ($this->getSubscriberStatus() != self::STATUS_UNSUBSCRIBED) {
@@ -645,7 +645,7 @@ class Subscriber extends \Magento\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(
@@ -698,7 +698,7 @@ class Subscriber extends \Magento\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(
@@ -750,7 +750,7 @@ class Subscriber extends \Magento\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(

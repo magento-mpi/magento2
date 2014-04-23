@@ -7,13 +7,13 @@
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use Magento\App\Action\Context;
+use Magento\Framework\App\Action\Context;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Multishipping checkout address manipulation controller
  */
-class Address extends \Magento\App\Action\Action
+class Address extends \Magento\Framework\App\Action\Action
 {
     /** @var CustomerAddressServiceInterface */
     protected $_customerAddressService;
@@ -25,7 +25,7 @@ class Address extends \Magento\App\Action\Action
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         CustomerAddressServiceInterface $customerAddressService
     ) {
         $this->_customerAddressService = $customerAddressService;

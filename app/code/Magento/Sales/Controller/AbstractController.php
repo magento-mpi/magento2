@@ -12,7 +12,7 @@ namespace Magento\Sales\Controller;
 /**
  * Sales Controller
  */
-abstract class AbstractController extends \Magento\App\Action\Action
+abstract class AbstractController extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -22,10 +22,10 @@ abstract class AbstractController extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -158,7 +158,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
         foreach ($items as $item) {
             try {
                 $cart->addOrderItem($item);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 if ($this->_objectManager->get('Magento\Checkout\Model\Session')->getUseNotice(true)) {
                     $this->messageManager->addNotice($e->getMessage());
                 } else {

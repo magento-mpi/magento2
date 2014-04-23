@@ -20,7 +20,7 @@ namespace Magento\AdminGws\Model;
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -47,7 +47,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     private $_storeManager = null;
 
     /**
-     * @var \Magento\App\ResponseInterface
+     * @var \Magento\Framework\App\ResponseInterface
      */
     protected $_response = null;
 
@@ -72,7 +72,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_productFactoryRes;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
@@ -88,11 +88,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
      * @param \Magento\Registry $registry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\App\ResponseInterface $response
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -104,11 +104,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
         \Magento\Registry $registry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ResponseInterface $response,
-        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Framework\App\ResponseInterface $response,
+        \Magento\Framework\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_registry = $registry;
@@ -150,7 +150,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                         return;
                     }
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 // redirect later from non-existing website
             }
         }
@@ -160,19 +160,37 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this->_redirect(
                 $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->getAnyStoreView()->getWebsite()->getCode())
                 )
             );
         }
+        $store = $this->getAnyStoreView();
         $this->_redirect(
             $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                    'website' => $store->getWebsite()->getCode(),
+                    'store' => $store->getCode()
                 )
             )
         );
+    }
+
+    /**
+     * Get either default or any store view
+     *
+     * @return \Magento\Store\Model\Store|null
+     */
+    protected function getAnyStoreView()
+    {
+        $store = $this->_storeManager->getDefaultStoreView();
+        if ($store) {
+            return $store;
+        }
+        foreach ($this->_storeManager->getStores() as $store) {
+            return $store;
+        }
+        return null;
     }
 
     /**
@@ -413,7 +431,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this->_redirect(
                 array(
                     '*/*/*',
-                    'store' => $this->_storeManager->getAnyStoreView()->getId(),
+                    'store' => $this->getAnyStoreView()->getId(),
                     'id' => $catalogEvent->getId()
                 )
             );
@@ -576,7 +594,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     protected function _redirect($url = null)
     {
-        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
             $url = $this->_backendUrl->getUrl('adminhtml/*/denied');
         } elseif (is_array($url)) {
@@ -908,7 +926,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $id = $this->_request->getParam('id');
         if ($id) {
-            $object = $this->_objectManager->create('Magento\Checkout\Model\Agreement')->load($id);
+            $object = $this->_objectManager->create('Magento\CheckoutAgreements\Model\Agreement')->load($id);
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {
@@ -1343,7 +1361,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 $this->_forward();
                 return false;
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_forward();
             return false;
         }

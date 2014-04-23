@@ -108,12 +108,12 @@ abstract class AbstractData
      * Return Attribute instance
      *
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getAttribute()
     {
         if (!$this->_attribute) {
-            throw new \Magento\Model\Exception(__('Attribute object is undefined'));
+            throw new \Magento\Framework\Model\Exception(__('Attribute object is undefined'));
         }
         return $this->_attribute;
     }
@@ -195,13 +195,13 @@ abstract class AbstractData
     /**
      * Return Data Form Input/Output Filter
      *
-     * @return \Magento\Data\Form\Filter\FilterInterface|false
+     * @return \Magento\Framework\Data\Form\Filter\FilterInterface|false
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttribute()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
+            $filterClass = 'Magento\Framework\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {
@@ -441,10 +441,10 @@ abstract class AbstractData
     /**
      * Return Original Attribute value from Request
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
-    protected function _getRequestValue(\Magento\App\RequestInterface $request)
+    protected function _getRequestValue(\Magento\Framework\App\RequestInterface $request)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
@@ -480,17 +480,17 @@ abstract class AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return array|string
      */
-    abstract public function extractValue(\Magento\App\RequestInterface $request);
+    abstract public function extractValue(\Magento\Framework\App\RequestInterface $request);
 
     /**
      * Validate data
      *
      * @param array|string|null $value
      * @return array|bool
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     abstract public function validateValue($value);
 

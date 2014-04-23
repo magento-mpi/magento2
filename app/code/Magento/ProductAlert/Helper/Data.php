@@ -10,14 +10,13 @@
 namespace Magento\ProductAlert\Helper;
 
 use Magento\Store\Model\Store;
-use Magento\Customer\Model\Session;
 
 /**
  * ProductAlert data helper
  *
  * @category   Magento
  * @package    Magento_ProductAlert
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Core\Helper\Url
 {
@@ -38,40 +37,32 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_session;
-
-    /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Customer\Model\Session $session
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
-        \Magento\View\LayoutInterface $layout,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Customer\Model\Session $session
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
         $this->_scopeConfig = $scopeConfig;
-        $this->_session = $session;
         parent::__construct($context, $storeManager);
     }
 
@@ -101,14 +92,6 @@ class Data extends \Magento\Core\Helper\Url
     }
 
     /**
-     * @return Session
-     */
-    public function getCustomer()
-    {
-        return $this->_session;
-    }
-
-    /**
      * @return Store
      */
     public function getStore()
@@ -126,7 +109,7 @@ class Data extends \Magento\Core\Helper\Url
             'productalert/add/' . $type,
             array(
                 'product_id' => $this->getProduct()->getId(),
-                \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+                \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
             )
         );
     }
@@ -134,9 +117,9 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Create block instance
      *
-     * @param string|\Magento\View\Element\AbstractBlock $block
-     * @return \Magento\View\Element\AbstractBlock
-     * @throws \Magento\Model\Exception
+     * @param string|\Magento\Framework\View\Element\AbstractBlock $block
+     * @return \Magento\Framework\View\Element\AbstractBlock
+     * @throws \Magento\Framework\Model\Exception
      */
     public function createBlock($block)
     {
@@ -145,8 +128,8 @@ class Data extends \Magento\Core\Helper\Url
                 $block = $this->_layout->createBlock($block);
             }
         }
-        if (!$block instanceof \Magento\View\Element\AbstractBlock) {
-            throw new \Magento\Model\Exception(__('Invalid block type: %1', $block));
+        if (!$block instanceof \Magento\Framework\View\Element\AbstractBlock) {
+            throw new \Magento\Framework\Model\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -158,7 +141,10 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isStockAlertAllowed()
     {
-        return $this->_scopeConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -168,6 +154,9 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isPriceAlertAllowed()
     {
-        return $this->_scopeConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

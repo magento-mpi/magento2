@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource\Item;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Model\Resource\Db\AbstractDb
+class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

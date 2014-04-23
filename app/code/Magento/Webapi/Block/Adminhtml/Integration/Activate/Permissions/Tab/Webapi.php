@@ -44,7 +44,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Acl\RootResource $rootResource
      * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
@@ -55,7 +55,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Acl\RootResource $rootResource,
         \Magento\Acl\Resource\ProviderInterface $resourceProvider,

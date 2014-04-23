@@ -25,7 +25,7 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $form = $this->getMock('Magento\Data\Form', array('getElement', 'setDisabled'), array(), '', false);
+        $form = $this->getMock('Magento\Framework\Data\Form', array('getElement', 'setDisabled'), array(), '', false);
         $form->expects(
             $this->exactly(3)
         )->method(

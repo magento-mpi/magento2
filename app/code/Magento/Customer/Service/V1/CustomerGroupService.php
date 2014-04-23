@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
@@ -219,7 +219,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function getDefaultGroup($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getCurrentStore();
+            $storeId = $this->_storeManager->getStore()->getCode();
         }
         try {
             $groupId = $this->_scopeConfig->getValue(
@@ -227,7 +227,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             throw new NoSuchEntityException('storeId', $storeId);
         }
         try {
@@ -281,7 +281,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->setTaxClassId($taxClassId);
         try {
             $customerGroup->save();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             /* Would like a better way to determine this error condition but
                difficult to do without imposing more database calls
             */

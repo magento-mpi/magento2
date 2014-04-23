@@ -10,12 +10,12 @@ namespace Magento\Locale;
 class Lists implements \Magento\Locale\ListsInterface
 {
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
     /**
-     * @var \Magento\App\ScopeResolverInterface
+     * @var \Magento\Framework\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -30,15 +30,15 @@ class Lists implements \Magento\Locale\ListsInterface
     protected $_localeResolver;
 
     /**
-     * @param \Magento\App\State $appState
-     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ConfigInterface $config
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string $locale
      */
     public function __construct(
-        \Magento\App\State $appState,
-        \Magento\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ConfigInterface $config,
         \Magento\Locale\ResolverInterface $localeResolver,
         $locale = null

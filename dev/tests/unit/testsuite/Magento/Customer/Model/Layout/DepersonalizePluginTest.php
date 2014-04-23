@@ -24,7 +24,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
@@ -44,7 +44,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerFactoryMock;
 
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
 
@@ -72,7 +72,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->sessionMock = $this->getMock(
             'Magento\Session\Generic',
             array('clearStorage', 'setData', 'getData'),
@@ -94,7 +94,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->customerMock = $this->getMock(
             'Magento\Customer\Model\Customer',
             array('setGroupId', '__wakeup'),
@@ -146,7 +146,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerGroupId');
         $this->sessionMock->expects($this->once())
             ->method('getData')
-            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY));
+            ->with($this->equalTo(\Magento\Framework\Data\Form\FormKey::FORM_KEY));
         $output = $this->plugin->beforeGenerateXml($this->layoutMock);
         $this->assertEquals(array(), $output);
     }
@@ -224,7 +224,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheEnabled()
     {
-        $expectedResult = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -267,7 +267,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setData')
             ->with(
-                $this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY),
+                $this->equalTo(\Magento\Framework\Data\Form\FormKey::FORM_KEY),
                 $this->equalTo(null)
             );
         $this->customerSessionMock
@@ -283,7 +283,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheDisabled()
     {
-        $expectedResult = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -301,7 +301,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlRequestIsAjax()
     {
-        $expectedResult = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -326,7 +326,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlLayoutIsNotCacheable()
     {
-        $expectedResult = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')

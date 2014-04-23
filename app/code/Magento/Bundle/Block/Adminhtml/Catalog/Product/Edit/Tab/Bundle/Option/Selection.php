@@ -135,7 +135,7 @@ class Selection extends \Magento\Backend\Block\Widget
     public function getPriceTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldId() . '_{{index}}_price_type',
@@ -160,7 +160,7 @@ class Selection extends \Magento\Backend\Block\Widget
     public function getQtyTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $this->getFieldId() . '_{{index}}_can_change_qty', 'class' => 'select')
         )->setName(

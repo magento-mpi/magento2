@@ -266,7 +266,7 @@ class Queue extends \Magento\Backend\App\Action
     /**
      * Save Newsletter queue
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return void
      */
     public function saveAction()
@@ -281,7 +281,7 @@ class Queue extends \Magento\Backend\App\Action
                 $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
 
                 if (!$template->getId() || $template->getIsSystem()) {
-                    throw new \Magento\Model\Exception(__('Please correct the newsletter template and try again.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please correct the newsletter template and try again.'));
                 }
 
                 $queue->setTemplateId(
@@ -335,7 +335,7 @@ class Queue extends \Magento\Backend\App\Action
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

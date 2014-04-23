@@ -616,7 +616,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @param array $response
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -624,7 +624,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
             $message = $response['RESPMSG'];
             $e = new \Exception(sprintf('PayPal gateway errors: %s.', $message));
             $this->_logger->logException($e);
-            throw new \Magento\Model\Exception(__('PayPal gateway rejected the request. %1', $message));
+            throw new \Magento\Framework\Model\Exception(__('PayPal gateway rejected the request. %1', $message));
         }
     }
 

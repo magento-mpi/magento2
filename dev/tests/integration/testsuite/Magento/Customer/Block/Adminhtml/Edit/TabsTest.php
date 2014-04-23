@@ -53,7 +53,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('adminhtml');
+        $objectManager->get('Magento\Framework\App\State')->setAreaCode('adminhtml');
 
         $this->context = $objectManager->get('Magento\Backend\Block\Template\Context');
         $this->customerAccountService = $objectManager->get(
@@ -64,7 +64,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
 
         $this->block = $objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tabs',
             '',

@@ -16,7 +16,7 @@ namespace Magento\SalesArchive\Model\Resource;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Archive extends \Magento\Model\Resource\Db\AbstractDb
+class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Archive entities tables association
@@ -62,13 +62,13 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
      * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\SalesArchive\Model\Config $salesArchiveConfig,
         \Magento\SalesArchive\Model\ArchivalList $archivalList,
         \Magento\Stdlib\DateTime $dateTime
@@ -184,7 +184,7 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param array $statuses
      * @param int $archiveAge
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getOrderIdsForArchiveSelect($statuses, $archiveAge)
     {
@@ -197,7 +197,7 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
             $archivePeriodExpr = $adapter->getDateSubSql(
                 $adapter->quote($this->dateTime->formatDate(true)),
                 (int)$archiveAge,
-                \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
             $select->where($archivePeriodExpr . ' >= updated_at');
         }

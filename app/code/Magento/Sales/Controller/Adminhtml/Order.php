@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 /**
@@ -36,7 +36,7 @@ class Order extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -48,13 +48,13 @@ class Order extends \Magento\Backend\App\Action
     /**
      * @param Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -140,7 +140,7 @@ class Order extends \Magento\Backend\App\Action
         if ($order) {
             try {
                 $this->_initAction();
-            } catch (\Magento\App\Action\Exception $e) {
+            } catch (\Magento\Framework\App\Action\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('sales/order/index');
                 return;
@@ -177,7 +177,7 @@ class Order extends \Magento\Backend\App\Action
                     $historyItem->save();
                 }
                 $this->messageManager->addSuccess(__('You sent the order email.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We couldn\'t send the email order.'));
@@ -199,7 +199,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->cancel()->save();
                 $this->messageManager->addSuccess(__('You canceled the order.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not canceled the item.'));
@@ -221,7 +221,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->hold()->save();
                 $this->messageManager->addSuccess(__('You put the order on hold.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not put the order on hold.'));
@@ -242,7 +242,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->unhold()->save();
                 $this->messageManager->addSuccess(__('You released the order from holding status.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('The order was not on hold.'));
@@ -287,7 +287,7 @@ class Order extends \Magento\Backend\App\Action
             }
             $order->save();
             $this->messageManager->addSuccess($message);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
@@ -309,7 +309,7 @@ class Order extends \Magento\Backend\App\Action
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 if (empty($data['comment']) && $data['status'] == $order->getDataByKey('status')) {
-                    throw new \Magento\Model\Exception(__('Comment text cannot be empty.'));
+                    throw new \Magento\Framework\Model\Exception(__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
@@ -327,7 +327,7 @@ class Order extends \Magento\Backend\App\Action
 
                 $this->_view->loadLayout('empty');
                 $this->_view->renderLayout();
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot add order history.'));
@@ -556,7 +556,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -609,7 +609,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -662,7 +662,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -761,7 +761,7 @@ class Order extends \Magento\Backend\App\Action
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -786,7 +786,7 @@ class Order extends \Magento\Backend\App\Action
             $order->getPayment()->void(new \Magento\Object()); // workaround for backwards compatibility
             $order->save();
             $this->messageManager->addSuccess(__('The payment has been voided.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
@@ -850,7 +850,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -867,7 +867,7 @@ class Order extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
@@ -924,7 +924,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You updated the order address.'));
                 $this->_redirect('sales/*/view', array('order_id' => $address->getParentId()));
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong updating the order address.'));

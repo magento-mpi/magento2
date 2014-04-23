@@ -34,9 +34,9 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $select->expects($this->once())->method('from')->with('catalog_category_entity');
-        $connection = $this->getMock('Magento\DB\Adapter\AdapterInterface');
+        $connection = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
         $connection->expects($this->once())->method('select')->will($this->returnValue($select));
-        $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
         $this->_resource->expects(
             $this->once()
         )->method(

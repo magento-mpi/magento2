@@ -14,7 +14,7 @@ namespace Magento\Authorizenet\Controller\Directpost;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Payment extends \Magento\App\Action\Action
+class Payment extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -24,10 +24,10 @@ class Payment extends \Magento\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -98,7 +98,7 @@ class Payment extends \Magento\App\Action\Action
             }
             $paymentMethod->process($data);
             $result['success'] = 1;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['success'] = 0;
             $result['error_msg'] = $e->getMessage();

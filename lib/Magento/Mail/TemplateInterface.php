@@ -9,7 +9,7 @@
  */
 namespace Magento\Mail;
 
-interface TemplateInterface extends \Magento\App\TemplateTypesInterface
+interface TemplateInterface extends \Magento\Framework\App\TemplateTypesInterface
 {
     /**
      * Get processed template

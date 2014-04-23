@@ -32,9 +32,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getDependencies($entityType, $bunchData)
     {
-        /** @var $statementMock \Magento\DB\Statement\Pdo\Mysql */
+        /** @var $statementMock \Magento\Framework\DB\Statement\Pdo\Mysql */
         $statementMock = $this->getMock(
-            'Magento\DB\Statement\Pdo\Mysql',
+            'Magento\Framework\DB\Statement\Pdo\Mysql',
             array('setFetchMode', 'getIterator'),
             array(),
             '',
@@ -48,14 +48,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(new \ArrayIterator($bunchData))
         );
 
-        /** @var $selectMock \Magento\DB\Select */
-        $selectMock = $this->getMock('Magento\DB\Select', array('from', 'order'), array(), '', false);
+        /** @var $selectMock \Magento\Framework\DB\Select */
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array('from', 'order'), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnSelf());
         $selectMock->expects($this->any())->method('order')->will($this->returnSelf());
 
-        /** @var $adapterMock \Magento\DB\Adapter\Pdo\Mysql */
+        /** @var $adapterMock \Magento\Framework\DB\Adapter\Pdo\Mysql */
         $adapterMock = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'order', 'query'),
             array(),
             '',
@@ -64,9 +64,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $adapterMock->expects($this->any())->method('select')->will($this->returnValue($selectMock));
         $adapterMock->expects($this->any())->method('query')->will($this->returnValue($statementMock));
 
-        /** @var $resourceModelMock \Magento\App\Resource */
+        /** @var $resourceModelMock \Magento\Framework\App\Resource */
         $resourceModelMock = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getConnection', '_newConnection', 'getTableName'),
             array(),
             '',

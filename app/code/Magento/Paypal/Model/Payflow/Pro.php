@@ -104,12 +104,12 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return void
      */
     public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
-        throw new \Magento\Model\Exception(__('Fetch transaction details method does not exists in Payflow'));
+        throw new \Magento\Framework\Model\Exception(__('Fetch transaction details method does not exists in Payflow'));
     }
 
     /**

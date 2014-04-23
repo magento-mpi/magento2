@@ -52,7 +52,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         $this->_gridMock->expects($this->any())->method('getId')->will($this->returnValue('test_grid'));
 
         $this->_layoutMock = $this->getMock(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array('getParentName', 'getBlock', 'helper'),
             array(),
             '',
@@ -79,7 +79,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_gridMock)
         );
 
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 

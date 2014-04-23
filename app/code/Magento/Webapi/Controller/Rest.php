@@ -22,7 +22,7 @@ use Magento\Webapi\Model\Config\Converter;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Rest implements \Magento\App\FrontControllerInterface
+class Rest implements \Magento\Framework\App\FrontControllerInterface
 {
     /** @var Router */
     protected $_router;
@@ -36,10 +36,10 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /** @var \Magento\Oauth\OauthInterface */
@@ -61,7 +61,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_pathProcessor;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
 
@@ -72,15 +72,15 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
      * @param PathProcessor $pathProcessor
-     * @param \Magento\App\AreaList $areaList
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -90,15 +90,15 @@ class Rest implements \Magento\App\FrontControllerInterface
         RestResponse $response,
         Router $router,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\State $appState,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
         ErrorProcessor $errorProcessor,
         PathProcessor $pathProcessor,
-        \Magento\App\AreaList $areaList
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -118,15 +118,15 @@ class Rest implements \Magento\App\FrontControllerInterface
     /**
      * Handle REST request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+            ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

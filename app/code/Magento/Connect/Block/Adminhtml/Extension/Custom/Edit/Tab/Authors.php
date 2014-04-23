@@ -30,14 +30,14 @@ class Authors extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Connect\Model\Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Connect\Model\Session $session,
         \Magento\Json\EncoderInterface $jsonEncoder,
         array $data = array()

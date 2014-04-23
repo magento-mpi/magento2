@@ -19,8 +19,8 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_requireVisitorWithNoProducts();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Data\Form\FormKey $formKey */
-        $formKey = $objectManager->get('Magento\Data\Form\FormKey');
+        /** @var \Magento\Framework\Data\Form\FormKey $formKey */
+        $formKey = $objectManager->get('Magento\Framework\Data\Form\FormKey');
 
         $this->dispatch('catalog/product_compare/add/product/1/form_key/' . $formKey->getFormKey() . '?nocookie=1');
 
@@ -88,7 +88,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_requireVisitorWithTwoProducts();
 
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
         $layout->setIsCacheable(false);
 
         $this->dispatch('catalog/product_compare/index');

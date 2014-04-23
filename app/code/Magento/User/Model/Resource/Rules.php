@@ -10,7 +10,7 @@ namespace Magento\User\Model\Resource;
 /**
  * Admin rule resource model
  */
-class Rules extends \Magento\Model\Resource\Db\AbstractDb
+class Rules extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource
@@ -37,14 +37,14 @@ class Rules extends \Magento\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Logger $logger
      * @param \Magento\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Logger $logger,
         \Magento\Acl\RootResource $rootResource,
@@ -72,7 +72,7 @@ class Rules extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\User\Model\Rules $rule
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveRel(\Magento\User\Model\Rules $rule)
     {
@@ -114,7 +114,7 @@ class Rules extends \Magento\Model\Resource\Db\AbstractDb
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $adapter->rollBack();
             throw $e;
         } catch (\Exception $e) {

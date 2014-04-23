@@ -7,14 +7,14 @@
  */
 namespace Magento\OfflineShipping\Model\Config\Backend;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Backend model for shipping table rates CSV importing
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tablerate extends \Magento\App\Config\Value
+class Tablerate extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory
@@ -22,21 +22,21 @@ class Tablerate extends \Magento\App\Config\Value
     protected $_tablerateFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_tablerateFactory = $tablerateFactory;
@@ -44,7 +44,7 @@ class Tablerate extends \Magento\App\Config\Value
     }
 
     /**
-     * @return AbstractModel|void
+     * @return \Magento\Framework\Model\AbstractModel|void
      */
     public function _afterSave()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Helper\Form;
 
-class Wysiwyg extends \Magento\Data\Form\Element\Textarea
+class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
 {
     /**
      * Adminhtml data
@@ -39,26 +39,26 @@ class Wysiwyg extends \Magento\Data\Form\Element\Textarea
     protected $_wysiwygConfig;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Helper\Data $backendData,
         array $data = array()

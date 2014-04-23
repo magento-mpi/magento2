@@ -146,12 +146,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Filesystem instance
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directoryWrite;
 
@@ -262,13 +262,13 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Initialize default values
      *
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(\Magento\App\Filesystem $filesystem, array $data = array())
+    public function __construct(\Magento\Framework\App\Filesystem $filesystem, array $data = array())
     {
         $this->_filesystem = $filesystem;
-        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::ROOT_DIR);
     }
 
     /**
@@ -664,7 +664,7 @@ abstract class AbstractAdapter implements AdapterInterface
         if (!is_writable($destination)) {
             try {
                 $this->directoryWrite->create($this->directoryWrite->getRelativePath($destination));
-            } catch (\Magento\Filesystem\FilesystemException $e) {
+            } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
                 $this->logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
                 $this->logger->log($e->getMessage());
                 throw new \Exception('Unable to write file into directory ' . $destination . '. Access forbidden.');

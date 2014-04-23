@@ -38,11 +38,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
@@ -95,7 +95,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testCleanCache()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->save(
             'test',
             'catalog_product_999',
@@ -105,7 +105,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_model->setId(999)->cleanCache();
         $this->assertFalse(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\CacheInterface'
+                'Magento\Framework\App\CacheInterface'
             )->load(
                 'catalog_product_999'
             )
@@ -139,11 +139,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::MEDIA_DIR
+            \Magento\Framework\App\Filesystem::MEDIA_DIR
         );
 
         $mediaDirectory->create($config->getBaseTmpMediaPath());
@@ -200,7 +200,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param \Magento\Model\AbstractModel $duplicate
+     * @param \Magento\Framework\Model\AbstractModel $duplicate
      */
     protected function _undo($duplicate)
     {
@@ -362,7 +362,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param \Magento\Model\AbstractModel $model
+     * @param \Magento\Framework\Model\AbstractModel $model
      */
     protected function _assertEmpty($model)
     {

@@ -36,8 +36,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $request = $this->_block->getRequest();
         $request->expects($this->any())->method('getParam')->with('options')->will($this->returnValue($options));
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\AbstractBlock',
+            array(),
+            '',
+            false
+        );
+        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryTemplate('test', 'template.phtml');
@@ -74,8 +79,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             array('entity', null, 'any')
         );
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\AbstractBlock',
+            array(),
+            '',
+            false
+        );
+        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');
@@ -85,8 +95,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGiftRegistryUrlNoOptions()
     {
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
-        $layout = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\AbstractBlock',
+            array(),
+            '',
+            false
+        );
+        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');

@@ -77,7 +77,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
     public function testCountTotals()
     {
         // prepare collection
-        $collection = new \Magento\Data\Collection(
+        $collection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
@@ -100,7 +100,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
         $this->_model->setColumn('test5', 'avg');
 
         // prepare collection
-        $collection = new \Magento\Data\Collection(
+        $collection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
@@ -110,7 +110,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
         );
         foreach ($items as $item) {
             // prepare sub-collection
-            $subCollection = new \Magento\Data\Collection(
+            $subCollection = new \Magento\Framework\Data\Collection(
                 $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
             );
             $subCollection->addItem(new \Magento\Object(array('test4' => '1', 'test5' => '2')));

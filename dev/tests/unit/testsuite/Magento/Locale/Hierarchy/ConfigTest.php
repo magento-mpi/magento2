@@ -20,7 +20,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_configReaderMock;
 
     /**
-     * @var \Magento\Config\CacheInterface
+     * @var \Magento\Framework\Config\CacheInterface
      */
     protected $_cacheMock;
 
@@ -36,8 +36,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configReaderMock = $this->getMock('\Magento\Config\ReaderInterface', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configReaderMock = $this->getMock(
+            '\Magento\Framework\Config\ReaderInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $this->_cacheId = 'customCacheId';
 
         $this->_testData = array('key' => 'value');

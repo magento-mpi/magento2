@@ -32,7 +32,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
     protected $_inputValidator;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Filter\FilterManager $filterManager
@@ -40,7 +40,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Filter\FilterManager $filterManager,
@@ -81,7 +81,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * Filter post data
      *
      * @param array $data
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     public function filterPostData($data)
@@ -92,7 +92,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
         if (isset($data['frontend_input'])) {
             $this->_inputValidator->setHaystack(array_keys($this->_dataHelper->getAttributeInputTypes()));
             if (!$this->_inputValidator->isValid($data['frontend_input'])) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     $this->filterManager->stripTags(implode(' ', $this->_inputValidator->getMessages()))
                 );
             }

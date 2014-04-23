@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-use Magento\App\Helper\Context;
-use Magento\App\ViewInterface;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\ViewInterface;
 use Magento\Catalog\Helper\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Store\Model\StoreManagerInterface;
@@ -25,7 +25,7 @@ use Magento\Registry;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Composite extends \Magento\App\Helper\AbstractHelper
+class Composite extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Core registry
@@ -62,7 +62,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     protected $_converter;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param ProductFactory $productFactory
      * @param StoreManagerInterface $storeManager
      * @param Product $catalogProduct
@@ -159,7 +159,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     {
         try {
             if (!$configureResult->getOk()) {
-                throw new \Magento\Model\Exception($configureResult->getMessage());
+                throw new \Magento\Framework\Model\Exception($configureResult->getMessage());
             }
 
             $currentStoreId = (int)$configureResult->getCurrentStoreId();
@@ -173,7 +173,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
                 $configureResult->getProductId()
             );
             if (!$product->getId()) {
-                throw new \Magento\Model\Exception(__('The product is not loaded.'));
+                throw new \Magento\Framework\Model\Exception(__('The product is not loaded.'));
             }
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);

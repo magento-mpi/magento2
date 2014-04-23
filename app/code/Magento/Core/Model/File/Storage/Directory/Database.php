@@ -34,26 +34,26 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_directoryFactory;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\App\Config\ScopeConfigInterface $configuration
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param DatabaseFactory $directoryFactory
      * @param \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param null $connectionName
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\App\Config\ScopeConfigInterface $configuration,
+        \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Core\Model\Resource\File\Storage\Directory\Database $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
     ) {
@@ -177,7 +177,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * Import directories to storage
      *
      * @param  array $dirs
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function importDirectories($dirs)
@@ -203,7 +203,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                     $directory->setUploadTime($dateSingleton->date());
                     $directory->save();
                 } else {
-                    throw new \Magento\Model\Exception(__('Parent directory does not exist: %1', $dir['path']));
+                    throw new \Magento\Framework\Model\Exception(__('Parent directory does not exist: %1', $dir['path']));
                 }
             } catch (\Exception $e) {
                 $this->_logger->logException($e);

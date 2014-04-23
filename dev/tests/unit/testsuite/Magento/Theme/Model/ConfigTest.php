@@ -42,7 +42,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_layoutCacheMock;
 
     /**
-     * @var \Magento\App\Config\Storage\WriterInterface
+     * @var \Magento\Framework\App\Config\Storage\WriterInterface
      */
     protected $_scopeConfigWriter;
 
@@ -65,7 +65,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Magento\App\Config\Value',
+            'Magento\Framework\App\Config\Value',
             array('getCollection', 'addFieldToFilter', '__wakeup'),
             array(),
             '',
@@ -75,7 +75,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_scopeConfigWriter = $this->getMock(
-            'Magento\App\Config\Storage\WriterInterface',
+            'Magento\Framework\App\Config\Storage\WriterInterface',
             array('save', 'delete')
         );
 
@@ -135,7 +135,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'path',
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
             $this->returnValue(array($configEntity))
         );
@@ -186,7 +186,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'path',
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID
         )->will(
             $this->returnValue(array($configEntity))
         );

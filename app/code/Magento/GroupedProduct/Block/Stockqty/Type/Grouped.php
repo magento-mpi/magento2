@@ -10,7 +10,7 @@
 namespace Magento\GroupedProduct\Block\Stockqty\Type;
 
 class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Retrieve child products

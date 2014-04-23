@@ -26,7 +26,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $context;
 
@@ -54,13 +54,13 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['createAmountRender'])
             ->getMock();
 
-        $layout = $this->getMock('Magento\View\LayoutInterface');
+        $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
         $eventManager = $this->getMock('Magento\Event\ManagerInterface');
-        $scopeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->context = $this->getMockBuilder('Magento\View\Element\Template\Context')
+        $this->context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->context->expects($this->any())

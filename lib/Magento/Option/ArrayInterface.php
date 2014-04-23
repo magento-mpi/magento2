@@ -10,6 +10,6 @@ namespace Magento\Option;
 /**
  * @todo Remove in favor of the ancestor interface
  */
-interface ArrayInterface extends \Magento\Data\OptionSourceInterface
+interface ArrayInterface extends \Magento\Framework\Data\OptionSourceInterface
 {
 }
