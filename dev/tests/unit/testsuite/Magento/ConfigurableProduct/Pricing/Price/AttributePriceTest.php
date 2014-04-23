@@ -295,7 +295,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo(55),
                 $this->equalTo($this->saleableItemMock),
-                $this->equalTo(\Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE)
+                $this->equalTo('')
             )
             ->will($this->returnValue(57.55));
         $this->assertEquals(
@@ -327,8 +327,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->equalTo(77.67),
                 $this->equalTo($this->saleableItemMock),
-                $this->equalTo(\Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
-                )
+                $this->equalTo('')
             )
             ->will($this->returnValue(80.99));
         $this->assertEquals(
