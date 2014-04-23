@@ -12,6 +12,7 @@ namespace Magento\Email\Model\Template;
 /**
  * Core Email Template Filter Model
  *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Filter extends \Magento\Filter\Template
@@ -402,6 +403,16 @@ class Filter extends \Magento\Filter\Template
             unset($params['url']);
         }
 
+        return $this->getUrl($path, $params);
+    }
+
+    /**
+     * @param string $path
+     * @param array $params
+     * @return string
+     */
+    protected function getUrl($path, $params)
+    {
         if (0 === $this->getStoreId() || \Magento\Store\Model\Store::ADMIN_CODE === $this->getStoreId()) {
             $url = $this->backendUrlBuilder->getUrl($path, $params);
         } else {
