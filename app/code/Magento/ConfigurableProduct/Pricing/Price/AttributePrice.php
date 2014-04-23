@@ -76,7 +76,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
             ];
             $defaultValues[$attributeId] = $this->getAttributeConfigValue($preConfiguredValues, $attributeId);
-            if ($this->_validateAttributeInfo($info)) {
+            if ($this->validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
         }
@@ -106,17 +106,14 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             $optionValueModified = $this->getOptionValueModified($value);
             $optionValueAmount = $this->getOptionValueAmount($value);
 
+            $price = $this->convertPrice($optionValueAmount->getValue());
             $optionPrices[] = [
                 'id' => $value['value_index'],
                 'label' => $value['label'],
                 'price' => $optionValueModified->getValue(),
-                'oldPrice' =>
-                    $this->_registerJsPrice(
-                        $this->_convertPrice($optionValueAmount->getValue()),
-                        true
-                    ),
-                'inclTaxPrice' => $this->_registerJsPrice($optionValueModified->getValue()),
-                'exclTaxPrice' => $this->_registerJsPrice($optionValueModified->getBaseAmount()),
+                'oldPrice' => $this->convertDot($price),
+                'inclTaxPrice' => $this->convertDot($optionValueModified->getValue()),
+                'exclTaxPrice' => $this->convertDot($optionValueModified->getBaseAmount()),
                 'products' => $this->getProductsIndex($attributeId, $options, $value)
             ];
         }
@@ -132,7 +129,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @return AmountInterface
      */
     public function getOptionValueModified(
-        array $value = array(),
+        array $value = [],
         $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
     ) {
         $pricingValue = $this->getPricingValue($value);
@@ -150,7 +147,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @return AmountInterface
      */
     public function getOptionValueAmount(
-        array $value = array(),
+        array $value = [],
         $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
     ) {
         $amount = $this->getPricingValue($value);
@@ -164,7 +161,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $value
      * @return float
      */
-    protected function preparePrice(array $value = array())
+    protected function preparePrice(array $value = [])
     {
         return $this->product
             ->getPriceInfo()
@@ -234,7 +231,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $info
      * @return bool
      */
-    protected function _validateAttributeInfo(&$info)
+    protected function validateAttributeInfo($info)
     {
         if (count($info['options']) > 0) {
             return true;
@@ -248,7 +245,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param float $price
      * @return string
      */
-    protected function _registerJsPrice($price)
+    protected function convertDot($price)
     {
         return str_replace(',', '.', $price);
     }
@@ -261,7 +258,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param bool $round
      * @return float
      */
-    protected function _convertPrice($price, $round = false)
+    protected function convertPrice($price, $round = false)
     {
         if (empty($price)) {
             return 0;
