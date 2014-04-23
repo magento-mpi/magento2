@@ -60,7 +60,7 @@
     <preference for="Magento\Framework\Locale\ResolverInterface" type="Magento\Framework\Locale\Resolver" />
     <preference for="Magento\Framework\Stdlib\DateTime\TimezoneInterface" type="Magento\Framework\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Framework\Stdlib\DateTime\DateInterface" type="Magento\Framework\Stdlib\DateTime\Date" />
-    <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
+    <preference for="Magento\Framework\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Framework\Less\PreProcessor\ErrorHandler" />
     <preference for="Magento\Framework\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <preference for="Magento\Framework\App\Config\Resource\ConfigInterface" type="Magento\Core\Model\Resource\Config" />
     <preference for="Magento\Framework\Pricing\Amount\AmountInterface" type="Magento\Framework\Pricing\Amount\Base" />
@@ -381,35 +381,35 @@
             <argument name="areaCode" xsi:type="string">frontend</argument>
         </arguments>
     </type>
-    <type name="Magento\Less\PreProcessor\Instruction\MagentoImport">
+    <type name="Magento\Framework\Less\PreProcessor\Instruction\MagentoImport">
         <arguments>
-            <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
+            <argument name="fileSource" xsi:type="object">Magento\Framework\Less\File\Source\Aggregated</argument>
         </arguments>
     </type>
-    <type name="Magento\Less\PreProcessor\Instruction\Import">
+    <type name="Magento\Framework\Less\PreProcessor\Instruction\Import">
         <arguments>
-            <argument name="preProcessor" xsi:type="object">Magento\Less\PreProcessor\Proxy</argument>
+            <argument name="preProcessor" xsi:type="object">Magento\Framework\Less\PreProcessor\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Less\File\Source\Aggregated">
+    <type name="Magento\Framework\Less\File\Source\Aggregated">
         <arguments>
-            <argument name="libraryFiles" xsi:type="object">Magento\Less\File\Source\Library</argument>
-            <argument name="baseFiles" xsi:type="object">Magento\Less\File\Source\Base</argument>
-            <argument name="themeFiles" xsi:type="object">Magento\Less\File\Source\Theme</argument>
+            <argument name="libraryFiles" xsi:type="object">Magento\Framework\Less\File\Source\Library</argument>
+            <argument name="baseFiles" xsi:type="object">Magento\Framework\Less\File\Source\Base</argument>
+            <argument name="themeFiles" xsi:type="object">Magento\Framework\Less\File\Source\Theme</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Css\PreProcessor\Less">
         <plugin name="process_less" type="Magento\Framework\Css\PreProcessor\Cache\Plugin\Less" sortOrder="10"/>
     </type>
-    <type name="Magento\Less\PreProcessor">
+    <type name="Magento\Framework\Less\PreProcessor">
         <plugin name="process_less" type="Magento\Framework\Css\PreProcessor\Cache\Plugin\InstructionPreProcessor" sortOrder="10"/>
         <arguments>
             <argument name="preProcessors" xsi:type="array">
                 <item name="magento_import" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Less\PreProcessor\Instruction\MagentoImport</item>
+                    <item name="class" xsi:type="string">Magento\Framework\Less\PreProcessor\Instruction\MagentoImport</item>
                 </item>
                 <item name="import" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Less\PreProcessor\Instruction\Import</item>
+                    <item name="class" xsi:type="string">Magento\Framework\Less\PreProcessor\Instruction\Import</item>
                 </item>
             </argument>
         </arguments>

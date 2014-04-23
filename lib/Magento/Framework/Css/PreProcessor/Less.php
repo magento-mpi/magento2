@@ -20,7 +20,7 @@ class Less implements PreProcessorInterface
     const TMP_LESS_DIR = 'less';
 
     /**
-     * @var \Magento\Less\PreProcessor
+     * @var \Magento\Framework\Less\PreProcessor
      */
     protected $lessPreProcessor;
 
@@ -40,13 +40,13 @@ class Less implements PreProcessorInterface
     protected $fileFactory;
 
     /**
-     * @param \Magento\Less\PreProcessor $lessPreProcessor
+     * @param \Magento\Framework\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Less\PreProcessor $lessPreProcessor,
+        \Magento\Framework\Less\PreProcessor $lessPreProcessor,
         AdapterInterface $adapter,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\View\Publisher\FileFactory $fileFactory

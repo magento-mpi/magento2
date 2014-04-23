@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Css\PreProcessor\Cache\Import;
 
-use Magento\Less\PreProcessor\File\Less;
+use Magento\Framework\Less\PreProcessor\File\Less;
 
 /**
  * Import entity

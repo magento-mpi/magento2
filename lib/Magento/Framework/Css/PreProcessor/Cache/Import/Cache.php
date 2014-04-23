@@ -107,7 +107,7 @@ class Cache implements \Magento\Framework\Css\PreProcessor\Cache\CacheInterface
     /**
      * Add file to cache
      *
-     * @param \Magento\Less\PreProcessor\File\Less $lessFile
+     * @param \Magento\Framework\Less\PreProcessor\File\Less $lessFile
      * @return $this
      */
     public function add($lessFile)

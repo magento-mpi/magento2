@@ -51,7 +51,7 @@ class CacheManager
 
     /**
      * @param string $cacheType
-     * @param \Magento\Less\PreProcessor\File\Less $lessFile
+     * @param \Magento\Framework\Less\PreProcessor\File\Less $lessFile
      * @return $this
      */
     public function addToCache($cacheType, $lessFile)
