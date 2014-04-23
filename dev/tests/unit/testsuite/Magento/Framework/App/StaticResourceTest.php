@@ -151,19 +151,21 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         return array(
             'developer mode with non-modular resource' => array(
                 \Magento\Framework\App\State::MODE_DEVELOPER,
-                'area/theme/locale/dir/file.js',
+                'area/Magento/theme/locale/dir/file.js',
                 'dir',
                 null,
                 'dir/file.js',
-                array('area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'theme'),
+                array('area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'Magento/theme'),
             ),
             'default mode with modular resource' => array(
                 \Magento\Framework\App\State::MODE_DEFAULT,
-                'area/theme/locale/Namespace_Module/dir/file.js',
+                'area/Magento/theme/locale/Namespace_Module/dir/file.js',
                 'Namespace_Module',
                 array('some data'),
                 'dir/file.js',
-                array('area' => 'area', 'locale' => 'locale', 'module' => 'Namespace_Module', 'theme' => 'theme'),
+                array(
+                    'area' => 'area', 'locale' => 'locale', 'module' => 'Namespace_Module', 'theme' => 'Magento/theme'
+                ),
             ),
         );
     }
