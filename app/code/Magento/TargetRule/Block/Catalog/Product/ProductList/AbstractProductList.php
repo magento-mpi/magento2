@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -19,7 +19,7 @@ use Magento\Model\Exception;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * TargetRule Index instance
@@ -101,7 +101,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      * without last underscore
      *
      * @return string
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getTypePrefix()
     {

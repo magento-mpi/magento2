@@ -38,14 +38,14 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Module\ModuleListInterface $moduleList,
         array $data = array()
     ) {
@@ -54,10 +54,10 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     }
 
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
 
@@ -122,7 +122,7 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     }
 
     /**
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param string $moduleName
      * @return mixed
      */

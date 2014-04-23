@@ -26,7 +26,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $importEntities = array();
 
     /**
-     * @var null|\Magento\View\Publisher\FileInterface
+     * @var null|\Magento\Framework\View\Publisher\FileInterface
      */
     protected $cachedFile;
 
@@ -46,12 +46,12 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     protected $importEntityFactory;
 
     /**
-     * @var \Magento\View\Publisher\FileFactory
+     * @var \Magento\Framework\View\Publisher\FileFactory
      */
     protected $fileFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     protected $readDirectory;
 
@@ -59,15 +59,15 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
      * @param Map\Storage $storage
      * @param ImportEntityFactory $importEntityFactory
      * @param Filesystem $filesystem
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
-     * @param \Magento\View\Publisher\FileFactory $fileFactory
+     * @param \Magento\Framework\View\Publisher\FileInterface $publisherFile
+     * @param \Magento\Framework\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         Map\Storage $storage,
         ImportEntityFactory $importEntityFactory,
         Filesystem $filesystem,
-        \Magento\View\Publisher\FileInterface $publisherFile,
-        \Magento\View\Publisher\FileFactory $fileFactory
+        \Magento\Framework\View\Publisher\FileInterface $publisherFile,
+        \Magento\Framework\View\Publisher\FileFactory $fileFactory
     ) {
         $this->storage = $storage;
         $this->fileFactory = $fileFactory;
@@ -94,11 +94,11 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     /**
      * Return cached file
      *
-     * @return null|\Magento\View\Publisher\FileInterface
+     * @return null|\Magento\Framework\View\Publisher\FileInterface
      */
     public function get()
     {
-        if ($this->cachedFile instanceof \Magento\View\Publisher\FileInterface) {
+        if ($this->cachedFile instanceof \Magento\Framework\View\Publisher\FileInterface) {
             return $this->cachedFile;
         }
         return null;
@@ -119,7 +119,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     /**
      * Save state of files
      *
-     * @param \Magento\View\Publisher\FileInterface $cachedFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $cachedFile
      * @return $this
      */
     public function save($cachedFile)
@@ -131,7 +131,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     /**
      * Prepare cache key for publication file
      *
-     * @param \Magento\View\Publisher\FileInterface $lessFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $lessFile
      * @return string
      */
     protected function prepareKey($lessFile)
@@ -185,7 +185,7 @@ class Cache implements \Magento\Css\PreProcessor\Cache\CacheInterface
     /**
      * Serialize data of files state
      *
-     * @param \Magento\View\Publisher\FileInterface $cachedFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $cachedFile
      * @return string
      */
     protected function prepareSaveData($cachedFile)

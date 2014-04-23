@@ -44,7 +44,7 @@ class Observer
             return;
         }
 
-        /** @var \Magento\Data\Form\AbstractForm $form */
+        /** @var \Magento\Framework\Data\Form\AbstractForm $form */
         $form = $event->getForm();
 
         $fieldset = $form->getElement('front_fieldset');

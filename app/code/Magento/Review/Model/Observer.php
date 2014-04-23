@@ -92,7 +92,7 @@ class Observer
     public function catalogBlockProductCollectionBeforeToHtml(\Magento\Event\Observer $observer)
     {
         $productCollection = $observer->getEvent()->getCollection();
-        if ($productCollection instanceof \Magento\Data\Collection) {
+        if ($productCollection instanceof \Magento\Framework\Data\Collection) {
             $productCollection->load();
             $this->_reviewFactory->create()->appendSummary($productCollection);
         }

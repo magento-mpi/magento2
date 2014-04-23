@@ -15,7 +15,7 @@ namespace Magento\Backend\Helper\Dashboard;
 class Data extends \Magento\Core\Helper\Data
 {
     /**
-     * @var \Magento\Data\Collection\Db
+     * @var \Magento\Framework\Data\Collection\Db
      */
     protected $_stores;
 
@@ -56,7 +56,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Retrieve stores configured in system.
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function getStores()
     {

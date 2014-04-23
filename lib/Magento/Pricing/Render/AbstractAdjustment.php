@@ -10,7 +10,7 @@
 
 namespace Magento\Pricing\Render;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceCurrencyInterface;

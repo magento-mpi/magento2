@@ -26,7 +26,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $eventDispatcherMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
-        $contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
+        $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
         $contextMock->expects(
             $this->any()
         )->method(
@@ -35,7 +35,7 @@ class EncryptedTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($eventDispatcherMock)
         );
         $this->_resourceMock = $this->getMock(
-            'Magento\Model\Resource\AbstractResource',
+            'Magento\Framework\Model\Resource\AbstractResource',
             array(
                 '_construct',
                 '_getReadAdapter',

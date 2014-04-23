@@ -7,7 +7,7 @@
  */
 namespace Magento\Shipping\Model\Carrier;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
 use Magento\Shipping\Model\Shipment\Request;
@@ -401,7 +401,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      *
      * @param Request $request
      * @return \Magento\Object
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment($request)
     {
@@ -448,7 +448,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      *
      * @param Request $request
      * @return \Magento\Object
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function returnOfShipment($request)
     {

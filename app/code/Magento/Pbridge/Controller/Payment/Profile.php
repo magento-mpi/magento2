@@ -17,7 +17,6 @@
  */
 namespace Magento\Pbridge\Controller\Payment;
 
-use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
 
 class Profile extends \Magento\Framework\App\Action\Action

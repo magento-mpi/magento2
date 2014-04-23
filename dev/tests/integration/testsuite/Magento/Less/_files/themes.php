@@ -14,7 +14,7 @@
 );
 $objectManger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManger->get('Magento\Framework\App\State')
-    ->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
+    ->setAreaCode(\Magento\Framework\View\DesignInterface::DEFAULT_AREA);
 
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = $objectManger->create('Magento\Core\Model\Theme\Registration');

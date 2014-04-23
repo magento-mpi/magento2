@@ -13,8 +13,8 @@ namespace Magento\Pricing;
 use Magento\Pricing\Amount\AmountInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Render\Layout;
-use Magento\View\Element\Template;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Pricing\Price\PriceInterface;
 
 /**

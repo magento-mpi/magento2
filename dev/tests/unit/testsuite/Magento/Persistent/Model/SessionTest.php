@@ -29,7 +29,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_configMock = $this->getMock('Magento\Session\Config\ConfigInterface');
         $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
-        $resourceMock = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
+        $resourceMock = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
             array(), '', false, false, true,
             array('__wakeup', 'getIdFieldName', 'getConnection', 'beginTransaction', 'delete', 'commit', 'rollBack'));
 
@@ -38,11 +38,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $cacheManagerMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
         $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
-            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+            '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $context = new \Magento\Model\Context(
+        $context = new \Magento\Framework\Model\Context(
             $loggerMock, $eventDispatcherMock, $cacheManagerMock, $appStateMock, $actionValidatorMock
         );
 

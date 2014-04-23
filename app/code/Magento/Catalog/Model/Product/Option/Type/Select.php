@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Catalog product option select type

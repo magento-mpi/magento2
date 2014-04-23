@@ -10,8 +10,8 @@
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
 use Magento\Store\Model\Store;
-use Magento\Model\Exception as CoreException;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\Model\Exception as CoreException;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Backend controller for the design editor
@@ -279,7 +279,7 @@ class Editor extends \Magento\Backend\App\Action
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         /** @var $themeCopy ThemeInterface */
-        $themeCopy = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+        $themeCopy = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         /** @var $copyService \Magento\Theme\Model\CopyService */
         $copyService = $this->_objectManager->get('Magento\Theme\Model\CopyService');
         try {
@@ -367,8 +367,8 @@ class Editor extends \Magento\Backend\App\Action
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\Framework\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
             throw new CoreException(__('We can\'t find this theme.'));

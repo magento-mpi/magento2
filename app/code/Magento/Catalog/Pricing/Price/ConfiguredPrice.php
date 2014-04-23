@@ -17,8 +17,13 @@ use Magento\Pricing\Adjustment\CalculatorInterface;
 /**
  * Configured price model
  */
-class ConfiguredPrice extends FinalPrice
+class ConfiguredPrice extends FinalPrice implements ConfiguredPriceInterface
 {
+    /**
+     * Price type configured
+     */
+    const PRICE_CODE = self::CONFIGURED_PRICE_CODE;
+
     /**
      * @var null|ItemInterface
      */

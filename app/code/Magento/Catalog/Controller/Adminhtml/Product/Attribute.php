@@ -276,7 +276,7 @@ class Attribute extends \Magento\Backend\App\Action
                     $attributeSet->save();
                     $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))->save();
                     $isNewAttributeSet = true;
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $this->messageManager->addException($e, __('Something went wrong saving the attribute.'));

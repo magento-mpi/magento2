@@ -18,7 +18,7 @@ use Magento\Sales\Model\Quote;
 /**
  * One page common functionality block
  */
-abstract class AbstractOnepage extends \Magento\View\Element\Template
+abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Framework\App\Cache\Type\Config
@@ -91,7 +91,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
@@ -105,7 +105,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
@@ -266,7 +266,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
                 }
             }
 
-            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
                 ->setName($type . '_address_id')
                 ->setId($type . '-address-select')
                 ->setClass('address-select')
@@ -293,7 +293,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
             $countryId = $this->_coreData->getDefaultCountry();
         }
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             $type . '[country_id]'
         )->setId(
@@ -317,7 +317,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     public function getRegionHtmlSelect($type)
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             $type . '[region]'
         )->setId(

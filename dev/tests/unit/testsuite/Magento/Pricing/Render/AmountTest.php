@@ -34,7 +34,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
     protected $rendererPool;
 
     /**
-     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -61,7 +61,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
                 'adjustments' => [
                     'base_price_test' => [
                         'tax' => [
-                            'adjustment_render_class' => 'Magento\View\Element\Template',
+                            'adjustment_render_class' => 'Magento\Framework\View\Element\Template',
                             'adjustment_render_template' => 'template.phtml'
                         ]
                     ]
@@ -78,7 +78,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->amount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
         $this->saleableItemMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
         $this->priceMock = $this->getMockForAbstractClass('Magento\Pricing\Price\PriceInterface');
@@ -86,7 +86,7 @@ class AmountTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
         $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
-        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())
             ->method('getEventManager')
             ->will($this->returnValue($eventManager));

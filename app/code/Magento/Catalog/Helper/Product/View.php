@@ -204,7 +204,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
      * @param null|\Magento\Object $params
      *
      * @return \Magento\Catalog\Helper\Product\View
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function prepareAndRender($productId, $controller, $params = null)
     {
@@ -217,7 +217,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         // Standard algorithm to prepare and render product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new \Magento\Model\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new \Magento\Framework\Model\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -238,7 +238,7 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             $this->_view->getLayout()->initMessages($this->messageGroups);
         } else {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );

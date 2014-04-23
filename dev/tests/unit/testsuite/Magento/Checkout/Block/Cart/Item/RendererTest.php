@@ -137,7 +137,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $priceRender->expects($this->once())
             ->method('render')
             ->with(
-                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
                 $product,
                 [
                     'include_container' => true,

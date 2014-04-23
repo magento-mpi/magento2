@@ -1,0 +1,48 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Framework\View\Element;
+
+class RendererList extends AbstractBlock
+{
+    /**
+     * Renderer templates cache
+     *
+     * @var array
+     */
+    protected $rendererTemplates = array();
+
+    /**
+     * Retrieve renderer by code
+     *
+     * @param string $type
+     * @param string $default
+     * @param string $rendererTemplate
+     * @return bool|AbstractBlock
+     * @throws \RuntimeException
+     */
+    public function getRenderer($type, $default = null, $rendererTemplate = null)
+    {
+        /** @var \Magento\Framework\View\Element\Template $renderer */
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock($default);
+        if (!$renderer instanceof BlockInterface) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        }
+        $renderer->setRenderedBlock($this);
+
+        if (!isset($this->rendererTemplates[$type])) {
+            $this->rendererTemplates[$type] = $renderer->getTemplate();
+        } else {
+            $renderer->setTemplate($this->rendererTemplates[$type]);
+        }
+
+        if ($rendererTemplate) {
+            $renderer->setTemplate($rendererTemplate);
+        }
+        return $renderer;
+    }
+}

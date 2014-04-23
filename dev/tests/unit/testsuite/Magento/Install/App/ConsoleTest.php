@@ -99,7 +99,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     protected function _createModel($params = array())
     {
         $directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
+            'Magento\Framework\Filesystem\Directory\Read',
             array('isExist', 'getRelativePath'),
             array(),
             '',

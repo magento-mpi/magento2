@@ -13,7 +13,7 @@ use Magento\Validator\Constraint\Option;
 use Magento\Validator\Constraint\OptionInterface;
 use Magento\Validator\Constraint\Option\Callback;
 
-class Config extends \Magento\Config\AbstractXml
+class Config extends \Magento\Framework\Config\AbstractXml
 {
     /**#@+
      * Constraints types

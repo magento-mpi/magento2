@@ -75,7 +75,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected $attrLockValidator;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -87,12 +87,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
@@ -104,8 +104,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->attrLockValidator = $lockValidator;
@@ -130,14 +130,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object before save data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Eav\Exception
      */
     protected function _beforeSave()
     {
         try {
             $this->attrLockValidator->validate($this);
-        } catch (\Magento\Model\Exception $exception) {
+        } catch (\Magento\Framework\Model\Exception $exception) {
             throw new \Magento\Eav\Exception($exception->getMessage());
         }
 
@@ -148,7 +148,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object after save data
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterSave()
     {

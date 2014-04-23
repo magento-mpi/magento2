@@ -16,7 +16,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rate\Title;
 
-class Fieldset extends \Magento\Data\Form\Element\Fieldset
+class Fieldset extends \Magento\Framework\Data\Form\Element\Fieldset
 {
     /**
      * @var \Magento\Tax\Block\Adminhtml\Rate\Title
@@ -24,15 +24,15 @@ class Fieldset extends \Magento\Data\Form\Element\Fieldset
     protected $_title;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Tax\Block\Adminhtml\Rate\Title $title
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Tax\Block\Adminhtml\Rate\Title $title,
         $data = array()

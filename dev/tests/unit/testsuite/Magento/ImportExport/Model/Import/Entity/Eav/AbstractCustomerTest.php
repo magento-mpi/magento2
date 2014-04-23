@@ -73,7 +73,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelMock()
     {
-        $customerCollection = new \Magento\Data\Collection(
+        $customerCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_customers as $customer) {

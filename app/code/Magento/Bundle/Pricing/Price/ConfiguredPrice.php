@@ -16,12 +16,18 @@ use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
 use Magento\Pricing\Adjustment\CalculatorInterface;
 use Magento\Pricing\Amount\AmountFactory;
 use Magento\Bundle\Pricing\BundleOptionService;
+use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 
 /**
  * Configured price model
  */
-class ConfiguredPrice extends CatalogPrice\FinalPrice
+class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPriceInterface
 {
+    /**
+     * Price type configured
+     */
+    const PRICE_CODE = self::CONFIGURED_PRICE_CODE;
+
     /**
      * @var AmountFactory
      */

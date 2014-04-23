@@ -89,7 +89,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_transFactoryMock = $this->getMock(
-            'Magento\DB\TransactionFactory',
+            'Magento\Framework\DB\TransactionFactory',
             array('create'),
             array(),
             '',
@@ -144,7 +144,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToCheckAdminSystemConfigChangedSectionEvent()
     {
-        $transactionMock = $this->getMock('Magento\DB\Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Magento\Framework\DB\Transaction', array(), array(), '', false);
 
         $this->_transFactoryMock->expects($this->any())->method('create')->will($this->returnValue($transactionMock));
 
@@ -174,7 +174,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveToCheckScopeDataSet()
     {
-        $transactionMock = $this->getMock('Magento\DB\Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Magento\Framework\DB\Transaction', array(), array(), '', false);
 
         $this->_transFactoryMock->expects($this->any())->method('create')->will($this->returnValue($transactionMock));
 

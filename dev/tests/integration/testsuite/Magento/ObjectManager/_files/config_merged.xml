@@ -40,7 +40,7 @@
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
         <plugin name="three" type="somePluginThree"/>
     </virtualType>
-    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <type name="Magento\Framework\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cacheIdPrefix" xsi:type="string"><![CDATA[collection_]]></argument>
             <argument name="cacheLifetime" xsi:type="string">86400</argument>

@@ -62,17 +62,17 @@ class Validator extends \Zend_Validate_Abstract
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Config\DomFactory
+     * @var \Magento\Framework\Config\DomFactory
      */
     protected $_domConfigFactory;
 
     /**
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Config\DomFactory $domConfigFactory
+     * @param \Magento\Framework\Config\DomFactory $domConfigFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Config\DomFactory $domConfigFactory
+        \Magento\Framework\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
         $this->_domConfigFactory = $domConfigFactory;
@@ -138,7 +138,7 @@ class Validator extends \Zend_Validate_Abstract
                     return false;
                 }
             }
-        } catch (\Magento\Config\Dom\ValidationException $e) {
+        } catch (\Magento\Framework\Config\Dom\ValidationException $e) {
             $this->_error(self::XML_INVALID, $e->getMessage());
             return false;
         } catch (\Exception $e) {

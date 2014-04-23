@@ -206,7 +206,7 @@ class Application
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
 
         $objectManager->addSharedInstance($directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
-        $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($directoryList, 'Magento\Framework\Filesystem\DirectoryList');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem');
         $objectManager->removeSharedInstance('Magento\Framework\App\Filesystem\DirectoryList\Verification');
 
@@ -330,7 +330,7 @@ class Application
         $this->initialize();
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
-            ->getArea('install')->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            ->getArea('install')->load(\Magento\Framework\App\Area::PART_CONFIG);
 
         /* Run all install and data-install scripts */
         /** @var $updater \Magento\Module\Updater */
@@ -388,9 +388,9 @@ class Application
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->clearCache();
 
-        \Magento\Data\Form::setElementRenderer(null);
-        \Magento\Data\Form::setFieldsetRenderer(null);
-        \Magento\Data\Form::setFieldsetElementRenderer(null);
+        \Magento\Framework\Data\Form::setElementRenderer(null);
+        \Magento\Framework\Data\Form::setFieldsetRenderer(null);
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(null);
         $this->_appArea = null;
     }
 
@@ -488,7 +488,7 @@ class Application
     public function loadArea($areaCode)
     {
         $this->_appArea = $areaCode;
-        $scope = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\Scope');
+        $scope = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Config\Scope');
         $scope->setCurrentScope($areaCode);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -499,7 +499,7 @@ class Application
         );
         $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList');
         if ($areaCode == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
-            $app->getArea($areaCode)->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            $app->getArea($areaCode)->load(\Magento\Framework\App\Area::PART_CONFIG);
         } else {
             \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($areaCode);
         }

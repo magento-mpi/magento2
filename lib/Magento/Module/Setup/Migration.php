@@ -116,7 +116,7 @@ class Migration extends \Magento\Module\Setup
     protected $_compositeModules;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directory;
 

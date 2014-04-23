@@ -20,7 +20,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     protected $product;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -41,9 +41,9 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->product));
 
 
-        $this->layout = $this->getMock('Magento\View\LayoutInterface');
+        $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
 
-        $context = $this->getMockBuilder('Magento\View\Element\Template\Context')
+        $context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->atLeastOnce())

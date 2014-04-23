@@ -45,12 +45,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $eventManager;
 
     /**
-     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
     /**
-     * @var \Magento\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $update;
 
@@ -108,8 +108,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
 
-        $this->update = $this->getMock('Magento\View\Layout\ProcessorInterface');
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->layout->expects($this->any())->method('getUpdate')->will($this->returnValue($this->update));
         $this->view = $this->getMock('Magento\Framework\App\ViewInterface');
         $this->view->expects($this->any())->method('getLayout')->will($this->returnValue($this->layout));

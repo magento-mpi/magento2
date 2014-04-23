@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Filesystem\Directory\Write $rootDirectory */
+/** @var \Magento\Framework\Filesystem\Directory\Write $rootDirectory */
 $rootDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\App\Filesystem'
 )->getDirectoryWrite(

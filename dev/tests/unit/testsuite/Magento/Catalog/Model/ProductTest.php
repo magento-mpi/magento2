@@ -81,12 +81,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $actionValidatorMock = $this->getMock('\Magento\Model\ActionValidator\RemoveAction', [], [], '', false);
+        $actionValidatorMock = $this->getMock(
+            '\Magento\Framework\Model\ActionValidator\RemoveAction', 
+            [], 
+            [], 
+            '', 
+            false
+        );
         $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
 
         $contextMock = $this->getMock(
-            '\Magento\Model\Context',
+            '\Magento\Framework\Model\Context',
             array('getEventDispatcher', 'getCacheManager', 'getAppState', 'getActionValidator'), array(), '', false
         );
         $contextMock->expects($this->any())->method('getAppState')->will($this->returnValue($stateMock));
@@ -230,5 +236,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_priceInfoMock));
         $this->assertEquals($this->_priceInfoMock, $this->model->getPriceInfo());
         $this->assertEquals($this->_priceInfoMock, $this->model->reloadPriceInfo());
+    }
+
+    /**
+     * Test for get qty
+     */
+    public function testGetQty()
+    {
+        $this->model->setQty(1);
+        $this->assertEquals(1, $this->model->getQty());
     }
 }

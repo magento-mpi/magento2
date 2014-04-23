@@ -80,14 +80,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_block->setAddressType('shipping');
 
         $parentBlock = $this->getMockBuilder(
-            'Magento\View\Element\Template'
+            'Magento\Framework\View\Element\Template'
         )->disableOriginalConstructor()->setMethods(
             array('unsetChild')
         )->getMock();
         $parentBlock->expects($this->once())->method('unsetChild');
 
         $layout = $this->getMockBuilder(
-            'Magento\View\Layout'
+            'Magento\Framework\View\Layout'
         )->disableOriginalConstructor()->setMethods(
             array('getParentName', 'getBlock')
         )->getMock();
@@ -108,7 +108,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->getMock();
         $this->_addressFactory->expects($this->once())->method('create')->will($this->returnValue($address));
 
-        $layout = $this->getMockBuilder('Magento\View\Layout')->disableOriginalConstructor()->getMock();
+        $layout = $this->getMockBuilder('Magento\Framework\View\Layout')->disableOriginalConstructor()->getMock();
 
         $this->_block->setLayout($layout);
 

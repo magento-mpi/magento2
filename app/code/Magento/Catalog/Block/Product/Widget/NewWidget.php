@@ -49,7 +49,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     /**
      * Product collection initialize process
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getProductCollection()
     {
@@ -67,7 +67,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     /**
      * Prepare collection for recent product list
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getRecentlyAddedProductsCollection()
     {
@@ -174,7 +174,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof \Magento\View\Element\AbstractBlock) {
+            if ($this->_pager instanceof \Magento\Framework\View\Element\AbstractBlock) {
                 return $this->_pager->toHtml();
             }
         }

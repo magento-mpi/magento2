@@ -23,55 +23,55 @@ $defaultStoreGroup = $storeManager->getGroup();
 /** @var $defaultStoreView \Magento\Store\Model\Store */
 $defaultStoreView = $storeManager->getDefaultStoreView();
 
-$default_parent_category_id =  $storeManager->getStore()->getRootCategoryId();
+$defaultParentCategoryId =  $storeManager->getStore()->getRootCategoryId();
 
-$default_website_id = $defaultWebsite->getId();
-$default_store_group_id = $defaultStoreGroup->getId();
-$default_store_view_id = $defaultStoreView->getId();
+$defaultWebsiteId = $defaultWebsite->getId();
+$defaultStoreGroupId = $defaultStoreGroup->getId();
+$defaultStoreViewId = $defaultStoreView->getId();
 
-$websites_id = array();
-$groups_id = array();
+$websitesId = array();
+$groupsId = array();
 
 //Create $websitesCount websites
 for ($i = 0; $i < $websitesCount; $i++) {
-    $website_id = null;
+    $websiteId = null;
     if ($i == 0) {
-        $website_id = $default_website_id;
+        $websiteId = $defaultWebsiteId;
     }
     $website = clone $defaultWebsite;
     $websiteCode = sprintf('website_%d', $i+1);
     $websiteName = sprintf('Website %d', $i+1);
     $website->addData(
         array(
-            'website_id' => $website_id,
+            'website_id' => $websiteId,
             'code'     => $websiteCode,
             'name'     => $websiteName
         )
     );
     $website->save();
-    $websites_id[$i] = $website->getId();
+    $websitesId[$i] = $website->getId();
     usleep(20);
 }
 
 //Create $storeGroupsCount websites
-$website_number = 0;
+$websiteNumber = 0;
 for ($i = 0; $i < $storeGroupsCount; $i++) {
-    $website_id = $websites_id[$website_number];
-    $group_id = null;
-    $parent_category_id = null;
-    $category_path = '1';
+    $websiteId = $websitesId[$websiteNumber];
+    $groupId = null;
+    $parentCategoryId = null;
+    $categoryPath = '1';
 
-    $storeGroupName = sprintf('Store Group %d - website_id_%d', $i+1, $website_id);
+    $storeGroupName = sprintf('Store Group %d - website_id_%d', $i+1, $websiteId);
 
-    if ($i == 0 && $website_id == $default_website_id) {
-        $group_id = $default_store_group_id;
-        $parent_category_id = $default_parent_category_id;
-        $category_path = '1/' . $default_parent_category_id;
+    if ($i == 0 && $websiteId == $defaultWebsiteId) {
+        $groupId = $defaultStoreGroupId;
+        $parentCategoryId = $defaultParentCategoryId;
+        $categoryPath = '1/' . $defaultParentCategoryId;
     }
 
-    $category->setId($parent_category_id)
+    $category->setId($parentCategoryId)
         ->setName("Category $storeGroupName")
-        ->setPath($category_path)
+        ->setPath($categoryPath)
         ->setLevel(1)
         ->setAvailableSortBy('name')
         ->setDefaultSortBy('name')
@@ -81,52 +81,60 @@ for ($i = 0; $i < $storeGroupsCount; $i++) {
     $storeGroup = clone $defaultStoreGroup;
     $storeGroup->addData(
         array(
-            'group_id'          => $group_id,
-            'website_id'        => $website_id,
+            'group_id'          => $groupId,
+            'website_id'        => $websiteId,
             'name'              => $storeGroupName,
             'root_category_id'  => $category->getId()
         )
     );
     $storeGroup->save();
-    $groups_id[$website_id][] = $storeGroup->getId();
+    $groupsId[$websiteId][] = $storeGroup->getId();
 
-    $website_number++;
-    if ($website_number==count($websites_id)) {
-        $website_number = 0;
+    $websiteNumber++;
+    if ($websiteNumber==count($websitesId)) {
+        $websiteNumber = 0;
     }
     usleep(20);
 }
 
 //Create $storesCount stores
-$website_number = 0;
-$group_number = 0;
+$websiteNumber = 0;
+$groupNumber = 0;
 for ($i = 0; $i < $storesCount; $i++) {
-    $website_id = $websites_id[$website_number];
-    $group_id = $groups_id[$website_id][$group_number];
-    $store_id = null;
-    if ($i == 0 && $group_id == $default_store_group_id) {
-        $store_id = $default_store_view_id;
+    $websiteId = $websitesId[$websiteNumber];
+    $groupId = $groupsId[$websiteId][$groupNumber];
+    $storeId = null;
+    if ($i == 0 && $groupId == $defaultStoreGroupId) {
+        $storeId = $defaultStoreViewId;
     }
     $store = clone $defaultStoreView;
-    $storeCode = sprintf('store_view_%d_w_%d_g_%d', $i+1, $website_id, $group_id);
-    $storeName = sprintf('Store view %d - website_id_%d - group_id_%d', $i+1, $website_id, $group_id);
+    $storeCode = sprintf('store_view_%d_w_%d_g_%d', $i+1, $websiteId, $groupId);
+    $storeName = sprintf('Store view %d - website_id_%d - group_id_%d', $i+1, $websiteId, $groupId);
     $store->addData(
         array(
-            'store_id'      => $store_id,
-            'code'          => $storeCode,
+            'store_id'      => $storeId,
             'name'          => $storeName,
-            'website_id'    => $website_id,
-            'group_id'      => $group_id
+            'website_id'    => $websiteId,
+            'group_id'      => $groupId
         )
     );
+
+    if ($storeId == null) {
+        $store->addData(
+            array(
+                'code' => $storeCode
+            )
+        );
+    }
+
     $store->save();
 
-    $group_number++;
-    if ($group_number==count($groups_id[$website_id])) {
-        $group_number = 0;
-        $website_number++;
-        if ($website_number==count($websites_id)) {
-            $website_number = 0;
+    $groupNumber++;
+    if ($groupNumber==count($groupsId[$websiteId])) {
+        $groupNumber = 0;
+        $websiteNumber++;
+        if ($websiteNumber==count($websitesId)) {
+            $websiteNumber = 0;
         }
     }
     usleep(20);
