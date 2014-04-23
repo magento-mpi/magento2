@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Http;
+namespace Magento\Framework\HTTP;
 
 class AuthenticationTest extends \PHPUnit_Framework_TestCase
 {
