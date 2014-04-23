@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Filesystem\File;
+namespace Magento\Framework\Filesystem\File;
 
 /**
  * Class ReadTest
- * @package Magento\Filesystem\File
+ * @package Magento\Framework\Filesystem\File
  */
 class ReadTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,13 +34,13 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     protected $mode = 'r';
 
     /**
-     * @var \Magento\Filesystem\DriverInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\DriverInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $driver;
 
     public function setUp()
     {
-        $this->driver = $this->getMockForAbstractClass('Magento\Filesystem\DriverInterface');
+        $this->driver = $this->getMockForAbstractClass('Magento\Framework\Filesystem\DriverInterface');
         $this->resource = $this->getMock('resource');
         $this->driver->expects($this->any())
             ->method('isExists')
@@ -60,17 +60,17 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Filesystem\FilesystemException
+     * @expectedException \Magento\Framework\Filesystem\FilesystemException
      */
     public function testInstanceFileNotExists()
     {
-        $driver = $this->getMockForAbstractClass('Magento\Filesystem\DriverInterface');
+        $driver = $this->getMockForAbstractClass('Magento\Framework\Filesystem\DriverInterface');
         $driver->expects($this->once())
             ->method('isExists')
             ->with($this->path)
             ->will($this->returnValue(false));
         $file = new Read($this->path, $driver);
-        $this->assertInstanceOf('Magento\Filesystem\File\Read', $file);
+        $this->assertInstanceOf('Magento\Framework\Filesystem\File\Read', $file);
     }
 
     public function testRead()

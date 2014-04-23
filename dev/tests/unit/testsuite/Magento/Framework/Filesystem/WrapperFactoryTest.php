@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Filesystem;
+namespace Magento\Framework\Filesystem;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class WrapperFactoryTest
- * @package Magento\Filesystem
+ * @package Magento\Framework\Filesystem
  */
 class WrapperFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,9 +34,9 @@ class WrapperFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetByProtocolConfig()
     {
         $protocolCode = 'protocol';
-        $expectedWrapperClass = '\Magento\Filesystem\Stub\Wrapper';
+        $expectedWrapperClass = '\Magento\Framework\Filesystem\Stub\Wrapper';
         $protocolConfig = ['driver' => $expectedWrapperClass];
-        $driver = $this->getMockForAbstractClass('Magento\Filesystem\DriverInterface');
+        $driver = $this->getMockForAbstractClass('Magento\Framework\Filesystem\DriverInterface');
 
         $this->directoryList->expects($this->once())
             ->method('getProtocolConfig')

@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Filesystem;
+namespace Magento\Framework\Filesystem;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class DriverFactoryTest
- * @package Magento\Filesystem
+ * @package Magento\Framework\Filesystem
  */
 class DriverFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetByProtocolConfig()
     {
         $protocolCode = 'protocol';
-        $expectedDriverClass = '\Magento\Filesystem\Driver\Zlib';
+        $expectedDriverClass = '\Magento\Framework\Filesystem\Driver\Zlib';
         $protocolConfig = ['driver' => $expectedDriverClass];
 
         $this->directoryList->expects($this->once())
@@ -47,12 +47,12 @@ class DriverFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSpecifiedDriver()
     {
-        $driverClass = '\Magento\Filesystem\Driver\Http';
+        $driverClass = '\Magento\Framework\Filesystem\Driver\Http';
         $this->assertInstanceOf($driverClass, $this->driverFactory->get(null, $driverClass));
     }
 
     public function testGetDefault()
     {
-        $this->assertInstanceOf('\Magento\Filesystem\Driver\File', $this->driverFactory->get());
+        $this->assertInstanceOf('\Magento\Framework\Filesystem\Driver\File', $this->driverFactory->get());
     }
 }
