@@ -13,7 +13,7 @@
 <?php
 $minProduct = $this->getSaleableItem()
     ->getPriceInfo()
-    ->getPrice('final_price')
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
     ->getMinProduct();
 $amountRender = $this->getRendererPool()
     ->createAmountRender(

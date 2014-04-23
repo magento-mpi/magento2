@@ -10,6 +10,7 @@
 namespace Magento\Checkout\Block\Cart\Item;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 
 /**
  * Shopping cart item render block
@@ -484,11 +485,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     public function getProductPriceHtml(\Magento\Catalog\Model\Product $product)
     {
         $priceRender = $this->getPriceRender();
+        $priceRender->setItem($this->getItem());
 
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
+                ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
                 $product,
                 [
                     'include_container' => true,

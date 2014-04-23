@@ -68,7 +68,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->factoryMock,
             $this->pool,
             $this->quantity
-
         );
     }
 
