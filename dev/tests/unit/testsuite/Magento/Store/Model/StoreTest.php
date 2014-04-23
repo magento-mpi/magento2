@@ -104,7 +104,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $defaultStore->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(5));
 
 
-        $url = $this->getMockForAbstractClass('\Magento\UrlInterface');
+        $url = $this->getMockForAbstractClass('\Magento\Framework\UrlInterface');
         $url->expects($this->atLeastOnce())->method('setScope')->will($this->returnSelf());
         $url->expects($this->atLeastOnce())->method('getUrl')
             ->with($this->equalTo('test/route'), $this->equalTo($params))
@@ -177,73 +177,73 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                \Magento\UrlInterface::URL_TYPE_WEB,
+                \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 false,
                 'web/unsecure/base_url',
                 'http://domain.com/web/unsecure/base_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_LINK,
+                \Magento\Framework\UrlInterface::URL_TYPE_LINK,
                 false,
                 'web/unsecure/base_link_url',
                 'http://domain.com/web/unsecure/base_link_url/index.php/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_DIRECT_LINK,
+                \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK,
                 false,
                 'web/unsecure/base_link_url',
                 'http://domain.com/web/unsecure/base_link_url/index.php/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_LIB,
+                \Magento\Framework\UrlInterface::URL_TYPE_LIB,
                 false,
                 'web/unsecure/base_lib_url',
                 'http://domain.com/web/unsecure/base_lib_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_MEDIA,
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA,
                 false,
                 'web/unsecure/base_media_url',
                 'http://domain.com/web/unsecure/base_media_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_STATIC,
+                \Magento\Framework\UrlInterface::URL_TYPE_STATIC,
                 false,
                 'web/unsecure/base_static_url',
                 'http://domain.com/web/unsecure/base_static_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_CACHE,
+                \Magento\Framework\UrlInterface::URL_TYPE_CACHE,
                 false,
                 'web/unsecure/base_cache_url',
                 'http://domain.com/web/unsecure/base_cache_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_LIB,
+                \Magento\Framework\UrlInterface::URL_TYPE_LIB,
                 false,
                 'web/unsecure/base_url',
                 'http://domain.com/web/unsecure/base_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_MEDIA,
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA,
                 false,
                 'web/unsecure/base_url',
                 'http://domain.com/web/unsecure/base_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_STATIC,
+                \Magento\Framework\UrlInterface::URL_TYPE_STATIC,
                 false,
                 'web/unsecure/base_url',
                 'http://domain.com/web/unsecure/base_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_CACHE,
+                \Magento\Framework\UrlInterface::URL_TYPE_CACHE,
                 false,
                 'web/unsecure/base_url',
                 'http://domain.com/web/unsecure/base_url/'
             ),
             array(
-                \Magento\UrlInterface::URL_TYPE_WEB,
+                \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 true,
                 'web/secure/base_url',
                 'http://distro.com/web/secure/base_url/'
@@ -275,7 +275,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $model->setCode('scopeCode');
         $server = $_SERVER;
         $_SERVER['SCRIPT_FILENAME'] = 'test_script.php';
-        $this->assertEquals($expectedBaseUrl, $model->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, false));
+        $this->assertEquals(
+            $expectedBaseUrl,
+            $model->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, false)
+        );
         $_SERVER = $server;
     }
 
@@ -328,7 +331,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         )));
 
 
-        $urlMock = $this->getMockForAbstractClass('\Magento\UrlInterface');
+        $urlMock = $this->getMockForAbstractClass('\Magento\Framework\UrlInterface');
         $urlMock->expects($this->atLeastOnce())->method('setScope')->will($this->returnSelf());
         $urlMock->expects($this->any())->method('getUrl')
             ->will($this->returnValue($url));
