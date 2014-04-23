@@ -117,7 +117,7 @@ class Package
     /**
      * General purpose Magento util
      *
-     * @var \Magento\Util
+     * @var \Magento\Framework\Util
      */
     protected $_util = null;
 
@@ -125,7 +125,7 @@ class Package
      * Creates a package object (empty, or from existing archive, or from package definition xml)
      *
      * @param null|string|resource $source
-     * @param \Magento\Util|null $util
+     * @param \Magento\Framework\Util|null $util
      * @throws \Magento\Framework\Exception
      */
     public function __construct($source = null, \Magento\Framework\Util $util = null)
