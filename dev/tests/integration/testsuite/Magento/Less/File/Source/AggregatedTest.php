@@ -123,7 +123,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             ),
             array('doesNotExist', 'test_default', array()),
             array(
-                '3',
+                '4',
                 'test_default',
                 array(
                     str_replace('\\', '/', dirname(dirname(__DIR__)) . '/_files/lib/3.less'),
