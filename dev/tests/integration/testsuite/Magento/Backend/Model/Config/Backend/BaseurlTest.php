@@ -115,8 +115,6 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL, $unsecureWrongSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL, $unsecureWrongSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_STATIC_URL, $unsecureWrongSuffix),
-            array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_CACHE_URL, $unsecureWrongSuffix),
-            array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LIB_URL, $unsecureWrongSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, ''),
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, $baseSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, $secureSuffix),
@@ -126,7 +124,6 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL, $secureWrongSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL, $secureWrongSuffix),
             array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_STATIC_URL, $secureWrongSuffix),
-            array(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_CACHE_URL, $secureWrongSuffix),
         );
     }
 }
