@@ -30,7 +30,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $templateContextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);
         $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
@@ -67,7 +67,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
         $rssObjMock = $this->getMock('Magento\Rss\Model\Rss', [], [], '', false);
         $layoutMock = $this->getMockForAbstractClass(
-            'Magento\View\LayoutInterface',
+            'Magento\Framework\View\LayoutInterface',
             [],
             '',
             true,

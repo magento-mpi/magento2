@@ -27,7 +27,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
         $file = new \Magento\Framework\View\Layout\File(__FILE__, 'Fixture_Module', $theme);
         $isBase = true;
         $this->_objectManager->expects($this->once())

@@ -161,18 +161,6 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                     $attributeId => $optionId,
                 ],
         ];
-
-        $modifiedAmountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $modifiedAmountMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue($modifiedValue));
-        $modifiedAmountMock->expects($this->once())
-            ->method('getBaseAmount')
-            ->will($this->returnValue($pricingValue));
-
-        $exclude = \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE;
         $attributePrices = [
             [
                 'is_percent' => false,
@@ -182,32 +170,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $productAttributeMock = $this->getMockBuilder('Magento\Catalog\Model\Entity\Attribute')
-            ->disableOriginalConstructor()
-            ->setMethods(['getLabel', '__wakeup', 'getAttributeCode', 'getId', 'getAttributeLabel'])
-            ->getMock();
-        $productAttributeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($attributeId));
-        $productAttributeMock->expects($this->once())
-            ->method('getAttributeCode')
-            ->will($this->returnValue($attributeCode));
-
-        $attributeMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
-            ->disableOriginalConstructor()
-            ->setMethods(['getProductAttribute', '__wakeup', 'getLabel', 'getPrices'])
-            ->getMock();
-        $attributeMock->expects($this->once())
-            ->method('getProductAttribute')
-            ->will($this->returnValue($productAttributeMock));
-        $attributeMock->expects($this->once())
-            ->method('getLabel')
-            ->will($this->returnValue($attributeLabel));
-        $attributeMock->expects($this->once())
-            ->method('getPrices')
-            ->will($this->returnValue($attributePrices));
-        $configurableAttributes = [$attributeMock];
-
+        $configurableAttributes = [
+            $this->getAttributeMock($attributeId, $attributeCode, $attributeLabel, $attributePrices)
+        ];
         $configuredValueMock = $this->getMockBuilder('Magento\Object')
             ->disableOriginalConstructor()
             ->getMock();
@@ -238,11 +203,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ->method('modifyPrice')
             ->with($this->equalTo($pricingValue), $this->equalTo($this->saleableItemMock))
             ->will($this->returnValue($amount));
-
         $this->calculatorMock->expects($this->any())
             ->method('getAmount')
-            ->will($this->returnValue($modifiedAmountMock));
-
+            ->will($this->returnValue($this->getModifiedAmountMock($modifiedValue, $pricingValue)));
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
@@ -257,6 +220,50 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->attribute->prepareAttributes($options);
         $this->assertEquals($expected, $result);
+    }
+
+    protected function getModifiedAmountMock($modifiedValue, $pricingValue)
+    {
+        $modifiedAmountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $modifiedAmountMock->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue($modifiedValue));
+        $modifiedAmountMock->expects($this->once())
+            ->method('getBaseAmount')
+            ->will($this->returnValue($pricingValue));
+
+        return $modifiedAmountMock;
+    }
+
+    protected function getAttributeMock($attributeId, $attributeCode, $attributeLabel, $attributePrices)
+    {
+        $productAttributeMock = $this->getMockBuilder('Magento\Catalog\Model\Entity\Attribute')
+            ->disableOriginalConstructor()
+            ->setMethods(['getLabel', '__wakeup', 'getAttributeCode', 'getId', 'getAttributeLabel'])
+            ->getMock();
+        $productAttributeMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($attributeId));
+        $productAttributeMock->expects($this->once())
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+        $attributeMock = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute')
+            ->disableOriginalConstructor()
+            ->setMethods(['getProductAttribute', '__wakeup', 'getLabel', 'getPrices'])
+            ->getMock();
+        $attributeMock->expects($this->once())
+            ->method('getProductAttribute')
+            ->will($this->returnValue($productAttributeMock));
+        $attributeMock->expects($this->once())
+            ->method('getLabel')
+            ->will($this->returnValue($attributeLabel));
+        $attributeMock->expects($this->once())
+            ->method('getPrices')
+            ->will($this->returnValue($attributePrices));
+
+        return $attributeMock;
     }
 
     /**
@@ -346,9 +353,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             'showBothPrices' => false,
             'defaultTax' => 0,
             'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
+            'inclTaxTitle' => __('Incl. Tax')
         ];
-        $this->assertEquals($expectedTaxConfig , $this->attribute->getTaxConfig());
+        $this->assertEquals($expectedTaxConfig, $this->attribute->getTaxConfig());
     }
 
     /**

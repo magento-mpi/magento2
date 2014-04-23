@@ -43,7 +43,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     protected $rssFactoryMock;
 
     /**
-     * @var \Magento\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $resourceIteratorMock;
 
@@ -64,7 +64,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $templateContextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
+        $templateContextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
             'Magento\Pricing\PriceCurrencyInterface',
@@ -77,7 +77,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         );
         $this->rssFactoryMock = $this->getMock('Magento\Rss\Model\RssFactory', ['create'], [], '', false);
         $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
-        $this->resourceIteratorMock = $this->getMock('Magento\Model\Resource\Iterator', [], [], '', false);
+        $this->resourceIteratorMock = $this->getMock('Magento\Framework\Model\Resource\Iterator', [], [], '', false);
         $this->imageHelperMock = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', [], [], '', false);

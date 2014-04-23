@@ -14,14 +14,15 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetColumns()
     {
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $layout = $objectManager->get(
             'Magento\Framework\View\LayoutInterface'
         );
         $block = $layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
         $child = $this->getMock(
             'Magento\Wishlist\Block\Customer\Wishlist\Item\Column',
             array('isEnabled'),
-            array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\Element\Context')),
+            array($objectManager->get('Magento\Framework\View\Element\Context')),
             '',
             false
         );

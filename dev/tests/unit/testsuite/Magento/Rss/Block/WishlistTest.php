@@ -271,7 +271,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         );
         $urlModelMock = $this->getMock('Magento\Catalog\Model\Product\Url', [], [], '', false);
         $layoutMock = $this->getMockForAbstractClass(
-            'Magento\View\LayoutInterface',
+            'Magento\Framework\View\LayoutInterface',
             [],
             '',
             true,

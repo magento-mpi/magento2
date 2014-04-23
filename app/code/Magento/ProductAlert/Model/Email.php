@@ -357,7 +357,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
         }
 
         $alertGrid = $this->_appState->emulateAreaCode(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            \Magento\Framework\App\Area::AREA_FRONTEND,
             array($block, 'toHtml')
         );
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);

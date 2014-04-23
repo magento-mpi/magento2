@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Wishlist\Block;
 
 /**
  * Wishlist Product Items abstract Block
- *
- * @category   Magento
- * @package    Magento_Wishlist
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Block;
-
 abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -283,48 +278,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     public function hasWishlistItems()
     {
         return $this->getWishlistItemsCount() > 0;
-    }
-
-    /**
-     * Returns product price block html
-     * Overwrites parent price html return to be ready to show configured, partially configured and
-     * non-configured products
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param bool $displayMinimalPrice
-     * @param string $idSuffix
-     *
-     * @return string
-     */
-    public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
-    {
-        $type_id = $product->getTypeId();
-        if ($this->_catalogData->canApplyMsrp($product)) {
-            $realPriceHtml = $this->_preparePriceRenderer(
-                $type_id
-            )->setProduct(
-                $product
-            )->setDisplayMinimalPrice(
-                $displayMinimalPrice
-            )->setIdSuffix(
-                $idSuffix
-            )->setIsEmulateMode(
-                true
-            )->toHtml();
-            $product->setAddToCartUrl($this->getAddToCartUrl($product));
-            $product->setRealPriceHtml($realPriceHtml);
-            $type_id = $this->_mapRenderer;
-        }
-
-        return $this->_preparePriceRenderer(
-            $type_id
-        )->setProduct(
-            $product
-        )->setDisplayMinimalPrice(
-            $displayMinimalPrice
-        )->setIdSuffix(
-            $idSuffix
-        )->toHtml();
     }
 
     /**
