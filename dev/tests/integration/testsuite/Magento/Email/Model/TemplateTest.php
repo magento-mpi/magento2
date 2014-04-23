@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Framework\Model\Context'),
                 $objectManager->get('Magento\Framework\View\DesignInterface'),
-                $objectManager->get('Magento\Registry'),
+                $objectManager->get('Magento\Framework\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->create('Magento\Framework\App\Filesystem'),

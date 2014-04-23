@@ -23,8 +23,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $queue = $objectManager->get('Magento\Newsletter\Model\Queue');
-        /** @var \Magento\Registry $registry */
-        $registry = $objectManager->get('\Magento\Registry');
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = $objectManager->get('\Magento\Framework\Registry');
         $registry->register('current_queue', $queue);
 
         $objectManager->get(

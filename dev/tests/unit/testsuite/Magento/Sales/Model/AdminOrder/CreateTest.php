@@ -35,7 +35,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $registryMock = $this->getMock('Magento\Registry');
+        $registryMock = $this->getMock('Magento\Framework\Registry');
         $configMock = $this->getMock('Magento\Sales\Model\Config', array(), array(), '', false);
         $this->sessionQuoteMock = $this->getMock('Magento\Backend\Model\Session\Quote', array(), array(), '', false);
         $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);

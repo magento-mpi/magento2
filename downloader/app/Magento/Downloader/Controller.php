@@ -1056,7 +1056,7 @@ final class Controller
             );
 
             \Magento\Framework\App\ObjectManager::getInstance()->get(
-                'Magento\Registry'
+                'Magento\Framework\Registry'
             )->register(
                 'backup_manager',
                 $backupManager

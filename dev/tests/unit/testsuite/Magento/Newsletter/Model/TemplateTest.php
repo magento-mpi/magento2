@@ -17,7 +17,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $design = $this->getMock('Magento\Framework\View\DesignInterface');
         $context = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
-        $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects($this->once())->method('hasSingleStore')->will($this->returnValue($isSingleStore));

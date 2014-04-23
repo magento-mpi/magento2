@@ -147,7 +147,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->getRequest()->setPost($request);
 
-        $this->_objectManager->get('Magento\Registry')->register(
+        $this->_objectManager->get('Magento\Framework\Registry')->register(
             'wishlist',
             $this->_objectManager->get('Magento\Wishlist\Model\Wishlist')->loadByCustomerId(1)
         );

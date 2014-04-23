@@ -155,7 +155,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // get addressed from fixture
-        $customers = $objectManager->get('Magento\Registry')->registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento\Framework\Registry')->registry($this->_fixtureKey);
         $correctAddresses = array();
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
@@ -231,7 +231,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $customers = $objectManager->get('Magento\Registry')->registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento\Framework\Registry')->registry($this->_fixtureKey);
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($customers);
         $customerId = $customer->getId();
@@ -321,7 +321,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         // get not default address
-        $customers = $objectManager->get('Magento\Registry')->registry($this->_fixtureKey);
+        $customers = $objectManager->get('Magento\Framework\Registry')->registry($this->_fixtureKey);
         /** @var $notDefaultAddress \Magento\Customer\Model\Address */
         $notDefaultAddress = null;
         /** @var $addressCustomer \Magento\Customer\Model\Customer */

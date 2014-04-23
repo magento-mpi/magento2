@@ -119,7 +119,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             false
         );
         $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);

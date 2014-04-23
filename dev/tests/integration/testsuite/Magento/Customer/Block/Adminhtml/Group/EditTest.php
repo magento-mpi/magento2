@@ -34,7 +34,7 @@ class EditTest extends AbstractController
     private $customerGroupService;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     private $registry;
 
@@ -49,7 +49,7 @@ class EditTest extends AbstractController
         );
         $this->customerGroupService = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerGroupService');
-        $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
+        $this->registry = Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
     }
 
     /**

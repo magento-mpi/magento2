@@ -69,4 +69,5 @@ return [
     ['Magento\Debug', 'Magento\Framework\Debug'],
     ['Magento\Escaper', 'Magento\Framework\Escaper'],
     ['Magento\OsInfo', 'Magento\Framework\OsInfo'],
+    ['Magento\Registry', 'Magento\Framework\Registry'],
 ];

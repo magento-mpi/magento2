@@ -29,7 +29,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_giftcardaccount', $model);
+        $objectManager->get('Magento\Framework\Registry')->register('current_giftcardaccount', $model);
 
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -41,7 +41,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('current_giftcardaccount');
+        $objectManager->get('Magento\Framework\Registry')->unregister('current_giftcardaccount');
         parent::tearDown();
     }
 

@@ -59,8 +59,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGiftCollection()
     {
-        $gr = $this->objectManager->get('Magento\Registry')->registry('test_gift_registry');
-        $product = $this->objectManager->get('Magento\Registry')->registry('test_product');
+        $gr = $this->objectManager->get('Magento\Framework\Registry')->registry('test_gift_registry');
+        $product = $this->objectManager->get('Magento\Framework\Registry')->registry('test_product');
 
         $collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
         $collection->addRegistryFilter($gr->getId())->addWebsiteFilter();

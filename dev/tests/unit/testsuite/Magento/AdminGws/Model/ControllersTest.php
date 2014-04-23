@@ -50,7 +50,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $this->_controllerMock = $this->getMock('\Magento\Backend\App\Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
 
         $this->_model = $helper->getObject(

@@ -2073,7 +2073,7 @@ return array(
     array('Magento\Core\Model\Option\ArrayPool', 'Magento\Framework\Option\ArrayPool'),
     array('Magento\Core\Helper\String', 'Magento\Framework\Code\NameBuilder'),
     array('Magento\Core\Model\Context', 'Magento\Framework\Model\Context'),
-    array('Magento\Core\Model\Registry', 'Magento\Registry'),
+    array('Magento\Core\Model\Registry', 'Magento\Framework\Registry'),
     array('Magento\Framework\Code\Plugin\InvocationChain'),
     array('RecurringProfile', 'RecurringPayment'), // recurring profile was renamed to recurring payment
     array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
@@ -2473,4 +2473,5 @@ return array(
     ['Magento\Debug', 'Magento\Framework\Debug'],
     ['Magento\Escaper', 'Magento\Framework\Escaper'],
     ['Magento\OsInfo', 'Magento\Framework\OsInfo'],
+    ['Magento\Registry', 'Magento\Framework\Registry'],
 );

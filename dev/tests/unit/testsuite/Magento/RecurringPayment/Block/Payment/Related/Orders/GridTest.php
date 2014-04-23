@@ -53,7 +53,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(new \ArrayIterator(array($collectionElement)))
         );
         $payment = $this->getMock('Magento\RecurringPayment\Model\Payment', array(), array(), '', false);
-        $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $registry->expects(
             $this->at(0)
         )->method(

@@ -83,7 +83,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($helperDataMock));
         $this->_controller = new \Magento\Catalog\Controller\Adminhtml\Product(
             $contextMock,
-            $this->getMock('Magento\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
             $this->getMock('Magento\Framework\Stdlib\DateTime\Filter\Date', array(), array(), '', false),
             $this->getMock(
                 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',

@@ -238,4 +238,10 @@ return [
     ['/lib/Magento/OsInfo', '/lib/Magento/Framework/OsInfo'],
     ['/dev/tests/unit/testsuite/Magento/OsInfo', '/dev/tests/unit/testsuite/Magento/Framework/OsInfo'],
     ['/dev/tests/integration/testsuite/Magento/OsInfo', '/dev/tests/integration/testsuite/Magento/Framework/OsInfo'],
+    ['/lib/Magento/Registry', '/lib/Magento/Framework/Registry'],
+    ['/dev/tests/unit/testsuite/Magento/Registry', '/dev/tests/unit/testsuite/Magento/Framework/Registry'],
+    [
+        '/dev/tests/integration/testsuite/Magento/Registry',
+        '/dev/tests/integration/testsuite/Magento/Framework/Registry'
+    ],
 ];

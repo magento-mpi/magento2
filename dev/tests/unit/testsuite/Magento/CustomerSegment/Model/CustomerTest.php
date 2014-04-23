@@ -36,7 +36,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Framework\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
         $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');

@@ -38,7 +38,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Registry | Mock
+     * @var \Magento\Framework\Registry | Mock
      */
     protected $registryMock;
 
@@ -107,7 +107,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->contextMock = $this->getMockBuilder('Magento\Framework\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->registryMock = $this->getMockBuilder('Magento\Registry')
+        $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
             ->getMock();
         $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')

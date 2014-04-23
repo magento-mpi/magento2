@@ -28,7 +28,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_model = new \Magento\CustomerSegment\Model\Observer(
             $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),

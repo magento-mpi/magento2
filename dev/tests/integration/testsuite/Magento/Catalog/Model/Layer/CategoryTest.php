@@ -117,16 +117,16 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         /* Category in registry */
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_category', $existingCategory);
+        $objectManager->get('Magento\Framework\Registry')->register('current_category', $existingCategory);
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Category'
             );
             $this->assertSame($existingCategory, $model->getCurrentCategory());
-            $objectManager->get('Magento\Registry')->unregister('current_category');
+            $objectManager->get('Magento\Framework\Registry')->unregister('current_category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
         } catch (\Exception $e) {
-            $objectManager->get('Magento\Registry')->unregister('current_category');
+            $objectManager->get('Magento\Framework\Registry')->unregister('current_category');
             throw $e;
         }
 

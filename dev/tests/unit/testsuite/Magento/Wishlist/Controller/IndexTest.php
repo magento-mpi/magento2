@@ -141,7 +141,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $wishlistModel = $this->getMock('\Magento\Wishlist\Model\Wishlist', array(), array(), '', false);
 
-        $coreRegistry = $this->getMock('\Magento\Registry', array('registry'), array(), '', false);
+        $coreRegistry = $this->getMock('\Magento\Framework\Registry', array('registry'), array(), '', false);
         $coreRegistry->expects($this->once())->method('registry')->will($this->returnValue($wishlistModel));
 
         $messageManager = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
