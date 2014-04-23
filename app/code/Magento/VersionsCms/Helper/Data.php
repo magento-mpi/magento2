@@ -80,7 +80,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * and add to each element new onChange method.
      * Element will be skipped if its type passed in $excludeTypes parameter.
      *
-     * @param \Magento\Data\Form\AbstractForm $container
+     * @param \Magento\Framework\Data\Form\AbstractForm $container
      * @param string $onChange
      * @param string|array $excludeTypes
      * @return void

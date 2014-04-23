@@ -201,7 +201,7 @@ class Tracking extends \Magento\Framework\App\Action\Action
                     'application/pdf'
                 );
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);

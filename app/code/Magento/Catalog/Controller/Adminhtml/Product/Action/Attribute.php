@@ -216,7 +216,7 @@ class Attribute extends Action
             ) {
                 $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException(
@@ -292,7 +292,7 @@ class Attribute extends Action
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
             $response->setMessage($e->getMessage());
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {

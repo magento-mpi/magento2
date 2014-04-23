@@ -16,7 +16,7 @@ use Magento\Reward\Model\Reward\Rate as RewardRate;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rate extends \Magento\Model\Resource\Db\AbstractDb
+class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

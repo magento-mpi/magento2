@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**
      * @var \Magento\AdvancedCheckout\Model\Cart

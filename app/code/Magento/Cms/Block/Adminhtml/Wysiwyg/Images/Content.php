@@ -9,7 +9,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Wysiwyg Images content block

@@ -9,7 +9,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Import frame result block.
@@ -195,8 +195,8 @@ class Result extends \Magento\Backend\Block\Template
      */
     public function getMessagesHtml()
     {
-        /** @var $messagesBlock \Magento\View\Element\Messages */
-        $messagesBlock = $this->_layout->createBlock('Magento\View\Element\Messages');
+        /** @var $messagesBlock \Magento\Framework\View\Element\Messages */
+        $messagesBlock = $this->_layout->createBlock('Magento\Framework\View\Element\Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";

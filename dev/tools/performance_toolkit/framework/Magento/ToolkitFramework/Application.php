@@ -66,7 +66,7 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
         $varDirectory = $this->getObjectManager()->get('Magento\Framework\App\Filesystem')
             ->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $varDirectory->changePermissions('', 0777);
@@ -82,7 +82,7 @@ class Application
         $this->getObjectManager()->configure(
             $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 

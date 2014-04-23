@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Admin Checkout main form container

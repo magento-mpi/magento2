@@ -16,7 +16,7 @@ namespace Magento\GiftCardAccount\Model\Resource;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\Resource\Db\AbstractDb
+class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -46,10 +46,10 @@ class History extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Setting "updated_at" date before saving
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate(time()));
         return parent::_beforeSave($object);

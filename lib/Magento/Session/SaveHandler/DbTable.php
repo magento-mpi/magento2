@@ -22,7 +22,7 @@ class DbTable extends \SessionHandler
     /**
      * Database write connection
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_write;
 

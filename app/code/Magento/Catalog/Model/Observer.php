@@ -142,8 +142,8 @@ class Observer
     /**
      * Recursively adds categories to top menu
      *
-     * @param \Magento\Data\Tree\Node\Collection|array $categories
-     * @param \Magento\Data\Tree\Node $parentCategoryNode
+     * @param \Magento\Framework\Data\Tree\Node\Collection|array $categories
+     * @param \Magento\Framework\Data\Tree\Node $parentCategoryNode
      * @param \Magento\Theme\Block\Html\Topmenu $block
      * @return void
      */
@@ -165,7 +165,7 @@ class Observer
                 'url' => $this->_catalogCategory->getCategoryUrl($category),
                 'is_active' => $this->_isActiveMenuCategory($category)
             );
-            $categoryNode = new \Magento\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
+            $categoryNode = new \Magento\Framework\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 
             if ($this->categoryFlatConfig->isFlatEnabled()) {
@@ -181,7 +181,7 @@ class Observer
     /**
      * Checks whether category belongs to active category's path
      *
-     * @param \Magento\Data\Tree\Node $category
+     * @param \Magento\Framework\Data\Tree\Node $category
      * @return bool
      */
     protected function _isActiveMenuCategory($category)

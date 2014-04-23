@@ -15,7 +15,7 @@ namespace Magento\Rule\Model\Condition;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -25,7 +25,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_localeDate;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -40,16 +40,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
         \Magento\Logger $logger
     ) {
@@ -61,7 +61,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\Url
+     * @return \Magento\Framework\View\Url
      */
     public function getViewUrl()
     {
@@ -77,7 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\View\LayoutInterface
+     * @return \Magento\Framework\View\LayoutInterface
      */
     public function getLayout()
     {

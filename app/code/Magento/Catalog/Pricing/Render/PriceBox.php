@@ -12,7 +12,7 @@ namespace Magento\Catalog\Pricing\Render;
 use Magento\Catalog\Model\Product;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Render\PriceBox as PriceBoxRender;
-use Magento\View\Element\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Pricing\Render\RendererPool;
 use Magento\Core\Helper\Data;
 use Magento\Math\Random;

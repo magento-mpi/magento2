@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Model\Resource\Page;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Version extends \Magento\Model\Resource\Db\AbstractDb
+class Version extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -31,10 +31,10 @@ class Version extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Checking if version id not last public for its page
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionLastPublic(\Magento\Model\AbstractModel $object)
+    public function isVersionLastPublic(\Magento\Framework\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(
@@ -59,10 +59,10 @@ class Version extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Checking if Version does not contain published revision
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(\Magento\Model\AbstractModel $object)
+    public function isVersionHasPublishedRevision(\Magento\Framework\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(
@@ -85,10 +85,10 @@ class Version extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Add access restriction filters to allow load only by granted user.
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param int $accessLevel
      * @param int $userId
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {

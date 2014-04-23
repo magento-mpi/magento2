@@ -30,14 +30,14 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
@@ -54,7 +54,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_info');
 

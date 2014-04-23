@@ -27,7 +27,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $helper;
 
     /**
-     * @var \Magento\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout\ProcessorInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $updateLayoutMock;
 
@@ -73,7 +73,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->viewMock =
             $this->getMock('Magento\Framework\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
         $layoutMock = $this->getMockForAbstractClass(
-            'Magento\View\LayoutInterface',
+            'Magento\Framework\View\LayoutInterface',
             array(),
             '',
             false,
@@ -82,7 +82,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('getUpdate')
         );
         $this->updateLayoutMock = $this->getMockForAbstractClass(
-            'Magento\View\Layout\ProcessorInterface',
+            'Magento\Framework\View\Layout\ProcessorInterface',
             array(),
             '',
             false,

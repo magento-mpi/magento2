@@ -24,7 +24,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
@@ -32,7 +32,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()
@@ -63,7 +63,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         parent::_prepareLayout();
 
-        \Magento\Data\Form::setFieldsetElementRenderer(
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element_gift_wrapping'
@@ -84,7 +84,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($model->getId()) {
             $actionParams['id'] = $model->getId();
         }
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array(
                 'data' => array(

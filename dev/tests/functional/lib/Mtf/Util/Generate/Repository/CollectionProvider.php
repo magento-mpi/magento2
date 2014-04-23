@@ -86,7 +86,7 @@ class CollectionProvider implements CollectionProviderInterface
     {
         $collection = $fixture['collection'];
         $collection = $this->objectManager->create($collection);
-        /** @var $collection \Magento\Model\Resource\Db\Collection\AbstractCollection */
+        /** @var $collection \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection */
         $collection->addFieldToSelect('*');
 
         return $collection->getItems();

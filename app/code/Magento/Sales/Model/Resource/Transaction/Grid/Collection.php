@@ -21,20 +21,20 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Payment\Transaction
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Registry $registryManager
      * @param null $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Registry $registryManager,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->registryManager = $registryManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);

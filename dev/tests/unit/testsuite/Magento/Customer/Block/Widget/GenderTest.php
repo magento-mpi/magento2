@@ -63,7 +63,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
         $this->_block = new Gender(
-            $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false),
+            $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false),
             $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false),
             $this->_attributeMetadata,
             $this->_customerAccountService,

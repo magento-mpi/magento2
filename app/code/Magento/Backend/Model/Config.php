@@ -57,7 +57,7 @@ class Config extends \Magento\Object
     /**
      * TransactionFactory
      *
-     * @var \Magento\DB\TransactionFactory
+     * @var \Magento\Framework\DB\TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -84,7 +84,7 @@ class Config extends \Magento\Object
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param \Magento\DB\TransactionFactory $transactionFactory
+     * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
      * @param \Magento\Framework\App\Config\ValueFactory $configValueFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -94,7 +94,7 @@ class Config extends \Magento\Object
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        \Magento\DB\TransactionFactory $transactionFactory,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -130,9 +130,9 @@ class Config extends \Magento\Object
         $oldConfig = $this->_getConfig(true);
 
         $deleteTransaction = $this->_transactionFactory->create();
-        /* @var $deleteTransaction \Magento\DB\Transaction */
+        /* @var $deleteTransaction \Magento\Framework\DB\Transaction */
         $saveTransaction = $this->_transactionFactory->create();
-        /* @var $saveTransaction \Magento\DB\Transaction */
+        /* @var $saveTransaction \Magento\Framework\DB\Transaction */
 
         // Extends for old config data
         $extraOldGroups = array();
@@ -182,8 +182,8 @@ class Config extends \Magento\Object
      * @param string $sectionPath
      * @param array &$extraOldGroups
      * @param array &$oldConfig
-     * @param \Magento\DB\Transaction $saveTransaction
-     * @param \Magento\DB\Transaction $deleteTransaction
+     * @param \Magento\Framework\DB\Transaction $saveTransaction
+     * @param \Magento\Framework\DB\Transaction $deleteTransaction
      * @return void
      */
     protected function _processGroup(
@@ -193,8 +193,8 @@ class Config extends \Magento\Object
         $sectionPath,
         array &$extraOldGroups,
         array &$oldConfig,
-        \Magento\DB\Transaction $saveTransaction,
-        \Magento\DB\Transaction $deleteTransaction
+        \Magento\Framework\DB\Transaction $saveTransaction,
+        \Magento\Framework\DB\Transaction $deleteTransaction
     ) {
         $groupPath = $sectionPath . '/' . $groupId;
         $scope = $this->getScope();

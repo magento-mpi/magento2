@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/Magento/Framework/App/etc/resources.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Framework/App/etc/resources.xsd">
     <resource name="resourceName" extends="anotherResourceName" />
     <resource name="otherResourceName" connection="connectionName" />
     <resource name="defaultSetup" connection="customConnection" />

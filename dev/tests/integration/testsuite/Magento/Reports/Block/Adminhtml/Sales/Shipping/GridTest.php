@@ -24,7 +24,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected function _createBlock($reportType = null)
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Reports\Block\Adminhtml\Sales\Shipping\Grid'
         );

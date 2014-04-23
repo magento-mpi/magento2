@@ -437,7 +437,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function _getEntityMock()
     {
         $entity = $this->getMockBuilder(
-            'Magento\Model\AbstractModel'
+            'Magento\Framework\Model\AbstractModel'
         )->setMethods(
             array('getAttribute', 'getResource', 'getEntityType', '__wakeup')
         )->disableOriginalConstructor()->getMock();

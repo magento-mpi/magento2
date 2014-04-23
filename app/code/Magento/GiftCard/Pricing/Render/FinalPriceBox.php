@@ -13,7 +13,7 @@ namespace Magento\GiftCard\Pricing\Render;
 use Magento\Catalog\Model\Product;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Render\RendererPool;
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Pricing\Render\PriceBox;
 

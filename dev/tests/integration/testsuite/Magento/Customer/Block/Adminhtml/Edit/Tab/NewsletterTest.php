@@ -39,7 +39,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
 
         $this->coreRegistry = $objectManager->get('Magento\Registry');
         $this->block = $objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter',
             '',

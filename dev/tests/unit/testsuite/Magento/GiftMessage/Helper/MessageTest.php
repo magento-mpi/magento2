@@ -22,7 +22,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->layoutFactoryMock = $this->getMock('\Magento\View\LayoutFactory', array(), array(), '', false);
+        $this->layoutFactoryMock = $this->getMock('\Magento\Framework\View\LayoutFactory', array(), array(), '', false);
 
         $this->helper = $objectManager->getObject('\Magento\GiftMessage\Helper\Message', array(
             'layoutFactory' => $this->layoutFactoryMock,
@@ -36,7 +36,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testGetInlineForCheckout()
     {
         $expectedHtml = '<a href="here">here</a>';
-        $layoutMock = $this->getMock('\Magento\View\Layout', array(), array(), '', false);
+        $layoutMock = $this->getMock('\Magento\Framework\View\Layout', array(), array(), '', false);
         $entityMock = $this->getMock('\Magento\Object', array(), array(), '', false);
         $inlineMock = $this->getMock(
             'Magento\GiftMessage\Block\Message\Inline',

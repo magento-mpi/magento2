@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Search;
 
-class Form extends \Magento\View\Element\Template
+class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Posted form data

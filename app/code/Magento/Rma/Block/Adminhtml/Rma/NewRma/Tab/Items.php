@@ -41,7 +41,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
@@ -49,7 +49,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
@@ -112,7 +112,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);

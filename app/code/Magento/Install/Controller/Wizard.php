@@ -54,7 +54,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Config\Scope $configScope
+     * @param \Magento\Framework\Config\Scope $configScope
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Session\Generic $session
@@ -64,7 +64,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Config\Scope $configScope,
+        \Magento\Framework\Config\Scope $configScope,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Session\Generic $session,
@@ -498,7 +498,7 @@ class Wizard extends \Magento\Install\Controller\Action
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
             $this->_session->setAdminData($adminData);
-            if ($e instanceof \Magento\Model\Exception) {
+            if ($e instanceof \Magento\Framework\Model\Exception) {
                 $this->messageManager->addMessages($e->getMessages());
             } else {
                 $this->messageManager->addError($e->getMessage());

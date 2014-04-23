@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\App\Config\Initial;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Node paths to process

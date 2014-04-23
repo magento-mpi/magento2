@@ -11,7 +11,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\View\Layout\Element as LayoutElement;
+use Magento\Framework\View\Layout\Element as LayoutElement;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -64,7 +64,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_messageManager;
 
-    /** @var \Magento\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Config\ScopeInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configScopeMock;
 
     /** @var \Magento\Integration\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -76,7 +76,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Layout\Merge|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMergeMock;
 
-    /** @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
     /**
@@ -127,7 +127,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_registryMock = $this->getMockBuilder('Magento\Registry')->disableOriginalConstructor()->getMock();
         $this->_configScopeMock = $this->getMockBuilder(
-            'Magento\Config\ScopeInterface'
+            'Magento\Framework\Config\ScopeInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_integrationHelperMock = $this->getMockBuilder(
             'Magento\Integration\Helper\Data'
@@ -311,7 +311,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->with(
             self::INTEGRATION_ID
         )->will(
-            $this->throwException(new \Magento\Model\Exception($exceptionMessage))
+            $this->throwException(new \Magento\Framework\Model\Exception($exceptionMessage))
         );
         // Verify error
         $this->_messageManager->expects($this->once())->method('addError')->with($this->equalTo($exceptionMessage));
@@ -804,7 +804,7 @@ HANDLE;
     {
         // Mock Layout passed into constructor
         $this->_viewMock = $this->getMock('Magento\Framework\App\ViewInterface');
-        $this->_layoutMock = $this->getMock('Magento\View\LayoutInterface');
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->_layoutMergeMock = $this->getMockBuilder(
             'Magento\Core\Model\Layout\Merge'
         )->disableOriginalConstructor()->getMock();
@@ -871,7 +871,7 @@ HANDLE;
             array('Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
             array('Magento\Backend\Model\Session', $this->_backendSessionMock),
             array('Magento\TranslateInterface', $this->_translateModelMock),
-            array('Magento\Config\ScopeInterface', $this->_configScopeMock)
+            array('Magento\Framework\Config\ScopeInterface', $this->_configScopeMock)
         );
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }

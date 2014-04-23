@@ -25,7 +25,7 @@
             <arguments>
                 <argument name="renderer_template" xsi:type="string">Magento_GiftRegistry::customer/items/default.phtml</argument>
             </arguments>
-            <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
+            <block class="Magento\Framework\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
         </block>
     </referenceContainer>
 </layout>

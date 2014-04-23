@@ -9,7 +9,7 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Sales\Model\Order\Payment;
 
@@ -314,7 +314,7 @@ class Pbridge extends AbstractMethod
      * Validate response
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
@@ -469,7 +469,7 @@ class Pbridge extends AbstractMethod
      * @param \Magento\Object $payment
      * @param float $amount
      * @return array
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {

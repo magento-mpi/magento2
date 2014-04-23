@@ -39,7 +39,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /** @var \Magento\Oauth\OauthInterface */
@@ -73,7 +73,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
@@ -91,7 +91,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\Framework\App\State $appState,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
@@ -126,7 +126,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+            ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

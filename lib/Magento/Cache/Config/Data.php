@@ -9,7 +9,7 @@
  */
 namespace Magento\Cache\Config;
 
-class Data extends \Magento\Config\Data\Scoped
+class Data extends \Magento\Framework\Config\Data\Scoped
 {
     /**
      * Scope priority loading scheme
@@ -20,14 +20,14 @@ class Data extends \Magento\Config\Data\Scoped
 
     /**
      * @param \Magento\Cache\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Cache\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
         $cacheId
     ) {
         parent::__construct($reader, $configScope, $cache, $cacheId);

@@ -51,7 +51,7 @@ function updateFieldForTable($objectManager, $table, $col)
 
         $indexList = $installer->getConnection()->getIndexList($table);
         $pkField = array_shift($indexList[$installer->getConnection()->getPrimaryKeyName($table)]['fields']);
-        /** @var $select \Magento\Db\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = $installer->getConnection()->select()->from($table, array('id' => $pkField, 'content' => $col));
         $result = $installer->getConnection()->fetchPairs($select);
 

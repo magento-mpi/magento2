@@ -54,7 +54,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Model\AbstractModel
+class Item extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_GLOBAL = 'cataloginventory/options/';
 
@@ -188,7 +188,7 @@ class Item extends \Magento\Model\AbstractModel
     protected $_localeDate;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
@@ -200,12 +200,12 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
@@ -217,8 +217,8 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Math\Division $mathDivision,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -569,7 +569,7 @@ class Item extends \Magento\Model\AbstractModel
      * Check quantity
      *
      * @param int|float $qty
-     * @exception \Magento\Model\Exception
+     * @exception \Magento\Framework\Model\Exception
      * @return bool
      */
     public function checkQty($qty)

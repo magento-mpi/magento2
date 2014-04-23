@@ -16,7 +16,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Text extends \Magento\Data\Form\Element\Text
+class Text extends \Magento\Framework\Data\Form\Element\Text
 {
     /**
      * Rma eav
@@ -26,15 +26,15 @@ class Text extends \Magento\Data\Form\Element\Text
     protected $_rmaEav = null;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()

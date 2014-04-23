@@ -206,7 +206,7 @@ class Observer
             $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()->setAttributeFilter(
                 $attribute->getAttributeId()
             )->setPositionOrder(
-                \Magento\DB\Select::SQL_ASC,
+                \Magento\Framework\DB\Select::SQL_ASC,
                 true
             )->load();
 

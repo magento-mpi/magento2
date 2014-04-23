@@ -21,7 +21,7 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Class AbstractProduct
  */
-abstract class AbstractProduct extends \Magento\View\Element\Template
+abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array

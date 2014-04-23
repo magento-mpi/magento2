@@ -108,7 +108,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function _prepareMockForRead($isDataEncoded)
     {
         $connection = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne', 'isTableExists'),
             array(),
             '',
@@ -186,7 +186,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function _prepareMockForWrite($sessionExists)
     {
         $connection = $this->getMock(
-            'Magento\DB\Adapter\Pdo\Mysql',
+            'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('select', 'from', 'where', 'fetchOne', 'update', 'insert', 'isTableExists'),
             array(),
             '',

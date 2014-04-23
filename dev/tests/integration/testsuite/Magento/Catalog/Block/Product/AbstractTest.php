@@ -55,10 +55,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setDefaultDesignTheme();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             self::STUB_CLASS
         );
@@ -117,7 +117,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testGetReviewsSummaryHtml()
     {
         $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface')
         );
         $html = $this->_block->getReviewsSummaryHtml($this->_product, false, true);
         $this->assertNotEmpty($html);
@@ -147,7 +147,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testLayoutDependColumnCount()
     {
         $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface')
         );
         $this->assertEquals(3, $this->_block->getColumnCount());
         /* default column count */

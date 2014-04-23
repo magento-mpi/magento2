@@ -77,7 +77,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
     /**
      * Retrieve related product collection assigned to product
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getLinkCollection()

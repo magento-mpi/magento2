@@ -21,13 +21,13 @@ class Info extends \Magento\Payment\Block\Info\Cc
     protected $_paypalInfoFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()

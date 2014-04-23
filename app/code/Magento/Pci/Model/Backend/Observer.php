@@ -131,7 +131,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function adminAuthenticate($observer)
     {
@@ -177,7 +177,7 @@ class Observer
             );
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                throw new \Magento\Model\Exception(__('This account is locked.'), self::ADMIN_USER_LOCKED);
+                throw new \Magento\Framework\Model\Exception(__('This account is locked.'), self::ADMIN_USER_LOCKED);
             }
         }
 
@@ -248,7 +248,7 @@ class Observer
      *
      * @param EventObserver $observer
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function checkAdminPasswordChange($observer)
     {
@@ -263,7 +263,7 @@ class Observer
 
         if ($password && !$user->getForceNewPassword() && $user->getId()) {
             if ($this->_encryptor->validateHash($password, $user->getOrigData('password'))) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Sorry, but this password has already been used. Please create another.')
                 );
             }
@@ -273,7 +273,7 @@ class Observer
             $passwordHash = $this->_encryptor->getHash($password, false);
             foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
                 if ($passwordHash === $oldPasswordHash) {
-                    throw new \Magento\Model\Exception(
+                    throw new \Magento\Framework\Model\Exception(
                         __('Sorry, but this password has already been used. Please create another.')
                     );
                 }

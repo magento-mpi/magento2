@@ -10,7 +10,7 @@
 
 namespace Magento\Weee\Pricing\Render;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
 use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Weee\Model\Tax;
