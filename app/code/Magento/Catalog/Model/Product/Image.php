@@ -18,7 +18,7 @@
 namespace Magento\Catalog\Model\Product;
 
 use Magento\Store\Model\Store;
-use Magento\Image as MagentoImage;
+use Magento\Framework\Image as MagentoImage;
 
 class Image extends \Magento\Framework\Model\AbstractModel
 {
@@ -123,7 +123,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
     protected $_mediaDirectory;
 
     /**
-     * @var \Magento\Image\Factory
+     * @var \Magento\Framework\Image\Factory
      */
     protected $_imageFactory;
 
@@ -172,7 +172,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Image\Factory $imageFactory
+     * @param \Magento\Framework\Image\Factory $imageFactory
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -187,7 +187,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Image\Factory $imageFactory,
+        \Magento\Framework\Image\Factory $imageFactory,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -566,7 +566,7 @@ class Image extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @see \Magento\Image\Adapter\AbstractAdapter
+     * @see \Magento\Framework\Image\Adapter\AbstractAdapter
      * @return $this
      */
     public function resize()

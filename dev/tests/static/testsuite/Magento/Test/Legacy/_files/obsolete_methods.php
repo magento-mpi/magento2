@@ -318,7 +318,7 @@ return array(
     array('deleteAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('deleteConfig', 'Magento\Core\Model\Config'),
     array('deleteProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
-    array('display', 'Magento\Image\Adapter\AbstractAdapter', 'getImage()'),
+    array('display', 'Magento\Framework\Image\Adapter\AbstractAdapter', 'getImage()'),
     array('displayFullSummary', 'Magento\Tax\Model\Config'),
     array('displayTaxColumn', 'Magento\Tax\Model\Config'),
     array('displayZeroTax', 'Magento\Tax\Model\Config'),

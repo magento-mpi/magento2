@@ -375,12 +375,12 @@ return array(
     array(
         'ADAPTER_IM',
         '\Magento\Core\Model\Image\AdapterFactory',
-        '\Magento\Image\Adapter\AdapterInterface::ADAPTER_IM'
+        '\Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_IM'
     ),
     array(
         'ADAPTER_GD2',
         '\Magento\Core\Model\Image\AdapterFactory',
-        '\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2'
+        '\Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2'
     ),
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),

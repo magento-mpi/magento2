@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 interface AdapterInterface
 {
@@ -26,7 +26,7 @@ interface AdapterInterface
     public function getColorAt($x, $y);
 
     /**
-     * @see \Magento\Image\Adapter\AbstractAdapter::getImage
+     * @see \Magento\Framework\Image\Adapter\AbstractAdapter::getImage
      * @return string
      */
     public function getImage();
@@ -63,7 +63,7 @@ interface AdapterInterface
      *
      * @param string $text
      * @param string $font
-     * @return \Magento\Image\Adapter\AbstractAdapter
+     * @return \Magento\Framework\Image\Adapter\AbstractAdapter
      */
     public function createPngFromString($text, $font = '');
 

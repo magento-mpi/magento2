@@ -39,11 +39,11 @@
                 <adapters>
                     <GD2>
                         <title>PHP GD2</title>
-                        <class>Magento\Image\Adapter\Gd2</class>
+                        <class>Magento\Framework\Image\Adapter\Gd2</class>
                     </GD2>
                     <IMAGEMAGICK>
                         <title>ImageMagick</title>
-                        <class>Magento\Image\Adapter\ImageMagick</class>
+                        <class>Magento\Framework\Image\Adapter\ImageMagick</class>
                     </IMAGEMAGICK>
                 </adapters>
             </image>

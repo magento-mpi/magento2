@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image;
+namespace Magento\Framework\Image;
 
 class AdapterFactory
 {
@@ -31,7 +31,7 @@ class AdapterFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Image\Adapter\ConfigInterface $config,
+        \Magento\Framework\Image\Adapter\ConfigInterface $config,
         array $adapterMap = array()
     ) {
         $this->objectManager = $objectManager;
@@ -43,7 +43,7 @@ class AdapterFactory
      * Return specified image adapter
      *
      * @param string $adapterAlias
-     * @return \Magento\Image\Adapter\AdapterInterface
+     * @return \Magento\Framework\Image\Adapter\AdapterInterface
      * @throws \InvalidArgumentException
      */
     public function create($adapterAlias = null)
@@ -59,7 +59,7 @@ class AdapterFactory
         if (!$imageAdapter instanceof Adapter\AdapterInterface) {
             throw new \InvalidArgumentException(
                 $this->adapterMap[$adapterAlias]['class'] .
-                ' is not instance of \Magento\Image\Adapter\AdapterInterface'
+                ' is not instance of \Magento\Framework\Image\Adapter\AdapterInterface'
             );
         }
         $imageAdapter->checkDependencies();

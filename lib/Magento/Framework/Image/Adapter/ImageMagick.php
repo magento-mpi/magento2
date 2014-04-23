@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
-class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
+class ImageMagick extends \Magento\Framework\Image\Adapter\AbstractAdapter
 {
     /**
      * The blur factor where > 1 is blurry, < 1 is sharp
@@ -128,7 +128,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
     }
 
     /**
-     * @see \Magento\Image\Adapter\AbstractAdapter::getImage
+     * @see \Magento\Framework\Image\Adapter\AbstractAdapter::getImage
      * @return string
      */
     public function getImage()
@@ -411,7 +411,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
      *
      * @param string $text
      * @param string $font
-     * @return \Magento\Image\Adapter\AbstractAdapter
+     * @return \Magento\Framework\Image\Adapter\AbstractAdapter
      */
     public function createPngFromString($text, $font = '')
     {

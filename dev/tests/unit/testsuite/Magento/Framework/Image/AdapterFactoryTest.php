@@ -8,19 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image;
+namespace Magento\Framework\Image;
 
 class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Image\Adapter\ConfigInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Image\Adapter\ConfigInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
     public function setUp()
     {
         $this->configMock = $this->getMock(
-            'Magento\Image\Adapter\ConfigInterface',
+            'Magento\Framework\Image\Adapter\ConfigInterface',
             array('getAdapterAlias', 'getAdapters'),
             array(),
             '',
@@ -34,8 +34,8 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    'GD2' => array('class' => 'Magento\Image\Adapter\Gd2'),
-                    'IMAGEMAGICK' => array('class' => 'Magento\Image\Adapter\ImageMagick'),
+                    'GD2' => array('class' => 'Magento\Framework\Image\Adapter\Gd2'),
+                    'IMAGEMAGICK' => array('class' => 'Magento\Framework\Image\Adapter\ImageMagick'),
                     'wrongInstance' => array('class' => 'stdClass'),
                     'test' => array()
                 )
@@ -82,18 +82,18 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     public function createDataProvider()
     {
         return array(
-            array('GD2', 'Magento\Image\Adapter\Gd2'),
-            array('IMAGEMAGICK', 'Magento\Image\Adapter\ImageMagick')
+            array('GD2', 'Magento\Framework\Image\Adapter\Gd2'),
+            array('IMAGEMAGICK', 'Magento\Framework\Image\Adapter\ImageMagick')
         );
     }
 
     /**
-     * @covers \Magento\Image\AdapterFactory::create
+     * @covers \Magento\Framework\Image\AdapterFactory::create
      */
     public function testCreateWithoutName()
     {
         $adapterAlias = 'IMAGEMAGICK';
-        $adapterClass = 'Magento\Image\Adapter\ImageMagick';
+        $adapterClass = 'Magento\Framework\Image\Adapter\ImageMagick';
 
         $this->configMock->expects($this->once())->method('getAdapterAlias')->will($this->returnValue($adapterAlias));
 
@@ -123,7 +123,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Image\AdapterFactory::create
+     * @covers \Magento\Framework\Image\AdapterFactory::create
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Image adapter is not selected.
      */
@@ -142,7 +142,7 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Image\AdapterFactory::create
+     * @covers \Magento\Framework\Image\AdapterFactory::create
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Image adapter for 'test' is not setup.
      */
@@ -162,9 +162,9 @@ class AdapterFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Image\AdapterFactory::create
+     * @covers \Magento\Framework\Image\AdapterFactory::create
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage stdClass is not instance of \Magento\Image\Adapter\AdapterInterface
+     * @expectedExceptionMessage stdClass is not instance of \Magento\Framework\Image\Adapter\AdapterInterface
      */
     public function testWrongInstance()
     {

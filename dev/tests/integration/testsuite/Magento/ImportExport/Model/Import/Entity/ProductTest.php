@@ -532,7 +532,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
                 $objectManager->create('Magento\Core\Helper\File\Storage'),
-                $objectManager->create('Magento\Image\AdapterFactory'),
+                $objectManager->create('Magento\Framework\Image\AdapterFactory'),
                 $objectManager->create('Magento\Core\Model\File\Validator\NotProtectedExtension')
             )
         );

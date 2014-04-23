@@ -27,7 +27,7 @@ class Image
     /**
      * Image factory
      *
-     * @var \Magento\Image\Factory
+     * @var \Magento\Framework\Image\Factory
      */
     protected $_imageFactory;
 
@@ -70,7 +70,7 @@ class Image
      * Initialize dependencies
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Image\Factory $imageFactory
+     * @param \Magento\Framework\Image\Factory $imageFactory
      * @param Image\Uploader $uploader
      * @param Image\PathInterface $themeImagePath
      * @param \Magento\Framework\Logger $logger
@@ -78,7 +78,7 @@ class Image
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Image\Factory $imageFactory,
+        \Magento\Framework\Image\Factory $imageFactory,
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,
         \Magento\Framework\Logger $logger,

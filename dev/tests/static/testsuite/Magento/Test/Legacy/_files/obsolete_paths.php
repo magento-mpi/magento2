@@ -211,4 +211,7 @@ return [
     ['/lib/Magento/Gdata', '/lib/Magento/Framework/Gdata'],
     ['/dev/tests/unit/testsuite/Magento/Gdata', '/dev/tests/unit/testsuite/Magento/Framework/Gdata'],
     ['/dev/tests/integration/testsuite/Magento/Gdata', '/dev/tests/integration/testsuite/Magento/Framework/Gdata'],
+    ['/lib/Magento/Image', '/lib/Magento/Framework/Image'],
+    ['/dev/tests/unit/testsuite/Magento/Image', '/dev/tests/unit/testsuite/Magento/Framework/Image'],
+    ['/dev/tests/integration/testsuite/Magento/Image', '/dev/tests/integration/testsuite/Magento/Framework/Image'],
 ];

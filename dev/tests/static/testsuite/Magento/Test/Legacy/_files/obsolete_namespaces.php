@@ -61,4 +61,5 @@ return [
     ['Magento\Io', 'Magento\Framework\Io'],
     ['Magento\Mail', 'Magento\Framework\Mail'],
     ['Magento\Gdata', 'Magento\Framework\Gdata'],
+    ['Magento\Image', 'Magento\Framework\Image'],
 ];

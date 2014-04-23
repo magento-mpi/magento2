@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 /**
  * @file        Abstract.php
@@ -402,7 +402,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Get/set keepAspectRatio
      *
      * @param bool $value
-     * @return bool|\Magento\Image\Adapter\AbstractAdapter
+     * @return bool|\Magento\Framework\Image\Adapter\AbstractAdapter
      */
     public function keepAspectRatio($value = null)
     {

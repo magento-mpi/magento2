@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
  * Image handler library
@@ -34,7 +34,7 @@ class Image
      * @param Image\Adapter\AdapterInterface $adapter
      * @param string|null $fileName
      */
-    public function __construct(\Magento\Image\Adapter\AdapterInterface $adapter, $fileName = null)
+    public function __construct(\Magento\Framework\Image\Adapter\AdapterInterface $adapter, $fileName = null)
     {
         $this->_adapter = $adapter;
         $this->_fileName = $fileName;

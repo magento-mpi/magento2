@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for \Magento\Image\Adapter\AbstractAdapter.
+ * Test class for \Magento\Framework\Image\Adapter\AbstractAdapter.
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Image\Adapter\AbstractAdapter
+     * @var \Magento\Framework\Image\Adapter\AbstractAdapter
      */
     protected $_model;
 
@@ -56,7 +56,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Image\Adapter\AbstractAdapter',
+            'Magento\Framework\Image\Adapter\AbstractAdapter',
             array($this->filesystemMock)
         );
     }

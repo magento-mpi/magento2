@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 interface ConfigInterface
 {

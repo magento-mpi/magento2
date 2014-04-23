@@ -221,8 +221,8 @@ class Images extends \Magento\Backend\App\Action
         $file = $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->idDecode($file);
         $thumb = $this->getStorage()->resizeOnTheFly($file);
         if ($thumb !== false) {
-            /** @var \Magento\Image\Adapter\AdapterInterface $image */
-            $image = $this->_objectManager->get('Magento\Image\AdapterFactory')->create();
+            /** @var \Magento\Framework\Image\Adapter\AdapterInterface $image */
+            $image = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
             $image->open($thumb);
             $this->getResponse()->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } else {

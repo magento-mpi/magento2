@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -59,7 +59,7 @@ function call_user_func($callable, $param)
     return false;
 }
 /**
- * \Magento\Image\Adapter\Gd2 class test
+ * \Magento\Framework\Image\Adapter\Gd2 class test
  */
 class Gd2Test extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +77,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
 
     /**
      * Adapter for testing
-     * @var \Magento\Image\Adapter\Gd2
+     * @var \Magento\Framework\Image\Adapter\Gd2
      */
     protected $adapter;
 
@@ -92,7 +92,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
-        $this->adapter = $this->objectManager->getObject('\Magento\Image\Adapter\Gd2');
+        $this->adapter = $this->objectManager->getObject('\Magento\Framework\Image\Adapter\Gd2');
     }
 
     /**
@@ -100,7 +100,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
      */
     public function testParentClass()
     {
-        $this->assertInstanceOf('\Magento\Image\Adapter\AbstractAdapter', $this->adapter);
+        $this->assertInstanceOf('\Magento\Framework\Image\Adapter\AbstractAdapter', $this->adapter);
     }
 
     /**

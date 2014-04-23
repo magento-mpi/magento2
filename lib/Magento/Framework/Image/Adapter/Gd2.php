@@ -7,9 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
-class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
+class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
 {
     /**
      * Required extensions
@@ -167,7 +167,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
     }
 
     /**
-     * @see \Magento\Image\Adapter\AbstractAdapter::getImage
+     * @see \Magento\Framework\Image\Adapter\AbstractAdapter::getImage
      * @return string
      */
     public function getImage()
@@ -650,7 +650,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
      *
      * @param string $text
      * @param string $font
-     * @return \Magento\Image\Adapter\AbstractAdapter
+     * @return \Magento\Framework\Image\Adapter\AbstractAdapter
      */
     public function createPngFromString($text, $font = '')
     {

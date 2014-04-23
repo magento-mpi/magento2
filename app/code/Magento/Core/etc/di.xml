@@ -316,9 +316,9 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Image">
+    <type name="Magento\Framework\Image">
         <arguments>
-            <argument name="adapter" xsi:type="object">Magento\Image\Adapter\Gd2</argument>
+            <argument name="adapter" xsi:type="object">Magento\Framework\Image\Adapter\Gd2</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\View\Layout\PageType\Config\Reader">

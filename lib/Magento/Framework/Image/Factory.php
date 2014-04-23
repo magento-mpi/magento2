@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image;
+namespace Magento\Framework\Image;
 
 use Magento\Framework\ObjectManager;
 
@@ -32,15 +32,15 @@ class Factory
     }
 
     /**
-     * Create instance of \Magento\Image
+     * Create instance of \Magento\Framework\Image
      *
      * @param string|null $fileName
      * @param string|null $adapterName
-     * @return \Magento\Image
+     * @return \Magento\Framework\Image
      */
     public function create($fileName = null, $adapterName = null)
     {
         $adapter = $this->adapterFactory->create($adapterName);
-        return $this->objectManager->create('Magento\Image', array('adapter' => $adapter, 'fileName' => $fileName));
+        return $this->objectManager->create('Magento\Framework\Image', array('adapter' => $adapter, 'fileName' => $fileName));
     }
 }

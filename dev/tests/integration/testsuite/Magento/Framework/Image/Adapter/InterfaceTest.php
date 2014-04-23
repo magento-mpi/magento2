@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Image\Adapter;
+namespace Magento\Framework\Image\Adapter;
 
 class InterfaceTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,8 +18,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_adapters = array(
-        \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2,
-        \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
+        \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2,
+        \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_IM
     );
 
     /**
@@ -95,7 +95,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      * Check is format supported.
      *
      * @param string $image
-     * @param \Magento\Image\Adapter\AbstractAdapter $adapter
+     * @param \Magento\Framework\Image\Adapter\AbstractAdapter $adapter
      * @return bool
      */
     protected function _isFormatSupported($image, $adapter)
@@ -115,7 +115,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            $adapter = $objectManager->get('Magento\Image\AdapterFactory')->create($adapterType);
+            $adapter = $objectManager->get('Magento\Framework\Image\AdapterFactory')->create($adapterType);
             return $adapter;
         } catch (\Exception $e) {
             $this->markTestSkipped($e->getMessage());
@@ -136,8 +136,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function adaptersDataProvider()
     {
         return array(
-            array(\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2),
-            array(\Magento\Image\Adapter\AdapterInterface::ADAPTER_IM)
+            array(\Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2),
+            array(\Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_IM)
         );
     }
 
@@ -398,7 +398,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     50,
                     50,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                     10,
                     10
                 ),
@@ -408,7 +408,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     100,
                     70,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT,
                     10,
                     10
                 ),
@@ -418,7 +418,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     100,
                     70,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_TILE,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_TILE,
                     10,
                     10
                 ),
@@ -428,7 +428,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     100,
                     100,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_STRETCH,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_STRETCH,
                     10,
                     10
                 ),
@@ -438,7 +438,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     50,
                     50,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                     10,
                     10
                 ),
@@ -448,7 +448,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     50,
                     50,
                     100,
-                    \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
+                    \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT,
                     10,
                     10
                 )
@@ -461,34 +461,34 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $pixel ('x' => ..., 'y' => ...)
      * @param string $position
-     * @param \Magento\Image\Adapter\AbstractAdapter $adapter
+     * @param \Magento\Framework\Image\Adapter\AbstractAdapter $adapter
      * @return array
      */
     protected function _prepareColor($pixel, $position, $adapter)
     {
         switch ($position) {
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_RIGHT:
                 $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_LEFT:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_BOTTOM_LEFT:
                 $pixel['x'] = 1;
                 $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_TOP_LEFT:
                 $pixel['x'] = 1;
                 $pixel['y'] = 1;
                 break;
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TOP_RIGHT:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_TOP_RIGHT:
                 $pixel['x'] = $adapter->getOriginalWidth() - 1;
                 $pixel['y'] = 1;
                 break;
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_CENTER:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_CENTER:
                 $pixel['x'] = $adapter->getOriginalWidth() / 2;
                 $pixel['y'] = $adapter->getOriginalHeight() / 2;
                 break;
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_STRETCH:
-            case \Magento\Image\Adapter\AbstractAdapter::POSITION_TILE:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_STRETCH:
+            case \Magento\Framework\Image\Adapter\AbstractAdapter::POSITION_TILE:
                 $pixel['x'] = round($adapter->getOriginalWidth() / 3);
                 $pixel['y'] = round($adapter->getOriginalHeight() / 3);
                 break;
@@ -575,28 +575,28 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2
+                \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2
             ),
             array(
                 array('x' => 4, 'y' => 7),
                 'expectedColor1' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
                 array('x' => 0, 'y' => 15),
                 'expectedColor2' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
-                \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
+                \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_IM
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 5, 'y' => 12),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                \Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2
+                \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_GD2
             ),
             array(
                 array('x' => 1, 'y' => 14),
                 'expectedColor1' => array('red' => 255, 'green' => 255, 'blue' => 255, 'alpha' => 127),
                 array('x' => 4, 'y' => 10),
                 'expectedColor2' => array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0),
-                \Magento\Image\Adapter\AdapterInterface::ADAPTER_IM
+                \Magento\Framework\Image\Adapter\AdapterInterface::ADAPTER_IM
             )
         );
     }
@@ -604,7 +604,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testValidateUploadFile()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $imageAdapter = $objectManager->get('Magento\Image\AdapterFactory')->create();
+        $imageAdapter = $objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
         $this->assertTrue($imageAdapter->validateUploadFile($this->_getFixture('magento_thumbnail.jpg')));
     }
 
@@ -614,7 +614,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testValidateUploadFileException()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $imageAdapter = $objectManager->get('Magento\Image\AdapterFactory')->create();
+        $imageAdapter = $objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
         $imageAdapter->validateUploadFile(__FILE__);
     }
 }
