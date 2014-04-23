@@ -13,7 +13,9 @@
 /**
  * \Magento\Framework\Object test case.
  */
-namespace Magento;
+namespace Magento\Framework;
+
+use PHPUnit_Framework_TestCase;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
