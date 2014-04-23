@@ -1056,7 +1056,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Encryption\EncryptorInterface $encryptor */
         $encryptor = $this->_objectManager->get('Magento\Encryption\EncryptorInterface');
         $passwordHash = $encryptor->getHash($password);
-        $savedCustomer = $this->_customerAccountService->createCustomerWithPasswordHash($customerDetails, $passwordHash);
+        $savedCustomer = $this->_customerAccountService->createCustomerWithPasswordHash(
+            $customerDetails,
+            $passwordHash
+        );
         $this->assertNotNull($savedCustomer->getId());
         $this->assertEquals($email, $savedCustomer->getEmail());
         $this->assertEquals($storeId, $savedCustomer->getStoreId());
