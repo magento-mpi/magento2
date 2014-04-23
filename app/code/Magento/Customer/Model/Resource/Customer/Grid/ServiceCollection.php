@@ -70,12 +70,12 @@ class ServiceCollection extends AbstractServiceCollection
      * Creates a collection item that represents a customer for the customer Grid.
      *
      * @param CustomerDetails $customerDetail Input data for creating the item.
-     * @return \Magento\Object Collection item that represents a customer
+     * @return \Magento\Framework\Object Collection item that represents a customer
      */
     protected function createCustomerDetailItem(CustomerDetails $customerDetail)
     {
         $customer = $customerDetail->getCustomer();
-        $customerItem = new \Magento\Object();
+        $customerItem = new \Magento\Framework\Object();
         $customerItem->setId($customer->getId());
         $customerItem->setEntityId($customer->getId());
         $customerItem->setName($this->viewHelper->getCustomerName($customer));

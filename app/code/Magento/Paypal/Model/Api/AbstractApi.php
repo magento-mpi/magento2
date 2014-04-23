@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\Api;
 /**
  * Abstract class for Paypal API wrappers
  */
-abstract class AbstractApi extends \Magento\Object
+abstract class AbstractApi extends \Magento\Framework\Object
 {
     /**
      * Config instance
@@ -288,9 +288,9 @@ abstract class AbstractApi extends \Magento\Object
     /**
      * Import $this public data to specified object or array
      *
-     * @param array|\Magento\Object $to
+     * @param array|\Magento\Framework\Object $to
      * @param array $publicMap
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      */
     public function &import($to, array $publicMap = array())
     {
@@ -300,7 +300,7 @@ abstract class AbstractApi extends \Magento\Object
     /**
      * Export $this public data from specified object or array
      *
-     * @param array|\Magento\Object $from
+     * @param array|\Magento\Framework\Object $from
      * @param array $publicMap
      * @return $this
      */
@@ -534,10 +534,10 @@ abstract class AbstractApi extends \Magento\Object
     /**
      * region_id workaround: PayPal requires state code, try to find one in the address
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @return string
      */
-    protected function _lookupRegionCodeFromAddress(\Magento\Object $address)
+    protected function _lookupRegionCodeFromAddress(\Magento\Framework\Object $address)
     {
         $regionId = $address->getData('region_id');
         if ($regionId) {
@@ -553,11 +553,11 @@ abstract class AbstractApi extends \Magento\Object
      * Street address workaround: divides address lines into parts by specified keys
      * (keys should go as 3rd, 4th[...] parameters)
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @param array $to
      * @return void
      */
-    protected function _importStreetFromAddress(\Magento\Object $address, array &$to)
+    protected function _importStreetFromAddress(\Magento\Framework\Object $address, array &$to)
     {
         $keys = func_get_args();
         array_shift($keys);

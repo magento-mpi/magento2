@@ -672,7 +672,7 @@ class Observer
         }
 
         $customerCookies = $observer->getEvent()->getCustomerCookies();
-        if ($customerCookies instanceof \Magento\Object) {
+        if ($customerCookies instanceof \Magento\Framework\Object) {
             $persistentCustomer = $this->_getPersistentCustomer();
             $customerCookies->setCustomerId($persistentCustomer->getId());
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());

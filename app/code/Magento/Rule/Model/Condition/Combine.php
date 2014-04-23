@@ -361,10 +361,10 @@ class Combine extends AbstractCondition
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         if (!$this->getConditions()) {
             return true;

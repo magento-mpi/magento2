@@ -124,7 +124,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             ) - $this->getRequestData(
                 'shipping'
             );
-            $productItemInfo = new \Magento\Object();
+            $productItemInfo = new \Magento\Framework\Object();
             $type = trim($this->getRequestData('period_type'));
             if ($type == 'Trial') {
                 $productItemInfo->setPaymentType(\Magento\RecurringPayment\Model\PaymentTypeInterface::TRIAL);

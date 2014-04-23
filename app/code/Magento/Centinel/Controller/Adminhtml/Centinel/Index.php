@@ -88,7 +88,7 @@ class Index extends \Magento\Backend\App\Action
             if ($validator) {
                 $request = $this->getRequest();
 
-                $data = new \Magento\Object();
+                $data = new \Magento\Framework\Object();
                 $data->setTransactionId($request->getParam('MD'));
                 $data->setPaResPayload($request->getParam('PaRes'));
 

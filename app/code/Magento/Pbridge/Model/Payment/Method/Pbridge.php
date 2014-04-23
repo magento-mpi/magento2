@@ -328,11 +328,11 @@ class Pbridge extends AbstractMethod
     /**
      * Authorize
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
@@ -404,10 +404,10 @@ class Pbridge extends AbstractMethod
     /**
      * Cancel payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         parent::cancel($payment);
         return $this;
@@ -416,11 +416,11 @@ class Pbridge extends AbstractMethod
     /**
      * Capture payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         //parent::capture($payment, $amount);
 
@@ -466,12 +466,12 @@ class Pbridge extends AbstractMethod
     /**
      * Refund money
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
      * @throws \Magento\Framework\Model\Exception
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         //parent::refund($payment, $amount);
 
@@ -520,11 +520,11 @@ class Pbridge extends AbstractMethod
     /**
      * Void payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return array
      * @throws Exception
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         //parent::void($payment);
 
@@ -606,11 +606,11 @@ class Pbridge extends AbstractMethod
     /**
      * Return Api request object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getApiRequest()
     {
-        $request = new \Magento\Object();
+        $request = new \Magento\Framework\Object();
         $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 

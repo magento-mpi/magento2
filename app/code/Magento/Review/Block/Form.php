@@ -121,7 +121,7 @@ class Form extends \Magento\Framework\View\Element\Template
         parent::_construct();
 
         $data = $this->_reviewSession->getFormData(true);
-        $data = new \Magento\Object((array)$data);
+        $data = new \Magento\Framework\Object((array)$data);
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {

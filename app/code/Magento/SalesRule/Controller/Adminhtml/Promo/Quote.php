@@ -176,7 +176,7 @@ class Quote extends \Magento\Backend\App\Action
 
                 $session = $this->_objectManager->get('Magento\Backend\Model\Session');
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);

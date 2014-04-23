@@ -326,7 +326,7 @@ class Operation extends \Magento\Backend\App\Action
         $result = false;
         try {
             $operationId = (int)$this->getRequest()->getParam('operation');
-            $schedule = new \Magento\Object();
+            $schedule = new \Magento\Framework\Object();
             $schedule->setJobCode(
                 \Magento\ScheduledImportExport\Model\Scheduled\Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
@@ -373,7 +373,7 @@ class Operation extends \Magento\Backend\App\Action
      */
     public function logCleanAction()
     {
-        $schedule = new \Magento\Object();
+        $schedule = new \Magento\Framework\Object();
         $result = $this->_objectManager->get(
             'Magento\ScheduledImportExport\Model\Observer'
         )->scheduledLogClean(

@@ -40,7 +40,7 @@ class VatValidator
      *
      * @param \Magento\Sales\Model\Quote\Address $quoteAddress
      * @param \Magento\Store\Model\Store|int $store
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function validate(\Magento\Sales\Model\Quote\Address $quoteAddress, $store)
     {
@@ -75,7 +75,7 @@ class VatValidator
             $quoteAddress->save();
         } else {
             // Restore validation results from corresponding quote address
-            $validationResult = new \Magento\Object(
+            $validationResult = new \Magento\Framework\Object(
                 array(
                     'is_valid' => (int)$quoteAddress->getVatIsValid(),
                     'request_identifier' => (string)$quoteAddress->getVatRequestId(),

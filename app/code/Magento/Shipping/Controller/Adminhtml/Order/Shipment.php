@@ -250,7 +250,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             }
 
             $shipment->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
-            $responseAjax = new \Magento\Object();
+            $responseAjax = new \Magento\Framework\Object();
             $isNeedCreateLabel = isset($data['create_shipping_label']) && $data['create_shipping_label'];
 
             if ($isNeedCreateLabel && $this->_createShippingLabel($shipment)) {
@@ -515,7 +515,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     public function createLabelAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {

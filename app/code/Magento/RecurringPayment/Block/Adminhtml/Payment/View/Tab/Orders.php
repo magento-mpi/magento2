@@ -182,7 +182,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -75,10 +75,10 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     /**
      * Validate Product Rule Condition
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         //@todo reimplement this method when is fixed MAGETWO-5713
         /** @var \Magento\Catalog\Model\Product $product */

@@ -49,7 +49,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getOrderInfo()
     {
@@ -74,13 +74,13 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -105,7 +105,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
                 $data['price'] = $this->_preparePrices($order->getGwCardBasePrice(), $order->getGwCardPrice());
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

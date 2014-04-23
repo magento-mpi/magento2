@@ -104,7 +104,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {
                     //Adding from product page
-                    $entity->addItem($request->getParam('product'), new \Magento\Object($request->getParams()));
+                    $entity->addItem($request->getParam('product'), new \Magento\Framework\Object($request->getParams()));
                     $count = $request->getParam('qty') ? $request->getParam('qty') : 1;
                 } else {
                     //Adding from cart

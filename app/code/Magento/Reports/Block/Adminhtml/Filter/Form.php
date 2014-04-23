@@ -224,7 +224,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             // apply field options
             foreach ($this->_fieldOptions as $fieldId => $fieldOptions) {
                 $field = $fieldset->getElements()->searchById($fieldId);
-                /** @var \Magento\Object $field */
+                /** @var \Magento\Framework\Object $field */
                 if ($field) {
                     foreach ($fieldOptions as $k => $v) {
                         $field->setDataUsingMethod($k, $v);

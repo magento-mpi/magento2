@@ -376,11 +376,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Validate rule data
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return string[]|bool - Return true if validation passed successfully. Array with errors description otherwise
      * @throws Exception
      */
-    public function validateData(\Magento\Object $object)
+    public function validateData(\Magento\Framework\Object $object)
     {
         $result = parent::validateData($object);
 

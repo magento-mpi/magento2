@@ -81,7 +81,7 @@ class Observer
     /**
      * Update product item in Google Content
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function saveProductItem($observer)
@@ -101,7 +101,7 @@ class Observer
     /**
      * Delete product item from Google Content
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function deleteProductItem($observer)

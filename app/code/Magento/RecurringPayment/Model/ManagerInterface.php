@@ -37,7 +37,7 @@ interface ManagerInterface
      * Fetch details
      *
      * @param string $referenceId
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
     public function getDetails($referenceId, Object $result);

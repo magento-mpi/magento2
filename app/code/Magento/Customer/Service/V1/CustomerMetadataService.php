@@ -95,7 +95,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (null === $storeId) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $object = new \Magento\Object(
+        $object = new \Magento\Framework\Object(
             [
                 'store_id' => $storeId,
                 'attribute_set_id' => $attributeSetId,

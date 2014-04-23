@@ -133,7 +133,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 $model = $this->_initModel();
                 $model->addData($wrappingRawData);
 
-                $data = new \Magento\Object($wrappingRawData);
+                $data = new \Magento\Framework\Object($wrappingRawData);
                 if ($data->getData('image_name/delete')) {
                     $model->setImage('');
                     // Delete temporary image if exists

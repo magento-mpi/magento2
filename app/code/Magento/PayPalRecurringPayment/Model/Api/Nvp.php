@@ -240,10 +240,10 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * GetRecurringPaymentDetails call
      *
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
-    public function callGetRecurringPaymentDetails(\Magento\Object $result)
+    public function callGetRecurringPaymentDetails(\Magento\Framework\Object $result)
     {
         $request = $this->_exportToRequest($this->_getRecurringPaymentDetailsRequest);
         $response = $this->call('GetRecurringPaymentsProfileDetails', $request);
@@ -275,10 +275,10 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * Check the obtained RP status in NVP format and specify the payment state
      *
      * @param string $value
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
-    protected function _analyzeRecurringPaymentStatus($value, \Magento\Object $result)
+    protected function _analyzeRecurringPaymentStatus($value, \Magento\Framework\Object $result)
     {
         switch ($value) {
             case 'ActiveProfile':

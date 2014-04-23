@@ -949,7 +949,7 @@ class Checkout
                 $amountExclTax = $this->_taxData->getShippingPrice($amount, false, $address);
                 $amountInclTax = $this->_taxData->getShippingPrice($amount, true, $address);
 
-                $options[$i] = new \Magento\Object(
+                $options[$i] = new \Magento\Framework\Object(
                     [
                         'is_default' => $isDefault,
                         'name' => trim("{$rate->getCarrierTitle()} - {$rate->getMethodTitle()}", ' -'),
@@ -974,7 +974,7 @@ class Checkout
         }
 
         if ($mayReturnEmpty && is_null($userSelectedOption)) {
-            $options[] = new \Magento\Object(
+            $options[] = new \Magento\Framework\Object(
                 [
                     'is_default' => true,
                     'name'       => __('N/A'),
@@ -1008,11 +1008,11 @@ class Checkout
      * This function is used as a callback comparison function in shipping options sorting process
      * @see self::_prepareShippingOptions()
      *
-     * @param \Magento\Object $option1
-     * @param \Magento\Object $option2
+     * @param \Magento\Framework\Object $option1
+     * @param \Magento\Framework\Object $option2
      * @return int
      */
-    protected static function cmpShippingOptions(\Magento\Object $option1, \Magento\Object $option2)
+    protected static function cmpShippingOptions(\Magento\Framework\Object $option1, \Magento\Framework\Object $option2)
     {
         if ($option1->getAmount() == $option2->getAmount()) {
             return 0;

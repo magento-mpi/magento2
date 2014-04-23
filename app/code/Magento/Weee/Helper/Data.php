@@ -252,11 +252,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Proxy for \Magento\Weee\Model\Tax::getProductWeeeAttributes()
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|false|\Magento\Object     $shipping
-     * @param null|false|\Magento\Object     $billing
+     * @param null|false|\Magento\Framework\Object     $shipping
+     * @param null|false|\Magento\Framework\Object     $billing
      * @param Website                        $website
      * @param bool                           $calculateTaxes
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributes(
         $product,
@@ -323,7 +323,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Returns array of weee attributes allowed for display
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributesForDisplay($product)
     {
@@ -337,11 +337,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get Product Weee attributes for price renderer
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|false|\Magento\Object $shipping Shipping Address
-     * @param null|false|\Magento\Object $billing Billing Address
+     * @param null|false|\Magento\Framework\Object $shipping Shipping Address
+     * @param null|false|\Magento\Framework\Object $billing Billing Address
      * @param null|Website $website
      * @param bool $calculateTaxes
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributesForRenderer(
         $product,
@@ -435,7 +435,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns all summed WEEE taxes with all local taxes applied
      *
-     * @param \Magento\Object[] $attributes Array of \Magento\Object, result from getProductWeeeAttributes()
+     * @param \Magento\Framework\Object[] $attributes Array of \Magento\Framework\Object, result from getProductWeeeAttributes()
      * @return float
      * @throws \Magento\Framework\Exception
      */
@@ -447,7 +447,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $amount = 0;
         foreach ($attributes as $attribute) {
-            /* @var $attribute \Magento\Object */
+            /* @var $attribute \Magento\Framework\Object */
             $amount += $attribute->getAmount() + $attribute->getTaxAmount();
         }
 

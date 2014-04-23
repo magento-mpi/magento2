@@ -116,7 +116,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * Getter for $_expiryConfig
      *
      * @param int $websiteId Specified Website Id
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      */
     protected function _getExpiryConfig($websiteId = null)
     {

@@ -201,7 +201,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $reindexEav = false;
 
-        /* @var $actionObject \Magento\Object */
+        /* @var $actionObject \Magento\Framework\Object */
         $actionObject = $event->getDataObject();
         // check if attributes changed
         $attrData = $actionObject->getAttributesData();

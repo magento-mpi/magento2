@@ -224,7 +224,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
      * Count totals for all columns set
      *
      * @param \Magento\Framework\Data\Collection $collection
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($collection)
     {
@@ -238,7 +238,7 @@ abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\Tota
     /**
      * Get totals as object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {

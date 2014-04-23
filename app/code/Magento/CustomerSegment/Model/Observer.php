@@ -194,7 +194,7 @@ class Observer
         }
         /* @var $form \Magento\Framework\Data\Form */
         $form = $observer->getEvent()->getForm();
-        /** @var \Magento\Object $model */
+        /** @var \Magento\Framework\Object $model */
         $model = $observer->getEvent()->getModel();
         /** @var \Magento\Framework\View\Element\AbstractBlock $block */
         $block = $observer->getEvent()->getBlock();

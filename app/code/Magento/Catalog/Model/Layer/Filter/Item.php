@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
-class Item extends \Magento\Object
+class Item extends \Magento\Framework\Object
 {
     /**
      * Url

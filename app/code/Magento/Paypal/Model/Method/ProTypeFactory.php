@@ -36,7 +36,7 @@ class ProTypeFactory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function create($className, array $data = array())
     {

@@ -212,7 +212,7 @@ class Info
     /**
      * Grab data from source and map it into payment
      *
-     * @param array|\Magento\Object|callback $from
+     * @param array|\Magento\Framework\Object|callback $from
      * @param \Magento\Payment\Model\Info $payment
      * @return void
      */
@@ -229,9 +229,9 @@ class Info
      * Grab data from payment and map it into target
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param array|\Magento\Object|callback $to
+     * @param array|\Magento\Framework\Object|callback $to
      * @param array|null $map
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      */
     public function &exportFromPayment(\Magento\Payment\Model\Info $payment, $to, array $map = null)
     {

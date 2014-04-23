@@ -112,7 +112,7 @@ class AbstractView extends \Magento\Framework\View\Element\Template
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -122,7 +122,7 @@ class AbstractView extends \Magento\Framework\View\Element\Template
             $temp['design'] = $this->escapeHtml($item->getDesign());
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

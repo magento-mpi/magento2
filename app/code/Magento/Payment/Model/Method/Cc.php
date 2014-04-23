@@ -82,13 +82,13 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Assign data to info model instance
      *
-     * @param \Magento\Object|mixed $data
+     * @param \Magento\Framework\Object|mixed $data
      * @return $this
      */
     public function assignData($data)
     {
-        if (!$data instanceof \Magento\Object) {
-            $data = new \Magento\Object($data);
+        if (!$data instanceof \Magento\Framework\Object) {
+            $data = new \Magento\Framework\Object($data);
         }
         $info = $this->getInfoInstance();
         $info->setCcType(
@@ -395,12 +395,12 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Return data for Centinel validation
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCentinelValidationData()
     {
         $info = $this->getInfoInstance();
-        $params = new \Magento\Object();
+        $params = new \Magento\Framework\Object();
         $params->setPaymentMethodCode(
             $this->getCode()
         )->setCardType(

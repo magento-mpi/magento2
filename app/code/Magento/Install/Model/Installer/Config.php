@@ -164,7 +164,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
@@ -178,7 +178,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $baseSecureUrl = $uri->getUri();
         }
 
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setDbHost(
             'localhost'
         )->setDbName(

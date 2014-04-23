@@ -18,7 +18,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
+class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -239,7 +239,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             }
 
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new \Magento\Object($info);
+            $info = new \Magento\Framework\Object($info);
             if (is_null($qtyFlag)) {
                 $info->setQty($orderItem->getQtyOrdered());
             } else {
@@ -286,17 +286,17 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Get request for product add to cart procedure
      *
-     * @param   \Magento\Object|int|array $requestInfo
-     * @return  \Magento\Object
+     * @param   \Magento\Framework\Object|int|array $requestInfo
+     * @return  \Magento\Framework\Object
      */
     protected function _getProductRequest($requestInfo)
     {
-        if ($requestInfo instanceof \Magento\Object) {
+        if ($requestInfo instanceof \Magento\Framework\Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new \Magento\Object(array('qty' => $requestInfo));
+            $request = new \Magento\Framework\Object(array('qty' => $requestInfo));
         } else {
-            $request = new \Magento\Object($requestInfo);
+            $request = new \Magento\Framework\Object($requestInfo);
         }
 
         if (!$request->hasQty()) {
@@ -310,7 +310,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * Add product to shopping cart (quote)
      *
      * @param int|Product $productInfo
-     * @param \Magento\Object|int|array $requestInfo
+     * @param \Magento\Framework\Object|int|array $requestInfo
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
@@ -621,12 +621,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
     /**
      * Update item in shopping cart (quote)
-     * $requestInfo - either qty (int) or buyRequest in form of array or \Magento\Object
+     * $requestInfo - either qty (int) or buyRequest in form of array or \Magento\Framework\Object
      * $updatingParams - information on how to perform update, passed to Quote->updateItem() method
      *
      * @param int $itemId
-     * @param int|array|\Magento\Object $requestInfo
-     * @param null|array|\Magento\Object $updatingParams
+     * @param int|array|\Magento\Framework\Object $requestInfo
+     * @param null|array|\Magento\Framework\Object $updatingParams
      * @return \Magento\Sales\Model\Quote\Item|string
      * @throws \Magento\Framework\Model\Exception
      *

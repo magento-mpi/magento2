@@ -477,18 +477,18 @@ class Config
      * Get codes of all entity type attributes
      *
      * @param  mixed $entityType
-     * @param  \Magento\Object $object
+     * @param  \Magento\Framework\Object $object
      * @return array
      */
     public function getEntityAttributeCodes($entityType, $object = null)
     {
         $entityType = $this->getEntityType($entityType);
         $attributeSetId = 0;
-        if ($object instanceof \Magento\Object && $object->getAttributeSetId()) {
+        if ($object instanceof \Magento\Framework\Object && $object->getAttributeSetId()) {
             $attributeSetId = $object->getAttributeSetId();
         }
         $storeId = 0;
-        if ($object instanceof \Magento\Object && $object->getStoreId()) {
+        if ($object instanceof \Magento\Framework\Object && $object->getStoreId()) {
             $storeId = $object->getStoreId();
         }
         $cacheKey = sprintf('%d-%d', $entityType->getId(), $attributeSetId);

@@ -161,7 +161,7 @@ class Sales extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getTotals()
     {

@@ -89,7 +89,7 @@ class Variable extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'plain_value' => $object->getPlainValue(),
                 'html_value' => $object->getHtmlValue()
             );
-            $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getTable('core_variable_value'));
+            $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getTable('core_variable_value'));
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable('core_variable_value'),
                 $data,

@@ -57,7 +57,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Raw rate request data
      *
-     * @var \Magento\Object|null
+     * @var \Magento\Framework\Object|null
      */
     protected $_rawRequest = null;
 
@@ -257,7 +257,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     {
         $this->_request = $request;
 
-        $r = new \Magento\Object();
+        $r = new \Magento\Framework\Object();
 
         if ($request->getLimitMethod()) {
             $r->setService($request->getLimitMethod());
@@ -977,7 +977,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      */
     protected function setTrackingReqeust()
     {
-        $r = new \Magento\Object();
+        $r = new \Magento\Framework\Object();
 
         $account = $this->getConfigData('account');
         $r->setAccount($account);
@@ -1209,10 +1209,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Form array with appropriate structure for shipment request
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return array
      */
-    protected function _formShipmentRequest(\Magento\Object $request)
+    protected function _formShipmentRequest(\Magento\Framework\Object $request)
     {
         if ($request->getReferenceData()) {
             $referenceData = $request->getReferenceData() . $request->getPackageId();
@@ -1236,7 +1236,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         $productIds = array();
         $packageItems = $request->getPackageItems();
         foreach ($packageItems as $itemShipment) {
-            $item = new \Magento\Object();
+            $item = new \Magento\Framework\Object();
             $item->setData($itemShipment);
 
             $unitPrice += $item->getPrice();
@@ -1376,13 +1376,13 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      */
-    protected function _doShipmentRequest(\Magento\Object $request)
+    protected function _doShipmentRequest(\Magento\Framework\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $client = $this->_createShipSoapClient();
         $requestClient = $this->_formShipmentRequest($request);
         $response = $client->processShipment($requestClient);
@@ -1438,10 +1438,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Return container types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(\Magento\Object $params = null)
+    public function getContainerTypes(\Magento\Framework\Object $params = null)
     {
         if ($params == null) {
             return $this->_getAllowedContainers($params);
@@ -1502,10 +1502,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Framework\Object $params = null)
     {
         return $this->getCode('delivery_confirmation_types');
     }

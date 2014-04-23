@@ -127,7 +127,7 @@ class Packaging extends \Magento\Backend\Block\Template
 
         $countryRecipient = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
-            $params = new \Magento\Object(
+            $params = new \Magento\Framework\Object(
                 array(
                     'method' => $this->getCarrierMethod(),
                     'country_shipper' => $address->getCountryId(),
@@ -172,7 +172,7 @@ class Packaging extends \Magento\Backend\Block\Template
             list($carrierCode, $methodCode) = explode('_', $code, 2);
             $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
             $countryId = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
-            $params = new \Magento\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
                 return $carrier->getDeliveryConfirmationTypes($params);
@@ -219,7 +219,7 @@ class Packaging extends \Magento\Backend\Block\Template
             $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
             $shipperAddress = $order->getShippingAddress();
             if ($carrier) {
-                $params = new \Magento\Object(
+                $params = new \Magento\Framework\Object(
                     array(
                         'method' => $methodCode,
                         'country_shipper' => $shipperAddress->getCountryId(),

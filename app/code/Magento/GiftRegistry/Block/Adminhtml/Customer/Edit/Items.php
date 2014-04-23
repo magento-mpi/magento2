@@ -134,7 +134,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Return grid row url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
+     * @param \Magento\Catalog\Model\Product|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

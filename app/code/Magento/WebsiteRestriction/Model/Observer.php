@@ -97,7 +97,7 @@ class Observer
         /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
-        $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
+        $dispatchResult = new \Magento\Framework\Object(array('should_proceed' => true, 'customer_logged_in' => false));
         $this->_eventManager->dispatch(
             'websiterestriction_frontend',
             array('controller' => $controller, 'result' => $dispatchResult)

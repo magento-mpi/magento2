@@ -95,7 +95,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param Address $address
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAddressItems($address)
     {
@@ -197,12 +197,12 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve text for items box
      *
-     * @param \Magento\Object $addressEntity
+     * @param \Magento\Framework\Object $addressEntity
      * @return string
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getItemsBoxTextAfter(\Magento\Object $addressEntity)
+    public function getItemsBoxTextAfter(\Magento\Framework\Object $addressEntity)
     {
         return '';
     }

@@ -101,7 +101,7 @@ class Observer
         }
         /* @var \Magento\Framework\Data\Form $form */
         $form = $observer->getEvent()->getForm();
-        /** @var \Magento\Object $model */
+        /** @var \Magento\Framework\Object $model */
         $model = $observer->getEvent()->getModel();
         /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $afterFormBlock */
         $afterFormBlock = $observer->getEvent()->getAfterFormBlock();

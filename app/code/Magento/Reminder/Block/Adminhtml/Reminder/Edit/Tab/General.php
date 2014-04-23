@@ -91,7 +91,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         $model->unsSalesruleId();
         $helperBlock = $this->getLayout()->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser');
 
-        if ($helperBlock instanceof \Magento\Object) {
+        if ($helperBlock instanceof \Magento\Framework\Object) {
             $helperBlock->setConfig(
                 $this->getChooserConfig()
             )->setFieldsetId(

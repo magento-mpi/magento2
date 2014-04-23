@@ -1471,10 +1471,10 @@ class Config
     /**
      * Export page style current settings to specified object
      *
-     * @param \Magento\Object $to
+     * @param \Magento\Framework\Object $to
      * @return void
      */
-    public function exportExpressCheckoutStyleSettings(\Magento\Object $to)
+    public function exportExpressCheckoutStyleSettings(\Magento\Framework\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->{$key}) {

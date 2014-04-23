@@ -323,7 +323,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
         }
 
         try {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $params->setBuyRequest($quoteItem->getBuyRequest());
@@ -369,7 +369,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                 throw new \Magento\Framework\Model\Exception(__("We can't find the quote item."));
             }
 
-            $item = $this->cart->updateItem($id, new \Magento\Object($params));
+            $item = $this->cart->updateItem($id, new \Magento\Framework\Object($params));
             if (is_string($item)) {
                 throw new \Magento\Framework\Model\Exception($item);
             }

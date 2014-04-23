@@ -40,7 +40,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Validate process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      * @throws \Magento\Framework\Model\Exception
      */
@@ -108,7 +108,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Before Attribute Save Process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)
@@ -130,7 +130,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * After Load Attribute Process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterLoad($object)

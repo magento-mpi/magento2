@@ -191,7 +191,7 @@ class Event extends Action
             return;
         }
 
-        $data = new \Magento\Object($postData['catalogevent']);
+        $data = new \Magento\Framework\Object($postData['catalogevent']);
 
         $event->setDisplayState(
             $data->getDisplayState()

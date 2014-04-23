@@ -302,7 +302,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get available for return item quantity
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return int
      */
     public function getQtyOrdered($row)
@@ -329,7 +329,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getReasonOptionStringValue($row)
@@ -340,7 +340,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getResolutionOptionStringValue($row)
@@ -351,7 +351,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get string value of "Reason to Return" Attribute
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getConditionOptionStringValue($row)
@@ -362,7 +362,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get string value of "Status" Attribute
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getStatusOptionStringValue($row)

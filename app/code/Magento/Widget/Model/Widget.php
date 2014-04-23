@@ -92,7 +92,7 @@ class Widget
     }
 
     /**
-     * Return widget XML configuration as \Magento\Object and makes some data preparations
+     * Return widget XML configuration as \Magento\Framework\Object and makes some data preparations
      *
      * @param string $type Widget type
      * @return null|\Magento\Framework\Simplexml\Element
@@ -103,16 +103,16 @@ class Widget
     }
 
     /**
-     * Return widget XML configuration as \Magento\Object and makes some data preparations
+     * Return widget XML configuration as \Magento\Framework\Object and makes some data preparations
      *
      * @param string $type Widget type
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfigAsObject($type)
     {
         $widget = $this->getWidgetByClassType($type);
 
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         if ($widget === null) {
             return $object;
         }
@@ -145,7 +145,7 @@ class Widget
 
                     // prepare helper block object
                     if (isset($data['helper_block'])) {
-                        $helper = new \Magento\Object();
+                        $helper = new \Magento\Framework\Object();
                         if (isset($data['helper_block']['data']) && is_array($data['helper_block']['data'])) {
                             $helper->addData($data['helper_block']['data']);
                         }
@@ -155,7 +155,7 @@ class Widget
                         $data['helper_block'] = $helper;
                     }
 
-                    $newParams[$key] = new \Magento\Object($data);
+                    $newParams[$key] = new \Magento\Framework\Object($data);
                     $sortOrder++;
                 }
             }
@@ -350,8 +350,8 @@ class Widget
     /**
      * Widget parameters sort callback
      *
-     * @param \Magento\Object $firstElement
-     * @param \Magento\Object $secondElement
+     * @param \Magento\Framework\Object $firstElement
+     * @param \Magento\Framework\Object $secondElement
      * @return int
      */
     protected function _sortParameters($firstElement, $secondElement)

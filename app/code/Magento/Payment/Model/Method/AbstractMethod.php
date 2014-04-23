@@ -13,7 +13,7 @@ use Magento\Sales\Model\Order\Payment;
 /**
  * Payment method abstract model
  */
-abstract class AbstractMethod extends \Magento\Object implements \Magento\Payment\Model\MethodInterface
+abstract class AbstractMethod extends \Magento\Framework\Object implements \Magento\Payment\Model\MethodInterface
 {
     const ACTION_ORDER = 'order';
 
@@ -282,10 +282,10 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $payment
+     * @param   \Magento\Framework\Object $payment
      * @return  bool
      */
-    public function canVoid(\Magento\Object $payment)
+    public function canVoid(\Magento\Framework\Object $payment)
     {
         return $this->_canVoid;
     }
@@ -471,13 +471,13 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Order payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function order(\Magento\Object $payment, $amount)
+    public function order(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canOrder()) {
             throw new \Magento\Framework\Model\Exception(__('The order action is not available.'));
@@ -488,13 +488,13 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Authorize payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
             throw new \Magento\Framework\Model\Exception(__('The authorize action is not available.'));
@@ -505,13 +505,13 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Capture payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
             throw new \Magento\Framework\Model\Exception(__('The capture action is not available.'));
@@ -553,12 +553,12 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Refund specified amount for payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canRefund()) {
             throw new \Magento\Framework\Model\Exception(__('The refund action is not available.'));
@@ -581,11 +581,11 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Cancel payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      *
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         return $this;
     }
@@ -593,11 +593,11 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Void payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         if (!$this->canVoid($payment)) {
             throw new \Magento\Framework\Model\Exception(__('Void action is not available.'));
@@ -676,14 +676,14 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Assign data to info model instance
      *
-     * @param array|\Magento\Object $data
+     * @param array|\Magento\Framework\Object $data
      * @return $this
      */
     public function assignData($data)
     {
         if (is_array($data)) {
             $this->getInfoInstance()->addData($data);
-        } elseif ($data instanceof \Magento\Object) {
+        } elseif ($data instanceof \Magento\Framework\Object) {
             $this->getInfoInstance()->addData($data->getData());
         }
         return $this;

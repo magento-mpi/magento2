@@ -104,7 +104,7 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('*/*/index');
         }
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
 
         /**
          * @var \Magento\Backup\Helper\Data $helper
@@ -243,7 +243,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
 
         try {
             /* @var $backup \Magento\Backup\Model\Backup */
@@ -378,7 +378,7 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('backup/*/index');
         }
 
-        $resultData = new \Magento\Object();
+        $resultData = new \Magento\Framework\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
         $this->_coreRegistry->register('backup_manager', $resultData);

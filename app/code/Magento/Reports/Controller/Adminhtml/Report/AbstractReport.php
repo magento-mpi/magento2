@@ -80,7 +80,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
     /**
      * Report action init operations
      *
-     * @param array|\Magento\Object $blocks
+     * @param array|\Magento\Framework\Object $blocks
      * @return $this
      */
     public function _initReportAction($blocks)
@@ -101,7 +101,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
         );
         $requestData = $inputFilter->getUnescaped();
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
-        $params = new \Magento\Object();
+        $params = new \Magento\Framework\Object();
 
         foreach ($requestData as $key => $value) {
             if (!empty($value)) {

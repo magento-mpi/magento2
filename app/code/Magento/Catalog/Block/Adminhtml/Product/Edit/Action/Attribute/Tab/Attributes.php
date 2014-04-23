@@ -101,7 +101,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
     /**
      * Retrieve attributes for product mass update
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAttributes()
     {

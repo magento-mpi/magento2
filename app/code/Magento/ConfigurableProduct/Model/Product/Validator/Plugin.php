@@ -53,7 +53,7 @@ class Plugin
      * @param Closure $proceed
      * @param Product $product
      * @param RequestInterface $request
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -62,7 +62,7 @@ class Plugin
         Closure $proceed,
         \Magento\Catalog\Model\Product $product,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Object $response
+        \Magento\Framework\Object $response
     ) {
         $result = $proceed($product, $request, $response);
         $variationProducts = (array)$request->getPost('variations-matrix');

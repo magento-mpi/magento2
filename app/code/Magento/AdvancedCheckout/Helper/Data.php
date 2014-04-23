@@ -278,10 +278,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve error message for the item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    public function getMessageByItem(\Magento\Object $item)
+    public function getMessageByItem(\Magento\Framework\Object $item)
     {
         $message = $this->getMessage($item->getCode());
         return $message ? $message : $item->getError();

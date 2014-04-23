@@ -265,7 +265,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         $carrierCode = $this->getShipment()->getCarrierCode();
         $carrier = $this->_rmaData->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $params = new \Magento\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
@@ -319,7 +319,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
             $storeId
         );
         if ($carrier) {
-            $params = new \Magento\Object(
+            $params = new \Magento\Framework\Object(
                 array(
                     'method' => $carrier->getMethod(),
                     'country_shipper' => $countryShipper,

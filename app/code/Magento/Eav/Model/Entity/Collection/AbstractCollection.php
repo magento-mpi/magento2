@@ -264,7 +264,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     /**
      * Set template object for the collection
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @return $this
      */
     public function setObject($object = null)
@@ -280,11 +280,11 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     /**
      * Add an object to the collection
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      * @throws \Magento\Eav\Exception
      */
-    public function addItem(\Magento\Object $object)
+    public function addItem(\Magento\Framework\Object $object)
     {
         if (!$object instanceof $this->_itemObjectClass) {
             throw new \Magento\Eav\Exception(__('Attempt to add an invalid object'));

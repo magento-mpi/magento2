@@ -237,7 +237,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                     $amount = $item->getBasePrice();
                     $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
 
-                    $data = new \Magento\Object();
+                    $data = new \Magento\Framework\Object();
                     $data->setWebsiteId(
                         $websiteId
                     )->setAmount(
@@ -254,7 +254,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
                         try {
-                            $code = new \Magento\Object();
+                            $code = new \Magento\Framework\Object();
                             $this->_eventManager->dispatch(
                                 'magento_giftcardaccount_create',
                                 array('request' => $data, 'code' => $code)

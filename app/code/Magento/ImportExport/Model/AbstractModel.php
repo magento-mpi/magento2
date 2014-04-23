@@ -16,7 +16,7 @@ namespace Magento\ImportExport\Model;
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractModel extends \Magento\Object
+abstract class AbstractModel extends \Magento\Framework\Object
 {
     /**
      * Enable loging

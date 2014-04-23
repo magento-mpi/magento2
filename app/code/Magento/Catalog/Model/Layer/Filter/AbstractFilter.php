@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Layer\Filter;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractFilter extends \Magento\Object
+abstract class AbstractFilter extends \Magento\Framework\Object
 {
     /**
      * Request variable name with filter value

@@ -17,7 +17,7 @@ namespace Magento\Backend\Model;
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Config extends \Magento\Object
+class Config extends \Magento\Framework\Object
 {
     /**
      * Config data for sections

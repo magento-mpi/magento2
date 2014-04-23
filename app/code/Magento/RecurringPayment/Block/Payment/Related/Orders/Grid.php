@@ -12,7 +12,7 @@ use Magento\Customer\Controller\RegistryConstants;
 /**
  * Recurring payment related orders grid
  *
- * @method \Magento\Object[] getGridElements()
+ * @method \Magento\Framework\Object[] getGridElements()
  * @method Grid setGridElements($orders)
  */
 class Grid extends \Magento\RecurringPayment\Block\Payment\View
@@ -115,14 +115,14 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
 
         $this->setGridColumns(
             array(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array('index' => 'increment_id', 'title' => __('Order #'), 'is_nobr' => true, 'width' => 1)
                 ),
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array('index' => 'created_at', 'title' => __('Date'), 'is_nobr' => true, 'width' => 1)
                 ),
-                new \Magento\Object(array('index' => 'customer_name', 'title' => __('Customer Name'))),
-                new \Magento\Object(
+                new \Magento\Framework\Object(array('index' => 'customer_name', 'title' => __('Customer Name'))),
+                new \Magento\Framework\Object(
                     array(
                         'index' => 'base_grand_total',
                         'title' => __('Order Total'),
@@ -131,7 +131,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
                         'is_amount' => true
                     )
                 ),
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array('index' => 'status', 'title' => __('Order Status'), 'is_nobr' => true, 'width' => 1)
                 )
             )
@@ -139,7 +139,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
 
         $orders = array();
         foreach ($this->_relatedOrders as $order) {
-            $orders[] = new \Magento\Object(
+            $orders[] = new \Magento\Framework\Object(
                 array(
                     'increment_id' => $order->getIncrementId(),
                     'created_at' => $this->formatDate($order->getCreatedAt()),

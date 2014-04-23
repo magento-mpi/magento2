@@ -16,7 +16,7 @@ namespace Magento\Backend\Block\System\Config\Form\Fieldset\Modules;
 class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_dummyElement;
 
@@ -63,7 +63,7 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
 
         $modules = array_keys($this->_moduleList->getModules());
 
-        $dispatchResult = new \Magento\Object($modules);
+        $dispatchResult = new \Magento\Framework\Object($modules);
         $this->_eventManager->dispatch(
             'adminhtml_system_config_advanced_disableoutput_render_before',
             array('modules' => $dispatchResult)
@@ -84,12 +84,12 @@ class DisableOutput extends \Magento\Backend\Block\System\Config\Form\Fieldset
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getDummyElement()
     {
         if (empty($this->_dummyElement)) {
-            $this->_dummyElement = new \Magento\Object(array('showInDefault' => 1, 'showInWebsite' => 1));
+            $this->_dummyElement = new \Magento\Framework\Object(array('showInDefault' => 1, 'showInWebsite' => 1));
         }
         return $this->_dummyElement;
     }

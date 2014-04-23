@@ -38,7 +38,7 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)
@@ -58,7 +58,7 @@ class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Refresh product rewrites
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterSave($object)

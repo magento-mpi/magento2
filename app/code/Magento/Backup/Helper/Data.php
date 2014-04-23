@@ -310,7 +310,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Extracts information from backup's filename
      *
      * @param string $filename
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function extractDataFromFilename($filename)
     {
@@ -336,7 +336,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $name = substr($name, 1);
         }
 
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $result->addData(array('name' => $name, 'type' => $type, 'time' => $time));
 
         return $result;

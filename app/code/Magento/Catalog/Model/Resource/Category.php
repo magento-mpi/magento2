@@ -167,10 +167,10 @@ class Category extends AbstractResource
      * update children count for parent category
      * delete child categories
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Object $object)
+    protected function _beforeDelete(\Magento\Framework\Object $object)
     {
         parent::_beforeDelete($object);
 
@@ -192,10 +192,10 @@ class Category extends AbstractResource
     /**
      * Delete children categories of specific category
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    public function deleteChildren(\Magento\Object $object)
+    public function deleteChildren(\Magento\Framework\Object $object)
     {
         $adapter = $this->_getWriteAdapter();
         $pathField = $adapter->quoteIdentifier('path');
@@ -225,10 +225,10 @@ class Category extends AbstractResource
      * Process category data before saving
      * prepare path and increment children count for parent categories
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Object $object)
+    protected function _beforeSave(\Magento\Framework\Object $object)
     {
         parent::_beforeSave($object);
 
@@ -264,10 +264,10 @@ class Category extends AbstractResource
      * Process category data after save category object
      * save related products ids and update path value
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $object)
+    protected function _afterSave(\Magento\Framework\Object $object)
     {
         /**
          * Add identifier for new category
@@ -646,7 +646,7 @@ class Category extends AbstractResource
      * Return parent categories of category
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getParentCategories($category)
     {

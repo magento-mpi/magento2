@@ -68,7 +68,7 @@ class Add extends \Magento\Framework\App\Action\Action
      */
     public function testObserverAction()
     {
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $observer = $this->_objectManager->get('Magento\ProductAlert\Model\Observer');
         $observer->process($object);
     }

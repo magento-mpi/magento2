@@ -134,8 +134,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param Product $product
-     * @param null|false|\Magento\Object $shipping
-     * @param null|false|\Magento\Object $billing
+     * @param null|false|\Magento\Framework\Object $shipping
+     * @param null|false|\Magento\Framework\Object $billing
      * @param Website $website
      * @param bool $calculateTax
      * @param bool $ignoreDiscount
@@ -198,7 +198,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param Website $website
      * @param bool $calculateTax
      * @param bool $ignoreDiscount
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributes(
         $product,
@@ -290,7 +290,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                         }
                     }
 
-                    $one = new \Magento\Object();
+                    $one = new \Magento\Framework\Object();
                     $one->setName(__($attribute->getFrontend()->getLabel()))
                         ->setAmount($amount)
                         ->setTaxAmount($taxAmount)

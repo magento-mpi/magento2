@@ -20,7 +20,7 @@ use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
 /**
  * Order create model
  */
-class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
+class Create extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     const XML_PATH_DEFAULT_EMAIL_DOMAIN = 'customer/create_account/email_domain';
 
@@ -278,7 +278,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $this->_coreRegistry->register(
             'rule_data',
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'store_id' => $this->_session->getStore()->getId(),
                     'website_id' => $this->_session->getStore()->getWebsiteId(),
@@ -540,7 +540,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(
                         array(
                             'product' => $item->getProduct(),
                             'code' => 'additional_options',
@@ -699,11 +699,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
                         $info = $item->getOptionByCode('info_buyRequest');
                         if ($info) {
-                            $info = new \Magento\Object(unserialize($info->getValue()));
+                            $info = new \Magento\Framework\Object(unserialize($info->getValue()));
                             $info->setQty($qty);
                             $info->setOptions($this->_prepareOptionsForRequest($item));
                         } else {
-                            $info = new \Magento\Object(
+                            $info = new \Magento\Framework\Object(
                                 array(
                                     'product_id' => $product->getId(),
                                     'qty' => $qty,
@@ -883,16 +883,16 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * $config can be either buyRequest config, or just qty
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @param array|float|int|\Magento\Object $config
+     * @param array|float|int|\Magento\Framework\Object $config
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
-        if (!is_array($config) && !$config instanceof \Magento\Object) {
+        if (!is_array($config) && !$config instanceof \Magento\Framework\Object) {
             $config = array('qty' => $config);
         }
-        $config = new \Magento\Object($config);
+        $config = new \Magento\Framework\Object($config);
 
         if (!$product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product;
@@ -957,7 +957,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             try {
                 foreach ($data as $itemId => $info) {
                     if (!empty($info['configured'])) {
-                        $item = $this->getQuote()->updateItem($itemId, new \Magento\Object($info));
+                        $item = $this->getQuote()->updateItem($itemId, new \Magento\Framework\Object($info));
                         $itemQty = (double)$item->getQty();
                     } else {
                         $item = $this->getQuote()->getItemById($itemId);
@@ -1092,7 +1092,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $item->save();
         if (!empty($options['options'])) {
             $item->addOption(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         'product' => $item->getProduct(),
                         'code' => 'option_ids',
@@ -1103,7 +1103,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
             foreach ($options['options'] as $optionId => $optionValue) {
                 $item->addOption(
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(
                         array(
                             'product' => $item->getProduct(),
                             'code' => 'option_' . $optionId,
@@ -1115,7 +1115,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         if (!empty($options['additional_options'])) {
             $item->addOption(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         'product' => $item->getProduct(),
                         'code' => 'additional_options',

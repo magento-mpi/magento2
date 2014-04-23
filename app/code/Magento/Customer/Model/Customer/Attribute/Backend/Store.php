@@ -36,7 +36,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)

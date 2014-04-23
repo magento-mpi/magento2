@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Url;
 
-class RouteParamsResolver extends \Magento\Object implements \Magento\Framework\Url\RouteParamsResolverInterface
+class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\Framework\Url\RouteParamsResolverInterface
 {
     /**
      * @var \Magento\Framework\App\RequestInterface

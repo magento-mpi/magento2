@@ -137,11 +137,11 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Return relation info about used products
      *
-     * @return \Magento\Object Object with information data
+     * @return \Magento\Framework\Object Object with information data
      */
     public function getRelationInfo()
     {
-        $info = new \Magento\Object();
+        $info = new \Magento\Framework\Object();
         $info->setTable(
             'catalog_product_link'
         )->setParentFieldName(
@@ -332,13 +332,13 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and add logic specific to Grouped product type.
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Framework\Object $buyRequest, $product, $processMode)
     {
         $productsInfo = $buyRequest->getSuperGroup();
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
@@ -422,7 +422,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Prepare selected qty for grouped product's options
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Object $buyRequest
+     * @param  \Magento\Framework\Object $buyRequest
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

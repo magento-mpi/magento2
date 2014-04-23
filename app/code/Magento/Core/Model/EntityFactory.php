@@ -32,7 +32,7 @@ class EntityFactory implements \Magento\Framework\Data\Collection\EntityFactoryI
      * @param string $className
      * @param array $data
      * @throws \LogicException
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function create($className, array $data = array())
     {

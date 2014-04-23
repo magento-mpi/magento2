@@ -283,7 +283,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
         // Saving stock item without product object
         // Register re-index price process if products out of stock hidden on Front-end
         if (!$this->_catalogInventoryData->isShowOutOfStock() && !$object->getProduct()) {
-            $massObject = new \Magento\Object();
+            $massObject = new \Magento\Framework\Object();
             $massObject->setAttributesData(array('force_reindex_required' => 1));
             $massObject->setProductIds(array($object->getProductId()));
             $this->_indexer->logEvent(
@@ -323,7 +323,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _registerCatalogProductMassActionEvent(\Magento\Index\Model\Event $event)
     {
-        /* @var $actionObject \Magento\Object */
+        /* @var $actionObject \Magento\Framework\Object */
         $actionObject = $event->getDataObject();
         $attributes = array('status');
         $reindexStock = false;

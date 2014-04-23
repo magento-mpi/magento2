@@ -16,7 +16,7 @@ namespace Magento\GoogleShopping\Model;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Service extends \Magento\Object
+class Service extends \Magento\Framework\Object
 {
     /**
      * Client instance identifier in registry

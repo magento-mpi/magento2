@@ -610,7 +610,7 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve current page layout
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getPageLayout()
     {
@@ -635,7 +635,7 @@ abstract class AbstractProduct extends \Magento\Framework\View\Element\Template
      */
     public function displayProductStockStatus()
     {
-        $statusInfo = new \Magento\Object(array('display_status' => true));
+        $statusInfo = new \Magento\Framework\Object(array('display_status' => true));
         $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
         return (bool) $statusInfo->getDisplayStatus();
     }

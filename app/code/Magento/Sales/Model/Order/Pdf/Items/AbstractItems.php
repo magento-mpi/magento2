@@ -31,7 +31,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     /**
      * Item object
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_item;
 
@@ -119,10 +119,10 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     /**
      * Set item object
      *
-     * @param  \Magento\Object $item
+     * @param  \Magento\Framework\Object $item
      * @return $this
      */
-    public function setItem(\Magento\Object $item)
+    public function setItem(\Magento\Framework\Object $item)
     {
         $this->_item = $item;
         return $this;
@@ -184,7 +184,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
      * Retrieve item object
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItem()
     {

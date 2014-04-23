@@ -69,16 +69,16 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * Convert Array config to Object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
-        if ($this->_getData('config') instanceof \Magento\Object) {
+        if ($this->_getData('config') instanceof \Magento\Framework\Object) {
             return $this->_getData('config');
         }
 
         $configArray = $this->_getData('config');
-        $config = new \Magento\Object();
+        $config = new \Magento\Framework\Object();
         $this->setConfig($config);
         if (!is_array($configArray)) {
             return $this->_getData('config');

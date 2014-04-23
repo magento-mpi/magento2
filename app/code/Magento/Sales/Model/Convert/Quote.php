@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Model\Convert;
 
-class Quote extends \Magento\Object
+class Quote extends \Magento\Framework\Object
 {
     /**
      * Core event manager proxy

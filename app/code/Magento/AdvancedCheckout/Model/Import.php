@@ -17,7 +17,7 @@ use Magento\Framework\Model\Exception;
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Import extends \Magento\Object
+class Import extends \Magento\Framework\Object
 {
     /**
      * Form field name

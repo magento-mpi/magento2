@@ -103,7 +103,7 @@ class Index extends \Magento\Framework\App\Action\Action
         if ($post) {
             $this->inlineTranslation->suspend();
             try {
-                $postObject = new \Magento\Object();
+                $postObject = new \Magento\Framework\Object();
                 $postObject->setData($post);
 
                 $error = false;

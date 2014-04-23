@@ -17,7 +17,7 @@ class Edit extends Button
     /**
      * Return 'onclick' action for the button (redirect to the integration edit page).
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getOnclickAttribute(Object $row)
@@ -28,7 +28,7 @@ class Edit extends Button
     /**
      * Get title depending on whether element is disabled or not.
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getTitleAttribute(Object $row)
@@ -39,7 +39,7 @@ class Edit extends Button
     /**
      * Get the icon on the grid according to the integration type
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function _getClassAttribute(Object $row)

@@ -95,7 +95,7 @@ class Observer
     /**
      * Prepare product to save
      *
-     * @param   \Magento\Object $observer
+     * @param   \Magento\Framework\Object $observer
      * @return  $this
      */
     public function prepareProductSave($observer)
@@ -113,7 +113,7 @@ class Observer
     /**
      * Save data from order to purchased links
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function saveDownloadableOrderItem($observer)
@@ -206,7 +206,7 @@ class Observer
     /**
      * Set checkout session flag if order has downloadable product(s)
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function setHasDownloadableProducts($observer)
@@ -232,7 +232,7 @@ class Observer
     /**
      * Set status of link
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function setLinkStatus($observer)

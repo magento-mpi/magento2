@@ -534,7 +534,7 @@ class Observer
      */
     public function extendSalesAmountExpression(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $expressionTransferObject \Magento\Object */
+        /** @var $expressionTransferObject \Magento\Framework\Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
         /** @var $adapter \Magento\Framework\DB\Adapter\AdapterInterface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();

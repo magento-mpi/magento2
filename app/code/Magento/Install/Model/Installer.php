@@ -12,12 +12,12 @@ namespace Magento\Install\Model;
 /**
  * Installer model
  */
-class Installer extends \Magento\Object
+class Installer extends \Magento\Framework\Object
 {
     /**
      * Installer data model used to store data between installation steps
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_dataModel;
 
@@ -261,7 +261,7 @@ class Installer extends \Magento\Object
     /**
      * Get data model
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDataModel()
     {
@@ -274,7 +274,7 @@ class Installer extends \Magento\Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param \Magento\Object $model
+     * @param \Magento\Framework\Object $model
      * @return $this
      */
     public function setDataModel($model)

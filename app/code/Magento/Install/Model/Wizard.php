@@ -82,7 +82,7 @@ class Wizard
      * Get wizard step by request
      *
      * @param   \Magento\Framework\App\RequestInterface $request
-     * @return  \Magento\Object|bool
+     * @return  \Magento\Framework\Object|bool
      */
     public function getStepByRequest(\Magento\Framework\App\RequestInterface $request)
     {
@@ -100,7 +100,7 @@ class Wizard
      * Get wizard step by name
      *
      * @param   string $name
-     * @return  \Magento\Object|bool
+     * @return  \Magento\Framework\Object|bool
      */
     public function getStepByName($name)
     {

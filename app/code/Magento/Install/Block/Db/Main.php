@@ -111,7 +111,7 @@ class Main extends \Magento\Framework\View\Element\Template
     /**
      * Retrieve configuration form data object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
@@ -121,7 +121,7 @@ class Main extends \Magento\Framework\View\Element\Template
             if (empty($data)) {
                 $data = $this->_installerConfig->getFormData();
             } else {
-                $data = new \Magento\Object($data);
+                $data = new \Magento\Framework\Object($data);
             }
             $this->setFormData($data);
         }

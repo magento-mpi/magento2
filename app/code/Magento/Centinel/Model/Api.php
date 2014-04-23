@@ -17,7 +17,7 @@ include_once 'CardinalCommerce/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Api extends \Magento\Object
+class Api extends \Magento\Framework\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -351,12 +351,12 @@ class Api extends \Magento\Object
     /**
      * Call centinel api lookup method
      *
-     * @param \Magento\Object $data
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $data
+     * @return \Magento\Framework\Object
      */
     public function callLookup($data)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
 
         $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
         $currencyCode = $data->getCurrencyCode();
@@ -393,12 +393,12 @@ class Api extends \Magento\Object
     /**
      * Call centinel api authentication method
      *
-     * @param \Magento\Object $data
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $data
+     * @return \Magento\Framework\Object
      */
     public function callAuthentication($data)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
 
         $clientResponse = $this->_call(
             'cmpi_authenticate',

@@ -14,7 +14,7 @@ namespace Magento\Backup\Model;
  * @method string getName()
  * @method string getTime()
  */
-class Backup extends \Magento\Object implements \Magento\Framework\Backup\Db\BackupInterface
+class Backup extends \Magento\Framework\Object implements \Magento\Framework\Backup\Db\BackupInterface
 {
     /* internal constants */
     const COMPRESS_RATE = 9;

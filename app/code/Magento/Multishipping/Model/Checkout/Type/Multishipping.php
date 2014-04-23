@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 /**
  * Multishipping checkout model
  */
-class Multishipping extends \Magento\Object
+class Multishipping extends \Magento\Framework\Object
 {
     /**
      * Quote shipping addresses items cache

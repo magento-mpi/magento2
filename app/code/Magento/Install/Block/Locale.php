@@ -241,13 +241,13 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $this->setData('form_data', $data);
         }
         return $data;

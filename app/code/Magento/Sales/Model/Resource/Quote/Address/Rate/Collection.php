@@ -92,7 +92,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Sales\Model\Quote\Address\Rate $rate
      * @return $this
      */
-    public function addItem(\Magento\Object $rate)
+    public function addItem(\Magento\Framework\Object $rate)
     {
         $carrier = $this->_carrierFactory->get($rate->getCarrier());
         if ($this->_allowFixedOnly && (!$carrier || !$carrier->isFixed())) {

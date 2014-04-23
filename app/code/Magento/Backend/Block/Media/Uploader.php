@@ -15,7 +15,7 @@ namespace Magento\Backend\Block\Media;
 class Uploader extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_config;
 
@@ -122,12 +122,12 @@ class Uploader extends \Magento\Backend\Block\Widget
     /**
      * Retrieve config object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
         if (null === $this->_config) {
-            $this->_config = new \Magento\Object();
+            $this->_config = new \Magento\Framework\Object();
         }
 
         return $this->_config;

@@ -106,7 +106,7 @@ class Router extends \Magento\Framework\App\Router\AbstractRouter
 
         $identifier = trim($request->getPathInfo(), '/');
 
-        $condition = new \Magento\Object(array('identifier' => $identifier, 'continue' => true));
+        $condition = new \Magento\Framework\Object(array('identifier' => $identifier, 'continue' => true));
         $this->_eventManager->dispatch(
             'cms_controller_router_match_before',
             array('router' => $this, 'condition' => $condition)

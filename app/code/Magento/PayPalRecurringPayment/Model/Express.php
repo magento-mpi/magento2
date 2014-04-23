@@ -122,10 +122,10 @@ class Express implements ManagerInterface
      * Fetch RP details
      *
      * @param string $referenceId
-     * @param \Magento\Object $result
+     * @param \Magento\Framework\Object $result
      * @return void
      */
-    public function getDetails($referenceId, \Magento\Object $result)
+    public function getDetails($referenceId, \Magento\Framework\Object $result)
     {
         $this->_paymentMethod->getApi()->setRecurringPaymentId($referenceId)->callGetRecurringPaymentDetails($result);
     }

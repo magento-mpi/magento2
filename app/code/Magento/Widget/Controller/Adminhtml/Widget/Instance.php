@@ -179,7 +179,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setError(false);
         $widgetInstance = $this->_initWidgetInstance();
         $result = $widgetInstance->validate();

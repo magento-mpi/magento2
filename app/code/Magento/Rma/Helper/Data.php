@@ -300,11 +300,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get return contact name
      *
      * @param int|null $storeId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getReturnContactName($storeId = null)
     {
-        $contactName = new \Magento\Object();
+        $contactName = new \Magento\Framework\Object();
         if ($this->_scopeConfig->isSetFlag(
             Rma::XML_PATH_USE_STORE_ADDRESS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

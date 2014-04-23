@@ -31,10 +31,10 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
     /**
      * Retrieve attribute value
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return mixed
      */
-    public function getValue(\Magento\Object $object)
+    public function getValue(\Magento\Framework\Object $object)
     {
         $data = '';
         $value = parent::getValue($object);

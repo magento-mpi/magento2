@@ -12,7 +12,7 @@ namespace Magento\Backend\Model\Search;
 /**
  * Search Catalog Model
  */
-class Catalog extends \Magento\Object
+class Catalog extends \Magento\Framework\Object
 {
     /**
      * Catalog search data

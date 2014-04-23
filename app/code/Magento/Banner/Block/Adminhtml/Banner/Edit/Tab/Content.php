@@ -30,7 +30,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * WYSIWYG config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_wysiwygConfig;
 
@@ -145,7 +145,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Get Wysiwyg Config
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getWysiwygConfig()
     {

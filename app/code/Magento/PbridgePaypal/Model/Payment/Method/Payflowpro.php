@@ -105,11 +105,11 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         $payment->setCart($this->_pbridgeData->prepareCart($payment->getOrder()));
         $response = $this->_paypal->getPbridgeMethodInstance()->authorize($payment, $amount);
@@ -121,11 +121,11 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         $payment->setShouldCloseParentTransaction(!$this->_getCaptureAmount($amount));
         $payment->setFirstCaptureFlag(!$this->getInfoInstance()->hasAmountPaid());
@@ -142,11 +142,11 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->_paypal->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -157,10 +157,10 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         $response = $this->_paypal->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);

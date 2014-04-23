@@ -783,7 +783,7 @@ class Order extends \Magento\Backend\App\Action
             return;
         }
         try {
-            $order->getPayment()->void(new \Magento\Object()); // workaround for backwards compatibility
+            $order->getPayment()->void(new \Magento\Framework\Object()); // workaround for backwards compatibility
             $order->save();
             $this->messageManager->addSuccess(__('The payment has been voided.'));
         } catch (\Magento\Framework\Model\Exception $e) {

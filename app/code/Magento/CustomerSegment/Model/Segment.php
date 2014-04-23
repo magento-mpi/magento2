@@ -242,11 +242,11 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Validate customer by segment conditions for current website
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      *
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         $website = $this->_storeManager->getWebsite();
         if ($object instanceof \Magento\Customer\Model\Customer) {
@@ -261,7 +261,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Check if customer is matched by segment
      *
-     * @param int|\Magento\Customer\Model\Customer|\Magento\Object $customer
+     * @param int|\Magento\Customer\Model\Customer|\Magento\Framework\Object $customer
      * @param null|\Magento\Store\Model\Website|bool|int|string $website
      *
      * @return bool

@@ -38,10 +38,10 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
     /**
      * Renders a column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if ($this->stringHelper->strlen($value) > 30) {

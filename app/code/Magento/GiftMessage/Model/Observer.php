@@ -16,7 +16,7 @@ namespace Magento\GiftMessage\Model;
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Observer extends \Magento\Object
+class Observer extends \Magento\Framework\Object
 {
     /**
      * Gift message message
@@ -45,7 +45,7 @@ class Observer extends \Magento\Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
@@ -61,7 +61,7 @@ class Observer extends \Magento\Object
     /**
      * Set gift messages to order from quote address
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function salesEventConvertQuoteToOrder($observer)
@@ -73,7 +73,7 @@ class Observer extends \Magento\Object
     /**
      * Operate with gift messages on checkout proccess
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function checkoutEventCreateGiftMessage($observer)

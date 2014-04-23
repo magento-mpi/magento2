@@ -455,7 +455,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve customer address array
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAddresses()
     {

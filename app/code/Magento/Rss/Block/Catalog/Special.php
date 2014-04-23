@@ -222,7 +222,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         }
 
         // dispatch event to determine whether the product will eventually get to the result
-        $product = new \Magento\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
+        $product = new \Magento\Framework\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
         $this->_eventManager->dispatch('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {

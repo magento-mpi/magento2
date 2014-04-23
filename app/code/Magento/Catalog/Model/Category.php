@@ -921,7 +921,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Return parent categories of current category
      *
-     * @return \Magento\Object[]|\Magento\Catalog\Model\Category[]
+     * @return \Magento\Framework\Object[]|\Magento\Catalog\Model\Category[]
      */
     public function getParentCategories()
     {

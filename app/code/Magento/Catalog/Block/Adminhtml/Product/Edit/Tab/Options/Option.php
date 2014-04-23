@@ -24,7 +24,7 @@ class Option extends Widget
     protected $_productInstance;
 
     /**
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected $_values;
 
@@ -272,7 +272,7 @@ class Option extends Widget
     }
 
     /**
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getOptionValues()
     {
@@ -375,7 +375,7 @@ class Option extends Widget
                         $value['scopePriceDisabled'] = is_null($option->getStorePrice()) ? 'disabled' : null;
                     }
                 }
-                $values[] = new \Magento\Object($value);
+                $values[] = new \Magento\Framework\Object($value);
             }
             $this->_values = $values;
         }

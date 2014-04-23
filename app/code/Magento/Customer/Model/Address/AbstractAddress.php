@@ -233,7 +233,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
      *
      * @param array|string $key
      * @param null $value
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setData($key, $value = null)
     {

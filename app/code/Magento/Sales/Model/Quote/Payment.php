@@ -139,7 +139,7 @@ class Payment extends \Magento\Payment\Model\Info
      */
     public function importData(array $data)
     {
-        $data = new \Magento\Object($data);
+        $data = new \Magento\Framework\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
             array($this->_eventObject => $this, 'input' => $data)

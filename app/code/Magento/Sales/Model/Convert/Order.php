@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Model\Convert;
 
-class Order extends \Magento\Object
+class Order extends \Magento\Framework\Object
 {
     /**
      * Core event manager proxy

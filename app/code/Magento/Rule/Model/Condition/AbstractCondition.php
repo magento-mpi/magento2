@@ -19,7 +19,7 @@ namespace Magento\Rule\Model\Condition;
 use Magento\Framework\Data\Form;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 
-abstract class AbstractCondition extends \Magento\Object implements ConditionInterface
+abstract class AbstractCondition extends \Magento\Framework\Object implements ConditionInterface
 {
     /**
      * Defines which operators will be available for this condition
@@ -799,10 +799,10 @@ abstract class AbstractCondition extends \Magento\Object implements ConditionInt
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         return $this->validateAttribute($object->getData($this->getAttribute()));
     }

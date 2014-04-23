@@ -249,10 +249,10 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Display item price including tax
      *
-     * @param Item|\Magento\Object $item
+     * @param Item|\Magento\Framework\Object $item
      * @return string
      */
-    public function displayPriceInclTax(\Magento\Object $item)
+    public function displayPriceInclTax(\Magento\Framework\Object $item)
     {
         return $this->displayPrices(
             $this->_checkoutHelper->getBasePriceInclTax($item),

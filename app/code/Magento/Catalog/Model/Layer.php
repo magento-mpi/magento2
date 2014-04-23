@@ -14,7 +14,7 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Layer extends \Magento\Object
+class Layer extends \Magento\Framework\Object
 {
     /**
      * Product collections array
