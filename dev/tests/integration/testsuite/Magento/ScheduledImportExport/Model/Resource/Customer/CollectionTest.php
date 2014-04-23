@@ -54,7 +54,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
             $this->assertEquals(
-                $objectManager->get('Magento\Framework\Registry')->registry('reward_point_balance_' . $website->getCode()),
+                $objectManager->get('Magento\Framework\Registry')
+                    ->registry('reward_point_balance_' . $website->getCode()),
                 $rewardPoints
             );
         }
@@ -118,9 +119,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp_cb'),
             $emails
         );
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'), $emails);
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'), $emails);
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'),
+            $emails
+        );
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'),
+            $emails
+        );
+        $this->assertNotContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'),
+            $emails
+        );
     }
 
     /**
@@ -149,12 +159,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp_cb'),
             $emails
         );
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'), $emails);
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'),
+            $emails
+        );
         $this->assertNotContains(
             $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'),
             $emails
         );
-        $this->assertNotContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'), $emails);
+        $this->assertNotContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'),
+            $emails
+        );
     }
 
     /**
@@ -187,8 +203,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'),
             $emails
         );
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'), $emails);
-        $this->assertNotContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'), $emails);
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'),
+            $emails
+        );
+        $this->assertNotContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'),
+            $emails
+        );
     }
 
     /**
@@ -217,8 +239,17 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp_cb'),
             $emails
         );
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'), $emails);
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'), $emails);
-        $this->assertContains($objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'), $emails);
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_rp'),
+            $emails
+        );
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email_cb'),
+            $emails
+        );
+        $this->assertContains(
+            $objectManager->get('Magento\Framework\Registry')->registry('customer_finance_email'),
+            $emails
+        );
     }
 }

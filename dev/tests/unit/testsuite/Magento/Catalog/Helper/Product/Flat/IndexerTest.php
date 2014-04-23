@@ -85,10 +85,13 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_changelogMock = $this->getMock('Magento\Framework\Mview\View\Changelog', array('getName'), array(), '', false);
-
-
-
+        $this->_changelogMock = $this->getMock(
+            'Magento\Framework\Mview\View\Changelog',
+            array('getName'),
+            array(),
+            '',
+            false
+        );
 
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $this->_objectManager->getObject(

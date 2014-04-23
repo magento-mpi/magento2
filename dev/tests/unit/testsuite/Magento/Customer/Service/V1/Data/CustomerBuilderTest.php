@@ -305,6 +305,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $this->assertEquals($expectedCustomerData, \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer));
+        $this->assertEquals(
+            $expectedCustomerData,
+            \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer)
+        );
     }
 }

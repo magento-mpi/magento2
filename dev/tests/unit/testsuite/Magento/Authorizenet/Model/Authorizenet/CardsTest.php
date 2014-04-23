@@ -67,13 +67,23 @@ class CardsTest extends \PHPUnit_Framework_TestCase
                 'cardId',
                 array('key' => 'value'),
                 array('key' => 'value'),
-                new \Magento\Framework\Object(array('key' => 'value', 'additional_information' => array('key' => 'value')))
+                new \Magento\Framework\Object(
+                    array(
+                        'key' => 'value',
+                        'additional_information' => array('key' => 'value')
+                    )
+                )
             ),
             array(
                 'cardId',
                 array('key' => 'value'),
                 array('key2' => 'value2'),
-                new \Magento\Framework\Object(array('key' => 'value', 'additional_information' => array('key2' => 'value2')))
+                new \Magento\Framework\Object(
+                    array(
+                        'key' => 'value',
+                        'additional_information' => array('key2' => 'value2')
+                    )
+                )
             ),
             array(
                 'cardId',

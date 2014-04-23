@@ -104,9 +104,21 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $items = array(
-            new \Magento\Framework\Object(array('children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2')))),
-            new \Magento\Framework\Object(array('children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2')))),
-            new \Magento\Framework\Object(array('children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2'))))
+            new \Magento\Framework\Object(
+                array(
+                    'children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2'))
+                )
+            ),
+            new \Magento\Framework\Object(
+                array(
+                    'children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2'))
+                )
+            ),
+            new \Magento\Framework\Object(
+                array(
+                    'children' => new \Magento\Framework\Object(array('test4' => '1', 'test5' => '2'))
+                )
+            )
         );
         foreach ($items as $item) {
             // prepare sub-collection

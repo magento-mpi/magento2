@@ -57,7 +57,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_transportMock = $this->getMock('Magento\Framework\Mail\TransportInterface', array(), array(), '', false);
+        $this->_transportMock = $this->getMock(
+            'Magento\Framework\Mail\TransportInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_encryptor = $this->getMock('Magento\Framework\Encryption\EncryptorInterface');
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(

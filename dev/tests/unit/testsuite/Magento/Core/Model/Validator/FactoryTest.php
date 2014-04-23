@@ -112,7 +112,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             $this->_translateAdapter
         );
         $actualConfig = $factory->getValidatorConfig();
-        $this->assertInstanceOf('Magento\Framework\Validator\Config', $actualConfig, 'Object of incorrect type was created');
+        $this->assertInstanceOf(
+            'Magento\Framework\Validator\Config',
+            $actualConfig,
+            'Object of incorrect type was created'
+        );
 
         // Check that validator translator was correctly instantiated
         $validatorTranslator = \Magento\Framework\Validator\AbstractValidator::getDefaultTranslator();
@@ -138,7 +142,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'class',
             array()
         )->will(
-            $this->returnValue($objectManager->getObject('Magento\Framework\Validator\Builder', array('constraints' => array())))
+            $this->returnValue(
+                $objectManager->getObject('Magento\Framework\Validator\Builder', array('constraints' => array()))
+            )
         );
         $factory = new \Magento\Core\Model\Validator\Factory(
             $this->_objectManager,

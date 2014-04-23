@@ -19,7 +19,8 @@ class CopyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Object\Copy');
+        $this->_service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Object\Copy');
     }
 
     public function testCopyFieldset()

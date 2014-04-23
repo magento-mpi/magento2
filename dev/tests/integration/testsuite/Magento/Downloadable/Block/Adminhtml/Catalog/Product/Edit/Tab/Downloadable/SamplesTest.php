@@ -64,7 +64,13 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Registry'
         )->register(
             'current_product',
-            new \Magento\Framework\Object(array('type_id' => $productType, 'id' => '1', 'samples_title' => $samplesTitle))
+            new \Magento\Framework\Object(
+                array(
+                    'type_id' => $productType,
+                    'id' => '1',
+                    'samples_title' => $samplesTitle
+                )
+            )
         );
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'

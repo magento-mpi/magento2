@@ -93,7 +93,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                array('event' => new \Magento\Framework\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
+                array(
+                    'event' => new \Magento\Framework\Object(
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }
@@ -122,7 +126,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                array('event' => new \Magento\Framework\Object(array('form' => $form, 'model' => $model, 'block' => $block)))
+                array(
+                    'event' => new \Magento\Framework\Object(
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }

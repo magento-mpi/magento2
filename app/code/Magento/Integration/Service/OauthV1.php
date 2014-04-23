@@ -110,7 +110,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Framework\Oauth\Exception(__('Unexpected error. Unable to create oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to create oAuth consumer account.')
+            );
         }
     }
 
@@ -165,7 +167,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Framework\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to load oAuth consumer account.')
+            );
         }
     }
 
@@ -179,7 +183,9 @@ class OauthV1 implements OauthV1Interface
         } catch (\Magento\Framework\Model\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Framework\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unexpected error. Unable to load oAuth consumer account.')
+            );
         }
     }
 
@@ -219,7 +225,9 @@ class OauthV1 implements OauthV1Interface
             throw $exception;
         } catch (\Exception $exception) {
             $this->_logger->logException($exception);
-            throw new \Magento\Framework\Oauth\Exception(__('Unable to post data to consumer due to an unexpected error'));
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Unable to post data to consumer due to an unexpected error')
+            );
         }
     }
 

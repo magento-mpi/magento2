@@ -343,7 +343,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $this->_product->setCustomOptions(
             array(
-                'simple_product' => new \Magento\Framework\Object(array('product' => new \Magento\Framework\Object(array('weight' => 2))))
+                'simple_product' => new \Magento\Framework\Object(
+                        array(
+                            'product' => new \Magento\Framework\Object(array('weight' => 2))
+                        )
+                    )
             )
         );
         $this->assertEquals(2, $this->_model->getWeight($this->_product));

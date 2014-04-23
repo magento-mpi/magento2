@@ -51,7 +51,13 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
         );
 
         $observerMock = new \Magento\Framework\Object(
-            array('event' => new \Magento\Framework\Object(array('block' => new \Magento\Framework\Object(array('form' => $form)))))
+            array(
+                'event' => new \Magento\Framework\Object(
+                        array(
+                            'block' => new \Magento\Framework\Object(array('form' => $form))
+                        )
+                    )
+            )
         );
 
         $this->_model->disableTaxRelatedMultiselects($observerMock);

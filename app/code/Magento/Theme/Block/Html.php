@@ -130,7 +130,8 @@ class Html extends \Magento\Framework\View\Element\Template
 
         // buld url
         if (!empty($logo)) {
-            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA)) . $logo;
+            $logo = $this->_urlBuilder
+                    ->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA)) . $logo;
         } else {
             $logo = '';
         }

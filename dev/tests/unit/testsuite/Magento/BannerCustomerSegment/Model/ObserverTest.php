@@ -114,7 +114,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model->loadCustomerSegmentRelations(
-            new \Magento\Framework\Event\Observer(array('event' => new \Magento\Framework\Object(array('banner' => $banner))))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(array('banner' => $banner))
+                )
+            )
         );
         $this->assertEquals($segmentIds, $banner->getData('customer_segment_ids'));
     }
@@ -128,7 +132,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_bannerSegmentLink->expects($this->never())->method('loadBannerSegments');
 
         $this->_model->loadCustomerSegmentRelations(
-            new \Magento\Framework\Event\Observer(array('event' => new \Magento\Framework\Object(array('banner' => $banner))))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(array('banner' => $banner))
+                )
+            )
         );
     }
 
@@ -149,7 +157,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model->saveCustomerSegmentRelations(
-            new \Magento\Framework\Event\Observer(array('event' => new \Magento\Framework\Object(array('banner' => $banner))))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(array('banner' => $banner))
+                )
+            )
         );
     }
 
@@ -166,7 +178,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
         $this->_model->saveCustomerSegmentRelations(
-            new \Magento\Framework\Event\Observer(array('event' => new \Magento\Framework\Object(array('banner' => $banner))))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(array('banner' => $banner))
+                )
+            )
         );
     }
 
@@ -179,7 +195,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_bannerSegmentLink->expects($this->never())->method('saveBannerSegments');
 
         $this->_model->saveCustomerSegmentRelations(
-            new \Magento\Framework\Event\Observer(array('event' => new \Magento\Framework\Object(array('banner' => $banner))))
+            new \Magento\Framework\Event\Observer(
+                array(
+                    'event' => new \Magento\Framework\Object(array('banner' => $banner))
+                )
+            )
         );
     }
 

@@ -242,11 +242,26 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(\Magento\Framework\UrlInterface::URL_TYPE_LINK, false, false, 'http://localhost/custom_entry.php/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_LINK, false, true, 'http://localhost/custom_entry.php/default/'),
+            array(
+                \Magento\Framework\UrlInterface::URL_TYPE_LINK,
+                false,
+                true,
+                'http://localhost/custom_entry.php/default/'
+            ),
             array(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true, false, 'http://localhost/index.php/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true, true, 'http://localhost/index.php/default/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, false, false, 'http://localhost/custom_entry.php/'),
-            array(\Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, false, true, 'http://localhost/custom_entry.php/'),
+            array(
+                \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK,
+                false,
+                false,
+                'http://localhost/custom_entry.php/'
+            ),
+            array(
+                \Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK,
+                false,
+                true,
+                'http://localhost/custom_entry.php/'
+            ),
             array(\Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, true, false, 'http://localhost/index.php/'),
             array(\Magento\Framework\UrlInterface::URL_TYPE_DIRECT_LINK, true, true, 'http://localhost/index.php/')
         );

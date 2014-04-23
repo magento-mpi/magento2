@@ -2,15 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Core\Model;
 
+use Magento\Framework\App\DesignInterface;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Object\IdentityInterface;
 
 /**
  * Design settings change model
@@ -26,7 +26,7 @@ use Magento\Framework\Model\AbstractModel;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends AbstractModel implements \Magento\Framework\Object\IdentityInterface, \Magento\Framework\App\DesignInterface
+class Design extends AbstractModel implements IdentityInterface, DesignInterface
 {
     /**
      * Cache tag

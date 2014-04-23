@@ -148,7 +148,9 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
             if ($this->_store === null) {
                 $this->_store = $this->_storeManager->getStore()->getId();
             }
-            $this->_designConfig = new \Magento\Framework\Object(array('area' => $this->_area, 'store' => $this->_store));
+            $this->_designConfig = new \Magento\Framework\Object(
+                array('area' => $this->_area, 'store' => $this->_store)
+            );
         }
         return $this->_designConfig;
     }

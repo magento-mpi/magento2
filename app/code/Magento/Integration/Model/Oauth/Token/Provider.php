@@ -100,7 +100,10 @@ class Provider implements TokenProviderInterface
         // The pre-auth token has a value of "request" in the type when it is requested and created initially.
         // In this flow (token flow) the token has to be of type "request" else its marked as reused.
         if (\Magento\Integration\Model\Oauth\Token::TYPE_REQUEST != $token->getType()) {
-            throw new \Magento\Framework\Oauth\Exception(__('Token is already being used'), OauthInterface::ERR_TOKEN_USED);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Token is already being used'),
+                OauthInterface::ERR_TOKEN_USED
+            );
         }
 
         $this->_validateVerifierParam($oauthVerifier, $token->getVerifier());
@@ -138,10 +141,16 @@ class Provider implements TokenProviderInterface
             );
         }
         if (\Magento\Integration\Model\Oauth\Token::TYPE_ACCESS != $token->getType()) {
-            throw new \Magento\Framework\Oauth\Exception(__('Token is not an access token'), OauthInterface::ERR_TOKEN_REJECTED);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Token is not an access token'),
+                OauthInterface::ERR_TOKEN_REJECTED
+            );
         }
         if ($token->getRevoked()) {
-            throw new \Magento\Framework\Oauth\Exception(__('Access token has been revoked'), OauthInterface::ERR_TOKEN_REVOKED);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Access token has been revoked'),
+                OauthInterface::ERR_TOKEN_REVOKED
+            );
         }
 
         return $token->getSecret();
@@ -157,11 +166,17 @@ class Provider implements TokenProviderInterface
         $this->_getConsumer($token->getConsumerId());
 
         if (\Magento\Integration\Model\Oauth\Token::TYPE_ACCESS != $token->getType()) {
-            throw new \Magento\Framework\Oauth\Exception(__('Token is not an access token'), OauthInterface::ERR_TOKEN_REJECTED);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Token is not an access token'),
+                OauthInterface::ERR_TOKEN_REJECTED
+            );
         }
 
         if ($token->getRevoked()) {
-            throw new \Magento\Framework\Oauth\Exception(__('Access token has been revoked'), OauthInterface::ERR_TOKEN_REVOKED);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Access token has been revoked'),
+                OauthInterface::ERR_TOKEN_REVOKED
+            );
         }
 
         return $token->getConsumerId();
@@ -210,7 +225,10 @@ class Provider implements TokenProviderInterface
     protected function _validateVerifierParam($oauthVerifier, $tokenVerifier)
     {
         if (!is_string($oauthVerifier)) {
-            throw new \Magento\Framework\Oauth\Exception(__('Verifier is invalid'), OauthInterface::ERR_VERIFIER_INVALID);
+            throw new \Magento\Framework\Oauth\Exception(
+                __('Verifier is invalid'),
+                OauthInterface::ERR_VERIFIER_INVALID
+            );
         }
         if (!$this->validateOauthToken($oauthVerifier)) {
             throw new \Magento\Framework\Oauth\Exception(

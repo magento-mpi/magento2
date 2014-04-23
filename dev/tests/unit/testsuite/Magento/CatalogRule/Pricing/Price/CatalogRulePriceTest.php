@@ -99,7 +99,13 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->coreStoreMock));
 
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $this->priceInfoMock = $this->getMock('\Magento\Framework\Pricing\PriceInfo', ['getAdjustments'], [], '', false);
+        $this->priceInfoMock = $this->getMock(
+            '\Magento\Framework\Pricing\PriceInfo',
+            ['getAdjustments'],
+            [],
+            '',
+            false
+        );
         $this->catalogRuleResourceFactoryMock = $this->getMock(
             '\Magento\CatalogRule\Model\Resource\RuleFactory',
             ['create'],

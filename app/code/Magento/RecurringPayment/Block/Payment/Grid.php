@@ -105,7 +105,12 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
                         'width' => 1
                     )
                 ),
-                new \Magento\Framework\Object(array('index' => 'state', 'title' => $this->_fields->getFieldLabel('state'))),
+                new \Magento\Framework\Object(
+                    array(
+                        'index' => 'state',
+                        'title' => $this->_fields->getFieldLabel('state')
+                    )
+                ),
                 new \Magento\Framework\Object(
                     array(
                         'index' => 'created_at',

@@ -319,7 +319,9 @@ class ColumnSetTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(new \Magento\Framework\Object(array('test1' => '3', 'test2' => '2')))
         );
 
-        $this->assertEquals(new \Magento\Framework\Object(array('test1' => '3', 'test2' => '2')), $this->_block->getTotals());
+        $this->assertEquals(
+            new \Magento\Framework\Object(array('test1' => '3', 'test2' => '2')), $this->_block->getTotals()
+        );
     }
 
     /**

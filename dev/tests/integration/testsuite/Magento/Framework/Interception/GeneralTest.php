@@ -98,7 +98,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $config->extend(
             array(
                 'preferences' => array(
-                    'Magento\Framework\Interception\PluginList' => 'Magento\Framework\Interception\PluginList\PluginList',
+                    'Magento\Framework\Interception\PluginList' =>
+                        'Magento\Framework\Interception\PluginList\PluginList',
                     'Magento\Framework\Interception\Chain' => 'Magento\Framework\Interception\Chain\Chain'
                 )
             )
