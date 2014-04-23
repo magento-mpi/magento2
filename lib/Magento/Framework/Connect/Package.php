@@ -128,9 +128,9 @@ class Package
      * @param \Magento\Util|null $util
      * @throws \Magento\Framework\Exception
      */
-    public function __construct($source = null, \Magento\Util $util = null)
+    public function __construct($source = null, \Magento\Framework\Util $util = null)
     {
-        $this->_util = $util ? $util : new \Magento\Util();
+        $this->_util = $util ? $util : new \Magento\Framework\Util();
         libxml_use_internal_errors(true);
 
         if (is_string($source)) {
