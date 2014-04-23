@@ -151,7 +151,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             ->getPriceInfo()
             ->getPrice('attribute_price');
         $options = $this->helper->getOptions($currentProduct, $this->getAllowProducts());
-        $attributes = $attributePrice->prepareJsonAttributes($options);
+        $attributes = $attributePrice->prepareAttributes($options);
 
         $config = array(
             'attributes' => $attributes['priceOptions'],
