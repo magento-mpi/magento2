@@ -2420,7 +2420,7 @@ return array(
     ['Magento\EventFactory', 'Magento\Framework\EventFactory'],
     ['Magento\Exception', 'Magento\Framework\Exception'],
     ['Magento\Filesystem', 'Magento\Framework\Filesystem'],
-    ['Magento\Framework\ObjectManager', 'Magento\Framework\ObjectManager'],
+    ['Magento\ObjectManager', 'Magento\Framework\ObjectManager'],
     ['Magento\Translate', 'Magento\Framework\Translate'],
     ['Magento\TranslateInterface', 'Magento\Framework\TranslateInterface'],
     ['Magento\Locale', 'Magento\Framework\Locale'],
