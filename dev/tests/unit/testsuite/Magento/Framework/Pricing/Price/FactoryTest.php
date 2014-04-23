@@ -53,12 +53,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($priceMock, $this->model->create($salableItem, $className, $quantity, $arguments));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Magento\Framework\Pricing\PriceInfo\Base doesn't implement \Magento\Framework\Pricing\Price\PriceInterface
-     */
     public function testCreateWithException()
     {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            sprintf(
+                'Magento\Framework\Pricing\PriceInfo\Base doesn\'t implement %s',
+                '\Magento\Framework\Pricing\Price\PriceInterface'
+            )
+        );
         $quantity = 2.2;
         $className = 'Magento\Framework\Pricing\PriceInfo\Base';
         $priceMock = $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();

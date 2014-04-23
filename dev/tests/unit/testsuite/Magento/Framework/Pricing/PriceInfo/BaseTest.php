@@ -47,7 +47,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->saleableItem = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface', [], [], '', false);
         $this->prices = $this->getMock('Magento\Framework\Pricing\PriceComposite', [], [], '', false);
-        $this->adjustmentCollection = $this->getMock('Magento\Framework\Pricing\Adjustment\Collection', [], [], '', false);
+        $this->adjustmentCollection = $this->getMock(
+            'Magento\Framework\Pricing\Adjustment\Collection',
+            [],
+            [],
+            '',
+            false
+        );
         $this->amountFactory = $this->getMock('Magento\Framework\Pricing\Amount\AmountFactory', [], [], '', false);
         $this->quantity = 3.;
         $this->model = new Base(

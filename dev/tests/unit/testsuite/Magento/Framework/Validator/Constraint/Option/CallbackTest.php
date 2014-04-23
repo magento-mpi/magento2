@@ -62,7 +62,12 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
             array(array($this, 'getTestValue'), self::TEST_VALUE),
             array(array(__CLASS__, 'getTestValueStatically'), self::TEST_VALUE),
             array(array($mock, 'getValue'), 'Value from mock', array('arg1', 'arg2')),
-            array(array('Magento\Framework\Validator\Test\Callback', 'getId'), \Magento\Framework\Validator\Test\Callback::ID, null, true)
+            array(
+                array('Magento\Framework\Validator\Test\Callback', 'getId'),
+                \Magento\Framework\Validator\Test\Callback::ID,
+                null,
+                true
+            )
         );
     }
 

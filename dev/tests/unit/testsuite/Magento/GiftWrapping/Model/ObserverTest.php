@@ -107,7 +107,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $originalItems = array(
             array(),
             array(
-                new \Magento\Framework\Object(array('parent_item' => 'something', 'gw_id' => 1, 'gw_base_price' => 0.3)),
+                new \Magento\Framework\Object(
+                    array('parent_item' => 'something', 'gw_id' => 1, 'gw_base_price' => 0.3)
+                ),
                 new \Magento\Framework\Object(array('gw_id' => null, 'gw_base_price' => 0.3)),
                 new \Magento\Framework\Object(array('gw_id' => 1, 'gw_base_price' => 0.0)),
                 new \Magento\Framework\Object(array('gw_id' => 2, 'gw_base_price' => null)),

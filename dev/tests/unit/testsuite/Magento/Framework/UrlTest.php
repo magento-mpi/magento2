@@ -51,11 +51,22 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->routeParamsResolverMock = $this->getMock('Magento\Core\Model\Url\RouteParamsResolver',
-            ['getType', 'hasData', 'getData', 'getRouteParams'], [], '', false);
+        $this->routeParamsResolverMock = $this->getMock(
+            'Magento\Core\Model\Url\RouteParamsResolver',
+            ['getType', 'hasData', 'getData', 'getRouteParams'],
+            [],
+            '',
+            false
+        );
         $this->scopeResolverMock = $this->getMock('Magento\Framework\Url\ScopeResolverInterface');
         $this->scopeMock = $this->getMock('Magento\Framework\Url\ScopeInterface');
-        $this->queryParamsResolverMock = $this->getMock('Magento\Framework\Url\QueryParamsResolverInterface', [], [], '', false);
+        $this->queryParamsResolverMock = $this->getMock(
+            'Magento\Framework\Url\QueryParamsResolverInterface',
+            [],
+            [],
+            '',
+            false
+        );
         $this->sidResolverMock = $this->getMock('Magento\Framework\Session\SidResolverInterface');
         $this->sessionMock = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
         $this->scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
@@ -66,7 +77,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     protected function getRouteParamsResolver()
     {
-        $routeParamsResolverFactoryMock = $this->getMock('Magento\Framework\Url\RouteParamsResolverFactory', [], [], '', false);
+        $routeParamsResolverFactoryMock = $this->getMock(
+            'Magento\Framework\Url\RouteParamsResolverFactory',
+            [],
+            [],
+            '',
+            false
+        );
         $routeParamsResolverFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->routeParamsResolverMock));
         return $routeParamsResolverFactoryMock;
@@ -481,7 +498,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         return [
             'secure url' => ['some-type', 'web/secure/base_url_secure', true, 0, 'base_url_secure'],
             'unsecure url' => [
-                \Magento\Framework\UrlInterface::URL_TYPE_LINK, 'web/unsecure/base_url_unsecure', false, 1, 'base_url_unsecure'
+                \Magento\Framework\UrlInterface::URL_TYPE_LINK,
+                'web/unsecure/base_url_unsecure',
+                false,
+                1,
+                'base_url_unsecure'
             ],
         ];
     }

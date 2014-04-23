@@ -31,7 +31,10 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_validatorMock = $this->getMock('Magento\Framework\Validator\ValidatorInterface');
-        $this->_constraint = new \Magento\Framework\Validator\Constraint\Property($this->_validatorMock, self::PROPERTY_NAME);
+        $this->_constraint = new \Magento\Framework\Validator\Constraint\Property(
+            $this->_validatorMock,
+            self::PROPERTY_NAME
+        );
     }
 
     /**
@@ -41,7 +44,11 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_constraint->getAlias());
         $alias = 'foo';
-        $constraint = new \Magento\Framework\Validator\Constraint\Property($this->_validatorMock, self::PROPERTY_NAME, $alias);
+        $constraint = new \Magento\Framework\Validator\Constraint\Property(
+            $this->_validatorMock,
+            self::PROPERTY_NAME,
+            $alias
+        );
         $this->assertEquals($alias, $constraint->getAlias());
     }
 
@@ -98,7 +105,11 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'), 'Property value', true),
-            array(new \Magento\Framework\Object(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
+            array(
+                new \Magento\Framework\Object(array(self::PROPERTY_NAME => 'Property value')),
+                'Property value',
+                true
+            ),
             array(new \ArrayObject(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
             array(
                 array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'),

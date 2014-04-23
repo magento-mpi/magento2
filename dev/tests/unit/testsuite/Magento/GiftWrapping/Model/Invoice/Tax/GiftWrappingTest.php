@@ -27,7 +27,9 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $item = new \Magento\Framework\Object();
-        $orderItem = new \Magento\Framework\Object(array('gw_id' => 1, 'gw_base_tax_amount' => 5, 'gw_tax_amount' => 10));
+        $orderItem = new \Magento\Framework\Object(
+            array('gw_id' => 1, 'gw_base_tax_amount' => 5, 'gw_tax_amount' => 10)
+        );
 
         $item->setQty(2)->setOrderItem($orderItem);
         $order = new \Magento\Framework\Object();

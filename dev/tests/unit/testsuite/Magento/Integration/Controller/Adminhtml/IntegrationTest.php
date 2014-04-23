@@ -125,7 +125,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->getMock();
-        $this->_registryMock = $this->getMockBuilder('Magento\Framework\Registry')->disableOriginalConstructor()->getMock();
+        $this->_registryMock = $this->getMockBuilder('Magento\Framework\Registry')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_configScopeMock = $this->getMockBuilder(
             'Magento\Framework\Config\ScopeInterface'
         )->disableOriginalConstructor()->getMock();

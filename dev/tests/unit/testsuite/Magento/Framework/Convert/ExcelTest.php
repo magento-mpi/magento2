@@ -83,7 +83,10 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertCallback()
     {
-        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+        $convert = new \Magento\Framework\Convert\Excel(
+            new \ArrayIterator($this->_testData),
+            array($this, 'callbackMethod')
+        );
         $this->assertContains('_TRUE_', $convert->convert(), 'Failed asserting that callback method is called.');
     }
 

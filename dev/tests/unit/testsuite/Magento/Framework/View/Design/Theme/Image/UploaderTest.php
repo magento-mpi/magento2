@@ -56,7 +56,13 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_transferAdapterMock)
         );
 
-        $uploaderFactory = $this->getMock('Magento\Framework\File\UploaderFactory', array('create'), array(), '', false);
+        $uploaderFactory = $this->getMock(
+            'Magento\Framework\File\UploaderFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileUploader));
 
         $this->_model = new \Magento\Framework\View\Design\Theme\Image\Uploader(

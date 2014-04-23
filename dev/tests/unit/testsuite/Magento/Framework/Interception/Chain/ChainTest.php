@@ -22,7 +22,13 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_pluginListMock = $this->getMock('\Magento\Framework\Interception\PluginList', array(), array(), '', false);
+        $this->_pluginListMock = $this->getMock(
+            '\Magento\Framework\Interception\PluginList',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Framework\Interception\Chain\Chain($this->_pluginListMock);
     }
 
@@ -46,7 +52,11 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->_pluginListMock->expects($this->once())
             ->method('getNext')
             ->with($type, $method, null)
-            ->will($this->returnValue(array(\Magento\Framework\Interception\Definition::LISTENER_BEFORE => array('code'))));
+            ->will(
+                $this->returnValue(
+                    array(\Magento\Framework\Interception\Definition::LISTENER_BEFORE => array('code'))
+                )
+            );
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')
@@ -109,7 +119,11 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->_pluginListMock->expects($this->once())
             ->method('getNext')
             ->with($type, $method, null)
-            ->will($this->returnValue(array(\Magento\Framework\Interception\Definition::LISTENER_AFTER => array('code'))));
+            ->will(
+                $this->returnValue(
+                    array(\Magento\Framework\Interception\Definition::LISTENER_AFTER => array('code'))
+                )
+            );
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')

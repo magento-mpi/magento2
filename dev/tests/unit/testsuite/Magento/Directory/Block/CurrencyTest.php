@@ -27,7 +27,13 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->urlBuilder = $this->getMock('\Magento\Framework\UrlInterface\Proxy', array('getUrl'), array(), '', false);
+        $this->urlBuilder = $this->getMock(
+            '\Magento\Framework\UrlInterface\Proxy',
+            array('getUrl'),
+            array(),
+            '',
+            false
+        );
         $this->urlBuilder->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
 
         /** @var \Magento\Framework\View\Element\Template\Context $context */
@@ -48,7 +54,10 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $localeResolver = $this->getMock('\Magento\Framework\Locale\ResolverInterface', array(), array(), '', false);
 
         $this->object = new Currency(
-            $context, $currencyFactory, $this->postDataHelper, $localeResolver
+            $context,
+            $currencyFactory,
+            $this->postDataHelper,
+            $localeResolver
         );
     }
 

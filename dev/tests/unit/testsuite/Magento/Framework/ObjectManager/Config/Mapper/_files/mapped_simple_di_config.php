@@ -26,7 +26,17 @@ return array(
             'overridden_plugin' => array('sortOrder' => 30, 'disabled' => true)
         )
     ),
-    'Magento\Framework\HTTP\Handler\Composite' => array('shared' => false, 'arguments' => array('test name' => 'test value')),
-    'customCacheInstance' => array('shared' => true, 'type' => 'Magento\Framework\App\Cache', 'arguments' => array()),
-    'customOverriddenInstance' => array('shared' => false, 'arguments' => array())
+    'Magento\Framework\HTTP\Handler\Composite' => array(
+        'shared' => false,
+        'arguments' => array('test name' => 'test value')
+    ),
+    'customCacheInstance' => array(
+        'shared' => true,
+        'type' => 'Magento\Framework\App\Cache',
+        'arguments' => array()
+    ),
+    'customOverriddenInstance' => array(
+        'shared' => false,
+        'arguments' => array()
+    )
 );

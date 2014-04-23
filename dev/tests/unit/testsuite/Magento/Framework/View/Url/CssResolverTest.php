@@ -98,7 +98,9 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
             return '/base_dir/pub/assets/referenced/dir/' . $relativeUrl;
         };
 
-        $object = new \Magento\Framework\Object(array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif')));
+        $object = new \Magento\Framework\Object(
+            array('resolved_path' => array('body.gif' => '/base_dir/pub/dir/body.gif'))
+        );
         $objectCallback = array($object, 'getResolvedPath');
 
         $source = file_get_contents($fixturePath . 'source.css');

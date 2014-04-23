@@ -96,7 +96,10 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(new \Magento\Framework\Object(), 'http://localhost/backend/admin/sales_order/view/order_id/'),
-            array(new \Magento\Framework\Object(array('id' => 1)), 'http://localhost/backend/admin/sales_order/view/order_id/1')
+            array(
+                new \Magento\Framework\Object(array('id' => 1)),
+                'http://localhost/backend/admin/sales_order/view/order_id/1'
+            )
         );
     }
 }

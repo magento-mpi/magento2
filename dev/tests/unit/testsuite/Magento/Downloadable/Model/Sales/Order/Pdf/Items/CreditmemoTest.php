@@ -183,7 +183,9 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 new \Magento\Framework\Object(
-                    array('purchased_items' => array(new \Magento\Framework\Object(array('link_title' => 'Magento User Guide'))))
+                    array('purchased_items' => array(
+                        new \Magento\Framework\Object(array('link_title' => 'Magento User Guide')))
+                    )
                 )
             )
         );

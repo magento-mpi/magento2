@@ -46,7 +46,12 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $actionInterfaceMock = $this->getMockForAbstractClass('Magento\Framework\Mview\ActionInterface', array(), '', false);
+        $actionInterfaceMock = $this->getMockForAbstractClass(
+            'Magento\Framework\Mview\ActionInterface',
+            array(),
+            '',
+            false
+        );
         $this->objectManagerMock->expects(
             $this->once()
         )->method(
