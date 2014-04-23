@@ -16,7 +16,7 @@ interface ScopeInterface extends \Magento\Framework\App\ScopeInterface
      * @param boolean|null $secure
      * @return string
      */
-    public function getBaseUrl($type = '', $secure = null);
+    public function getBaseUrl($type = \Magento\UrlInterface::URL_TYPE_LINK, $secure = null);
 
     /**
      * Check is URL should be secure

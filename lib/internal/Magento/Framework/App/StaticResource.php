@@ -131,25 +131,25 @@ class StaticResource implements \Magento\Framework\AppInterface
     protected function parsePath($path)
     {
         $path = ltrim($path, '/');
-        $parts = explode('/', $path, 5);
-        if (count($parts) < 4) {
+        $parts = explode('/', $path, 6);
+        if (count($parts) < 5) {
             throw new \InvalidArgumentException("Requested path '$path' is wrong.");
         }
         $result = array();
         $result['area'] = $parts[0];
-        $result['theme'] = $parts[1];
-        $result['locale'] = $parts[2];
-        if (count($parts) >= 5 && $this->isModule($parts[3])) {
-            $result['module'] = $parts[3];
+        $result['theme'] = $parts[1] . '/' . $parts[2];
+        $result['locale'] = $parts[3];
+        if (count($parts) >= 6 && $this->isModule($parts[4])) {
+            $result['module'] = $parts[4];
         } else {
             $result['module'] = '';
-            if (isset($parts[4])) {
-                $parts[4] = $parts[3] . '/' . $parts[4];
+            if (isset($parts[5])) {
+                $parts[5] = $parts[4] . '/' . $parts[5];
             } else {
-                $parts[4] = $parts[3];
+                $parts[5] = $parts[4];
             }
         }
-        $result['file'] = $parts[4];
+        $result['file'] = $parts[5];
         return $result;
     }
 

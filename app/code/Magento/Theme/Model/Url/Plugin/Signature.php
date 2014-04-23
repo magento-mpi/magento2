@@ -58,7 +58,10 @@ class Signature
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGetBaseUrl(
-        \Magento\Url\ScopeInterface $subject, \Closure $proceed, $type = '', $secure = null
+        \Magento\Url\ScopeInterface $subject,
+        \Closure $proceed,
+        $type = \Magento\UrlInterface::URL_TYPE_LINK,
+        $secure = null
     ) {
         $baseUrl = $proceed($type, $secure);
         if ($type == \Magento\UrlInterface::URL_TYPE_STATIC && $this->isUrlSignatureEnabled()) {
