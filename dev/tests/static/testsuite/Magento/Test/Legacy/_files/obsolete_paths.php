@@ -226,25 +226,4 @@ return [
     ['/lib/Magento/Object', '/lib/Magento/Framework/Object'],
     ['/dev/tests/unit/testsuite/Magento/Object', '/dev/tests/unit/testsuite/Magento/Framework/Object'],
     ['/dev/tests/integration/testsuite/Magento/Object', '/dev/tests/integration/testsuite/Magento/Framework/Object'],
-    ['/lib/Magento/Currency', '/lib/Magento/Framework/Currency'],
-    ['/dev/tests/unit/testsuite/Magento/Currency', '/dev/tests/unit/testsuite/Magento/Framework/Currency'],
-    [
-        '/dev/tests/integration/testsuite/Magento/Currency',
-        '/dev/tests/integration/testsuite/Magento/Framework/Currency'
-    ],
-    ['/lib/Magento/Debug', '/lib/Magento/Framework/Debug'],
-    ['/dev/tests/unit/testsuite/Magento/Debug', '/dev/tests/unit/testsuite/Magento/Framework/Debug'],
-    ['/dev/tests/integration/testsuite/Magento/Debug', '/dev/tests/integration/testsuite/Magento/Framework/Debug'],
-    ['/lib/Magento/Escaper', '/lib/Magento/Framework/Escaper'],
-    ['/dev/tests/unit/testsuite/Magento/Escaper', '/dev/tests/unit/testsuite/Magento/Framework/Escaper'],
-    ['/dev/tests/integration/testsuite/Magento/Escaper', '/dev/tests/integration/testsuite/Magento/Framework/Escaper'],
-    ['/lib/Magento/OsInfo', '/lib/Magento/Framework/OsInfo'],
-    ['/dev/tests/unit/testsuite/Magento/OsInfo', '/dev/tests/unit/testsuite/Magento/Framework/OsInfo'],
-    ['/dev/tests/integration/testsuite/Magento/OsInfo', '/dev/tests/integration/testsuite/Magento/Framework/OsInfo'],
-    ['/lib/Magento/Registry', '/lib/Magento/Framework/Registry'],
-    ['/dev/tests/unit/testsuite/Magento/Registry', '/dev/tests/unit/testsuite/Magento/Framework/Registry'],
-    [
-        '/dev/tests/integration/testsuite/Magento/Registry',
-        '/dev/tests/integration/testsuite/Magento/Framework/Registry'
-    ],
 ];

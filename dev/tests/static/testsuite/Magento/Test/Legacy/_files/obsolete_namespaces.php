@@ -66,9 +66,4 @@ return [
     ['Magento\Image', 'Magento\Framework\Image'],
     ['Magento\Oauth', 'Magento\Framework\Oauth'],
     ['Magento\Object', 'Magento\Framework\Object'],
-    ['Magento\Currency', 'Magento\Framework\Currency'],
-    ['Magento\Debug', 'Magento\Framework\Debug'],
-    ['Magento\Escaper', 'Magento\Framework\Escaper'],
-    ['Magento\OsInfo', 'Magento\Framework\OsInfo'],
-    ['Magento\Registry', 'Magento\Framework\Registry'],
 ];
