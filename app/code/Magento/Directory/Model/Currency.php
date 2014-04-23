@@ -312,7 +312,7 @@ class Currency extends \Magento\Framework\Model\AbstractModel
     public function getOutputFormat()
     {
         $formatted = $this->formatTxt(0);
-        $number = $this->formatTxt(0, array('display' => \Magento\Currency::NO_SYMBOL));
+        $number = $this->formatTxt(0, array('display' => \Magento\Framework\Currency::NO_SYMBOL));
         return str_replace($number, '%s', $formatted);
     }
 

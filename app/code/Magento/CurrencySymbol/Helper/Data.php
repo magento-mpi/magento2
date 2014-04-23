@@ -68,7 +68,7 @@ class Data extends \Magento\Core\Helper\Data
 
             if ($customCurrencySymbol) {
                 $currencyOptions['symbol'] = $customCurrencySymbol;
-                $currencyOptions['display'] = \Magento\Currency::USE_SYMBOL;
+                $currencyOptions['display'] = \Magento\Framework\Currency::USE_SYMBOL;
             }
         }
 

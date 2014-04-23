@@ -65,4 +65,5 @@ return [
     ['Magento\Gdata', 'Magento\Framework\Gdata'],
     ['Magento\Image', 'Magento\Framework\Image'],
     ['Magento\Oauth', 'Magento\Framework\Oauth'],
+    ['Magento\Currency', 'Magento\Framework\Currency'],
 ];

@@ -27,10 +27,10 @@ interface CurrencyInterface
     public function getDefaultCurrency();
 
     /**
-     * Create \Magento\Currency object for current locale
+     * Create \Magento\Framework\Currency object for current locale
      *
      * @param   string $currency
-     * @return  \Magento\Currency
+     * @return  \Magento\Framework\Currency
      */
     public function getCurrency($currency);
 }

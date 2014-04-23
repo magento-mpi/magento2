@@ -25,7 +25,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Currency object
      *
-     * @var \Magento\CurrencyInterface
+     * @var \Magento\Framework\CurrencyInterface
      */
     protected $_currency;
 

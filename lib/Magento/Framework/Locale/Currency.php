@@ -27,19 +27,19 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
     protected $_localeResolver;
 
     /**
-     * @var \Magento\CurrencyFactory
+     * @var \Magento\Framework\CurrencyFactory
      */
     protected $_currencyFactory;
 
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param ResolverInterface $localeResolver
-     * @param \Magento\CurrencyFactory $currencyFactory
+     * @param \Magento\Framework\CurrencyFactory $currencyFactory
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\CurrencyFactory $currencyFactory
+        \Magento\Framework\CurrencyFactory $currencyFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_localeResolver = $localeResolver;
@@ -60,7 +60,7 @@ class Currency implements \Magento\Framework\Locale\CurrencyInterface
      * Create \Zend_Currency object for current locale
      *
      * @param   string $currency
-     * @return  \Magento\Currency
+     * @return  \Magento\Framework\Currency
      */
     public function getCurrency($currency)
     {
