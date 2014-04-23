@@ -233,7 +233,9 @@ class Area implements \Magento\Framework\App\AreaInterface
     {
         $this->_translator->loadData(null, false);
 
-        \Magento\Framework\Phrase::setRenderer($this->_objectManager->get('Magento\Framework\Phrase\RendererInterface'));
+        \Magento\Framework\Phrase::setRenderer(
+            $this->_objectManager->get('Magento\Framework\Phrase\RendererInterface')
+        );
 
         return $this;
     }
