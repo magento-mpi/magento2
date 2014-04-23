@@ -37,7 +37,7 @@ use Magento\Framework\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
 

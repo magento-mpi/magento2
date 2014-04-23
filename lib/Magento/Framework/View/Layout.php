@@ -243,7 +243,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new \Magento\Object;
+        $this->_renderingOutput = new \Magento\Framework\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_processorFactory = $processorFactory;
         $this->_logger = $logger;

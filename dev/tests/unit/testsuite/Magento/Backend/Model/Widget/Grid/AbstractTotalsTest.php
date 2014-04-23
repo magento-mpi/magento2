@@ -148,7 +148,7 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     protected function _prepareFactoryMock()
     {
         $this->_factoryMock = $this->getMock(
-            'Magento\Object\Factory',
+            'Magento\Framework\Object\Factory',
             array('create'),
             array(),
             '',

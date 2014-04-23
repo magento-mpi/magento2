@@ -58,7 +58,7 @@ class Observer
     protected $_itemsFactory;
 
     /**
-     * @var \Magento\Object\Copy
+     * @var \Magento\Framework\Object\Copy
      */
     protected $_objectCopyService;
 
@@ -70,7 +70,7 @@ class Observer
      * @param \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Framework\Object\Copy $objectCopyService
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -80,7 +80,7 @@ class Observer
         \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        \Magento\Object\Copy $objectCopyService
+        \Magento\Framework\Object\Copy $objectCopyService
     ) {
         $this->_helper = $coreData;
         $this->_scopeConfig = $scopeConfig;

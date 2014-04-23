@@ -10,7 +10,7 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Delete extends Button
 {

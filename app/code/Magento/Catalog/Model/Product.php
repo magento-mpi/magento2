@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model;
 
 use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Object\IdentityInterface;
+use Magento\Framework\Object\IdentityInterface;
 
 /**
  * Catalog product model

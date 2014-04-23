@@ -10,7 +10,7 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Link extends AbstractRenderer
 {

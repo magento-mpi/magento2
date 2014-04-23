@@ -440,7 +440,7 @@ class Service extends \Magento\Object
             $map = $this->_cmpiMap;
         }
         if ($validationState = $this->_getValidationState()) {
-            $to = \Magento\Object\Mapper::accumulateByMap($validationState, $to, $map);
+            $to = \Magento\Framework\Object\Mapper::accumulateByMap($validationState, $to, $map);
         }
         return $to;
     }

@@ -11,7 +11,7 @@ namespace Magento\SalesArchive\Model\System\Config\Backend;
 
 class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     \Magento\Backend\Model\Config\CommentInterface,
-    \Magento\Object\IdentityInterface
+    \Magento\Framework\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive

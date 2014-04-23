@@ -1410,7 +1410,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
 
         if ($this->getIsCentinelValidationEnabled()) {
             $params = $this->getCentinelValidator()->exportCmpiData(array());
-            $request = \Magento\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
+            $request = \Magento\Framework\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         if (!empty($order)) {

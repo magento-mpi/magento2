@@ -9,7 +9,7 @@ namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
 use Magento\Integration\Model\Integration;
-use Magento\Object;
+use Magento\Framework\Object;
 
 /**
  * Render HTML <button> tag.
@@ -21,7 +21,7 @@ class Button extends AbstractRenderer
     /**
      * {@inheritdoc}
      */
-    public function render(Object $row)
+    public function render(\Magento\Object $row)
     {
         /** @var array $attributes */
         $attributes = $this->_prepareAttributes($row);

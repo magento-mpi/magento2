@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Validator\Entity;
 
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Properties extends \Magento\Framework\Validator\AbstractValidator
 {

@@ -244,21 +244,21 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Object\Copy\Config\Reader">
+    <type name="Magento\Framework\Object\Copy\Config\Reader">
         <arguments>
             <argument name="fileName" xsi:type="string">fieldset.xml</argument>
-            <argument name="schemaLocator" xsi:type="object">Magento\Object\Copy\Config\SchemaLocator</argument>
+            <argument name="schemaLocator" xsi:type="object">Magento\Framework\Object\Copy\Config\SchemaLocator</argument>
         </arguments>
     </type>
-    <type name="Magento\Object\Copy\Config\SchemaLocator">
+    <type name="Magento\Framework\Object\Copy\Config\SchemaLocator">
         <arguments>
             <argument name="schema" xsi:type="string">lib/Magento/Object/etc/fieldset.xsd</argument>
             <argument name="perFileSchema" xsi:type="string">lib/Magento/Object/etc/fieldset_file.xsd</argument>
         </arguments>
     </type>
-    <type name="Magento\Object\Copy\Config\Data">
+    <type name="Magento\Framework\Object\Copy\Config\Data">
         <arguments>
-            <argument name="reader" xsi:type="object">Magento\Object\Copy\Config\Reader</argument>
+            <argument name="reader" xsi:type="object">Magento\Framework\Object\Copy\Config\Reader</argument>
             <argument name="cacheId" xsi:type="string">fieldset_config</argument>
         </arguments>
     </type>

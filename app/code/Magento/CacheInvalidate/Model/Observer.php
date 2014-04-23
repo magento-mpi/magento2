@@ -59,7 +59,7 @@ class Observer
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
-            if ($object instanceof \Magento\Object\IdentityInterface) {
+            if ($object instanceof \Magento\Framework\Object\IdentityInterface) {
                 $tags = array();
                 $pattern = "((^|,)%s(,|$))";
                 foreach ($object->getIdentities() as $tag) {

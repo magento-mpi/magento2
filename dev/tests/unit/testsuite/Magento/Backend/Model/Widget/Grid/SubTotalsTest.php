@@ -40,7 +40,7 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_factoryMock = $this->getMock(
-            'Magento\Object\Factory',
+            'Magento\Framework\Object\Factory',
             array('create'),
             array(),
             '',

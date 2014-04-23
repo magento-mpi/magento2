@@ -222,7 +222,7 @@ class Info
         if (is_object($from)) {
             $from = array($from, 'getDataUsingMethod');
         }
-        \Magento\Object\Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
+        \Magento\Framework\Object\Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
     }
 
     /**
@@ -236,7 +236,7 @@ class Info
     public function &exportFromPayment(\Magento\Payment\Model\Info $payment, $to, array $map = null)
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
-        \Magento\Object\Mapper::accumulateByMap(
+        \Magento\Framework\Object\Mapper::accumulateByMap(
             array($payment, 'getAdditionalInformation'),
             $to,
             $map ? $map : array_flip($fullMap)

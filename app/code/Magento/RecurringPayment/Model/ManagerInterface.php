@@ -8,7 +8,7 @@
 namespace Magento\RecurringPayment\Model;
 
 use Magento\Payment\Model\Info as PaymentInfo;
-use Magento\Object;
+use Magento\Framework\Object;
 
 /**
  * Recurring payment gateway management interface

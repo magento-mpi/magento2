@@ -1082,7 +1082,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     public function prepareShippingOptionsCallbackAddress(array $request)
     {
         $address = new \Magento\Object();
-        \Magento\Object\Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
+        \Magento\Framework\Object\Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
         $address->setExportedKeys(array_values($this->_callbackRequestMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         return $address;
@@ -1379,14 +1379,14 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     protected function _exportAddressses($data)
     {
         $address = new \Magento\Object();
-        \Magento\Object\Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
+        \Magento\Framework\Object\Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
         $address->setExportedKeys(array_values($this->_billingAddressMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         $this->setExportedBillingAddress($address);
         // assume there is shipping address if there is at least one field specific to shipping
         if (isset($data['SHIPTONAME'])) {
             $shippingAddress = clone $address;
-            \Magento\Object\Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
+            \Magento\Framework\Object\Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
             $this->_applyStreetAndRegionWorkarounds($shippingAddress);
             // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
             $firstName = $data['SHIPTONAME'];
@@ -1464,7 +1464,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $billingAddress = $this->getBillingAddress() ? $this->getBillingAddress() : $this->getAddress();
         $shippingAddress = $this->getAddress();
 
-        $to = \Magento\Object\Mapper::accumulateByMap(
+        $to = \Magento\Framework\Object\Mapper::accumulateByMap(
             $billingAddress,
             $to,
             array_merge(array_flip($this->_billingAddressMap), $this->_billingAddressMapRequest)
@@ -1474,7 +1474,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $to['STATE'] = $regionCode;
         }
         if (!$this->getSuppressShipping()) {
-            $to = \Magento\Object\Mapper::accumulateByMap(
+            $to = \Magento\Framework\Object\Mapper::accumulateByMap(
                 $shippingAddress,
                 $to,
                 array_flip($this->_shippingAddressMap)

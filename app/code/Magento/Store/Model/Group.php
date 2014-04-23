@@ -21,7 +21,7 @@ namespace Magento\Store\Model;
 
 use Magento\Store\Model\Website;
 
-class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Group extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     const ENTITY = 'store_group';
 

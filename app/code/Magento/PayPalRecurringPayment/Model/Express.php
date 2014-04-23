@@ -81,7 +81,7 @@ class Express implements ManagerInterface
         $token = $paymentInfo->getAdditionalInformation(PayPalExpress\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
         $payment->setToken($token);
         $api = $this->_paymentMethod->getApi();
-        \Magento\Object\Mapper::accumulateByMap(
+        \Magento\Framework\Object\Mapper::accumulateByMap(
             $payment,
             $api,
             array(

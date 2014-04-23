@@ -35,7 +35,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param Registry $coreRegistry
      * @param mixed $connection
      * @param string $modelName
@@ -52,7 +52,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         Registry $coreRegistry,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME

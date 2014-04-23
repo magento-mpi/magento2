@@ -294,7 +294,7 @@ abstract class AbstractApi extends \Magento\Object
      */
     public function &import($to, array $publicMap = array())
     {
-        return \Magento\Object\Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $to, $publicMap);
+        return \Magento\Framework\Object\Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $to, $publicMap);
     }
 
     /**
@@ -306,7 +306,7 @@ abstract class AbstractApi extends \Magento\Object
      */
     public function export($from, array $publicMap = array())
     {
-        \Magento\Object\Mapper::accumulateByMap($from, array($this, 'setDataUsingMethod'), $publicMap);
+        \Magento\Framework\Object\Mapper::accumulateByMap($from, array($this, 'setDataUsingMethod'), $publicMap);
         return $this;
     }
 
@@ -369,7 +369,7 @@ abstract class AbstractApi extends \Magento\Object
                 $map[$this->_globalMap[$key]] = $key;
             }
         }
-        $result = \Magento\Object\Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $request, $map);
+        $result = \Magento\Framework\Object\Mapper::accumulateByMap(array($this, 'getDataUsingMethod'), $request, $map);
         foreach ($privateRequestMap as $key) {
             if (isset($this->_exportToRequestFilters[$key]) && isset($result[$key])) {
                 $callback = $this->_exportToRequestFilters[$key];
@@ -400,7 +400,7 @@ abstract class AbstractApi extends \Magento\Object
                 $response[$key] = call_user_func(array($this, $callback), $response[$key], $key, $map[$key]);
             }
         }
-        \Magento\Object\Mapper::accumulateByMap($response, array($this, 'setDataUsingMethod'), $map);
+        \Magento\Framework\Object\Mapper::accumulateByMap($response, array($this, 'setDataUsingMethod'), $map);
     }
 
     /**

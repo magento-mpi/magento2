@@ -28,7 +28,7 @@ namespace Magento\Store\Model;
  * @method \Magento\Store\Model\Website setIsDefault(int $value)
  */
 class Website extends \Magento\Framework\Model\AbstractModel implements
-    \Magento\Object\IdentityInterface,
+    \Magento\Framework\Object\IdentityInterface,
     \Magento\Framework\App\ScopeInterface
 {
     const ENTITY = 'store_website';
