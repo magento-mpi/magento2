@@ -57,4 +57,5 @@ return [
     ['Magento\Json', 'Magento\Framework\Json'],
     ['Magento\Less', 'Magento\Framework\Less'],
     ['Magento\File', 'Magento\Framework\File'],
+    ['Magento\Flag', 'Magento\Framework\Flag'],
 ];

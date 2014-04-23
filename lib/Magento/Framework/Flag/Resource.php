@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Flag;
+namespace Magento\Framework\Flag;
 
 /**
  * Flag Resource model

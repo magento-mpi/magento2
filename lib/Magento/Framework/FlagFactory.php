@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\Framework;
 
 /**
- * Factory class for \Magento\Flag
+ * Factory class for \Magento\Framework\Flag
  */
 class FlagFactory
 {
@@ -32,8 +32,10 @@ class FlagFactory
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, $instanceName = 'Magento\Flag')
-    {
+    public function __construct(
+        \Magento\Framework\ObjectManager $objectManager,
+        $instanceName = 'Magento\Framework\Flag'
+    ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }
@@ -42,7 +44,7 @@ class FlagFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Flag
+     * @return \Magento\Framework\Flag
      */
     public function create(array $data = array())
     {

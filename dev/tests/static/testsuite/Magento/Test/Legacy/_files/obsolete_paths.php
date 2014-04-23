@@ -199,4 +199,7 @@ return [
     ['/lib/Magento/File', '/lib/Magento/Framework/File'],
     ['/dev/tests/unit/testsuite/Magento/File', '/dev/tests/unit/testsuite/Magento/Framework/File'],
     ['/dev/tests/integration/testsuite/Magento/File', '/dev/tests/integration/testsuite/Magento/Framework/File'],
+    ['/lib/Magento/Flag', '/lib/Magento/Framework/Flag'],
+    ['/dev/tests/unit/testsuite/Magento/Flag', '/dev/tests/unit/testsuite/Magento/Framework/Flag'],
+    ['/dev/tests/integration/testsuite/Magento/Flag', '/dev/tests/integration/testsuite/Magento/Framework/Flag'],
 ];
