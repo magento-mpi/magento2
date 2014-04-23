@@ -85,7 +85,8 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateIncompatibleMethodArgumentsCount()
     {
         $this->model->validate(
-            '\Magento\Framework\Interception\Custom\Module\Model\InterfaceValidator\ItemPlugin\IncompatibleArgumentsCount',
+            '\Magento\Framework\Interception\Custom\Module\Model'
+                . '\InterfaceValidator\ItemPlugin\IncompatibleArgumentsCount',
             '\Magento\Framework\Interception\Custom\Module\Model\InterfaceValidator\Item'
         );
     }
@@ -99,7 +100,8 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateIncompatibleMethodArgumentsType()
     {
         $this->model->validate(
-            '\Magento\Framework\Interception\Custom\Module\Model\InterfaceValidator\ItemPlugin\IncompatibleArgumentsType',
+            '\Magento\Framework\Interception\Custom\Module\Model'
+                . '\InterfaceValidator\ItemPlugin\IncompatibleArgumentsType',
             '\Magento\Framework\Interception\Custom\Module\Model\InterfaceValidator\ItemWithArguments'
         );
     }
