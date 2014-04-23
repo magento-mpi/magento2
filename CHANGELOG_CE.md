@@ -69,6 +69,7 @@
     * Moved lib/Magento/Session to lib/Magento/Framework/Session
     * Moved lib/Magento/ObjectManager to lib/Magento/Framework/ObjectManager
     * Moved lib/Magento/Exception to lib/Magento/Framework/Exception
+    * Moved lib/Magento/Autoload to lib/Magento/Framework/Autoload
     * Moved lib/Magento/Code to lib/Magento/Framework/Code
     * Moved lib/Magento/Stdlib to lib/Magento/Framework/Stdlib
     * Moved lib/Magento/Translate to lib/Magento/Framework/Translate
