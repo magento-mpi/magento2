@@ -206,7 +206,7 @@ class Template extends \Magento\Backend\App\Action
 
             $this->_redirect('*/template');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(nl2br($e->getMessage()));
             $this->_getSession()->setData('newsletter_template_form_data', $this->getRequest()->getParams());
         } catch (\Exception $e) {
@@ -234,7 +234,7 @@ class Template extends \Magento\Backend\App\Action
                 $template->delete();
                 $this->messageManager->addSuccess(__('The newsletter template has been deleted.'));
                 $this->_getSession()->setFormData(false);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('An error occurred while deleting this template.'));

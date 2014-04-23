@@ -18,7 +18,7 @@ use Magento\Sales\Model\Order;
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Messages extends \Magento\View\Element\Messages
+class Messages extends \Magento\Framework\View\Element\Messages
 {
     /**
      * Core registry
@@ -28,7 +28,7 @@ class Messages extends \Magento\View\Element\Messages
     protected $coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -36,7 +36,7 @@ class Messages extends \Magento\View\Element\Messages
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
         \Magento\Message\ManagerInterface $messageManager,

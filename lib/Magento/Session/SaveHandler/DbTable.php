@@ -22,16 +22,16 @@ class DbTable extends \SessionHandler
     /**
      * Database write connection
      *
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_write;
 
     /**
      * Constructor
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
-    public function __construct(\Magento\App\Resource $resource)
+    public function __construct(\Magento\Framework\App\Resource $resource)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_write = $resource->getConnection('core_write');

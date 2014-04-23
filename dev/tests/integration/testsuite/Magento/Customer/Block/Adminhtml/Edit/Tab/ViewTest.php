@@ -63,7 +63,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_groupService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->_block = $this->_objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View',
             '',
@@ -182,7 +182,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
         $customerDetailsBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetails = $customerDetailsBuilder->setCustomer($customer)->create();
-        $customer = $this->_customerAccountService->createAccount($customerDetails);
+        $customer = $this->_customerAccountService->createCustomer($customerDetails);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }

@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Cache context
@@ -20,7 +20,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     private $_scopeConfig;
 
@@ -30,13 +30,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     private $_segmentCollection;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {
         parent::__construct($context);
@@ -90,13 +90,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Add customer segment fields to a form and its data
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\Object $formData
      * @param \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
      * @return void
      */
     public function addSegmentFieldsToForm(
-        \Magento\Data\Form $form,
+        \Magento\Framework\Data\Form $form,
         \Magento\Object $formData,
         \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
     ) {
@@ -108,7 +108,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->addField(

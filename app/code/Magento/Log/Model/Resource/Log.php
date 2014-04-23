@@ -16,7 +16,7 @@ namespace Magento\Log\Model\Resource;
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Log extends \Magento\Model\Resource\Db\AbstractDb
+class Log extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Core event manager proxy
@@ -36,13 +36,13 @@ class Log extends \Magento\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Stdlib\DateTime $dateTime

@@ -150,7 +150,7 @@ class Banner extends \Magento\Backend\App\Action
                 $model->save();
                 $this->_getSession()->setFormData(false);
                 $this->messageManager->addSuccess(__('You saved the banner.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
@@ -186,7 +186,7 @@ class Banner extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
@@ -224,7 +224,7 @@ class Banner extends \Magento\Backend\App\Action
                 }
 
                 $this->messageManager->addSuccess(__('You deleted %1 record(s).', count($ids)));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(

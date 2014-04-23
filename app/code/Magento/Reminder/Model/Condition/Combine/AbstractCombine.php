@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Condition\Combine;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Abstract class for combine rule condition

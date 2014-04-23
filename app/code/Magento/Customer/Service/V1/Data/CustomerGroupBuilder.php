@@ -47,4 +47,15 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     {
         return $this->_set(CustomerGroup::TAX_CLASS_ID, $taxClassId);
     }
+
+    /**
+     * Set tax class name
+     *
+     * @param string $taxClassName
+     * @return $this
+     */
+    public function setTaxClassName($taxClassName)
+    {
+        return $this->_set('tax_class_name', $taxClassName);
+    }
 }

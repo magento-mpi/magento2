@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Block\Widget;
 /**
  * Cms Hierarchy Node Widget Block
  */
-class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
+class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -41,13 +41,13 @@ class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     protected $_hierarchyNodeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()

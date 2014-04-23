@@ -34,7 +34,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $this->registry = $this->objectManager->get('Magento\Registry');
         $this->taxCalculationModel = $this->objectManager->create('Magento\Tax\Model\Calculation');
 
-        $this->linksBlock = $this->objectManager->get('Magento\View\LayoutInterface')
+        $this->linksBlock = $this->objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock('Magento\Downloadable\Block\Catalog\Product\Links');
     }
 

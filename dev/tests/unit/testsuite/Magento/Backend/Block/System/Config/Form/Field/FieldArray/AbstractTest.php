@@ -27,7 +27,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $block->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $element = $objectManager->getObject('Magento\Data\Form\Element\Multiselect');
+        $element = $objectManager->getObject('Magento\Framework\Data\Form\Element\Multiselect');
         $element->setValue(array(array('test' => 'test', 'data1' => 'data1')));
         $block->setElement($element);
         $this->assertEquals(

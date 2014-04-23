@@ -15,20 +15,20 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directoryMock;
 
     /**
-     * @var \Magento\Config\FileIteratorFactory
+     * @var \Magento\Framework\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     protected function setUp()
     {
-        $filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_directoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
+            '\Magento\Framework\Filesystem\Directory\Read',
             array('isExist', 'search'),
             array(),
             '',
@@ -39,7 +39,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDirectoryRead'
         )->with(
-            \Magento\App\Filesystem::APP_DIR
+            \Magento\Framework\App\Filesystem::APP_DIR
         )->will(
             $this->returnValue($this->_directoryMock)
         );
@@ -52,7 +52,13 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->iteratorFactory = $this->getMock('Magento\Config\FileIteratorFactory', array(), array(), '', false);
+        $this->iteratorFactory = $this->getMock(
+            'Magento\Framework\Config\FileIteratorFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_model = new \Magento\Locale\Hierarchy\Config\FileResolver($filesystem, $this->iteratorFactory);
     }
 

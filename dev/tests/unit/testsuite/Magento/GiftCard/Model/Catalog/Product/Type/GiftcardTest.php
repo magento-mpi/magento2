@@ -83,7 +83,8 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
-        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem =
+            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();
@@ -112,7 +113,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\App\Config\ScopeConfigInterface')
+                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface')
             )
         );
     }
@@ -186,7 +187,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 'categoryFactory' => $categoryFactoryMock,
                 'resource' => $this->_productResource,
                 'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false)
+                'collectionFactory' => $this->getMock(
+                        'Magento\Framework\Data\CollectionFactory',
+                        array(),
+                        array(),
+                        '',
+                        false
+                    )
             )
         );
         $this->_product = $this->getMock(
@@ -244,7 +251,10 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('Magento\Model\Exception', 'Please specify all the required information.');
+        $this->setExpectedException(
+            'Magento\Framework\Model\Exception',
+            'Please specify all the required information.'
+        );
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -552,7 +562,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('Magento\Model\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Framework\Model\Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

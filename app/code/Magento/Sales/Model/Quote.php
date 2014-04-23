@@ -118,7 +118,7 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
  * @method bool|null getIsPersistent()
  * @method Quote setIsPersistent(bool $value)
  */
-class Quote extends \Magento\Model\AbstractModel
+class Quote extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Checkout login method key
@@ -194,7 +194,7 @@ class Quote extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -204,7 +204,7 @@ class Quote extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -284,13 +284,13 @@ class Quote extends \Magento\Model\AbstractModel
     protected $_addressConverter;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param CustomerGroupServiceInterface $customerGroupService
@@ -305,18 +305,18 @@ class Quote extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         CustomerGroupServiceInterface $customerGroupService,
@@ -331,8 +331,8 @@ class Quote extends \Magento\Model\AbstractModel
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
@@ -1216,7 +1216,7 @@ class Quote extends \Magento\Model\AbstractModel
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addItem(\Magento\Sales\Model\Quote\Item $item)
     {
@@ -1229,7 +1229,7 @@ class Quote extends \Magento\Model\AbstractModel
          * Proper solution is to submit items one by one with customer confirmation each time.
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 // @codingStandardsIgnoreStart
                 __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
                 // @codingStandardsIgnoreEnd
@@ -1252,7 +1252,7 @@ class Quote extends \Magento\Model\AbstractModel
      * @param null|float|\Magento\Object $request
      * @param null|string $processMode
      * @return \Magento\Sales\Model\Quote\Item|string
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addProductAdvanced(\Magento\Catalog\Model\Product $product, $request = null, $processMode = null)
     {
@@ -1263,7 +1263,7 @@ class Quote extends \Magento\Model\AbstractModel
             $request = new \Magento\Object(array('qty' => $request));
         }
         if (!$request instanceof \Magento\Object) {
-            throw new \Magento\Model\Exception(__('We found an invalid request for adding product to quote.'));
+            throw new \Magento\Framework\Model\Exception(__('We found an invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1320,7 +1320,7 @@ class Quote extends \Magento\Model\AbstractModel
             }
         }
         if (!empty($errors)) {
-            throw new \Magento\Model\Exception(implode("\n", $errors));
+            throw new \Magento\Framework\Model\Exception(implode("\n", $errors));
         }
 
         $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
@@ -1403,7 +1403,7 @@ class Quote extends \Magento\Model\AbstractModel
      * @param \Magento\Object $buyRequest
      * @param null|array|\Magento\Object $params
      * @return \Magento\Sales\Model\Quote\Item
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      *
      * @see \Magento\Catalog\Helper\Product::addParamsToBuyRequest()
      */
@@ -1411,7 +1411,7 @@ class Quote extends \Magento\Model\AbstractModel
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            throw new \Magento\Model\Exception(__('This is the wrong quote item id to update configuration.'));
+            throw new \Magento\Framework\Model\Exception(__('This is the wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
@@ -1431,7 +1431,7 @@ class Quote extends \Magento\Model\AbstractModel
         $resultItem = $this->addProduct($product, $buyRequest);
 
         if (is_string($resultItem)) {
-            throw new \Magento\Model\Exception($resultItem);
+            throw new \Magento\Framework\Model\Exception($resultItem);
         }
 
         if ($resultItem->getParentItem()) {

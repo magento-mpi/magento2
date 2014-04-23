@@ -16,7 +16,7 @@ require_once realpath(
 class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Url\CssResolver
+     * @var \Magento\Framework\View\Url\CssResolver
      */
     protected $_cssUrlResolver;
 
@@ -26,36 +26,42 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     protected $_tmpDir;
 
     /**
-     * @var \Magento\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystem;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     protected $filesystemAdapter;
 
     protected function setUp()
     {
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
-        $this->filesystem = $this->getMock('Magento\App\Filesystem', $methods, array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', $methods, array(), '', false);
         $this->filesystem->expects(
             $this->any()
         )->method(
             'getPath'
         )->with(
-            \Magento\App\Filesystem::ROOT_DIR
+            \Magento\Framework\App\Filesystem::ROOT_DIR
         )->will(
             $this->returnValue(str_replace('\\', '/', BP))
         );
 
-        $viewFilesystem = $this->getMock('Magento\View\Filesystem', array('normalizePath'), array(), '', false);
+        $viewFilesystem = $this->getMock(
+            'Magento\Framework\View\Filesystem',
+            array('normalizePath'),
+            array(),
+            '',
+            false
+        );
         $viewFilesystem->expects($this->any())->method('normalizePath')->will($this->returnArgument(0));
 
-        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
+        $this->_cssUrlResolver = new \Magento\Framework\View\Url\CssResolver($this->filesystem, $viewFilesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
 
-        $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
+        $this->filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
         $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
     }
 
@@ -213,16 +219,16 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createThemeDeployment($permitted, $forbidden = null, $isDryRun = false)
     {
-        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $preProcessor = $this->getMock(
-            'Magento\View\Asset\PreProcessor\PreProcessorInterface',
+            'Magento\Framework\View\Asset\PreProcessor\PreProcessorInterface',
             array(),
             array(),
             '',
             false
         );
-        $fileFactory = $this->getMock('Magento\View\Publisher\FileFactory', array(), array(), '', false);
-        $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $fileFactory = $this->getMock('Magento\Framework\View\Publisher\FileFactory', array(), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $themeFactory = $this->getMock('Magento\Core\Model\Theme\DataFactory', array('create'), array(), '', false);
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment(
@@ -238,7 +244,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $isDryRun
         );
 
-        $fileObject = $this->getMock('Magento\View\Publisher\File', array(), array(), '', false);
+        $fileObject = $this->getMock('Magento\Framework\View\Publisher\File', array(), array(), '', false);
         $fileFactory->expects($this->any())->method('create')->will($this->returnValue($fileObject));
         $appState->expects($this->any())->method('emulateAreaCode')->will($this->returnValue($fileObject));
         $fileObject->expects($this->any())->method('getSourcePath')->will($this->returnValue(false));

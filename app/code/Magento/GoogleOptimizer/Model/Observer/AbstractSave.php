@@ -24,7 +24,7 @@ abstract class AbstractSave
     protected $_modelCode;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -36,12 +36,12 @@ abstract class AbstractSave
     /**
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\GoogleOptimizer\Model\Code $modelCode
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\GoogleOptimizer\Model\Code $modelCode,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_helper = $helper;
         $this->_modelCode = $modelCode;

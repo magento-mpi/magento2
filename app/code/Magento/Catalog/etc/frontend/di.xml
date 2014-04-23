@@ -15,7 +15,7 @@
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Collection">
         <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Data\Collection\Db\FetchStrategy\Cache</argument>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Framework\Data\Collection\Db\FetchStrategy\Cache</argument>
         </arguments>
     </type>
     <type name="Magento\Sales\Model\Convert\Quote">
@@ -42,7 +42,7 @@
             <argument name="isAvailable" xsi:type="boolean">true</argument>
         </arguments>
     </type>
-    <type name="Magento\App\Action\Action">
+    <type name="Magento\Framework\App\Action\Action">
         <plugin name="catalog-app-action-dispatchController-context-plugin" type="Magento\Catalog\Model\App\Action\ContextPlugin" sortOrder="10"/>
     </type>
 </config>

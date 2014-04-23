@@ -146,7 +146,7 @@ class Template extends \Magento\Backend\App\Action
             }
 
             if ($request->getParam('_change_type_flag')) {
-                $template->setTemplateType(\Magento\App\TemplateTypesInterface::TYPE_TEXT);
+                $template->setTemplateType(\Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 
@@ -182,7 +182,7 @@ class Template extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(

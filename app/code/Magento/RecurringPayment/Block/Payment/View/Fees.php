@@ -23,14 +23,14 @@ class Fees extends \Magento\RecurringPayment\Block\Payment\View
     protected $_fields;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\RecurringPayment\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\RecurringPayment\Block\Fields $fields,

@@ -11,7 +11,7 @@ namespace Magento\Sales\Block\Order;
 
 use Magento\Sales\Model\Order;
 
-class Totals extends \Magento\View\Element\Template
+class Totals extends \Magento\Framework\View\Element\Template
 {
     /**
      * Associated array of totals
@@ -36,12 +36,12 @@ class Totals extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

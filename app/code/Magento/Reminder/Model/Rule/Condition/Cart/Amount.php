@@ -9,8 +9,8 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Model\Exception;
-use Magento\DB\Select;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart totals amount condition

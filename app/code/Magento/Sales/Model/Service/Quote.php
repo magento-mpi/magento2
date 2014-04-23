@@ -66,7 +66,7 @@ class Quote
     protected $_customerSession;
 
     /**
-     * @var \Magento\DB\TransactionFactory
+     * @var \Magento\Framework\DB\TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -102,7 +102,7 @@ class Quote
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\DB\TransactionFactory $transactionFactory
+     * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
@@ -114,7 +114,7 @@ class Quote
         \Magento\Sales\Model\Quote $quote,
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\DB\TransactionFactory $transactionFactory,
+        \Magento\Framework\DB\TransactionFactory $transactionFactory,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
         AddressBuilder $customerAddressBuilder,
@@ -193,7 +193,7 @@ class Quote
             if ($customerData->getId()) {
                 $this->_customerAccountService->updateCustomer($customerDetails);
             } else { //for new customers
-                $customerData = $this->_customerAccountService->createAccount(
+                $customerData = $this->_customerAccountService->createCustomer(
                     $customerDetails,
                     null,
                     $quote->getPasswordHash()
@@ -370,7 +370,7 @@ class Quote
      * Validate quote data before converting to order
      *
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validate()
     {
@@ -378,26 +378,26 @@ class Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method = $address->getShippingMethod();
             $rate = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                throw new \Magento\Model\Exception(__('Please specify a shipping method.'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
         if (!$this->getQuote()->getPayment()->getMethod()) {
-            throw new \Magento\Model\Exception(__('Please select a valid payment method.'));
+            throw new \Magento\Framework\Model\Exception(__('Please select a valid payment method.'));
         }
 
         return $this;

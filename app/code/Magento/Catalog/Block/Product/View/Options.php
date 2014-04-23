@@ -20,7 +20,7 @@ namespace Magento\Catalog\Block\Product\View;
 
 use Magento\Catalog\Model\Product;
 
-class Options extends \Magento\View\Element\Template
+class Options extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var Product
@@ -66,7 +66,7 @@ class Options extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
@@ -76,7 +76,7 @@ class Options extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
@@ -169,8 +169,8 @@ class Options extends \Magento\View\Element\Template
         $data['oldPrice'] = $this->_coreData->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type'] = $option->getPriceType();
-        $data['excludeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
+        $data['exclTaxPrice'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], false);
+        $data['inclTaxPrice'] = $price = $this->_taxData->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 

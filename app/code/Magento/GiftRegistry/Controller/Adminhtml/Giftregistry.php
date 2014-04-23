@@ -10,7 +10,7 @@
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Giftregistry extends \Magento\Backend\App\Action
 {
@@ -55,7 +55,7 @@ class Giftregistry extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftRegistry\Model\Type
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initType($requestParam = 'id')
     {

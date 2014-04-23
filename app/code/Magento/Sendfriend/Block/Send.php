@@ -16,7 +16,7 @@ namespace Magento\Sendfriend\Block;
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Send extends \Magento\View\Element\Template
+class Send extends \Magento\Framework\View\Element\Template
 {
     /**
      * Sendfriend data
@@ -38,24 +38,31 @@ class Send extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerViewHelper;
+
+    /**
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Customer\Helper\View $customerViewHelper
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Registry $registry,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Customer\Helper\View $customerViewHelper,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -64,6 +71,7 @@ class Send extends \Magento\View\Element\Template
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
         $this->httpContext = $httpContext;
+        $this->_customerViewHelper = $customerViewHelper;
     }
 
     /**
@@ -82,7 +90,9 @@ class Send extends \Magento\View\Element\Template
         $session = $this->_customerSession;
 
         if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
-            return $session->getCustomer()->getName();
+            return $this->_customerViewHelper->getCustomerName(
+                $session->getCustomerDataObject()
+            );
         }
 
         return '';
@@ -104,7 +114,7 @@ class Send extends \Magento\View\Element\Template
         $session = $this->_customerSession;
 
         if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
-            return $session->getCustomer()->getEmail();
+            return $session->getCustomerDataObject()->getEmail();
         }
 
         return '';

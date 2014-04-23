@@ -28,7 +28,7 @@ namespace Magento\UrlRewrite\Model;
  * @method string getDescription()
  * @method \Magento\UrlRewrite\Model\UrlRewrite setDescription(string $value)
  */
-class UrlRewrite extends \Magento\Model\AbstractModel
+class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 {
     const TYPE_CATEGORY = 1;
 
@@ -46,7 +46,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -61,30 +61,30 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $_httpContext;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Http\Context $httpContext,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
@@ -227,7 +227,7 @@ class UrlRewrite extends \Magento\Model\AbstractModel
 
         $removeTags = is_array($tags) ? $tags : explode(',', $tags);
 
-        foreach ($removeTags as $t) {
+        foreach ($removeTags as $k => $t) {
             if (!is_numeric($k)) {
                 $t = $k . '=' . $t;
             }
@@ -246,10 +246,10 @@ class UrlRewrite extends \Magento\Model\AbstractModel
     /**
      * Perform custom url rewrites
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
-    public function rewrite(\Magento\App\RequestInterface $request = null)
+    public function rewrite(\Magento\Framework\App\RequestInterface $request = null)
     {
         if (!$this->_appState->isInstalled()) {
             return false;

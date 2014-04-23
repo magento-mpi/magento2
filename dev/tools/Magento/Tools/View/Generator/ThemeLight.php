@@ -9,7 +9,7 @@
  */
 namespace Magento\Tools\View\Generator;
 
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Lightweight theme that implements minimal required interface

@@ -22,7 +22,7 @@ class ModuleListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $this->readerMock = $this->getMock('Magento\Module\Declaration\Reader\Filesystem', array(), array(), '', false);
     }
 

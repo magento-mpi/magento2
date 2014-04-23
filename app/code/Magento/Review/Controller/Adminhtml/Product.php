@@ -165,7 +165,7 @@ class Product extends \Magento\Backend\App\Action
                     $review->aggregate();
 
                     $this->messageManager->addSuccess(__('You saved the review.'));
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $this->messageManager->addException($e, __('Something went wrong while saving this review.'));
@@ -198,7 +198,7 @@ class Product extends \Magento\Backend\App\Action
                 $this->getResponse()->setRedirect($this->getUrl('review/*/'));
             }
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong  deleting this review.'));
@@ -225,7 +225,7 @@ class Product extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($reviewsIds))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('An error occurred while deleting record(s).'));
@@ -253,7 +253,7 @@ class Product extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been updated.', count($reviewsIds))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(
@@ -286,7 +286,7 @@ class Product extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been updated.', count($reviewsIds))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(
@@ -391,7 +391,7 @@ class Product extends \Magento\Backend\App\Action
                 }
 
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('An error occurred while saving review.'));

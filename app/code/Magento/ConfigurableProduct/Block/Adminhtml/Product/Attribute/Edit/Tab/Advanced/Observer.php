@@ -32,7 +32,7 @@ class Observer
      */
     public function observe($event)
     {
-        /** @var \Magento\Data\Form\AbstractForm $form */
+        /** @var \Magento\Framework\Data\Form\AbstractForm $form */
         $form = $event->getForm();
         /** @var  $fieldset */
         $fieldset = $form->getElement('advanced_fieldset');

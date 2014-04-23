@@ -16,7 +16,7 @@ use Magento\Sales\Model\Order\Address;
 /**
  * RMA model
  */
-class Rma extends \Magento\Model\AbstractModel
+class Rma extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -234,7 +234,7 @@ class Rma extends \Magento\Model\AbstractModel
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Session\Generic $session
@@ -262,13 +262,13 @@ class Rma extends \Magento\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Session\Generic $session,
@@ -296,7 +296,7 @@ class Rma extends \Magento\Model\AbstractModel
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -589,7 +589,7 @@ class Rma extends \Magento\Model\AbstractModel
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
             )->setTemplateVars(
                 array(
                     'rma' => $this,

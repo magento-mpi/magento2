@@ -7,16 +7,19 @@
  */
 namespace Magento\Stdlib\DateTime;
 
-class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
+/**
+ * Timezone library
+ */
+class Timezone implements TimezoneInterface
 {
     /**
      * @var array
      */
     protected $_allowedFormats = array(
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+        TimezoneInterface::FORMAT_TYPE_FULL,
+        TimezoneInterface::FORMAT_TYPE_LONG,
+        TimezoneInterface::FORMAT_TYPE_MEDIUM,
+        TimezoneInterface::FORMAT_TYPE_SHORT
     );
 
     /**
@@ -25,7 +28,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_scopeType;
 
     /**
-     * @var \Magento\App\ScopeResolverInterface
+     * @var \Magento\Framework\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -45,25 +48,25 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_defaultTimezonePath;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Stdlib\DateTime\DateFactory $dateFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $scopeType
      * @param string $defaultTimezonePath
      */
     public function __construct(
-        \Magento\App\ScopeResolverInterface $scopeResolver,
+        \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Stdlib\DateTime\DateFactory $dateFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        DateFactory $dateFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeType,
         $defaultTimezonePath
     ) {
@@ -89,7 +92,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function getDefaultTimezone()
     {
-        return \Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE;
+        return TimezoneInterface::DEFAULT_TIMEZONE;
     }
 
     /**
@@ -116,7 +119,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         return preg_replace(
             '/(?<!y)yy(?!y)/',
             'yyyy',
-            $this->_getTranslation(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, 'date')
+            $this->_getTranslation(TimezoneInterface::FORMAT_TYPE_SHORT, 'date')
         );
     }
 
@@ -219,7 +222,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
 
         if (is_null($time)) {
             $date = $this->date(time());
-        } elseif ($time instanceof \Magento\Stdlib\DateTime\DateInterface) {
+        } elseif ($time instanceof DateInterface) {
             $date = $time;
         } else {
             $date = $this->date(strtotime($time));
@@ -241,7 +244,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     {
         $dateObj = $this->scopeDate($scope, $date, $includeTime);
         $dateObj->set($date, $format);
-        $dateObj->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
+        $dateObj->setTimezone(TimezoneInterface::DEFAULT_TIMEZONE);
         return $dateObj;
     }
 
@@ -263,7 +266,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function isScopeDateInInterval($scope, $dateFrom = null, $dateTo = null)
     {
-        if (!$scope instanceof \Magento\App\ScopeInterface) {
+        if (!$scope instanceof \Magento\Framework\App\ScopeInterface) {
             $scope = $this->_scopeResolver->getScope($scope);
         }
 

@@ -39,7 +39,7 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
@@ -53,7 +53,7 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
@@ -94,7 +94,7 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         parent::_prepareForm();
         $form = $this->getForm();
 
-        /** @var $fieldset \Magento\Data\Form\Element\AbstractElement */
+        /** @var $fieldset \Magento\Framework\Data\Form\Element\AbstractElement */
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
@@ -147,7 +147,7 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
             'file_path'
         );
 
-        /** @var $element \Magento\Data\Form\Element\AbstractElement */
+        /** @var $element \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 

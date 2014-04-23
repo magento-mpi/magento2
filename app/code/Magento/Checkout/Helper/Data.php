@@ -17,21 +17,16 @@ use Magento\Sales\Model\Quote\Item\AbstractItem;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_GUEST_CHECKOUT = 'checkout/options/guest_checkout';
 
     const XML_PATH_CUSTOMER_MUST_BE_LOGGED = 'checkout/options/customer_must_be_logged';
 
     /**
-     * @var array|null
-     */
-    protected $_agreements = null;
-
-    /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -51,11 +46,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_localeDate;
 
     /**
-     * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
-     */
-    protected $_agreementCollectionFactory;
-
-    /**
      * @var \Magento\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
@@ -66,22 +56,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
@@ -89,7 +77,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
         $this->_localeDate = $localeDate;
-        $this->_agreementCollectionFactory = $agreementCollectionFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context);
@@ -132,30 +119,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function convertPrice($price, $format = true)
     {
         return $this->getQuote()->getStore()->convertPrice($price, $format);
-    }
-
-    /**
-     * @return array
-     */
-    public function getRequiredAgreementIds()
-    {
-        if (is_null($this->_agreements)) {
-            if (!$this->_scopeConfig->isSetFlag(
-                'checkout/options/enable_agreements',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
-            ) {
-                $this->_agreements = array();
-            } else {
-                $this->_agreements = $this->_agreementCollectionFactory->create()->addStoreFilter(
-                    $this->_storeManager->getStore()->getId()
-                )->addFieldToFilter(
-                    'is_active',
-                    1
-                )->getAllIds();
-            }
-        }
-        return $this->_agreements;
     }
 
     /**
@@ -305,7 +268,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $checkout->getStoreId())
             )->setTemplateVars(
                 array(
                     'reason' => $message,

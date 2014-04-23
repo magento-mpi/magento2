@@ -75,7 +75,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -84,7 +84,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory
      * @param array $data
@@ -94,7 +94,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
@@ -103,7 +103,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\App\RequestInterface $requestHttp,
+        \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Paypal\Model\Hostedpro\RequestFactory $hostedproRequestFactory,
         array $data = array()
@@ -193,7 +193,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
      *
      * @param \Magento\Payment\Model\Info $payment
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _setPaymentFormUrl(\Magento\Payment\Model\Info $payment)
     {
@@ -202,7 +202,7 @@ class Hostedpro extends \Magento\Paypal\Model\Direct
         if ($response) {
             $payment->setAdditionalInformation('secure_form_url', $response);
         } else {
-            throw new \Magento\Model\Exception('Cannot get secure form URL from PayPal');
+            throw new \Magento\Framework\Model\Exception('Cannot get secure form URL from PayPal');
         }
     }
 

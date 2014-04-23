@@ -9,8 +9,8 @@
  */
 namespace Magento\Sendfriend\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Email to a Friend Product Controller
@@ -19,7 +19,7 @@ use Magento\App\RequestInterface;
  * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Product extends \Magento\App\Action\Action
+class Product extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
@@ -34,12 +34,12 @@ class Product extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
@@ -53,8 +53,8 @@ class Product extends \Magento\App\Action\Action
      * If allow only for customer - redirect to login page
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -224,7 +224,7 @@ class Product extends \Magento\App\Action\Action
                     $this->messageManager->addError(__('We found some problems with the data.'));
                 }
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Some emails were not sent.'));

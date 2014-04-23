@@ -19,7 +19,7 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
-     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 

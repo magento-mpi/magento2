@@ -33,7 +33,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Filesystem\Driver\File'
+            'Magento\Framework\Filesystem\Driver\File'
         )->deleteDirectory(
             self::$_baseDir
         );
@@ -47,7 +47,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\View\DesignInterface')
+        $objectManager->get('Magento\Framework\View\DesignInterface')
             ->setDesignTheme('Magento/backend');
         /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
         $model = $objectManager->create('Magento\Cms\Model\Wysiwyg\Images\Storage');
@@ -70,11 +70,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testGetThumbsPath()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $filesystem = $objectManager->get('Magento\App\Filesystem');
+        $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
         $session = $objectManager->get('Magento\Backend\Model\Session');
         $backendUrl = $objectManager->get('Magento\Backend\Model\UrlInterface');
         $imageFactory = $objectManager->get('Magento\Image\AdapterFactory');
-        $viewUrl = $objectManager->get('Magento\View\Url');
+        $viewUrl = $objectManager->get('Magento\Framework\View\Url');
         $imageHelper = $objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
         $coreFileStorageDb = $objectManager->get('Magento\Core\Helper\File\Storage\Database');
         $storageCollectionFactory = $objectManager->get('Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory');
@@ -98,7 +98,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $uploaderFactory
         );
         $this->assertStringStartsWith(
-            str_replace('\\', '/', $filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR)),
+            str_replace('\\', '/', $filesystem->getPath(\Magento\Framework\App\Filesystem::MEDIA_DIR)),
             $model->getThumbsPath()
         );
     }

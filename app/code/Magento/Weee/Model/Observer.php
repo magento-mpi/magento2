@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model;
 
-class Observer extends \Magento\Model\AbstractModel
+class Observer extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type
@@ -29,7 +29,7 @@ class Observer extends \Magento\Model\AbstractModel
     protected $_weeeTax;
 
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
@@ -39,27 +39,27 @@ class Observer extends \Magento\Model\AbstractModel
     protected $productTypeConfig;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Tax $weeeTax
      * @param \Magento\Weee\Helper\Data $weeeData
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         Tax $weeeTax,
         \Magento\Weee\Helper\Data $weeeData,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_layout = $layout;
@@ -78,7 +78,7 @@ class Observer extends \Magento\Model\AbstractModel
      */
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $observer->getEvent()->getForm();
 
         $attributes = $this->_weeeTax->getWeeeAttributeCodes(true);
@@ -115,7 +115,7 @@ class Observer extends \Magento\Model\AbstractModel
     /**
      * Get empty select object
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect()
     {
@@ -242,7 +242,7 @@ class Observer extends \Magento\Model\AbstractModel
         $options['plusDisposition'] = $this->_weeeData->getAmount($_product);
 
         // Exclude Weee amount from excluding tax amount
-        if (!$this->_weeeData->typeOfDisplay($_product, array(Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR))) {
+        if (!$this->_weeeData->typeOfDisplay(array(Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR))) {
             $options['exclDisposition'] = true;
         }
 
@@ -281,7 +281,7 @@ class Observer extends \Magento\Model\AbstractModel
         $options['plusDisposition'] = $amount;
         $options['plusDispositionTax'] = $taxes < 0 ? 0 : $taxes;
         // Exclude Weee amount from excluding tax amount
-        if (!$this->_weeeData->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!$this->_weeeData->typeOfDisplay(array(0, 1, 4))) {
             $options['exclDisposition'] = true;
         }
 

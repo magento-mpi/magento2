@@ -24,7 +24,7 @@ class Observer
     protected $_processor;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -46,7 +46,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -73,8 +73,8 @@ class Observer
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
      * @param \Magento\Logging\Model\Processor $processor
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
@@ -84,8 +84,8 @@ class Observer
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
         \Magento\Logging\Model\Processor $processor,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {

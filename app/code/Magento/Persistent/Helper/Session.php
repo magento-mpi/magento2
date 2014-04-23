@@ -22,13 +22,6 @@ class Session extends \Magento\Core\Helper\Data
     protected $_sessionModel;
 
     /**
-     * Persistent customer
-     *
-     * @var null|\Magento\Customer\Model\Customer
-     */
-    protected $_customer;
-
-    /**
      * Is "Remember Me" checked
      *
      * @var null|bool
@@ -50,13 +43,6 @@ class Session extends \Magento\Core\Helper\Data
     protected $_sessionFactory;
 
     /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * Checkout session
      *
      * @var \Magento\Checkout\Model\Session
@@ -64,32 +50,39 @@ class Session extends \Magento\Core\Helper\Data
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Data $persistentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         $dbCompatibleMode = true
     ) {
         $this->_persistentData = $persistentData;
         $this->_checkoutSession = $checkoutSession;
-        $this->_customerFactory = $customerFactory;
         $this->_sessionFactory = $sessionFactory;
-        parent::__construct($context, $scopeConfig, $storeManager, $appState, $dbCompatibleMode);
+
+        parent::__construct(
+            $context,
+            $scopeConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**
@@ -144,9 +137,9 @@ class Session extends \Magento\Core\Helper\Data
                 return $isRememberMeChecked;
             }
 
-            return $this->_persistentData->isEnabled() &&
-                $this->_persistentData->isRememberMeEnabled() &&
-                $this->_persistentData->isRememberMeCheckedDefault();
+            return $this->_persistentData->isEnabled()
+                && $this->_persistentData->isRememberMeEnabled()
+                && $this->_persistentData->isRememberMeCheckedDefault();
         }
 
         return (bool)$this->_isRememberMeChecked;
@@ -161,19 +154,5 @@ class Session extends \Magento\Core\Helper\Data
     public function setRememberMeChecked($checked = true)
     {
         $this->_isRememberMeChecked = $checked;
-    }
-
-    /**
-     * Return persistent customer
-     *
-     * @return \Magento\Customer\Model\Customer|bool
-     */
-    public function getCustomer()
-    {
-        if (is_null($this->_customer)) {
-            $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = $this->_customerFactory->create()->load($customerId);
-        }
-        return $this->_customer;
     }
 }

@@ -23,7 +23,7 @@ class Application
     /**
      * Application object
      *
-     * @var \Magento\AppInterface
+     * @var \Magento\Framework\AppInterface
      */
     protected $_application;
 
@@ -66,9 +66,9 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
-        $varDirectory = $this->getObjectManager()->get('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
+        $varDirectory = $this->getObjectManager()->get('Magento\Framework\App\Filesystem')
+            ->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $varDirectory->changePermissions('', 0777);
     }
 
@@ -80,9 +80,9 @@ class Application
     protected function _bootstrap()
     {
         $this->getObjectManager()->configure(
-            $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+            $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 
@@ -159,9 +159,9 @@ class Application
     public function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
-            $this->_objectManager->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
+            $this->_objectManager->get('Magento\Framework\App\State')->setAreaCode(self::AREA_CODE);
         }
         return $this->_objectManager;
     }

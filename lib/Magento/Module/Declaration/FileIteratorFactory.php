@@ -9,7 +9,7 @@
  */
 namespace Magento\Module\Declaration;
 
-use Magento\Filesystem;
+use Magento\Framework\Filesystem;
 
 class FileIteratorFactory
 {

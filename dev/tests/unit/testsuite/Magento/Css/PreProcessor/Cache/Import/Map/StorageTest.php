@@ -17,16 +17,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
     protected $filesystemMock;
 
-    /** @var \Magento\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $mapsDirectoryMock;
 
     protected function setUp()
     {
         $this->mapsDirectoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\WriteInterface',
+            'Magento\Framework\Filesystem\Directory\WriteInterface',
             array(),
             array(),
             '',
@@ -52,13 +52,13 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $this->filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->filesystemMock->expects(
             $this->once()
         )->method(
             'getDirectoryWrite'
         )->with(
-            $this->equalTo(\Magento\App\Filesystem::VAR_DIR)
+            $this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR)
         )->will(
             $this->returnValue($this->mapsDirectoryMock)
         );

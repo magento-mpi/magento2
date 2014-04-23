@@ -34,7 +34,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
@@ -42,7 +42,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
@@ -75,7 +75,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
         $group = $this->getGroup();
         if ($group) {
-            /** @var \Magento\Data\Form $form */
+            /** @var \Magento\Framework\Data\Form $form */
             $form = $this->_formFactory->create();
             $product = $this->_coreRegistry->registry('product');
             $isWrapped = $this->_coreRegistry->registry('use_wrapper');
