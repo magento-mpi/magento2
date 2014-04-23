@@ -16,7 +16,6 @@
     </referenceContainer>
     <referenceBlock name="head.components">
         <block class="Magento\Framework\View\Element\Js\Components" name="checkout_onepage_head_components" template="Magento_Checkout::js/components.phtml"/>
-        <block class="Magento\Framework\View\Element\Js\Components" name="giftwrapping_checkout_onepage_head_components" template="Magento_GiftWrapping::js/components.phtml"/>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml">
