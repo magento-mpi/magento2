@@ -75,7 +75,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
             ];
             $defaultValues[$attributeId] = $this->getAttributeConfigValue($attributeId);
-            if ($this->_validateAttributeInfo($info)) {
+            if ($this->validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
         }
@@ -164,7 +164,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     {
         return $this->product
             ->getPriceInfo()
-            ->getPrice('final_price')
+            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
             ->getValue() * $value['pricing_value'] / 100;
     }
 
