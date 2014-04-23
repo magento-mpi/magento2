@@ -43,18 +43,25 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function createClassDefinitionProvider()
+
+    public function testCreateDefinitionsReadsCompiledDefinitions()
     {
-        return array(
-            'from array' => array(
-                null,
-                '\Magento\Framework\ObjectManager\Definition\Runtime'
-            ),
-            'from file' => array(
-                $this->sampleContent,
-                '\Magento\Framework\ObjectManager\Definition\Compiled\Serialized'
-            ),
+        $this->filesystemDriverMock->expects($this->once())->method('isReadable')->will($this->returnValue(false));
+        $this->assertInstanceOf(
+            '\Magento\Framework\ObjectManager\Definition\Runtime',
+            $this->model->createClassDefinition(null, true)
         );
+    }
+
+    public function testCreateDefinitionsDoesNotReadCompiledDefinitionsIfUseCompiledIsFalse()
+    {
+        $this->filesystemDriverMock->expects($this->never())->method('isReadable');
+        $this->assertInstanceOf(
+            '\Magento\ObjectManager\Definition\Runtime',
+            $this->model->createClassDefinition(null, false)
+        );
+        $autoloadFunctions = spl_autoload_functions();
+        spl_autoload_unregister(array_pop($autoloadFunctions));
     }
 
     public function testCreateClassDefinitionFromString()
@@ -63,6 +70,8 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
             '\Magento\Framework\ObjectManager\Definition\Compiled\Serialized',
             $this->model->createClassDefinition($this->sampleContent)
         );
+        $autoloadFunctions = spl_autoload_functions();
+        spl_autoload_unregister(array_pop($autoloadFunctions));
     }
 
     /**

@@ -288,6 +288,11 @@ class Store extends AbstractModel implements
     protected $_sidResolver;
 
     /**
+     * @var string
+     */
+    protected $_currencyInstalled;
+
+    /**
      * Cookie model
      *
      * @var \Magento\Framework\Stdlib\Cookie
@@ -321,6 +326,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
+     * @param string $currencyInstalled
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -342,6 +348,7 @@ class Store extends AbstractModel implements
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        $currencyInstalled,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -360,6 +367,7 @@ class Store extends AbstractModel implements
         $this->_httpContext = $httpContext;
         $this->_session = $session;
         $this->currencyFactory = $currencyFactory;
+        $this->_currencyInstalled = $currencyInstalled;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -933,6 +941,16 @@ class Store extends AbstractModel implements
             }
         }
         return $codes;
+    }
+
+    /**
+     * Array of installed currencies for the scope
+     *
+     * @return array
+     */
+    public function getAllowedCurrencies()
+    {
+        return explode(',', $this->_getConfig($this->_currencyInstalled));
     }
 
     /**
