@@ -84,7 +84,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Composite');
         $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Translate');
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\RendererInterface'));
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND);
     }
 
     /**
@@ -101,14 +101,14 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         );
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND);
         $this->assertEquals(
             'Fixture Db Translation', 
             __('Fixture String'), 
             'Translation is expected to be cached'
         );
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, true);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND, true);
         $this->assertEquals(
             'New Db Translation', 
             __('Fixture String'), 

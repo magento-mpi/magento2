@@ -13,7 +13,6 @@
  * @method \Magento\Store\Model\Resource\Group getResource()
  * @method \Magento\Store\Model\Store setWebsiteId(int $value)
  * @method string getName()
- * @method string getCode()
  * @method \Magento\Store\Model\Store setName(string $value)
  * @method \Magento\Store\Model\Store setRootCategoryId(int $value)
  * @method \Magento\Store\Model\Store setDefaultStoreId(int $value)

@@ -128,7 +128,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getThemeCustomizations'
         )->with(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->will(
             $this->returnValue(array($this->_getAssignedTheme(), $this->_getUnassignedTheme()))
         );
@@ -163,7 +163,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getThemeCustomizations'
         )->with(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->will(
             $this->returnValue(array($this->_getAssignedTheme(), $this->_getUnassignedTheme()))
         );
@@ -223,7 +223,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getThemeCustomizations'
         )->with(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->will(
             $this->returnValue(array($this->_getAssignedTheme(), $this->_getUnassignedTheme()))
         );

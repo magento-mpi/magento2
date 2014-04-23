@@ -604,11 +604,11 @@ class MC3 { public function mC3(){
         if ($this->_role->getWebsiteIds()) {
             return $this->_redirect($controller, $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 ));}
         $this->_redirect($controller, $this->_backendUrl->getUrl('adminhtml/system_config/edit', array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode())
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode())
                 ));}}
 OMC3;
         $formattedMethodCall3 = <<<'FMC3'
@@ -623,7 +623,7 @@ class MC3
                 $controller,
                 $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 )
             );
         }
@@ -632,8 +632,8 @@ class MC3
             $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode()
                 )
             )
         );
