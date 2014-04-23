@@ -362,13 +362,13 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->collection->setConnection($adapterMock);
         $this->assertFalse($this->collection->fetchItem());
 
-        $objectMock = $this->getMock('Magento\Object', array('setData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('setData'), array());
         $objectMock->expects($this->once())
             ->method('setData')
             ->with($data);
         $this->entityFactoryMock->expects($this->once())
             ->method('create')
-            ->with('Magento\Object')
+            ->with('Magento\Framework\Object')
             ->will($this->returnValue($objectMock));
 
         $this->assertEquals($objectMock, $this->collection->fetchItem());
@@ -538,7 +538,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
             ->with($selectMock, array())
             ->will($this->returnValue(array($data)));
 
-        $objectMock = $this->getMock('Magento\Object', array('addData', 'setIdFieldName', 'getData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('addData', 'setIdFieldName', 'getData'), array());
         $objectMock->expects($this->once())
             ->method('addData')
             ->with($data);
@@ -550,7 +550,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
             )));
         $this->entityFactoryMock->expects($this->once())
             ->method('create')
-            ->with('Magento\Object')
+            ->with('Magento\Framework\Object')
             ->will($this->returnValue($objectMock));
 
         $this->collection->setConnection($adapterMock);

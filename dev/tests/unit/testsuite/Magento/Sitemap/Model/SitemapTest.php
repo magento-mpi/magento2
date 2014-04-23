@@ -519,8 +519,8 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('url' => 'category.html', 'updated_at' => '2012-12-21 00:00:00')),
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(array('url' => 'category.html', 'updated_at' => '2012-12-21 00:00:00')),
+                    new \Magento\Framework\Object(
                         array('url' => '/category/sub-category.html', 'updated_at' => '2012-12-21 00:00:00')
                     )
                 )
@@ -533,18 +533,18 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('url' => 'product.html', 'updated_at' => '2012-12-21 00:00:00')),
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(array('url' => 'product.html', 'updated_at' => '2012-12-21 00:00:00')),
+                    new \Magento\Framework\Object(
                         array(
                             'url' => 'product2.html',
                             'updated_at' => '2012-12-21 00:00:00',
-                            'images' => new \Magento\Object(
+                            'images' => new \Magento\Framework\Object(
                                 array(
                                     'collection' => array(
-                                        new \Magento\Object(
+                                        new \Magento\Framework\Object(
                                             array('url' => 'image1.png', 'caption' => 'caption & > title < "')
                                         ),
-                                        new \Magento\Object(array('url' => 'image_no_caption.png', 'caption' => null))
+                                        new \Magento\Framework\Object(array('url' => 'image_no_caption.png', 'caption' => null))
                                     ),
                                     'thumbnail' => 'thumbnail.jpg',
                                     'title' => 'Product & > title < "'

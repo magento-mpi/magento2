@@ -107,7 +107,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWithException()
     {
-        $invalidPriceInfoInterface = 'Magento\Object';
+        $invalidPriceInfoInterface = 'Magento\Framework\Object';
         $priceInfoFactory = $this->preparePriceInfoFactory($invalidPriceInfoInterface);
         $priceInfoFactory->create(
             $this->getMock('Magento\Catalog\Model\Product', ['__wakeup'], [], '', false)

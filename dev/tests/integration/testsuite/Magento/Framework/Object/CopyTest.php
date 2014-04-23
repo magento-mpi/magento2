@@ -27,9 +27,9 @@ class CopyTest extends \PHPUnit_Framework_TestCase
         $fieldset = 'sales_copy_order';
         $aspect = 'to_edit';
         $data = array('customer_email' => 'admin@example.com', 'customer_group_id' => '1');
-        $source = new \Magento\Object($data);
-        $target = new \Magento\Object();
-        $expectedTarget = new \Magento\Object($data);
+        $source = new \Magento\Framework\Object($data);
+        $target = new \Magento\Framework\Object();
+        $expectedTarget = new \Magento\Framework\Object($data);
         $expectedTarget->setDataChanges(true);
         // hack for assertion
 
@@ -48,7 +48,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
         $fieldset = 'sales_copy_order';
         $aspect = 'to_edit';
         $data = array('customer_email' => 'admin@example.com', 'customer_group_id' => '1');
-        $source = new \Magento\Object($data);
+        $source = new \Magento\Framework\Object($data);
         $target = array();
         $expectedTarget = $data;
 

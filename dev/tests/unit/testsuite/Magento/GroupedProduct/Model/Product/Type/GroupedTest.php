@@ -272,7 +272,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessBuyRequest($superGroup, $result)
     {
-        $buyRequest = $this->getMock('\Magento\Object', array('getSuperGroup'), array(), '', false);
+        $buyRequest = $this->getMock('\Magento\Framework\Object', array('getSuperGroup'), array(), '', false);
         $buyRequest->expects($this->any())->method('getSuperGroup')->will($this->returnValue($superGroup));
 
         $this->assertEquals($result, $this->_model->processBuyRequest($this->product, $buyRequest));

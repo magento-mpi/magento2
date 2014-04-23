@@ -82,7 +82,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->setAttribute($attribute);
 
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $object->setImage(array('images' => array(array('value_id' => $valueId))));
         $object->setId(555);
 

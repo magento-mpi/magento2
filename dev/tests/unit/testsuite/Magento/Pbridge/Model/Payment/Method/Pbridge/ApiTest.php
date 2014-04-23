@@ -67,7 +67,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $profilerDriver->expects($this->once())->method('stop')->with('pbridge_' . $action);
         \Magento\Framework\Profiler::add($profilerDriver);
 
-        $request = new \Magento\Object();
+        $request = new \Magento\Framework\Object();
         $request->setData('payment_action', $action);
         $api = $this->_getApiMock($request->getData());
         $api->{$method}($request);

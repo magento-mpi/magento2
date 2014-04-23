@@ -283,7 +283,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         );
         $this->_authSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
-        $messages = new \Magento\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(array('errors' => array()));
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingEventMock = $this->getMockBuilder(
@@ -424,7 +424,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setUpModelActionAfter();
 
-        $messages = new \Magento\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(array('errors' => array()));
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingMock = $this->getMockBuilder(

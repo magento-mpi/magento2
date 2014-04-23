@@ -110,7 +110,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testPrepareProductRecurringPaymentOptions()
     {
         $payment = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array(
                 'setStory',
                 'importBuyRequest',
@@ -131,14 +131,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->method(
             'exportScheduleInfo'
         )->will(
-            $this->returnValue(array(new \Magento\Object(array('title' => 'Title', 'schedule' => 'schedule'))))
+            $this->returnValue(array(new \Magento\Framework\Object(array('title' => 'Title', 'schedule' => 'schedule'))))
         );
 
         $this->_fieldsBlock->expects($this->once())->method('getFieldLabel')->will($this->returnValue('Field Label'));
 
         $this->_recurringPaymentFactory->expects($this->once())->method('create')->will($this->returnValue($payment));
 
-        $product = $this->getMock('Magento\Object', array('getIsRecurring', 'addCustomOption'), array(), '', false);
+        $product = $this->getMock('Magento\Framework\Object', array('getIsRecurring', 'addCustomOption'), array(), '', false);
         $product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(true));
 
         $infoOptions = array(

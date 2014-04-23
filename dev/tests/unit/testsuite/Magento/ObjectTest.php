@@ -11,14 +11,14 @@
  */
 
 /**
- * \Magento\Object test case.
+ * \Magento\Framework\Object test case.
  */
 namespace Magento;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     private $_object;
 
@@ -28,7 +28,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_object = new \Magento\Object();
+        $this->_object = new \Magento\Framework\Object();
     }
 
     /**
@@ -41,20 +41,20 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->__construct()
+     * Tests \Magento\Framework\Object->__construct()
      */
     public function testConstruct()
     {
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $this->assertEquals(array(), $object->getData());
 
         $data = array('test' => 'test');
-        $object = new \Magento\Object($data);
+        $object = new \Magento\Framework\Object($data);
         $this->assertEquals($data, $object->getData());
     }
 
     /**
-     * Tests \Magento\Object->isDeleted()
+     * Tests \Magento\Framework\Object->isDeleted()
      */
     public function testIsDeleted()
     {
@@ -66,7 +66,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->hasDataChanges()
+     * Tests \Magento\Framework\Object->hasDataChanges()
      */
     public function testHasDataChanges()
     {
@@ -74,24 +74,24 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->_object->setData('key', 'value');
         $this->assertTrue($this->_object->hasDataChanges(), 'Data changed');
 
-        $object = new \Magento\Object(array('key' => 'value'));
+        $object = new \Magento\Framework\Object(array('key' => 'value'));
         $object->setData('key', 'value');
         $this->assertFalse($object->hasDataChanges(), 'Data not changed');
 
         $object->setData(array('key' => 'value'));
         $this->assertFalse($object->hasDataChanges(), 'Data not changed (array)');
 
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $object->unsetData();
         $this->assertFalse($object->hasDataChanges(), 'Unset data');
 
-        $object = new \Magento\Object(array('key' => null));
+        $object = new \Magento\Framework\Object(array('key' => null));
         $object->setData('key', null);
         $this->assertFalse($object->hasDataChanges(), 'Null data');
     }
 
     /**
-     * Tests \Magento\Object->getId()
+     * Tests \Magento\Framework\Object->getId()
      */
     public function testSetGetId()
     {
@@ -100,7 +100,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->addData()
+     * Tests \Magento\Framework\Object->addData()
      */
     public function testAddData()
     {
@@ -115,7 +115,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->setData()
+     * Tests \Magento\Framework\Object->setData()
      */
     public function testSetData()
     {
@@ -133,7 +133,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->unsetData()
+     * Tests \Magento\Framework\Object->unsetData()
      */
     public function testUnsetData()
     {
@@ -154,7 +154,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests \Magento\Object->getData()
+     * Tests \Magento\Framework\Object->getData()
      */
     public function testGetData()
     {
@@ -164,7 +164,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
                 'subkey2.1' => 'value2.1',
                 'subkey2.2' => 'multiline
 string',
-                'subkey2.3' => new \Magento\Object(array('test_key' => 'test_value'))
+                'subkey2.3' => new \Magento\Framework\Object(array('test_key' => 'test_value'))
             ),
             'key3' => 5
         );
@@ -188,7 +188,7 @@ string',
                     'subkey2.1' => 'value2.1',
                     'subkey2.2' => 'multiline
 string',
-                    'subkey2.3' => new \Magento\Object(array('test_key' => 'test_value'))
+                    'subkey2.3' => new \Magento\Framework\Object(array('test_key' => 'test_value'))
                 )
             )
         );
@@ -207,11 +207,11 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->setDataUsingMethod()
+     * Tests \Magento\Framework\Object->setDataUsingMethod()
      */
     public function testSetGetDataUsingMethod()
     {
-        $mock = $this->getMock('Magento\Object', array('setTestData', 'getTestData'));
+        $mock = $this->getMock('Magento\Framework\Object', array('setTestData', 'getTestData'));
         $mock->expects($this->once())->method('setTestData')->with($this->equalTo('data'));
         $mock->expects($this->once())->method('getTestData');
 
@@ -220,7 +220,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->getDataSetDefault()
+     * Tests \Magento\Framework\Object->getDataSetDefault()
      */
     public function testGetDataSetDefault()
     {
@@ -231,7 +231,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->hasData()
+     * Tests \Magento\Framework\Object->hasData()
      */
     public function testHasData()
     {
@@ -242,7 +242,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->toArray()
+     * Tests \Magento\Framework\Object->toArray()
      */
     public function testToArray()
     {
@@ -254,7 +254,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->toXml()
+     * Tests \Magento\Framework\Object->toXml()
      */
     public function testToXml()
     {
@@ -302,7 +302,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->toJson()
+     * Tests \Magento\Framework\Object->toJson()
      */
     public function testToJson()
     {
@@ -313,7 +313,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->toString()
+     * Tests \Magento\Framework\Object->toString()
      */
     public function testToString()
     {
@@ -323,7 +323,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->__call()
+     * Tests \Magento\Framework\Object->__call()
      *
      * @expectedException \Magento\Framework\Exception
      */
@@ -343,7 +343,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->__get()
+     * Tests \Magento\Framework\Object->__get()
      */
     public function testGetSet()
     {
@@ -355,7 +355,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->isEmpty()
+     * Tests \Magento\Framework\Object->isEmpty()
      */
     public function testIsEmpty()
     {
@@ -365,7 +365,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->serialize()
+     * Tests \Magento\Framework\Object->serialize()
      */
     public function testSerialize()
     {
@@ -378,7 +378,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->setOrigData()
+     * Tests \Magento\Framework\Object->setOrigData()
      */
     public function testOrigData()
     {
@@ -394,7 +394,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->setDataChanges()
+     * Tests \Magento\Framework\Object->setDataChanges()
      */
     public function testSetDataChanges()
     {
@@ -404,7 +404,7 @@ string',
     }
 
     /**
-     * Tests \Magento\Object->debug()
+     * Tests \Magento\Framework\Object->debug()
      */
     public function testDebug()
     {
@@ -413,12 +413,12 @@ string',
 
         $debug = $data;
         unset($debug['key3']);
-        $debug['key3 (Magento\Object)'] = '*** RECURSION ***';
+        $debug['key3 (Magento\Framework\Object)'] = '*** RECURSION ***';
         $this->assertEquals($debug, $this->_object->debug());
     }
 
     /**
-     * Tests \Magento\Object->offsetSet()
+     * Tests \Magento\Framework\Object->offsetSet()
      */
     public function testOffset()
     {

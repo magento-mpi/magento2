@@ -10,8 +10,8 @@
  * @license     {license_link}
  */
 return array(
-    array('__get', 'Magento\Object'),
-    array('__set', 'Magento\Object'),
+    array('__get', 'Magento\Framework\Object'),
+    array('__set', 'Magento\Framework\Object'),
     array('_addItem', 'Magento\Theme\Block\Html\Head'),
     array('_addLink', 'Magento\Customer\Block\Account\Link'),
     array('_addMinimalPrice', 'Magento\Catalog\Model\Resource\Product\Collection'),

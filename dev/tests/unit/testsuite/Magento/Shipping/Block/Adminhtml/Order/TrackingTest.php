@@ -13,7 +13,7 @@ class TrackingTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $shipment = new \Magento\Object(array('store_id' => 1));
+        $shipment = new \Magento\Framework\Object(array('store_id' => 1));
 
         $registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
         $registry->expects(

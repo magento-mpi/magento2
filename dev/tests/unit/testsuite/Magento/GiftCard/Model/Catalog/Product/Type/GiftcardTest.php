@@ -222,7 +222,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX .
-                $i] = new \Magento\Object(
+                $i] = new \Magento\Framework\Object(
                 array('value' => 'value')
             );
             $this->_product->addOption($option);

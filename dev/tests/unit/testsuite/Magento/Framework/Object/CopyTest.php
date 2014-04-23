@@ -41,8 +41,8 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     {
         $this->fieldsetConfigMock = $this->getMock('Magento\Framework\Object\Copy\Config', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
-        $this->sourceMock = $this->getMock('Magento\Object', array(), array(), '', false);
-        $this->targetMock = $this->getMock('Magento\Object', array(), array(), '', false);
+        $this->sourceMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
+        $this->targetMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
         $this->copy = new \Magento\Framework\Object\Copy(
             $this->eventManagerMock,
             $this->fieldsetConfigMock

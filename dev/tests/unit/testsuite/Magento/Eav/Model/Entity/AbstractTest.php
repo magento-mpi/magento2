@@ -222,7 +222,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $object->setData($productData);
         $object->expects($this->any())->method('getOrigData')->will($this->returnValue($productOrigData));
 
-        $entityType = new \Magento\Object();
+        $entityType = new \Magento\Framework\Object();
         $entityType->setEntityTypeCode('test');
         $entityType->setEntityTypeId(0);
         $entityType->setEntityTable('table');

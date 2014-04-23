@@ -152,13 +152,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         // Case 1. Pass check alnum and int properties are not empty and have valid value
         $entityName = 'test_entity_a';
         $groupName = 'check_alnum_and_int_not_empty_and_have_valid_value';
-        $value = new \Magento\Object(array('int' => 1, 'alnum' => 'abc123'));
+        $value = new \Magento\Framework\Object(array('int' => 1, 'alnum' => 'abc123'));
         $expectedResult = true;
         $expectedMessages = array();
         $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
 
         // Case 2. Fail check alnum is not empty
-        $value = new \Magento\Object(array('int' => 'abc123', 'alnum' => null));
+        $value = new \Magento\Framework\Object(array('int' => 'abc123', 'alnum' => null));
         $expectedResult = false;
         $expectedMessages = array(
             'alnum' => array(
@@ -171,13 +171,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         // Case 3. Pass check alnum has valid value
         $groupName = 'check_alnum';
-        $value = new \Magento\Object(array('int' => 'abc123', 'alnum' => 'abc123'));
+        $value = new \Magento\Framework\Object(array('int' => 'abc123', 'alnum' => 'abc123'));
         $expectedResult = true;
         $expectedMessages = array();
         $result[] = array($entityName, $groupName, $value, $expectedResult, $expectedMessages);
 
         // Case 4. Fail check alnum has valid value
-        $value = new \Magento\Object(array('int' => 'abc123', 'alnum' => '[abc123]'));
+        $value = new \Magento\Framework\Object(array('int' => 'abc123', 'alnum' => '[abc123]'));
         $expectedResult = false;
         $expectedMessages = array(
             'alnum' => array('notAlnum' => '\'[abc123]\' contains characters which are non alphabetic and no digits')

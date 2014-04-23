@@ -145,9 +145,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'frontend_input' => 'text'
             )
         );
-        $collection = $this->getMockBuilder('Magento\Object')->setMethods(array('getItems'))->getMock();
+        $collection = $this->getMockBuilder('Magento\Framework\Object')->setMethods(array('getItems'))->getMock();
         $collection->expects($this->once())->method('getItems')->will($this->returnValue(array($attribute)));
-        $entityType = $this->getMockBuilder('Magento\Object')->setMethods(array('getAttributeCollection'))->getMock();
+        $entityType = $this->getMockBuilder('Magento\Framework\Object')->setMethods(array('getAttributeCollection'))->getMock();
         $entityType->expects($this->once())->method('getAttributeCollection')->will($this->returnValue($collection));
         $entity = $this->_getEntityMock();
         $entity->expects($this->once())->method('getResource')->will($this->returnValue($resource));

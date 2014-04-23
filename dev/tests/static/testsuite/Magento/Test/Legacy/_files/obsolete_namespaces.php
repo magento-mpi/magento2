@@ -23,7 +23,7 @@ return [
     ['Magento\Session', 'Magento\Framework\Session'],
     ['Magento\Authorization', 'Magento\Framework\Authorization'],
     ['Magento\Cache', 'Magento\Framework\Cache'],
-    ['Magento\ObjectManager', 'Magento\Framework\ObjectManager'],
+    ['Magento\Framework\ObjectManager', 'Magento\Framework\ObjectManager'],
     ['Magento\Exception', 'Magento\Framework\Exception'],
     ['Magento\Autoload', 'Magento\Framework\Autoload'],
     ['Magento\Translate', 'Magento\Framework\Translate'],

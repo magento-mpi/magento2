@@ -149,10 +149,10 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValueMap(
                 array(
-                    array('Magento\Customer\Helper\Data', new \Magento\Object(array('account_url' => 1))),
+                    array('Magento\Customer\Helper\Data', new \Magento\Framework\Object(array('account_url' => 1))),
                     array(
                         'Magento\Framework\App\Config\ScopeConfigInterface',
-                        new \Magento\Object(array('config_flag' => 1))
+                        new \Magento\Framework\Object(array('config_flag' => 1))
                     ),
                     array(
                         'Magento\Core\Helper\Data',

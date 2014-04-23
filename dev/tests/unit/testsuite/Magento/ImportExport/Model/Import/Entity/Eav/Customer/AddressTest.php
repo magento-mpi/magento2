@@ -167,14 +167,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_addresses as $address) {
-            $addressCollection->addItem(new \Magento\Object($address));
+            $addressCollection->addItem(new \Magento\Framework\Object($address));
         }
 
         $regionCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_regions as $region) {
-            $regionCollection->addItem(new \Magento\Object($region));
+            $regionCollection->addItem(new \Magento\Framework\Object($region));
         }
 
         $data = array(
@@ -314,7 +314,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;

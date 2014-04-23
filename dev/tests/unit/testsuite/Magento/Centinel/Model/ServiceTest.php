@@ -132,7 +132,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $data = new \Magento\Object(array('card_type' => 'cardType'));
+        $data = new \Magento\Framework\Object(array('card_type' => 'cardType'));
 
         $model->lookup($data);
     }

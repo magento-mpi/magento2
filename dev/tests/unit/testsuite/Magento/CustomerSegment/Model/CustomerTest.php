@@ -38,7 +38,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_registry = $this->getMock('Magento\Registry', array('registry'), array(), '', false);
 
-        $website = new \Magento\Object(array('id' => 5));
+        $website = new \Magento\Framework\Object(array('id' => 5));
         $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
@@ -99,7 +99,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistry()
     {
-        $customer = new \Magento\Object(array('id' => 100500));
+        $customer = new \Magento\Framework\Object(array('id' => 100500));
         $this->_registry->expects(
             $this->once()
         )->method(
@@ -124,7 +124,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentCustomerSegmentIdsCustomerInRegistryNoId()
     {
-        $customer = new \Magento\Object();
+        $customer = new \Magento\Framework\Object();
         $this->_registry->expects(
             $this->once()
         )->method(
@@ -140,7 +140,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSession()
     {
-        $customer = new \Magento\Object(array('id' => 100500));
+        $customer = new \Magento\Framework\Object(array('id' => 100500));
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_resource->expects(
             $this->once()
@@ -157,7 +157,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentCustomerSegmentIdsCustomerInSessionNoId()
     {
-        $customer = new \Magento\Object();
+        $customer = new \Magento\Framework\Object();
         $this->_customerSession->expects($this->once())->method('getCustomer')->will($this->returnValue($customer));
         $this->_customerSession->setData('customer_segment_ids', array(5 => $this->_fixtureSegmentIds));
         $this->assertEquals($this->_fixtureSegmentIds, $this->_model->getCurrentCustomerSegmentIds());

@@ -99,9 +99,9 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                 'Invalid XML render with simple data.'
             ),
             array(
-                new \Magento\Object(array('key' => 'value')),
+                new \Magento\Framework\Object(array('key' => 'value')),
                 '<?xml version="1.0"?><response><key>value</key></response>',
-                'Invalid XML render with \Magento\Object data.'
+                'Invalid XML render with \Magento\Framework\Object data.'
             )
         );
     }

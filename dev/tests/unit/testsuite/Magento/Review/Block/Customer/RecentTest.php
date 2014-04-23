@@ -90,7 +90,7 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStore'
         )->will(
-            $this->returnValue(new \Magento\Object(array('id' => 42)))
+            $this->returnValue(new \Magento\Framework\Object(array('id' => 42)))
         );
         $this->currentCustomer->expects($this->any())->method('getCustomerId')->will($this->returnValue(4242));
 

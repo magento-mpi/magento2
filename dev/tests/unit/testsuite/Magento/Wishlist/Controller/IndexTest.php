@@ -26,7 +26,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
 
         $wishlistItem = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('load', 'getId', 'mergeBuyRequest', 'addToCart', 'getProduct'),
             array(),
             '',
@@ -65,7 +65,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $cart->expects($this->once())->method('save')->will($this->returnValue($cart));
         $cart->expects($this->any())->method('getQuote')->will($this->returnValue($cart));
 
-        $option = $this->getMock('Magento\Object', array('getCollection'), array(), '', false);
+        $option = $this->getMock('Magento\Framework\Object', array('getCollection'), array(), '', false);
         $option->expects($this->once())->method('getCollection')->will($this->returnValue($optionCollection));
 
         $product = $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false);

@@ -27,8 +27,8 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fromMock = $this->getMock('Magento\Object', array(), array(), '', false);
-        $this->toMock = $this->getMock('Magento\Object', array(), array(), '', false);
+        $this->fromMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
+        $this->toMock = $this->getMock('Magento\Framework\Object', array(), array(), '', false);
         $this->mapper = new \Magento\Framework\Object\Mapper();
     }
 

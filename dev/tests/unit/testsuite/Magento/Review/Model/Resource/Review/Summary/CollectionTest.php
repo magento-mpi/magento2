@@ -94,7 +94,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->with($this->selectMock, $this->anything())
             ->will($this->returnValue($statementMock));
 
-        $objectMock = $this->getMock('Magento\Object', array('setData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('setData'), array());
         $objectMock->expects($this->once())
             ->method('setData')
             ->with($data);
@@ -116,7 +116,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->with($this->selectMock, array())
             ->will($this->returnValue(array($data)));
 
-        $objectMock = $this->getMock('Magento\Object', array('addData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('addData'), array());
         $objectMock->expects($this->once())
             ->method('addData')
             ->with($data);

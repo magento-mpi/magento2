@@ -39,8 +39,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('attribute_code' => 'warehouse_zip')),
-                    new \Magento\Object(array('attribute_code' => 'warehouse_alternate'))
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_zip')),
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_alternate'))
                 )
             )
         );

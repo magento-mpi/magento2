@@ -49,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      *
      * @param $password
      * @param $passwordHash
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function getObserverMock($password, $passwordHash)
     {
@@ -61,10 +61,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($passwordHash)
         );
 
-        $event = new \Magento\Object();
+        $event = new \Magento\Framework\Object();
         $event->setData(array('password' => $password, 'model' => $this->customerMock));
 
-        $observerMock = new \Magento\Object();
+        $observerMock = new \Magento\Framework\Object();
         $observerMock->setData('event', $event);
 
         return $observerMock;

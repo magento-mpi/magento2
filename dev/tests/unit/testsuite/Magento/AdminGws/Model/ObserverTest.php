@@ -38,7 +38,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_store;
 
@@ -127,7 +127,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_store = new \Magento\Object();
+        $this->_store = new \Magento\Framework\Object();
 
         $this->_observer = $this->getMockBuilder(
             'Magento\Framework\Event\Observer'

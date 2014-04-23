@@ -65,7 +65,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->typeInstanceMock)
         );
-        $this->configuredValueMock = $this->getMock('Magento\Object', array('getSuperGroup'), array(), '', false);
+        $this->configuredValueMock = $this->getMock('Magento\Framework\Object', array('getSuperGroup'), array(), '', false);
         // mocks for getTierPriceHtml method
         $methods = array(
             'setTemplate',

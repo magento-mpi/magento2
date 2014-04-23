@@ -54,10 +54,10 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     /**
      * Entity validation routine to be used as a callback
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return bool
      */
-    public function isEntityValid(\Magento\Object $entity)
+    public function isEntityValid(\Magento\Framework\Object $entity)
     {
         return (bool)$entity->getData('is_valid');
     }
@@ -81,7 +81,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValid(array $inputEntityData, array $expectedErrors)
     {
-        $entity = new \Magento\Object($inputEntityData);
+        $entity = new \Magento\Framework\Object($inputEntityData);
         $isValid = $this->_model->isValid($entity);
         $this->assertFalse($isValid, 'Validation is expected to fail.');
 

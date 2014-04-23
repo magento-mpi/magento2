@@ -129,7 +129,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($block->getGridColumns());
         $expectedResult = array(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'reference_id' => 1,
                     'reference_id_link_url' => null,

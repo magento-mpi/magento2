@@ -133,7 +133,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->setMethods(['getAttribute', '__wakeup'])->getMock();
 
         $attributeMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             ['getBackend', 'afterLoad'],
             [],
             '',

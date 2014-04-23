@@ -77,8 +77,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendPaymentFailedEmail()
     {
-        $shippingAddress = new \Magento\Object(array('shipping_method' => 'ground_transportation'));
-        $billingAddress = new \Magento\Object(array('street' => 'Fixture St'));
+        $shippingAddress = new \Magento\Framework\Object(array('shipping_method' => 'ground_transportation'));
+        $billingAddress = new \Magento\Framework\Object(array('street' => 'Fixture St'));
 
         $this->_transportBuilder->expects(
             $this->once()
@@ -163,7 +163,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $productTwo->expects($this->once())->method('getName')->will($this->returnValue('Product Two'));
         $productTwo->expects($this->once())->method('getFinalPrice')->with(3)->will($this->returnValue(60));
 
-        $quote = new \Magento\Object(
+        $quote = new \Magento\Framework\Object(
             array(
                 'store_id' => 8,
                 'store_currency_code' => 'USD',
@@ -173,10 +173,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'customer_email' => 'john.doe@example.com',
                 'billing_address' => $billingAddress,
                 'shipping_address' => $shippingAddress,
-                'payment' => new \Magento\Object(array('method' => 'fixture-payment-method')),
+                'payment' => new \Magento\Framework\Object(array('method' => 'fixture-payment-method')),
                 'all_visible_items' => array(
-                    new \Magento\Object(array('product' => $productOne, 'qty' => 2)),
-                    new \Magento\Object(array('product' => $productTwo, 'qty' => 3))
+                    new \Magento\Framework\Object(array('product' => $productOne, 'qty' => 2)),
+                    new \Magento\Framework\Object(array('product' => $productTwo, 'qty' => 3))
                 )
             )
         );

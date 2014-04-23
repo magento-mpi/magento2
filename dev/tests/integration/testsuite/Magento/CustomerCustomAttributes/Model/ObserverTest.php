@@ -44,11 +44,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $address = $this->_objectManager->create('Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
-        $entity = new \Magento\Object(array('id' => $address->getId()));
+        $entity = new \Magento\Framework\Object(array('id' => $address->getId()));
         $collection = $this->getMock('Magento\Framework\Data\Collection\Db', array('getItems'), array(), '', false);
         $collection->expects($this->any())->method('getItems')->will($this->returnValue(array($entity)));
         $observer = new \Magento\Framework\Event\Observer(
-            array('event' => new \Magento\Object(array('order_address_collection' => $collection)))
+            array('event' => new \Magento\Framework\Object(array('order_address_collection' => $collection)))
         );
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_observer->salesOrderAddressCollectionAfterLoad($observer);
@@ -64,7 +64,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $arguments[] = array('id' => $address->getId());
         $entity = $this->getMockForAbstractClass('Magento\Framework\Model\AbstractModel', $arguments);
         $observer = new \Magento\Framework\Event\Observer(array(
-            'event' => new \Magento\Object(array(
+            'event' => new \Magento\Framework\Object(array(
                 'address' => $entity,
             ))
         ));
