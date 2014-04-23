@@ -15,7 +15,15 @@ $product = $item->getProduct();
 ?>
 <h3 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h3>
 <div class="cart-cell">
-    <?php echo $this->getPriceHtml($product);?>
+    </strong>
+    <?php
+        echo $this->getProductPriceHtml(
+            $product,
+            \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+            \Magento\Pricing\Render::ZONE_ITEM_LIST,
+            ['item' => $item]
+        );
+    ?>
     <div class="add-to-cart-alt">
         <?php if ($item->canHaveQty() && $item->getProduct()->isVisibleInSiteVisibility()): ?>
             <input type="text" class="input-text qty validate-not-negative-number" name="qty[<?php echo $item->getId() ?>]" value="<?php echo $this->getAddToCartQty($item) * 1 ?>" />
