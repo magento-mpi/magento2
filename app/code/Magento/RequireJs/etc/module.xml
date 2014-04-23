@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Module/etc/module.xsd">
     <module name="Magento_RequireJs" version="1.0.0.0" active="true">
         <depends>
             <module name="Magento_Theme"/>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/ObjectManager/etc/config.xsd">
     <virtualType name="requirejsConfigFileSourceBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">Magento\Framework\View\File\Collector\Base</argument>
