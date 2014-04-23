@@ -20,7 +20,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = $this->getMock(
-            'Magento\Core\Model\AbstractModel',
+            'Magento\Framework\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',
