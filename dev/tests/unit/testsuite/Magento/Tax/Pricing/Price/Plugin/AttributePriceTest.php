@@ -38,6 +38,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\ConfigurableProduct\Pricing\Price\AttributePrice|\PHPUnit_Framework_MockObject_MockObject */
     protected $attributePriceMock;
+
     /**
      * Test setup
      */

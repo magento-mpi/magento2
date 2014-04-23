@@ -145,15 +145,15 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
                 'price' => $price,
                 'oldPrice' => $price,
                 'inclTaxPrice' => $this->coreData->currency(
-                        $amount->getValue(),
-                        false,
-                        false
-                    ),
+                    $amount->getValue(),
+                    false,
+                    false
+                ),
                 'exclTaxPrice' => $this->coreData->currency(
-                        $amount->getBaseAmount(),
-                        false,
-                        false
-                    )
+                    $amount->getBaseAmount(),
+                    false,
+                    false
+                )
             ];
         }
         return $linksConfig;

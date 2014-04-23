@@ -277,7 +277,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      */
     public function prepareAdjustmentConfig()
     {
-        return $taxConfig = [
+        return [
             'includeTax' => false,
             'showIncludeTax' => false,
             'showBothPrices' => false,

@@ -130,13 +130,6 @@ class LinksTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        $linkMock = $this->getMock('Magento\Downloadable\Model\Link', ['getPrice', 'getId', '__wakeup'], [], '', false);
-        $linkMock->expects($this->any())
-            ->method('getPrice')
-            ->will($this->returnValue($linkPrice));
-        $linkMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($linkId));
 
         $linkAmountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
         $linkAmountMock->expects($this->once())
@@ -154,7 +147,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $typeInstanceMock = $this->getMock('Magento\Catalog\Model\Product\Type\Simple', ['getLinks'], [], '', false);
         $typeInstanceMock->expects($this->once())
             ->method('getLinks')
-            ->will($this->returnValue([$linkMock]));
+            ->will($this->returnValue([$this->getLinkMock($linkPrice, $linkId)]));
         $this->productMock->expects($this->once())
             ->method('getTypeInstance')
             ->will($this->returnValue($typeInstanceMock));
@@ -208,6 +201,19 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($finalPriceMock));
 
         $this->assertEquals(json_encode($config), $this->linksBlock->getJsonConfig());
+    }
+
+    protected function getLinkMock($linkPrice, $linkId)
+    {
+        $linkMock = $this->getMock('Magento\Downloadable\Model\Link', ['getPrice', 'getId', '__wakeup'], [], '', false);
+        $linkMock->expects($this->any())
+            ->method('getPrice')
+            ->will($this->returnValue($linkPrice));
+        $linkMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($linkId));
+
+        return $linkMock;
     }
 }
  
