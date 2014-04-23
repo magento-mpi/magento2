@@ -1284,6 +1284,19 @@ return array(
         'Magento\Payment\Block\Catalog\Product\View\Profile',
         'Magento\RecurringPayment\Block\Catalog\Product\View\Payment'
     ),
+    ['Magento\Payment\Block\Form\Banktransfer', 'Magento\OfflinePayments\Block\Form\Banktransfer'],
+    ['Magento\Payment\Block\Form\Cashondelivery', 'Magento\OfflinePayments\Block\Form\Cashondelivery'],
+    ['Magento\Payment\Block\Form\Ccsave', 'Magento\OfflinePayments\Block\Form\Ccsave'],
+    ['Magento\Payment\Block\Form\Checkmo', 'Magento\OfflinePayments\Block\Form\Checkmo'],
+    ['Magento\Payment\Block\Form\Purchaseorder', 'Magento\OfflinePayments\Block\Form\Purchaseorder'],
+    ['Magento\Payment\Block\Info\Ccsave', 'Magento\OfflinePayments\Block\Info\Ccsave'],
+    ['Magento\Payment\Block\Info\Checkmo', 'Magento\OfflinePayments\Block\Info\Checkmo'],
+    ['Magento\Payment\Block\Info\Purchaseorder', 'Magento\OfflinePayments\Block\Info\Purchaseorder'],
+    ['Magento\Payment\Model\Method\Banktransfer', 'Magento\OfflinePayments\Model\Banktransfer'],
+    ['Magento\Payment\Model\Method\Cashondelivery', 'Magento\OfflinePayments\Model\Cashondelivery'],
+    ['Magento\Payment\Model\Method\Ccsave', 'Magento\OfflinePayments\Model\Ccsave'],
+    ['Magento\Payment\Model\Method\Checkmo', 'Magento\OfflinePayments\Model\Checkmo'],
+    ['Magento\Payment\Model\Method\Purchaseorder', 'Magento\OfflinePayments\Model\Purchaseorder'],
     array(
         'Magento\Payment\Model\Recurring\Profile\MethodInterface',
         'Magento\RecurringPayment\Model\ManagerInterface'
@@ -1551,11 +1564,17 @@ return array(
     array('Magento\Adminhtml\Block\System\Variable', 'Magento\Backend\Block\System\Variable'),
     array(
         'Magento\Adminhtml\Block\Checkout\Agreement\Edit\Form',
-        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form'
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
     ),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Edit', 'Magento\Checkout\Block\Adminhtml\Agreement\Edit'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement\Grid', 'Magento\Checkout\Block\Adminhtml\Agreement\Grid'),
-    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\Checkout\Block\Adminhtml\Agreement'),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Edit',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Checkout\Agreement\Grid',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'
+    ),
+    array('Magento\Adminhtml\Block\Checkout\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'),
     array('Magento\Adminhtml\Controller\Checkout\Agreement', 'Magento\Checkout\Controller\Adminhtml\Agreement'),
     array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\Framework\View\PublicFilesManagerInterface'),
     array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\Framework\View\DeployedFilesManager'),
@@ -2224,7 +2243,7 @@ return array(
     ['Magento\Core\Model\Store', 'Magento\Store\Model\Store'],
     ['Magento\Core\Model\Store\Exception', 'Magento\Store\Model\Exception'],
     ['Magento\Core\Model\Store\Group', 'Magento\Store\Model\Group'],
-    ['Magento\Core\Model\Store\Group\Factory', 'Magento\Store\Model\Group\Factory'],
+    ['Magento\Core\Model\Store\Group\Factory', 'Magento\Store\Model\GroupFactory'],
     ['Magento\Core\Model\Store\Storage\Db', 'Magento\Store\Model\Storage\Db'],
     ['Magento\Core\Model\Store\Storage\DefaultStorage', 'Magento\Store\Model\Storage\DefaultStorage'],
     ['Magento\Core\Model\Store\StorageFactory', 'Magento\Store\Model\StorageFactory'],
@@ -2232,7 +2251,7 @@ return array(
     ['Magento\Core\Model\StoreManagerInterface', 'Magento\Store\Model\StoreManagerInterface'],
     ['Magento\Core\Model\System\Store', 'Magento\Store\Model\System\Store'],
     ['Magento\Core\Model\Website', 'Magento\Store\Model\Website'],
-    ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\Website\Factory'],
+    ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\WebsiteFactory'],
     ['Magento\Framework\App\ReinitableConfigInterface', 'Magento\Framework\App\Config\ReinitableConfigInterface'],
     ['Magento\BaseScopeInterface', 'Magento\Framework\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\Framework\App\ScopeResolverInterface'],
@@ -2276,6 +2295,23 @@ return array(
     ['Magento\Rating\Model\Resource\Rating', 'Magento\Review\Model\Resource\Rating'],
     ['Magento\Rating\Model\Rating\Option', 'Magento\Review\Model\Rating\Option'],
     ['Magento\Rating\Model\Observer'],
+    ['Magento\Core\Model\App\Area\CacheIdentifierPlugin', 'Magento\PageCache\App\CacheIdentifierPlugin'],
+    ['Magento\Core\Model\App\Area', 'Magento\Framework\App\Area'],
+    ['Magento\Core\Model\App\Area\DesignExceptions', 'Magento\View\DesignExceptions'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement'],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Edit', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit'],
+    [
+        'Magento\Checkout\Block\Adminhtml\Agreement\Edit\Form',
+        'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Edit\Form'
+    ],
+    ['Magento\Checkout\Block\Adminhtml\Agreement\Grid', 'Magento\CheckoutAgreements\Block\Adminhtml\Agreement\Grid'],
+    ['Magento\Checkout\Block\Agreements', 'Magento\CheckoutAgreements\Block\Agreements'],
+    ['Magento\Checkout\Controller\Adminhtml\Agreement', 'Magento\CheckoutAgreements\Controller\Adminhtml\Agreement'],
+    ['Magento\Checkout\Model\Resource\Agreement', 'Magento\CheckoutAgreements\Model\Resource\Agreement'],
+    [
+        'Magento\Checkout\Model\Resource\Agreement\Collection',
+        'Magento\CheckoutAgreements\Model\Resource\Agreement\Collection'
+    ],
     array('Magento\Sales\Block\Adminhtml\Invoice\Grid'),
     array('Magento\Sales\Block\Adminhtml\Shipment\Grid'),
     array('Magento\Sales\Block\Adminhtml\Creditmemo\Grid'),

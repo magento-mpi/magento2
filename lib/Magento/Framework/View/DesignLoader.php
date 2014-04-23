@@ -53,8 +53,8 @@ class DesignLoader
     public function load()
     {
         $area = $this->_areaList->getArea($this->appState->getAreaCode());
-        $area->load(\Magento\Core\Model\App\Area::PART_DESIGN);
-        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+        $area->load(\Magento\Framework\App\Area::PART_DESIGN);
+        $area->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         $area->detectDesign($this->_request);
     }
 }

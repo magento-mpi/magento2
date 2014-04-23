@@ -6,438 +6,167 @@
  * @license     {license_link}
  */
 
-/**
- * Test class for \Magento\Sales\Helper\Guest
- */
 namespace Magento\Sales\Helper;
 
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+
+/**
+ * Class GuestTest
+ * @package Magento\Sales\Helper
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class GuestTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Sales\Helper\Guest
-     */
-    private $helper;
+    /** @var \Magento\Sales\Helper\Guest */
+    protected $guest;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session
-     */
-    private $mockCustomerSession;
+    /** @var ObjectManagerHelper */
+    protected $objectManagerHelper;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\UrlInterface
-     */
-    private $mockUrlInterface;
+    /** @var \Magento\Framework\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject */
+    protected $appContextHelperMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Sales\Model\OrderFactory
-     */
-    private $mockOrderFactory;
+    /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $scopeConfigInterfaceMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\Cookie
-     */
-    private $mockCookie;
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $storeManagerInterfaceMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Registry
-     */
-    private $mockRegistry;
+    /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
+    protected $stateMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ViewInterface
-     */
-    private $mockView;
+    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    protected $registryMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
-     */
-    private $mockStoreManager;
+    /** @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
+    protected $sessionMock;
 
-    public function setUp()
+    /** @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject */
+    protected $cookieMock;
+
+    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $managerInterfaceMock;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $orderFactoryMock;
+
+    /** @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $viewInterfaceMock;
+
+    protected function setUp()
     {
-        $this->mockCustomerSession = $this->getMockBuilder('\Magento\Customer\Model\Session')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->appContextHelperMock = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
+        $this->scopeConfigInterfaceMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->storeManagerInterfaceMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $this->registryMock = $this->getMock('Magento\Registry');
+        $this->sessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
+        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
+        $this->managerInterfaceMock = $this->getMock('Magento\Message\ManagerInterface');
+        $this->orderFactoryMock = $this->getMock('Magento\Sales\Model\OrderFactory', ['create'], [], '', false);
+        $this->viewInterfaceMock = $this->getMock('Magento\Framework\App\ViewInterface');
 
-        $this->mockUrlInterface = $this->getMockBuilder('\Magento\UrlInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockOrderFactory = $this->getMockBuilder('\Magento\Sales\Model\OrderFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(['create'])
-            ->getMock();
-
-        $this->mockCookie = $this->getMockBuilder('\Magento\Stdlib\Cookie')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockRegistry = $this->getMockBuilder('\Magento\Registry')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockView = $this->getMockBuilder('\Magento\Framework\App\ViewInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockStoreManager = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        /** @var \Magento\Framework\App\Helper\Context $context */
-        $context = $objectManagerHelper->getObject(
-            '\Magento\Framework\App\Helper\Context',
-            ['urlBuilder' => $this->mockUrlInterface]
-        );
-
-        $this->helper = $objectManagerHelper->getObject(
+        $this->objectManagerHelper = new ObjectManagerHelper($this);
+        $this->guest = $this->objectManagerHelper->getObject(
             'Magento\Sales\Helper\Guest',
             [
-                'context'         => $context,
-                'coreCookie'      => $this->mockCookie,
-                'coreRegistry'    => $this->mockRegistry,
-                'customerSession' => $this->mockCustomerSession,
-                'orderFactory'    => $this->mockOrderFactory,
-                'storeManager'    => $this->mockStoreManager,
-                'view'            => $this->mockView,
+                'context' => $this->appContextHelperMock,
+                'scopeConfig' => $this->scopeConfigInterfaceMock,
+                'storeManager' => $this->storeManagerInterfaceMock,
+                'appState' => $this->stateMock,
+                'coreRegistry' => $this->registryMock,
+                'customerSession' => $this->sessionMock,
+                'coreCookie' => $this->cookieMock,
+                'messageManager' => $this->managerInterfaceMock,
+                'orderFactory' => $this->orderFactoryMock,
+                'view' => $this->viewInterfaceMock
             ]
         );
     }
 
-    public function testLoadValidOrderLoggedIn()
+    public function testLoadValidOrderNotEmptyPost()
     {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(true));
+        $this->sessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
-        $this->assertFalse(
-            $this->helper->loadValidOrder(
-                $this->getMock('\Magento\Framework\App\RequestInterface'),
-                $this->getMockResponse('sales/order/history')
-            )
+        $post = [
+            'oar_order_id' => 1,
+            'oar_type' => 'email',
+            'oar_billing_lastname' => 'oar_billing_lastname',
+            'oar_email' => 'oar_email',
+            'oar_zip' => 'oar_zip'
+
+        ];
+        $incrementId = $post['oar_order_id'];
+        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $requestMock->expects($this->once())->method('getPost')->will($this->returnValue($post));
+
+        $orderMock = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['getProtectCode', 'loadByIncrementId', 'getId', 'getBillingAddress', '__wakeup'],
+            [],
+            '',
+            false
         );
-    }
+        $this->orderFactoryMock->expects($this->once())->method('create')->will($this->returnValue($orderMock));
+        $orderMock->expects($this->once())->method('loadByIncrementId')->with($incrementId);
+        $orderMock->expects($this->exactly(2))->method('getId')->will($this->returnValue($incrementId));
 
-    public function testLoadValidOrderEmptyPostNoCookie()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $this->mockCookie->expects($this->once())
-            ->method('get')
-            ->with('guest-view')
-            ->will($this->returnValue(false));
-
-        $this->assertFalse(
-            $this->helper->loadValidOrder($this->getMockRequest([]), $this->getMockResponse('sales/guest/form'))
+        $billingAddressMock = $this->getMock(
+            'Magento\Sales\Model\Order\Address',
+            ['getLastname', 'getEmail', '__wakeup'],
+            [],
+            '',
+            false
         );
-    }
-
-    public function testLoadValidOrderBasicError()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        // getId can not be retrieved
-        $this->getMockOrder(['getId']);
-
-        $this->mockCookie->expects($this->once())
-            ->method('get')
-            ->with('guest-view')
-            ->will($this->returnValue(false));
-
-        $this->assertFalse(
-            $this->helper->loadValidOrder(
-                $this->getMockRequest(['not empty']),
-                $this->getMockResponse('sales/guest/form')
-            )
+        $billingAddressMock->expects($this->once())->method('getLastname')->will(
+            $this->returnValue($post['oar_billing_lastname'])
         );
-    }
-
-    public function testLoadValidOrderPostSet()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $mockOrder = $this->getMockOrder(['getId', 'loadByIncrementId']);
-        $mockOrder->expects($this->once())
-            ->method('loadByIncrementId')
-            ->with(54321);
-
-        $this->assertFalse(
-            $this->helper->loadValidOrder(
-                $this->getMockRequest(
-                    [
-                        'oar_order_id'         => 54321,
-                        'oar_type'             => 'email',
-                        'oar_billing_lastname' => 'lastname',
-                        'oar_email'            => 'email@example.com',
-                        'oar_zip'              => 12345
-                    ]
-                ),
-                $this->getMockResponse('sales/guest/form')
-            )
+        $billingAddressMock->expects($this->once())->method('getEmail')->will(
+            $this->returnValue($post['oar_email'])
         );
-    }
-
-    public function testLoadValidOrderMissingIdPost()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $this->getMockOrder(['getId']);
-
-        $this->assertFalse(
-            $this->helper->loadValidOrder(
-                $this->getMockRequest(
-                    [
-                        'oar_order_id'         => 1,
-                        'oar_type'             => 'type',
-                        'oar_billing_lastname' => 'lastname',
-                        'oar_email'            => 'email@example.com',
-                        'oar_zip'              => 12345
-                    ]
-                ),
-                $this->getMockResponse('sales/guest/form')
-            )
+        $orderMock->expects($this->once())->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
+        $protectedCode = 'protectedCode';
+        $orderMock->expects($this->once())->method('getProtectCode')->will($this->returnValue($protectedCode));
+        $this->cookieMock->expects($this->once())->method('set')->with(
+            Guest::COOKIE_NAME,
+            base64_encode($protectedCode . ':' . $incrementId),
+            Guest::COOKIE_LIFETIME,
+            Guest::COOKIE_PATH
         );
+        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->assertTrue($this->guest->loadValidOrder($requestMock, $responseMock));
     }
 
-    public function testLoadValidOrderPostMismatch()
+    public function testLoadValidOrderStoredCookie()
     {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $mockBillingAddress = $this->getMockBuilder('\Magento\Sales\Model\Order\Address')
-            ->setMethods(['__wakeup', 'getLastname'])
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $mockBillingAddress->expects($this->once())
-            ->method('getLastname')
-            ->will($this->returnValue('a different last name'));
-
-        $mockOrder = $this->getMockOrder(['getId', 'getBillingAddress']);
-        $mockOrder->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(2));
-        $mockOrder->expects($this->once())
-            ->method('getBillingAddress')
-            ->will($this->returnValue($mockBillingAddress));
-
-        $this->assertFalse(
-            $this->helper->loadValidOrder(
-                $this->getMockRequest(
-                    [
-                        'oar_order_id'         => 1,
-                        'oar_type'             => 'type',
-                        'oar_billing_lastname' => 'lastname',
-                        'oar_email'            => 'email@example.com',
-                        'oar_zip'              => 12345
-                    ]
-                ),
-                $this->getMockResponse('sales/guest/form')
-            )
+        $this->sessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
+        $orderMock = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['getProtectCode', 'loadByIncrementId', 'getId', 'getBillingAddress', '__wakeup'],
+            [],
+            '',
+            false
         );
-    }
+        $protectedCode = 'protectedCode';
+        $incrementId = 1;
+        $cookieData = $protectedCode . ':' . $incrementId;
+        $cookieDataHash = base64_encode($cookieData);
+        $this->orderFactoryMock->expects($this->once())->method('create')->will($this->returnValue($orderMock));
 
-    public function testLoadValidOrderSetCookie()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $mockBillingAddress = $this->getMockBuilder('\Magento\Sales\Model\Order\Address')
-            ->setMethods(['__wakeup', 'getLastname', 'getEmail'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockBillingAddress->expects($this->once())
-            ->method('getLastname')
-            ->will($this->returnValue('lastName'));
-        $mockBillingAddress->expects($this->once())
-            ->method('getEmail')
-            ->will($this->returnValue('email@example.com'));
-
-        $mockOrder = $this->getMockOrder(['getId', 'loadByIncrementId', 'getProtectCode', 'getBillingAddress']);
-        $mockOrder->expects($this->once())
-            ->method('loadByIncrementId')
-            ->with(1);
-        $mockOrder->expects($this->exactly(2))
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $mockOrder->expects($this->once())
-            ->method('getProtectCode')
-            ->will($this->returnValue('protected code'));
-        $mockOrder->expects($this->once())
-            ->method('getBillingAddress')
-            ->will($this->returnValue($mockBillingAddress));
-
-        $this->mockCookie->expects($this->once())
-            ->method('set')
-            ->with('guest-view', base64_encode('protected code'), 600, '/');
-
-        $this->assertTrue(
-            $this->helper->loadValidOrder(
-                $this->getMockRequest(
-                    [
-                        'oar_order_id'         => 1,
-                        'oar_type'             => 'email',
-                        'oar_billing_lastname' => 'lastname',
-                        'oar_email'            => 'email@example.com',
-                        'oar_zip'              => 12345
-                    ]
-                ),
-                $this->getMockResponse()
-            )
+        $this->cookieMock->expects($this->exactly(3))->method('get')->with(Guest::COOKIE_NAME)->will(
+            $this->returnValue($cookieDataHash)
         );
-    }
-
-    public function testLoadValidOrderRegisterOrder()
-    {
-        $this->mockCustomerSession->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
-
-        $mockOrder = $this->getMockOrder(['getId']);
-        $mockOrder->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue('order_id'));
-
-        $this->mockCookie->expects($this->once())
-            ->method('get')
-            ->with('guest-view')
-            ->will($this->returnValue(false));
-
-        $this->mockRegistry->expects($this->once())
-            ->method('register')
-            ->with('current_order', $mockOrder);
-
-        $this->assertTrue(
-            $this->helper->loadValidOrder($this->getMockRequest(['not empty']), $this->getMockResponse())
+        $orderMock->expects($this->once())->method('loadByIncrementId')->with($incrementId);
+        $orderMock->expects($this->exactly(1))->method('getId')->will($this->returnValue($incrementId));
+        $orderMock->expects($this->once())->method('getProtectCode')->will($this->returnValue($protectedCode));
+        $this->cookieMock->expects($this->once())->method('renew')->with(
+            Guest::COOKIE_NAME,
+            Guest::COOKIE_LIFETIME,
+            Guest::COOKIE_PATH
         );
-    }
 
-    public function testGetBreadCrumbs()
-    {
-        $mockLayout = $this->getMockBuilder('\Magento\Framework\View\LayoutInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockView->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($mockLayout));
-
-        $mockBlock = $this->getMockBuilder('Element\BlockInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(['addCrumb'])
-            ->getMock();
-
-        $mockLayout->expects($this->once())
-            ->method('getBlock')
-            ->with('breadcrumbs')
-            ->will($this->returnValue($mockBlock));
-
-        $mockStore = $this->getMockBuilder('\Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockStoreManager->expects($this->once())
-            ->method('getStore')
-            ->will($this->returnValue($mockStore));
-
-        $mockStore->expects($this->once())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('http://base.url'));
-
-        $mockBlock->expects($this->at(0))
-            ->method('addCrumb')
-            ->with(
-                'home',
-                [
-                    'label' => __('Home'),
-                    'title' => __('Go to Home Page'),
-                    'link'  => 'http://base.url'
-                ]
-            );
-
-        $mockBlock->expects($this->at(1))
-            ->method('addCrumb')
-            ->with(
-                'cms_page',
-                ['label' => __('Order Information'), 'title' => __('Order Information')]
-            );
-
-        $this->helper->getBreadcrumbs();
-    }
-
-    /**
-     * Return a mock order with the methods provided mocked to be returned by the appropriate factory
-     *
-     * @param array $methods
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Sales\Model\Order
-     */
-    private function getMockOrder(array $methods)
-    {
-        $mockOrder = $this->getMockBuilder('\Magento\Sales\Model\Order')
-            ->setMethods(array_merge(['__wakeup'], $methods))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->mockOrderFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockOrder));
-
-        return $mockOrder;
-    }
-
-    /**
-     * Create a mock response object
-     *
-     * @param null $redirectName if provided will make sure that generated url is set as the redirect patch
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\ResponseInterface
-     */
-    private function getMockResponse($redirectName = null)
-    {
-        $mockResponse = $this->getMockBuilder('\Magento\Framework\App\ResponseInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(['setRedirect', 'sendResponse'])
-            ->getMock();
-
-        if (!is_null($redirectName)) {
-            $url = 'http://some.url';
-            $this->mockUrlInterface->expects($this->once())
-                ->method('getUrl')
-                ->with($redirectName)
-                ->will($this->returnValue($url));
-            $mockResponse->expects($this->once())
-                ->method('setRedirect')
-                ->with($url);
-        }
-        return $mockResponse;
-    }
-
-    /**
-     * Returns a mock request object
-     *
-     * @param array $post list of data to be returned by getPost
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\RequestInterface
-     */
-    private function getMockRequest(array $post)
-    {
-        $mockRequest = $this->getMockBuilder('\Magento\Framework\App\RequestInterface')
-            ->setMethods(['getPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam'])
-            ->getMock();
-        $mockRequest->expects($this->once())
-            ->method('getPost')
-            ->will($this->returnValue($post));
-
-        return $mockRequest;
+        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->assertTrue($this->guest->loadValidOrder($requestMock, $responseMock));
     }
 }

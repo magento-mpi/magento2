@@ -32,8 +32,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const XML_PATH_CONNECTION_TYPE = 'global/resources/default_setup/connection/type';
 
-    const XML_PATH_SINGLE_STORE_MODE_ENABLED = 'general/single_store_mode/enabled';
-
     /**
      * Const for correct dividing decimal values
      */
@@ -262,21 +260,5 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function useDbCompatibleMode()
     {
         return $this->_dbCompatibleMode;
-    }
-
-    /**
-     * Check if Single-Store mode is enabled in configuration
-     *
-     * This flag only shows that admin does not want to show certain UI components at backend (like store switchers etc)
-     * if Magento has only one store view but it does not check the store view collection
-     *
-     * @return bool
-     */
-    public function isSingleStoreModeEnabled()
-    {
-        return (bool)$this->_scopeConfig->getValue(
-            self::XML_PATH_SINGLE_STORE_MODE_ENABLED,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
     }
 }

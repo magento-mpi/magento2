@@ -330,7 +330,7 @@ class Application
         $this->initialize();
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
-            ->getArea('install')->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            ->getArea('install')->load(\Magento\Framework\App\Area::PART_CONFIG);
 
         /* Run all install and data-install scripts */
         /** @var $updater \Magento\Module\Updater */
@@ -499,7 +499,7 @@ class Application
         );
         $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList');
         if ($areaCode == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
-            $app->getArea($areaCode)->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            $app->getArea($areaCode)->load(\Magento\Framework\App\Area::PART_CONFIG);
         } else {
             \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($areaCode);
         }

@@ -54,7 +54,7 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
      * @param string $area
      * @return $this
      */
-    public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
+    public function addDefaultPattern($area = \Magento\Framework\App\Area::AREA_FRONTEND)
     {
         $this->addTargetPattern(implode('/', array($area, '*/*', 'theme.xml')));
         return $this;

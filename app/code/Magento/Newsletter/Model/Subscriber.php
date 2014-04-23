@@ -9,6 +9,7 @@ namespace Magento\Newsletter\Model;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Mail\Exception as MailException;
 
 /**
  * Subscriber model
@@ -569,10 +570,15 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
         $this->save();
         $sendSubscription = $sendInformationEmail;
         if (is_null($sendSubscription) xor $sendSubscription) {
-            if ($this->isStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
-                $this->sendUnsubscriptionEmail();
-            } elseif ($this->isStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
-                $this->sendConfirmationSuccessEmail();
+            try {
+                if ($this->isStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
+                    $this->sendUnsubscriptionEmail();
+                } elseif ($this->isStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
+                    $this->sendConfirmationSuccessEmail();
+                }
+            } catch (MailException $e) {
+                // If we are not able to send a new account email, this should be ignored
+                $this->_logger->logException($e);
             }
         }
         return $this;
@@ -639,7 +645,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(
@@ -692,7 +698,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(
@@ -744,7 +750,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
             )
         )->setTemplateOptions(
             array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             )
         )->setTemplateVars(
