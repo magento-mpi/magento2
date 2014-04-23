@@ -75,7 +75,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             $checkResult[$key] = new \Magento\View\Layout\File($file['handle'] . '.xml', $file['module']);
             $this->fileFactory->expects($this->at($key))
                 ->method('create')
-                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'], $theme)
+                ->with(sprintf($handlePath, $file['module'], $file['handle']), $file['module'])
                 ->will($this->returnValue($checkResult[$key]));
         }
 
