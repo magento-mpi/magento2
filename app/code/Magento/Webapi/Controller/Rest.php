@@ -126,7 +126,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+            ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

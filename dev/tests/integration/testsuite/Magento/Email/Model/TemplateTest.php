@@ -101,7 +101,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
@@ -149,7 +149,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsWith(
@@ -167,7 +167,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->_setNotDefaultThemeForFixtureStore();
         $expectedViewUrl = 'static/frontend/Magento/plushe/en_US/Magento_Theme/favicon.ico';
@@ -194,7 +194,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\AreaList'
         )->getArea(
-            \Magento\Core\Model\App\Area::AREA_FRONTEND
+            \Magento\Framework\App\Area::AREA_FRONTEND
         )->load();
         $this->assertStringEndsWith(
             'static/frontend/Magento/blank/en_US/Magento_Email/logo_email.gif',

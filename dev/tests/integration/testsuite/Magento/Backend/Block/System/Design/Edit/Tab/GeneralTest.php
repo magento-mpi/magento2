@@ -31,7 +31,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             'Magento\Registry'
         )->register(
             'design',
-            $objectManager->create('Magento\Core\Model\Design')
+            $objectManager->create('Magento\Framework\App\DesignInterface')
         );
         $layout = $objectManager->create('Magento\Framework\View\Layout');
         $block = $layout->addBlock('Magento\Backend\Block\System\Design\Edit\Tab\General');
