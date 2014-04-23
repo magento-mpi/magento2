@@ -71,7 +71,7 @@ class Curl extends AbstractCurl implements SitemapInterface
         $response = $curl->read();
         $curl->close();
 
-        $pattern = '/class=\" col\-sitemap_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+        $pattern = '/class=\" col\-id col\-sitemap_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
             . $data['sitemap_filename'] . '/siu';
         preg_match($pattern, $response, $matches);
         if (empty($matches)) {
