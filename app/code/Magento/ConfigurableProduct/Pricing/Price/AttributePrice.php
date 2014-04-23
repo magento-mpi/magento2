@@ -75,7 +75,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
             ];
             $defaultValues[$attributeId] = $this->getAttributeConfigValue($attributeId);
-            if ($this->_validateAttributeInfo($info)) {
+            if ($this->validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
         }
