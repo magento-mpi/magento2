@@ -41,17 +41,16 @@ class ObjectManagerFactory
     protected $factory;
 
     /**
-     * Create object manager
+     * Create ObjectManager
      *
      * @param string $rootDir
      * @param array $arguments
-     * @return \Magento\Framework\ObjectManager\ObjectManager
-     * @throws \Magento\Framework\BootstrapException
+     * @param bool $useCompiled
+     * @return \Magento\Framework\ObjectManager
      *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function create($rootDir, array $arguments)
+    public function create($rootDir, array $arguments, $useCompiled = true)
     {
         $directories = isset(
             $arguments[Filesystem::PARAM_APP_DIRS]
@@ -71,7 +70,7 @@ class ObjectManagerFactory
             $appArguments->get('definition.format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'));
+        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
         /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
