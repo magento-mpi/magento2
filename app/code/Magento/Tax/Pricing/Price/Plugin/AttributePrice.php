@@ -38,6 +38,8 @@ class AttributePrice
     }
 
     /**
+     * Get Tax Adjustments for configurable product
+     *
      * @param \Magento\ConfigurableProduct\Pricing\Price\AttributePrice $attribute
      * @param array $result
      * @return array
@@ -65,6 +67,8 @@ class AttributePrice
     }
 
     /**
+     * Apply Tax Rate
+     *
      * @param int $classId
      * @param null $shippingAddress
      * @param null $billingAddress

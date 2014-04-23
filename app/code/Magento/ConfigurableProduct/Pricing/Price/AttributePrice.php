@@ -60,11 +60,10 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $options
      * @return array
      */
-    public function prepareJsonAttributes(array $options = [])
+    public function prepareAttributes(array $options = [])
     {
         $defaultValues = [];
         $attributes = [];
-        $preConfiguredValues = $this->getPreConfiguredValues();
         $configurableAttributes = $this->product->getTypeInstance()->getConfigurableAttributes($this->product);
         foreach ($configurableAttributes as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
@@ -75,7 +74,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'label' => $attribute->getLabel(),
                 'options' => $this->getPriceOptions($attributeId, $attribute, $options)
             ];
-            $defaultValues[$attributeId] = $this->getAttributeConfigValue($preConfiguredValues, $attributeId);
+            $defaultValues[$attributeId] = $this->getAttributeConfigValue($attributeId);
             if ($this->validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
@@ -165,7 +164,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     {
         return $this->product
             ->getPriceInfo()
-            ->getPrice('final_price')
+            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
             ->getValue() * $value['pricing_value'] / 100;
     }
 
@@ -202,26 +201,13 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     }
 
     /**
-     * @param \Magento\Object $preConfiguredValues
      * @param int $attributeId
      * @return mixed|null
      */
-    protected function getAttributeConfigValue($preConfiguredValues, $attributeId)
+    protected function getAttributeConfigValue($attributeId)
     {
         if ($this->product->hasPreconfiguredValues()) {
-            return $preConfiguredValues->getData('super_attribute/' . $attributeId);
-        }
-    }
-
-    /**
-     * Get PreConfigured Values
-     *
-     * @return array
-     */
-    protected function getPreConfiguredValues()
-    {
-        if ($this->product->hasPreconfiguredValues()) {
-            return $this->product->getPreconfiguredValues();
+            return $this->product->getPreconfiguredValues()->getData('super_attribute/' . $attributeId);
         }
     }
 
