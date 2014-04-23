@@ -220,4 +220,7 @@ return [
     ['/lib/Magento/Image', '/lib/Magento/Framework/Image'],
     ['/dev/tests/unit/testsuite/Magento/Image', '/dev/tests/unit/testsuite/Magento/Framework/Image'],
     ['/dev/tests/integration/testsuite/Magento/Image', '/dev/tests/integration/testsuite/Magento/Framework/Image'],
+    ['/lib/Magento/Oauth', '/lib/Magento/Framework/Oauth'],
+    ['/dev/tests/unit/testsuite/Magento/Oauth', '/dev/tests/unit/testsuite/Magento/Framework/Oauth'],
+    ['/dev/tests/integration/testsuite/Magento/Oauth', '/dev/tests/integration/testsuite/Magento/Framework/Oauth'],
 ];

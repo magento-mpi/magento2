@@ -7,7 +7,7 @@
  */
 namespace Magento\Integration\Model\Oauth;
 
-use Magento\Oauth\ConsumerInterface;
+use Magento\Framework\Oauth\ConsumerInterface;
 
 /**
  * Consumer model
@@ -108,7 +108,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
 
         /** @var $validatorLength \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create(
-            array('options' => array('length' => \Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY))
+            array('options' => array('length' => \Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY))
         );
 
         $validatorLength->setName('Consumer Key');
@@ -117,7 +117,7 @@ class Consumer extends \Magento\Framework\Model\AbstractModel implements Consume
             throw new \Magento\Framework\Model\Exception(array_shift($messages));
         }
 
-        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
+        $validatorLength->setLength(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();

@@ -5,14 +5,14 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Oauth;
+namespace Magento\Framework\Oauth;
 
 /**
  * Interface ConsumerInterface
  *
  * This interface exposes minimal consumer functionality needed by the Oauth library.
  *
- * @package Magento\Oauth
+ * @package Magento\Framework\Oauth
  */
 interface ConsumerInterface
 {

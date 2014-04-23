@@ -44,13 +44,13 @@ $table = $installer->getConnection()->newTable(
 )->addColumn(
     'key',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    \Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY,
+    \Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_KEY,
     array('nullable' => false),
     'Key code'
 )->addColumn(
     'secret',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    \Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET,
+    \Magento\Framework\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET,
     array('nullable' => false),
     'Secret code'
 )->addColumn(
@@ -130,19 +130,19 @@ $table = $installer->getConnection()->newTable(
 )->addColumn(
     'token',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN,
+    \Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN,
     array('nullable' => false),
     'Token'
 )->addColumn(
     'secret',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET,
+    \Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET,
     array('nullable' => false),
     'Token Secret'
 )->addColumn(
     'verifier',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER,
+    \Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER,
     array('nullable' => true),
     'Token Verifier'
 )->addColumn(

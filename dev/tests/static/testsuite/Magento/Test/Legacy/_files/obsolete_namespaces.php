@@ -64,4 +64,5 @@ return [
     ['Magento\Math', 'Magento\Framework\Math'],
     ['Magento\Gdata', 'Magento\Framework\Gdata'],
     ['Magento\Image', 'Magento\Framework\Image'],
+    ['Magento\Oauth', 'Magento\Framework\Oauth'],
 ];

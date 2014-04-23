@@ -5,9 +5,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Oauth\Helper;
+namespace Magento\Framework\Oauth\Helper;
 
-use Magento\Oauth\OauthInterface;
+use Magento\Framework\Oauth\OauthInterface;
 
 class Request
 {
@@ -245,7 +245,7 @@ class Request
 
         $eMsg = $exception->getMessage();
 
-        if ($exception instanceof \Magento\Oauth\Exception) {
+        if ($exception instanceof \Magento\Framework\Oauth\Exception) {
             $eCode = $exception->getCode();
 
             if (isset($errorMap[$eCode])) {

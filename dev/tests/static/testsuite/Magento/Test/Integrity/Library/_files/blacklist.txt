@@ -62,7 +62,7 @@ lib/Magento/Framework/App/Module/ResourceResolver.php
 lib/Magento/Framework/Event/Invoker/InvokerDefault.php
 lib/Magento/Framework/Phrase/Renderer/Translate.php
 lib/Magento/Framework/Backup/Snapshot.php
-lib/Magento/Oauth/Exception.php
+lib/Magento/Framework/Oauth/Exception.php
 
 lib/Magento/Framework/App/Helper/AbstractHelper.php
 lib/Magento/Framework/App/Helper/Context.php
