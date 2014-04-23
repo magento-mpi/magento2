@@ -17,7 +17,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare object for SUT constructor. */
-        $xmlGenerator = new \Magento\Xml\Generator();
+        $xmlGenerator = new \Magento\Framework\Xml\Generator();
         /** Initialize SUT. */
         $this->_restXmlRenderer = new \Magento\Webapi\Controller\Rest\Response\Renderer\Xml($xmlGenerator);
         parent::setUp();

@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Connect\Channel;
 
-class Generator extends \Magento\Xml\Generator
+class Generator extends \Magento\Framework\Xml\Generator
 {
     /**
      * @var string
@@ -17,7 +17,7 @@ class Generator extends \Magento\Xml\Generator
     protected $_file = 'channel.xml';
 
     /**
-     * @var \Magento\Xml\Generator|null
+     * @var \Magento\Framework\Xml\Generator|null
      */
     protected $_generator = null;
 
@@ -41,12 +41,12 @@ class Generator extends \Magento\Xml\Generator
     }
 
     /**
-     * @return \Magento\Xml\Generator|null
+     * @return \Magento\Framework\Xml\Generator|null
      */
     public function getGenerator()
     {
         if (is_null($this->_generator)) {
-            $this->_generator = new \Magento\Xml\Generator();
+            $this->_generator = new \Magento\Framework\Xml\Generator();
         }
         return $this->_generator;
     }

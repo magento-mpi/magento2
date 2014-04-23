@@ -26,15 +26,15 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
      */
     const DEFAULT_ENTITY_ITEM_NAME = 'item';
 
-    /** @var \Magento\Xml\Generator */
+    /** @var \Magento\Framework\Xml\Generator */
     protected $_xmlGenerator;
 
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Xml\Generator $xmlGenerator
+     * @param \Magento\Framework\Xml\Generator $xmlGenerator
      */
-    public function __construct(\Magento\Xml\Generator $xmlGenerator)
+    public function __construct(\Magento\Framework\Xml\Generator $xmlGenerator)
     {
         $this->_xmlGenerator = $xmlGenerator;
     }

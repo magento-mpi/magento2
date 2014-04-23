@@ -42,7 +42,7 @@ class Rest
     /**
      * XML parser
      *
-     * @var \Magento\Xml\Parser
+     * @var \Magento\Framework\Xml\Parser
      */
     protected $_parser = null;
 
@@ -114,12 +114,12 @@ class Rest
     /**
      * Get parser
      *
-     * @return \Magento\Xml\Parser
+     * @return \Magento\Framework\Xml\Parser
      */
     protected function getParser()
     {
         if (is_null($this->_parser)) {
-            $this->_parser = new \Magento\Xml\Parser();
+            $this->_parser = new \Magento\Framework\Xml\Parser();
         }
         return $this->_parser;
     }

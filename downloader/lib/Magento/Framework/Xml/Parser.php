@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Xml
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Xml;
+namespace Magento\Framework\Xml;
 
 class Parser
 {
@@ -27,7 +25,7 @@ class Parser
     protected $_content = array();
 
     /**
-     *
+     * Constructor
      */
     public function __construct()
     {

@@ -183,4 +183,7 @@ return [
         '/dev/tests/integration/testsuite/Magento/Validator',
         '/dev/tests/integration/testsuite/Magento/Framework/Validator'
     ],
+    ['/lib/Magento/Xml', '/lib/Magento/Framework/Xml'],
+    ['/dev/tests/unit/testsuite/Magento/Xml', '/dev/tests/unit/testsuite/Magento/Framework/Xml'],
+    ['/dev/tests/integration/testsuite/Magento/Xml', '/dev/tests/integration/testsuite/Magento/Framework/Xml'],
 ];

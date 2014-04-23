@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Connect\Channel;
 
-use Magento\Xml\Generator as XmlGenerator;
+use Magento\Framework\Xml\Generator as XmlGenerator;
 
 class Generator extends XmlGenerator
 {

@@ -52,4 +52,5 @@ return [
     ['Magento\Url', 'Magento\Framework\Url'],
     ['Magento\Mview', 'Magento\Framework\Mview'],
     ['Magento\Validator', 'Magento\Framework\Validator'],
+    ['Magento\Xml', 'Magento\Framework\Xml'],
 ];
