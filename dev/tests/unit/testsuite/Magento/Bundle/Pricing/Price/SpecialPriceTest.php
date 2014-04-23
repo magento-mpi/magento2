@@ -90,7 +90,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             $price = $this->getMock('Magento\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
-                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE, null)
+                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE)
                 ->will($this->returnValue($price));
             $price->expects($this->once())
                 ->method('getValue')
