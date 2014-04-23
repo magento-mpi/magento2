@@ -2467,4 +2467,5 @@ return array(
     ['Magento\Flag', 'Magento\Framework\Flag'],
     ['Magento\FlagFactory', 'Magento\Framework\FlagFactory'],
     ['Magento\Image', 'Magento\Framework\Image'],
+    ['Magento\Object', 'Magento\Framework\Object'],
 );

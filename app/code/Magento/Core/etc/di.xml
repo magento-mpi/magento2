@@ -252,8 +252,8 @@
     </type>
     <type name="Magento\Framework\Object\Copy\Config\SchemaLocator">
         <arguments>
-            <argument name="schema" xsi:type="string">lib/Magento/Object/etc/fieldset.xsd</argument>
-            <argument name="perFileSchema" xsi:type="string">lib/Magento/Object/etc/fieldset_file.xsd</argument>
+            <argument name="schema" xsi:type="string">lib/Magento/Framework/Object/etc/fieldset.xsd</argument>
+            <argument name="perFileSchema" xsi:type="string">lib/Magento/Framework/Object/etc/fieldset_file.xsd</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Object\Copy\Config\Data">

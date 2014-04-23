@@ -371,7 +371,7 @@ class Config extends \Magento\Eav\Model\Config
     }
 
     /**
-     * @param /Magento/Object $source
+     * @param \Magento\Framework\Object $source
      * @param string $value
      * @return null|mixed
      */

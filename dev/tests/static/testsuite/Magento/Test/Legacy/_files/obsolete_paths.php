@@ -223,4 +223,7 @@ return [
     ['/lib/Magento/Oauth', '/lib/Magento/Framework/Oauth'],
     ['/dev/tests/unit/testsuite/Magento/Oauth', '/dev/tests/unit/testsuite/Magento/Framework/Oauth'],
     ['/dev/tests/integration/testsuite/Magento/Oauth', '/dev/tests/integration/testsuite/Magento/Framework/Oauth'],
+    ['/lib/Magento/Object', '/lib/Magento/Framework/Object'],
+    ['/dev/tests/unit/testsuite/Magento/Object', '/dev/tests/unit/testsuite/Magento/Framework/Object'],
+    ['/dev/tests/integration/testsuite/Magento/Object', '/dev/tests/integration/testsuite/Magento/Framework/Object'],
 ];
