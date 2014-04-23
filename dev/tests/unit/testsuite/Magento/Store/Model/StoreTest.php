@@ -442,4 +442,29 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             array(1, 'UAH'),
         );
     }
+    
+    public function testGetAllowedCurrencies()
+    {
+        $currencyPath = 'cur/ren/cy/path';
+        $expectedResult = array('EUR', 'USD');
+
+        $configMock = $this->getMockForAbstractClass(
+            'Magento\Framework\App\Config\ReinitableConfigInterface',
+            array(),
+            '',
+            false
+        );
+        $configMock->expects($this->once())
+            ->method('getValue')
+            ->with($currencyPath, 'store', null)
+            ->will($this->returnValue('EUR,USD'));
+
+        /** @var \Magento\Store\Model\Store $model */
+        $model = $this->objectManagerHelper->getObject('Magento\Store\Model\Store', array(
+            'config' => $configMock,
+            'currencyInstalled' => $currencyPath,
+        ));
+
+        $this->assertEquals($expectedResult, $model->getAllowedCurrencies());
+    }
 }
