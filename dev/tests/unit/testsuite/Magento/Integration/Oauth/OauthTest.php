@@ -54,99 +54,83 @@ class OauthTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_consumerFactory = $this->getMockBuilder(
-            'Magento\Integration\Model\Oauth\Consumer\Factory'
-        )->disableOriginalConstructor()->getMock();
-        $this->_consumerMock = $this->getMockBuilder(
-            'Magento\Integration\Model\Oauth\Consumer'
-        // Mocking magic getCreatedAt()
-        )->disableOriginalConstructor()->setMethods(
-            array(
-                'getCreatedAt',
-                'loadByKey',
-                'load',
-                'getId',
-                'getSecret',
-                'getCallbackUrl',
-                'save',
-                'getData',
-                '__wakeup'
+        $this->_consumerFactory = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_consumerMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer')
+            ->disableOriginalConstructor()->setMethods(
+                array(
+                    'getCreatedAt',
+                    'loadByKey',
+                    'load',
+                    'getId',
+                    'getSecret',
+                    'getCallbackUrl',
+                    'save',
+                    'getData',
+                    '__wakeup'
+                )
             )
-        )->getMock();
-        $this->_consumerFactory->expects(
-            $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->_consumerMock)
-        );
-
+            ->getMock();
+        $this->_consumerFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_consumerMock));
         $this->_nonceFactory = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Nonce\Factory'
         )->disableOriginalConstructor()->getMock();
-
         $this->_tokenFactory = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Token\Factory'
         )->disableOriginalConstructor()->getMock();
-        $this->_tokenMock = $this->getMockBuilder(
-            'Magento\Integration\Model\Oauth\Token'
-        )->disableOriginalConstructor()->setMethods(
-            array(
-                'getId',
-                'load',
-                'getType',
-                'createRequestToken',
-                'getToken',
-                'getSecret',
-                'createVerifierToken',
-                'getVerifier',
-                'getConsumerId',
-                'convertToAccess',
-                'getRevoked',
-                '__wakeup'
+        $this->_tokenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
+            ->disableOriginalConstructor()
+            ->setMethods(
+                array(
+                    'getId',
+                    'load',
+                    'getType',
+                    'createRequestToken',
+                    'getToken',
+                    'getSecret',
+                    'createVerifierToken',
+                    'getVerifier',
+                    'getConsumerId',
+                    'convertToAccess',
+                    'getRevoked',
+                    '__wakeup'
+                )
             )
-        )->getMock();
+            ->getMock();
         $this->_tokenFactory->expects($this->any())->method('create')->will($this->returnValue($this->_tokenMock));
-
-        $this->_oauthHelperMock = $this->getMockBuilder(
-            'Magento\Framework\Oauth\Helper\Oauth'
-        )->setConstructorArgs(
-            array(new \Magento\Framework\Math\Random())
-        )->getMock();
-
+        $this->_oauthHelperMock = $this->getMockBuilder('Magento\Framework\Oauth\Helper\Oauth')
+            ->setConstructorArgs(array(new \Magento\Framework\Math\Random()))
+            ->getMock();
         $this->_dataHelperMock = $this->getMockBuilder(
             'Magento\Integration\Helper\Oauth\Data'
         )->disableOriginalConstructor()->getMock();
-
-        $this->_httpUtilityMock = $this->getMockBuilder(
-            'Zend_Oauth_Http_Utility'
-        )->setMethods(
-            array('sign')
-        )->getMock();
-        $this->_dateMock = $this->getMockBuilder(
-            'Magento\Framework\Stdlib\DateTime\DateTime'
-        )->disableOriginalConstructor()->getMock();
+        $this->_httpUtilityMock = $this->getMockBuilder('Zend_Oauth_Http_Utility')
+            ->setMethods(array('sign'))
+            ->getMock();
+        $this->_dateMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateTime')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $nonceGenerator = new \Magento\Integration\Model\Oauth\Nonce\Generator(
             $this->_oauthHelperMock,
             $this->_nonceFactory,
             $this->_dateMock
         );
-
         $tokenProvider = new \Magento\Integration\Model\Oauth\Token\Provider(
             $this->_consumerFactory,
             $this->_tokenFactory,
             $this->_dataHelperMock,
             $this->_dateMock
         );
-
         $this->_oauth = new \Magento\Framework\Oauth\Oauth(
             $this->_oauthHelperMock,
             $nonceGenerator,
             $tokenProvider,
             $this->_httpUtilityMock
         );
-
         $this->_oauthToken = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN);
         $this->_oauthSecret = $this->_generateRandomString(\Magento\Framework\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET);
         $this->_oauthVerifier = $this->_generateRandomString(
