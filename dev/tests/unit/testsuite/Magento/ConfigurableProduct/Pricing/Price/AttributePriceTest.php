@@ -69,7 +69,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $qty = 1;
         $this->saleableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            [],
+            ['setParentId', '__wakeup', 'getPriceInfo'],
             [],
             '',
             false
@@ -188,5 +188,81 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($modifiedAmount));
 
         $result = $this->attribute->prepareJsonAttributes($options);
+    }
+
+    /**
+     * test method testGetOptionValueModified with option is_percent = true
+     */
+    public function testGetOptionValueModifiedIsPercent()
+    {
+        $finalPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
+        $this->saleableItemMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
+        $this->saleableItemMock->expects($this->once())
+            ->method('setParentId')
+            ->with($this->equalTo(true))
+            ->will($this->returnValue($this->returnSelf()));
+        $this->priceInfoMock->expects($this->once())
+            ->method('getPrice')
+            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE))
+            ->will($this->returnValue($finalPriceMock));
+        $finalPriceMock->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue(50));
+        $this->priceModifier->expects($this->once())
+            ->method('modifyPrice')
+            ->with($this->equalTo(50), $this->equalTo($this->saleableItemMock))
+            ->will($this->returnValue(55));
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with(
+                $this->equalTo(55),
+                $this->equalTo($this->saleableItemMock),
+                $this->equalTo(\Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE)
+            )
+            ->will($this->returnValue(57.55));
+        $this->assertEquals(
+            57.55,
+            $this->attribute->getOptionValueModified(
+                [
+                    'is_percent' => true,
+                    'pricing_value' => 100
+                ]
+            )
+        );
+    }
+
+    /**
+     * test method testGetOptionValueModified with option is_percent = false
+     */
+    public function testGetOptionValueModifiedIsNotPercent()
+    {
+        $this->saleableItemMock->expects($this->once())
+            ->method('setParentId')
+            ->with($this->equalTo(true))
+            ->will($this->returnValue($this->returnSelf()));
+        $this->priceModifier->expects($this->once())
+            ->method('modifyPrice')
+            ->with($this->equalTo(77.33), $this->equalTo($this->saleableItemMock))
+            ->will($this->returnValue(77.67));
+        $this->calculatorMock->expects($this->once())
+            ->method('getAmount')
+            ->with(
+                $this->equalTo(77.67),
+                $this->equalTo($this->saleableItemMock),
+                $this->equalTo(\Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE
+                )
+            )
+            ->will($this->returnValue(80.99));
+        $this->assertEquals(
+            80.99,
+            $this->attribute->getOptionValueModified(
+                [
+                    'is_percent' => false,
+                    'pricing_value' => 77.33
+                ]
+            )
+        );
     }
 }
