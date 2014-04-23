@@ -67,6 +67,7 @@ class Grouped implements Fallback\CacheDataInterface
 
     /**
      * @param string $sectionId
+     * @return void
      */
     private function loadSection($sectionId)
     {

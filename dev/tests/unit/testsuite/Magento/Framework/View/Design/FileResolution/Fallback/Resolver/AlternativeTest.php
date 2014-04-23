@@ -36,13 +36,17 @@ class AlternativeTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->with(\Magento\Framework\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($this->directory));
-        $this->rule = $this->getMock('\Magento\Framework\View\Design\Fallback\Rule\RuleInterface', array(), array(), '', false);
+        $this->rule = $this->getMock(
+            '\Magento\Framework\View\Design\Fallback\Rule\RuleInterface', array(), array(), '', false
+        );
         $rulePool = $this->getMock('Magento\Framework\View\Design\Fallback\RulePool', array(), array(), '', false);
         $rulePool->expects($this->any())
             ->method('getRule')
             ->with('type')
             ->will($this->returnValue($this->rule));
-        $cache = $this->getMockForAbstractClass('Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface');
+        $cache = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface'
+        );
         $cache->expects($this->any())
             ->method('getFromCache')
             ->will($this->returnValue(false));
@@ -61,7 +65,9 @@ class AlternativeTest extends \PHPUnit_Framework_TestCase
 
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $rulePool = $this->getMock('Magento\Framework\View\Design\Fallback\RulePool', array(), array(), '', false);
-        $cache = $this->getMockForAbstractClass('Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface');
+        $cache = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface'
+        );
         new Alternative($filesystem, $rulePool, $cache, $alternativeExtensions);
     }
 

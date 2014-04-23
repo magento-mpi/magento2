@@ -263,6 +263,8 @@ class Minified implements LocalInterface
 
     /**
      * Fill the properties by bare copying properties from original asset
+     *
+     * @return void
      */
     protected function fillPropertiesByOriginalAsset()
     {
@@ -275,6 +277,8 @@ class Minified implements LocalInterface
 
     /**
      * Fill the properties by copying properties from original asset and adding '.min' inside them
+     *
+     * @return void
      */
     protected function fillPropertiesByOriginalAssetWithMin()
     {
@@ -287,6 +291,8 @@ class Minified implements LocalInterface
 
     /**
      * Generate minified file and fill the properties to reference that file
+     *
+     * @return void
      */
     protected function fillPropertiesByMinifyingAsset()
     {
@@ -305,6 +311,8 @@ class Minified implements LocalInterface
 
     /**
      * Perform actual minification
+     *
+     * @return void
      */
     private function minify()
     {

@@ -52,11 +52,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->_templateFileResolution = $this->getMock(
             'Magento\Framework\View\Design\FileResolution\Fallback\TemplateFile', array(), array(), '', false
         );
-        $this->_localeFileResolution = $this->getMock('Magento\Framework\View\Design\FileResolution\Fallback\LocaleFile', array(),
-            array(), '', false
+        $this->_localeFileResolution = $this->getMock(
+            'Magento\Framework\View\Design\FileResolution\Fallback\LocaleFile', array(), array(), '', false
         );
-        $this->_staticFileResolution = $this->getMock('Magento\Framework\View\Design\FileResolution\Fallback\StaticFile', array(),
-            array(), '', false
+        $this->_staticFileResolution = $this->getMock(
+            'Magento\Framework\View\Design\FileResolution\Fallback\StaticFile', array(), array(), '', false
         );
         $this->_assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository',
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
@@ -75,7 +75,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $params = array(
             'area' => 'some_area',
-            'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false),
+            'themeModel' => $this->getMock(
+                    'Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false
+                ),
             'module' => 'Some_Module'   //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
                                         // but PHPUnit has troubles with passing arguments by reference
         );
@@ -100,7 +102,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $params = array(
             'area'       => 'some_area',
-            'themeModel' => $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false),
+            'themeModel' => $this->getMock(
+                    'Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false, false
+                ),
             'module'     => 'Some_Module'   //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
                                             // but PHPUnit has troubles with passing arguments by reference
         );

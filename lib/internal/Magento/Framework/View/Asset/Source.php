@@ -53,10 +53,17 @@ class Source
      */
     protected $themeProvider;
 
+    /**
+     * @param PreProcessor\Cache $cache
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param PreProcessor\Pool $preProcessorPool
+     * @param \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback
+     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
+     */
     public function __construct(
-        \Magento\Framework\View\Asset\PreProcessor\Cache $cache,
+        PreProcessor\Cache $cache,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Framework\View\Asset\PreProcessor\Pool $preProcessorPool,
+        PreProcessor\Pool $preProcessorPool,
         \Magento\Framework\View\Design\FileResolution\Fallback\StaticFile $fallback,
         \Magento\Framework\View\Design\Theme\Provider $themeProvider
     ) {

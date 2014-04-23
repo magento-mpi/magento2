@@ -21,7 +21,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     private $rule;
 
     /**
-     * @var \Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $cache;
 
@@ -49,7 +49,9 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
             ->method('getRule')
             ->with('type')
             ->will($this->returnValue($this->rule));
-        $this->cache = $this->getMockForAbstractClass('Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface');
+        $this->cache = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface'
+        );
         $this->object = new Simple($filesystem, $rulePool, $this->cache);
     }
 

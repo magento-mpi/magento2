@@ -163,7 +163,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Framework\View\File\Collector\ThemeModular', array('subDir' => 'layout'));
         /** @var $themeUpdatesOverride \Magento\Framework\View\File\Collector\Override\ThemeModular */
         $themeUpdatesOverride = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'));
+            ->create(
+                'Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override')
+            );
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Theme\Collection'
@@ -301,7 +303,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         return $this->_retrieveFilesForEveryTheme(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override'))
+                ->create(
+                    'Magento\Framework\View\File\Collector\Override\ThemeModular', array('subDir' => 'layout/override')
+                )
         );
     }
 

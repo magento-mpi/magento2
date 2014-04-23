@@ -93,6 +93,7 @@ class Chain
      * Set current content
      *
      * @param string $content
+     * @return void
      */
     public function setContent($content)
     {
@@ -123,6 +124,7 @@ class Chain
      * Set current content type
      *
      * @param string $contentType
+     * @return void
      */
     public function setContentType($contentType)
     {
@@ -144,6 +146,7 @@ class Chain
      *
      * Impose an integrity check to avoid generating mismatching content type and not leaving transient data behind
      *
+     * @return void
      * @throws \LogicException
      */
     public function assertValid()

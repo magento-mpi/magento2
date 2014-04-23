@@ -46,7 +46,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         /** @var \Magento\Framework\App\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\App\Filesystem');
         $libPath = $filesystem->getPath(\Magento\Framework\App\Filesystem::LIB_WEB);
         unlink($libPath . '/prototype/prototype.min.js');
     }

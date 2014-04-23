@@ -71,7 +71,9 @@ class FileSystem
      */
     public function getFilename($fileId, array $params = array())
     {
-        list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule($this->normalizePath($fileId));
+        list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
+            $this->normalizePath($fileId)
+        );
         if ($module) {
             $params['module'] = $module;
         }

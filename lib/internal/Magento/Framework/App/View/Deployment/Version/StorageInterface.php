@@ -25,6 +25,7 @@ interface StorageInterface
      * Store version value in a persistent storage
      *
      * @param string $data
+     * @return void
      */
     public function save($data);
 }

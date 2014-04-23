@@ -70,7 +70,7 @@ class Image
     /**
      * Theme
      *
-     * @var \Magento\Core\Model\Theme|ThemeInterface
+     * @var ThemeInterface
      */
     protected $theme;
 
@@ -137,7 +137,7 @@ class Image
     /**
      * Create preview image duplicate
      *
-     * @param \Magento\Core\Model\Theme|ThemeInterface $theme
+     * @param ThemeInterface $theme
      * @return bool
      */
     public function createPreviewImageCopy(ThemeInterface $theme)

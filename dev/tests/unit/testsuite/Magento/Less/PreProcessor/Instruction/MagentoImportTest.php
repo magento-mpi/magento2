@@ -45,7 +45,9 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->fileSource = $this->getMockForAbstractClass('\Magento\Framework\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->notationResolver = $this->getMock('\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false);
+        $this->notationResolver = $this->getMock(
+            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false
+        );
         $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(

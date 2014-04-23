@@ -33,11 +33,13 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = $this->getMock('Magento\Framework\View\Url\ConfigInterface');
-        $this->deploymentVersion = $this->getMock('Magento\Framework\App\View\Deployment\Version', array(), array(), '', false);
+        $this->deploymentVersion = $this->getMock(
+            'Magento\Framework\App\View\Deployment\Version', array(), array(), '', false
+        );
         /**
          * @SuppressWarnings(PHPMD.UnusedFormalParameter)
          */
-        $this->closureMock = function($type = '', $secure = null) {
+        $this->closureMock = function ($type = '', $secure = null) {
             return 'http://127.0.0.1/magento/pub/static/';
         };
         $this->object = new Signature($this->config, $this->deploymentVersion);
@@ -82,7 +84,9 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $this->deploymentVersion->expects($this->once())->method('getValue')->will($this->returnValue('123'));
 
         $url = $this->getMockForAbstractClass('\Magento\Url\ScopeInterface');
-        $actualResult = $this->object->aroundGetBaseUrl($url, $this->closureMock, \Magento\UrlInterface::URL_TYPE_STATIC);
+        $actualResult = $this->object->aroundGetBaseUrl(
+            $url, $this->closureMock, \Magento\UrlInterface::URL_TYPE_STATIC
+        );
         $this->assertEquals('http://127.0.0.1/magento/pub/static/version123/', $actualResult);
     }
 }

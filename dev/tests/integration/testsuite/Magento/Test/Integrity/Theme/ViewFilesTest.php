@@ -36,7 +36,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
         $this->themeRepo = $this->objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
-        $this->viewFilesFallback = $this->objectManager->get('Magento\Framework\View\Design\FileResolution\Fallback\StaticFile');
+        $this->viewFilesFallback = $this->objectManager
+            ->get('Magento\Framework\View\Design\FileResolution\Fallback\StaticFile');
         $this->assetRepo = $this->objectManager->get('Magento\Framework\View\Asset\Repository');
         $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
@@ -123,7 +124,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 $this->assertFileExists($originalViewFile);
                 if (in_array(pathinfo($file, PATHINFO_EXTENSION), array('css', 'less'))) {
                     $content = file_get_contents($originalViewFile);
-                    preg_match_all(\Magento\Framework\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                    preg_match_all(
+                        \Magento\Framework\View\Url\CssResolver::REGEX_CSS_RELATIVE_URLS, $content, $matches
+                    );
                     $absentFiles = array();
                     foreach ($matches[1] as $relatedSource) {
                         $relatedParams = $params;
@@ -323,8 +326,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $this->markTestIncomplete('Should be fixed when static when we have static folder jslib implemented');
         $this->assertFileExists(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem')->getPath('jslib')
-                . '/' . $file
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Filesystem')
+                ->getPath('jslib') . '/' . $file
         );
     }
 

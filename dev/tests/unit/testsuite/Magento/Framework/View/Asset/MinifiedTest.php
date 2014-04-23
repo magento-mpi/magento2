@@ -54,7 +54,9 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         $this->_asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $this->_logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
         $this->_baseUrl = $this->getMock('\Magento\Url', array(), array(), '', false);
-        $this->_staticViewDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
+        $this->_staticViewDir = $this->getMockForAbstractClass(
+            '\Magento\Framework\Filesystem\Directory\WriteInterface'
+        );
         $this->_rootDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
         $this->_filesystem = $this->getMock('\Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_filesystem->expects($this->any())

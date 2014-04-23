@@ -42,7 +42,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->themeProvider = $this->getMock('\Magento\Framework\View\Design\Theme\Provider', array(), array(), '', false);
+        $this->themeProvider = $this->getMock(
+            '\Magento\Framework\View\Design\Theme\Provider', array(), array(), '', false
+        );
         $this->source = $this->getMock(
             'Magento\Framework\View\Asset\Source', array('getFile', 'getContent'), array(), '', false
         );

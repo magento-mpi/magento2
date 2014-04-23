@@ -27,7 +27,9 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->notationResolver = $this->getMock('\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false);
+        $this->notationResolver = $this->getMock(
+            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false
+        );
         $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $this->object = new \Magento\Less\PreProcessor\Instruction\Import($this->notationResolver);

@@ -19,6 +19,7 @@ interface MergeStrategyInterface
      *
      * @param MergeableInterface[] $assetsToMerge
      * @param LocalInterface $resultAsset
+     * @return void
      */
     public function merge(array $assetsToMerge, LocalInterface $resultAsset);
 }
