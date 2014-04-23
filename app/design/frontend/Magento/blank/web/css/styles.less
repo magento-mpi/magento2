@@ -1,0 +1,42 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/* Magento/blank */
+
+.magento-reset();   // Reset default styles with magento_reset
+
+// Import theme vars overrides and mixins
+@import "source/lib/lib.less"; // Import all lib files
+@import "source/theme"; // import theme styles
+
+@baseDir: "../"; //default
+
+@import (reference) "source/abstract"; // import theme abstract
+@import "source/typography"; // import theme typography
+@import "source/layout"; // import theme page layout
+@import "source/tables"; // import theme tables styles
+@import "source/messages"; // import theme messages
+@import "source/navigation"; // import theme navigation
+@import "source/tooltips"; // import theme tooltips
+@import "source/loaders"; // import theme loaders
+@import "source/forms"; // import theme forms
+@import "source/icons"; // import theme icons
+@import "source/buttons"; // import theme buttons
+@import "source/sections"; // import theme tabs and accordions
+@import "source/dropdowns"; // import theme dropdowns
+@import "source/pages"; // import theme pager
+@import "source/rating"; // import theme ratings
+@import "source/actions-toolbar"; // import theme actions-toolbar
+@import "source/breadcrumbs"; // import theme breadcrumbs
+@import "source/popups"; // import theme popups
+
+// Magento Import instructions
+//@magento_import "source/module.less"; // import theme styles
+//@magento_import "source/widgets.less"; // import widgets' styles
+
+@import "source/lib/responsive.less"; // import responsive styles
