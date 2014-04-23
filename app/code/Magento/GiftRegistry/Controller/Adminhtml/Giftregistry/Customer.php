@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\GiftRegistry\Model\Entity;
 
 /**

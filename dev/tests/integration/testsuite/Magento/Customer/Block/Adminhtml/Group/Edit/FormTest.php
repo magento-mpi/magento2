@@ -23,7 +23,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     private $layout;
 
@@ -44,7 +44,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->layout = Bootstrap::getObjectManager()->create(
-            'Magento\View\Layout'
+            'Magento\Framework\View\Layout'
         );
         $this->customerGroupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');

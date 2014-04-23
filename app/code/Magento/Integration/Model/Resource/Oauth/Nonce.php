@@ -14,7 +14,7 @@ namespace Magento\Integration\Model\Resource\Oauth;
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Nonce extends \Magento\Model\Resource\Db\AbstractDb
+class Nonce extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model

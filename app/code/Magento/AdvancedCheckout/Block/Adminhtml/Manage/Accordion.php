@@ -29,7 +29,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             return parent::_toHtml();
         }
         $layout = $this->getLayout();
-        /** @var $child \Magento\View\Element\AbstractBlock  */
+        /** @var $child \Magento\Framework\View\Element\AbstractBlock  */
         foreach ($layout->getChildBlocks($this->getNameInLayout()) as $child) {
             $name = $child->getNameInLayout();
             $data = array('title' => $child->getHeaderText(), 'open' => false);

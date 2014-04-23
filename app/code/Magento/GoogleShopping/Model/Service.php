@@ -90,7 +90,7 @@ class Service extends \Magento\Object
      * @param int $storeId
      * @param string $loginToken
      * @param string $loginCaptcha
-     * @throws \Magento\Model\Exception On http connection failure
+     * @throws \Magento\Framework\Model\Exception On http connection failure
      * @return \Zend_Http_Client
      */
     public function getClient($storeId = null, $loginToken = null, $loginCaptcha = null)
@@ -123,9 +123,9 @@ class Service extends \Magento\Object
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
         } catch (\Zend_Gdata_App_HttpException $e) {
-            throw new \Magento\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new \Magento\Framework\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
         } catch (\Zend_Gdata_App_AuthException $e) {
-            throw new \Magento\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
+            throw new \Magento\Framework\Model\Exception($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
         return $this->_coreRegistry->registry($this->_clientRegistryId);

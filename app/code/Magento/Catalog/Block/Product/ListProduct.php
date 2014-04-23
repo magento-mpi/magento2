@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
-use Magento\View\Block\IdentityInterface;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Product list

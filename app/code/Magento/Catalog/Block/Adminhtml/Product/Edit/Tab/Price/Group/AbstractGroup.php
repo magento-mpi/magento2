@@ -9,7 +9,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
 
 use Magento\Backend\Block\Widget;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Adminhtml group price item abstract renderer
@@ -19,7 +19,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Form element instance
      *
-     * @var \Magento\Data\Form\Element\AbstractElement
+     * @var \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected $_element;
 
@@ -97,10 +97,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Render HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -109,10 +109,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Set form element instance
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
      */
-    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
+    public function setElement(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -121,7 +121,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Retrieve form element instance
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {

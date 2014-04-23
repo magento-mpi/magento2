@@ -19,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $directoryWrite = $this->getMockBuilder(
-            '\Magento\Filesystem\Directory\WriteInterface'
+            '\Magento\Framework\Filesystem\Directory\WriteInterface'
         )->disableOriginalConstructor()->getMock();
         $filesystem->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($directoryWrite));
 

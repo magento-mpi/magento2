@@ -33,7 +33,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
      * @param mixed $connection
@@ -41,7 +41,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Report $resource,
         $connection = null
@@ -151,7 +151,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
             )->group(
                 'product_id'
             )->order(
-                'views_num ' . \Magento\DB\Select::SQL_DESC
+                'views_num ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 $this->_ratingLimit
             );
@@ -180,7 +180,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -223,7 +223,7 @@ class Collection extends \Magento\Reports\Model\Resource\Report\Collection\Abstr
      * Re-declare parent method for applying filters after parent method, but before adding unions and calculating
      * totals
      *
-     * @return $this|\Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return $this|\Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _beforeLoad()
     {

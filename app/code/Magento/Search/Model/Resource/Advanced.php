@@ -14,7 +14,7 @@ use Magento\Catalog\Model\Resource\Eav\Attribute;
 /**
  * Advanced Catalog Search resource model
  */
-class Advanced extends \Magento\Model\Resource\AbstractResource
+class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
 {
     /**
      * Defines text type fields

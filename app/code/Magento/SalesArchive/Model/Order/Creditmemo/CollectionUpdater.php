@@ -8,7 +8,7 @@
 
 namespace Magento\SalesArchive\Model\Order\Creditmemo;
 
-class CollectionUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
+class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\Sales\Block\Adminhtml\Order\AbstractOrder

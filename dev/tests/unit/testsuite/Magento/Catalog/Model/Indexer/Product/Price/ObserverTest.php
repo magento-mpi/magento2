@@ -92,11 +92,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $idsToProcess = array(1, 2, 3);
 
-        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnSelf());
         $selectMock->expects($this->any())->method('where')->will($this->returnSelf());
 
-        $connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
         $connectionMock->expects($this->any())->method('select')->will($this->returnValue($selectMock));
         $connectionMock->expects(
             $this->any()

@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Block;
 
-class Data extends \Magento\View\Element\Template
+class Data extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Framework\App\Cache\Type\Config
@@ -41,7 +41,7 @@ class Data extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -50,7 +50,7 @@ class Data extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -110,7 +110,7 @@ class Data extends \Magento\View\Element\Template
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             $name
         )->setId(
@@ -158,7 +158,7 @@ class Data extends \Magento\View\Element\Template
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
         $html = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'region'
         )->setTitle(

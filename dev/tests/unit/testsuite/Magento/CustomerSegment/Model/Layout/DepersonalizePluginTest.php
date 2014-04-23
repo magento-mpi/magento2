@@ -23,7 +23,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
@@ -78,7 +78,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $this->layoutMock = $this->getMock('Magento\View\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
             array('getCustomerSegmentIds', 'setCustomerSegmentIds'),

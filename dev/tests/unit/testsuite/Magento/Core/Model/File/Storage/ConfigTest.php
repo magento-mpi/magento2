@@ -19,7 +19,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $fileStorageMock->expects($this->once())->method('getScriptConfig')->will($this->returnValue($config));
 
         $file = $this->getMock(
-            'Magento\Filesystem\File\Write',
+            'Magento\Framework\Filesystem\File\Write',
             array('lock', 'write', 'unlock', 'close'),
             array(),
             '',
@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->once())->method('unlock');
         $file->expects($this->once())->method('close');
         $directory = $this->getMock(
-            'Magento\Filesystem\Direcoty\Write',
+            'Magento\Framework\Filesystem\Direcoty\Write',
             array('openFile', 'getRelativePath'),
             array(),
             '',

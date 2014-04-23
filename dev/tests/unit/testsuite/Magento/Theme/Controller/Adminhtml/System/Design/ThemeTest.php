@@ -134,7 +134,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
         $themeFactory = $this->getMock(
-            'Magento\View\Design\Theme\FlyweightFactory',
+            'Magento\Framework\View\Design\Theme\FlyweightFactory',
             array('create'),
             array(),
             '',
@@ -147,7 +147,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         )->method(
                 'get'
             )->with(
-                'Magento\View\Design\Theme\FlyweightFactory'
+                'Magento\Framework\View\Design\Theme\FlyweightFactory'
             )->will(
                 $this->returnValue($themeFactory)
             );
@@ -188,7 +188,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->method('getMenuModel')
             ->will($this->returnValue($menuModel));
 
-        $layout = $this->getMock('\Magento\View\LayoutInterface', array(), array(), '', false);
+        $layout = $this->getMock('\Magento\Framework\View\LayoutInterface', array(), array(), '', false);
         $layout->expects($this->any())
             ->method('getBlock')
             ->with($this->equalTo('menu'))

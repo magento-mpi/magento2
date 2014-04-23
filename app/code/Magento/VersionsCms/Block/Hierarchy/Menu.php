@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Block\Hierarchy;
 /**
  * Cms Hierarchy Context Menu
  */
-class Menu extends \Magento\View\Element\Template
+class Menu extends \Magento\Framework\View\Element\Template
 {
     const TAG_UL = 'ul';
 
@@ -68,13 +68,13 @@ class Menu extends \Magento\View\Element\Template
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
@@ -190,7 +190,7 @@ class Menu extends \Magento\View\Element\Template
     {
         $this->setMenuEnabled(false);
 
-        if ($this->_node instanceof \Magento\Model\AbstractModel) {
+        if ($this->_node instanceof \Magento\Framework\Model\AbstractModel) {
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(

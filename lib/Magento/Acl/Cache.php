@@ -14,7 +14,7 @@ class Cache implements CacheInterface
     /**
      * Cache
      *
-     * @var \Magento\Config\CacheInterface
+     * @var \Magento\Framework\Config\CacheInterface
      */
     protected $_cache;
 
@@ -31,10 +31,10 @@ class Cache implements CacheInterface
     protected $_acl = null;
 
     /**
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param string $cacheKey
      */
-    public function __construct(\Magento\Config\CacheInterface $cache, $cacheKey)
+    public function __construct(\Magento\Framework\Config\CacheInterface $cache, $cacheKey)
     {
         $this->_cache = $cache;
         $this->_cacheKey = $cacheKey;

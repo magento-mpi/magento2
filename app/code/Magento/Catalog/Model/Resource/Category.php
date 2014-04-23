@@ -23,7 +23,7 @@ class Category extends AbstractResource
     /**
      * Category tree object
      *
-     * @var \Magento\Data\Tree\Db
+     * @var \Magento\Framework\Data\Tree\Db
      */
     protected $_tree;
 
@@ -152,7 +152,7 @@ class Category extends AbstractResource
     /**
      * Retrieve category tree object
      *
-     * @return \Magento\Data\Tree\Db
+     * @return \Magento\Framework\Data\Tree\Db
      */
     protected function _getTree()
     {
@@ -626,7 +626,7 @@ class Category extends AbstractResource
      * @param boolean|string $sorted
      * @param boolean $asCollection
      * @param boolean $toLoad
-     * @return \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
@@ -733,7 +733,7 @@ class Category extends AbstractResource
             $category->getChildren()
         )->setOrder(
             'position',
-            \Magento\DB\Select::SQL_ASC
+            \Magento\Framework\DB\Select::SQL_ASC
         )->joinUrlRewrite()->load();
 
         return $collection;

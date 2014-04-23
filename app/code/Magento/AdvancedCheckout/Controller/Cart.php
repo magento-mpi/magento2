@@ -103,9 +103,9 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $this->messageManager->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                throw new \Magento\Model\Exception($cart->getErrorMessage());
+                throw new \Magento\Framework\Model\Exception($cart->getErrorMessage());
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addException($e, $e->getMessage());
         }
 
@@ -182,7 +182,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
             $view = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
             $params->setBeforeHandles(array('catalog_product_view'));
             $view->prepareAndRender($id, $this, $params);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
@@ -226,7 +226,7 @@ class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Cata
                     $this->messageManager->addSuccess($message);
                 }
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {

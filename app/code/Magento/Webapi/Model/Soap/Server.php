@@ -31,7 +31,7 @@ class Server
     protected $_areaList;
 
     /**
-     * @var \Magento\Config\ScopeInterface
+     * @var \Magento\Framework\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -59,7 +59,7 @@ class Server
      * Initialize dependencies, initialize WSDL cache.
      *
      * @param \Magento\Framework\App\AreaList $areaList
-     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Webapi\Controller\Soap\Request $request
      * @param \Magento\DomDocument\Factory $domDocumentFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -70,7 +70,7 @@ class Server
      */
     public function __construct(
         \Magento\Framework\App\AreaList $areaList,
-        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Webapi\Controller\Soap\Request $request,
         \Magento\DomDocument\Factory $domDocumentFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

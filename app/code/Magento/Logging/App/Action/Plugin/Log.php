@@ -9,7 +9,6 @@
  */
 namespace Magento\Logging\App\Action\Plugin;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Logging\Model\Processor;
 
 class Log

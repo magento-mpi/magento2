@@ -19,11 +19,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
+        $connection = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
         $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $connection->expects($this->once())->method('select')->will($this->returnValue($select));
 
-        $resource = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
+        $resource = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,
@@ -38,7 +38,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $localeListsMock = $this->getMock('Magento\Locale\ListsInterface');
         $localeListsMock->expects($this->any())->method('getCountryTranslation')->will($this->returnArgument(0));
 
-        $fetchStrategy = $this->getMockForAbstractClass('Magento\Data\Collection\Db\FetchStrategyInterface');
+        $fetchStrategy = $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface');
         $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
         $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);

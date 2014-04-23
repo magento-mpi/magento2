@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Controller;
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Gift registry frontend controller
@@ -593,7 +593,7 @@ class Index extends \Magento\Framework\App\Action\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftRegistry\Model\Entity
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initEntity($requestParam = 'id')
     {

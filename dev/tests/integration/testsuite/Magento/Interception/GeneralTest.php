@@ -37,7 +37,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $definitions
         );
 
-        $this->_configReader = $this->getMock('Magento\Config\ReaderInterface');
+        $this->_configReader = $this->getMock('Magento\Framework\Config\ReaderInterface');
         $this->_configReader->expects(
             $this->any()
         )->method(
@@ -67,8 +67,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
         $areaList = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
         $areaList->expects($this->any())->method('getCodes')->will($this->returnValue(array()));
-        $configScope = new \Magento\Config\Scope($areaList, 'global');
-        $cache = $this->getMock('Magento\Config\CacheInterface');
+        $configScope = new \Magento\Framework\Config\Scope($areaList, 'global');
+        $cache = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cache->expects($this->any())->method('load')->will($this->returnValue(false));
         $definitions = new \Magento\ObjectManager\Definition\Runtime();
         $interceptionConfig = new Config\Config(
@@ -84,9 +84,9 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $factory,
             $config,
             array(
-                'Magento\Config\CacheInterface' => $cache,
-                'Magento\Config\ScopeInterface' => $configScope,
-                'Magento\Config\ReaderInterface' => $this->_configReader,
+                'Magento\Framework\Config\CacheInterface' => $cache,
+                'Magento\Framework\Config\ScopeInterface' => $configScope,
+                'Magento\Framework\Config\ReaderInterface' => $this->_configReader,
                 'Magento\ObjectManager\Relations' => $relations,
                 'Magento\ObjectManager\Config' => $config,
                 'Magento\ObjectManager\Definition' => $definitions,

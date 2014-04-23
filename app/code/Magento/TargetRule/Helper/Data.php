@@ -46,7 +46,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve Maximum Number of Products in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getMaximumNumberOfProduct($type)
@@ -71,7 +71,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid product list type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -81,7 +81,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Show Related/Upsell/Cross-Sell Products behavior
      *
      * @param int $type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getShowProducts($type)
@@ -106,7 +106,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid product list type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid product list type'));
         }
 
         return $show;
@@ -133,7 +133,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve Rotation Mode in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getRotationMode($type)
@@ -158,7 +158,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid rotation mode type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid rotation mode type'));
         }
         return $mode;
     }

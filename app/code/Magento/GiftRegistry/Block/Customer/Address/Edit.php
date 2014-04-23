@@ -27,7 +27,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -40,7 +40,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -115,7 +115,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
             );
 
             $select = $this->getLayout()->createBlock(
-                'Magento\View\Element\Html\Select'
+                'Magento\Framework\View\Element\Html\Select'
             )->setName(
                 'address_type_or_id'
             )->setId(

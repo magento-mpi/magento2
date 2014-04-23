@@ -42,7 +42,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $_ioObject;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $varDirectory;
 
@@ -60,7 +60,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         (new \Magento\Autoload\IncludePath())->addIncludePath($generationDirectory);
 
         $this->_ioObject = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\File(),
+            new \Magento\Framework\Filesystem\Driver\File(),
             new \Magento\Autoload\IncludePath(),
             $generationDirectory
         );

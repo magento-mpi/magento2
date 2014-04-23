@@ -10,8 +10,8 @@
 
 namespace Magento\Pricing\Render;
 
-use Magento\View\LayoutFactory;
-use Magento\View\LayoutInterface;
+use Magento\Framework\View\LayoutFactory;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * Pricing render's layout model
@@ -33,7 +33,7 @@ class Layout
      */
     public function __construct(
         LayoutFactory $layoutFactory,
-        \Magento\View\LayoutInterface $generalLayout
+        \Magento\Framework\View\LayoutInterface $generalLayout
     ) {
         $this->layout = $layoutFactory->create(['cacheable' => $generalLayout->isCacheable()]);
     }
@@ -65,7 +65,7 @@ class Layout
      * Obtain block object
      *
      * @param string $name
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getBlock($name)
     {

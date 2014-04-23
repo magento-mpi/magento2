@@ -9,7 +9,7 @@ namespace Magento\Downloadable\Controller;
 
 use Magento\Framework\App\ResponseInterface;
 use Magento\Downloadable\Helper\Download as DownloadHelper;
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 use Magento\Downloadable\Model\Link\Purchased\Item as PurchasedLink;
 
 /**

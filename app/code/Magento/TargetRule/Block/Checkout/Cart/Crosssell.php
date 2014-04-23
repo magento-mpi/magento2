@@ -276,7 +276,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Get link collection for cross-sell
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
      */
     protected function _getTargetLinkCollection()

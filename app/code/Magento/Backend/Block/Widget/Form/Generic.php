@@ -20,7 +20,7 @@ namespace Magento\Backend\Block\Widget\Form;
 class Generic extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var \Magento\Data\FormFactory
+     * @var \Magento\Framework\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -34,13 +34,13 @@ class Generic extends \Magento\Backend\Block\Widget\Form
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

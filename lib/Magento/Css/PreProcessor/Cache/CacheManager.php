@@ -7,7 +7,7 @@
  */
 namespace Magento\Css\PreProcessor\Cache;
 
-use Magento\View\Publisher\FileInterface;
+use Magento\Framework\View\Publisher\FileInterface;
 
 class CacheManager
 {

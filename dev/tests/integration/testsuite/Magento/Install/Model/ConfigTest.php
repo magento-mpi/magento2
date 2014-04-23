@@ -145,7 +145,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             file_get_contents(__DIR__ . '/_files/install_wizard_partial.xml')
         );
         $fileResolverMock = $this->getMockBuilder(
-            'Magento\Config\FileResolverInterface'
+            'Magento\Framework\Config\FileResolverInterface'
         )->setMethods(
             array('get')
         )->disableOriginalConstructor()->getMock();

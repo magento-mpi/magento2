@@ -43,8 +43,8 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
         $readerMock = $this->getMock('\Magento\ObjectManager\Config\Reader\Dom', array(), array(), '', false);
         $readerMock->expects($this->any())->method('read')->will($this->returnValueMap($readerMap));
 
-        $this->_configScopeMock = $this->getMock('\Magento\Config\ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configScopeMock = $this->getMock('\Magento\Framework\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         // turn cache off
         $this->_cacheMock->expects($this->any())
             ->method('get')

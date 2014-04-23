@@ -18,7 +18,7 @@
  */
 namespace Magento\Reports\Model\Resource\Report;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**
      * From value
@@ -340,7 +340,7 @@ class Collection extends \Magento\Data\Collection
      *
      * @param int $fromDate
      * @param int $toDate
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _getReport($fromDate, $toDate)
     {

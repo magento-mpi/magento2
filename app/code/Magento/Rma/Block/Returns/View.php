@@ -103,7 +103,7 @@ class View extends \Magento\Rma\Block\Form
     protected $_eavConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -122,7 +122,7 @@ class View extends \Magento\Rma\Block\Form
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -476,7 +476,7 @@ class View extends \Magento\Rma\Block\Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Link'
+            'Magento\Framework\View\Element\Html\Link'
         )->setData(
             array('label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')')
         )->setAnchorText(
@@ -492,7 +492,7 @@ class View extends \Magento\Rma\Block\Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Link'
+            'Magento\Framework\View\Element\Html\Link'
         )->setData(
             array(
                 'href' => "javascript:void(0)",
@@ -519,7 +519,7 @@ class View extends \Magento\Rma\Block\Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Link'
+            'Magento\Framework\View\Element\Html\Link'
         )->setData(
             array(
                 'href' => $this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma(), 'printlabel'),

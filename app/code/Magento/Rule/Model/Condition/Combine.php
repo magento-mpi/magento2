@@ -386,7 +386,7 @@ class Combine extends AbstractCondition
     }
 
     /**
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @return $this
      */
     public function setJsFormObject($form)

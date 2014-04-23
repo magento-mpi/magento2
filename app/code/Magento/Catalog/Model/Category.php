@@ -173,7 +173,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     protected $productIndexer;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource
@@ -189,12 +189,12 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
+        \Magento\Framework\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
@@ -210,8 +210,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_treeModel = $categoryTreeResource;
@@ -321,7 +321,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param  int $parentId new parent category id
      * @param  null|int $afterCategoryId category id after which we have put current category
      * @return $this
-     * @throws \Magento\Model\Exception|\Exception
+     * @throws \Magento\Framework\Model\Exception|\Exception
      */
     public function move($parentId, $afterCategoryId)
     {
@@ -332,7 +332,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $parent = $this->_categoryFactory->create()->setStoreId($this->getStoreId())->load($parentId);
 
         if (!$parent->getId()) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     'Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.'
                 )
@@ -340,11 +340,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         }
 
         if (!$this->getId()) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Sorry, but we can\'t move the category because we can\'t find the new category you selected.')
             );
         } elseif ($parent->getId() == $this->getId()) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     'We can\'t perform this category move operation because the parent category matches the child category.'
                 )
@@ -405,7 +405,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Get category products collection
      *
-     * @return \Magento\Data\Collection\Db
+     * @return \Magento\Framework\Data\Collection\Db
      */
     public function getProductCollection()
     {
@@ -846,13 +846,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Before delete process
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _beforeDelete()
     {
         if ($this->getResource()->isForbiddenToDelete($this->getId())) {
-            throw new \Magento\Model\Exception("Can't delete root category.");
+            throw new \Magento\Framework\Model\Exception("Can't delete root category.");
         }
         return parent::_beforeDelete();
     }
@@ -910,7 +910,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param bool $sorted
      * @param bool $asCollection
      * @param bool $toLoad
-     * @return \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
+     * @return \Magento\Framework\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategories($parent, $recursionLevel = 0, $sorted = false, $asCollection = false, $toLoad = true)
     {
@@ -1062,7 +1062,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Init indexing process after category delete
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {

@@ -91,7 +91,7 @@ class Service extends \Magento\Object
     protected $_urlPrefix;
 
     /**
-     * @var \Magento\Data\Form\FormKey
+     * @var \Magento\Framework\Data\Form\FormKey
      */
     protected $formKey;
 
@@ -101,7 +101,7 @@ class Service extends \Magento\Object
      * @param \Magento\UrlInterface $url
      * @param \Magento\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
-     * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param string $urlPrefix
      * @param array $data
      */
@@ -111,7 +111,7 @@ class Service extends \Magento\Object
         \Magento\UrlInterface $url,
         \Magento\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
-        \Magento\Data\Form\FormKey $formKey,
+        \Magento\Framework\Data\Form\FormKey $formKey,
         $urlPrefix = 'centinel/index/',
         array $data = array()
     ) {
@@ -311,7 +311,7 @@ class Service extends \Magento\Object
      *
      * @param \Magento\Object $data
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate($data)
     {
@@ -334,12 +334,12 @@ class Service extends \Magento\Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                throw new \Magento\Model\Exception(__('Payment information error. Please start over.'));
+                throw new \Magento\Framework\Model\Exception(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please verify the card with the issuer bank before placing the order.')
             );
         } else {
@@ -350,7 +350,7 @@ class Service extends \Magento\Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            throw new \Magento\Model\Exception(__('This card has failed validation and cannot be used.'));
+            throw new \Magento\Framework\Model\Exception(__('This card has failed validation and cannot be used.'));
         }
     }
 

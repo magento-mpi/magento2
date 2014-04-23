@@ -8,7 +8,7 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
-class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
+class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
     const XML_PATH_RESTRICTION_ENABLED = 'general/restriction/is_active';
 
@@ -34,15 +34,15 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
 
     /**
      * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $cacheId
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $cacheId = 'website_restrictions'
     ) {

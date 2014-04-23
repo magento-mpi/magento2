@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Customization;
 
-class Config implements \Magento\View\Design\Theme\Customization\ConfigInterface
+class Config implements \Magento\Framework\View\Design\Theme\Customization\ConfigInterface
 {
     /**
      * XML path to definitions of customization services

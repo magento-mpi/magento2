@@ -31,7 +31,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'context' => $objectManager->get('Magento\Model\Context'),
+            'context' => $objectManager->get('Magento\Framework\Model\Context'),
             'registry' => $objectManager->get('Magento\Registry'),
             'resource' => $objectManager->get('Magento\Store\Model\Resource\Store'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
@@ -44,7 +44,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'storeManager' => $objectManager->get('Magento\Store\Model\StoreManager'),
             'sidResolver' => $objectManager->get('Magento\Session\SidResolverInterface'),
             'cookie' => $objectManager->get('Magento\Stdlib\Cookie'),
-            'httpContext' => $objectManager->get('Magento\Framework\App\Http\Context')
+            'httpContext' => $objectManager->get('Magento\Framework\App\Http\Context'),
+            'session' => $objectManager->get('Magento\Session\SessionManagerInterface'),
+            'currencyFactory' => $objectManager->get('Magento\Directory\Model\CurrencyFactory')
         );
 
         return $this->getMock('Magento\Store\Model\Store', array('getUrl'), $this->_modelParams);
@@ -311,7 +313,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testSaveValidation($badStoreData)
     {
@@ -355,7 +357,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Model\Context',
+            'Magento\Framework\Model\Context',
             array('appState' => $appStateMock)
         );
 

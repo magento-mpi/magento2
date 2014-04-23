@@ -9,16 +9,16 @@
  */
 namespace Magento\Locale\Hierarchy;
 
-class Config extends \Magento\Config\Data
+class Config extends \Magento\Framework\Config\Data
 {
     /**
-     * @param \Magento\Config\ReaderInterface $reader
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\ReaderInterface $reader
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\ReaderInterface $reader,
+        \Magento\Framework\Config\CacheInterface $cache,
         $cacheId = 'local_hierarchy_cache'
     ) {
         parent::__construct($reader, $cache, $cacheId);

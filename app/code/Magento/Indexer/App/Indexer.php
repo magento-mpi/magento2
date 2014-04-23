@@ -17,7 +17,7 @@ class Indexer implements \Magento\Framework\AppInterface
     protected $reportDir;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Framework\Filesystem
      */
     protected $filesystem;
 
@@ -28,12 +28,12 @@ class Indexer implements \Magento\Framework\AppInterface
 
     /**
      * @param string $reportDir
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Indexer\Model\Processor $processor
      */
     public function __construct(
         $reportDir,
-        \Magento\Filesystem $filesystem,
+        \Magento\Framework\Filesystem $filesystem,
         \Magento\Indexer\Model\Processor $processor
     ) {
         $this->reportDir = $reportDir;

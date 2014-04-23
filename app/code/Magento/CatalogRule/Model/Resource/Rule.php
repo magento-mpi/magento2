@@ -20,8 +20,8 @@ namespace Magento\CatalogRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\CatalogRule\Model\Rule as ModelRule;
-use Magento\Model\AbstractModel;
-use Magento\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
@@ -138,8 +138,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer group ids and website ids to rule data after load
      *
-     * @param AbstractModel $object
-     * @return AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(AbstractModel $object)
     {
