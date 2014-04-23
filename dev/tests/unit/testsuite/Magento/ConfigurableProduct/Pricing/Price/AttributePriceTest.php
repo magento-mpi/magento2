@@ -265,4 +265,37 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    /**
+     * test for method getTaxConfig
+     */
+    public function testGetTaxConfig()
+    {
+        $expectedTaxConfig = [
+            'includeTax' => false,
+            'showIncludeTax' => false,
+            'showBothPrices' => false,
+            'defaultTax' => 0,
+            'currentTax' => 0,
+            'inclTaxTitle' => __('Incl. Tax'),
+        ];
+        $this->assertEquals($expectedTaxConfig , $this->attribute->getTaxConfig());
+    }
+
+    /**
+     *  test for method prepareAdjustmentConfig
+     */
+    public function testPrepareAdjustmentConfig()
+    {
+        $expectedAdjustmentConfig = [
+                'includeTax' => false,
+                'showIncludeTax' => false,
+                'showBothPrices' => false,
+                'defaultTax' => 0,
+                'currentTax' => 0,
+                'inclTaxTitle' => __('Incl. Tax'),
+                'product' => $this->saleableItemMock
+            ];
+        $this->assertEquals($expectedAdjustmentConfig, $this->attribute->prepareAdjustmentConfig());
+    }
 }
