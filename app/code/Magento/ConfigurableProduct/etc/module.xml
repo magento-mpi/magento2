@@ -32,6 +32,7 @@
             <module name="Magento_CatalogRule" />
             <module name="Magento_Directory" />
             <module name="Magento_Tax" />
+            <module name="Magento_Weee" />
         </depends>
     </module>
 </config>
