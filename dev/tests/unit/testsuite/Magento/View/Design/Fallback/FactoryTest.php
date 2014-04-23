@@ -145,7 +145,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 array(
                     '/area/current_theme_path/namespace_module',
                     '/area/parent_theme_path/namespace_module',
-                    '/namespace/module/view/area'
+                    '/namespace/module/view/area',
+                    '/namespace/module/view/base'
                 )
             ),
             'non-modular' => array(
