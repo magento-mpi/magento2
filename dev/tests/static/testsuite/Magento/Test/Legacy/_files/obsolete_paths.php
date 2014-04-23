@@ -229,4 +229,7 @@ return [
         '/dev/tests/integration/testsuite/Magento/Currency',
         '/dev/tests/integration/testsuite/Magento/Framework/Currency'
     ],
+    ['/lib/Magento/Debug', '/lib/Magento/Framework/Debug'],
+    ['/dev/tests/unit/testsuite/Magento/Debug', '/dev/tests/unit/testsuite/Magento/Framework/Debug'],
+    ['/dev/tests/integration/testsuite/Magento/Debug', '/dev/tests/integration/testsuite/Magento/Framework/Debug'],
 ];

@@ -17,7 +17,7 @@ use Magento\Framework\DB\ExpressionConverter;
 use Magento\Framework\DB\Profiler;
 use Magento\Framework\DB\Select;
 use Magento\Framework\DB\Statement\Parameter;
-use Magento\Debug;
+use Magento\Framework\Debug;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String;
 

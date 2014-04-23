@@ -2467,4 +2467,8 @@ return array(
     ['Magento\Flag', 'Magento\Framework\Flag'],
     ['Magento\FlagFactory', 'Magento\Framework\FlagFactory'],
     ['Magento\Image', 'Magento\Framework\Image'],
+    ['Magento\Currency', 'Magento\Framework\Currency'],
+    ['Magento\CurrencyFactory', 'Magento\Framework\CurrencyFactory'],
+    ['Magento\CurrencyInterface', 'Magento\Framework\CurrencyInterface'],
+    ['Magento\Debug', 'Magento\Framework\Debug'],
 );
