@@ -21,11 +21,11 @@ interface AttributePriceInterface
      * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueAmount(array $value = array());
+    public function getOptionValueAmount(array $value = []);
 
     /**
      * @param array $value
      * @return AmountInterface
      */
-    public function getOptionValueModified(array $value = array());
+    public function getOptionValueModified(array $value = []);
 }
