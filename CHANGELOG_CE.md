@@ -48,8 +48,12 @@
   * Simplify Search related Data Objects (MAGETWO-22613)
   * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
-  * Covered Magento Store components with unit tests:
-     * Magento\Store\Model\*
+  * Covered Magento library components with unit tests:
+    * Magento\Store\Model\*
+    * Magento\Error\*
+    * Magento\Event\Observer\*
+    * Magento\Framework\Filesystem\*
+    * Magento\Framework\Filesystem\File\*
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
   * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
     * Moved lib/Magento/App to lib/Magento/Framework/App
