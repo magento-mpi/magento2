@@ -34,7 +34,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_recurring_payment', $this->_payment);
+        $objectManager->get('Magento\Framework\Registry')->register('current_recurring_payment', $this->_payment);
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -46,7 +46,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('current_recurring_payment');
+        $objectManager->get('Magento\Framework\Registry')->unregister('current_recurring_payment');
         $this->_payment = null;
         $this->_block = null;
         $this->_layout = null;

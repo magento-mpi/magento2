@@ -43,7 +43,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_theme', $this->_theme);
+        $objectManager->get('Magento\Framework\Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $this->_block->toHtml();

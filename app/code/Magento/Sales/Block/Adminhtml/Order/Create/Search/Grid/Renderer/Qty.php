@@ -42,7 +42,7 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
     /**
      * Returns whether this qty field must be inactive
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return bool
      */
     protected function _isInactive($row)
@@ -53,10 +53,10 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Input
     /**
      * Render product qty field
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         // Prepare values
         $disabled = '';

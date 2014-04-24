@@ -15,7 +15,7 @@ use Magento\Framework\Model\AbstractModel;
 class RemoveAction
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -25,10 +25,10 @@ class RemoveAction
     protected $protectedModels;
 
     /**
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $protectedModels
      */
-    public function __construct(\Magento\Registry $registry, array $protectedModels = array())
+    public function __construct(\Magento\Framework\Registry $registry, array $protectedModels = array())
     {
         $this->registry = $registry;
         $this->protectedModels = $protectedModels;

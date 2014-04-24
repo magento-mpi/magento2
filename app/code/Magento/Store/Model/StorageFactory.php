@@ -7,14 +7,14 @@
  */
 namespace Magento\Store\Model;
 
-use Magento\Profiler;
+use Magento\Framework\Profiler;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 
 class StorageFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -38,17 +38,17 @@ class StorageFactory
     protected $_cache = array();
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_log;
 
     /**
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
@@ -63,7 +63,7 @@ class StorageFactory
     protected $_writerModel;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -78,12 +78,12 @@ class StorageFactory
     protected $request;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Logger $logger
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\RequestInterface $request
@@ -92,12 +92,12 @@ class StorageFactory
      * @param string $writerModel
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Logger $logger,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\State $appState,
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\RequestInterface $request,
@@ -144,7 +144,7 @@ class StorageFactory
             if ($className === $this->_installedStorageClassName) {
                 $this->_reinitStores($storage, $arguments);
                 $useSid = $this->_scopeConfig->isSetFlag(
-                    \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+                    \Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $storage->getStore()
                 );
@@ -171,12 +171,12 @@ class StorageFactory
                     );
                     $this->_log->unsetLoggers();
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_SYSTEM,
+                        \Magento\Framework\Logger::LOGGER_SYSTEM,
                         $logFile,
                         $this->_writerModel
                     );
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_EXCEPTION,
+                        \Magento\Framework\Logger::LOGGER_EXCEPTION,
                         $logExceptionFile,
                         $this->_writerModel
                     );

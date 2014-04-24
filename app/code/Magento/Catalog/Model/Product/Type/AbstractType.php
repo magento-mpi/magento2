@@ -118,19 +118,19 @@ abstract class AbstractType
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -169,12 +169,12 @@ abstract class AbstractType
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -182,12 +182,12 @@ abstract class AbstractType
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Logger $logger,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -217,11 +217,11 @@ abstract class AbstractType
     /**
      * Return relation info about used products for specific type instance
      *
-     * @return \Magento\Object Object with information data
+     * @return \Magento\Framework\Object Object with information data
      */
     public function getRelationInfo()
     {
-        return new \Magento\Object();
+        return new \Magento\Framework\Object();
     }
 
     /**
@@ -355,12 +355,12 @@ abstract class AbstractType
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and then prepare options belonging to specific product type.
      *
-     * @param  \Magento\Object $buyRequest
+     * @param  \Magento\Framework\Object $buyRequest
      * @param  \Magento\Catalog\Model\Product $product
      * @param  string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Framework\Object $buyRequest, $product, $processMode)
     {
         // try to add custom options
         try {
@@ -423,12 +423,12 @@ abstract class AbstractType
     /**
      * Process product configuration
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
-    public function processConfiguration(\Magento\Object $buyRequest, $product, $processMode = self::PROCESS_MODE_LITE)
+    public function processConfiguration(\Magento\Framework\Object $buyRequest, $product, $processMode = self::PROCESS_MODE_LITE)
     {
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
 
@@ -441,12 +441,12 @@ abstract class AbstractType
      * Initialize product(s) for add to cart process.
      * Advanced version of func to prepare product for cart - processMode can be specified there.
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param null|string $processMode
      * @return array|string
      */
-    public function prepareForCartAdvanced(\Magento\Object $buyRequest, $product, $processMode = null)
+    public function prepareForCartAdvanced(\Magento\Framework\Object $buyRequest, $product, $processMode = null)
     {
         if (!$processMode) {
             $processMode = self::PROCESS_MODE_FULL;
@@ -459,11 +459,11 @@ abstract class AbstractType
     /**
      * Initialize product(s) for add to cart process
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @return array|string
      */
-    public function prepareForCart(\Magento\Object $buyRequest, $product)
+    public function prepareForCart(\Magento\Framework\Object $buyRequest, $product)
     {
         return $this->prepareForCartAdvanced($buyRequest, $product, self::PROCESS_MODE_FULL);
     }
@@ -562,12 +562,12 @@ abstract class AbstractType
     /**
      * Process custom defined options for product
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array
      */
-    protected function _prepareOptions(\Magento\Object $buyRequest, $product, $processMode)
+    protected function _prepareOptions(\Magento\Framework\Object $buyRequest, $product, $processMode)
     {
         $transport = new \StdClass();
         $transport->options = array();
@@ -805,7 +805,7 @@ abstract class AbstractType
                     )->setOption(
                         $option
                     )->setListener(
-                        new \Magento\Object()
+                        new \Magento\Framework\Object()
                     );
 
                     $optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter);
@@ -851,13 +851,13 @@ abstract class AbstractType
      * so need to change configuration item qty option value too.
      *
      * @param array $options
-     * @param \Magento\Object $option
+     * @param \Magento\Framework\Object $option
      * @param int|float|null $value
      * @param \Magento\Catalog\Model\Product $product
      *
      * @return $this
      */
-    public function updateQtyOption($options, \Magento\Object $option, $value, $product)
+    public function updateQtyOption($options, \Magento\Framework\Object $option, $value, $product)
     {
         return $this;
     }
@@ -1001,7 +1001,7 @@ abstract class AbstractType
      * Prepare selected options for product
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Object $buyRequest
+     * @param  \Magento\Framework\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)
@@ -1013,7 +1013,7 @@ abstract class AbstractType
      * Check product's options configuration
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Object $buyRequest
+     * @param  \Magento\Framework\Object $buyRequest
      * @return array
      */
     public function checkProductConfiguration($product, $buyRequest)

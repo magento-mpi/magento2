@@ -76,7 +76,7 @@ class MassOperations
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\GoogleShopping\Helper\Data $gleShoppingData
      * @param \Magento\GoogleShopping\Helper\Category $gleShoppingCategory
      * @param array $data
@@ -87,7 +87,7 @@ class MassOperations
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,
         \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
         array $data = array()
@@ -126,7 +126,7 @@ class MassOperations
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -248,7 +248,7 @@ class MassOperations
                     $item->save();
                     // The item was updated successfully
                     $totalUpdated++;
-                } catch (\Magento\Gdata\Gshopping\HttpException $e) {
+                } catch (\Magento\Framework\Gdata\Gshopping\HttpException $e) {
                     if (in_array('notfound', $e->getCodes())) {
                         $item->delete();
                         $totalDeleted++;

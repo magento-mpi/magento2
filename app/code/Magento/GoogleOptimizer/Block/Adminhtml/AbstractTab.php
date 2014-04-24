@@ -18,7 +18,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
     protected $_helperData;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -35,7 +35,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helperData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
      * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -44,7 +44,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helperData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Framework\Data\FormFactory $formFactory,

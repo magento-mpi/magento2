@@ -56,7 +56,7 @@ class Main extends AbstractMain
             );
         }
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setTypes(array());
         $this->_eventManager->dispatch('adminhtml_product_attribute_types', array('response' => $response));
         $_disabledTypes = array();

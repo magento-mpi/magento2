@@ -29,7 +29,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createValidator($layoutUpdate, $isSchemaValid = true)
     {
-        $modulesReader = $this->getMockBuilder('Magento\Module\Dir\Reader')->disableOriginalConstructor()->getMock();
+        $modulesReader = $this->getMockBuilder('Magento\Framework\Module\Dir\Reader')
+            ->disableOriginalConstructor()
+            ->getMock();
         $modulesReader->expects(
             $this->exactly(2)
         )->method(

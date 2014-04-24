@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Helper;
 
+use Magento\Store\Model\ScopeInterface;
+
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,72 +28,32 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock(
+            'Magento\Framework\Translate\Inline\StateInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
-        $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $scopeConfig->expects(
-            $this->any()
-        )->method(
-            'getValue'
-        )->will(
-            $this->returnValueMap(
-                array(
-                    array(
-                        'checkout/payment_failed/template',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'fixture_email_template_payment_failed'
-                    ),
-                    array(
-                        'checkout/payment_failed/receiver',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/email',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'sysadmin@example.com'
-                    ),
-                    array(
-                        'trans_email/ident_sysadmin/name',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'System Administrator'
-                    ),
-                    array(
-                        'checkout/payment_failed/identity',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        8,
-                        'noreply@example.com'
-                    ),
-                    array(
-                        'carriers/ground/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Ground Shipping'
-                    ),
-                    array(
-                        'payment/fixture-payment-method/title',
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                        null,
-                        'Check Money Order'
-                    )
-                )
-            )
-        );
+        $scopeConfig = $this->getScopeConfigMock();
 
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
 
         $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
-        $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
+        $localeDate = $this->getMock(
+            '\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
         $this->_transportBuilder = $this->getMock(
-            '\Magento\Mail\Template\TransportBuilder',
+            '\Magento\Framework\Mail\Template\TransportBuilder',
             array(),
             array(),
             '',
@@ -115,8 +77,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendPaymentFailedEmail()
     {
-        $shippingAddress = new \Magento\Object(array('shipping_method' => 'ground_transportation'));
-        $billingAddress = new \Magento\Object(array('street' => 'Fixture St'));
+        $shippingAddress = new \Magento\Framework\Object(array('shipping_method' => 'ground_transportation'));
+        $billingAddress = new \Magento\Framework\Object(array('street' => 'Fixture St'));
 
         $this->_transportBuilder->expects(
             $this->once()
@@ -187,7 +149,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTransport'
         )->will(
-            $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
+            $this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface'))
         );
 
         $this->_translator->expects($this->at(1))->method('suspend');
@@ -201,7 +163,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $productTwo->expects($this->once())->method('getName')->will($this->returnValue('Product Two'));
         $productTwo->expects($this->once())->method('getFinalPrice')->with(3)->will($this->returnValue(60));
 
-        $quote = new \Magento\Object(
+        $quote = new \Magento\Framework\Object(
             array(
                 'store_id' => 8,
                 'store_currency_code' => 'USD',
@@ -211,13 +173,72 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'customer_email' => 'john.doe@example.com',
                 'billing_address' => $billingAddress,
                 'shipping_address' => $shippingAddress,
-                'payment' => new \Magento\Object(array('method' => 'fixture-payment-method')),
+                'payment' => new \Magento\Framework\Object(array('method' => 'fixture-payment-method')),
                 'all_visible_items' => array(
-                    new \Magento\Object(array('product' => $productOne, 'qty' => 2)),
-                    new \Magento\Object(array('product' => $productTwo, 'qty' => 3))
+                    new \Magento\Framework\Object(array('product' => $productOne, 'qty' => 2)),
+                    new \Magento\Framework\Object(array('product' => $productTwo, 'qty' => 3))
                 )
             )
         );
         $this->assertSame($this->_helper, $this->_helper->sendPaymentFailedEmail($quote, 'test message'));
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getScopeConfigMock()
+    {
+        $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
+        $scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array(
+                            'checkout/payment_failed/template',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'fixture_email_template_payment_failed'
+                        ),
+                        array(
+                            'checkout/payment_failed/receiver',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/email',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin@example.com'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/name',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'System Administrator'
+                        ),
+                        array(
+                            'checkout/payment_failed/identity',
+                            ScopeInterface::SCOPE_STORE,
+                            8,
+                            'noreply@example.com'
+                        ),
+                        array(
+                            'carriers/ground/title',
+                            ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Ground Shipping'
+                        ),
+                        array(
+                            'payment/fixture-payment-method/title',
+                            ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Check Money Order'
+                        )
+                    )
+                )
+            );
+        return $scopeConfig;
     }
 }

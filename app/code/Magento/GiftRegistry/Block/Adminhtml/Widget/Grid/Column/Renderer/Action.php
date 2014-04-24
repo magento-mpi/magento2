@@ -17,10 +17,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     /**
      * Render gift registry item action as select html element
      *
-     * @param  \Magento\Object $row
+     * @param  \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'

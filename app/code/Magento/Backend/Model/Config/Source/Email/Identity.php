@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
-class Identity implements \Magento\Option\ArrayInterface
+class Identity implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Email Identity options

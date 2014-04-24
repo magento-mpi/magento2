@@ -138,8 +138,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 [
-                    new \Magento\Object(['path' => 'config/key1', 'value' => 'store_db_value1']),
-                    new \Magento\Object(['path' => 'config/key3', 'value' => 'store_db_value3'])
+                    new \Magento\Framework\Object(['path' => 'config/key1', 'value' => 'store_db_value1']),
+                    new \Magento\Framework\Object(['path' => 'config/key3', 'value' => 'store_db_value3'])
                 ]
             )
         );

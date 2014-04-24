@@ -33,7 +33,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param array $data
      */
@@ -41,7 +41,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Install\Model\Installer\Config $installerConfig,
         array $data = array()
     ) {
@@ -62,7 +62,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
     /**
      * Retrieve configuration form data object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
@@ -72,7 +72,7 @@ class Config extends \Magento\Install\Block\AbstractBlock
             if (empty($data)) {
                 $data = $this->_installerConfig->getFormData();
             } else {
-                $data = new \Magento\Object($data);
+                $data = new \Magento\Framework\Object($data);
             }
             $this->setFormData($data);
         }

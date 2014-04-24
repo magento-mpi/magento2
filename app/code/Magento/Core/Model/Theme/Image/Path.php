@@ -60,7 +60,7 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
     public function getPreviewImageDirectoryUrl()
     {
         return $this->_storeManager->getStore()->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_MEDIA
+            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
         ) . self::PREVIEW_DIRECTORY_PATH . '/';
     }
 

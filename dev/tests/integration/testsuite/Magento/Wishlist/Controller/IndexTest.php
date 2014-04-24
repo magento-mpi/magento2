@@ -18,7 +18,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     protected $_customerSession;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $_messages;
 
@@ -30,7 +30,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Customer\Model\Session',
             array($logger)
@@ -44,7 +44,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_customerViewHelper = $this->_objectManager->create('Magento\Customer\Helper\View');
 
         $this->_messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         );
     }
 
@@ -112,7 +112,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertEquals(0, $quoteCount);
         $this->assertSessionMessages(
             $this->contains('You can buy this product only in increments of 5 for "Simple Product".'),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
 
@@ -131,7 +131,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
                 ]
             ]
         );
@@ -147,7 +147,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->getRequest()->setPost($request);
 
-        $this->_objectManager->get('Magento\Registry')->register(
+        $this->_objectManager->get('Magento\Framework\Registry')->register(
             'wishlist',
             $this->_objectManager->get('Magento\Wishlist\Model\Wishlist')->loadByCustomerId(1)
         );

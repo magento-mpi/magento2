@@ -42,7 +42,7 @@ class Config
             $this->_pageLayouts = array();
             foreach ($this->_dataStorage->get(null) as $layoutCode => $layoutConfig) {
                 $layoutConfig['label'] = __($layoutConfig['label']);
-                $this->_pageLayouts[$layoutCode] = new \Magento\Object($layoutConfig);
+                $this->_pageLayouts[$layoutCode] = new \Magento\Framework\Object($layoutConfig);
             }
         }
         return $this;
@@ -51,7 +51,7 @@ class Config
     /**
      * Retrieve available page layouts
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getPageLayouts()
     {
@@ -63,7 +63,7 @@ class Config
      * Retrieve page layout by code
      *
      * @param string $layoutCode
-     * @return \Magento\Object|boolean
+     * @return \Magento\Framework\Object|boolean
      */
     public function getPageLayout($layoutCode)
     {

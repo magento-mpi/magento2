@@ -300,7 +300,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_colIteratorFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -314,7 +314,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -329,7 +329,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_resource = $resource;

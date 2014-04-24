@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class Statuses implements \Magento\Option\ArrayInterface
+class Statuses implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return statuses option array

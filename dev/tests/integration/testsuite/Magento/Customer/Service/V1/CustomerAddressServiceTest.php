@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 
@@ -24,7 +24,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAddressServiceInterface */
     private $_service;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     /** @var \Magento\Customer\Service\V1\Data\Address[] */

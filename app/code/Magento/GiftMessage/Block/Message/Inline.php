@@ -307,7 +307,7 @@ class Inline extends \Magento\Framework\View\Element\Template
     /**
      * Check availability of giftmessages for specified entity item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return bool
      */
     public function isItemMessagesAvailable($item)

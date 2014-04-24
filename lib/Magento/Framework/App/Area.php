@@ -41,21 +41,21 @@ class Area implements \Magento\Framework\App\AreaInterface
     /**
      * Event Manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translator;
 
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -65,7 +65,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_diConfigLoader;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -82,30 +82,30 @@ class Area implements \Magento\Framework\App\AreaInterface
     protected $_scopeResolver;
 
     /**
-     * @var \Magento\View\DesignExceptions
+     * @var \Magento\Framework\View\DesignExceptions
      */
     protected $_designExceptions;
 
     /**
-     * @param \Magento\Logger $logger
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\TranslateInterface $translator
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\TranslateInterface $translator
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
-     * @param \Magento\View\DesignExceptions $designExceptions
+     * @param \Magento\Framework\View\DesignExceptions $designExceptions
      * @param string $areaCode
      */
     public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\TranslateInterface $translator,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\TranslateInterface $translator,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
-        \Magento\View\DesignExceptions $designExceptions,
+        \Magento\Framework\View\DesignExceptions $designExceptions,
         $areaCode
     ) {
         $this->_code = $areaCode;
@@ -194,7 +194,7 @@ class Area implements \Magento\Framework\App\AreaInterface
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'load_area:' . $this->_code . '.' . $part,
             array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part)
         );
@@ -210,7 +210,7 @@ class Area implements \Magento\Framework\App\AreaInterface
                 break;
         }
         $this->_loadedParts[$part] = true;
-        \Magento\Profiler::stop('load_area:' . $this->_code . '.' . $part);
+        \Magento\Framework\Profiler::stop('load_area:' . $this->_code . '.' . $part);
         return $this;
     }
 
@@ -233,7 +233,9 @@ class Area implements \Magento\Framework\App\AreaInterface
     {
         $this->_translator->loadData(null, false);
 
-        \Magento\Phrase::setRenderer($this->_objectManager->get('Magento\Phrase\RendererInterface'));
+        \Magento\Framework\Phrase::setRenderer(
+            $this->_objectManager->get('Magento\Framework\Phrase\RendererInterface')
+        );
 
         return $this;
     }

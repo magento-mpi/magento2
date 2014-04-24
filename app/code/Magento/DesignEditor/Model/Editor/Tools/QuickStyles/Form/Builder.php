@@ -77,7 +77,7 @@ class Builder
                 $data['theme'],
                 $data['parent_theme']
             );
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $isFilePresent = false;
         }
 

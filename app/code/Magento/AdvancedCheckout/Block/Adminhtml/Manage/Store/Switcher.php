@@ -26,7 +26,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +35,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

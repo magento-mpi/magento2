@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,20 +53,25 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $zendCacheCore = new \Zend_Cache_Core();
         $zendCacheCore->setBackend(new \Zend_Cache_Backend_BlackHole());
 
-        $frontendCache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface', array(), '', false);
+        $frontendCache = $this->getMockForAbstractClass(
+            'Magento\Framework\Cache\FrontendInterface',
+            array(),
+            '',
+            false
+        );
         $frontendCache->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($zendCacheCore));
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $cache->expects($this->any())->method('getFrontend')->will($this->returnValue($frontendCache));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $locale = $objectManager->getObject(
-            '\Magento\Locale',
-            array('locale' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE)
+            '\Magento\Framework\Locale',
+            array('locale' => \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE)
         );
-        $localeResolver = $this->getMock('\Magento\Locale\ResolverInterface');
+        $localeResolver = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
         $localeResolver->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
         $timezone = $objectManager->getObject(
-            '\Magento\Stdlib\DateTime\Timezone',
+            '\Magento\Framework\Stdlib\DateTime\Timezone',
             array('localeResolver' => $localeResolver)
         );
 
@@ -258,7 +263,8 @@ class DobTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * The \Magento\Locale\ResolverInterface::DEFAULT_LOCALE is used to derive the Locale that is used to determine the
+     * The \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE
+     * is used to derive the Locale that is used to determine the
      * value of Dob::getDateFormat() for that Locale.
      */
     public function testGetDateFormat()

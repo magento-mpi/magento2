@@ -49,9 +49,9 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($html);
 
         $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->getDateFormat(
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
         );
         $pieces = array_filter(explode('<strong>', $html));
         foreach ($pieces as $piece) {

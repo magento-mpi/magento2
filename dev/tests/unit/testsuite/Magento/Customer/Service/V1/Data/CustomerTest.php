@@ -108,7 +108,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->_createCustomerData();
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $actualAttributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
+        $actualAttributes = \Magento\Framework\Convert\ConvertArray::toFlatArray($customer->__toArray());
         $this->assertEquals(
             array(
                 'id' => self::ID,

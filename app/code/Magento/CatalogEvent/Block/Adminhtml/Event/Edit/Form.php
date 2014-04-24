@@ -17,7 +17,7 @@ use Magento\Backend\Helper\Data;
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
 
 class Form extends Generic
@@ -119,8 +119,8 @@ class Form extends Generic
 
         $fieldset->addField('category_name', 'note', array('id' => 'category_span', 'label' => __('Category')));
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField(
             'date_start',

@@ -22,7 +22,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * Core Registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -50,15 +50,15 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData,
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -66,7 +66,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -75,15 +75,15 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
@@ -91,7 +91,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {

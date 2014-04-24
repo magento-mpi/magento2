@@ -12,7 +12,7 @@ namespace Magento\Rma\Model\Item;
 /**
  * RMA Item Status Manager
  */
-class Status extends \Magento\Object
+class Status extends \Magento\Framework\Object
 {
     /**
      * Artificial "maximal" item status when whole order is closed

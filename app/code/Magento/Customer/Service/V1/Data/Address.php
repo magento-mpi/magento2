@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-class Address extends \Magento\Service\Data\EAV\AbstractObject
+class Address extends \Magento\Framework\Service\Data\EAV\AbstractObject
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

@@ -102,7 +102,7 @@ class Profiler extends \Magento\Framework\DB\Profiler
                 $tags['host'] = $this->_host;
             }
 
-            \Magento\Profiler::start($timerName, $tags);
+            \Magento\Framework\Profiler::start($timerName, $tags);
         }
 
         return $result;
@@ -124,7 +124,7 @@ class Profiler extends \Magento\Framework\DB\Profiler
             $queryTypeParsed = $this->_parseQueryType($queryProfile->getQuery());
             $timerName = $this->_getTimerName($queryTypeParsed);
 
-            \Magento\Profiler::stop($timerName);
+            \Magento\Framework\Profiler::stop($timerName);
         }
 
         return $result;

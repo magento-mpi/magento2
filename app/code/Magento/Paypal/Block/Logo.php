@@ -21,20 +21,20 @@ class Logo extends \Magento\Framework\View\Element\Template
     protected $_paypalConfig;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Paypal\Model\Config $paypalConfig
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\Config $paypalConfig,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_paypalConfig = $paypalConfig;

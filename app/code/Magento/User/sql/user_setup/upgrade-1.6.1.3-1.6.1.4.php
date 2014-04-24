@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -21,7 +21,7 @@ $connection->addColumn(
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 5,
         'nullable' => false,
-        'default' => \Magento\Locale\ResolverInterface::DEFAULT_LOCALE,
+        'default' => \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE,
         'comment' => 'Backend interface locale'
     )
 );

@@ -42,14 +42,14 @@ class Base extends \Magento\Sales\Model\Config\Ordered
 
     /**
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory
      * @param mixed $sourceData
      */
     public function __construct(
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Sales\Model\Order\TotalFactory $orderTotalFactory,
         $sourceData = null

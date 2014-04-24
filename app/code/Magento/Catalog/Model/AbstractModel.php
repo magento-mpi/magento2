@@ -65,7 +65,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -73,7 +73,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -164,7 +164,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
      *
      * @param string|array $key
      * @param mixed $value
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setData($key, $value = null)
     {

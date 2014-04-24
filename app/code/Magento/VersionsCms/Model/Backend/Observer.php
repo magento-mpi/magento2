@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Backend;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Versions cms page observer for backend area
@@ -24,7 +24,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -45,7 +45,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -117,9 +117,9 @@ class Observer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $config
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
@@ -139,9 +139,9 @@ class Observer
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Config $config,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Backend\Model\UrlInterface $backendUrl,

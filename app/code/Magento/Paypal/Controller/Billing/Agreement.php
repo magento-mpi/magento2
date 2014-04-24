@@ -17,7 +17,7 @@ class Agreement extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -28,12 +28,12 @@ class Agreement extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Action\Title $title
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Action\Title $title
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -109,10 +109,10 @@ class Agreement extends \Magento\Framework\App\Action\Action
                     $paymentCode
                 )->setReturnUrl(
                     $this->_objectManager->create(
-                        'Magento\UrlInterface'
+                        'Magento\Framework\UrlInterface'
                     )->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode))
                 )->setCancelUrl(
-                    $this->_objectManager->create('Magento\UrlInterface')
+                    $this->_objectManager->create('Magento\Framework\UrlInterface')
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode))
                 );
 
@@ -120,7 +120,7 @@ class Agreement extends \Magento\Framework\App\Action\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('We couldn\'t start the billing agreement wizard.'));
             }
         }
@@ -158,7 +158,7 @@ class Agreement extends \Magento\Framework\App\Action\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('We couldn\'t finish the billing agreement wizard.'));
             }
             $this->_redirect('*/*/index');
@@ -196,7 +196,7 @@ class Agreement extends \Magento\Framework\App\Action\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('We couldn\'t cancel the billing agreement.'));
             }
         }

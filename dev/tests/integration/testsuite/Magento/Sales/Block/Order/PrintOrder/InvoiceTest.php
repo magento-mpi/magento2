@@ -20,7 +20,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_order', $order);
+        $objectManager->get('Magento\Framework\Registry')->register('current_order', $order);
         $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Order\Payment'
         );
