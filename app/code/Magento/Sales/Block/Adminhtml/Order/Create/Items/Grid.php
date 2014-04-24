@@ -11,7 +11,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Items;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Sales\Model\Quote\Item;
-use Magento\Session\SessionManagerInterface;
+use Magento\Framework\Session\SessionManagerInterface;
 
 /**
  * Adminhtml sales order create items grid block

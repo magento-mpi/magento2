@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Layout\File;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**

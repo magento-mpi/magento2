@@ -105,7 +105,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Bundle\Model\Resource\Selection\Collection $selectionsCollection
      * @param bool $stripBefore
      * @param bool $appendAll
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function appendSelections($selectionsCollection, $stripBefore = false, $appendAll = true)
     {

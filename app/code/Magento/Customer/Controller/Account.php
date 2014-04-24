@@ -11,10 +11,10 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Exception\AuthenticationException;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
+use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 /**
  * Customer account controller
@@ -54,13 +54,13 @@ class Account extends \Magento\Framework\App\Action\Action
     /** @var \Magento\Customer\Helper\Data */
     protected $_customerHelperData;
 
-    /** @var \Magento\UrlFactory */
+    /** @var \Magento\Framework\UrlFactory */
     protected $_urlFactory;
 
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /** @var \Magento\Stdlib\String */
+    /** @var \Magento\Framework\Stdlib\String */
     protected $string;
 
     /** @var \Magento\Core\App\Action\FormKeyValidator */
@@ -78,7 +78,7 @@ class Account extends \Magento\Framework\App\Action\Action
     /** @var \Magento\Core\Helper\Data */
     protected $coreHelperData;
 
-    /** @var \Magento\Escaper */
+    /** @var \Magento\Framework\Escaper */
     protected $escaper;
 
     /** @var \Magento\Framework\App\State */
@@ -107,15 +107,15 @@ class Account extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Helper\Data $customerHelperData
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -131,15 +131,15 @@ class Account extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Helper\Data $customerHelperData,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\State $appState,
         CustomerGroupServiceInterface $customerGroupService,
         CustomerAccountServiceInterface $customerAccountService,
@@ -290,7 +290,7 @@ class Account extends \Magento\Framework\App\Action\Action
                     $this->_getSession()->setUsername($login['username']);
                 } catch (\Exception $e) {
                     // PA DSS violation: this exception log can disclose customer password
-                    // $this->_objectManager->get('Magento\Logger')->logException($e);
+                    // $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $this->messageManager->addError(__('There was an error validating the login and password.'));
                 }
             } else {
@@ -986,7 +986,7 @@ class Account extends \Magento\Framework\App\Action\Action
     }
 
     /**
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     protected function _createUrl()
     {

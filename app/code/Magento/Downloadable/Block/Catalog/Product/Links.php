@@ -12,7 +12,6 @@ namespace Magento\Downloadable\Block\Catalog\Product;
 use Magento\Catalog\Pricing\Price\FinalPrice;
 use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Downloadable\Model\Link;
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Downloadable\Pricing\Price\LinkPrice;
 
 /**
@@ -21,9 +20,8 @@ use Magento\Downloadable\Pricing\Price\LinkPrice;
  */
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $jsonEncoder;
 
@@ -221,7 +219,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param Link $link
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function getLinkAmount($link)
     {
@@ -244,7 +242,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Get LinkPrice Type
      *
-     * @return \Magento\Pricing\Price\PriceInterface
+     * @return \Magento\Framework\Pricing\Price\PriceInterface
      */
     protected function getPriceType()
     {

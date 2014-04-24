@@ -39,7 +39,7 @@ class ErrorProcessor
     protected $_appState;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -58,13 +58,13 @@ class ErrorProcessor
     /**
      * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
         \Magento\Framework\App\State $appState,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
         $this->_coreHelper = $helper;
@@ -97,7 +97,7 @@ class ErrorProcessor
             }
 
             $wrappedErrors = array();
-            if ($exception instanceof \Magento\Exception\InputException) {
+            if ($exception instanceof \Magento\Framework\Exception\InputException) {
                 $wrappedErrors = $exception->getErrors();
             }
 

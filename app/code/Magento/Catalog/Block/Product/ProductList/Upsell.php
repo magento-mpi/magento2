@@ -32,7 +32,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     protected $_columnCount = 4;
 
     /**
-     * @var  \Magento\Object[]
+     * @var  \Magento\Framework\Object[]
      */
     protected $_items;
 
@@ -138,7 +138,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     }
 
     /**
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getItems()
     {

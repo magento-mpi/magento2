@@ -356,7 +356,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testGetOptionsUsesOptionsInterfaceIfNoMethodIsProvided()
     {
         $this->_model->setData(array('source_model' => 'Source_Model_Name'), 'scope');
-        $sourceModelMock = $this->getMock('Magento\Option\ArrayInterface');
+        $sourceModelMock = $this->getMock('Magento\Framework\Option\ArrayInterface');
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(
@@ -385,7 +385,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'multiselect'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Framework\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(
@@ -407,7 +407,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'select'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Framework\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(

@@ -22,7 +22,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     protected $_giftRegistryData = null;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $_moduleManager;
 
@@ -33,7 +33,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\Framework\Data\Form\FormKey $formKey
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;

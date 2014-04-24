@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Pricing\Price;
+namespace Magento\Framework\Pricing\Price;
 
 /**
  * Test for Pool
@@ -17,7 +17,7 @@ namespace Magento\Pricing\Price;
 class PoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Pricing\Price\Pool
+     * @var \Magento\Framework\Pricing\Price\Pool
      */
     protected $pool;
 

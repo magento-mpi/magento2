@@ -65,13 +65,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function _prepareCartExpectations($cartFactory)
     {
         $items = array(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array(
                     'parent_item' => 'parent',
                     'name' => 'name',
                     'qty' => '1',
                     'price' => '12.2',
-                    'original_item' => new \Magento\Object()
+                    'original_item' => new \Magento\Framework\Object()
                 )
             )
         );

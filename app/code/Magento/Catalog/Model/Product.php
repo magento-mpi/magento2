@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Model;
 
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Object\IdentityInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Object\IdentityInterface;
 
 /**
  * Catalog product model
@@ -242,13 +242,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_productPriceIndexerProcessor;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base
+     * @var \Magento\Framework\Pricing\PriceInfo\Base
      */
     protected $_priceInfo;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -277,7 +277,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -847,7 +847,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product Price Info object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function getPriceInfo()
     {
@@ -1222,7 +1222,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
                 $image['id'] = isset($image['value_id']) ? $image['value_id'] : null;
                 $image['path'] = $directory->getAbsolutePath($this->getMediaConfig()->getMediaPath($image['file']));
-                $images->addItem(new \Magento\Object($image));
+                $images->addItem(new \Magento\Framework\Object($image));
             }
             $this->setData('media_gallery_images', $images);
         }
@@ -1345,7 +1345,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
         $salable = $this->isAvailable();
 
-        $object = new \Magento\Object(array('product' => $this, 'is_salable' => $salable));
+        $object = new \Magento\Framework\Object(array('product' => $this, 'is_salable' => $salable));
         $this->_eventManager->dispatch(
             'catalog_product_is_salable_after',
             array('product' => $this, 'salable' => $object)
@@ -1847,12 +1847,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Parse buyRequest into options values used by product
      *
-     * @param  \Magento\Object $buyRequest
-     * @return \Magento\Object
+     * @param  \Magento\Framework\Object $buyRequest
+     * @return \Magento\Framework\Object
      */
-    public function processBuyRequest(\Magento\Object $buyRequest)
+    public function processBuyRequest(\Magento\Framework\Object $buyRequest)
     {
-        $options = new \Magento\Object();
+        $options = new \Magento\Framework\Object();
 
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
@@ -1880,13 +1880,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get preconfigured values from product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getPreconfiguredValues()
     {
         $preConfiguredValues = $this->getData('preconfigured_values');
         if (!$preConfiguredValues) {
-            $preConfiguredValues = new \Magento\Object();
+            $preConfiguredValues = new \Magento\Framework\Object();
         }
 
         return $preConfiguredValues;
@@ -2062,7 +2062,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Reload PriceInfo object
      *
-     * @return \Magento\Pricing\PriceInfo\Base
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
      */
     public function reloadPriceInfo()
     {

@@ -39,16 +39,16 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Backend\Model\Auth\Session $backendSession
      * @param array $data
@@ -56,9 +56,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Backend\Model\Auth\Session $backendSession,
         array $data = array()
@@ -372,7 +372,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     /**
      * Get category name
      *
-     * @param \Magento\Object $node
+     * @param \Magento\Framework\Object $node
      * @return string
      */
     public function buildNodeName($node)
@@ -390,7 +390,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     protected function _isCategoryMoveable($node)
     {
-        $options = new \Magento\Object(array('is_moveable' => true, 'category' => $node));
+        $options = new \Magento\Framework\Object(array('is_moveable' => true, 'category' => $node));
 
         $this->_eventManager->dispatch('adminhtml_catalog_category_tree_is_moveable', array('options' => $options));
 
@@ -430,7 +430,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     public function canAddRootCategory()
     {
-        $options = new \Magento\Object(array('is_allow' => true));
+        $options = new \Magento\Framework\Object(array('is_allow' => true));
         $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array('category' => $this->getCategory(), 'options' => $options, 'store' => $this->getStore()->getId())
@@ -446,7 +446,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     public function canAddSubCategory()
     {
-        $options = new \Magento\Object(array('is_allow' => true));
+        $options = new \Magento\Framework\Object(array('is_allow' => true));
         $this->_eventManager->dispatch(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array('category' => $this->getCategory(), 'options' => $options, 'store' => $this->getStore()->getId())

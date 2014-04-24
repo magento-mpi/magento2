@@ -21,7 +21,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     protected $priceModifier;
 
     /**
-     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountMock;
 
@@ -31,12 +31,12 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -81,9 +81,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
-        $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
-        $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->amountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
+        $this->calculatorMock = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
         $this->priceModifier = $this->getMock(
             'Magento\Catalog\Model\Product\PriceModifierInterface',
@@ -224,7 +224,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
 
     protected function getModifiedAmountMock($modifiedValue, $pricingValue)
     {
-        $modifiedAmountMock = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        $modifiedAmountMock = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->getMock();
         $modifiedAmountMock->expects($this->any())

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,8 @@
 namespace Magento\Weee\Pricing\Render;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Weee\Model\Tax;
 
 /**
@@ -118,7 +116,7 @@ class Adjustment extends AbstractAdjustment
     /**
      * Obtain Weee tax attributes
      *
-     * @return array|\Magento\Object[]
+     * @return array|\Magento\Framework\Object[]
      */
     public function getWeeeTaxAttributes()
     {
@@ -128,10 +126,10 @@ class Adjustment extends AbstractAdjustment
     /**
      * Render Weee tax attributes
      *
-     * @param \Magento\Object $attribute
+     * @param \Magento\Framework\Object $attribute
      * @return string
      */
-    public function renderWeeeTaxAttribute(\Magento\Object $attribute)
+    public function renderWeeeTaxAttribute(\Magento\Framework\Object $attribute)
     {
         return $attribute->getData('name') . ': ' . $this->convertAndFormatCurrency($attribute->getData('amount'));
     }
@@ -151,7 +149,7 @@ class Adjustment extends AbstractAdjustment
     /**
      * Get Weee attributes for display
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     protected function getWeeeAttributesForDisplay()
     {

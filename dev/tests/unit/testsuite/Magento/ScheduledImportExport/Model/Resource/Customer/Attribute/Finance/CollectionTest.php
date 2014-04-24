@@ -39,14 +39,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection = $this->_getFinanceCollectionMock();
 
-        $first = new \Magento\Object(array('id' => 9));
-        $second = new \Magento\Object(array('id' => 10));
+        $first = new \Magento\Framework\Object(array('id' => 9));
+        $second = new \Magento\Framework\Object(array('id' => 10));
 
         $collection->addItem($first);
         $collection->addItem($second);
 
-        /** @var $orderFirst \Magento\Object */
-        /** @var $orderSecond \Magento\Object */
+        /** @var $orderFirst \Magento\Framework\Object */
+        /** @var $orderSecond \Magento\Framework\Object */
 
         $collection->setOrder('id', \Magento\Framework\Data\Collection::SORT_ORDER_ASC);
         list($orderFirst, $orderSecond) = array_values($collection->getItems());
@@ -66,8 +66,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
-        $first = new \Magento\Object(array('id' => 9));
-        $second = new \Magento\Object(array('id' => 10));
+        $first = new \Magento\Framework\Object(array('id' => 9));
+        $second = new \Magento\Framework\Object(array('id' => 10));
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));
         $this->assertGreaterThan(0, $collection->compareAttributes($second, $first));

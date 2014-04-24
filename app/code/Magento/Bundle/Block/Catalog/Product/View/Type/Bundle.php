@@ -9,7 +9,7 @@
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Catalog bundle product info block
@@ -41,12 +41,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_productPrice;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $jsonEncoder;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -57,23 +57,25 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param array $data
+     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Locale\FormatInterface $localeFormat,
-        array $data = array()
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
@@ -204,7 +206,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     ? $selection['inclTaxPrice']
                     : $selection['exclTaxPrice'];
 
-                $responseObject = new \Magento\Object();
+                $responseObject = new \Magento\Framework\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
                 $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {

@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Pricing\Price;
 
-use Magento\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * Interface CustomOptionPriceInterface for Configurable Product

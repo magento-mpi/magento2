@@ -17,7 +17,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 class Radios extends AbstractElement
 {
@@ -87,7 +87,7 @@ class Radios extends AbstractElement
                 '">' .
                 $option['label'] .
                 '</label>';
-        } elseif ($option instanceof \Magento\Object) {
+        } elseif ($option instanceof \Magento\Framework\Object) {
             $html .= 'id="' . $this->getHtmlId() . $option->getValue() . '"' . $option->serialize(
                 array('label', 'title', 'value', 'class', 'style')
             );

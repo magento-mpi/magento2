@@ -43,7 +43,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
@@ -53,7 +53,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
@@ -123,7 +123,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $this->escapeHtml($customer->getLastname()),
                 $this->escapeHtml($customer->getEmail())
             );
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             $customerText = ($review->getStoreId() == \Magento\Store\Model\Store::DEFAULT_STORE_ID)
                 ? __('Administrator') : __('Guest');
         }

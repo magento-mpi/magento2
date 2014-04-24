@@ -75,7 +75,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             true,
             ['getBlock']
         );
-        $priceRendererMock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $priceRendererMock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
         $productTitle = 'Product title';
         $productUrl = '<a href="http://product.url">Product Url</a>';
         $imgThumbSrc = 'http://source-for-thumbnail';

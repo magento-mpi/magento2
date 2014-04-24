@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class BlockFactory

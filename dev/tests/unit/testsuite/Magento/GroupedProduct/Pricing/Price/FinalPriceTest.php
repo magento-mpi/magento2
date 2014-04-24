@@ -24,7 +24,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
@@ -34,7 +34,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->saleableItemMock =  $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->calculatorMock = $this->getMock('Magento\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->calculatorMock = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
 
         $this->finalPrice = new \Magento\GroupedProduct\Pricing\Price\FinalPrice
         (
@@ -99,7 +99,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue($price));
 
-        $priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $priceInfoMock->expects($this->any())
             ->method('getPrice')
             ->with($this->equalTo(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE))
@@ -108,7 +108,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $productMock->expects($this->any())
             ->method('setQty')
-            ->with($this->equalTo(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT));
+            ->with($this->equalTo(\Magento\Framework\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT));
         $productMock->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfoMock));

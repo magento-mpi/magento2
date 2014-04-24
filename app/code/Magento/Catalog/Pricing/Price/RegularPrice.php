@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Price\AbstractPrice;
-use Magento\Pricing\Price\BasePriceProviderInterface;
+use Magento\Framework\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Class RegularPrice

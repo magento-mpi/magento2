@@ -13,8 +13,8 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
-use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Amount\AmountFactory;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Amount\AmountFactory;
 use Magento\Bundle\Pricing\BundleOptionService;
 use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 
@@ -107,7 +107,7 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     /**
      * Option amount calculation for bundle product
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getOptionsAmount()
     {
@@ -121,7 +121,7 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
 
         $fullAmount = 0.;
         $adjustments = [];
-        /** @var \Magento\Pricing\Amount\AmountInterface $itemAmount */
+        /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
         foreach ($amountList as $itemAmount) {
             $fullAmount += $itemAmount->getValue();
             foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
@@ -145,7 +145,7 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     /**
      * Get Amount for configured price which is included amount for all selected options
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount()
     {

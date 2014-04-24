@@ -40,7 +40,7 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -82,7 +82,7 @@ class Observer
     /**
      * Url model
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -101,12 +101,12 @@ class Observer
     protected $_websiteCollectionFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -132,20 +132,20 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory
      * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -153,20 +153,20 @@ class Observer
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Store\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Persistent\Model\SessionFactory $sessionFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Persistent\Model\Persistent\ConfigFactory $persistentConfigFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Escaper $escaper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Checkout\Helper\ExpressRedirect $expressRedirectHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -193,7 +193,7 @@ class Observer
     /**
      * Apply persistent data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function applyPersistentData($observer)
@@ -213,7 +213,7 @@ class Observer
     /**
      * Apply persistent data to specific block
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function applyBlockPersistentData($observer)
@@ -292,7 +292,7 @@ class Observer
     /**
      * Emulate quote by persistent data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function emulateQuote($observer)
@@ -323,7 +323,7 @@ class Observer
     /**
      * Set persistent data into quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setQuotePersistentData($observer)
@@ -347,7 +347,7 @@ class Observer
     /**
      * Set quote to be loaded even if not active
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setLoadPersistentQuote($observer)
@@ -364,7 +364,7 @@ class Observer
     /**
      * Prevent clear checkout session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function preventClearCheckoutSession($observer)
@@ -379,7 +379,7 @@ class Observer
     /**
      * Make persistent quote to be guest
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function makePersistentQuoteGuest($observer)
@@ -394,7 +394,7 @@ class Observer
     /**
      * Check if checkout session should NOT be cleared
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return bool|\Magento\Persistent\Controller\Index
      */
     protected function _checkClearCheckoutSessionNecessity($observer)
@@ -415,7 +415,7 @@ class Observer
     /**
      * Reset session data when customer re-authenticates
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function customerAuthenticatedEvent($observer)
@@ -433,7 +433,7 @@ class Observer
     /**
      * Unset persistent cookie and make customer's quote as a guest
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function removePersistentCookie($observer)
@@ -454,7 +454,7 @@ class Observer
     /**
      * Disable guest checkout if we are in persistent mode
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function disableGuestCheckout($observer)
@@ -467,10 +467,10 @@ class Observer
     /**
      * Prevent express checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function preventExpressCheckout(\Magento\Event\Observer $observer)
+    public function preventExpressCheckout(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_isLoggedOut()) {
             return;
@@ -600,10 +600,10 @@ class Observer
     /**
      * Check and clear session data if persistent session expired
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function checkExpirePersistentQuote(\Magento\Event\Observer $observer)
+    public function checkExpirePersistentQuote(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_persistentData->canProcess($observer)) {
             return;
@@ -662,17 +662,17 @@ class Observer
     /**
      * Update customer id and customer group id if user is in persistent session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function updateCustomerCookies(\Magento\Event\Observer $observer)
+    public function updateCustomerCookies(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_isPersistent()) {
             return;
         }
 
         $customerCookies = $observer->getEvent()->getCustomerCookies();
-        if ($customerCookies instanceof \Magento\Object) {
+        if ($customerCookies instanceof \Magento\Framework\Object) {
             $persistentCustomer = $this->_getPersistentCustomer();
             $customerCookies->setCustomerId($persistentCustomer->getId());
             $customerCookies->setCustomerGroupId($persistentCustomer->getGroupId());
@@ -682,7 +682,7 @@ class Observer
     /**
      * Set persistent data to customer session
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function emulateCustomer($observer)

@@ -18,7 +18,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $saleableInterfaceMock;
 
     /** @var float */
@@ -30,7 +30,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleCalculatorMock;
 
-    /** @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $priceInfoMock;
 
     /** @var \Magento\Bundle\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject */
@@ -56,7 +56,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->priceInfoMock = $this->getMock('\Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('\Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
 
         $this->priceInfoMock->expects($this->atLeastOnce())
             ->method('getPrice')

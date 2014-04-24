@@ -24,7 +24,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */
     protected $productMock;
 
-    /** @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject */
     protected $priceInfoMock;
 
     /** @var \Magento\Tax\Pricing\Adjustment|\PHPUnit_Framework_MockObject_MockObject */
@@ -69,7 +69,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->priceInfoMock = $this->getMock(
-            'Magento\Pricing\PriceInfo\Base',
+            'Magento\Framework\Pricing\PriceInfo\Base',
             ['getAdjustment'],
             [],
             '',

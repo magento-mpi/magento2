@@ -18,14 +18,14 @@ interface FinalPriceInterface
     /**
      * Get Minimal Price Amount
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice();
 
     /**
      * Get Maximal Price Amount
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice();
 }

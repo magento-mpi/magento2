@@ -125,7 +125,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $priceRender = $this->getMockBuilder('Magento\Pricing\Render')
+        $priceRender = $this->getMockBuilder('Magento\Framework\Pricing\Render')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -142,7 +142,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 [
                     'include_container' => true,
                     'display_minimal_price' => true,
-                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
                 ]
             )->will($this->returnValue($priceHtml));
 

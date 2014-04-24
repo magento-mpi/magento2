@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Pricing\Price;
+namespace Magento\Framework\Pricing\Price;
 
 /**
  * Test for class Collection
@@ -17,27 +17,27 @@ namespace Magento\Pricing\Price;
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Pricing\Price\Collection
+     * @var \Magento\Framework\Pricing\Price\Collection
      */
     protected $collection;
 
     /**
-     * @var \Magento\Pricing\Price\Pool
+     * @var \Magento\Framework\Pricing\Price\Pool
      */
     protected $pool;
 
     /**
-     * @var \Magento\Pricing\Price\PriceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Price\PriceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceMock;
 
     /**
-     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\Price\Factory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Price\Factory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $factoryMock;
 
@@ -59,9 +59,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->saleableItemMock = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
-        $this->priceMock = $this->getMockForAbstractClass('Magento\Pricing\Price\PriceInterface');
-        $this->factoryMock = $this->getMock('Magento\Pricing\Price\Factory', [], [], '', false);
+        $this->saleableItemMock = $this->getMockForAbstractClass('Magento\Framework\Pricing\Object\SaleableInterface');
+        $this->priceMock = $this->getMockForAbstractClass('Magento\Framework\Pricing\Price\PriceInterface');
+        $this->factoryMock = $this->getMock('Magento\Framework\Pricing\Price\Factory', [], [], '', false);
 
         $this->collection = new Collection(
             $this->saleableItemMock,

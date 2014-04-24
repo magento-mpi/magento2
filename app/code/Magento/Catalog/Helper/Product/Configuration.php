@@ -22,7 +22,7 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
 
@@ -36,21 +36,21 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
-     * @param \Magento\Filter\FilterManager $filter
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Filter\FilterManager $filter
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
-        \Magento\Filter\FilterManager $filter,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Filter\FilterManager $filter,
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->filter = $filter;

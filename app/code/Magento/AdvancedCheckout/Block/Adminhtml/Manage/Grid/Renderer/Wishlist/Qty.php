@@ -22,7 +22,7 @@ class Qty extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Render
     /**
      * Returns whether this qty field must be inactive
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  bool
      */
     protected function _isInactive($row)

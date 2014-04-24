@@ -14,7 +14,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -25,13 +25,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\SalesRule\Model\Rule\Condition\Address $conditionAddress
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\SalesRule\Model\Rule\Condition\Address $conditionAddress,
         array $data = array()
     ) {
@@ -77,7 +77,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
             )
         );
 
-        $additional = new \Magento\Object();
+        $additional = new \Magento\Framework\Object();
         $this->_eventManager->dispatch('salesrule_rule_condition_combine', array('additional' => $additional));
         $additionalConditions = $additional->getConditions();
         if ($additionalConditions) {

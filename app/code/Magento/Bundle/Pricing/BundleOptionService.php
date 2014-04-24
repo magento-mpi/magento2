@@ -11,9 +11,9 @@
 namespace Magento\Bundle\Pricing;
 
 use Magento\Catalog\Model\Product;
-use Magento\Pricing\Amount\AmountFactory;
+use Magento\Framework\Pricing\Amount\AmountFactory;
 use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Framework\Pricing\Adjustment\Calculator;
 use Magento\Bundle\Model\Product\Price;
 
 /**
@@ -22,7 +22,7 @@ use Magento\Bundle\Model\Product\Price;
 class BundleOptionService
 {
     /**
-     * @var \Magento\Pricing\Amount\AmountFactory
+     * @var \Magento\Framework\Pricing\Amount\AmountFactory
      */
     protected $amountFactory;
 
@@ -32,7 +32,7 @@ class BundleOptionService
     protected $selectionFactory;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator
+     * @var \Magento\Framework\Pricing\Adjustment\Calculator
      */
     protected $calculator;
 
@@ -57,7 +57,7 @@ class BundleOptionService
      * @param Product $bundleProduct
      * @param \Magento\Bundle\Model\Option $option
      * @param bool $isIncludedPrice
-     * @return \Magento\Pricing\Amount\AmountInterface[]
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface[]
      */
     public function createSelectionAmountList($bundleProduct, $option, $isIncludedPrice = false)
     {
@@ -77,9 +77,9 @@ class BundleOptionService
      * Find minimal or maximal price for existing options
      *
      * @param \Magento\Bundle\Model\Option $option
-     * @param \Magento\Pricing\Amount\AmountInterface[] $selectionAmountList
+     * @param \Magento\Framework\Pricing\Amount\AmountInterface[] $selectionAmountList
      * @param bool $searchMin
-     * @return \Magento\Pricing\Amount\AmountInterface[]
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface[]
      */
     public function processOptions($option, $selectionAmountList, $searchMin = true)
     {
@@ -104,7 +104,7 @@ class BundleOptionService
      * @param \Magento\Bundle\Model\Selection $selection
      * @param Product $bundleProduct
      * @param bool $isIncludedPrice
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function createSelectionAmount($selection, $bundleProduct, $isIncludedPrice = false)
     {
@@ -120,7 +120,7 @@ class BundleOptionService
      *
      * @param \Magento\Bundle\Model\Selection $selection
      * @param Product $bundleProduct
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function createDynamicAmount($selection, $bundleProduct)
     {
@@ -134,7 +134,7 @@ class BundleOptionService
      *
      * @param \Magento\Bundle\Model\Selection $selection
      * @param Product $bundleProduct
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function createFixedAmount($selection, $bundleProduct)
     {

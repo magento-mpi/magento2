@@ -12,7 +12,7 @@ use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\App\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\Layout\File\Factory;
-use Magento\Exception;
+use Magento\Framework\Exception;
 
 /**
  * Source of layout files that explicitly override files of ancestor themes
@@ -51,7 +51,7 @@ class Theme implements SourceInterface
      * @param ThemeInterface $theme
      * @param string $filePath
      * @return array|\Magento\Framework\View\Layout\File[]
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

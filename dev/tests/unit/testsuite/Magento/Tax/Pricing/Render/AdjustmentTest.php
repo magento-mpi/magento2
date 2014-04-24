@@ -57,7 +57,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
+        $eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
@@ -111,14 +111,14 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $expectedPriceValue = 1.23;
         $expectedPrice = '$4.56';
 
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getAmount'])
             ->getMock();
 
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
@@ -152,13 +152,13 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $expectedPriceValue = 1.23;
         $expectedPrice = '$4.56';
 
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getAmount'])
             ->getMock();
-        /** @var \Magento\Pricing\Amount\Base $baseAmount */
-        $baseAmount = $this->getMockBuilder('Magento\Pricing\Amount\Base')
+        /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
+        $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
             ->disableOriginalConstructor()
             ->setMethods(['getValue'])
             ->getMock();
@@ -203,8 +203,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildIdWithPrefix($prefix, $saleableId, $suffix, $expectedResult)
     {
-        /** @var \Magento\Pricing\Render\Amount $amountRender */
-        $amountRender = $this->getMockBuilder('Magento\Pricing\Render\Amount')
+        /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
+        $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
             ->disableOriginalConstructor()
             ->setMethods(['getSaleableItem'])
             ->getMock();
@@ -284,8 +284,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $taxAdjustment = 2.0;
         $displayValue = 8.0;
 
-        $amountRender = $this->getMockForAbstractClass('Magento\Pricing\Render\AmountRenderInterface');
-        $amountMock = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $amountRender = $this->getMockForAbstractClass('Magento\Framework\Pricing\Render\AmountRenderInterface');
+        $amountMock = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
         $amountMock->expects($this->once())
             ->method('getAdjustmentAmount')
             ->with(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE)
@@ -317,10 +317,10 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $totalDisplayValue = 10.0;
         $taxAdjustment = 2.0;
         $displayValue = 8.0;
-        $this->model->setZone(\Magento\Pricing\Render::ZONE_ITEM_VIEW);
+        $this->model->setZone(\Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW);
 
         $amountRender = $this->getMock(
-            'Magento\Pricing\Render\Amount',
+            'Magento\Framework\Pricing\Render\Amount',
             [
                 'setPriceDisplayLabel',
                 'setPriceId',
@@ -333,12 +333,12 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $amountMock = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $amountMock = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
         $amountMock->expects($this->once())
             ->method('getAdjustmentAmount')
             ->with(\Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE)
             ->will($this->returnValue($taxAdjustment));
-        $product = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
+        $product = $this->getMockForAbstractClass('Magento\Framework\Pricing\Object\SaleableInterface');
         $product->expects($this->once())
             ->method('getId');
 

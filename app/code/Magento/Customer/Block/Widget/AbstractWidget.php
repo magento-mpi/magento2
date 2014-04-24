@@ -98,7 +98,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
     {
         try {
             return $this->_attributeMetadata->getCustomerAttributeMetadata($attributeCode);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;
         }
     }

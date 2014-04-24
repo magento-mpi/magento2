@@ -165,7 +165,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ],
         ];
 
-        $expectedException = new \Magento\Exception\InputException();
+        $expectedException = new \Magento\Framework\Exception\InputException();
         foreach ($expectedWrappedErrors as $error) {
             $expectedException->addError(
                 $error['code'],

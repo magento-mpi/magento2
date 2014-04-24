@@ -10,12 +10,12 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Mail\Exception as MailException;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Mail\Exception as MailException;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService
@@ -49,7 +49,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Event\ManagerInterface
      */
     private $_eventManagerMock;
 
@@ -94,7 +94,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject  | \Magento\Logger
+     * @var \PHPUnit_Framework_MockObject_MockObject  | \Magento\Framework\Logger
      */
     private $_loggerMock;
 
@@ -111,7 +111,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Config\Share */
     private $_configShareMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Encryption\EncryptorInterface  */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Encryption\EncryptorInterface  */
     private $_encryptorMock;
 
     /**
@@ -124,10 +124,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $filterGroupBuilder = $this->_objectManager
-            ->getObject('Magento\Service\V1\Data\Search\FilterGroupBuilder');
+            ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->_searchBuilder = $this->_objectManager->getObject(
-            'Magento\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 
@@ -191,14 +191,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_eventManagerMock = $this->getMockBuilder(
-            '\Magento\Event\ManagerInterface'
+            '\Magento\Framework\Event\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_customerModelMock->expects($this->any())->method('validate')->will($this->returnValue(true));
 
         $this->_setupStoreMock();
 
         $this->_mathRandomMock = $this->getMockBuilder(
-            '\Magento\Math\Random'
+            '\Magento\Framework\Math\Random'
         )->disableOriginalConstructor()->getMock();
 
         $this->_validator = $this->getMockBuilder(
@@ -258,15 +258,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('isCustomerInStore')
             ->will($this->returnValue(false));
 
-        $this->_urlMock = $this->getMockBuilder('Magento\UrlInterface')
+        $this->_urlMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')
+        $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_encryptorMock = $this->getMockBuilder('Magento\Encryption\EncryptorInterface')
+        $this->_encryptorMock = $this->getMockBuilder('Magento\Framework\Encryption\EncryptorInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -304,8 +304,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException  \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -349,8 +349,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->activateCustomer(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -361,8 +361,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testActivateAccountBadKey()
     {
@@ -454,7 +454,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage exception message
      */
     public function testLoginAccountWithException()
@@ -512,8 +512,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -542,8 +542,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -586,8 +586,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -666,8 +666,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->initiatePasswordReset($email, CustomerAccountServiceInterface::EMAIL_RESET, 0);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -833,8 +833,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::EXPIRED
      */
     public function testResetPasswordTokenExpired()
     {
@@ -868,8 +868,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INPUT_MISMATCH
      */
     public function testResetPasswordTokenInvalid()
     {
@@ -923,8 +923,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->resetPassword($invalidCustomerId, $resetToken, $password);
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertSame($e->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->assertSame($e->getCode(), \Magento\Framework\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
                 $e->getParams(),
                 [
@@ -1019,8 +1019,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\StateException
-     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     * @expectedException \Magento\Framework\Exception\StateException
+     * @expectedExceptionCode \Magento\Framework\Exception\StateException::INVALID_STATE
      */
     public function testResendConfirmationNotNeeded()
     {
@@ -1482,7 +1482,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Service\DataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(\Magento\Framework\Service\DataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()
@@ -1637,7 +1637,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testGetCustomerDetailsWithException()
     {

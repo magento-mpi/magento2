@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Pricing;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 
 class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
@@ -94,7 +94,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testExtractAdjustment($isPriceIncludesTax, $amount, $price, $expectedResult)
     {
-        $object = $this->getMockForAbstractClass('Magento\Pricing\Object\SaleableInterface');
+        $object = $this->getMockForAbstractClass('Magento\Framework\Pricing\Object\SaleableInterface');
 
         $this->taxHelper->expects($this->any())
             ->method('priceIncludesTax')
@@ -126,7 +126,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyAdjustment($isPriceIncludesTax, $amount, $price, $expectedResult)
     {
-        $object = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
+        $object = $this->getMockBuilder('Magento\Framework\Pricing\Object\SaleableInterface')->getMock();
 
         $this->taxHelper->expects($this->any())
             ->method('priceIncludesTax')

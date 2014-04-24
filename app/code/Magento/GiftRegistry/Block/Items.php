@@ -15,7 +15,7 @@ class Items extends \Magento\Checkout\Block\Cart
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -50,7 +50,7 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -66,7 +66,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;

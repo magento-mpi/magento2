@@ -17,7 +17,7 @@ abstract class AbstractCode extends \Magento\Framework\View\Element\Template
     protected $_registryName;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -34,14 +34,14 @@ abstract class AbstractCode extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         array $data = array()
     ) {

@@ -8,7 +8,7 @@
 
 namespace Magento\Rss\Block\Catalog;
 
-use \Magento\Pricing\PriceCurrencyInterface;
+use \Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Test for rendering price html in rss templates
@@ -53,7 +53,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     protected $catalogHelperMock;
 
     /**
-     * @var \Magento\Pricing\PriceCurrencyInterface
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
     protected $priceCurrencyMock;
 
@@ -67,7 +67,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $templateContextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
         $this->priceCurrencyMock = $this->getMockForAbstractClass(
-            'Magento\Pricing\PriceCurrencyInterface',
+            'Magento\Framework\Pricing\PriceCurrencyInterface',
             [],
             '',
             true,

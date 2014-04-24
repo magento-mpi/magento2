@@ -70,7 +70,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }

@@ -12,7 +12,7 @@ namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
 use Magento\Catalog\Model\Product;
-use Magento\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 
 /**
  * Configured price model

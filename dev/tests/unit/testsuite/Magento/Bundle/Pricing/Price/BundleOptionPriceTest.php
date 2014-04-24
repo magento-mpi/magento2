@@ -23,7 +23,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableItemMock;
 
@@ -38,13 +38,13 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected $selectionFactoryMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
     protected function setUp()
     {
-        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->saleableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->saleableItemMock->expects($this->once())
             ->method('getPriceInfo')
@@ -175,7 +175,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmount()
     {
-        $amountMock = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $amountMock = $this->getMock('Magento\Framework\Pricing\Amount\AmountInterface');
         $this->bundleCalculatorMock->expects($this->once())
             ->method('getOptionsAmount')
             ->with($this->equalTo($this->saleableItemMock))
@@ -218,7 +218,7 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         // All items are saleable
         $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
-        $amountMock = $this->getMock('Magento\Pricing\Amount\AmountInterface');
+        $amountMock = $this->getMock('Magento\Framework\Pricing\Amount\AmountInterface');
         $amountMock->expects($this->any())->method('getValue')->will($this->returnValue($selectionData['value']));
         $selection->expects($this->any())->method('getAmount')->will($this->returnValue($amountMock));
         return $selection;

@@ -12,10 +12,10 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Event\ManagerInterface;
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 
 /**
  * Bundle option price
@@ -40,7 +40,7 @@ class BundleSelectionPrice extends AbstractPrice
     /**
      * Event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $eventManager;
 

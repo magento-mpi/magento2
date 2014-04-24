@@ -55,7 +55,13 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->typeInstanceMock)
         );
-        $this->configuredValueMock = $this->getMock('Magento\Object', array('getSuperGroup'), array(), '', false);
+        $this->configuredValueMock = $this->getMock(
+            'Magento\Framework\Object',
+            array('getSuperGroup'),
+            array(),
+            '',
+            false
+        );
         $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->groupedView = $helper->getObject(
             'Magento\GroupedProduct\Block\Product\View\Type\Grouped',

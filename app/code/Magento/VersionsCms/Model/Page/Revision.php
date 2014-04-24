@@ -47,7 +47,7 @@ namespace Magento\VersionsCms\Model\Page;
  * @method int getRevisionNumber()
  * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  */
-class Revision extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Revision extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -84,7 +84,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -100,9 +100,9 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -111,9 +111,9 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

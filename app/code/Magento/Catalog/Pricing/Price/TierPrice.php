@@ -8,14 +8,14 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
-use Magento\Pricing\Price\AbstractPrice;
-use Magento\Pricing\PriceInfoInterface;
-use Magento\Pricing\Amount\AmountInterface;
-use Magento\Pricing\Price\BasePriceProviderInterface;
+use Magento\Framework\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\PriceInfoInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Tire prices model
@@ -206,7 +206,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
 
     /**
      * @param float|string $price
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     protected function applyAdjustment($price)
     {

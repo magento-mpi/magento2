@@ -53,7 +53,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $productFactory;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $urlFactory;
 
@@ -65,17 +65,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -85,10 +85,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\UrlFactory $urlFactory
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -96,10 +96,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\UrlFactory $urlFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Escaper $escaper,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\UrlFactory $urlFactory,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -208,7 +208,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (count($entityCollection)) {
             foreach ($entityCollection as $entity) {
-                $result[] = new \Magento\Object(
+                $result[] = new \Magento\Framework\Object(
                     array('value' => $entity->getId(), 'title' => $this->_escaper->escapeHtml($entity->getTitle()))
                 );
             }
@@ -265,7 +265,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             array('date_format' => $formatIn, 'locale' => $this->_localeResolver->getLocaleCode())
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
         );
 
         $value = $filterInput->filter($value);

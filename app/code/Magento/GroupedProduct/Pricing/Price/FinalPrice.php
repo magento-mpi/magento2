@@ -10,7 +10,7 @@
 
 namespace Magento\GroupedProduct\Pricing\Price;
 
-use Magento\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Catalog\Model\Product;
 use Magento\GroupedProduct\Model\Product\Type\Grouped;
 
@@ -51,7 +51,7 @@ class FinalPrice extends AbstractPrice
             $minPrice = null;
             foreach ($products as $item) {
                 $product = clone $item;
-                $product->setQty(\Magento\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
+                $product->setQty(\Magento\Framework\Pricing\PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT);
                 $price = $product->getPriceInfo()
                     ->getPrice(FinalPrice::PRICE_CODE)
                     ->getValue();

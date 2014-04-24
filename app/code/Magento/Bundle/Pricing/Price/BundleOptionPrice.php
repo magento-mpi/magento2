@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Bundle\Pricing\BundleOptionService;
@@ -104,7 +104,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
 
     /**
      * @param \Magento\Bundle\Model\Selection $selection
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getOptionSelectionAmount($selection)
     {
@@ -142,7 +142,7 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     }
 
     /**
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount()
     {

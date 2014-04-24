@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Config\Source\Search;
 
-class Type implements \Magento\Option\ArrayInterface
+class Type implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

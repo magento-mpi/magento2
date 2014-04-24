@@ -20,7 +20,7 @@ $product = $item->getProduct();
         echo $this->getProductPriceHtml(
             $product,
             \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
-            \Magento\Pricing\Render::ZONE_ITEM_LIST,
+            \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
             ['item' => $item]
         );
     ?>

@@ -641,7 +641,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
     {
         $pagerBlock = $this->getChildBlock('product_list_toolbar_pager');
 
-        if ($pagerBlock instanceof \Magento\Object) {
+        if ($pagerBlock instanceof \Magento\Framework\Object) {
 
             /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());

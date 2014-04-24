@@ -207,8 +207,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     /**
      * Compare two items for ordered list
      *
-     * @param \Magento\Object $item1
-     * @param \Magento\Object $item2
+     * @param \Magento\Framework\Object $item1
+     * @param \Magento\Framework\Object $item2
      * @return int
      */
     public function compareItems($item1, $item2)

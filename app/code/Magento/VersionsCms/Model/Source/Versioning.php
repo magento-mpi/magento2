@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Model\Source;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Versioning implements \Magento\Option\ArrayInterface
+class Versioning implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

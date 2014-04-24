@@ -18,7 +18,7 @@ interface LinkPriceInterface
 {
     /**
      * @param Link $link
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getLinkAmount(Link $link);
 }

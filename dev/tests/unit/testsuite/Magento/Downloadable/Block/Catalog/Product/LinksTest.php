@@ -27,7 +27,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     protected $productMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -49,7 +49,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
-        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->productMock->expects($this->any())
             ->method('getPriceInfo')
@@ -71,7 +71,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     public function testGetLinkPrice()
     {
         $linkPriceMock = $this->getMock('Magento\Downloadable\Pricing\Price\LinkPrice', [], [], '', false);
-        $amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
+        $amountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
         $linkMock = $this->getMock('Magento\Downloadable\Model\Link', [], [], '', false);
 
         $priceCode = 'link_price';
@@ -89,7 +89,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->with($linkMock)
             ->will($this->returnValue($amountMock));
 
-        $priceBoxMock = $this->getMock('Magento\Pricing\Render', ['renderAmount'], [], '', false, false);
+        $priceBoxMock = $this->getMock('Magento\Framework\Pricing\Render', ['renderAmount'], [], '', false, false);
 
         $this->layout->expects($this->once())
             ->method('getBlock')
@@ -131,7 +131,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $linkAmountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
+        $linkAmountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
         $linkAmountMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($linkIncludeTaxPrice));
@@ -139,7 +139,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->method('getBaseAmount')
             ->will($this->returnValue($linkExcludeTaxPrice));
 
-        $amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
+        $amountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
         $amountMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue($finalPrice));

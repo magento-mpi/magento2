@@ -310,7 +310,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $this->imageHelperMock->expects($this->once())
             ->method('resize')
             ->will($this->returnValue($imgThumbSrc));
-        $priceRendererMock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $priceRendererMock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
 
         $layoutMock->expects($this->once())
             ->method('getBlock')

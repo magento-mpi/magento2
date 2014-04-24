@@ -56,7 +56,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -67,7 +67,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -184,7 +184,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     public function setImage($value)
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
-        if ($value instanceof \Magento\File\Uploader) {
+        if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save($this->_mediaDirectory->getAbsolutePath(self::IMAGE_PATH));
             $value = $value->getUploadedFileName();
         }
@@ -231,7 +231,7 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     public function setTmpImage($value)
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
-        if ($value instanceof \Magento\File\Uploader) {
+        if ($value instanceof \Magento\Framework\File\Uploader) {
             // Delete previous temporary image if exists
             $this->unsTmpImage();
             $value->save($this->_mediaDirectory->getAbsolutePath(self::IMAGE_TMP_PATH));
@@ -272,12 +272,12 @@ class Wrapping extends \Magento\Framework\Model\AbstractModel
     {
         if ($this->getTmpImage()) {
             return $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_MEDIA
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . self::IMAGE_TMP_PATH . $this->getTmpImage();
         }
         if ($this->getImage()) {
             return $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_MEDIA
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . self::IMAGE_PATH . $this->getImage();
         }
         return false;

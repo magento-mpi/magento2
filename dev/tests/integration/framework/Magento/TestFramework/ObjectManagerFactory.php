@@ -48,7 +48,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
      * @param array $arguments
      * @return App\Arguments\Proxy
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function createAppArguments(
         \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
@@ -56,7 +56,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
     ) {
         if ($this->appArgumentsProxy) {
             // Framework constraint: this is ambiguous situation, because it is not clear what to do with older instance
-            throw new \Magento\Exception('Only one creation of application arguments is supported');
+            throw new \Magento\Framework\Exception('Only one creation of application arguments is supported');
         }
         $appArguments = parent::createAppArguments($directoryList, $arguments);
         $this->appArgumentsProxy = new App\Arguments\Proxy($appArguments);
@@ -89,7 +89,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $this->factory->setArguments($appArguments->get());
         $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');
 
-        $objectManager->get('Magento\Interception\PluginList')->reset();
+        $objectManager->get('Magento\Framework\Interception\PluginList')->reset();
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
@@ -125,13 +125,14 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
             $this->_primaryConfigData['preferences'] = array_replace(
                 $this->_primaryConfigData['preferences'],
                 [
-                    'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
+                    'Magento\Framework\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
                     'Magento\Framework\App\RequestInterface' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\Request\Http' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\ResponseInterface' => 'Magento\TestFramework\Response',
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
-                    'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
-                    'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\Framework\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Framework\Interception\ObjectManager\Config' =>
+                        'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
                 ]
             );
@@ -142,9 +143,9 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
     /**
      * Override method in while running integration tests to prevent getting Exception
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    protected function configureDirectories(\Magento\ObjectManager $objectManager)
+    protected function configureDirectories(\Magento\Framework\ObjectManager $objectManager)
     {
     }
 }

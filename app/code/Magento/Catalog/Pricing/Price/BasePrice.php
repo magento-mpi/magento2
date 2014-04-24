@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 
 /**
  * Class BasePrice
@@ -32,8 +32,9 @@ class BasePrice extends AbstractPrice
         if ($this->value === null) {
             $this->value = false;
             foreach ($this->priceInfo->getPrices() as $code => $price) {
-                if ($price instanceof \Magento\Pricing\Price\BasePriceProviderInterface && $price->getValue()) {
-                    $this->value = min($price->getValue(), $this->value ?: $price->getValue());
+                if ($price instanceof \Magento\Framework\Pricing\Price\BasePriceProviderInterface && $price->getValue()
+                ) {
+                    $this->value = min($price->getValue(), $this->value ? : $price->getValue());
                 }
             }
         }

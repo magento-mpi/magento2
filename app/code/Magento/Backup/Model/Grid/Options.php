@@ -17,7 +17,7 @@
  */
 namespace Magento\Backup\Model\Grid;
 
-class Options implements \Magento\Option\ArrayInterface
+class Options implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Backup\Helper\Data

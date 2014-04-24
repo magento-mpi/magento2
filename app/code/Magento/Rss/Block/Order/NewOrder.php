@@ -30,7 +30,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
     protected $_resourceIterator;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
@@ -39,7 +39,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Model\Resource\Iterator $resourceIterator,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_rssFactory = $rssFactory;

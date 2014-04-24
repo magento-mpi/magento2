@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Massaction;
 
-class Set implements \Magento\Option\ArrayInterface
+class Set implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\CustomerSegment\Helper\Data

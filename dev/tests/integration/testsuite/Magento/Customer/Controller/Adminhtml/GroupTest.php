@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Message\MessageInterface;
+use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -118,7 +118,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupData = \Magento\Service\DataObjectConverter::toFlatArray(
+        $customerGroupData = \Magento\Framework\Service\DataObjectConverter::toFlatArray(
             $groupService->getGroup(self::$_customerGroupId)
         );
         ksort($customerGroupData);
@@ -193,7 +193,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         );
 
         /** @var \MagentoRegistry $coreRegistry */
-        $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Registry');
+        $coreRegistry = Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
         $this->assertNull($coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID));
 
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/id/10000'));

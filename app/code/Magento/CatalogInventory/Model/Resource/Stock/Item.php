@@ -127,11 +127,11 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Use qty correction for qty column update
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(\Magento\Object $object, $table)
+    protected function _prepareDataForTable(\Magento\Framework\Object $object, $table)
     {
         $data = parent::_prepareDataForTable($object, $table);
         $ifNullSql = $this->_getWriteAdapter()->getIfNullSql('qty');

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 namespace Magento\Bundle\Pricing\Adjustment;
 
 use Magento\Catalog\Model\Product;
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\Amount\AmountFactory;
-use Magento\Pricing\Adjustment\Calculator as CalculatorBase;
+use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Amount\AmountFactory;
+use Magento\Framework\Pricing\Adjustment\Calculator as CalculatorBase;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 
@@ -59,7 +57,7 @@ class Calculator implements BundleCalculatorInterface
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
      * @param null|string $exclude
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount($amount, SaleableInterface $saleableItem, $exclude = null)
     {
@@ -74,7 +72,7 @@ class Calculator implements BundleCalculatorInterface
      * @param float $amount
      * @param Product $saleableItem
      * @param null|string $exclude
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMaxAmount($amount, Product $saleableItem, $exclude = null)
     {
@@ -89,8 +87,8 @@ class Calculator implements BundleCalculatorInterface
      * @param Product $saleableItem
      * @param null|string $exclude
      * @param bool $searchMin
-     * @param \Magento\Pricing\Amount\AmountInterface|null $bundleProductAmount
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @param \Magento\Framework\Pricing\Amount\AmountInterface|null $bundleProductAmount
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getOptionsAmount(
         Product $saleableItem,
@@ -105,7 +103,7 @@ class Calculator implements BundleCalculatorInterface
 
         $fullAmount = 0.;
         $adjustments = [];
-        /** @var \Magento\Pricing\Amount\AmountInterface $itemAmount */
+        /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
         foreach ($amountList as $itemAmount) {
             $fullAmount += $itemAmount->getValue();
             foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
@@ -120,7 +118,7 @@ class Calculator implements BundleCalculatorInterface
     /**
      * @param Product $bundleProduct
      * @param bool $searchMin
-     * @return \Magento\Pricing\Amount\AmountInterface[]
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface[]
      */
     protected function getSelectionAmounts(Product $bundleProduct, $searchMin)
     {

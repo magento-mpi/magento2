@@ -120,12 +120,12 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @return \Magento\Pricing\Render
+     * @return \Magento\Framework\Pricing\Render
      */
     protected function getPriceRender()
     {
         return $this->_layout->createBlock(
-            'Magento\Pricing\Render',
+            'Magento\Framework\Pricing\Render',
             '',
             ['data'=> ['price_render_handle' => 'catalog_product_prices']]
         );
@@ -143,14 +143,14 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
         $priceType,
-        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
         array $arguments = []
     ) {
         if (!isset($arguments['zone'])) {
             $arguments['zone'] = $renderZone;
         }
 
-        /** @var \Magento\Pricing\Render $priceRender */
+        /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->getPriceRender();
         $price = '';
 

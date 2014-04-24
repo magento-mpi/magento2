@@ -19,7 +19,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Magento\Framework\Model\Context',
-        'Magento\Registry',
+        'Magento\Framework\Registry',
         'Magento\Framework\App\Filesystem',
         'Magento\Framework\View\Url',
         'Magento\Framework\View\FileSystem',
@@ -39,8 +39,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new \Magento\Event(array('order' => $order));
-        $observer = new \Magento\Event\Observer(array('event' => $event));
+        $event = new \Magento\Framework\Event(array('order' => $order));
+        $observer = new \Magento\Framework\Event\Observer(array('event' => $event));
 
         /** @var $model \Magento\GiftCard\Model\Observer */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

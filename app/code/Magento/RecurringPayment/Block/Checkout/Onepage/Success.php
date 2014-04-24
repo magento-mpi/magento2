@@ -50,10 +50,10 @@ class Success extends \Magento\Framework\View\Element\Template
     /**
      * Getter for recurring payment view page
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return string
      */
-    public function getPaymentUrl(\Magento\Object $payment)
+    public function getPaymentUrl(\Magento\Framework\Object $payment)
     {
         return $this->getUrl('sales/recurringPayment/view', array('payment' => $payment->getId()));
     }

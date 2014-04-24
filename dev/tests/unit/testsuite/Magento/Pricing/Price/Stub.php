@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Pricing\Price;
+namespace Magento\Framework\Pricing\Price;
 
 /**
  * Class Stub for testing abstract class AbstractPrice

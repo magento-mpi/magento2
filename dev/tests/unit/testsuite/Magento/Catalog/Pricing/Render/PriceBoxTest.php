@@ -24,7 +24,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $coreHelper;
 
     /**
-     * @var \Magento\Math\Random|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $mathRandom;
 
@@ -32,7 +32,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->coreHelper = $this->getMock('Magento\Core\Helper\Data', ['jsonEncode'], [], '', false);
-        $this->mathRandom = $this->getMock('Magento\Math\Random', [], [], '', false);
+        $this->mathRandom = $this->getMock('Magento\Framework\Math\Random', [], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(

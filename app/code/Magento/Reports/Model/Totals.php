@@ -24,7 +24,7 @@ class Totals
      * @param \Magento\Backend\Block\Widget\Grid $grid
      * @param string $from
      * @param string $to
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($grid, $from, $to)
     {
@@ -72,7 +72,7 @@ class Totals
             }
         }
 
-        $totals = new \Magento\Object();
+        $totals = new \Magento\Framework\Object();
         $totals->setData($data);
 
         return $totals;

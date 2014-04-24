@@ -36,28 +36,28 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Framework\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Option\ArrayPool $optionArrayPool,
+        \Magento\Framework\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
         array $data = array()

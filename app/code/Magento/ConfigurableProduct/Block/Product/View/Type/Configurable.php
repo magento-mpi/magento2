@@ -29,7 +29,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_prices = array();
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $jsonEncoder;
 
@@ -40,16 +40,16 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\ConfigurableProduct\Helper\Data $helper
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\ConfigurableProduct\Helper\Data $helper,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()
@@ -183,7 +183,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         return str_replace(',', '.', $price);
     }
-
 
     /**
      * Convert price from default currency to current currency

@@ -10,8 +10,8 @@
 
 namespace Magento\Tax\Pricing;
 
-use Magento\Pricing\Adjustment\AdjustmentInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Tax\Helper\Data as TaxHelper;
 
 /**

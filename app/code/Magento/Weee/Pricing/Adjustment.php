@@ -10,8 +10,8 @@
 
 namespace Magento\Weee\Pricing;
 
-use Magento\Pricing\Adjustment\AdjustmentInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Weee\Helper\Data as WeeeHelper;
 use Magento\Tax\Pricing\Adjustment as TaxAdjustment;
 

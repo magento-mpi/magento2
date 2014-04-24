@@ -18,7 +18,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -28,12 +28,12 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $basePriceMock;
 
     /**
-     * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $saleableMock;
 
     /**
-     * @var \Magento\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Adjustment\Calculator|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $calculatorMock;
 
@@ -44,7 +44,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     {
         $this->saleableMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceInfoMock = $this->basePriceMock = $this->getMock(
-            'Magento\Pricing\PriceInfo\Base',
+            'Magento\Framework\Pricing\PriceInfo\Base',
             [],
             [],
             '',
@@ -59,7 +59,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->calculatorMock = $this->getMock(
-            'Magento\Pricing\Adjustment\Calculator',
+            'Magento\Framework\Pricing\Adjustment\Calculator',
             [],
             [],
             '',

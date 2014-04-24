@@ -33,7 +33,7 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
     protected $productConfiguration;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -41,13 +41,13 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfiguration
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfiguration,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Escaper $escaper
+        \Magento\Framework\Escaper $escaper
     ) {
         $this->productConfiguration = $productConfiguration;
         $this->_coreData = $coreData;

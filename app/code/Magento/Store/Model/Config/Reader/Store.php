@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model\Config\Reader;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
 {

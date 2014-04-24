@@ -123,7 +123,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /**
      * Create cookie model stub
      * @param array $cookieString
-     * @return \Magento\Stdlib\Cookie
+     * @return \Magento\Framework\Stdlib\Cookie
      */
     protected function _getCookieStub($cookieString = array())
     {

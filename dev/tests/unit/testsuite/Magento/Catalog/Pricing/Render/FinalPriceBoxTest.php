@@ -44,35 +44,34 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $product;
 
     /**
-     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $logger;
 
     /**
-     * @var \Magento\Pricing\Render\RendererPool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Render\RendererPool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rendererPool;
 
     /**
-     * @var \Magento\Pricing\Price\PriceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Price\PriceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $price;
 
     protected function setUp()
     {
         $this->product = $this->getMock('Magento\Catalog\Model\Product', ['getPriceInfo', '__wakeup'], [], '', false);
-        $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfo', ['getPrice'], [], '', false);
+        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo', ['getPrice'], [], '', false);
         $this->product->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfo));
 
-        $eventManager = $this->getMock('Magento\Event\ManagerStub', [], [], '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerStub', [], [], '', false);
         $config = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
-        $this->priceBox = $this->getMock('Magento\Pricing\Render\PriceBox', [], [], '', false);
-        $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
-
+        $this->priceBox = $this->getMock('Magento\Framework\Pricing\Render\PriceBox', [], [], '', false);
+        $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
 
         $this->layout->expects($this->any())
             ->method('getBlock')
@@ -96,11 +95,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getScopeConfig')
             ->will($this->returnValue($scopeConfigMock));
 
-        $this->rendererPool = $this->getMockBuilder('Magento\Pricing\Render\RendererPool')
+        $this->rendererPool = $this->getMockBuilder('Magento\Framework\Pricing\Render\RendererPool')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->price = $this->getMock('Magento\Pricing\Price\PriceInterface');
+        $this->price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
         $this->price->expects($this->any())
             ->method('getPriceCode')
             ->will($this->returnValue(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE));
@@ -151,7 +150,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
 
-        $priceBoxRender = $this->getMockBuilder('Magento\Pricing\Render\PriceBox')
+        $priceBoxRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\PriceBox')
             ->disableOriginalConstructor()
             ->getMock();
         $priceBoxRender->expects($this->once())
@@ -190,7 +189,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderAmountMinimal()
     {
         $priceType = $this->getMock('Magento\Catalog\Pricing\Price\FinalPrice', [], [], '', false);
-        $amount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $amount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
         $priceId = 'price_id';
         $html = 'html';
         $this->object->setData('price_id', $priceId);
@@ -202,7 +201,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'skip_adjustments' => true
         ];
 
-        $amountRender = $this->getMock('Magento\Pricing\Render\Amount', ['toHtml'], [], '', false);
+        $amountRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', ['toHtml'], [], '', false);
         $amountRender->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
@@ -234,8 +233,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     {
         $regularPriceType = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
         $finalPriceType = $this->getMock('Magento\Catalog\Pricing\Price\FinalPrice', [], [], '', false);
-        $regularPriceAmount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
-        $finalPriceAmount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $regularPriceAmount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
+        $finalPriceAmount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
 
         $regularPriceAmount->expects($this->once())
             ->method('getValue')
@@ -282,8 +281,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $finalPriceType = $this->getMock('Magento\Catalog\Pricing\Price\FinalPrice', [], [], '', false);
 
-        $finalPriceAmount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
-        $minimalPriceAmount = $this->getMockForAbstractClass('Magento\Pricing\Amount\AmountInterface');
+        $finalPriceAmount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
+        $minimalPriceAmount = $this->getMockForAbstractClass('Magento\Framework\Pricing\Amount\AmountInterface');
 
         $finalPriceAmount->expects($this->once())
             ->method('getValue')

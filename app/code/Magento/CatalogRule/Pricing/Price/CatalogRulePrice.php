@@ -10,10 +10,10 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
-use Magento\Pricing\Price\AbstractPrice;
-use Magento\Pricing\Adjustment\Calculator;
+use Magento\Framework\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Model\Product;
-use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;
 use Magento\CatalogRule\Model\Resource\RuleFactory;
@@ -29,7 +29,7 @@ class CatalogRulePrice extends AbstractPrice
     const PRICE_CODE = 'catalog_rule_price';
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $dateTime;
 
