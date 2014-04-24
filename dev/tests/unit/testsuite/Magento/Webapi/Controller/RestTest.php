@@ -40,7 +40,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
-    /** @var \Magento\Oauth\OauthInterface */
+    /** @var \Magento\Framework\Oauth\OauthInterface */
     protected $_oauthServiceMock;
 
     /** @var \Magento\Authz\Service\AuthorizationV1Interface */

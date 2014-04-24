@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-namespace Magento\Oauth;
+namespace Magento\Framework\Oauth;
 
 /**
  * oAuth \Exception
