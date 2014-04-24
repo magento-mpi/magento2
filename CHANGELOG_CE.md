@@ -15,8 +15,12 @@
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
   * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
-  * Covered Magento Store components with unit tests:
-     * `Magento\Store\Model\*`
+  * Covered Magento library components with unit tests (MAGETWO-21136)
+    * `Magento\Store\Model\*`
+    * `Magento\Error\*`
+    * `Magento\Event\Observer\*`
+    * `Magento\Framework\Filesystem\*`
+    * `Magento\Framework\Filesystem\File\*`
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
   * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (MAGETWO-20866, MAGETWO-23646, MAGETWO-23647, MAGETWO-23747)
   * Covered Magento application components with unit tests (MAGETWO-21540)
