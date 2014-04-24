@@ -62,7 +62,9 @@ class AggregateInvoker
                 $results[get_class($exception)][] = $this->prepareMessage($exception, $dataSetName, $dataSet);
             } catch (\PHPUnit_Framework_AssertionFailedError $exception) {
                 $results['PHPUnit_Framework_AssertionFailedError'][] = $this->prepareMessage(
-                    $exception, $dataSetName, $dataSet
+                    $exception,
+                    $dataSetName,
+                    $dataSet
                 );
             }
         }

@@ -95,7 +95,10 @@ class Grouped implements Fallback\CacheDataInterface
     {
         return sprintf(
             "type:%s|area:%s|theme:%s|locale:%s",
-            $type, $area, $themePath, $locale
+            $type,
+            $area,
+            $themePath,
+            $locale
         );
     }
 

@@ -39,8 +39,10 @@ class Alternative extends Simple
     ) {
         foreach ($alternativeExtensions as $extension => $newExtensions) {
             if (!is_string($extension) || !is_array($newExtensions)) {
-                throw new \InvalidArgumentException("\$alternativeExtensions must be an array with format: "
-                    . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]");
+                throw new \InvalidArgumentException(
+                    "\$alternativeExtensions must be an array with format: "
+                        . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]"
+                );
             }
         }
         $this->alternativeExtensions = $alternativeExtensions;

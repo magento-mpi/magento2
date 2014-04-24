@@ -78,11 +78,14 @@ class MinifyService
             if ($this->isEnabled($contentType)) {
                 /** @var \Magento\Framework\View\Asset\Minified $asset */
                 $asset = $this->objectManager
-                    ->create('Magento\Framework\View\Asset\Minified', array(
-                        'asset' => $asset,
-                        'strategy' => $strategy,
-                        'adapter' => $this->getAdapter($contentType),
-                    ));
+                    ->create(
+                        'Magento\Framework\View\Asset\Minified',
+                        array(
+                            'asset' => $asset,
+                            'strategy' => $strategy,
+                            'adapter' => $this->getAdapter($contentType),
+                        )
+                    );
             }
             $resultAssets[] = $asset;
         }

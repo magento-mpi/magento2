@@ -204,7 +204,10 @@ class Repository
             }
             $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
             $this->fallbackContext[$id] = new \Magento\Framework\View\Asset\File\FallbackContext(
-                $url, $area, $themePath, $locale
+                $url,
+                $area,
+                $themePath,
+                $locale
             );
         }
         return $this->fallbackContext[$id];
@@ -288,8 +291,9 @@ class Repository
         if ($module) {
             return $this->createSimilar($fileId, $relativeTo);
         }
-        $filePath = \Magento\Framework\View\FileSystem::normalizePath(dirname($relativeTo->getFilePath())
-            . '/' . $filePath);
+        $filePath = \Magento\Framework\View\FileSystem::normalizePath(
+            dirname($relativeTo->getFilePath()) . '/' . $filePath
+        );
         return $this->createSimilar($filePath, $relativeTo);
     }
 

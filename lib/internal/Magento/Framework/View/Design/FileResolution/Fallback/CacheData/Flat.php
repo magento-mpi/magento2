@@ -58,7 +58,12 @@ class Flat implements Fallback\CacheDataInterface
     {
         return sprintf(
             "type:%s|area:%s|theme:%s|locale:%s|module:%s|file:%s",
-            $type, $area, $themePath, $locale, $module, $file
+            $type,
+            $area,
+            $themePath,
+            $locale,
+            $module,
+            $file
         );
     }
 }

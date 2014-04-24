@@ -167,4 +167,4 @@ class Chain
     {
         return $this->origContentType != $this->contentType || $this->origContent != $this->content;
     }
-} 
+}

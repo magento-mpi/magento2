@@ -118,12 +118,16 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
                 'delimiter' => '<br />'
             );
         }
-        $themeFieldset->addField('theme_css_view_assets', 'links', array(
-                'label'       => __('Theme CSS Assets'),
-                'title'       => __('Theme CSS Assets'),
-                'name'        => 'links',
-                'values'      => $links,
-            ));
+        $themeFieldset->addField(
+            'theme_css_view_assets',
+            'links',
+            array(
+                'label'  => __('Theme CSS Assets'),
+                'title'  => __('Theme CSS Assets'),
+                'name'   => 'links',
+                'values' => $links,
+            )
+        );
 
         return $this;
     }

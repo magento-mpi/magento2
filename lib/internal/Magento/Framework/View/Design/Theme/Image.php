@@ -171,9 +171,8 @@ class Image
         $previewImage = $this->theme->getPreviewImage();
         $this->theme->setPreviewImage(null);
         if ($previewImage) {
-            return $this->mediaDirectory->delete($this->mediaDirectory->getRelativePath(
-                $this->themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
-            ));
+            $previewImagePath = $this->themeImagePath->getImagePreviewDirectory() . '/' . $previewImage;
+            return $this->mediaDirectory->delete($this->mediaDirectory->getRelativePath($previewImagePath));
         }
         return false;
     }

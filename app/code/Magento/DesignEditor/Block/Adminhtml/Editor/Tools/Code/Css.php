@@ -54,10 +54,10 @@ class Css extends \Magento\Backend\Block\Widget\Form
      */
     public function getDownloadUrl($fileId, $themeId)
     {
-        return $this->getUrl('adminhtml/system_design_theme/downloadCss', array(
-            'theme_id' => $themeId,
-            'file'     => $this->_designEditorHelper->urlEncode($fileId)
-        ));
+        return $this->getUrl(
+            'adminhtml/system_design_theme/downloadCss',
+            ['theme_id' => $themeId, 'file' => $this->_designEditorHelper->urlEncode($fileId)]
+        );
     }
 
     /**

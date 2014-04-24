@@ -55,10 +55,13 @@ try {
     );
 
     /** @var \Magento\Tools\View\Generator\Config $config */
-    $config = $objectManager->create('Magento\Tools\View\Generator\Config', array(
-        'cmdOptions' => $options,
-        'allowedFiles' => array('.htaccess'),
-    ));
+    $config = $objectManager->create(
+        'Magento\Tools\View\Generator\Config',
+        array(
+            'cmdOptions' => $options,
+            'allowedFiles' => array('.htaccess'),
+        )
+    );
 
     // Register the deployment directory
     /** @var \Magento\Framework\Filesystem\DirectoryList $directoryList */
@@ -74,27 +77,34 @@ try {
     $fallbackPool = $objectManager->create('Magento\Framework\View\Design\Fallback\RulePool');
 
     /** @var \Magento\Tools\View\Generator\CopyRule $generator */
-    $generator = $objectManager->create('Magento\Tools\View\Generator\CopyRule', array(
-        'themes' => $themes,
-        'fallbackRule' => $fallbackPool->getRule(\Magento\Framework\View\Design\Fallback\RulePool::TYPE_STATIC_FILE)
-    ));
+    $generator = $objectManager->create(
+        'Magento\Tools\View\Generator\CopyRule',
+        array(
+            'themes' => $themes,
+            'fallbackRule' => $fallbackPool->getRule(\Magento\Framework\View\Design\Fallback\RulePool::TYPE_STATIC_FILE)
+        )
+    );
 
     $copyRules = $generator->getCopyRules();
 
     /** @var \Magento\Framework\App\View\Deployment\Version\Storage\File $versionFile */
-    $versionFile = $objectManager->create('Magento\Framework\App\View\Deployment\Version\Storage\File', array(
-        'directoryCode' => 'deployment',
-    ));
+    $versionFile = $objectManager->create(
+        'Magento\Framework\App\View\Deployment\Version\Storage\File',
+        array('directoryCode' => 'deployment')
+    );
 
     /** @var \Magento\Tools\View\Generator\ThemeDeployment $deployment */
-    $deployment = $objectManager->create('Magento\Tools\View\Generator\ThemeDeployment', array(
-        'destinationHomeDir' => $config->getDestinationDir(),
-        'configPermitted' => __DIR__ . '/config/permitted.php',
-        'configForbidden' => __DIR__ . '/config/forbidden.php',
-        'versionStorage' => $versionFile,
-        'isDryRun' => $config->isDryRun(),
-        'preProcessor' => $objectManager->create('Magento\Framework\View\Asset\PreProcessor\Composite')
-    ));
+    $deployment = $objectManager->create(
+        'Magento\Tools\View\Generator\ThemeDeployment',
+        array(
+            'destinationHomeDir' => $config->getDestinationDir(),
+            'configPermitted' => __DIR__ . '/config/permitted.php',
+            'configForbidden' => __DIR__ . '/config/forbidden.php',
+            'versionStorage' => $versionFile,
+            'isDryRun' => $config->isDryRun(),
+            'preProcessor' => $objectManager->create('Magento\Framework\View\Asset\PreProcessor\Composite')
+        )
+    );
     $deployment->run($copyRules);
 } catch (\Exception $e) {
     $logger->log('Error: ' . $e->getMessage(), \Zend_Log::ERR);

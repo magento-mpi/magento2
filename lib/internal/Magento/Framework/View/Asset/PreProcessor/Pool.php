@@ -59,4 +59,4 @@ class Pool
         }
         return $result;
     }
-} 
+}

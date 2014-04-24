@@ -183,21 +183,30 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
         );
 
         if ($this->_isThemeEditable) {
-            $themeFieldset->addField('preview_image', 'image', array(
-                'label'    => __('Theme Preview Image'),
-                'title'    => __('Theme Preview Image'),
-                'name'     => 'preview',
-                'required' => false,
-                'note'     => $this->_getPreviewImageNote(),
-                'theme'    => $theme
-            ));
+            $themeFieldset->addField(
+                'preview_image',
+                'image',
+                array(
+                    'label'    => __('Theme Preview Image'),
+                    'title'    => __('Theme Preview Image'),
+                    'name'     => 'preview',
+                    'required' => false,
+                    'note'     => $this->_getPreviewImageNote(),
+                    'theme'    => $theme
+                )
+            );
         } elseif ($theme->hasPreviewImage()) {
-            $themeFieldset->addField('preview_image', 'note', array(
-                'label'    => __('Theme Preview Image'),
-                'title'    => __('Theme Preview Image'),
-                'name'     => 'preview',
-                'after_element_html' => '<img width="50" src="' . $theme->getThemeImage()->getPreviewImageUrl() . '" />'
-            ));
+            $themeFieldset->addField(
+                'preview_image',
+                'note',
+                array(
+                    'label'    => __('Theme Preview Image'),
+                    'title'    => __('Theme Preview Image'),
+                    'name'     => 'preview',
+                    'after_element_html' => '<img width="50" src="' . $theme->getThemeImage()->getPreviewImageUrl()
+                        . '" />'
+                )
+            );
         }
 
         return $this;

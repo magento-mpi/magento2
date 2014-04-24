@@ -84,10 +84,11 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        return $this->assetRepo->createAsset($this->_fileNames[$type], array(
-            'area'       => \Magento\Framework\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $theme
-        ))->getSourceFile();
+        return $this->assetRepo->createAsset(
+            $this->_fileNames[$type],
+            ['area' => \Magento\Framework\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $theme]
+        )
+        ->getSourceFile();
     }
 
     /**
