@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
 class LocalizedExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Phrase\RendererInterface */
+    /** @var \Magento\Framework\Phrase\RendererInterface */
     private $defaultRenderer;
 
     /** @var string */
@@ -17,20 +17,20 @@ class LocalizedExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->defaultRenderer = \Magento\Phrase::getRenderer();
-        $rendererMock = $this->getMockBuilder('Magento\Phrase\Renderer\Placeholder')
+        $this->defaultRenderer = \Magento\Framework\Phrase::getRenderer();
+        $rendererMock = $this->getMockBuilder('Magento\Framework\Phrase\Renderer\Placeholder')
             ->disableOriginalConstructor()
             ->getMock();
         $this->renderedMessage = 'rendered message';
         $rendererMock->expects($this->once())
             ->method('render')
             ->will($this->returnValue($this->renderedMessage));
-        \Magento\Phrase::setRenderer($rendererMock);
+        \Magento\Framework\Phrase::setRenderer($rendererMock);
     }
 
     public function tearDown()
     {
-        \Magento\Phrase::setRenderer($this->defaultRenderer);
+        \Magento\Framework\Phrase::setRenderer($this->defaultRenderer);
     }
 
     /** @dataProvider constructorParametersDataProvider */

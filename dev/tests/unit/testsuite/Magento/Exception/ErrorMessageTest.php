@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
 class ErrorMessageTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * The default Phrase renderer.
      *
-     * @var \Magento\Phrase\RendererInterface
+     * @var \Magento\Framework\Phrase\RendererInterface
      */
     private $defaultRenderer;
 
@@ -30,12 +30,12 @@ class ErrorMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->defaultRenderer = \Magento\Phrase::getRenderer();
-        $rendererMock = $this->getMock('Magento\Phrase\Renderer\Placeholder', [], [], '', false);
+        $this->defaultRenderer = \Magento\Framework\Phrase::getRenderer();
+        $rendererMock = $this->getMock('Magento\Framework\Phrase\Renderer\Placeholder', [], [], '', false);
         $this->renderedMessage = 'rendered message';
         $rendererMock
             ->expects($this->once())->method('render')->will($this->returnValue($this->renderedMessage));
-        \Magento\Phrase::setRenderer($rendererMock);
+        \Magento\Framework\Phrase::setRenderer($rendererMock);
     }
 
     /**
@@ -45,7 +45,7 @@ class ErrorMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        \Magento\Phrase::setRenderer($this->defaultRenderer);
+        \Magento\Framework\Phrase::setRenderer($this->defaultRenderer);
     }
 
     /**

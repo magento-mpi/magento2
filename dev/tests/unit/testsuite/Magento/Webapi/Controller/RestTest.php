@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Exception\AuthorizationException;
+use Magento\Framework\Exception\AuthorizationException;
 
 /**
  * Test Rest controller.

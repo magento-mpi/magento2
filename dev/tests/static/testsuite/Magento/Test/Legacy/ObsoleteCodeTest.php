@@ -122,9 +122,6 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-        /**
-         * @param string $file
-         */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoleteClasses($content);
@@ -142,13 +139,10 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testClassesFiles()
+    public function testClassFiles()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-        /**
-         * @param string $file
-         */
             function ($file) {
                 $this->_testObsoletePaths($file);
             },
@@ -160,9 +154,6 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_assertNotRegExp(
@@ -179,9 +170,6 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoleteClasses($content, $file);
@@ -196,9 +184,6 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoletePropertySkipCalculate($content);

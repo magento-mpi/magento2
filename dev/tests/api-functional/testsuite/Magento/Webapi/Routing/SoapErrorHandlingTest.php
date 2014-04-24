@@ -104,7 +104,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
         $expectedException = new \Magento\Framework\Exception\InputException();
         foreach ($parameters as $error) {
-            $expectedException->addError(\Magento\Exception\InputException::INVALID_FIELD_VALUE, $error);
+            $expectedException->addError(\Magento\Framework\Exception\InputException::INVALID_FIELD_VALUE, $error);
         }
 
         $arguments = [

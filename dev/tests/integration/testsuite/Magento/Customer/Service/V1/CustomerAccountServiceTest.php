@@ -1271,7 +1271,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService->deleteCustomer(1);
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             'No such entity with customerId = 1'
         );
         $this->_customerAccountService->getCustomer(1);
@@ -1366,7 +1366,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $email
      * @param $websiteId
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @dataProvider getInvalidEmailDataProvider
      */
     public function testGetCustomerByEmailWithException($email, $websiteId)
@@ -1513,7 +1513,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\StateException
+     * @expectedException \Magento\Framework\Exception\StateException
      */
     public function testUpdateCustomerDetailsByEmailWithException()
     {
@@ -1544,7 +1544,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService->deleteCustomerByEmail('customer@example.com');
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             'No such entity with email = customer@example.com'
         );
         $this->_customerAccountService->getCustomerByEmail('customer@example.com');

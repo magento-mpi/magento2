@@ -14,7 +14,7 @@ use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Model\PathProcessor;
 use Magento\Webapi\Model\Config\Converter;
-use Magento\Exception\AuthorizationException;
+use Magento\Framework\Exception\AuthorizationException;
 
 /**
  * Front controller for WebAPI REST area.

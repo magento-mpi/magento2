@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception\State;
+namespace Magento\Framework\Exception\State;
 
-class ExpiredException extends \Magento\Exception\StateException
+class ExpiredException extends \Magento\Framework\Exception\StateException
 {
 
 }

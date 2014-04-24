@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+namespace Magento\Framework\Exception;
 
-use Magento\Phrase\Renderer\Placeholder;
+use Magento\Framework\Phrase\Renderer\Placeholder;
 
 class ErrorMessage
 {

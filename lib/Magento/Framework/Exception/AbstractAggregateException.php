@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Exception;
+
+namespace Magento\Framework\Exception;
 
 abstract class AbstractAggregateException extends LocalizedException
 {

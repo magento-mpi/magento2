@@ -274,7 +274,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
@@ -284,7 +284,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
     public function getCustomerDetailsByEmail($customerEmail, $websiteId = null);
@@ -297,7 +297,7 @@ interface CustomerAccountServiceInterface
      * @param string $customerEmail
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
     public function updateCustomerDetailsByEmail(
@@ -312,7 +312,7 @@ interface CustomerAccountServiceInterface
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool True if the customer was deleted
      */
     public function deleteCustomerByEmail($customerEmail, $websiteId = null);
