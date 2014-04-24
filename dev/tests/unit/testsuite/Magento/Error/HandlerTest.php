@@ -27,15 +27,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     {
         $expectedMessage = 'test message';
 
-        ob_start();
+        $this->expectOutputRegex('/(' . $expectedMessage . ')\s*?.*(internal function)((.*\s.*)*)({main})/');
         $this->object->processException(new \Exception($expectedMessage), []);
-        $result = ob_get_contents();
-        ob_end_clean();
-
-        $this->assertContains($expectedMessage, $result);
-        // assert trace string pieces
-        $this->assertContains('internal function', $result);
-        $this->assertContains('{main}', $result);
     }
 
     /**
