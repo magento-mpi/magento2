@@ -57,6 +57,6 @@ class AssertCustomerInvalidEmail extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that error message is displayed';
+        return 'Assert that error message is displayed.';
     }
 }

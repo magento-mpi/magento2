@@ -8,9 +8,8 @@
 
 namespace Magento\Customer\Test\Block\Adminhtml\Edit;
 
+use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class Form
@@ -23,20 +22,17 @@ class Form extends FormTabs
     /**
      * Fill Customer forms on tabs by customer, addresses data
      *
-     * @param CustomerInjectable $customer
-     * @param AddressInjectable $address
+     * @param FixtureInterface $customer
+     * @param FixtureInterface|FixtureInterface[]|null $address
      * @return $this
      */
-    public function fillCustomer(CustomerInjectable $customer, AddressInjectable $address)
+    public function fillCustomer(FixtureInterface $customer, $address = null)
     {
         parent::fill($customer);
 
-        $dataAddress = $address->getData();
-        if (null !== $dataAddress) {
-            $tabAddresses = $this->getTabElement('addresses');
-
+        if (null !== $address) {
             $this->openTab('addresses');
-            $tabAddresses->fillFormTab($dataAddress, $this->_rootElement);
+            $this->getTabElement('addresses')->fillAddresses($address);
         }
 
         return $this;
@@ -45,20 +41,17 @@ class Form extends FormTabs
     /**
      * Verify Customer information, addresses on tabs.
      *
-     * @param CustomerInjectable $customer
-     * @param AddressInjectable $address
+     * @param FixtureInterface $customer
+     * @param FixtureInterface|FixtureInterface[]|null $address
      * @return bool
      */
-    public function verifyCustomer(CustomerInjectable $customer, AddressInjectable $address = null)
+    public function verifyCustomer(FixtureInterface $customer, $address = null)
     {
         $isVerify = parent::verify($customer);
 
-        $dataAddress = $address->getData();
-        if (null !== $dataAddress) {
+        if (null !== $address) {
             $this->openTab('addresses');
-
-            $isVerifyAddresses = $this->getTabElement('addresses')->verifyFormTab($dataAddress, $this->_rootElement);
-            $isVerify = $isVerify && $isVerifyAddresses;
+            $isVerify = $isVerify && $this->getTabElement('addresses')->verifyAddresses($address);
         }
 
         return $isVerify;

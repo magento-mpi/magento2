@@ -19,6 +19,8 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 class CustomerGrid extends AbstractGrid
 {
     /**
+     * Filters array mapping
+     *
      * @var array
      */
     protected $filters = [

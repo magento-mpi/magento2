@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Constraint; 
+namespace Magento\Customer\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountCreate;
@@ -52,6 +52,6 @@ class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
      */
     public function toString()
     {
-        return "Customer is successfully registered";
+        return "Customer is successfully registered.";
     }
 }

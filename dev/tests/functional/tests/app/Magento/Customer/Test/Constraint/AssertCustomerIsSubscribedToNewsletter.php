@@ -34,7 +34,7 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
      * @param NewsletterSubscriber $subscriber
      * @return void
      */
-    public function processAssert (
+    public function processAssert(
         CustomerInjectable $customer,
         NewsletterSubscriber $subscriber
     ) {
@@ -42,7 +42,7 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
             'email' => $customer->getEmail(),
             'firstname' => $customer->getFirstname(),
             'lastname' => $customer->getLastname(),
-            'status' => 'Subscribed'
+            'status' => 'Subscribed',
         ];
 
         $subscriber->open();
@@ -57,6 +57,6 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
      */
     public function toString()
     {
-        return "Customer is subscribed to newsletter";
+        return "Customer is subscribed to newsletter.";
     }
 }

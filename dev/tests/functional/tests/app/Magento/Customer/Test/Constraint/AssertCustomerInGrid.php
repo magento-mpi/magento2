@@ -57,6 +57,6 @@ class AssertCustomerInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Customer is present in Customer grid';
+        return 'Customer is present in Customer grid.';
     }
 }
