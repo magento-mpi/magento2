@@ -67,7 +67,13 @@ class Converter
         $customer = $this->_customerFactory->create()->load($customerId);
         if (!$customer->getId()) {
             // customer does not exist
-            throw new NoSuchEntityException('customerId', $customerId);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                [
+                    'fieldName' => 'customerId',
+                    'fieldValue' => $customerId
+                ]
+            );
         } else {
             return $customer;
         }
@@ -103,7 +109,10 @@ class Converter
 
         $customer->loadByEmail($customerEmail);
         if (!$customer->getId()) {
-            throw new NoSuchEntityException('email', $customerEmail);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                ['fieldName' => 'email', 'fieldValue' => $customerEmail]
+            );
         } else {
             return $customer;
         }

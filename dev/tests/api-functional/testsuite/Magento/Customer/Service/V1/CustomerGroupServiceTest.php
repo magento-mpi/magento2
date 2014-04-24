@@ -42,8 +42,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->groupRegistry = $objectManager->get('Magento\Customer\Model\GroupRegistry');
-        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface',
-            [ 'groupRegistry' => $this->groupRegistry ]);
+        $this->groupService = $objectManager->get(
+            'Magento\Customer\Service\V1\CustomerGroupServiceInterface',
+            ['groupRegistry' => $this->groupRegistry]
+        );
     }
 
     /**
@@ -227,7 +229,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['storeId' => $nonExistentStoreId];
-        $expectedMessage = "No such entity with storeId = $nonExistentStoreId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -244,6 +246,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$nonExistentStoreId, $e->getMessage());
         }
     }
 
@@ -315,7 +318,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $requestData = ['groupId' => $groupId];
 
-        $expectedMessage = "No such entity with groupId = $groupId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -332,6 +335,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$groupId, $e->getMessage());
         }
     }
 
@@ -400,29 +404,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . " }\n";
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
             $errorData = json_decode($e->getMessage(), true);
 
-            $this->assertTrue(
-                isset($errorData['errors'][0]['message']),
-                'Invalid error message format: ' . $e->getMessage()
+            $this->assertEquals(
+                'Customer Group already exists.',
+                $errorData['message']
             );
-
-            $this->assertCount(1, $errorData['errors']);
-            $errorData = $errorData['errors'][0];
-
-            $this->assertEquals($expectedMessage, $errorData['message'], 'Invalid error message');
-            $this->assertEquals(400, $errorData['http_code'], 'Invalid HTTP code');
+            $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
         }
     }
 
@@ -481,22 +473,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\tcode: \n'
-            . '\tparams: []\n'
-            . ' }';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // @codingStandardsIgnoreEnd
         }
     }
 
@@ -523,22 +510,17 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\ttaxClassId: ' . $invalidTaxClassId . '\n'
-            . '\tparams: []\n'
-            . ' }';
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"taxClassId","value":9999}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // codingStandardsIgnoreEnd
         }
     }
 
@@ -608,10 +590,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-            $this->fail("Expected exception");
+            $this->fail('Expected exception');
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
-
+            $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
+             . '"parameters":{"fieldName":"id","fieldValue":9999}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -664,7 +646,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $duplicateGroupCode = 'Duplicate Group Code SOAP';
 
-        $groupId = $this->createGroup(
+        $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
                 CustomerGroup::ID => null,
                 CustomerGroup::CODE => $duplicateGroupCode,
@@ -687,12 +669,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Customer Group already exists.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -763,12 +740,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: \n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage ='Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -806,12 +778,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\ttaxClassId: " . $invalidTaxClassId . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -894,7 +861,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
             $this->assertContains(
                 $expectedMessage,
@@ -964,24 +931,44 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupId];
-        $expectedMessage = "No such entity with groupId = $groupId";
+        $requestData = array('groupId' => $groupId);
+        $expectedMessage = NoSuchEntityException::MESSAGE_SINGLE_FIELD;
+        $expectedParameters = ['fieldName' => 'groupId', 'fieldValue' => $groupId];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
+            $this->assertContains($expectedMessage, $e->getMessage(), "SoapFault does not contain expected message.");
         } catch (\Exception $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "Exception does not contain expected message."
-            );
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals($expectedParameters, $errorObj['parameters']);
         }
+    }
+
+    /**
+     * @param \Exception $e
+     * @return array
+     * <pre> ex.
+     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
+     * 'parameters' => [
+     *      "fieldName1" => "email",
+     *      "value1" => "dummy@example.com",
+     *      "fieldName2" => "websiteId",
+     *      "value2" => 0
+     * ]
+     *
+     * </pre>
+     */
+    protected function _processRestExceptionResult(\Exception $e)
+    {
+        $error = json_decode($e->getMessage(), true);
+        //Remove line breaks and replace with space
+        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        // remove trace and type, will only be present if server is in dev mode
+        unset($error['trace']);
+        unset($error['type']);
+        return $error;
     }
 
     /**
