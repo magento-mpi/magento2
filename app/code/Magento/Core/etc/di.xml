@@ -145,7 +145,7 @@
 
     <virtualType name="layoutFileSourceOverrideBase" type="Magento\Framework\View\File\Collector\Override\Base">
         <arguments>
-            <argument name="subDir" xsi:type="string">layout/override</argument>
+            <argument name="subDir" xsi:type="string">layout/override/base</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">
@@ -161,7 +161,7 @@
 
     <virtualType name="layoutFileSourceOverrideTheme" type="Magento\Framework\View\File\Collector\Override\ThemeModular">
         <arguments>
-            <argument name="subDir" xsi:type="string">layout/override</argument>
+            <argument name="subDir" xsi:type="string">layout/override/theme</argument>
         </arguments>
     </virtualType>
     <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento\Framework\View\File\Collector\Decorator\ModuleOutput">

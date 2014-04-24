@@ -2321,7 +2321,10 @@ return array(
         'Magento\Framework\View\File\Collector\Decorator\ModuleOutput'
     ],
     ['Magento\Framework\View\Layout\File\Source\Override\Base', 'Magento\Framework\View\File\Collector\Override\Base'],
-    ['Magento\Framework\View\Layout\File\Source\Override\Theme', 'Magento\Framework\View\File\Collector\Override\ThemeModular'],
+    [
+        'Magento\Framework\View\Layout\File\Source\Override\Theme',
+        'Magento\Framework\View\File\Collector\Override\ThemeModular'
+    ],
     ['Magento\Framework\View\Layout\File\Source\Base', 'Magento\Framework\View\File\Collector\Base'],
     ['Magento\Framework\View\Layout\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
     ['Magento\Framework\View\Layout\File\Factory', 'Magento\Framework\View\File\Factory'],
