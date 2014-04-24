@@ -15,17 +15,17 @@ class FileServiceFactory
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param ConfigInterface $config
      */
-    public function __construct(\Magento\ObjectManager $objectManager, ConfigInterface $config)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, ConfigInterface $config)
     {
         $this->_objectManager = $objectManager;
         $this->_types = $config->getFileTypes();

@@ -9,7 +9,7 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\CustomerFactory;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**

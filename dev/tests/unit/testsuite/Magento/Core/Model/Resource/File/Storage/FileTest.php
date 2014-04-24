@@ -37,7 +37,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->filesystemMock = $this->getMock(
             'Magento\Framework\App\Filesystem',
             array('getDirectoryRead'),

@@ -36,7 +36,7 @@ class AbstractCatalogTest extends \PHPUnit_Framework_TestCase
             true,
             ['getBlock']
         );
-        $priceRendererMock = $this->getMock('Magento\Pricing\Render', ['render'], [], '', false);
+        $priceRendererMock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false);
 
         $layoutMock->expects($this->once())
             ->method('getBlock')

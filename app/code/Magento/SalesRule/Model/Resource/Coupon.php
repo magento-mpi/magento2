@@ -43,7 +43,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $object->setExpirationDate(null);
         } else if ($object->getExpirationDate() instanceof \Zend_Date) {
             $object->setExpirationDate(
-                $object->getExpirationDate()->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                $object->getExpirationDate()->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
         }
 
@@ -131,8 +131,8 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $updateArray['usage_per_customer'] = $rule->getUsesPerCustomer();
         }
 
-        $ruleNewDate = new \Magento\Stdlib\DateTime\Date($rule->getToDate());
-        $ruleOldDate = new \Magento\Stdlib\DateTime\Date($rule->getOrigData('to_date'));
+        $ruleNewDate = new \Magento\Framework\Stdlib\DateTime\Date($rule->getToDate());
+        $ruleOldDate = new \Magento\Framework\Stdlib\DateTime\Date($rule->getOrigData('to_date'));
 
         if ($ruleNewDate->compare($ruleOldDate)) {
             $updateArray['expiration_date'] = $rule->getToDate();

@@ -32,7 +32,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -53,7 +53,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param array $data
@@ -61,7 +61,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         array $data = array()
@@ -154,7 +154,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);

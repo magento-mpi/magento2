@@ -33,12 +33,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_resourceMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dateTimeMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_localeDateMock;
 
@@ -64,8 +64,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
-        $this->_dateTimeMock = $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false);
-        $this->_localeDateMock = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
+        $this->_dateTimeMock = $this->getMock('Magento\Framework\Stdlib\DateTime', array(), array(), '', false);
+        $this->_localeDateMock = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->_eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_priceProcessorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',

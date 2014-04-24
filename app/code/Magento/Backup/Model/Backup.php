@@ -14,7 +14,7 @@ namespace Magento\Backup\Model;
  * @method string getName()
  * @method string getTime()
  */
-class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterface
+class Backup extends \Magento\Framework\Object implements \Magento\Framework\Backup\Db\BackupInterface
 {
     /* internal constants */
     const COMPRESS_RATE = 9;
@@ -46,7 +46,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     /**
      * Locale model
      *
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -58,7 +58,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -69,17 +69,17 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
 
     /**
      * @param \Magento\Backup\Helper\Data $helper
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
         \Magento\Backup\Helper\Data $helper,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem,
         $data = array()
     ) {
@@ -148,7 +148,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
                 'extension' => $this->_helper->getExtensionByType($backupData->getType()),
                 'display_name' => $this->_helper->nameToDisplayName($backupData->getName()),
                 'name' => $backupData->getName(),
-                'date_object' => new \Magento\Stdlib\DateTime\Date(
+                'date_object' => new \Magento\Framework\Stdlib\DateTime\Date(
                     (int)$backupData->getTime(),
                     $this->_localeResolver->getLocaleCode()
                 )
@@ -271,7 +271,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      * @param bool $write
      * @return $this
      * @throws \Magento\Backup\Exception
-     * @throws \Magento\Backup\Exception\NotEnoughPermissions
+     * @throws \Magento\Framework\Backup\Exception\NotEnoughPermissions
      */
     public function open($write = false)
     {
@@ -297,7 +297,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
                 \Magento\Framework\App\Filesystem::WRAPPER_CONTENT_ZLIB
             );
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+            throw new \Magento\Framework\Backup\Exception\NotEnoughPermissions(
                 __('Sorry, but we cannot read from or write to backup file "%1".', $this->getFileName())
             );
         }

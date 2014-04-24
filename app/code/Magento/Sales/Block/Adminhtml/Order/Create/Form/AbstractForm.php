@@ -183,12 +183,12 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = array();
                     foreach ($attribute->getOptions() as $optionData) {
-                        $options[] = \Magento\Service\DataObjectConverter::toFlatArray($optionData);
+                        $options[] = \Magento\Framework\Service\DataObjectConverter::toFlatArray($optionData);
                     }
                     $element->setValues($options);
                 } elseif ($inputType == 'date') {
                     $format = $this->_localeDate->getDateFormat(
-                        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                     );
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
                     $element->setDateFormat($format);

@@ -19,10 +19,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Unserialize and return gift card list from specified object
      *
-     * @param \Magento\Object $from
+     * @param \Magento\Framework\Object $from
      * @return mixed
      */
-    public function getCards(\Magento\Object $from)
+    public function getCards(\Magento\Framework\Object $from)
     {
         $value = $from->getGiftCards();
         if (!$value) {
@@ -34,11 +34,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Serialize and set gift card list to specified object
      *
-     * @param \Magento\Object $to
+     * @param \Magento\Framework\Object $to
      * @param mixed $value
      * @return void
      */
-    public function setCards(\Magento\Object $to, $value)
+    public function setCards(\Magento\Framework\Object $to, $value)
     {
         $serializedValue = serialize($value);
         $to->setGiftCards($serializedValue);

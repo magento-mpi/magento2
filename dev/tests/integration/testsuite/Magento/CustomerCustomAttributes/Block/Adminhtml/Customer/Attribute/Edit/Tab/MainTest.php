@@ -38,7 +38,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $model->setEntityTypeId($entityType->getId());
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('entity_attribute', $model);
+        $objectManager->get('Magento\Framework\Registry')->register('entity_attribute', $model);
 
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'

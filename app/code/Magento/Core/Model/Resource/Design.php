@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Resource;
 
-use Magento\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime;
 
 /**
  * Core Design Resource Model

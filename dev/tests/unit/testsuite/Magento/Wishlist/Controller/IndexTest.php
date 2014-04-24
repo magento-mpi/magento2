@@ -26,7 +26,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
 
         $wishlistItem = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('load', 'getId', 'mergeBuyRequest', 'addToCart', 'getProduct'),
             array(),
             '',
@@ -36,9 +36,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $wishlistItem->expects($this->once())->method('getId')->will($this->returnValue(1));
         $wishlistItem->expects($this->once())->method('getProduct')->will($this->returnValue($wishlistItem));
 
-        $objectManager = $this->getMock('Magento\ObjectManager');
+        $objectManager = $this->getMock('Magento\Framework\ObjectManager');
 
-        $locale = $this->getMock('Magento\Locale\Resolver', array(), array(), '', false);
+        $locale = $this->getMock('Magento\Framework\Locale\Resolver', array(), array(), '', false);
 
         $optionCollection = $this->getMock(
             'Magento\Wishlist\Model\Resource\Item\Option\Collection',
@@ -65,7 +65,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $cart->expects($this->once())->method('save')->will($this->returnValue($cart));
         $cart->expects($this->any())->method('getQuote')->will($this->returnValue($cart));
 
-        $option = $this->getMock('Magento\Object', array('getCollection'), array(), '', false);
+        $option = $this->getMock('Magento\Framework\Object', array('getCollection'), array(), '', false);
         $option->expects($this->once())->method('getCollection')->will($this->returnValue($optionCollection));
 
         $product = $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false);
@@ -81,10 +81,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $mapGet = array(
-            array('Magento\Locale\ResolverInterface', $locale),
+            array('Magento\Framework\Locale\ResolverInterface', $locale),
             array('Magento\Checkout\Model\Cart', $cart),
             array('Magento\Catalog\Helper\Product', $product),
-            array('Magento\Escaper', $escaper),
+            array('Magento\Framework\Escaper', $escaper),
             array('Magento\Wishlist\Helper\Data', $wishlistHelper),
             array('Magento\Checkout\Helper\Cart', $wishlistHelper)
         );
@@ -107,7 +107,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      *
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\App\Response\Http|null $response
-     * @param \Magento\ObjectManager|null $objectManager
+     * @param \Magento\Framework\ObjectManager|null $objectManager
      * @return \Magento\Wishlist\Controller\Index
      */
     protected function _factory($request, $response = null, $objectManager = null)
@@ -118,7 +118,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             $response->headersSentThrowsException = false;
         }
         if (!$objectManager) {
-            $objectManager = new \Magento\ObjectManager\ObjectManager();
+            $config = new \Magento\Framework\ObjectManager\Config\Config();
+            $factory = new \Magento\Framework\ObjectManager\Factory\Factory($config);
+            $objectManager = new \Magento\Framework\ObjectManager\ObjectManager($factory, $config);
         }
         $rewriteFactory = $this->getMock(
             'Magento\UrlRewrite\Model\UrlRewriteFactory', array('create'), array(), '', false
@@ -139,10 +141,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $wishlistModel = $this->getMock('\Magento\Wishlist\Model\Wishlist', array(), array(), '', false);
 
-        $coreRegistry = $this->getMock('\Magento\Registry', array('registry'), array(), '', false);
+        $coreRegistry = $this->getMock('\Magento\Framework\Registry', array('registry'), array(), '', false);
         $coreRegistry->expects($this->once())->method('registry')->will($this->returnValue($wishlistModel));
 
-        $messageManager = $this->getMock('\Magento\Message\Manager', array(), array(), '', false);
+        $messageManager = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
 
         return $helper->getObject(
             'Magento\Wishlist\Controller\Index',

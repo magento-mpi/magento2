@@ -17,12 +17,12 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
     protected $_filesystem;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -43,8 +43,8 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
 
     /**
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Stdlib\String $string
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param string $host
      * @param string $username
      * @param string $password
@@ -56,8 +56,8 @@ class Mysql extends \Magento\Framework\Model\Resource\Type\Db implements \Magent
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Stdlib\String $string,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\String $string,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $host,
         $username,
         $password,

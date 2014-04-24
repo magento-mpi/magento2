@@ -7,9 +7,9 @@
  */
 namespace Magento\Integration\Model\Oauth;
 
-use Magento\Oauth\Helper\Oauth as OauthHelper;
+use Magento\Framework\Oauth\Helper\Oauth as OauthHelper;
 use Magento\Integration\Model\Resource\Oauth\Token\Collection as TokenCollection;
-use Magento\Oauth\Exception as OauthException;
+use Magento\Framework\Oauth\Exception as OauthException;
 
 /**
  * oAuth token model
@@ -79,7 +79,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
     protected $_consumerFactory;
 
     /**
-     * @var \Magento\Url\Validator
+     * @var \Magento\Framework\Url\Validator
      */
     protected $_urlValidator;
 
@@ -89,7 +89,7 @@ class Token extends \Magento\Framework\Model\AbstractModel
     protected $_keyLengthFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
@@ -97,10 +97,10 @@ class Token extends \Magento\Framework\Model\AbstractModel
      * Initialize dependencies.
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
-     * @param \Magento\Url\Validator $urlValidator
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Url\Validator $urlValidator
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
      * @param OauthHelper $oauthHelper
@@ -111,10 +111,10 @@ class Token extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
-        \Magento\Url\Validator $urlValidator,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Url\Validator $urlValidator,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory,
         \Magento\Integration\Helper\Oauth\Data $oauthData,
         OauthHelper $oauthHelper,

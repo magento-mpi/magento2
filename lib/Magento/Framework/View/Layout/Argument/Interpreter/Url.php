@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter;
 
-use Magento\UrlInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
 
 /**

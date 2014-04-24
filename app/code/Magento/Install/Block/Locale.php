@@ -34,17 +34,17 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_localeCode;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -52,20 +52,20 @@ class Locale extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Session\Generic $session,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeLists = $localeLists;
@@ -99,7 +99,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     /**
      * Retrieve locale object
      *
-     * @return \Magento\LocaleInterface
+     * @return \Magento\Framework\LocaleInterface
      */
     public function getLocale()
     {
@@ -194,7 +194,7 @@ class Locale extends \Magento\Install\Block\AbstractBlock
             ->getTimezone() : $this
             ->_localeDate
             ->getDefaultTimezone();
-        if ($timezone == \Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
+        if ($timezone == \Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE) {
             $timezone = 'America/Los_Angeles';
         }
         return $timezone;
@@ -241,13 +241,13 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     }
 
     /**
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (null === $data) {
-            $data = new \Magento\Object();
+            $data = new \Magento\Framework\Object();
             $this->setData('form_data', $data);
         }
         return $data;

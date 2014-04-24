@@ -9,8 +9,8 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Exception\AuthorizationException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Webapi\Exception as WebapiException;
 
 class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +24,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appStateMock;
 
-    /** @var \Magento\Logger */
+    /** @var \Magento\Framework\Logger */
     protected $_loggerMock;
 
     protected function setUp()
@@ -38,7 +38,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
 
         $filesystemMock = $this->getMockBuilder('\Magento\Framework\App\Filesystem')
             ->disableOriginalConstructor()

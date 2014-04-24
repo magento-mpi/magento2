@@ -25,12 +25,12 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
     {
         self::$_testResourceName = 'testtest_' . mt_rand(1000, 9999) . '_setup';
 
-        \Magento\Profiler::enable();
+        \Magento\Framework\Profiler::enable();
     }
 
     public static function tearDownAfterClass()
     {
-        \Magento\Profiler::disable();
+        \Magento\Framework\Profiler::disable();
     }
 
     protected function setUp()

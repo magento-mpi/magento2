@@ -16,15 +16,15 @@ class Banner extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $registry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $registry)
     {
         $this->_registry = $registry;
         parent::__construct($context);
@@ -156,7 +156,7 @@ class Banner extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We cannot save the banner.'));
                 $redirectBack = true;
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             if ($redirectBack) {
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
@@ -192,7 +192,7 @@ class Banner extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 // save data in session
                 $this->_getSession()->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
@@ -230,7 +230,7 @@ class Banner extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 return;
             }
         }

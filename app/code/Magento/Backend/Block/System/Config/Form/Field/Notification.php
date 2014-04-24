@@ -24,7 +24,7 @@ class Notification extends \Magento\Backend\Block\System\Config\Form\Field
     {
         $element->setValue($this->_cache->load('admin_notifications_lastcheck'));
         $format = $this->_localeDate->getDateTimeFormat(
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
         );
         return $this->_localeDate->date(intval($element->getValue()))->toString($format);
     }

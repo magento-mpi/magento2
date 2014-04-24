@@ -108,7 +108,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $_stringLib;
 
@@ -125,7 +125,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped();
         $this->_objectManagerMock = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_stringLib = new \Magento\Stdlib\String();
+        $this->_stringLib = new \Magento\Framework\Stdlib\String();
         $this->_model = $this->_getModelMock();
     }
 
@@ -167,14 +167,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_addresses as $address) {
-            $addressCollection->addItem(new \Magento\Object($address));
+            $addressCollection->addItem(new \Magento\Framework\Object($address));
         }
 
         $regionCollection = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         foreach ($this->_regions as $region) {
-            $regionCollection->addItem(new \Magento\Object($region));
+            $regionCollection->addItem(new \Magento\Framework\Object($region));
         }
 
         $data = array(
@@ -213,13 +213,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array(
                     $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false, false),
-                    $this->getMock('Magento\Registry'),
+                    $this->getMock('Magento\Framework\Registry'),
                     $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Entity\TypeFactory'),
                     $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
-                    $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false)
+                    $this->getMock('Magento\Framework\Validator\UniversalFactory', array(), array(), '', false, false)
                 )
             );
             $arguments['data'] = $attributeData;
@@ -314,7 +314,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;
@@ -472,7 +472,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            new \Magento\Stdlib\DateTime(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $this->_getModelDependencies()
         );
 

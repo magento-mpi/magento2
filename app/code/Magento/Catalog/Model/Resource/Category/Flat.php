@@ -45,7 +45,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -83,7 +83,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
@@ -91,7 +91,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
@@ -302,7 +302,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param array $children
      * @param string $path
-     * @param \Magento\Object $parent
+     * @param \Magento\Framework\Object $parent
      * @return void
      */
     public function addChildNodes($children, $path, $parent)
@@ -419,7 +419,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param integer $nodeId
      * @param array $nodes
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getNodeById($nodeId, $nodes = null)
     {

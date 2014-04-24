@@ -54,7 +54,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage
     ) {
         if ($exceptionMessage) {
-            $this->setExpectedException('\Magento\Exception', $exceptionMessage);
+            $this->setExpectedException('\Magento\Framework\Exception', $exceptionMessage);
         }
 
         $this->_rootDirectory->expects(

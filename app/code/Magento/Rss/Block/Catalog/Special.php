@@ -15,9 +15,9 @@ namespace Magento\Rss\Block\Catalog;
 class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     /**
-     * \Magento\Stdlib\DateTime\DateInterface object for date comparsions
+     * \Magento\Framework\Stdlib\DateTime\DateInterface object for date comparsions
      *
-     * @var \Magento\Stdlib\DateTime\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Date
      */
     protected static $_currentDate = null;
 
@@ -186,7 +186,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                                 'Special Expires On: %1',
                                 $this->formatDate(
                                     $result['special_to_date'],
-                                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                                 )
                             );
                         }
@@ -218,11 +218,11 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     public function addSpecialXmlCallback($args)
     {
         if (!isset(self::$_currentDate)) {
-            self::$_currentDate = new \Magento\Stdlib\DateTime\Date();
+            self::$_currentDate = new \Magento\Framework\Stdlib\DateTime\Date();
         }
 
         // dispatch event to determine whether the product will eventually get to the result
-        $product = new \Magento\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
+        $product = new \Magento\Framework\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
         $this->_eventManager->dispatch('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
@@ -239,7 +239,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         ) {
             $compareDate = self::$_currentDate->compareDate(
                 $row['special_to_date'],
-                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
+                \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT
             );
             if (-1 === $compareDate || 0 === $compareDate) {
                 $row['use_special'] = true;

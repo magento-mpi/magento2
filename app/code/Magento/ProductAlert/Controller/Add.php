@@ -68,7 +68,7 @@ class Add extends \Magento\Framework\App\Action\Action
      */
     public function testObserverAction()
     {
-        $object = new \Magento\Object();
+        $object = new \Magento\Framework\Object();
         $observer = $this->_objectManager->get('Magento\ProductAlert\Model\Observer');
         $observer->process($object);
     }
@@ -171,7 +171,7 @@ class Add extends \Magento\Framework\App\Action\Action
             $currentStore->getBaseUrl()
         ) === 0 || strpos(
             $url,
-            $currentStore->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)
+            $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK, true)
         ) === 0;
     }
 }

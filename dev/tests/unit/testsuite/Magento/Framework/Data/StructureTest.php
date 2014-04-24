@@ -68,7 +68,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $elements
      * @dataProvider importExceptionDataProvider
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testImportException($elements)
     {
@@ -156,7 +156,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testCreateElementException()
     {
@@ -191,7 +191,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testSetAttributeNoElementException()
     {
@@ -222,7 +222,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testGetAttributeNoElementException()
     {
@@ -319,7 +319,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $elementId
      * @param string $parentId
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider setAsChildExceptionDataProvider
      */
     public function testSetAsChildException($elementId, $parentId)
@@ -408,7 +408,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testReorderChildException()
     {
@@ -460,7 +460,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testReorderToSiblingException()
     {

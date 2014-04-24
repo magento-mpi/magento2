@@ -19,10 +19,10 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_schema = null;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      * @param string $moduleName
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader, $moduleName)
+    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader, $moduleName)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', $moduleName) . '/config.xsd';
     }

@@ -265,7 +265,7 @@ abstract class AbstractAction
     {
         if ($this->_productTypes === null) {
             $this->_productTypes = array();
-            $productEmulator = new \Magento\Object();
+            $productEmulator = new \Magento\Framework\Object();
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
                 $this->_productTypes[$typeId] = $this->_productType->factory($productEmulator);

@@ -37,7 +37,7 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
     protected $_catalogHelperData;
 
     /**
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileConfig;
 
@@ -49,21 +49,21 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\View\UrlFactory $coreViewUrlFactory
      * @param \Magento\Backend\Model\UrlFactory $backendUrlFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\File\Size $fileConfig
+     * @param \Magento\Framework\File\Size $fileConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\UrlFactory $coreViewUrlFactory,
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\File\Size $fileConfig,
+        \Magento\Framework\File\Size $fileConfig,
         array $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

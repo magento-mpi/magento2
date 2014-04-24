@@ -199,10 +199,10 @@ class Validator
     /**
      * Validate all data items
      *
-     * @param \Magento\Object $data
+     * @param \Magento\Framework\Object $data
      * @return bool
      */
-    public function validate(\Magento\Object $data)
+    public function validate(\Magento\Framework\Object $data)
     {
         $this->_errorMessages = array();
         foreach ($this->_dataValidators as $dataKey => $validators) {

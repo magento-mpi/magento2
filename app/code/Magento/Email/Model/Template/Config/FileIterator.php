@@ -14,19 +14,19 @@ namespace Magento\Email\Model\Template\Config;
 class FileIterator extends \Magento\Framework\Config\FileIterator
 {
     /**
-     * @var \Magento\Module\Dir\ReverseResolver
+     * @var \Magento\Framework\Module\Dir\ReverseResolver
      */
     protected $_moduleDirResolver;
 
     /**
      * @param \Magento\Framework\Filesystem\Directory\ReadInterface $directory
      * @param array $paths
-     * @param \Magento\Module\Dir\ReverseResolver $dirResolver
+     * @param \Magento\Framework\Module\Dir\ReverseResolver $dirResolver
      */
     public function __construct(
         \Magento\Framework\Filesystem\Directory\ReadInterface $directory,
         array $paths,
-        \Magento\Module\Dir\ReverseResolver $dirResolver
+        \Magento\Framework\Module\Dir\ReverseResolver $dirResolver
     ) {
         parent::__construct($directory, $paths);
         $this->_moduleDirResolver = $dirResolver;
