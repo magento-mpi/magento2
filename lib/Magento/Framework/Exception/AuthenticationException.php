@@ -9,11 +9,7 @@
  */
 namespace Magento\Framework\Exception;
 
-class AuthenticationException extends \Magento\Framework\Exception\Exception
+class AuthenticationException extends LocalizedException
 {
-    const UNKNOWN = 0;
-
-    const EMAIL_NOT_CONFIRMED = 1;
-
-    const INVALID_EMAIL_OR_PASSWORD = 2;
+    const AUTHENTICATION_ERROR = 'An authentication error occurred.';
 }

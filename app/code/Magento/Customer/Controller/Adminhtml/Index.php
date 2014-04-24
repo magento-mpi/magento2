@@ -15,6 +15,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\Error;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
@@ -439,7 +440,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_addSessionErrorMessages($messages);
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
-            } catch (\Magento\Framework\Exception\Exception $exception) {
+            } catch (LocalizedException $exception) {
                 $this->_addSessionErrorMessages($exception->getMessage());
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;

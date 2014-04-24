@@ -42,7 +42,6 @@ lib/Magento/Framework/Exception/AuthorizationException.php
 lib/Magento/Framework/Exception/Exception.php
 lib/Magento/Framework/Exception/InputException.php
 lib/Magento/Framework/Exception/NoSuchEntityException.php
-lib/Magento/Framework/Exception/StateException.php
 
 lib/Magento/Framework/Filter/Object/Grid.php
 lib/Magento/Framework/Filter/Object.php

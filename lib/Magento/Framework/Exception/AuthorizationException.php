@@ -9,9 +9,7 @@
  */
 namespace Magento\Framework\Exception;
 
-class AuthorizationException extends \Magento\Framework\Exception\Exception
+class AuthorizationException extends LocalizedException
 {
-    const UNAUTHENTICATED_USER = 0;
-
-    const NO_RECORD_ACCESS = 1;
+    const NOT_AUTHORIZED = 'Consumer ID %consumer_id is not authorized to access %resources';
 }
