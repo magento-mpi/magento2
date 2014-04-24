@@ -110,7 +110,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $existingCustomer = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
                 '_fixture/Magento_ImportExport_Customer'
             );

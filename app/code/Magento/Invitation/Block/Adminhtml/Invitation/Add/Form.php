@@ -31,7 +31,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_customerGroupService;
 
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $_objectConverter;
 
@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $store
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Convert\Object $objectConverter
+     * @param \Magento\Framework\Convert\Object $objectConverter
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $store,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
-        \Magento\Convert\Object $objectConverter,
+        \Magento\Framework\Convert\Object $objectConverter,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);

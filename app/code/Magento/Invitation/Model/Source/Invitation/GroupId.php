@@ -19,17 +19,17 @@ class GroupId implements \Magento\Framework\Option\ArrayInterface
     protected $_customerGroupService;
 
     /**
-     * @var \Magento\Convert\Object
+     * @var \Magento\Framework\Convert\Object
      */
     protected $_objectConverter;
 
     /**
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
-     * @param \Magento\Convert\Object $objectConverter
+     * @param \Magento\Framework\Convert\Object $objectConverter
      */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
-        \Magento\Convert\Object $objectConverter
+        \Magento\Framework\Convert\Object $objectConverter
     ) {
         $this->_customerGroupService = $customerGroupService;
         $this->_objectConverter = $objectConverter;

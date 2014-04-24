@@ -1011,12 +1011,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->setGroupId($groupId);
         $newCustomerEntity = $this->_customerBuilder->create();
         $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
-        /** @var \Magento\Math\Random $mathRandom */
-        $password = $this->_objectManager->get('Magento\Math\Random')->getRandomString(
+        /** @var \Magento\Framework\Math\Random $mathRandom */
+        $password = $this->_objectManager->get('Magento\Framework\Math\Random')->getRandomString(
             CustomerAccountServiceInterface::DEFAULT_PASSWORD_LENGTH
         );
-        /** @var \Magento\Encryption\EncryptorInterface $encryptor */
-        $encryptor = $this->_objectManager->get('Magento\Encryption\EncryptorInterface');
+        /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
+        $encryptor = $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
         $passwordHash = $encryptor->getHash($password);
         $savedCustomer = $this->_customerAccountService->createCustomerWithPasswordHash(
             $customerDetails,
