@@ -1,10 +1,5 @@
 <?php
 /**
- * Input service exception
- *
- * The top level data (code and message) is consistent across all Input Exceptions.
- * InputException is inherently build to contain aggregates.  All failure specifics are stored in params.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,93 +7,55 @@
  */
 namespace Magento\Framework\Exception;
 
-class InputException extends \Magento\Framework\Exception\Exception
+/**
+ * Exception to be thrown when there is an issue with the Input to a function call.
+ */
+class InputException extends AbstractAggregateException
 {
-    // This will always be the value of $this->code
-    const INPUT_EXCEPTION = 0;
-
-    // These are possible code to be stored in params
-    const INVALID_FIELD_RANGE = 'INVALID_FIELD_RANGE';
-
-    const INVALID_FIELD_VALUE = 'INVALID_FIELD_VALUE';
-
-    const REQUIRED_FIELD = 'REQUIRED_FIELD';
+    const DEFAULT_MESSAGE = 'One or more input exceptions have occurred.';
+    const INVALID_FIELD_RANGE = 'The %fieldName value of "%value" must be between %minValue and %maxValue';
+    const INVALID_FIELD_MIN_VALUE = 'The %fieldName value of "%value" must be greater than or equal to %minValue.';
+    const INVALID_FIELD_MAX_VALUE = 'The %fieldName value of "%value" must be less than or equal to %maxValue.';
+    const INVALID_FIELD_VALUE = 'Invalid value of "%value" provided for the %fieldName field.';
+    const REQUIRED_FIELD = '%fieldName is a required field.';
 
     /**
-     * @param string $message
-     * @param int    $code
+     * Initialize the input exception.
+     *
+     * @param string     $message Exception message
+     * @param array      $params  Substitution parameters
+     * @param \Exception $cause   Cause of the InputException
      */
-    public function __construct(
-        $message = 'One or more input exceptions have occurred.',
-        $code = self::INPUT_EXCEPTION
-    ) {
-        parent::__construct($message, $code);
+    public function __construct($message = self::DEFAULT_MESSAGE, $params = [], \Exception $cause = null)
+    {
+        parent::__construct($message, $params, $cause);
     }
 
     /**
-     * Create an input exception with the first error to be stored in params
+     * Creates an InputException for when a specific field was provided with an invalid value.
      *
-     * @param string $code
-     * @param string $fieldName
-     * @param string $value
-     * @param array  $params
+     * @param string $fieldName Name of the field which had an invalid value provided.
+     * @param string $fieldValue The invalid value that was provided for the field.
+     * @param \Exception $cause   Cause of the InputException
      * @return InputException
      */
-    public static function create($code, $fieldName, $value, array $params = array())
+    public static function invalidFieldValue($fieldName, $fieldValue, \Exception $cause = null)
     {
-        $exception = new self();
-        $exception->addError($code, $fieldName, $value, $params);
-        return $exception;
+        return new InputException(
+            self::INVALID_FIELD_VALUE,
+            ['fieldName' => $fieldName, 'value' => $fieldValue],
+            $cause
+        );
     }
 
     /**
-     * @param array $error a map of string keys to mixed values.
-     * @return string
-     */
-    public static function translateError($error)
-    {
-        switch ($error['code']) {
-            case InputException::INVALID_FIELD_VALUE:
-            case InputException::INVALID_FIELD_RANGE:
-                $message = __('Invalid value of "%1" provided for %2 field.', $error['value'], $error['fieldName']);
-                break;
-            case InputException::REQUIRED_FIELD:
-                $message = __('%1 is a required field.', $error['fieldName']);
-                break;
-            default:
-                $message = __('Unknown Error.');
-                break;
-        }
-        return $message;
-    }
-
-    /**
-     * Add another error to the parameters list of errors
+     * Creates an InputException for a missing required field.
      *
-     * @param string $code      Error code
-     * @param string $fieldName Fieldname with bad input
-     * @param string $value     Bad input value
-     * @param array  $errorData Extra error debug data
-     * @return $this
+     * @param string $fieldName Name of the missing required field.
+     * @return InputException
      */
-    public function addError($code, $fieldName, $value, array $errorData = array())
+    public static function requiredField($fieldName)
     {
-        $printParams = empty($errorData) ? "[]\n" : print_r($errorData, true);
-        $this->message .= "\n{\n\tcode: {$code}\n\t{$fieldName}: {$value}\n\tparams: {$printParams} }\n";
-        $errorData['fieldName'] = $fieldName;
-        $errorData['code'] = $code;
-        $errorData['value'] = $value;
-        $this->_params[] = $errorData;
-        return $this;
-    }
-
-    /**
-     * Returns the input errors found
-     *
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->getParams();
+        return new InputException(self::REQUIRED_FIELD, ['fieldName' => $fieldName]);
     }
 }

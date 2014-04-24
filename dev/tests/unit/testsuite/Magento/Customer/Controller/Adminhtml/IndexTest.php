@@ -239,7 +239,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         )->with(
             $customerId
         )->will(
-            $this->throwException(new NoSuchEntityException('customerId', $customerId))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'customerId', 'fieldValue' => $customerId]
+                )
+            )
         );
 
         $this->_helper->expects(
