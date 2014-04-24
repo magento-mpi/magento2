@@ -92,8 +92,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributeMetadata = $this->_createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
-            throw (new NoSuchEntityException('entityType', $entityType))
-                ->addField('attributeCode', $attributeCode);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                [
+                    'fieldName' => 'entityType',
+                    'fieldValue' => $entityType,
+                    'field2Name' => 'attributeCode',
+                    'field2Value' => $attributeCode,
+                ]
+            );
         }
     }
 

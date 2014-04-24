@@ -610,7 +610,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveAddressesCustomerIdNotExist()
     {
-        $expectedException = new \Magento\Exception\NoSuchEntityException('customerId', 4200);
+        $expectedException = NoSuchEntityException::singleField('customerId', 4200);
 
         // Setup Customer mock
         $this->_customerRegistryMock->expects($this->once())
@@ -651,7 +651,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveAddresses(4200, array($this->_addressBuilder->create()));
             $this->fail("Expected NoSuchEntityException not caught");
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $this->assertSame($e, $expectedException);
         }
     }
@@ -679,7 +679,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $mockAddress->expects($this->any())->method('getCustomerId')->will($this->returnValue(self::ID));
         $this->_addressRegistryMock->expects($this->once())
             ->method('retrieve')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('addressId', 2)));
+            ->will($this->throwException(NoSuchEntityException::singleField('addressId', 2)));
 
         // verify delete is called on the mock address model
         $mockAddress->expects($this->never())->method('delete');
@@ -689,8 +689,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
-            $this->assertSame($exception->getParams(), array('addressId' => 2));
+            $this->assertSame('No such entity with addressId = 2', $exception->getMessage());
         }
     }
 
@@ -732,19 +731,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $customerService->saveAddresses(1, array($this->_addressBuilder->create()));
             $this->fail("Expected InputException not caught");
-        } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $this->assertSame(
-                $exception->getParams(),
-                array(
-                    array(
-                        'index' => 0,
-                        'fieldName' => 'firstname',
-                        'code' => \Magento\Exception\InputException::REQUIRED_FIELD,
-                        'value' => null
-                    )
-                )
-            );
+        } catch (InputException $inputException) {
+            $this->assertEquals(InputException::REQUIRED_FIELD, $inputException->getRawMessage());
+            $this->assertEquals('firstname is a required field.', $inputException->getMessage());
+            $this->assertEquals('firstname is a required field.', $inputException->getLogMessage());
+            $this->assertTrue($inputException->wasErrorAdded());
+            $this->assertEmpty($inputException->getErrors());
         }
     }
 
@@ -813,12 +805,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateAddresses(array('b' => $addressBad, 'g' => $addressGood));
+            $customerService->validateAddresses(array($addressBad, $addressGood));
             $this->fail("InputException was expected but not thrown");
         } catch (InputException $actualException) {
             $expectedException = new InputException();
-            $expectedException->addError('REQUIRED_FIELD', 'firstname', '', array('index' => 'b'));
-            $this->assertEquals($expectedException->getErrors(), $actualException->getErrors());
+            $expectedException->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'firstname', 'index' => 0]);
+            $this->assertEquals($expectedException, $actualException);
         }
     }
 

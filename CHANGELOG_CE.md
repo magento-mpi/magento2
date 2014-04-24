@@ -1,6 +1,6 @@
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
-  * Moved library related logic from “Magento\Core\Model\App”
+  * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
   * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
   * Fatal error on customer registration if mail server is off(MAGETWO-23558)
@@ -11,20 +11,32 @@
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
   * Fixed possibility creating integration from config file (MAGETWO-22311)
+  * Fixed: Warning appears when running system_config (MAGETWO-15336)
+  * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
+  * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
+  * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
   * Covered Magento Store components with unit tests:
-     * Magento\Store\Model\*
+    * `Magento\Store\Model\*`
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
-    * Moved lib/Magento/Data to lib/Magento/Framework/Data
-    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
-    * Moved lib/Magento/Config to lib/Magento/Framework/Config
-    * Moved lib/Magento/Model to lib/Magento/Framework/Model
-    * Moved lib/Magento/DB to lib/Magento/Framework/DB
-    * Moved lib/Magento/View to lib/Magento/Framework/View
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 1): (MAGETWO-20866)
+    * Moved `lib/Magento/App` to `lib/Magento/Framework/App`
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 2): (MAGETWO-23646)
+    * Moved `lib/Magento/Data` to `lib/Magento/Framework/Data`
+    * Moved `lib/Magento/Filesystem` to `lib/Magento/Framework/Filesystem`
+    * Moved `lib/Magento/Config` to `lib/Magento/Framework/Config`
+    * Moved `lib/Magento/Model` to `lib/Magento/Framework/Model`
+    * Moved `lib/Magento/DB` to `lib/Magento/Framework/DB`
+    * Moved `lib/Magento/View` to `lib/Magento/Framework/View`
   * Start supporting custom attributes in SOAP (MAGETWO-23119)
+  * Covered Magento application components with unit tests (MAGETWO-21540)
+    * `Sales/Helper/Guest.php`
+    * `Sales/Helper/Admin.php`
+    * `Sales/Model/Observer.php`
+    * `Sales/Model/Payment/Method/Converter.php`
+    * `Sales/Model/Email/Template.php`
+    * `Sales/Model/Observer/Backend/CustomerQuote.php`
+    * `Sales/Model/Status/ListStatus.php`
 * Refactored the following modules to use Customer Service:
   * Refactored Persistent Module (MAGETWO-20877)
   * Refactored GoogleShopping module (MAGETWO-20474)
@@ -34,6 +46,9 @@
   * Refactor the rest of Customer Group usages (MAGETWO-23278)
   * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
   * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
+* Customer Service usage:
+  * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
+  * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
 * JavaScript improvements:
   * Implemented dialog widget (MAGETWO-22996)
   * Implemented validation widget (MAGETWO-22996)
@@ -92,10 +107,9 @@
   * Multishipping
   * Paypal
 * Customer Service usage:
-  * Implemented Service Context Provider
-  * Restructured webapi.xml
-  * Renamed createAccount to createCustomer in CustomerAccountService
-  * Implemented Caching strategy for the Customer service
+  * Implement Service Context Provider (MAGETWO-11084)
+  * Restructure webapi.xml (MAGETWO-22665)
+  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
 * GitHub requests:
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
@@ -2506,4 +2520,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-

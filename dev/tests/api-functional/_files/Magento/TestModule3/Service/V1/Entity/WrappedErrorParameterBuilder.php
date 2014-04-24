@@ -23,18 +23,6 @@ class WrappedErrorParameterBuilder extends \Magento\Service\Data\AbstractObjectB
     }
 
     /**
-     * Set code.
-     *
-     * @param string $code
-     * @return $this
-     */
-    public function setCode($code)
-    {
-        $this->_data['code'] = $code;
-        return $this;
-    }
-
-    /**
      * Set value.
      *
      * @param string $value

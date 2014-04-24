@@ -12,8 +12,10 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\AuthenticationException;
+use Magento\Exception\EmailNotConfirmedException;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\State\InvalidTransitionException;
 use Magento\Exception\StateException;
 
 /**
@@ -271,21 +273,18 @@ class Account extends \Magento\Framework\App\Action\Action
                     $customer = $this->_customerAccountService->authenticate($login['username'], $login['password']);
                     $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
-                } catch (AuthenticationException $e) {
-                    switch ($e->getCode()) {
-                        case AuthenticationException::EMAIL_NOT_CONFIRMED:
-                            $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
-                            $message = __(
-                                'This account is not confirmed.' .
-                                ' <a href="%1">Click here</a> to resend confirmation email.',
-                                $value
-                            );
-                            break;
-                        case AuthenticationException::INVALID_EMAIL_OR_PASSWORD:
-                        default:
-                            $message = __('Invalid login or password.');
-                            break;
-                    }
+                } catch (EmailNotConfirmedException $e) {
+                    $value = $this->_customerHelperData->getEmailConfirmationUrl($login['username']);
+                    $message = __(
+                        'This account is not confirmed.' .
+                        ' <a href="%1">Click here</a> to resend confirmation email.',
+                        $value
+                    );
+                    $this->messageManager->addError($message);
+                    $this->_getSession()->setUsername($login['username']);
+                }
+                catch (AuthenticationException $e) {
+                    $message = __('Invalid login or password.');
                     $this->messageManager->addError($message);
                     $this->_getSession()->setUsername($login['username']);
                 } catch (\Exception $e) {
@@ -468,9 +467,9 @@ class Account extends \Magento\Framework\App\Action\Action
             // @codingStandardsIgnoreEnd
             $this->messageManager->addError($message);
         } catch (InputException $e) {
+            $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
             foreach ($e->getErrors() as $error) {
-                $message = InputException::translateError($error);
-                $this->messageManager->addError($this->escaper->escapeHtml($message));
+                $this->messageManager->addError($this->escaper->escapeHtml($error->getMessage()));
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save the customer.'));
@@ -662,19 +661,7 @@ class Account extends \Magento\Framework\App\Action\Action
             $this->getResponse()->setRedirect($this->_redirect->success($backUrl ? $backUrl : $successUrl));
             return;
         } catch (StateException $e) {
-            switch ($e->getCode()) {
-                case StateException::INVALID_STATE:
-                    return;
-                case StateException::INPUT_MISMATCH:
-                case StateException::EXPIRED:
-                    $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
-                    break;
-                default:
-                    $this->messageManager->addException($e, __('There was an error confirming the account.'));
-                    break;
-            }
-        } catch (NoSuchEntityException $e) {
-            $this->messageManager->addException($e, __('There was an error confirming the account.'));
+            $this->messageManager->addException($e, __('This confirmation key is invalid or has expired.'));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('There was an error confirming the account'));
         }
@@ -705,7 +692,7 @@ class Account extends \Magento\Framework\App\Action\Action
                     $this->_storeManager->getStore()->getWebsiteId()
                 );
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
-            } catch (StateException $e) {
+            } catch (InvalidTransitionException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
@@ -774,6 +761,7 @@ class Account extends \Magento\Framework\App\Action\Action
                     CustomerAccountServiceInterface::EMAIL_RESET
                 );
             } catch (NoSuchEntityException $e) {
+                // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {
                 $this->messageManager->addException($exception, __('Unable to send password reset email.'));
                 $this->_redirect('*/*/forgotpassword');

@@ -181,9 +181,9 @@ class Address extends \Magento\Framework\App\Action\Action
             $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (InputException $e) {
+            $this->messageManager->addError($e->getMessage());
             foreach ($e->getErrors() as $error) {
-                $message = InputException::translateError($error);
-                $this->messageManager->addError($message);
+                $this->messageManager->addError($error->getMessage());
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save address.'));

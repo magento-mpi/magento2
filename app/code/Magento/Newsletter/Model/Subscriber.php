@@ -349,7 +349,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
                 $this->setSubscriberConfirmCode($this->randomSequence());
                 $this->save();
             }
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
         }
         return $this;
     }

@@ -16,6 +16,7 @@ use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\Webapi\Model\PathProcessor;
 use Magento\Webapi\Model\Config\Converter;
+use Magento\Exception\AuthorizationException;
 
 /**
  * Front controller for WebAPI REST area.
@@ -143,15 +144,9 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $route = $this->_router->match($this->_request);
 
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
-                // TODO: Consider passing Integration ID instead of Consumer ID
-                throw new \Magento\Webapi\ServiceAuthorizationException(
-                    "Not Authorized.",
-                    0,
-                    null,
-                    array(),
-                    'authorization',
-                    "Consumer ID = {$consumerId}",
-                    implode($route->getAclResources(), ', ')
+                throw new AuthorizationException(
+                    AuthorizationException::NOT_AUTHORIZED,
+                    ['consumer_id' => $consumerId, 'resources' => implode(', ', $route->getAclResources())]
                 );
             }
 
