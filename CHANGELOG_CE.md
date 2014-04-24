@@ -81,6 +81,7 @@
     * Moved lib/Magento/OsInfo to lib/Magento/Framework/OsInfo
     * Moved lib/Magento/Registry to lib/Magento/Framework/Registry
     * Moved lib/Magento/Util to lib/Magento/Framework/Util
+    * Moved lib/Magento/Mview to lib/Magento/Framework/Mview
     * Moved lib/Magento/BootstrapException to lib/Magento/Framework/BootstrapException
 * Refactored the following modules to use Customer Service:
   * Refactored Persistent Module (MAGETWO-20877)
