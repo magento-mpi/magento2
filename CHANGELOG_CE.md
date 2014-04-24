@@ -13,6 +13,7 @@
   * Fixed: Warning appears when running system_config (MAGETWO-15336)
   * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
+  * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
   * Covered Magento Store components with unit tests:
      * `Magento\Store\Model\*`
