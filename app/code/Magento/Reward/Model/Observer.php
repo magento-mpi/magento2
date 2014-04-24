@@ -964,9 +964,14 @@ class Observer
      */
     public function applyRewardSalesrulePoints(\Magento\Event\Observer $observer)
     {
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+        $invoice = $observer->getEvent()->getInvoice();
         /* @var $order \Magento\Sales\Model\Order */
-        $order = $observer->getEvent()->getInvoice()->getOrder();
-        if (!$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())) {
+        $order = $invoice->getOrder();
+        //when invoice is updated(commented) we don't apply reward points
+        if ($invoice->hasDataChanges()
+            || !$this->_rewardData->isEnabledOnFront($order->getStore()->getWebsiteId())
+        ) {
             return $this;
         }
         if ($order->getCustomerId() && !$order->canInvoice() && $order->getRewardSalesrulePoints()) {
