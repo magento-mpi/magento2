@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Firstdata;
 
-class PaymentAction implements \Magento\Option\ArrayInterface
+class PaymentAction implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

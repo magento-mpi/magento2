@@ -22,11 +22,11 @@ class Download extends \Magento\Framework\App\Action\Action
     /**
      * Return core session object
      *
-     * @return \Magento\Session\Generic
+     * @return \Magento\Framework\Session\Generic
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento\Session\Generic');
+        return $this->_objectManager->get('Magento\Framework\Session\Generic');
     }
 
     /**
@@ -199,7 +199,7 @@ class Download extends \Magento\Framework\App\Action\Action
                 $session->authenticate($this);
                 $session->setBeforeAuthUrl(
                     $this->_objectManager->create(
-                        'Magento\UrlInterface'
+                        'Magento\Framework\UrlInterface'
                     )->getUrl(
                         'downloadable/customer/products/',
                         array('_secure' => true)

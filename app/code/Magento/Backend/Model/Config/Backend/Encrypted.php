@@ -14,24 +14,24 @@ namespace Magento\Backend\Model\Config\Backend;
 class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\Framework\App\Config\Data\ProcessorInterface
 {
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -59,7 +59,7 @@ class Encrypted extends \Magento\Framework\App\Config\Value implements \Magento\
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_encryptor = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Encryption\EncryptorInterface');
+        $this->_encryptor = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\Encryption\EncryptorInterface');
     }
 
     /**

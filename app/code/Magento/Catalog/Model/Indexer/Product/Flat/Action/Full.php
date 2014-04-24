@@ -22,7 +22,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
      * @param null|array $ids
      *
      * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Full
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \Exception
      */
     public function execute($ids = null)

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Module\Service;
+namespace Magento\Framework\Module\Service;
 
 /**
  * The list of test interfaces.
@@ -22,7 +22,7 @@ interface FooBarV1Interface
 {
     public function someMethod();
 }
-namespace Magento\Module\Service\Foo;
+namespace Magento\Framework\Module\Service\Foo;
 
 interface BarV1Interface
 {

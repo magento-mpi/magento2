@@ -20,7 +20,7 @@ class Cert extends \Magento\Framework\App\Config\Value
     protected $_certFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -31,10 +31,10 @@ class Cert extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Paypal\Model\CertFactory $certFactory
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -42,10 +42,10 @@ class Cert extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Paypal\Model\CertFactory $certFactory,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

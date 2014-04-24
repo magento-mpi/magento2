@@ -85,7 +85,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage More than one node matching the query: /root/node/subnode
      */
     public function testMergeException()

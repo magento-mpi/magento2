@@ -8,7 +8,7 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
 
@@ -67,7 +67,13 @@ class Converter
         $customer = $this->_customerFactory->create()->load($customerId);
         if (!$customer->getId()) {
             // customer does not exist
-            throw new NoSuchEntityException('customerId', $customerId);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                [
+                    'fieldName' => 'customerId',
+                    'fieldValue' => $customerId
+                ]
+            );
         } else {
             return $customer;
         }
@@ -103,7 +109,10 @@ class Converter
 
         $customer->loadByEmail($customerEmail);
         if (!$customer->getId()) {
-            throw new NoSuchEntityException('email', $customerEmail);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                ['fieldName' => 'email', 'fieldValue' => $customerEmail]
+            );
         } else {
             return $customer;
         }
@@ -119,7 +128,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
+        $attributes = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -153,7 +162,7 @@ class Converter
         \Magento\Customer\Model\Customer $customerModel,
         CustomerDataObject $customerData
     ) {
-        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
+        $attributes = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }

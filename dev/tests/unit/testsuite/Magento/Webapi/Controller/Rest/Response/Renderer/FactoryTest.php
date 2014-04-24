@@ -22,7 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
         $this->_requestMock = $this->getMockBuilder(
             'Magento\Webapi\Controller\Rest\Request'
         )->disableOriginalConstructor()->getMock();
@@ -98,7 +98,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $acceptTypes = array('application/json');
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
-        /** Mock object to return \Magento\Object */
+        /** Mock object to return \Magento\Framework\Object */
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -106,7 +106,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->with(
             'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
         )->will(
-            $this->returnValue(new \Magento\Object())
+            $this->returnValue(new \Magento\Framework\Object())
         );
 
         $this->setExpectedException(

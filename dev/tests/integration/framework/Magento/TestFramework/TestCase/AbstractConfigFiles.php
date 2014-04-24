@@ -103,7 +103,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
         try {
             // this will merge all xml files and validate them
             $this->_reader->read('global');
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->fail($e->getMessage());
         }
     }

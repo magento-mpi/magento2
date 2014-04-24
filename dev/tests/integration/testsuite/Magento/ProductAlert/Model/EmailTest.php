@@ -55,7 +55,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
                 ]
             ]
         );

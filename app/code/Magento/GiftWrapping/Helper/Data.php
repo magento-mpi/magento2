@@ -361,7 +361,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Return totals of data object
      *
-     * @param  \Magento\Object $dataObject
+     * @param  \Magento\Framework\Object $dataObject
      * @return array
      */
     public function getTotals($dataObject)
@@ -503,7 +503,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $price
      * @param bool $includeTax
      * @param null|\Magento\Customer\Model\Address $shippingAddress

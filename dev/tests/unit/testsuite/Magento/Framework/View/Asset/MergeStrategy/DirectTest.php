@@ -54,7 +54,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Unable to locate file 'no_file.js' for merging.
      */
     public function testMergeFilesNoFilesException()

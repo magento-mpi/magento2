@@ -65,7 +65,7 @@ class Set extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -76,7 +76,7 @@ class Set extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,

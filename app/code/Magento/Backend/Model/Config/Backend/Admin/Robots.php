@@ -27,7 +27,7 @@ class Robots extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -36,7 +36,7 @@ class Robots extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

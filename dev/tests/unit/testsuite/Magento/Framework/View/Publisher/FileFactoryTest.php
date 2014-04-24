@@ -17,12 +17,12 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $objectManagerMock;
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->fileFactory = $this->objectManagerHelper->getObject(

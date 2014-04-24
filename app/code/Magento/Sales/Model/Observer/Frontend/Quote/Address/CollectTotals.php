@@ -52,10 +52,10 @@ class CollectTotals
     /**
      * Handle customer VAT number if needed on collect_totals_before event of quote address
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function dispatch(\Magento\Event\Observer $observer)
+    public function dispatch(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Sales\Model\Quote\Address $quoteAddress */
         $quoteAddress = $observer->getQuoteAddress();

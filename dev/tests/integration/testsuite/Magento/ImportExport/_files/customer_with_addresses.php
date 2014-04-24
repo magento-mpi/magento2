@@ -192,5 +192,7 @@ $customers[] = $customer;
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Registry')->unregister('_fixture/Magento_ImportExport_Customers_Array');
-$objectManager->get('Magento\Registry')->register('_fixture/Magento_ImportExport_Customers_Array', $customers);
+$objectManager->get('Magento\Framework\Registry')
+    ->unregister('_fixture/Magento_ImportExport_Customers_Array');
+$objectManager->get('Magento\Framework\Registry')
+    ->register('_fixture/Magento_ImportExport_Customers_Array', $customers);

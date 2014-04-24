@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,10 +9,6 @@ namespace Magento\Integration\Model\Oauth\Consumer\Validator;
 
 /**
  * Validate OAuth keys
- *
- * @category   Magento
- * @package    Magento_Oauth
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class KeyLength extends \Zend_Validate_StringLength
 {

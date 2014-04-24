@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <type name="Magento\Module\Updater\SetupFactory">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
-                <item name="checkoutagreements_setup" xsi:type="string">Magento\Module\Setup</item>
+                <item name="checkoutagreements_setup" xsi:type="string">Magento\Framework\Module\Setup</item>
             </argument>
         </arguments>
     </type>

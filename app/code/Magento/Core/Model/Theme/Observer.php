@@ -10,7 +10,7 @@
 namespace Magento\Core\Model\Theme;
 
 use Magento\Framework\Model\Exception;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Theme Observer model
@@ -33,7 +33,7 @@ class Observer
     protected $_themeConfig;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventDispatcher;
 
@@ -41,13 +41,13 @@ class Observer
      * @param \Magento\Framework\View\Design\Theme\ImageFactory $themeImageFactory
      * @param \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection
      * @param \Magento\Theme\Model\Config\Customization $themeConfig
-     * @param \Magento\Event\ManagerInterface $eventDispatcher
+     * @param \Magento\Framework\Event\ManagerInterface $eventDispatcher
      */
     public function __construct(
         \Magento\Framework\View\Design\Theme\ImageFactory $themeImageFactory,
         \Magento\Core\Model\Resource\Layout\Update\Collection $updateCollection,
         \Magento\Theme\Model\Config\Customization $themeConfig,
-        \Magento\Event\ManagerInterface $eventDispatcher
+        \Magento\Framework\Event\ManagerInterface $eventDispatcher
     ) {
         $this->_themeImageFactory = $themeImageFactory;
         $this->_updateCollection = $updateCollection;

@@ -22,10 +22,10 @@ class Quantity extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Renders quantity as integer
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return int|string
      */
-    public function _getValue(\Magento\Object $row)
+    public function _getValue(\Magento\Framework\Object $row)
     {
         if ($row->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return '';

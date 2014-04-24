@@ -28,15 +28,15 @@ class AbstractCollection extends \Magento\Framework\Data\Collection
     protected $_entityCollection;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Framework\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory);

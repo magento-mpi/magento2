@@ -26,14 +26,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         CustomerAccountServiceInterface $customerAccountService,
         array $data = array()
@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addField('id', 'hidden', array('name' => 'customer_id'));
             $customer = $this->_customerAccountService->getCustomer($customerId);
             $form->setValues(
-                \Magento\Service\DataObjectConverter::toFlatArray($customer)
+                \Magento\Framework\Service\DataObjectConverter::toFlatArray($customer)
             )->addValues(
                 array('customer_id' => $customerId)
             );

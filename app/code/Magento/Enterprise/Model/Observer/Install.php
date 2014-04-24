@@ -9,7 +9,7 @@
  */
 namespace Magento\Enterprise\Model\Observer;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Installer observer

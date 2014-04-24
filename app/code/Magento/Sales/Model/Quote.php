@@ -234,7 +234,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_quoteItemFactory;
 
     /**
-     * @var \Magento\Message\Factory
+     * @var \Magento\Framework\Message\Factory
      */
     protected $messageFactory;
 
@@ -259,7 +259,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_quotePaymentCollectionFactory;
 
     /**
-     * @var \Magento\Object\Copy
+     * @var \Magento\Framework\Object\Copy
      */
     protected $_objectCopyService;
 
@@ -285,7 +285,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -296,12 +296,12 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Message\Factory $messageFactory
+     * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
-     * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
@@ -311,7 +311,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -322,12 +322,12 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Message\Factory $messageFactory,
+        \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
-        \Magento\Object\Copy $objectCopyService,
+        \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
@@ -579,7 +579,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             } else {
                 try {
                     $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 }
                 if (isset($defaultBillingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
@@ -592,7 +592,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (null === $shippingAddress) {
                 try {
                     $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 }
                 if (isset($defaultShippingAddress)) {
                     /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
@@ -669,7 +669,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Service\DataObjectConverter::toFlatArray($customerData));
+        $customer->setData(\Magento\Framework\Service\DataObjectConverter::toFlatArray($customerData));
         $customer->setId($customerData->getId());
         $this->setCustomer($customer);
         return $this;
@@ -1249,7 +1249,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * Returns error message if product type instance can't prepare product.
      *
      * @param mixed $product
-     * @param null|float|\Magento\Object $request
+     * @param null|float|\Magento\Framework\Object $request
      * @param null|string $processMode
      * @return \Magento\Sales\Model\Quote\Item|string
      * @throws \Magento\Framework\Model\Exception
@@ -1260,9 +1260,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $request = 1;
         }
         if (is_numeric($request)) {
-            $request = new \Magento\Object(array('qty' => $request));
+            $request = new \Magento\Framework\Object(array('qty' => $request));
         }
-        if (!$request instanceof \Magento\Object) {
+        if (!$request instanceof \Magento\Framework\Object) {
             throw new \Magento\Framework\Model\Exception(__('We found an invalid request for adding product to quote.'));
         }
 
@@ -1334,7 +1334,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * return error message if product type instance can't prepare product
      *
      * @param mixed $product
-     * @param null|float|\Magento\Object $request
+     * @param null|float|\Magento\Framework\Object $request
      * @return \Magento\Sales\Model\Quote\Item|string
      */
     public function addProduct(\Magento\Catalog\Model\Product $product, $request = null)
@@ -1392,7 +1392,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * It's passed to \Magento\Catalog\Helper\Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Framework\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      *   so they won't intersect with other submitted options
@@ -1400,8 +1400,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * For more options see \Magento\Catalog\Helper\Product->addParamsToBuyRequest()
      *
      * @param int $itemId
-     * @param \Magento\Object $buyRequest
-     * @param null|array|\Magento\Object $params
+     * @param \Magento\Framework\Object $buyRequest
+     * @param null|array|\Magento\Framework\Object $params
      * @return \Magento\Sales\Model\Quote\Item
      * @throws \Magento\Framework\Model\Exception
      *
@@ -1420,9 +1420,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())->load($productId);
 
         if (!$params) {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
         } elseif (is_array($params)) {
-            $params = new \Magento\Object($params);
+            $params = new \Magento\Framework\Object($params);
         }
         $params->setCurrentConfig($item->getBuyRequest());
         $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);
@@ -1780,7 +1780,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
 
         if (is_string($message)) {
-            $message = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message);
+            $message = $this->messageFactory->create(\Magento\Framework\Message\MessageInterface::TYPE_ERROR, $message);
         }
 
         $messages[$index] = $message;
@@ -1812,8 +1812,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $errors = array();
         foreach ($this->getMessages() as $message) {
-            /* @var $error \Magento\Message\AbstractMessage */
-            if ($message->getType() == \Magento\Message\MessageInterface::TYPE_ERROR) {
+            /* @var $error \Magento\Framework\Message\AbstractMessage */
+            if ($message->getType() == \Magento\Framework\Message\MessageInterface::TYPE_ERROR) {
                 array_push($errors, $message);
             }
         }
@@ -1872,7 +1872,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
+     * @param \Magento\Framework\Object|null $additionalData Any additional data, that caller would like to store
      * @return $this
      */
     public function addErrorInfo(
@@ -1960,7 +1960,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         }
 
         $message = $messages[$type];
-        if ($message instanceof \Magento\Message\AbstractMessage) {
+        if ($message instanceof \Magento\Framework\Message\AbstractMessage) {
             $message = $message->getText();
         } elseif (!is_string($message)) {
             return $this;

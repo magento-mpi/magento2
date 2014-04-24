@@ -21,15 +21,15 @@ class Set extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -118,8 +118,8 @@ class Set extends \Magento\Backend\App\Action
             $entityTypeId
         );
 
-        /** @var $filterManager \Magento\Filter\FilterManager */
-        $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+        /** @var $filterManager \Magento\Framework\Filter\FilterManager */
+        $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
 
         try {
             if ($isNewSet) {

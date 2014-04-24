@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Module\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');

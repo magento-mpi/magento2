@@ -56,7 +56,7 @@ class Quote
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -98,7 +98,7 @@ class Quote
     /**
      * Class constructor
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -110,7 +110,7 @@ class Quote
      * @param AddressConverter $addressConverter
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Quote $quote,
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,

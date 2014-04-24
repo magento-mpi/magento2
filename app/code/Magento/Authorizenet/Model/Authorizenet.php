@@ -263,7 +263,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -296,38 +296,38 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     protected $_cardsFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
      * @param \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Logger $logger,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory,
         \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,
         \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
         array $data = array()
     ) {
@@ -431,10 +431,10 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $payment
+     * @param   \Magento\Framework\Object $payment
      * @return  bool
      */
-    public function canVoid(\Magento\Object $payment)
+    public function canVoid(\Magento\Framework\Object $payment)
     {
         if ($this->_isGatewayActionsLocked($this->getInfoInstance())) {
             return false;
@@ -483,7 +483,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         if ($amount <= 0) {
             throw new \Magento\Framework\Model\Exception(__('This is an invalid amount for authorization.'));
@@ -510,7 +510,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         if ($amount <= 0) {
             throw new \Magento\Framework\Model\Exception(__('This is an invalid amount for capture.'));
@@ -533,7 +533,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param  \Magento\Payment\Model\Info $payment
      * @return $this
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
@@ -567,7 +567,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param  \Magento\Payment\Model\Info $payment
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         return $this->void($payment);
     }
@@ -580,7 +580,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function refund(\Magento\Object $payment, $requestedAmount)
+    public function refund(\Magento\Framework\Object $payment, $requestedAmount)
     {
         $cardsStorage = $this->getCardsStorage($payment);
 
@@ -915,7 +915,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param float $amount
-     * @param \Magento\Object $card
+     * @param \Magento\Framework\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
      * @throws \Magento\Framework\Model\Exception
      */
@@ -979,7 +979,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Void the card transaction through gateway
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param \Magento\Object $card
+     * @param \Magento\Framework\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
      * @throws \Magento\Framework\Model\Exception
      */
@@ -1084,7 +1084,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param float $amount
-     * @param \Magento\Object $card
+     * @param \Magento\Framework\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
      * @throws \Magento\Framework\Model\Exception
      */
@@ -1264,7 +1264,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Set split_tender_id to quote payment if needed
      *
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @param float $orderPayment
      * @throws \Magento\Payment\Model\Info\Exception
      * @return bool
@@ -1355,11 +1355,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Prepare request to gateway
      *
-     * @param \Magento\Object|\Magento\Payment\Model\Info $payment
+     * @param \Magento\Framework\Object|\Magento\Payment\Model\Info $payment
      * @return \Magento\Authorizenet\Model\Authorizenet\Request
      * @link http://www.authorize.net/support/AIM_guide.pdf
      */
-    protected function _buildRequest(\Magento\Object $payment)
+    protected function _buildRequest(\Magento\Framework\Object $payment)
     {
         $order = $payment->getOrder();
 
@@ -1410,7 +1410,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
 
         if ($this->getIsCentinelValidationEnabled()) {
             $params = $this->getCentinelValidator()->exportCmpiData(array());
-            $request = \Magento\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
+            $request = \Magento\Framework\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
 
         if (!empty($order)) {
@@ -1501,13 +1501,13 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @return \Magento\Authorizenet\Model\Authorizenet\Result
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _postRequest(\Magento\Object $request)
+    protected function _postRequest(\Magento\Framework\Object $request)
     {
         $debugData = array('request' => $request->getData());
 
         $result = $this->_resultFactory->create();
 
-        $client = new \Magento\HTTP\ZendClient();
+        $client = new \Magento\Framework\HTTP\ZendClient();
 
         $uri = $this->getConfigData('cgi_url');
         $client->setUri($uri ? $uri : self::CGI_URL);
@@ -1608,11 +1608,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * It sets card`s data into additional information of payment model
      *
-     * @param \Magento\Object $response
+     * @param \Magento\Framework\Object $response
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @return string
      */
-    protected function _registerCard(\Magento\Object $response, \Magento\Sales\Model\Order\Payment $payment)
+    protected function _registerCard(\Magento\Framework\Object $response, \Magento\Sales\Model\Order\Payment $payment)
     {
         $cardsStorage = $this->getCardsStorage($payment);
         $card = $cardsStorage->registerCard();
@@ -1782,11 +1782,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Generate checksum for object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param array $checkSumDataKeys
      * @return string
      */
-    protected function _generateChecksum(\Magento\Object $object, $checkSumDataKeys = array())
+    protected function _generateChecksum(\Magento\Framework\Object $object, $checkSumDataKeys = array())
     {
         $data = array();
         foreach ($checkSumDataKeys as $dataKey) {
@@ -1800,7 +1800,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * This function returns full transaction details for a specified transaction ID.
      *
      * @param string $transactionId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      * @link http://www.authorize.net/support/ReportingGuide_XML.pdf
      * @link http://developer.authorize.net/api/transaction_details/
@@ -1818,7 +1818,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             $transactionId
         );
 
-        $client = new \Magento\HTTP\ZendClient();
+        $client = new \Magento\Framework\HTTP\ZendClient();
         $uri = $this->getConfigData('cgi_url_td');
         $client->setUri($uri ? $uri : self::CGI_URL_TD);
         $client->setConfig(array('timeout' => 45));
@@ -1833,13 +1833,13 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             $debugData['result'] = $responseBody;
             $this->_debug($debugData);
             libxml_use_internal_errors(true);
-            $responseXmlDocument = new \Magento\Simplexml\Element($responseBody);
+            $responseXmlDocument = new \Magento\Framework\Simplexml\Element($responseBody);
             libxml_use_internal_errors(false);
         } catch (\Exception $e) {
             throw new \Magento\Framework\Model\Exception(__('Payment updating error.'));
         }
 
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setResponseCode(
             (string)$responseXmlDocument->transaction->responseCode
         )->setResponseReasonCode(

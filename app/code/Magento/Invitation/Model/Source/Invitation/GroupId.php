@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class GroupId implements \Magento\Option\ArrayInterface
+class GroupId implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Model\Group

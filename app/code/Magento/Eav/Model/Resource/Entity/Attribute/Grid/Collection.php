@@ -21,25 +21,25 @@ use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Registry $registryManager
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Registry $registryManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Registry $registryManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {

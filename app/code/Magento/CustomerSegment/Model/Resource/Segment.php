@@ -29,7 +29,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -37,13 +37,13 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_resourceHelper = $resourceHelper;

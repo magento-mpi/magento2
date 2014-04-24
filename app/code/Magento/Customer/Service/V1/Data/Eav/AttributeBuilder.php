@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Service\Data\AbstractObjectBuilder;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 /**
  * Class AttributeBuilder

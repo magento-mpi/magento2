@@ -21,7 +21,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
@@ -34,7 +34,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $this->_dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Stdlib\DateTime'
+            'Magento\Framework\Stdlib\DateTime'
         );
     }
 

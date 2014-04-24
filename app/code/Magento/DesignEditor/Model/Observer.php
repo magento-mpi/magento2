@@ -9,7 +9,7 @@
  */
 namespace Magento\DesignEditor\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Observer for design editor module
@@ -17,7 +17,7 @@ use Magento\Event\Observer as EventObserver;
 class Observer
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -27,10 +27,10 @@ class Observer
     protected $_helper;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\DesignEditor\Helper\Data $helper
      */
-    public function __construct(\Magento\ObjectManager $objectManager, \Magento\DesignEditor\Helper\Data $helper)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\DesignEditor\Helper\Data $helper)
     {
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;

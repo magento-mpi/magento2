@@ -18,7 +18,7 @@ namespace Magento\Framework\View\Element;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class AbstractBlock extends \Magento\Object implements BlockInterface
+abstract class AbstractBlock extends \Magento\Framework\Object implements BlockInterface
 {
     /**
      * Cache group Tag
@@ -35,21 +35,21 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
     /**
      * SID Resolver
      *
-     * @var \Magento\Session\SidResolverInterface
+     * @var \Magento\Framework\Session\SidResolverInterface
      */
     protected $_sidResolver;
 
     /**
      * Translator
      *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translator;
 
@@ -77,7 +77,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Url Builder
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -85,7 +85,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * System event manager
      *
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -120,31 +120,31 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * Escaper
      *
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -714,7 +714,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         try {
             $params = array_merge(array('_secure' => $this->getRequest()->isSecure()), $params);
             return $this->_viewUrl->getViewFileUrl($file, $params);
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->_logger->logException($e);
             return $this->_getNotFoundUrl();
         }
@@ -742,7 +742,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function formatDate(
         $date = null,
-        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $format = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
         $showTime = false
     ) {
         return $this->_localeDate->formatDate($date, $format, $showTime);
@@ -758,7 +758,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function formatTime(
         $time = null,
-        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $format = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
         $showDate = false
     ) {
         return $this->_localeDate->formatTime($time, $format, $showDate);
@@ -785,8 +785,12 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public static function extractModuleName($className)
     {
-        $namespace = substr($className, 0, strpos($className, \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
-        return str_replace(\Magento\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
+        $namespace = substr(
+            $className,
+            0,
+            strpos($className, \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . 'Block')
+        );
+        return str_replace(\Magento\Framework\Autoload\IncludePath::NS_SEPARATOR, '_', $namespace);
     }
 
     /**

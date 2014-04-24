@@ -119,7 +119,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -135,7 +135,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -187,13 +187,13 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     /**
      * Prepare and do return of shipment
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment()
     {
         $shipmentStoreId = $this->getRma()->getStoreId();
-        $storeInfo = new \Magento\Object(
+        $storeInfo = new \Magento\Framework\Object(
             $this->_scopeConfig->getValue('general/store_information', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $shipmentStoreId)
         );
         /** @var $order \Magento\Sales\Model\Order */
@@ -321,7 +321,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      * Retrieves shipping label for current rma
      *
      * @param Rma|int $rma
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getShippingLabelByRma($rma)
     {

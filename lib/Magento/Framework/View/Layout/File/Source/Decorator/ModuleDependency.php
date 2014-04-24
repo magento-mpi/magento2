@@ -9,7 +9,7 @@ namespace Magento\Framework\View\Layout\File\Source\Decorator;
 
 use Magento\Framework\View\Layout\File\SourceInterface;
 use Magento\Framework\View\Layout\File;
-use Magento\Module\ModuleListInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**

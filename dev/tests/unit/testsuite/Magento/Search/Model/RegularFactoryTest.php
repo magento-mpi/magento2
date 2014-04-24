@@ -23,13 +23,13 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Search\Model\Adapter\HttpStream */
     protected $_adapterMock;
 
-    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
     /** Set Solr Clients mocks */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
+        $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
         $this->_clientMock = $this->getMock('Magento\Search\Model\Client\Solr', array(), array(), '', false, false);
         $this->_adapterMock = $this->getMock(
             'Magento\Search\Model\Adapter\HttpStream',

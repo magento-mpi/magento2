@@ -78,7 +78,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException($permitted, $forbidden, $exceptionMessage)
     {
-        $this->setExpectedException('Magento\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Framework\Exception', $exceptionMessage);
         $this->_createThemeDeployment($permitted, $forbidden);
     }
 
@@ -176,7 +176,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage The file extension "php" must be added either to the permitted or forbidden list
      */
     public function testRunWithUnknownExtension()

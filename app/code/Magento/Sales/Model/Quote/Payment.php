@@ -73,9 +73,9 @@ class Payment extends \Magento\Payment\Model\Info
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -83,9 +83,9 @@ class Payment extends \Magento\Payment\Model\Info
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -139,7 +139,7 @@ class Payment extends \Magento\Payment\Model\Info
      */
     public function importData(array $data)
     {
-        $data = new \Magento\Object($data);
+        $data = new \Magento\Framework\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
             array($this->_eventObject => $this, 'input' => $data)

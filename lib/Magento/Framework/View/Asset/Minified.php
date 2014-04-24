@@ -22,7 +22,7 @@ class Minified implements MergeableInterface
     /**
      * Minfier
      *
-     * @var \Magento\Code\Minifier
+     * @var \Magento\Framework\Code\Minifier
      */
     protected $minifier;
 
@@ -50,7 +50,7 @@ class Minified implements MergeableInterface
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $logger;
 
@@ -58,15 +58,15 @@ class Minified implements MergeableInterface
      * Constructor
      *
      * @param LocalInterface $asset
-     * @param \Magento\Code\Minifier $minifier
+     * @param \Magento\Framework\Code\Minifier $minifier
      * @param \Magento\Framework\View\Url $viewUrl
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         LocalInterface $asset,
-        \Magento\Code\Minifier $minifier,
+        \Magento\Framework\Code\Minifier $minifier,
         \Magento\Framework\View\Url $viewUrl,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->originalAsset = $asset;
         $this->minifier = $minifier;
@@ -116,7 +116,9 @@ class Minified implements MergeableInterface
         try {
             $this->file = $this->minifier->getMinifiedFile($originalFile);
         } catch (\Exception $e) {
-            $this->logger->logException(new \Magento\Exception('Could not minify file: ' . $originalFile, 0, $e));
+            $this->logger->logException(
+                new \Magento\Framework\Exception('Could not minify file: ' . $originalFile, 0, $e)
+            );
             $this->file = $originalFile;
         }
         if ($this->file == $originalFile) {

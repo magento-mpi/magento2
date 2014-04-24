@@ -13,7 +13,7 @@ namespace Magento\AdminGws\Model;
  * Permissions checker
  *
  */
-class Role extends \Magento\Object
+class Role extends \Magento\Framework\Object
 {
     /**
      * Store ACL role model instance

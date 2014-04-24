@@ -34,7 +34,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Shipping\Model\Shipment\Request $request
      */
@@ -46,7 +46,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Math\Division $mathDivision,
+        \Magento\Framework\Math\Division $mathDivision,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Shipping\Model\Shipment\Request $request
     ) {
@@ -68,7 +68,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * Prepare and do request to shipment
      *
      * @param Shipment $orderShipment
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment(Shipment $orderShipment)
@@ -104,7 +104,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $shipmentStoreId
         );
-        $storeInfo = new \Magento\Object(
+        $storeInfo = new \Magento\Framework\Object(
             (array)$this->_scopeConfig->getValue(
                 'general/store_information',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

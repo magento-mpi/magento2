@@ -20,7 +20,7 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -32,13 +32,13 @@ class Head extends \Magento\Framework\View\Element\AbstractBlock
     /**
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

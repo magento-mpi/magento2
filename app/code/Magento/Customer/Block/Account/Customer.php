@@ -71,7 +71,7 @@ class Customer extends \Magento\Framework\View\Element\Template
         try {
             $customer = $this->_customerAccountService->getCustomer($this->currentCustomer->getCustomerId());
             return $this->escapeHtml($this->_viewHelper->getCustomerName($customer));
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;
         }
     }
