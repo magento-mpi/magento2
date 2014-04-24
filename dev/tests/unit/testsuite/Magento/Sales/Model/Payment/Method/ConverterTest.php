@@ -24,8 +24,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $encryptor \PHPUnit_Framework_MockObject_MockObject|\Magento\Encryption\EncryptorInterface */
-        $encryptor = $this->getMock('Magento\Encryption\EncryptorInterface');
+        /** @var $encryptor \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Encryption\EncryptorInterface */
+        $encryptor = $this->getMock('Magento\Framework\Encryption\EncryptorInterface');
         $encryptor->expects($this->any())
             ->method('encrypt')
             ->with(self::INPUT_VALUE)
