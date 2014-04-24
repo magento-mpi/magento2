@@ -115,7 +115,7 @@ class CustomerRegistry
             );
         } else {
             $this->customerRegistryById[$customer->getId()] = $customer;
-            $this->customerRegistryByEmail[$registryKey] = $customer;
+            $this->customerRegistryByEmail[$emailKey] = $customer;
             return $customer;
         }
     }
@@ -152,8 +152,8 @@ class CustomerRegistry
         $emailKey = $this->getEmailKey($customerEmail, $websiteId);
         if ($emailKey) {
             /** @var Customer $customer */
-            $customer = $this->customerRegistryByEmail[$registryKey];
-            unset($this->customerRegistryByEmail[$registryKey]);
+            $customer = $this->customerRegistryByEmail[$emailKey];
+            unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customer->getId()]);
         }
     }
