@@ -1,0 +1,2 @@
+"newsletterTemplate/data/code";"newsletterTemplate/data/subject";"newsletterTemplate/data/sender_name";"newsletterTemplate/data/sender_email";"newsletterTemplate/data/text";"constraint"
+"TemplateName%isolation%";"TemplateSubject%isolation%";"SenderName%isolation%";"SenderName%isolation%@test.com";"some content %isolation%";"assertNewsletterSuccessCreateMessage, assertNewsletterInGrid "

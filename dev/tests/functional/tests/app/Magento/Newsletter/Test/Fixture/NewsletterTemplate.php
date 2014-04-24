@@ -1,0 +1,179 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Newsletter\Test\Fixture;
+
+use Mtf\Fixture\InjectableFixture;
+
+/**
+ * Class NewsletterTemplate
+ *
+ * @package Magento\Newsletter\Test\Fixture
+ */
+class NewsletterTemplate extends InjectableFixture
+{
+    protected $defaultDataSet = [
+        'actual' => null,
+    ];
+
+    protected $id = [
+        'attribute_code' => 'template_id',
+        'backend_type' => 'int',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $code = [
+        'attribute_code' => 'template_code',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $text = [
+        'attribute_code' => 'template_text',
+        'backend_type' => 'text',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $text_preprocessed = [
+        'attribute_code' => 'template_text_preprocessed',
+        'backend_type' => 'text',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $styles = [
+        'attribute_code' => 'template_styles',
+        'backend_type' => 'text',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $type = [
+        'attribute_code' => 'template_type',
+        'backend_type' => 'int',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $subject = [
+        'attribute_code' => 'template_subject',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $sender_name = [
+        'attribute_code' => 'template_sender_name',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $sender_email = [
+        'attribute_code' => 'template_sender_email',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $actual = [
+        'attribute_code' => 'template_actual',
+        'backend_type' => 'smallint',
+        'is_required' => '',
+        'default_value' => '1',
+        'input' => '',
+    ];
+
+    protected $added_at = [
+        'attribute_code' => 'added_at',
+        'backend_type' => 'timestamp',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $modified_at = [
+        'attribute_code' => 'modified_at',
+        'backend_type' => 'timestamp',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    public function getId()
+    {
+        return $this->getData('id');
+    }
+
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+
+    public function getText()
+    {
+        return $this->getData('text');
+    }
+
+    public function getTextPreprocessed()
+    {
+        return $this->getData('text_preprocessed');
+    }
+
+    public function getStyles()
+    {
+        return $this->getData('styles');
+    }
+
+    public function getType()
+    {
+        return $this->getData('type');
+    }
+
+    public function getSubject()
+    {
+        return $this->getData('subject');
+    }
+
+    public function getSenderName()
+    {
+        return $this->getData('sender_name');
+    }
+
+    public function getSenderEmail()
+    {
+        return $this->getData('sender_email');
+    }
+
+    public function getActual()
+    {
+        return $this->getData('actual');
+    }
+
+    public function getAddedAt()
+    {
+        return $this->getData('added_at');
+    }
+
+    public function getModifiedAt()
+    {
+        return $this->getData('modified_at');
+    }
+}

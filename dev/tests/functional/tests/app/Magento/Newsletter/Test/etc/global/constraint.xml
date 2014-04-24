@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertNewsletterSuccessCreateMessage module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterSuccessCreateMessage>
+    <assertNewsletterInGrid module="Magento_Newsletter">
+        <severeness>low</severeness>
+    </assertNewsletterInGrid>
+</constraint>

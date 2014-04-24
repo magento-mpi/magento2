@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="newsletter/template/new/index">
+    <block>
+        <name>pageMainActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>pageMainForm</name>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForm</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messageBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

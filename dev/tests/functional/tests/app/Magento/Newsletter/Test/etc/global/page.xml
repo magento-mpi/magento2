@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <newsletterTemplateIndex>
+        <mca>newsletter/template/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\NewsletterTemplateIndex</class>
+    </newsletterTemplateIndex>
+    <newsletterTemplateNewIndex>
+        <mca>newsletter/template/new/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\NewsletterTemplateNewIndex</class>
+    </newsletterTemplateNewIndex>
+</page>
