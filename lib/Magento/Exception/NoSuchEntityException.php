@@ -9,30 +9,61 @@
  */
 namespace Magento\Exception;
 
-class NoSuchEntityException extends \Magento\Exception\Exception
+class NoSuchEntityException extends \Magento\Exception\LocalizedException
 {
-    const NO_SUCH_ENTITY = 0;
+    const MESSAGE_SINGLE_FIELD = 'No such entity with %fieldName = %fieldValue';
+    const MESSAGE_DOUBLE_FIELDS = 'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value';
 
     /**
-     * @param string $fieldName name of the field searched upon
-     * @param mixed  $value     the value of the field
+     * @param string $message
+     * @param array $params
+     * @param \Exception $cause
      */
-    public function __construct($fieldName, $value)
-    {
-        $message = "No such entity with {$fieldName} = {$value}";
-        $this->_params[$fieldName] = $value;
-        parent::__construct($message, self::NO_SUCH_ENTITY);
+    public function __construct(
+        $message = 'No such entity.',
+        array $params = [],
+        \Exception $cause = null
+    ) {
+        parent::__construct($message, $params, $cause);
     }
 
     /**
-     * @param string $fieldName name of the field searched upon
-     * @param mixed  $value     the value of the field
-     * @return $this
+     * Helper function for creating an exception when a single field is responsible for finding an entity.
+     *
+     * @param string $fieldName
+     * @param string|int $fieldValue
+     * @return NoSuchEntityException
      */
-    public function addField($fieldName, $value)
+    public static function singleField($fieldName, $fieldValue)
     {
-        $this->message .= "\n {$fieldName} = {$value}";
-        $this->_params[$fieldName] = $value;
-        return $this;
+        return new NoSuchEntityException(
+            self::MESSAGE_SINGLE_FIELD,
+            [
+                'fieldName' => $fieldName,
+                'fieldValue' => $fieldValue,
+            ]
+        );
+    }
+
+    /**
+     * Helper function for creating an exception when two fields are responsible for finding an entity.
+     *
+     * @param string $fieldName
+     * @param string|int $fieldValue
+     * @param string $secondFieldName
+     * @param string|int $secondFieldValue
+     * @return NoSuchEntityException
+     */
+    public static function doubleField($fieldName, $fieldValue, $secondFieldName, $secondFieldValue)
+    {
+        return new NoSuchEntityException(
+            self::MESSAGE_DOUBLE_FIELDS,
+            [
+                'fieldName' => $fieldName,
+                'fieldValue' => $fieldValue,
+                'field2Name' => $secondFieldName,
+                'field2Value' => $secondFieldValue,
+            ]
+        );
     }
 }
