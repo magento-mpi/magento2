@@ -12,8 +12,6 @@
 namespace Magento\Customer\Test\Block\Adminhtml\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Downloadable\Controller\Customer;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class CustomerForm
@@ -32,6 +30,4 @@ class CustomerForm extends FormTabs
      * {@inheritDoc}
      */
     protected $waitForSelectorVisible = false;
-
-
 }

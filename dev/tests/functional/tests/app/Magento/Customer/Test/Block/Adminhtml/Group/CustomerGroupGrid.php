@@ -28,5 +28,4 @@ class CustomerGroupGrid extends Grid
             'selector' => '#customerGroupGrid_filter_type'
         ]
     ];
-
 }
