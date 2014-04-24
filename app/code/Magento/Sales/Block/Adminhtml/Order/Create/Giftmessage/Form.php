@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Giftmessage;
 
-use Magento\Data\Form\Element\Fieldset;
+use Magento\Framework\Data\Form\Element\Fieldset;
 
 /**
  * Adminhtml order creating gift message item form
@@ -65,7 +65,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
@@ -75,7 +75,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\GiftMessage\Helper\Message $messageHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,

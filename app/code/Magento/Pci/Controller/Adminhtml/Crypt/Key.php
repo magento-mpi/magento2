@@ -23,7 +23,7 @@ class Key extends \Magento\Backend\App\Action
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        /** @var \Magento\Filesystem\Directory\Write $configDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $configDirectory */
         $configDirectory = $this->_objectManager->get(
             'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(

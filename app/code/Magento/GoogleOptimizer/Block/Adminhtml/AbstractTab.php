@@ -38,7 +38,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
      * @param \Magento\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
      * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
         \Magento\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);

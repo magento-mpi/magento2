@@ -49,7 +49,7 @@ class AddressRegistry
         $address = $this->addressFactory->create();
         $address->load($addressId);
         if (!$address->getId()) {
-            throw new NoSuchEntityException('addressId', $addressId);
+            throw NoSuchEntityException::singleField('addressId', $addressId);
         }
         $this->registry[$addressId] = $address;
         return $address;

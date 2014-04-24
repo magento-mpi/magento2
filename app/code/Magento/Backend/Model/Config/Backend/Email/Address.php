@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Email;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Address extends \Magento\Framework\App\Config\Value
 {

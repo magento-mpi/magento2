@@ -103,7 +103,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         );
 
         $resource = $this->getMockForAbstractClass(
-            'Magento\Model\Resource\Db\AbstractDb',
+            'Magento\Framework\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,
@@ -126,7 +126,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testUnlock()
     {
         $streamLock = $this->getMockBuilder(
-            'Magento\Filesystem\File\Write'
+            'Magento\Framework\Filesystem\File\Write'
         )->setMethods(
             array('unlock')
         )->disableOriginalConstructor()->getMock();
@@ -162,7 +162,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
     public function testIsLocked($needUnlock)
     {
         $streamLock = $this->getMockBuilder(
-            'Magento\Filesystem\File\Write'
+            'Magento\Framework\Filesystem\File\Write'
         )->setMethods(
             array('unlock')
         )->disableOriginalConstructor()->getMock();

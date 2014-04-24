@@ -14,7 +14,7 @@ use Magento\Catalog\Block as CatalogBlock;
 /**
  * Paypal express checkout shortcut link
  */
-class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\ShortcutInterface
+class Shortcut extends \Magento\Framework\View\Element\Template implements CatalogBlock\ShortcutInterface
 {
     /**
      * Whether the block should be eventually rendered
@@ -106,7 +106,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
     protected $_localeResolver;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Registry $registry
@@ -121,7 +121,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Registry $registry,
@@ -151,7 +151,7 @@ class Shortcut extends \Magento\View\Element\Template implements CatalogBlock\Sh
     }
 
     /**
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

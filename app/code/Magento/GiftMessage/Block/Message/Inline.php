@@ -18,7 +18,7 @@ use Magento\GiftMessage\Model\Message;
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Inline extends \Magento\View\Element\Template
+class Inline extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var mixed
@@ -63,7 +63,7 @@ class Inline extends \Magento\View\Element\Template
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      * @param \Magento\Catalog\Helper\Image $imageHelper
@@ -71,7 +71,7 @@ class Inline extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Catalog\Helper\Image $imageHelper,

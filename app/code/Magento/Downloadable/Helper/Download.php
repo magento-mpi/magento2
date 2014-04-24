@@ -8,7 +8,7 @@
 namespace Magento\Downloadable\Helper;
 
 use Magento\Framework\App\Filesystem;
-use Magento\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 /**
  * Downloadable Products Download Helper
@@ -47,7 +47,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Resource open handle
      *
-     * @var \Magento\Filesystem\File\ReadInterface
+     * @var \Magento\Framework\Filesystem\File\ReadInterface
      */
     protected $_handle = null;
 
@@ -107,7 +107,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Working Directory (valid for LINK_TYPE_FILE only).
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $_workingDirectory;
 
@@ -139,7 +139,7 @@ class Download extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve Resource file handle (socket, file pointer etc)
      *
-     * @return \Magento\Filesystem\File\ReadInterface
+     * @return \Magento\Framework\Filesystem\File\ReadInterface
      * @throws CoreException|\Exception
      */
     protected function _getHandle()

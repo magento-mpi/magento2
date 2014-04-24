@@ -37,7 +37,7 @@ class After extends \Magento\Backend\Block\Template
     /**
      * Get current operation
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getOperation()
     {

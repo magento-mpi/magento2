@@ -70,7 +70,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage WrongClass doesn't extends \Magento\Filter\Template
      */
     public function testWrongTypeException()

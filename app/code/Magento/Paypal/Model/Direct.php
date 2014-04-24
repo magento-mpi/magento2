@@ -487,7 +487,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
 
         try {
             $api->callGetTransactionDetails();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             // if we receive errors, but DoDirectPayment response is Success, then set Pending status for transaction
             $payment->setIsTransactionPending(true);
         }

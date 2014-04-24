@@ -69,7 +69,7 @@ class Custom extends \Magento\Backend\App\Action
             try {
                 $data = $this->_objectManager->get('Magento\Connect\Helper\Data')->loadLocalPackage($packageName);
                 if (!$data) {
-                    throw new \Magento\Model\Exception(__('Something went wrong loading the package data.'));
+                    throw new \Magento\Framework\Model\Exception(__('Something went wrong loading the package data.'));
                 }
                 $data = array_merge($data, array('file_name' => $packageName));
                 $session->setCustomExtensionPackageFormData($data);
@@ -116,7 +116,7 @@ class Custom extends \Magento\Backend\App\Action
             } else {
                 $this->_forward('create');
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*');
         } catch (\Exception $e) {
@@ -148,7 +148,7 @@ class Custom extends \Magento\Backend\App\Action
                 }
             }
             $this->_redirect('adminhtml/*');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*');
         } catch (\Exception $e) {

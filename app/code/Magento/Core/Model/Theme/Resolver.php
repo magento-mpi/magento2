@@ -10,10 +10,10 @@ namespace Magento\Core\Model\Theme;
 /**
  * Theme resolver model
  */
-class Resolver implements \Magento\View\Design\Theme\ResolverInterface
+class Resolver implements \Magento\Framework\View\Design\Theme\ResolverInterface
 {
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $design;
 
@@ -29,12 +29,12 @@ class Resolver implements \Magento\View\Design\Theme\ResolverInterface
 
     /**
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
      */
     public function __construct(
         \Magento\Framework\App\State $appState,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory
     ) {
         $this->design = $design;
@@ -45,7 +45,7 @@ class Resolver implements \Magento\View\Design\Theme\ResolverInterface
     /**
      * Retrieve instance of a theme currently used in an area
      *
-     * @return \Magento\View\Design\ThemeInterface
+     * @return \Magento\Framework\View\Design\ThemeInterface
      */
     public function get()
     {
@@ -60,7 +60,7 @@ class Resolver implements \Magento\View\Design\Theme\ResolverInterface
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
         } else {
-            $themeFullPath = $area . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier;
+            $themeFullPath = $area . \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR . $themeIdentifier;
             $result = $themeCollection->getThemeByFullPath($themeFullPath);
         }
         return $result;

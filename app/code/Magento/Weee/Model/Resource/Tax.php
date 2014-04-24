@@ -15,7 +15,7 @@ use Magento\Catalog\Model\Product\Condition\ConditionInterface;
 /**
  * Wee tax resource model
  */
-class Tax extends \Magento\Model\Resource\Db\AbstractDb
+class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -45,7 +45,7 @@ class Tax extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Fetch one
      *
-     * @param \Magento\DB\Select|string $select
+     * @param \Magento\Framework\DB\Select|string $select
      * @return string
      */
     public function fetchOne($select)
@@ -56,7 +56,7 @@ class Tax extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Fetch column
      *
-     * @param \Magento\DB\Select|string $select
+     * @param \Magento\Framework\DB\Select|string $select
      * @return array
      */
     public function fetchCol($select)

@@ -86,9 +86,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->createBlock(
-                'Magento\View\Element\Text'
+                'Magento\Framework\View\Element\Text'
             )
         );
 
@@ -106,9 +106,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->createBlock(
-                'Magento\View\Element\Text'
+                'Magento\Framework\View\Element\Text'
             )
         );
 
@@ -128,9 +128,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->createBlock(
-                'Magento\View\Element\Text'
+                'Magento\Framework\View\Element\Text'
             )
         );
 

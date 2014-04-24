@@ -16,7 +16,7 @@ namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Financ
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Framework\Data\Collection
 {
     /**#@+
      * Customer entity finance attribute ids

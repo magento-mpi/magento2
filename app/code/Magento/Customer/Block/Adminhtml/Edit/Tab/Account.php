@@ -60,7 +60,7 @@ class Account extends GenericMetadata
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -75,7 +75,7 @@ class Account extends GenericMetadata
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
@@ -105,7 +105,7 @@ class Account extends GenericMetadata
      */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_account');
         $form->setFieldNameSuffix('account');
@@ -239,7 +239,7 @@ class Account extends GenericMetadata
     /**
      * Handle Read-Only customer
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param int $customerId
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
      * @return void
@@ -259,10 +259,10 @@ class Account extends GenericMetadata
     /**
      * Make sendemail or sendmail_store_id disabled if website_id has an empty value
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @return void
      */
-    protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Data\Form $form)
+    protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Framework\Data\Form $form)
     {
         $sendEmailId = $this->_storeManager->isSingleStoreMode() ? 'sendemail' : 'sendemail_store_id';
         $sendEmail = $form->getElement($sendEmailId);
@@ -292,8 +292,8 @@ class Account extends GenericMetadata
     /**
      * Create New Customer form fields
      *
-     * @param \Magento\Data\Form $form
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form $form
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @return void
      */
     protected function _addNewCustomerFormFields($form, $fieldset)
@@ -357,8 +357,8 @@ class Account extends GenericMetadata
     /**
      * Edit/View Existing Customer form fields
      *
-     * @param \Magento\Data\Form $form
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form $form
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param \Magento\Customer\Service\V1\Data\Customer $customerDataObject
      * @return string[] Values to set on the form
      */

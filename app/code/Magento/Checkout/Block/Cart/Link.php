@@ -10,7 +10,7 @@ namespace Magento\Checkout\Block\Cart;
 /**
  * "My Cart" link
  */
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
      * @var \Magento\Module\Manager
@@ -23,13 +23,13 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_cartHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Module\Manager $moduleManager,
         \Magento\Checkout\Helper\Cart $cartHelper,
         array $data = array()

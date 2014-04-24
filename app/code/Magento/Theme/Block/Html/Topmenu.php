@@ -7,10 +7,13 @@
  */
 namespace Magento\Theme\Block\Html;
 
+use Magento\Framework\View\Block\IdentityInterface;
+use Magento\Framework\View\Element\Template;
+
 /**
  * Html page top menu block
  */
-class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Topmenu extends Template implements IdentityInterface
 {
     /**
      * Cache identities
@@ -22,7 +25,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Top menu data tree
      *
-     * @var \Magento\Data\Tree\Node
+     * @var \Magento\Framework\Data\Tree\Node
      */
     protected $_menu;
 
@@ -33,7 +36,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function _construct()
     {
-        $this->_menu = new \Magento\Data\Tree\Node(array(), 'root', new \Magento\Data\Tree());
+        $this->_menu = new \Magento\Framework\Data\Tree\Node(array(), 'root', new \Magento\Framework\Data\Tree());
     }
 
     /**
@@ -129,7 +132,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param \Magento\Data\Tree\Node $child
+     * @param \Magento\Framework\Data\Tree\Node $child
      * @param string $childLevel
      * @param string $childrenWrapClass
      * @param int $limit
@@ -165,7 +168,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Recursively generates top menu html from data that is specified in $menuTree
      *
-     * @param \Magento\Data\Tree\Node $menuTree
+     * @param \Magento\Framework\Data\Tree\Node $menuTree
      * @param string $childrenWrapClass
      * @param int $limit
      * @param array $colBrakes
@@ -174,8 +177,12 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    protected function _getHtml(\Magento\Data\Tree\Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
-    {
+    protected function _getHtml(
+        \Magento\Framework\Data\Tree\Node $menuTree,
+        $childrenWrapClass,
+        $limit,
+        $colBrakes = array()
+    ) {
         $html = '';
 
         $children = $menuTree->getChildren();
@@ -230,10 +237,10 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Generates string with all attributes that should be present in menu item element
      *
-     * @param \Magento\Data\Tree\Node $item
+     * @param \Magento\Framework\Data\Tree\Node $item
      * @return string
      */
-    protected function _getRenderedMenuItemAttributes(\Magento\Data\Tree\Node $item)
+    protected function _getRenderedMenuItemAttributes(\Magento\Framework\Data\Tree\Node $item)
     {
         $html = '';
         $attributes = $this->_getMenuItemAttributes($item);
@@ -246,10 +253,10 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Returns array of menu item's attributes
      *
-     * @param \Magento\Data\Tree\Node $item
+     * @param \Magento\Framework\Data\Tree\Node $item
      * @return array
      */
-    protected function _getMenuItemAttributes(\Magento\Data\Tree\Node $item)
+    protected function _getMenuItemAttributes(\Magento\Framework\Data\Tree\Node $item)
     {
         $menuItemClasses = $this->_getMenuItemClasses($item);
         return array('class' => implode(' ', $menuItemClasses));
@@ -258,10 +265,10 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
     /**
      * Returns array of menu item's classes
      *
-     * @param \Magento\Data\Tree\Node $item
+     * @param \Magento\Framework\Data\Tree\Node $item
      * @return array
      */
-    protected function _getMenuItemClasses(\Magento\Data\Tree\Node $item)
+    protected function _getMenuItemClasses(\Magento\Framework\Data\Tree\Node $item)
     {
         $classes = array();
 

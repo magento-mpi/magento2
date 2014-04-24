@@ -12,7 +12,7 @@ namespace Magento\Bundle\Model\Resource\Option;
 /**
  * Bundle Options Resource Collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * All item ids cache

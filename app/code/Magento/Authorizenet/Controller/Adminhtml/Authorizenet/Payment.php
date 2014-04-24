@@ -61,7 +61,7 @@ class Payment extends \Magento\Backend\App\Action
             )->getPaymentMethodsHtml(
                 $this->_view
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (\Exception $e) {

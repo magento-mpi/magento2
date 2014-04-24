@@ -21,7 +21,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase
     protected $model = null;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Framework\Filesystem\Directory\Read
      */
     protected $rootDirectory;
 

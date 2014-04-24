@@ -215,7 +215,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'example@domain.com',
+                'email' => 'customer@example.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -353,7 +353,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
-                'email' => 'example@domain.com',
+                'email' => 'customer@example.com',
                 'password' => 'auto'
             )
         );
@@ -386,7 +386,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'website_id' => 1,
                 'firstname' => 'new firstname',
                 'lastname' => 'new lastname',
-                'email' => 'example@domain.com',
+                'email' => 'customer@example.com',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
@@ -549,7 +549,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $body = $this->getResponse()->getBody();
 
         $this->assertContains('test firstname test lastname', $body);
-        $this->assertContains('example@domain.com', $body);
+        $this->assertContains('customer@example.com', $body);
         $this->assertContains('+7000000001', $body);
         $this->assertContains('United States', $body);
     }

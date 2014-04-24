@@ -9,7 +9,7 @@ namespace Magento\Module\Declaration;
 
 use Magento\Framework\App\Filesystem;
 
-class FileIterator extends \Magento\Config\FileIterator
+class FileIterator extends \Magento\Framework\Config\FileIterator
 {
     /**
      * Constructor.

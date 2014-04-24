@@ -10,7 +10,7 @@
  */
 namespace Magento\ObjectManager;
 
-use Magento\Filesystem\DriverInterface;
+use Magento\Framework\Filesystem\DriverInterface;
 use Magento\ObjectManager\Definition\Runtime;
 use Magento\ObjectManager\Relations;
 use Magento\ObjectManager\Code\Generator;
@@ -74,14 +74,15 @@ class DefinitionFactory
     }
 
     /**
-     * Create class definition based
+     * Create class definitions
      *
      * @param mixed $definitions
+     * @param bool $useCompiled
      * @return Runtime
      */
-    public function createClassDefinition($definitions)
+    public function createClassDefinition($definitions, $useCompiled = true)
     {
-        if (!$definitions) {
+        if (!$definitions && $useCompiled) {
             $path = $this->_definitionDir . '/definitions.php';
             if ($this->_filesystemDriver->isReadable($path)) {
                 $definitions = $this->_filesystemDriver->fileGetContents($path);

@@ -130,11 +130,11 @@ lib/Magento/Exception
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/Framework/App
-lib/Magento/Data/Argument
+lib/Magento/Framework/Data/Argument
 lib/Magento/ObjectManager
 lib/Magento/Service
 lib/Magento/Url/SecurityInfoInterface.php
-lib/Magento/View
+lib/Magento/Framework/View
 lib/Magento/Framework/App/AbstractShell.php
 lib/Magento/Locale/Validator.php
 lib/Magento/Framework/App/Config

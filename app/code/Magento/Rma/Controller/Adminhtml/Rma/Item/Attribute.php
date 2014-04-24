@@ -196,7 +196,7 @@ class Attribute extends \Magento\Backend\App\Action
 
             try {
                 $data = $helper->filterPostData($data);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
                     $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -279,7 +279,7 @@ class Attribute extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/');
                 }
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -318,7 +318,7 @@ class Attribute extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the RMA attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

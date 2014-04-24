@@ -223,7 +223,7 @@ abstract class AbstractEav extends \Magento\Catalog\Model\Resource\Product\Index
             $select,
             $idxTable,
             array(),
-            \Magento\DB\Adapter\AdapterInterface::INSERT_IGNORE
+            \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_IGNORE
         );
         $write->query($query);
 

@@ -87,7 +87,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $this->priceLayout->expects($this->once())
             ->method('loadLayout');
 
-        $layout = $this->getMock('Magento\View\LayoutInterface');
+        $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->model->setPriceRenderHandle($priceRenderHandle);
         $this->model->setLayout($layout);
     }

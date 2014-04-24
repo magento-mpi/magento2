@@ -26,11 +26,11 @@ class ConfigLoader
     protected $_cache;
 
     /**
-     * @param \Magento\Config\CacheInterface $cache
+     * @param \Magento\Framework\Config\CacheInterface $cache
      * @param \Magento\ObjectManager\Config\Reader\Dom $reader
      */
     public function __construct(
-        \Magento\Config\CacheInterface $cache,
+        \Magento\Framework\Config\CacheInterface $cache,
         \Magento\ObjectManager\Config\Reader\Dom $reader
     ) {
         $this->_cache = $cache;

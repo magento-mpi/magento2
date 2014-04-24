@@ -27,7 +27,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Url
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\View\Url
      */
     protected $_viewUrlMock;
 
@@ -39,7 +39,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
-        $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
+        $this->_viewUrlMock = $this->getMock('Magento\Framework\View\Url', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $this->_filesystem->expects(

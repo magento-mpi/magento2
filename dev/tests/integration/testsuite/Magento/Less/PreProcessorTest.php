@@ -37,21 +37,21 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $lessPreProcessor \Magento\Css\PreProcessor\Less */
         $lessPreProcessor = $this->objectManager->create('Magento\Css\PreProcessor\Less');
-        /** @var $filesystem \Magento\Filesystem */
-        $filesystem = $this->objectManager->get('Magento\Filesystem');
+        /** @var $filesystem \Magento\Framework\Filesystem */
+        $filesystem = $this->objectManager->get('Magento\Framework\Filesystem');
         $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::TMP_DIR);
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
-        /** @var \Magento\View\Service $viewService */
-        $viewService = $this->objectManager->get('Magento\View\Service');
+        /** @var \Magento\Framework\View\Service $viewService */
+        $viewService = $this->objectManager->get('Magento\Framework\View\Service');
         $viewService->updateDesignParams($designParams);
-        /** @var $file \Magento\View\Publisher\CssFile */
+        /** @var $file \Magento\Framework\View\Publisher\CssFile */
         $cssFile = $this->objectManager->create(
-            'Magento\View\Publisher\CssFile',
+            'Magento\Framework\View\Publisher\CssFile',
             array('filePath' => 'source/source.css', 'allowDuplication' => true, 'viewParams' => $designParams)
         );
         $cssTargetFile = $lessPreProcessor->process($cssFile, $targetDirectory);
-        /** @var $viewFilesystem \Magento\View\FileSystem */
-        $viewFilesystem = $this->objectManager->get('Magento\View\FileSystem');
+        /** @var $viewFilesystem \Magento\Framework\View\FileSystem */
+        $viewFilesystem = $this->objectManager->get('Magento\Framework\View\FileSystem');
         $this->assertFileEquals(
             $viewFilesystem->getViewFile('source.css', $designParams),
             $cssTargetFile->getSourcePath()
@@ -66,8 +66,8 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     public function testCircularDependency()
     {
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
-        /** @var \Magento\View\Service $viewService */
-        $viewService = $this->objectManager->get('Magento\View\Service');
+        /** @var \Magento\Framework\View\Service $viewService */
+        $viewService = $this->objectManager->get('Magento\Framework\View\Service');
         $viewService->updateDesignParams($designParams);
         /** @var $preProcessor \Magento\Less\PreProcessor */
         $preProcessor = $this->objectManager->create('Magento\Less\PreProcessor');

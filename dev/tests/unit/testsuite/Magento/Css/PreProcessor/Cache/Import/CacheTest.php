@@ -23,7 +23,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $importEntityFactoryMock;
 
-    /** @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $rootDirectory;
 
     protected function setUp()
@@ -36,7 +36,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->rootDirectory = $this->getMock(
-            'Magento\Filesystem\Directory\ReadInterface',
+            'Magento\Framework\Filesystem\Directory\ReadInterface',
             array(),
             array(),
             '',
@@ -50,7 +50,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $cssFile = $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false);
+        $cssFile = $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false);
         $cssFile->expects($this->once())->method('getFilePath')->will($this->returnValue('Magento_Core::style.css'));
         $cssFile->expects(
             $this->once()
@@ -60,7 +60,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array('theme' => 'some_theme', 'area' => 'frontend', 'locale' => 'en_US'))
         );
 
-        $fileFactory = $this->getMock('Magento\View\Publisher\FileFactory', array(), array(), '', false);
+        $fileFactory = $this->getMock('Magento\Framework\View\Publisher\FileFactory', array(), array(), '', false);
         $fileFactory->expects($this->any())->method('create')->will($this->returnValue($cssFile));
 
         $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
@@ -118,9 +118,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($property->getValue($this->cache));
         $property->setValue(
             $this->cache,
-            $this->getMock('Magento\View\Publisher\CssFile', array(), array(), '', false)
+            $this->getMock('Magento\Framework\View\Publisher\CssFile', array(), array(), '', false)
         );
-        $this->assertInstanceOf('\Magento\View\Publisher\CssFile', $this->cache->get());
+        $this->assertInstanceOf('\Magento\Framework\View\Publisher\CssFile', $this->cache->get());
     }
 
     /**
@@ -226,7 +226,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             }
         );
         foreach ($filesData as $fileData) {
-            $readDirectory = $this->getMock('Magento\Filesystem\Directory\ReadInterface', array(), array(), '', false);
+            $readDirectory = $this->getMock(
+                'Magento\Framework\Filesystem\Directory\ReadInterface',
+                array(),
+                array(),
+                '',
+                false
+            );
             $readDirectory->expects(
                 $this->any()
             )->method(
@@ -253,7 +259,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\View\Publisher\CssFile $cssFile
+     * @param \Magento\Framework\View\Publisher\CssFile $cssFile
      * @param string $uniqueFileKey
      * @param array $expected
      * @dataProvider saveCacheDataProvider
@@ -285,11 +291,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManager->getConstructArguments(
-            'Magento\View\Publisher\CssFile',
+            'Magento\Framework\View\Publisher\CssFile',
             array('viewParams' => array('area' => 'frontend'))
         );
 
-        $cssFile = $objectManager->getObject('Magento\View\Publisher\CssFile', $arguments);
+        $cssFile = $objectManager->getObject('Magento\Framework\View\Publisher\CssFile', $arguments);
 
         return array(
             array(

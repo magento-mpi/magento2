@@ -38,7 +38,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Option\ArrayPool $sourceModelPool
      * @param \Magento\Widget\Model\Widget $widget
      * @param array $data
@@ -46,7 +46,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
         array $data = array()
@@ -74,14 +74,14 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Form getter/instantiation
      *
-     * @return \Magento\Data\Form
+     * @return \Magento\Framework\Data\Form
      */
     public function getForm()
     {
-        if ($this->_form instanceof \Magento\Data\Form) {
+        if ($this->_form instanceof \Magento\Framework\Data\Form) {
             return $this->_form;
         }
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
         return $form;
@@ -90,11 +90,11 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Fieldset getter/instantiation
      *
-     * @return \Magento\Data\Form\Element\Fieldset
+     * @return \Magento\Framework\Data\Form\Element\Fieldset
      */
     public function getMainFieldset()
     {
-        if ($this->_getData('main_fieldset') instanceof \Magento\Data\Form\Element\Fieldset) {
+        if ($this->_getData('main_fieldset') instanceof \Magento\Framework\Data\Form\Element\Fieldset) {
             return $this->_getData('main_fieldset');
         }
         $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
@@ -115,14 +115,14 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add fields to main fieldset based on specified widget type
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     public function addFields()
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            throw new \Magento\Model\Exception(__('Please specify a Widget Type.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify a Widget Type.'));
         }
         $config = $this->_widget->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
@@ -139,7 +139,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
      * Add field to Options form based on parameter configuration
      *
      * @param \Magento\Object $parameter
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
     {

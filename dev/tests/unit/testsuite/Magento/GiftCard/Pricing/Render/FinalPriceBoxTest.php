@@ -28,7 +28,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $priceCurrencyMock;
 
     /**
-     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -64,7 +64,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->setMethods(['convertAndFormat', 'convert'])->getMockForAbstractClass();
 
         $this->contextMock = $this->getMock(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             ['getStoreManager'],
             [],
             '',

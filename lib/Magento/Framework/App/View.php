@@ -10,12 +10,12 @@ namespace Magento\Framework\App;
 class View implements ViewInterface
 {
     /**
-     * @var \Magento\View\LayoutInterface
+     * @var \Magento\Framework\View\LayoutInterface
      */
     protected $_layout;
 
     /**
-     * @var \Magento\Config\ScopeInterface
+     * @var \Magento\Framework\Config\ScopeInterface
      */
     protected $_configScope;
 
@@ -50,19 +50,19 @@ class View implements ViewInterface
     protected $_isLayoutLoaded = false;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Framework\View\LayoutInterface $layout
      * @param RequestInterface $request
      * @param ResponseInterface $response
-     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Translate\InlineInterface $translateInline
      * @param ActionFlag $actionFlag
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
+        \Magento\Framework\View\LayoutInterface $layout,
         RequestInterface $request,
         ResponseInterface $response,
-        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Translate\InlineInterface $translateInline,
         ActionFlag $actionFlag
@@ -79,7 +79,7 @@ class View implements ViewInterface
     /**
      * Retrieve current layout object
      *
-     * @return \Magento\View\LayoutInterface
+     * @return \Magento\Framework\View\LayoutInterface
      */
     public function getLayout()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Rule\Model\Resource;
 
-abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Store associated with rule entities information map
@@ -44,10 +44,10 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Prepare rule's active "from" and "to" dates
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function _beforeSave(\Magento\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $fromDate = $object->getFromDate();
         if ($fromDate instanceof \Zend_Date) {
@@ -225,7 +225,7 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $entityType
      * @return array
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getAssociatedEntityInfo($entityType)
     {
@@ -233,7 +233,7 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        throw new \Magento\Model\Exception(
+        throw new \Magento\Framework\Model\Exception(
             __('There is no information about associated entity type "%1".', $entityType),
             0
         );

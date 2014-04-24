@@ -18,8 +18,8 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\Data\Tree\Node;
-use Magento\Data\Tree\Node\Collection as NodeCollection;
+use Magento\Framework\Data\Tree\Node;
+use Magento\Framework\Data\Tree\Node\Collection as NodeCollection;
 
 class Event extends AbstractHelper
 {

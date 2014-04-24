@@ -80,7 +80,7 @@ class Locale extends \Magento\Backend\Block\Template
      */
     public function getLocaleSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
             ->setName('locale')
             ->setId('interface_locale')
             ->setTitle(__('Interface Language'))

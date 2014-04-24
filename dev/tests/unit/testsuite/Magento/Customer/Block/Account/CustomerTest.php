@@ -39,7 +39,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
 
         $contextMock = $this->getMockBuilder(
-            'Magento\View\Element\Template\Context'
+            'Magento\Framework\View\Element\Template\Context'
         )->disableOriginalConstructor()->getMock();
         $contextMock->expects($this->any())->method('getEscaper')->will($this->returnValue($escaperMock));
 

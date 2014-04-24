@@ -16,7 +16,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $collection;
 
     /**
-     * @var \Magento\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Data\Collection\Db\FetchStrategy\Query|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fetchStrategyMock;
 
@@ -41,14 +41,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $adapterMock;
 
     /**
-     * @var \Magento\DB\Select|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Select|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $selectMock;
 
     protected function setUp()
     {
         $this->fetchStrategyMock = $this->getMock(
-            'Magento\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
+            'Magento\Framework\Data\Collection\Db\FetchStrategy\Query', array('fetchAll'), array(), '', false
         );
         $this->entityFactoryMock = $this->getMock(
             'Magento\Core\Model\EntityFactory', array('create'), array(), '', false
@@ -61,7 +61,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'Zend_Db_Adapter_Pdo_Mysql', array('select', 'query'), array(), '', false
         );
         $this->selectMock = $this->getMock(
-            'Magento\DB\Select', array('from'), array('adapter' => $this->adapterMock)
+            'Magento\Framework\DB\Select', array('from'), array('adapter' => $this->adapterMock)
         );
         $this->adapterMock->expects($this->once())
             ->method('select')

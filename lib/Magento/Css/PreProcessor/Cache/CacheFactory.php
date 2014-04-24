@@ -34,7 +34,7 @@ class CacheFactory
 
     /**
      * @param string $cacheType
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
+     * @param \Magento\Framework\View\Publisher\FileInterface $publisherFile
      * @return CacheInterface
      * @throws \InvalidArgumentException
      */

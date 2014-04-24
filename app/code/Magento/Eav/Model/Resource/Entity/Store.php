@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 use Magento\Object;
 
 /**
@@ -19,7 +19,7 @@ use Magento\Object;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Store extends \Magento\Model\Resource\Db\AbstractDb
+class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -34,7 +34,7 @@ class Store extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Load an object by entity type and store
      *
-     * @param Object|AbstractModel $object
+     * @param Object|\Magento\Framework\Model\AbstractModel $object
      * @param int $entityTypeId
      * @param int $storeId
      * @return bool

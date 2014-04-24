@@ -21,19 +21,19 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_designModel;
 
     /**
-     * @var \Magento\View\FileSystem
+     * @var \Magento\Framework\View\FileSystem
      */
     protected $_viewFileSystem;
 
     protected function setUp()
     {
         $this->_viewFileSystem = $this->getMock(
-            'Magento\View\FileSystem',
+            'Magento\Framework\View\FileSystem',
             array('getFilename', 'getDesignTheme'),
             array(),
             '',
@@ -47,13 +47,13 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue(__DIR__ . '/Core/Model/_files/design/frontend/test_default/i18n/en_US.csv')
             );
 
-        $theme = $this->getMock('\Magento\View\Design\ThemeInterface', array());
+        $theme = $this->getMock('\Magento\Framework\View\Design\ThemeInterface', array());
         $theme->expects($this->any())->method('getId')->will($this->returnValue(10));
 
         $this->_viewFileSystem->expects($this->any())->method('getDesignTheme')->will($this->returnValue($theme));
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\View\FileSystem');
+        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento\Framework\View\FileSystem');
 
         /** @var $moduleReader \Magento\Module\Dir\Reader */
         $moduleReader = $objectManager->get('Magento\Module\Dir\Reader');
@@ -66,7 +66,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             array('getDesignTheme'),
             array(
                 $objectManager->get('Magento\Store\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\View\Design\Theme\FlyweightFactory'),
+                $objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory'),
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
                 $objectManager->get('Magento\Locale\ResolverInterface'),
@@ -84,7 +84,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Composite');
         $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Translate');
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\RendererInterface'));
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND);
     }
 
     /**
@@ -101,14 +101,14 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         );
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND);
         $this->assertEquals(
             'Fixture Db Translation', 
             __('Fixture String'), 
             'Translation is expected to be cached'
         );
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, true);
+        $this->_model->loadData(\Magento\Framework\App\Area::AREA_FRONTEND, true);
         $this->assertEquals(
             'New Db Translation', 
             __('Fixture String'), 

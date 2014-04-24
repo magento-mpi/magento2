@@ -10,7 +10,7 @@ namespace Magento\RecurringPayment\Block\Payment;
 /**
  * Recurring payment view
  */
-class View extends \Magento\View\Element\Template
+class View extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\RecurringPayment\Model\Payment
@@ -51,12 +51,12 @@ class View extends \Magento\View\Element\Template
     protected $_template = 'recurring/payment/view/info.phtml';
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Registry $registry,
         array $data = array()
     ) {

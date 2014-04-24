@@ -27,7 +27,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
     public function getDesignSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => 'giftwrapping_design_item', 'class' => 'select')
         )->setOptions(
