@@ -32,6 +32,8 @@
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+* Themes update:
+  * Plushe theme is now based on blank
 * Customer Service usage:
   * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
   * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
