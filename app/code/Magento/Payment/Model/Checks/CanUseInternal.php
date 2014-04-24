@@ -17,11 +17,11 @@ class CanUseInternal implements SpecificationInterface
      * Check whether payment method is applicable to quote
      * Purposed to allow use in controllers some logic that was implemented in blocks only before
      *
-     * @param PaymentMethodInterface $paymentMethod
+     * @param PaymentMethodChecksInterface $paymentMethod
      * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
-    public function isApplicable(PaymentMethodInterface $paymentMethod, Quote $quote)
+    public function isApplicable(PaymentMethodChecksInterface $paymentMethod, Quote $quote)
     {
         return $paymentMethod->canUseInternal();
     }

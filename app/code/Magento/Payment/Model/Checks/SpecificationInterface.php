@@ -17,9 +17,9 @@ interface SpecificationInterface
     /**
      * Check whether payment method is applicable to quote
      *
-     * @param PaymentMethodInterface $paymentMethod
+     * @param PaymentMethodChecksInterface $paymentMethod
      * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
-    public function isApplicable(PaymentMethodInterface $paymentMethod, Quote $quote);
+    public function isApplicable(PaymentMethodChecksInterface $paymentMethod, Quote $quote);
 }

@@ -7,10 +7,13 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
+use Magento\Payment\Model\MethodInterface;
+use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+
 /**
  * Paypal dummy payment method model
  */
-class Paypal implements \Magento\Payment\Model\MethodInterface, \Magento\Payment\Model\Checks\PaymentMethodInterface
+class Paypal implements MethodInterface, PaymentMethodChecksInterface
 {
     /**
      * @var \Magento\Pbridge\Helper\Data

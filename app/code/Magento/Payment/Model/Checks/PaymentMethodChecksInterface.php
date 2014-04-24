@@ -10,7 +10,7 @@ namespace Magento\Payment\Model\Checks;
 /**
  * Payment method interface for specification checks
  */
-interface PaymentMethodInterface
+interface PaymentMethodChecksInterface
 {
     /**
      * Retrieve payment method code
