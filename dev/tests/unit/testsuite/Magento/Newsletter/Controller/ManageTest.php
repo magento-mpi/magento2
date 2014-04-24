@@ -7,6 +7,8 @@
  */
 namespace Magento\Newsletter\Controller;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -136,7 +138,13 @@ class ManageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->customerAccountServiceMock->expects($this->any())
             ->method('getCustomer')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('customerId', 'value')));
+            ->will($this->throwException(
+                    new NoSuchEntityException(
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                        ['fieldName' => 'customerId', 'value' => 'value']
+                    )
+                )
+            );
         $this->redirectMock->expects($this->once())
             ->method('redirect')
             ->with($this->responseMock, 'customer/account/', []);
