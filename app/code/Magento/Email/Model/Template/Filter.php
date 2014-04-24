@@ -413,12 +413,12 @@ class Filter extends \Magento\Filter\Template
      */
     protected function getUrl($path, $params)
     {
-        if (0 === $this->getStoreId() || \Magento\Store\Model\Store::ADMIN_CODE === $this->getStoreId()) {
-            $url = $this->backendUrlBuilder->getUrl($path, $params);
-        } else {
-            $url = $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
-        }
-        return $url;
+        $isBackendStore = \Magento\Store\Model\Store::DEFAULT_STORE_ID === $this->getStoreId()
+            || \Magento\Store\Model\Store::ADMIN_CODE === $this->getStoreId();
+
+        return $isBackendStore
+            ? $this->backendUrlBuilder->getUrl($path, $params)
+            : $this->_storeManager->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**
