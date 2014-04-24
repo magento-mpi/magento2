@@ -35,16 +35,16 @@ class GuestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
     protected $stateMock;
 
-    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registryMock;
 
     /** @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $sessionMock;
 
-    /** @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject */
     protected $cookieMock;
 
-    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterfaceMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -59,10 +59,10 @@ class GuestTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfigInterfaceMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->storeManagerInterfaceMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
-        $this->registryMock = $this->getMock('Magento\Registry');
+        $this->registryMock = $this->getMock('Magento\Framework\Registry');
         $this->sessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
-        $this->managerInterfaceMock = $this->getMock('Magento\Message\ManagerInterface');
+        $this->cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', [], [], '', false);
+        $this->managerInterfaceMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
         $this->orderFactoryMock = $this->getMock('Magento\Sales\Model\OrderFactory', ['create'], [], '', false);
         $this->viewInterfaceMock = $this->getMock('Magento\Framework\App\ViewInterface');
 

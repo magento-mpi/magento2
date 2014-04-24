@@ -13,7 +13,7 @@ class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
 {
     /**
      * Object manager
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -23,9 +23,9 @@ class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
     protected $_subject;
 
     /**
-     * @param \Magento\ObjectManager $objectManger
+     * @param \Magento\Framework\ObjectManager $objectManger
      */
-    public function __construct(\Magento\ObjectManager $objectManger)
+    public function __construct(\Magento\Framework\ObjectManager $objectManger)
     {
         $this->_objectManager = $objectManger;
     }

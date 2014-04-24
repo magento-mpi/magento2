@@ -31,18 +31,18 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -114,7 +114,7 @@ class Totals extends \Magento\Framework\View\Element\Template
         $source = $this->getSource();
 
         $this->_totals = array();
-        $this->_totals['subtotal'] = new \Magento\Object(
+        $this->_totals['subtotal'] = new \Magento\Framework\Object(
             array('code' => 'subtotal', 'value' => $source->getSubtotal(), 'label' => __('Subtotal'))
         );
 
@@ -123,7 +123,7 @@ class Totals extends \Magento\Framework\View\Element\Template
          * Add shipping
          */
         if (!$source->getIsVirtual() && ((double)$source->getShippingAmount() || $source->getShippingDescription())) {
-            $this->_totals['shipping'] = new \Magento\Object(
+            $this->_totals['shipping'] = new \Magento\Framework\Object(
                 array(
                     'code' => 'shipping',
                     'field' => 'shipping_amount',
@@ -142,7 +142,7 @@ class Totals extends \Magento\Framework\View\Element\Template
             } else {
                 $discountLabel = __('Discount');
             }
-            $this->_totals['discount'] = new \Magento\Object(
+            $this->_totals['discount'] = new \Magento\Framework\Object(
                 array(
                     'code' => 'discount',
                     'field' => 'discount_amount',
@@ -152,7 +152,7 @@ class Totals extends \Magento\Framework\View\Element\Template
             );
         }
 
-        $this->_totals['grand_total'] = new \Magento\Object(
+        $this->_totals['grand_total'] = new \Magento\Framework\Object(
             array(
                 'code' => 'grand_total',
                 'field' => 'grand_total',
@@ -166,7 +166,7 @@ class Totals extends \Magento\Framework\View\Element\Template
          * Base grandtotal
          */
         if ($this->getOrder()->isCurrencyDifferent()) {
-            $this->_totals['base_grandtotal'] = new \Magento\Object(
+            $this->_totals['base_grandtotal'] = new \Magento\Framework\Object(
                 array(
                     'code' => 'base_grandtotal',
                     'value' => $this->getOrder()->formatBasePrice($source->getBaseGrandTotal()),
@@ -181,11 +181,11 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * Add new total to totals array after specific total or before last total by default
      *
-     * @param   \Magento\Object $total
+     * @param   \Magento\Framework\Object $total
      * @param   null|string $after
      * @return  $this
      */
-    public function addTotal(\Magento\Object $total, $after = null)
+    public function addTotal(\Magento\Framework\Object $total, $after = null)
     {
         if ($after !== null && $after != 'last' && $after != 'first') {
             $totals = array();
@@ -219,11 +219,11 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * Add new total to totals array before specific total or after first total by default
      *
-     * @param   \Magento\Object $total
+     * @param   \Magento\Framework\Object $total
      * @param   null|string $before
      * @return  $this
      */
-    public function addTotalBefore(\Magento\Object $total, $before = null)
+    public function addTotalBefore(\Magento\Framework\Object $total, $before = null)
     {
         if ($before !== null) {
             if (!is_array($before)) {
@@ -322,7 +322,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     /**
      * Format total value based on order currency
      *
-     * @param   \Magento\Object $total
+     * @param   \Magento\Framework\Object $total
      * @return  string
      */
     public function formatValue($total)

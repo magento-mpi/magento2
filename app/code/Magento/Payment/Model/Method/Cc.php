@@ -27,12 +27,12 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canSaveCc = false;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var \Magento\Framework\Module\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -46,29 +46,29 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Construct
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Logger $logger,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         array $data = array()
     ) {
@@ -82,13 +82,13 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Assign data to info model instance
      *
-     * @param \Magento\Object|mixed $data
+     * @param \Magento\Framework\Object|mixed $data
      * @return $this
      */
     public function assignData($data)
     {
-        if (!$data instanceof \Magento\Object) {
-            $data = new \Magento\Object($data);
+        if (!$data instanceof \Magento\Framework\Object) {
+            $data = new \Magento\Framework\Object($data);
         }
         $info = $this->getInfoInstance();
         $info->setCcType(
@@ -395,12 +395,12 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Return data for Centinel validation
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCentinelValidationData()
     {
         $info = $this->getInfoInstance();
-        $params = new \Magento\Object();
+        $params = new \Magento\Framework\Object();
         $params->setPaymentMethodCode(
             $this->getCode()
         )->setCardType(

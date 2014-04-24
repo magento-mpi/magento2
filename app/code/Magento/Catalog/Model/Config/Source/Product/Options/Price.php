@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Config\Source\Product\Options;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Price implements \Magento\Option\ArrayInterface
+class Price implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

@@ -15,7 +15,7 @@ use Magento\Sales\Model\Quote;
 
 class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()
@@ -117,15 +117,15 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('user@example.com', $customer->getEmail());
         $this->assertEquals('11111111', $customerDetails->getAddresses()[0]->getTelephone());
 
-        /** @var \Magento\Message\ManagerInterface $messageManager */
-        $messageManager = $this->_objectManager->get('\Magento\Message\ManagerInterface');
+        /** @var \Magento\Framework\Message\ManagerInterface $messageManager */
+        $messageManager = $this->_objectManager->get('\Magento\Framework\Message\ManagerInterface');
         $confirmationText = sprintf(
             'customer/account/confirmation/email/%s/key/',
             $customerDetails->getCustomer()->getEmail()
         );
-        /** @var \Magento\Message\MessageInterface $message */
+        /** @var \Magento\Framework\Message\MessageInterface $message */
         $message = $messageManager->getMessages()->getLastAddedMessage();
-        $this->assertInstanceOf('\Magento\Message\MessageInterface', $message);
+        $this->assertInstanceOf('\Magento\Framework\Message\MessageInterface', $message);
         $this->assertTrue(
             strpos($message->getText(), $confirmationText) !== false
         );

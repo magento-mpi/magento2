@@ -27,7 +27,7 @@ class Image
     /**
      * Image factory
      *
-     * @var \Magento\Image\Factory
+     * @var \Magento\Framework\Image\Factory
      */
     protected $_imageFactory;
 
@@ -48,7 +48,7 @@ class Image
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -70,18 +70,18 @@ class Image
      * Initialize dependencies
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Image\Factory $imageFactory
+     * @param \Magento\Framework\Image\Factory $imageFactory
      * @param Image\Uploader $uploader
      * @param Image\PathInterface $themeImagePath
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Image\Factory $imageFactory,
+        \Magento\Framework\Image\Factory $imageFactory,
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\View\Design\ThemeInterface $theme = null
     ) {
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
@@ -131,7 +131,7 @@ class Image
 
         $isCopied = false;
         try {
-            $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
+            $destinationFileName = \Magento\Framework\File\Uploader::getNewFileName($destinationFilePath);
             $targetRelative = $this->_mediaDirectory->getRelativePath($previewDir . '/' . $destinationFileName);
             $isCopied = $this->_mediaDirectory->copyFile($destinationFileRelative, $targetRelative);
             $this->_theme->setPreviewImage($destinationFileName);

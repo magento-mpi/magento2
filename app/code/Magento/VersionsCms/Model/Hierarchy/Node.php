@@ -134,7 +134,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -147,7 +147,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -770,7 +770,7 @@ class Node extends \Magento\Framework\Model\AbstractModel
     /**
      * Return Hierarchy Menu Layout Info object for Node
      *
-     * @return \Magento\Object|null
+     * @return \Magento\Framework\Object|null
      */
     public function getMenuLayout()
     {

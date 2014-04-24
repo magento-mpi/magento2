@@ -85,7 +85,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Customer\Model\Resource\Customer\CollectionFactory', array(), array(), '', false),
             $this->_getModelDependencies()
@@ -157,7 +157,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;
@@ -180,7 +180,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $storeData = array('id' => $id, 'code' => $code);
-            $stores[$id] = new \Magento\Object($storeData);
+            $stores[$id] = new \Magento\Framework\Object($storeData);
         }
 
         return $stores;

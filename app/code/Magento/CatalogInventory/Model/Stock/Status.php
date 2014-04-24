@@ -80,7 +80,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param Type $productType
      * @param \Magento\Catalog\Model\Product\Website $productWebsite
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -92,7 +92,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         Type $productType,
         \Magento\Catalog\Model\Product\Website $productWebsite,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -130,7 +130,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
     public function getProductTypeInstances()
     {
         if (empty($this->_productTypes)) {
-            $productEmulator = new \Magento\Object();
+            $productEmulator = new \Magento\Framework\Object();
 
             foreach (array_keys($this->_productType->getTypes()) as $typeId) {
                 $productEmulator->setTypeId($typeId);
@@ -522,7 +522,7 @@ class Status extends \Magento\Framework\Model\AbstractModel
 
         /* back compatible stock item */
         foreach ($productCollection as $product) {
-            $object = new \Magento\Object(array('is_in_stock' => $product->getData('is_salable')));
+            $object = new \Magento\Framework\Object(array('is_in_stock' => $product->getData('is_salable')));
             $product->setStockItem($object);
         }
 

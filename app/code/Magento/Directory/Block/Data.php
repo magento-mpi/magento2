@@ -31,7 +31,7 @@ class Data extends \Magento\Framework\View\Element\Template
     protected $_countryCollectionFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -43,7 +43,7 @@ class Data extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
@@ -52,7 +52,7 @@ class Data extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
@@ -97,7 +97,7 @@ class Data extends \Magento\Framework\View\Element\Template
      */
     public function getCountryHtmlSelect($defValue = null, $name = 'country_id', $id = 'country', $title = 'Country')
     {
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (is_null($defValue)) {
             $defValue = $this->getCountryId();
         }
@@ -125,7 +125,7 @@ class Data extends \Magento\Framework\View\Element\Template
             $options
         )->getHtml();
 
-        \Magento\Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('TEST: ' . __METHOD__);
         return $html;
     }
 
@@ -148,7 +148,7 @@ class Data extends \Magento\Framework\View\Element\Template
      */
     public function getRegionHtmlSelect()
     {
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $cacheKey = 'DIRECTORY_REGION_SELECT_STORE' . $this->_storeManager->getStore()->getId();
         $cache = $this->_configCacheType->load($cacheKey);
         if ($cache) {
@@ -172,7 +172,7 @@ class Data extends \Magento\Framework\View\Element\Template
         )->setOptions(
             $options
         )->getHtml();
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         return $html;
     }
 
@@ -193,7 +193,7 @@ class Data extends \Magento\Framework\View\Element\Template
      */
     public function getRegionsJs()
     {
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         $regionsJs = $this->getData('regions_js');
         if (!$regionsJs) {
             $countryIds = array();
@@ -213,7 +213,7 @@ class Data extends \Magento\Framework\View\Element\Template
             }
             $regionsJs = $this->_jsonEncoder->encode($regions);
         }
-        \Magento\Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('TEST: ' . __METHOD__);
         return $regionsJs;
     }
 }

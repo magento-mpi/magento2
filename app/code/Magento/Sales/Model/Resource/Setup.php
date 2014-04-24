@@ -20,7 +20,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_config;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -40,7 +40,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         $moduleName = 'Magento_Sales',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_config = $config;
         $this->_encryptor = $context->getEncryptor();
@@ -259,7 +259,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
-     * @return \Magento\Encryption\EncryptorInterface
+     * @return \Magento\Framework\Encryption\EncryptorInterface
      */
     public function getEncryptor()
     {

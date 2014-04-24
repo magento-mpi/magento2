@@ -23,7 +23,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Shell|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -62,7 +62,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->_fixtureDir,
             $this->_fixtureDir . '/app_base_dir'
         );
-        $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
 
         $this->_object = $this->getMock(
             'Magento\TestFramework\Application',
@@ -88,7 +88,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Constructor test
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      */
     public function testConstructorException()
     {

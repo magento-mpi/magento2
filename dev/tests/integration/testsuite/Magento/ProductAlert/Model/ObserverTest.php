@@ -13,7 +13,7 @@ namespace Magento\ProductAlert\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -65,7 +65,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
                     'Magento\TestFramework\Mail\Template\TransportBuilder' =>
                         'Magento\TestFramework\Mail\Template\TransportBuilderMock'
                 ]

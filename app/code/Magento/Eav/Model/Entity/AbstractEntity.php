@@ -183,7 +183,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     protected $_attrSetEntity;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -193,7 +193,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
@@ -201,18 +201,18 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -581,7 +581,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve configuration for all attributes
      *
-     * @param null|\Magento\Object $object
+     * @param null|\Magento\Framework\Object $object
      * @return $this
      */
     public function loadAllAttributes($object = null)
@@ -661,7 +661,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   AbstractAttribute $attribute
      * @return  bool
      */
@@ -911,7 +911,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Validate all object's attributes against configuration
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @throws \Magento\Eav\Model\Entity\Attribute\Exception
      * @return bool|array
      */
@@ -937,10 +937,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Set new increment id to object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    public function setNewIncrementId(\Magento\Object $object)
+    public function setNewIncrementId(\Magento\Framework\Object $object)
     {
         if ($object->getIncrementId()) {
             return $this;
@@ -959,7 +959,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      * Check attribute unique value
      *
      * @param AbstractAttribute $attribute
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
     public function checkAttributeUniqueValue(AbstractAttribute $attribute, $object)
@@ -981,8 +981,8 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
         } else {
             $value = $object->getData($attribute->getAttributeCode());
             if ($attribute->getBackend()->getType() == 'datetime') {
-                $date = new \Magento\Stdlib\DateTime\Date($value, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
-                $value = $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+                $date = new \Magento\Framework\Stdlib\DateTime\Date($value, \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+                $value = $date->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
             }
             $bind = array(
                 'entity_type_id' => $this->getTypeId(),
@@ -1032,7 +1032,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      */
     public function load($object, $entityId, $attributes = array())
     {
-        \Magento\Profiler::start('EAV:load_entity');
+        \Magento\Framework\Profiler::start('EAV:load_entity');
         /**
          * Load object base row data
          */
@@ -1059,7 +1059,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
 
         $this->_afterLoad($object);
 
-        \Magento\Profiler::stop('EAV:load_entity');
+        \Magento\Framework\Profiler::stop('EAV:load_entity');
         return $this;
     }
 
@@ -1075,7 +1075,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
             return $this;
         }
 
-        \Magento\Profiler::start('load_model_attributes');
+        \Magento\Framework\Profiler::start('load_model_attributes');
 
         $selects = array();
         foreach (array_keys($this->getAttributesByTable()) as $table) {
@@ -1095,7 +1095,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
             }
         }
 
-        \Magento\Profiler::stop('load_model_attributes');
+        \Magento\Framework\Profiler::stop('load_model_attributes');
 
         return $this;
     }
@@ -1114,7 +1114,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve select object for loading base entity row
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   string|int $rowId
      * @return  \Zend_Db_Select
      */
@@ -1133,7 +1133,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve select object for loading entity attributes values
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   string $table
      * @return  \Zend_Db_Select
      */
@@ -1153,7 +1153,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Initialize attribute value for object
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   array $valueRow
      * @return $this
      */
@@ -1172,10 +1172,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Save entity's attributes into the object's resource
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @return $this
      */
-    public function save(\Magento\Object $object)
+    public function save(\Magento\Framework\Object $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);
@@ -1201,8 +1201,8 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Retrieve Object instance with original data
      *
-     * @param \Magento\Object $object
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $object
+     * @return \Magento\Framework\Object
      */
     protected function _getOrigObject($object)
     {
@@ -1240,7 +1240,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
      *  'newObject', 'entityRow', 'insert', 'update', 'delete'
      * )
      *
-     * @param   \Magento\Object $newObject
+     * @param   \Magento\Framework\Object $newObject
      * @return  array
      */
     protected function _collectSaveData($newObject)
@@ -1437,7 +1437,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
         /**
          * Process base row
          */
-        $entityObject = new \Magento\Object($entityRow);
+        $entityObject = new \Magento\Framework\Object($entityRow);
         $entityRow = $this->_prepareDataForTable($entityObject, $entityTable);
         if ($insertEntity) {
             if (!empty($entityId)) {
@@ -1492,7 +1492,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Insert entity attribute value
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   AbstractAttribute $attribute
      * @param   mixed $value
      * @return $this
@@ -1505,7 +1505,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Update entity attribute value
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   AbstractAttribute $attribute
      * @param   mixed $valueId
      * @param   mixed $value
@@ -1596,10 +1596,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Delete entity attribute values
      *
-     * @param   \Magento\Object $object
+     * @param   \Magento\Framework\Object $object
      * @param   string $table
      * @param   array $info
-     * @return  \Magento\Object
+     * @return  \Magento\Framework\Object
      */
     protected function _deleteAttributes($object, $table, $info)
     {
@@ -1624,12 +1624,12 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Save attribute
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $attributeCode
      * @return $this
      * @throws \Exception
      */
-    public function saveAttribute(\Magento\Object $object, $attributeCode)
+    public function saveAttribute(\Magento\Framework\Object $object, $attributeCode)
     {
         $attribute = $this->getAttribute($attributeCode);
         $backend = $attribute->getBackend();
@@ -1681,7 +1681,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Delete entity using current object's data
      *
-     * @param \Magento\Object|int|string $object
+     * @param \Magento\Framework\Object|int|string $object
      * @return $this
      * @throws \Exception
      */
@@ -1689,7 +1689,7 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     {
         if (is_numeric($object)) {
             $id = (int) $object;
-        } elseif ($object instanceof \Magento\Object) {
+        } elseif ($object instanceof \Magento\Framework\Object) {
             $id = (int) $object->getId();
         }
 
@@ -1713,24 +1713,24 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * After Load Entity process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Object $object)
+    protected function _afterLoad(\Magento\Framework\Object $object)
     {
-        \Magento\Profiler::start('after_load');
+        \Magento\Framework\Profiler::start('after_load');
         $this->walkAttributes('backend/afterLoad', array($object));
-        \Magento\Profiler::stop('after_load');
+        \Magento\Framework\Profiler::stop('after_load');
         return $this;
     }
 
     /**
      * Before delete Entity process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Object $object)
+    protected function _beforeSave(\Magento\Framework\Object $object)
     {
         $this->walkAttributes('backend/beforeSave', array($object));
         return $this;
@@ -1739,10 +1739,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * After Save Entity process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Object $object)
+    protected function _afterSave(\Magento\Framework\Object $object)
     {
         $this->walkAttributes('backend/afterSave', array($object));
         return $this;
@@ -1751,10 +1751,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * Before Delete Entity process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Object $object)
+    protected function _beforeDelete(\Magento\Framework\Object $object)
     {
         $this->walkAttributes('backend/beforeDelete', array($object));
         return $this;
@@ -1763,10 +1763,10 @@ abstract class AbstractEntity extends \Magento\Framework\Model\Resource\Abstract
     /**
      * After delete entity process
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Object $object)
+    protected function _afterDelete(\Magento\Framework\Object $object)
     {
         $this->walkAttributes('backend/afterDelete', array($object));
         return $this;

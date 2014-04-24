@@ -76,10 +76,10 @@ class Observer
     /**
      * Returns cart model for backend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return Cart
      */
-    protected function _getBackendCart(\Magento\Event\Observer $observer)
+    protected function _getBackendCart(\Magento\Framework\Event\Observer $observer)
     {
         $storeId = $observer->getRequestModel()->getParam('storeId');
         if (is_null($storeId)) {
@@ -97,10 +97,10 @@ class Observer
     /**
      * Check submitted SKU's form the form or from error grid
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addBySku(\Magento\Event\Observer $observer)
+    public function addBySku(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequestModel();
@@ -148,10 +148,10 @@ class Observer
     /**
      * Upload and parse CSV file with SKUs
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function uploadSkuCsv(\Magento\Event\Observer $observer)
+    public function uploadSkuCsv(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_checkoutData;
@@ -197,7 +197,7 @@ class Observer
     /**
      * Calculate failed items quote-related data
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function collectTotalsFailedItems($observer)
@@ -242,7 +242,7 @@ class Observer
     /**
      * Add link to cart in cart sidebar to view grid with failed products
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addCartLink($observer)

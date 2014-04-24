@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Config\Source;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class ListPerPage implements \Magento\Option\ArrayInterface
+class ListPerPage implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Pager Options

@@ -25,13 +25,13 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $layoutInterface;
 
-    /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $managerInterface;
 
-    /** @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlInterface;
 
-    /** @var \Magento\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\TranslateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translateInterface;
 
     /** @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -40,10 +40,10 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\DesignInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $designInterface;
 
-    /** @var \Magento\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Session\Generic|\PHPUnit_Framework_MockObject_MockObject */
     protected $session;
 
-    /** @var \Magento\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $sidResolverInterface;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -58,19 +58,19 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Cache\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $cacheState;
 
-    /** @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $logger;
 
-    /** @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject */
     protected $escaper;
 
-    /** @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $filterManager;
 
-    /** @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $timezoneInterface;
 
-    /** @var \Magento\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Translate\Inline\StateInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $translateState;
 
     /** @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject */
@@ -88,25 +88,25 @@ class MainTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerInterface;
 
-    /** @var \Magento\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\AuthorizationInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $authorizationInterface;
 
     /** @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $backendSession;
 
-    /** @var \Magento\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
     protected $random;
 
     /** @var \Magento\Framework\Data\Form\FormKey|\PHPUnit_Framework_MockObject_MockObject */
     protected $formKey;
 
-    /** @var \Magento\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Code\NameBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $nameBuilder;
 
     /** @var \Magento\Backend\Block\Template\Context|\PHPUnit_Framework_MockObject_MockObject */
     protected $context;
 
-    /** @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registry;
 
     /** @var \Magento\Framework\Data\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -137,32 +137,32 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ['isSecure', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam']
         );
         $this->layoutInterface = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $this->managerInterface = $this->getMock('Magento\Event\ManagerInterface');
-        $this->urlInterface = $this->getMock('Magento\UrlInterface');
-        $this->translateInterface = $this->getMock('Magento\TranslateInterface');
+        $this->managerInterface = $this->getMock('Magento\Framework\Event\ManagerInterface');
+        $this->urlInterface = $this->getMock('Magento\Framework\UrlInterface');
+        $this->translateInterface = $this->getMock('Magento\Framework\TranslateInterface');
         $this->cacheInterface = $this->getMock('Magento\Framework\App\CacheInterface');
         $this->designInterface = $this->getMock('Magento\Framework\View\DesignInterface');
-        $this->session = $this->getMock('Magento\Session\Generic', [], [], '', false);
-        $this->sidResolverInterface = $this->getMock('Magento\Session\SidResolverInterface');
+        $this->session = $this->getMock('Magento\Framework\Session\Generic', [], [], '', false);
+        $this->sidResolverInterface = $this->getMock('Magento\Framework\Session\SidResolverInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->url = $this->getMock('Magento\Framework\View\Url', [], [], '', false);
         $this->configInterface = $this->getMock('Magento\Framework\View\ConfigInterface');
         $this->cacheState = $this->getMock('Magento\Framework\App\Cache\StateInterface');
-        $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
-        $this->escaper = $this->getMock('Magento\Escaper');
-        $this->filterManager = $this->getMock('Magento\Filter\FilterManager', [], [], '', false);
-        $this->timezoneInterface = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
-        $this->translateState = $this->getMock('Magento\Translate\Inline\StateInterface');
+        $this->logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $this->escaper = $this->getMock('Magento\Framework\Escaper');
+        $this->filterManager = $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false);
+        $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
+        $this->translateState = $this->getMock('Magento\Framework\Translate\Inline\StateInterface');
         $this->appFilesystem = $this->getMock('Magento\Framework\App\Filesystem', [], [], '', false);
         $this->viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', [], [], '', false);
         $this->templateEnginePool = $this->getMock('Magento\Framework\View\TemplateEnginePool', [], [], '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->authorizationInterface = $this->getMock('Magento\AuthorizationInterface');
+        $this->authorizationInterface = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->backendSession = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
-        $this->random = $this->getMock('Magento\Math\Random');
+        $this->random = $this->getMock('Magento\Framework\Math\Random');
         $this->formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
-        $this->nameBuilder = $this->getMock('Magento\Code\NameBuilder');
+        $this->nameBuilder = $this->getMock('Magento\Framework\Code\NameBuilder');
 
         $this->context = $this->getMock(
             'Magento\Backend\Block\Template\Context',
@@ -199,7 +199,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->registry = $this->getMock('Magento\Registry');
+        $this->registry = $this->getMock('Magento\Framework\Registry');
         $this->formFactory = $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false);
         $this->eavHelper = $this->getMock('Magento\Eav\Helper\Data', [], [], '', false);
         $this->yesnoFactory = $this->getMock('Magento\Backend\Model\Config\Source\YesnoFactory', ['create']);
@@ -264,7 +264,9 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $this->appFilesystem->expects($this->any())->method('getDirectoryRead')
             ->will($this->throwException(new \Exception('test')));
 
-        $this->main->setAttributeObject(new \Magento\Object(['entity_type' => new \Magento\Object([])]));
+        $this->main->setAttributeObject(
+            new \Magento\Framework\Object(['entity_type' => new \Magento\Framework\Object([])])
+        );
 
         try {
             $this->main->toHtml();

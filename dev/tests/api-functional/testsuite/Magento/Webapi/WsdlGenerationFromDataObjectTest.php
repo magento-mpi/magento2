@@ -632,7 +632,7 @@ PARAM_COMPLEX_TYPE;
         $detailsWrappedErrorType = <<< WRAPPED_ERROR_COMPLEX_TYPE
 <xsd:complexType name="WrappedError">
     <xsd:sequence>
-        <xsd:element name="fieldName" minOccurs="1" maxOccurs="1" type="xsd:string">
+        <xsd:element name="message" minOccurs="1" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
@@ -640,19 +640,11 @@ PARAM_COMPLEX_TYPE;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
-        <xsd:element name="code" minOccurs="1" maxOccurs="1" type="xsd:string">
+        <xsd:element name="parameters" type="tns:ArrayOfGenericFaultParameter" minOccurs="0">
             <xsd:annotation>
-                <xsd:documentation></xsd:documentation>
+                <xsd:documentation>Message parameters.</xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
-                    <inf:maxLength/>
-                </xsd:appinfo>
-            </xsd:annotation>
-        </xsd:element>
-        <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
-            <xsd:annotation>
-                <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap/{$this->_storeCode}?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
-                    <inf:maxLength/>
+                    <inf:natureOfType>array</inf:natureOfType>
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>

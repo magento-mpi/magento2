@@ -29,21 +29,21 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     /**
      * Configuration of design package for template
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_designConfig;
 
     /**
      * Configuration of emulated design package.
      *
-     * @var \Magento\Object|boolean
+     * @var \Magento\Framework\Object|boolean
      */
     protected $_emulatedDesignConfig = false;
 
     /**
      * Initial environment information
      *
-     * @var \Magento\Object|null
+     * @var \Magento\Framework\Object|null
      * @see self::_applyDesignConfig()
      */
     protected $_initialEnvironmentInfo = null;
@@ -82,7 +82,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -90,7 +90,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
@@ -137,7 +137,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
     /**
      * Get design configuration data
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignConfig()
     {
@@ -148,7 +148,9 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
             if ($this->_store === null) {
                 $this->_store = $this->_storeManager->getStore()->getId();
             }
-            $this->_designConfig = new \Magento\Object(array('area' => $this->_area, 'store' => $this->_store));
+            $this->_designConfig = new \Magento\Framework\Object(
+                array('area' => $this->_area, 'store' => $this->_store)
+            );
         }
         return $this->_designConfig;
     }
@@ -158,12 +160,12 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
      *
      * @param array $config
      * @return $this
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function setDesignConfig(array $config)
     {
         if (!isset($config['area']) || !isset($config['store'])) {
-            throw new \Magento\Exception('Design config must have area and store.');
+            throw new \Magento\Framework\Exception('Design config must have area and store.');
         }
         $this->getDesignConfig()->setData($config);
         return $this;

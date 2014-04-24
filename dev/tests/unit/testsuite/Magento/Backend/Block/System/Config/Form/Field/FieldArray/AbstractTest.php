@@ -32,7 +32,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $block->setElement($element);
         $this->assertEquals(
             array(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         'test' => 'test',
                         'data1' => 'data1',

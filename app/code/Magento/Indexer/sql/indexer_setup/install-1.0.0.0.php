@@ -7,7 +7,7 @@
  */
 
 $installer = $this;
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 
 $installer->startSetup();
 
@@ -75,13 +75,13 @@ $table = $installer->getConnection()
         'mode',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         16,
-        array('default' => \Magento\Mview\View\StateInterface::MODE_DISABLED,),
+        array('default' => \Magento\Framework\Mview\View\StateInterface::MODE_DISABLED,),
         'View Mode'
     )->addColumn(
         'status',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         16,
-        array('default' => \Magento\Mview\View\StateInterface::STATUS_IDLE,),
+        array('default' => \Magento\Framework\Mview\View\StateInterface::STATUS_IDLE,),
         'View Status'
     )->addColumn(
         'updated',

@@ -120,7 +120,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_addChildData;
 
     /**
-     * @var \Magento\Mview\View\Changelog
+     * @var \Magento\Framework\Mview\View\Changelog
      */
     protected $_changelog;
 
@@ -132,7 +132,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Mview\View\Changelog $changelog
+     * @param \Magento\Framework\Mview\View\Changelog $changelog
      * @param bool $addFilterableAttrs
      * @param bool $addChildData
      * @param array $flatAttributeGroups
@@ -145,7 +145,7 @@ class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Mview\View\Changelog $changelog,
+        \Magento\Framework\Mview\View\Changelog $changelog,
         $addFilterableAttrs = false,
         $addChildData = false,
         $flatAttributeGroups = array()

@@ -13,7 +13,7 @@
  */
 namespace Magento\Logging\Model;
 
-class Archive extends \Magento\Object
+class Archive extends \Magento\Framework\Object
 {
     /**
      * Full system name to current file, if set

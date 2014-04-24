@@ -84,7 +84,7 @@ class Total extends \Magento\Framework\View\Element\Template
             $value = -$source->getRewardCurrencyAmount();
 
             $this->getParentBlock()->addTotal(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         'code' => 'reward_points',
                         'strong' => false,

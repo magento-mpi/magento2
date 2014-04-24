@@ -14,15 +14,15 @@ class Guest extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -152,12 +152,12 @@ class Guest extends \Magento\Framework\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         if ($post && !empty($post['items'])) {
             try {
-                /** @var $urlModel \Magento\UrlInterface */
-                $urlModel = $this->_objectManager->get('Magento\UrlInterface');
+                /** @var $urlModel \Magento\Framework\UrlInterface */
+                $urlModel = $this->_objectManager->get('Magento\Framework\UrlInterface');
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
@@ -201,7 +201,7 @@ class Guest extends \Magento\Framework\App\Action\Action
                 $this->messageManager->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_view->loadLayout();
@@ -257,7 +257,7 @@ class Guest extends \Magento\Framework\App\Action\Action
                     )->setStatus(
                         $this->_coreRegistry->registry('current_rma')->getStatus()
                     )->setCreatedAt(
-                        $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                        $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
                     )->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
@@ -330,7 +330,7 @@ class Guest extends \Magento\Framework\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Session\Generic')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();
@@ -375,7 +375,7 @@ class Guest extends \Magento\Framework\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Session\Generic')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();
