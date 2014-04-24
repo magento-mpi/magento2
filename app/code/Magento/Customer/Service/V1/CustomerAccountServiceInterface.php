@@ -46,8 +46,8 @@ interface CustomerAccountServiceInterface
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @throws \Magento\Exception\State\InputMismatchException If the provided email is already used
+     * @throws \Magento\Framework\Exception\InputException If bad input is provided
+     * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      */
     public function createCustomer(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
@@ -78,7 +78,7 @@ interface CustomerAccountServiceInterface
      * the array must be null.
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
@@ -87,7 +87,7 @@ interface CustomerAccountServiceInterface
      * Retrieve Customer
      *
      * @param int $customerId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer($customerId);
@@ -98,20 +98,20 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $confirmationKey Sent to customer in an confirmation e-mail.
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
-     * @throws \Magento\Exception\State\InputMismatchException if the token is invalid
-     * @throws \Magento\Exception\State\InvalidTransitionException if account already active
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
+     * @throws \Magento\Framework\Exception\State\InputMismatchException if the token is invalid
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException if account already active
      */
     public function activateCustomer($customerId, $confirmationKey);
 
     /**
      * Retrieve customers which match a specified criteria
      *
-     * @param \Magento\Service\V1\Data\SearchCriteria $searchCriteria
-     * @throws \Magento\Exception\InputException if there is a problem with the input
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @throws \Magento\Framework\Exception\InputException if there is a problem with the input
      * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerDetails
      */
-    public function searchCustomers(\Magento\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function searchCustomers(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Login a customer account using username and password
@@ -119,9 +119,9 @@ interface CustomerAccountServiceInterface
      * @param string $username username in plain-text
      * @param string $password password in plain-text
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Magento\Exception\AuthenticationException If unable to authenticate
-     * @throws \Magento\Exception\EmailNotConfirmedException If this is an unconfirmed account
-     * @throws \Magento\Exception\InvalidEmailOrPasswordException If email or password is invalid
+     * @throws \Magento\Framework\Exception\AuthenticationException If unable to authenticate
+     * @throws \Magento\Framework\Exception\EmailNotConfirmedException If this is an unconfirmed account
+     * @throws \Magento\Framework\Exception\InvalidEmailOrPasswordException If email or password is invalid
      */
     public function authenticate($username, $password);
 
@@ -132,8 +132,8 @@ interface CustomerAccountServiceInterface
      * @param string $currentPassword
      * @param string $newPassword
      * @return bool True if password changed
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @throws \Magento\Exception\InvalidEmailOrPasswordException If invalid currentPassword is supplied
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\InvalidEmailOrPasswordException If invalid currentPassword is supplied
      */
     public function changePassword($customerId, $currentPassword, $newPassword);
 
@@ -153,10 +153,10 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $resetPasswordLinkToken
      * @return void
-     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
-     * @throws \Magento\Exception\State\ExpiredException If token is expired
-     * @throws \Magento\Exception\InputException If token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
+     * @throws \Magento\Framework\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Framework\Exception\State\ExpiredException If token is expired
+     * @throws \Magento\Framework\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
 
@@ -178,10 +178,10 @@ interface CustomerAccountServiceInterface
      * @param string $resetToken Token sent to customer via e-mail
      * @param string $newPassword
      * @return void
-     * @throws \Magento\Exception\State\InputMismatchException If token is mismatched
-     * @throws \Magento\Exception\State\ExpiredException If token is expired
-     * @throws \Magento\Exception\InputException If token or customer id is invalid
-     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
+     * @throws \Magento\Framework\Exception\State\InputMismatchException If token is mismatched
+     * @throws \Magento\Framework\Exception\State\ExpiredException If token is expired
+     * @throws \Magento\Framework\Exception\InputException If token or customer id is invalid
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer doesn't exist
      */
     public function resetPassword($customerId, $resetToken, $newPassword);
 
@@ -191,7 +191,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @return string returns one of the account confirmation statuses
      *
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      */
     public function getConfirmationStatus($customerId);
 
@@ -203,8 +203,8 @@ interface CustomerAccountServiceInterface
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return void
-     * @throws \Magento\Exception\NoSuchEntityException If no customer found for provided email
-     * @throws \Magento\Exception\State\InvalidTransitionException If confirmation is not needed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If no customer found for provided email
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException If confirmation is not needed
      */
     public function resendConfirmation($email, $websiteId, $redirectUrl = '');
 
@@ -225,7 +225,7 @@ interface CustomerAccountServiceInterface
      * for the currently logged in user, or if modifications can be made.
      *
      * @param int $customerId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool true if modifications can be made; false if read only.
      */
     public function canModify($customerId);
@@ -235,7 +235,7 @@ interface CustomerAccountServiceInterface
      * customerId can be deleted.
      *
      * @param int $customerId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool true if the customer can be deleted
      */
     public function canDelete($customerId);
@@ -244,7 +244,7 @@ interface CustomerAccountServiceInterface
      * Retrieve customer details
      *
      * @param int $customerId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
     public function getCustomerDetails($customerId);
@@ -254,7 +254,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool True if the customer was deleted
      */
     public function deleteCustomer($customerId);
@@ -282,7 +282,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomerByEmail($customerEmail, $websiteId = null);
@@ -292,7 +292,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerEmail is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerEmail is not found.
      * @return \Magento\Customer\Service\V1\Data\CustomerDetails
      */
     public function getCustomerDetailsByEmail($customerEmail, $websiteId = null);
@@ -305,7 +305,7 @@ interface CustomerAccountServiceInterface
      * @param string $customerEmail
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
      * @param int $websiteId If not set, will use the current websiteId
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerDetails is not found.
      * @return bool True if this customer was updated
      */
     public function updateCustomerDetailsByEmail(
@@ -320,7 +320,7 @@ interface CustomerAccountServiceInterface
      * @param string $customerEmail
      * @param int $websiteId If not set, will use the current websiteId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
-     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If customer with customerId is not found.
      * @return bool True if the customer was deleted
      */
     public function deleteCustomerByEmail($customerEmail, $websiteId = null);

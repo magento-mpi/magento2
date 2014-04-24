@@ -7,7 +7,10 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
+use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
 
 class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +23,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
     private $_customerMetadataService;
 
-    /** @var \Magento\Service\Data\Eav\AttributeValueBuilder */
+    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
     private $_valueBuilder;
 
     protected function setUp()
@@ -39,12 +42,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('attribute_code' => 'warehouse_zip')),
-                    new \Magento\Object(array('attribute_code' => 'warehouse_alternate'))
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_zip')),
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_alternate'))
                 )
             )
         );
-        $this->_valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $this->_valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
@@ -434,6 +437,6 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $this->assertEquals($expectedCustomerData, \Magento\Service\EavDataObjectConverter::toFlatArray($customer));
+        $this->assertEquals($expectedCustomerData, \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer));
     }
 }

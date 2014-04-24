@@ -54,7 +54,7 @@ class File extends AbstractModel implements FileInterface
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\Framework\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -63,7 +63,7 @@ class File extends AbstractModel implements FileInterface
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\Framework\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -126,13 +126,13 @@ class File extends AbstractModel implements FileInterface
     /**
      * {@inheritdoc}
      *
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getTheme()
     {
         $theme = $this->_themeFactory->create($this->getData('theme_id'));
         if (!$theme) {
-            throw new \Magento\Exception('Theme id should be set');
+            throw new \Magento\Framework\Exception('Theme id should be set');
         }
         return $theme;
     }

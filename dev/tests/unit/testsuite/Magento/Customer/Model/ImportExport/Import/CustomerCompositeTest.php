@@ -35,7 +35,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_string;
 
@@ -107,7 +107,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $translateInline = $this->getMock('\Magento\Translate\InlineInterface', array(), array(), '', false);
+        $translateInline = $this->getMock('\Magento\Framework\Translate\InlineInterface', array(), array(), '', false);
         $translateInline->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
         $context =
@@ -116,11 +116,11 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         $data = array(
             'context' => $context,
-            'locale' => $this->getMock('Magento\Locale', array(), array(), '', false),
-            'dateModel' => $this->getMock('Magento\Stdlib\DateTime\DateTime', array(), array(), '', false)
+            'locale' => $this->getMock('Magento\Framework\Locale', array(), array(), '', false),
+            'dateModel' => $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', array(), array(), '', false)
         );
         $this->_coreHelper = $objectManager->getObject('Magento\Core\Helper\Data', $data);
-        $this->_string = new \Magento\Stdlib\String();
+        $this->_string = new \Magento\Framework\Stdlib\String();
 
         $this->_importFactory = $this->getMock(
             'Magento\ImportExport\Model\ImportFactory',
@@ -283,7 +283,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         $attributeList = array();
         foreach ($this->_customerAttributes as $code) {
-            $attribute = new \Magento\Object(array('attribute_code' => $code));
+            $attribute = new \Magento\Framework\Object(array('attribute_code' => $code));
             $attributeList[] = $attribute;
         }
         $customerEntity->expects(
@@ -318,7 +318,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         $attributeList = array();
         foreach ($this->_addressAttributes as $code) {
-            $attribute = new \Magento\Object(array('attribute_code' => $code));
+            $attribute = new \Magento\Framework\Object(array('attribute_code' => $code));
             $attributeList[] = $attribute;
         }
         $addressEntity->expects(

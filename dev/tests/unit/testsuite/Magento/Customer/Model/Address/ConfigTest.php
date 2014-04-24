@@ -126,7 +126,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_scopeConfigMock->expects($this->any())->method('getValue')->will($this->returnValue('someValue'));
 
-        $rendererMock = $this->getMock('Magento\Object');
+        $rendererMock = $this->getMock('Magento\Framework\Object');
 
         $this->_addressHelperMock->expects(
             $this->any()
@@ -136,7 +136,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($rendererMock)
         );
 
-        $firstExpected = new \Magento\Object();
+        $firstExpected = new \Magento\Framework\Object();
         $firstExpected->setCode(
             'format_one'
         )->setTitle(
@@ -149,7 +149,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             null
         );
 
-        $secondExpected = new \Magento\Object();
+        $secondExpected = new \Magento\Framework\Object();
         $secondExpected->setCode(
             'format_two'
         )->setTitle(

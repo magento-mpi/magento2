@@ -44,7 +44,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())->method('create')->will($this->returnValue($orderMock));
 
         $messageCollectionFactory = $this->getMockBuilder(
-            'Magento\Message\CollectionFactory'
+            'Magento\Framework\Message\CollectionFactory'
         )->disableOriginalConstructor()->getMock();
         $quoteFactory = $this->getMockBuilder(
             'Magento\Sales\Model\QuoteFactory'
@@ -63,7 +63,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
                 'orderFactory' => $orderFactory,
                 'messageCollectionFactory' => $messageCollectionFactory,
                 'quoteFactory' => $quoteFactory,
-                'storage' => new \Magento\Session\Storage()
+                'storage' => new \Magento\Framework\Session\Storage()
             )
         );
         $this->_session = $this->_helper->getObject('Magento\Checkout\Model\Session', $constructArguments);
@@ -120,7 +120,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testClearHelperData($paramToClear)
     {
-        $storage = new \Magento\Session\Storage('default', array($paramToClear => 'test_data'));
+        $storage = new \Magento\Framework\Session\Storage('default', array($paramToClear => 'test_data'));
         $this->_session = $this->_helper->getObject('Magento\Checkout\Model\Session', array('storage' => $storage));
 
         $this->_session->clearHelperData();
@@ -159,11 +159,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
         $orderFactory->expects($this->once())->method('create')->will($this->returnValue($order));
         $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array('create'), array(), '', false);
-        $storage = $this->getMock('Magento\Session\Storage', null);
+        $storage = $this->getMock('Magento\Framework\Session\Storage', null);
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
-        $eventManager = $this->getMockForAbstractClass('Magento\Event\ManagerInterface');
+        $eventManager = $this->getMockForAbstractClass('Magento\Framework\Event\ManagerInterface');
 
         /** @var Session $session */
         $session = $this->_helper->getObject(
@@ -295,7 +295,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue($replaceQuoteId));
 
-        $storage = $this->getMockBuilder('Magento\Session\Storage')
+        $storage = $this->getMockBuilder('Magento\Framework\Session\Storage')
             ->disableOriginalConstructor()
             ->setMethods(['setData', 'getData'])
             ->getMock();
@@ -323,7 +323,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testClearStorage()
     {
-        $storage = $this->getMockBuilder('Magento\Session\Storage')
+        $storage = $this->getMockBuilder('Magento\Framework\Session\Storage')
             ->disableOriginalConstructor()
             ->setMethods(['unsetData'])
             ->getMock();

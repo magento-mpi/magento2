@@ -8,6 +8,7 @@
 namespace Magento\Checkout\Helper;
 
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Store\Model\ScopeInterface;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,9 +59,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMockBuilder('Magento\Framework\Translate\Inline\StateInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
-        $this->_eventManager = $this->getMockForAbstractClass('\Magento\Event\ManagerInterface');
+        $this->_eventManager = $this->getMockForAbstractClass('\Magento\Framework\Event\ManagerInterface');
         $this->_context->expects($this->once())
             ->method('getEventManager')
             ->will($this->returnValue($this->_eventManager));
@@ -126,10 +129,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
-        $localeDate = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false);
+        $localeDate = $this->getMock(
+            '\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
-        $this->_transportBuilder = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
+        $this->_transportBuilder = $this->getMockBuilder('Magento\Framework\Mail\Template\TransportBuilder')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -150,8 +159,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendPaymentFailedEmail()
     {
-        $shippingAddress = new \Magento\Object(array('shipping_method' => 'ground_transportation'));
-        $billingAddress = new \Magento\Object(array('street' => 'Fixture St'));
+        $shippingAddress = new \Magento\Framework\Object(array('shipping_method' => 'ground_transportation'));
+        $billingAddress = new \Magento\Framework\Object(array('street' => 'Fixture St'));
 
         $this->_transportBuilder->expects(
             $this->once()
@@ -222,7 +231,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getTransport'
         )->will(
-            $this->returnValue($this->getMock('Magento\Mail\TransportInterface'))
+            $this->returnValue($this->getMock('Magento\Framework\Mail\TransportInterface'))
         );
 
         $this->_translator->expects($this->at(1))->method('suspend');
@@ -236,7 +245,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $productTwo->expects($this->once())->method('getName')->will($this->returnValue('Product Two'));
         $productTwo->expects($this->once())->method('getFinalPrice')->with(3)->will($this->returnValue(60));
 
-        $quote = new \Magento\Object(
+        $quote = new \Magento\Framework\Object(
             array(
                 'store_id' => 8,
                 'store_currency_code' => 'USD',
@@ -246,16 +255,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'customer_email' => 'john.doe@example.com',
                 'billing_address' => $billingAddress,
                 'shipping_address' => $shippingAddress,
-                'payment' => new \Magento\Object(array('method' => 'fixture-payment-method')),
+                'payment' => new \Magento\Framework\Object(array('method' => 'fixture-payment-method')),
                 'all_visible_items' => array(
-                    new \Magento\Object(array('product' => $productOne, 'qty' => 2)),
-                    new \Magento\Object(array('product' => $productTwo, 'qty' => 3))
+                    new \Magento\Framework\Object(array('product' => $productOne, 'qty' => 2)),
+                    new \Magento\Framework\Object(array('product' => $productTwo, 'qty' => 3))
                 )
             )
         );
         $this->assertSame($this->_helper, $this->_helper->sendPaymentFailedEmail($quote, 'test message'));
     }
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
     public function testGetCheckout()
     {
         $this->assertEquals($this->_checkoutSession, $this->_helper->getCheckout());
@@ -326,7 +338,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPriceInclTax()
     {
-        $itemMock = $this->getMock('Magento\Object', array('getPriceInclTax'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getPriceInclTax'), array(), '', false);
         $itemMock->expects($this->exactly(2))->method('getPriceInclTax')->will($this->returnValue(5.5));
         $this->assertEquals(5.5, $this->_helper->getPriceInclTax($itemMock));
     }
@@ -347,7 +359,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
         $itemMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('getPriceInclTax', 'getQty', 'getTaxAmount', 'getDiscountTaxCompensation', 'getRowTotal'),
             array(),
             '',
@@ -370,7 +382,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $rowTotalInclTax = 5.5;
         $expected = 5.5;
-        $itemMock = $this->getMock('Magento\Object', array('getRowTotalInclTax'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getRowTotalInclTax'), array(), '', false);
         $itemMock->expects($this->exactly(2))->method('getRowTotalInclTax')->will($this->returnValue($rowTotalInclTax));
         $this->assertEquals($expected, $this->_helper->getSubtotalInclTax($itemMock));
     }
@@ -382,7 +394,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $rowTotal = 15;
         $expected = 17;
         $itemMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('getRowTotalInclTax', 'getTaxAmount', 'getDiscountTaxCompensation', 'getRowTotal'),
             array(),
             '',
@@ -404,7 +416,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Helper\Data',
             ['storeManager' => $storeManager]
         );
-        $itemMock = $this->getMock('Magento\Object', array('getQty'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getQty'), array(), '', false);
         $itemMock->expects($this->once())->method('getQty');
         $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
                 $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
@@ -420,7 +432,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Helper\Data',
             ['storeManager' => $storeManager]
         );
-        $itemMock = $this->getMock('Magento\Object', array('getQty', 'getQtyOrdered'), array(), '', false);
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getQty', 'getQtyOrdered'), array(), '', false);
         $itemMock->expects($this->once())->method('getQty')->will($this->returnValue(false));
         $itemMock->expects($this->exactly(2))->method('getQtyOrdered')->will($this->returnValue(5.5));
         $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
@@ -432,7 +444,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetBaseSubtotalInclTax()
     {
         $itemMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             array('getBaseTaxAmount', 'getBaseDiscountTaxCompensation', 'getBaseRowTotal'),
             array(),
             '',

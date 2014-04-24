@@ -91,7 +91,13 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->observerMock = $this->getMock('\Magento\Event\Observer', array('getQuoteAddress'), array(), '', false);
+        $this->observerMock = $this->getMock(
+            '\Magento\Framework\Event\Observer',
+            array('getQuoteAddress'),
+            array(),
+            '',
+            false
+        );
 
         $this->quoteAddressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
@@ -143,8 +149,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableAutoGroupChange()
     {
-        /** @var \Magento\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(true);
         $this->customerDataMock->expects(
             $this->exactly(2)
@@ -161,8 +168,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableVatValidator()
     {
-        /** @var \Magento\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         $this->customerDataMock->expects(
             $this->exactly(2)
@@ -189,8 +197,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryNotInEUAndNotLoggedCustomerInGroup()
     {
-        /** @var \Magento\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
         $this->customerDataMock->expects(
@@ -246,8 +255,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDefaultCustomerGroupId()
     {
-        /** @var \Magento\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
         $this->customerDataMock->expects(
@@ -325,8 +335,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryInEU()
     {
-        /** @var \Magento\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
         $this->customerDataMock->expects(

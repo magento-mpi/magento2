@@ -15,12 +15,12 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
     protected $_authSession;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -31,14 +31,14 @@ class Survey implements \Magento\AdminNotification\Model\System\MessageInterface
 
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\AuthorizationInterface $authorization
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\AdminNotification\Model\Survey $survey
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\AuthorizationInterface $authorization,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\AuthorizationInterface $authorization,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\AdminNotification\Model\Survey $survey
     ) {
         $this->_authorization = $authorization;

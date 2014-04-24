@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -30,7 +30,7 @@ $connection->addColumn(
     array(
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BIGINT,
         'nullable' => false,
-        'default' => crc32(\Magento\TranslateInterface::DEFAULT_STRING),
+        'default' => crc32(\Magento\Framework\TranslateInterface::DEFAULT_STRING),
         'comment' => 'Translation String CRC32 Hash'
     )
 );

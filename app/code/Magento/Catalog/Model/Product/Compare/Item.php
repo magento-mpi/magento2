@@ -22,7 +22,7 @@ use Magento\Catalog\Model\Product;
  * @method int getStoreId()
  * @method \Magento\Catalog\Model\Product\Compare\Item setStoreId(int $value)
  */
-class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Model cache tag
@@ -75,7 +75,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Ob
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
@@ -86,7 +86,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Ob
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
@@ -209,10 +209,10 @@ class Item extends \Magento\Framework\Model\AbstractModel implements \Magento\Ob
     /**
      * Customer logout bind process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function bindCustomerLogout(\Magento\Event\Observer $observer = null)
+    public function bindCustomerLogout(\Magento\Framework\Event\Observer $observer = null)
     {
         $this->_getResource()->purgeVisitorByCustomer($this);
 

@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,7 +66,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->assertNotNull($customer);
 
-        $attributes = \Magento\Service\EavDataObjectConverter::toFlatArray($customer);
+        $attributes = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {

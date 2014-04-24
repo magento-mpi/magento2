@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Service\EavDataObjectConverter;
+use Magento\Framework\Service\EavDataObjectConverter;
 
 /**
  * Class AddressConverter converts Address Service Data Object to an array

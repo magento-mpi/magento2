@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Data\Eav;
+namespace Magento\Framework\Service\Data\Eav;
 
 class AttributeValueTest extends \PHPUnit_Framework_TestCase
 {

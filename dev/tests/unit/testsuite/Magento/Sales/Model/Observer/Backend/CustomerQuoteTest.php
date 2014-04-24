@@ -30,12 +30,12 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
     protected $quoteFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Event\Observer
      */
     protected $observerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Event
      */
     protected $eventMock;
 
@@ -51,10 +51,10 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->observerMock = $this->getMockBuilder('Magento\Event\Observer')
+        $this->observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->eventMock = $this->getMockBuilder('Magento\Event')
+        $this->eventMock = $this->getMockBuilder('Magento\Framework\Event')
             ->disableOriginalConstructor()
             ->setMethods(['getOrigCustomerDataObject', 'getCustomerDataObject'])
             ->getMock();

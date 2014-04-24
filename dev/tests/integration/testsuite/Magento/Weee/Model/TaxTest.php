@@ -49,7 +49,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $customerMetadataService]
         );
-        $expected = \Magento\Service\EavDataObjectConverter::toFlatArray($customerAccountService->getCustomer(1));
+        $expected = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAccountService->getCustomer(1));
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
         $fixtureGroupCode = 'custom_group';
@@ -62,7 +62,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerGroupId($fixtureGroupId);
         $quote->setCustomerTaxClassId($fixtureTaxClassId);
         $quote->setCustomerData($customerDataSet);
-        $shipping = new \Magento\Object([
+        $shipping = new \Magento\Framework\Object([
             'quote' =>  $quote
         ]);
         $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');

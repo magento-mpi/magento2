@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Data;
-use Magento\Service\Data\Eav\AttributeValue;
+
+use Magento\Framework\Service\Data\Eav\AttributeValue;
 
 /**
  * Customer
@@ -75,11 +76,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'getCustomCustomerAttributeMetadata'
         )->will(
             $this->returnValue([
-                new \Magento\Object(['attribute_code' => 'zip']),
-                new \Magento\Object(['attribute_code' => 'locale'])
+                new \Magento\Framework\Object(['attribute_code' => 'zip']),
+                new \Magento\Framework\Object(['attribute_code' => 'locale'])
             ])
         );
-        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
@@ -116,7 +117,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->_createCustomerData();
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $actualAttributes = \Magento\Convert\ConvertArray::toFlatArray($customer->__toArray());
+        $actualAttributes = \Magento\Framework\Convert\ConvertArray::toFlatArray($customer->__toArray());
         $this->assertEquals(
             array(
                 'id' => self::ID,

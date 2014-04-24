@@ -7,10 +7,10 @@
  */
 namespace Magento\Framework\View\Design\FileResolution;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 use Magento\Framework\App\State;
 use Magento\Framework\App\Filesystem;
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Strategy Pool

@@ -23,15 +23,15 @@ class Region extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_regionNameTable;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Locale\ResolverInterface $localeResolver)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Locale\ResolverInterface $localeResolver)
     {
         parent::__construct($resource);
         $this->_localeResolver = $localeResolver;

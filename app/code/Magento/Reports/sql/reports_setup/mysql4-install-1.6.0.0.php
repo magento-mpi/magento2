@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Module\Setup */
+/** @var $this \Magento\Framework\Module\Setup */
 
 /**
  * Create table 'report_compared_product_index'.

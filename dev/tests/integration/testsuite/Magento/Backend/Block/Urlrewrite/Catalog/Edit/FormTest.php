@@ -59,10 +59,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new \Magento\Object($productData);
+            $args['product'] = new \Magento\Framework\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new \Magento\Object($categoryData);
+            $args['category'] = new \Magento\Framework\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertContains($action, $form->getAction());
@@ -90,10 +90,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $args = array();
         if ($productData) {
-            $args['product'] = new \Magento\Object($productData);
+            $args['product'] = new \Magento\Framework\Object($productData);
         }
         if ($categoryData) {
-            $args['category'] = new \Magento\Object($categoryData);
+            $args['category'] = new \Magento\Framework\Object($categoryData);
         }
         $form = $this->_getFormInstance($args);
         $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
@@ -110,7 +110,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStoresProductStoresException()
     {
-        $args = array('product' => new \Magento\Object(array('id' => 1)));
+        $args = array('product' => new \Magento\Framework\Object(array('id' => 1)));
         $this->_getFormInstance($args);
     }
 
@@ -126,8 +126,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testGetEntityStoresProductCategoryStoresException()
     {
         $args = array(
-            'product' => new \Magento\Object(array('id' => 1, 'store_ids' => array(1))),
-            'category' => new \Magento\Object(array('id' => 1, 'store_ids' => array(3)))
+            'product' => new \Magento\Framework\Object(array('id' => 1, 'store_ids' => array(1))),
+            'category' => new \Magento\Framework\Object(array('id' => 1, 'store_ids' => array(3)))
         );
         $this->_getFormInstance($args);
     }
@@ -143,7 +143,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityStoresCategoryStoresException()
     {
-        $args = array('category' => new \Magento\Object(array('id' => 1)));
+        $args = array('category' => new \Magento\Framework\Object(array('id' => 1)));
         $this->_getFormInstance($args);
     }
 

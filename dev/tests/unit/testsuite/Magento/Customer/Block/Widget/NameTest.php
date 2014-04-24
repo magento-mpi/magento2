@@ -9,10 +9,10 @@ namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 /**
  * Test class for \Magento\Customer\Block\Widget\Name.
@@ -54,7 +54,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
     private $_customerHelper;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Escaper */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Escaper */
     private $_escaper;
 
     /** @var  Name */
@@ -71,7 +71,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_escaper = $this->getMock('Magento\Escaper', [], [], '', false);
+        $this->_escaper = $this->getMock('Magento\Framework\Escaper', [], [], '', false);
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 

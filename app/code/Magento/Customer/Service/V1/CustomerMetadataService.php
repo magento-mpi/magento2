@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * EAV attribute metadata service
@@ -112,7 +112,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (null === $storeId) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $object = new \Magento\Object(
+        $object = new \Magento\Framework\Object(
             [
                 'store_id' => $storeId,
                 'attribute_set_id' => $attributeSetId,
@@ -248,7 +248,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $camelCaseKey = \Magento\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey])
                 || isset($this->customerDataObjectMethods['is' . $camelCaseKey]);
 
@@ -275,7 +275,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         }
         foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
-            $camelCaseKey = \Magento\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
             $isDataObjectMethod = isset($this->addressDataObjectMethods['get' . $camelCaseKey])
                 || isset($this->addressDataObjectMethods['is' . $camelCaseKey]);
 

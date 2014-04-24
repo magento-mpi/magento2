@@ -31,7 +31,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     /**
      * Item object
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_item;
 
@@ -62,26 +62,26 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     protected $_rootDirectory;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\App\Filesystem $filesystem ,
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -119,10 +119,10 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
     /**
      * Set item object
      *
-     * @param  \Magento\Object $item
+     * @param  \Magento\Framework\Object $item
      * @return $this
      */
-    public function setItem(\Magento\Object $item)
+    public function setItem(\Magento\Framework\Object $item)
     {
         $this->_item = $item;
         return $this;
@@ -184,7 +184,7 @@ abstract class AbstractItems extends \Magento\Framework\Model\AbstractModel
      * Retrieve item object
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItem()
     {

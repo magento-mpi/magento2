@@ -11,7 +11,7 @@ namespace Magento\Invitation\Model\Source\Invitation;
 /**
  * Invitation group id options source
  */
-class GroupId implements \Magento\Option\ArrayInterface
+class GroupId implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface

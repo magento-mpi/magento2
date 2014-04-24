@@ -208,7 +208,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
         $priceType = null,
-        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
         array $arguments = []
     ) {
         if (!isset($arguments['zone'])) {
@@ -227,7 +227,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
             ? $arguments['display_minimal_price']
             : true;
 
-            /** @var \Magento\Pricing\Render $priceRender */
+            /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
         $price = '';

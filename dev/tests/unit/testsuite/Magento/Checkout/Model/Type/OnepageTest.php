@@ -22,7 +22,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $eventManagerMock;
 
     /** @var \Magento\Checkout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -31,7 +31,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerHelperMock;
 
-    /** @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $loggerMock;
 
     /** @var \Magento\Checkout\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
@@ -61,10 +61,10 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $orderFactoryMock;
 
-    /** @var \Magento\Object\Copy|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Object\Copy|\PHPUnit_Framework_MockObject_MockObject */
     protected $copyMock;
 
-    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $messageManagerMock;
 
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -76,10 +76,10 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $addressBuilderMock;
 
-    /** @var \Magento\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
     protected $randomMock;
 
-    /** @var \Magento\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $encryptorMock;
 
     /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -90,10 +90,10 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->checkoutHelperMock = $this->getMock('Magento\Checkout\Helper\Data', [], [], '', false);
         $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
-        $this->loggerMock = $this->getMock('Magento\Logger', [], [], '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->checkoutSessionMock = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
@@ -106,8 +106,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->customerFactoryMock = $this->getMock('Magento\Customer\Model\CustomerFactory');
         $this->quoteFactoryMock = $this->getMock('Magento\Sales\Model\Service\QuoteFactory');
         $this->orderFactoryMock = $this->getMock('Magento\Sales\Model\OrderFactory');
-        $this->copyMock = $this->getMock('Magento\Object\Copy', [], [], '', false);
-        $this->messageManagerMock = $this->getMock('Magento\Message\ManagerInterface');
+        $this->copyMock = $this->getMock('Magento\Framework\Object\Copy', [], [], '', false);
+        $this->messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
 
         $this->customerFormFactoryMock = $this->getMock(
             'Magento\Customer\Model\Metadata\FormFactory',
@@ -133,8 +133,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->randomMock = $this->getMock('Magento\Math\Random');
-        $this->encryptorMock = $this->getMock('Magento\Encryption\EncryptorInterface');
+        $this->randomMock = $this->getMock('Magento\Framework\Math\Random');
+        $this->encryptorMock = $this->getMock('Magento\Framework\Encryption\EncryptorInterface');
 
         $this->customerAddressServiceMock = $this->getMock(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'

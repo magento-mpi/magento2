@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\Eav\AttributeValue;
 
 class AddressConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +34,8 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('attribute_code' => 'warehouse_zip')),
-                    new \Magento\Object(array('attribute_code' => 'warehouse_alternate'))
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_zip')),
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_alternate'))
                 )
             )
         );
@@ -99,7 +99,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $addressData = $this->_sampleAddressDataObject();
-        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressDataBuilder */
         $addressDataBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
@@ -121,7 +121,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     protected function _sampleAddressDataObject()
     {
         $regionBuilder = (new RegionBuilder())->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
-        $valueBuilder = $this->_objectManager->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressData */
         $addressData = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',

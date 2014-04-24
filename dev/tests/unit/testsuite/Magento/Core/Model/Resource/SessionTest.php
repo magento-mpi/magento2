@@ -45,7 +45,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var \Magento\Session\SaveHandler\DbTable
+     * @var \Magento\Framework\Session\SaveHandler\DbTable
      */
     protected $_model;
 
@@ -97,7 +97,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())->method('getTableName')->will($this->returnValue(self::SESSION_TABLE));
         $resource->expects($this->once())->method('getConnection')->will($this->returnValue($connection));
 
-        $this->_model = new \Magento\Session\SaveHandler\DbTable($resource);
+        $this->_model = new \Magento\Framework\Session\SaveHandler\DbTable($resource);
     }
 
     /**

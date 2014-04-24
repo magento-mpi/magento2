@@ -19,7 +19,7 @@
  */
 namespace Magento\Catalog\Model\Template;
 
-class Filter extends \Magento\Filter\Template
+class Filter extends \Magento\Framework\Filter\Template
 {
     /**
      * Use absolute links flag
@@ -48,13 +48,13 @@ class Filter extends \Magento\Filter\Template
     protected $_storeManager;
 
     /**
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\Url $viewUrl
      * @param array $variables
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\Url $viewUrl,
         $variables = array()
@@ -116,7 +116,7 @@ class Filter extends \Magento\Filter\Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**

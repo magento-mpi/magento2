@@ -17,7 +17,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -51,14 +51,14 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Shipping\Helper\Carrier $carrierHelper
@@ -246,7 +246,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('You submitted the RMA request.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $errorKeys = $this->_objectManager->get('Magento\Session\Generic')->getRmaErrorKeys();
+            $errorKeys = $this->_objectManager->get('Magento\Framework\Session\Generic')->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';
@@ -255,7 +255,7 @@ class Rma extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -269,8 +269,8 @@ class Rma extends \Magento\Backend\App\Action
     protected function _prepareNewRmaInstanceData(array $saveRequest)
     {
         $order = $this->_coreRegistry->registry('current_order');
-        /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-        $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+        $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         $rmaData = array(
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => $dateModel->gmtDate(),
@@ -296,8 +296,8 @@ class Rma extends \Magento\Backend\App\Action
     {
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
-            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
             $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $statusHistory->setRmaEntityId(
@@ -356,7 +356,7 @@ class Rma extends \Magento\Backend\App\Action
             }
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $errorKeys = $this->_objectManager->get('Magento\Session\Generic')->getRmaErrorKeys();
+            $errorKeys = $this->_objectManager->get('Magento\Framework\Session\Generic')->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';
@@ -365,7 +365,7 @@ class Rma extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We failed to save this RMA.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -527,8 +527,8 @@ class Rma extends \Magento\Backend\App\Action
             if (!$comment) {
                 throw new \Magento\Framework\Model\Exception(__('Please enter a valid message.'));
             }
-            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             /** @var $history \Magento\Rma\Model\Rma\Status\History */
             $history = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $history->setRmaEntityId(
@@ -643,8 +643,8 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $rmaModel \Magento\Rma\Model\Rma */
             $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma')->load($rmaId);
             if ($rmaModel) {
-                /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-                $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+                /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+                $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
                 $pdf = $pdfModel->getPdf(array($rmaModel));
@@ -1079,7 +1079,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function saveShippingAction()
     {
-        $responseAjax = new \Magento\Object();
+        $responseAjax = new \Magento\Framework\Object();
 
         try {
             $model = $this->_initModel();
@@ -1097,7 +1097,7 @@ class Rma extends \Magento\Backend\App\Action
             $responseAjax->setError(true);
             $responseAjax->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $responseAjax->setError(true);
             $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1112,7 +1112,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function createLabelAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
@@ -1124,7 +1124,7 @@ class Rma extends \Magento\Backend\App\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1272,7 +1272,7 @@ class Rma extends \Magento\Backend\App\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
@@ -1299,8 +1299,8 @@ class Rma extends \Magento\Backend\App\Action
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shipment);
-            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),

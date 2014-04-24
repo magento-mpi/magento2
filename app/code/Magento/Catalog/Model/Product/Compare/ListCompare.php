@@ -16,7 +16,7 @@ use Magento\Catalog\Model\Resource\Product\Compare\Item\Collection;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class ListCompare extends \Magento\Object
+class ListCompare extends \Magento\Framework\Object
 {
     /**
      * Log visitor

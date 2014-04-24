@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <type name="Magento\Module\Updater\SetupFactory">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="store_setup" xsi:type="string">Magento\Core\Model\Resource\Setup</item>
@@ -72,9 +72,9 @@
     </type>
     <type name="Magento\Store\Model\Store">
         <arguments>
-            <argument name="session" xsi:type="object" shared="false">Magento\Session\Generic\Proxy</argument>
+            <argument name="session" xsi:type="object" shared="false">Magento\Framework\Session\Generic\Proxy</argument>
             <argument name="isCustomEntryPoint" xsi:type="init_parameter">Magento\Store\Model\Store::CUSTOM_ENTRY_POINT_PARAM</argument>
-            <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
+            <argument name="url" xsi:type="object" shared="false">Magento\Framework\UrlInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Store\Model\StoreManager">
@@ -123,22 +123,22 @@
             <argument name="urlPlaceholder" xsi:type="string">{{base_url}}</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Output\Config">
+    <type name="Magento\Framework\Module\Output\Config">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\Config">
+    <type name="Magento\Framework\Session\Config">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\SidResolver">
+    <type name="Magento\Framework\Session\SidResolver">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\Validator">
+    <type name="Magento\Framework\Session\Validator">
         <arguments>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
@@ -148,7 +148,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\View\DesignExceptions">
+    <type name="Magento\Framework\View\DesignExceptions">
         <arguments>
             <argument name="exceptionConfigPath" xsi:type="string">design/theme/ua_regexp</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>

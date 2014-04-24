@@ -61,7 +61,7 @@ class ReorderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $pricingCurrencyMock = $this->getMockBuilder('Magento\Pricing\PriceCurrencyInterface')
+        $pricingCurrencyMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -20,7 +20,7 @@ namespace Magento\Email\Block\Adminhtml\Template;
 class Preview extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Filter\Input\MaliciousCode
+     * @var \Magento\Framework\Filter\Input\MaliciousCode
      */
     protected $_maliciousCode;
 
@@ -31,13 +31,13 @@ class Preview extends \Magento\Backend\Block\Widget
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Filter\Input\MaliciousCode $maliciousCode
+     * @param \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode
      * @param \Magento\Email\Model\TemplateFactory $emailFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Filter\Input\MaliciousCode $maliciousCode,
+        \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode,
         \Magento\Email\Model\TemplateFactory $emailFactory,
         array $data = array()
     ) {
@@ -68,7 +68,7 @@ class Preview extends \Magento\Backend\Block\Widget
 
         $template->setTemplateText($this->_maliciousCode->filter($template->getTemplateText()));
 
-        \Magento\Profiler::start("email_template_proccessing");
+        \Magento\Framework\Profiler::start("email_template_proccessing");
         $vars = array();
 
         $template->setDesignConfig(
@@ -80,7 +80,7 @@ class Preview extends \Magento\Backend\Block\Widget
             $templateProcessed = "<pre>" . htmlspecialchars($templateProcessed) . "</pre>";
         }
 
-        \Magento\Profiler::stop("email_template_proccessing");
+        \Magento\Framework\Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
     }

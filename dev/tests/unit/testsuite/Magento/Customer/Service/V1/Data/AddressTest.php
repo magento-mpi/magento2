@@ -10,8 +10,8 @@ namespace Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Service\Data\Eav\AttributeValue;
-use Magento\Service\Data\Eav\AttributeValueBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValue;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,7 +78,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerMetadataService */
     private $_customerMetadataService;
 
-    /** @var \Magento\Service\Data\Eav\AttributeValueBuilder */
+    /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder */
     private $_valueBuilder;
 
     /**
@@ -103,12 +103,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 array(
-                    new \Magento\Object(array('attribute_code' => 'warehouse_zip')),
-                    new \Magento\Object(array('attribute_code' => 'warehouse_alternate'))
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_zip')),
+                    new \Magento\Framework\Object(array('attribute_code' => 'warehouse_alternate'))
                 )
             )
         );
-        $this->_valueBuilder = $objectManagerHelper->getObject('Magento\Service\Data\Eav\AttributeValueBuilder');
+        $this->_valueBuilder = $objectManagerHelper
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
         $this->_addressBuilder = $objectManagerHelper->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
             [

@@ -9,7 +9,7 @@
  */
 namespace Magento\Pci\Model\Backend;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Pci backend observer model
@@ -23,7 +23,7 @@ class Observer
     /**
      * Authorization interface
      *
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -86,12 +86,12 @@ class Observer
     /**
      * Message manager interface
      *
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
      * @param \Magento\Backend\Model\UrlInterface $url
@@ -100,10 +100,10 @@ class Observer
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Pci\Model\Encryption $encryptor
      * @param \Magento\Framework\App\ActionFlag $actionFlag
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
         \Magento\Backend\Model\UrlInterface $url,
@@ -112,7 +112,7 @@ class Observer
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Pci\Model\Encryption $encryptor,
         \Magento\Framework\App\ActionFlag $actionFlag,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_authorization = $authorization;
         $this->_backendConfig = $backendConfig;
@@ -150,9 +150,9 @@ class Observer
             }
             $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
-                $firstFailureDate = new \Magento\Stdlib\DateTime\Date(
+                $firstFailureDate = new \Magento\Framework\Stdlib\DateTime\Date(
                     $firstFailureDate,
-                    \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                    \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
                 );
                 $firstFailureDate = $firstFailureDate->toValue();
             }
@@ -171,9 +171,9 @@ class Observer
 
         // check whether user is locked
         if ($lockExpires = $user->getLockExpires()) {
-            $lockExpires = new \Magento\Stdlib\DateTime\Date(
+            $lockExpires = new \Magento\Framework\Stdlib\DateTime\Date(
                 $lockExpires,
-                \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
             );
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {

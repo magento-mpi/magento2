@@ -19,8 +19,8 @@ namespace Magento\CatalogSearch\Controller;
 
 use Magento\Framework\App\Action\Context;
 use Magento\CatalogSearch\Model\Advanced as ModelAdvanced;
-use Magento\Session\Generic;
-use Magento\UrlFactory;
+use Magento\Framework\Session\Generic;
+use Magento\Framework\UrlFactory;
 
 class Advanced extends \Magento\Framework\App\Action\Action
 {

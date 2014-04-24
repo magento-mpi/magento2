@@ -8,10 +8,10 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
-use Magento\Service\EavDataObjectConverter;
+use Magento\Framework\Service\EavDataObjectConverter;
 
 /**
  * Customer Model converter.

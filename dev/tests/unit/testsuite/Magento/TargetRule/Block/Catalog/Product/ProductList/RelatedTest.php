@@ -16,7 +16,7 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -28,7 +28,7 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registry = $this->getMock('Magento\Registry', ['registry'], [], '', false);
+        $this->registry = $this->getMock('Magento\Framework\Registry', ['registry'], [], '', false);
         $this->cart = $this->getMock('Magento\Checkout\Model\Cart', ['getProductIds'], [], '', false);
         $this->block = $objectManager->getObject(
             'Magento\TargetRule\Block\Catalog\Product\ProductList\Related',

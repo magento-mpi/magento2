@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class CollectionFactory
 {

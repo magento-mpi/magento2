@@ -20,7 +20,7 @@ use Magento\Framework\App\State;
 class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -41,7 +41,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', array('getPath'), array(), '', false);
         $pathMap = array(

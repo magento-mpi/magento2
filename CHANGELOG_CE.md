@@ -16,27 +16,22 @@
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
   * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
-  * Covered Magento Store components with unit tests:
+  * Covered Magento library components with unit tests (MAGETWO-21136)
     * `Magento\Store\Model\*`
+    * `Magento\Error\*`
+    * `Magento\Event\Observer\*`
+    * `Magento\Framework\Filesystem\*`
+    * `Magento\Framework\Filesystem\File\*`
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 1): (MAGETWO-20866)
-    * Moved `lib/Magento/App` to `lib/Magento/Framework/App`
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 2): (MAGETWO-23646)
-    * Moved `lib/Magento/Data` to `lib/Magento/Framework/Data`
-    * Moved `lib/Magento/Filesystem` to `lib/Magento/Framework/Filesystem`
-    * Moved `lib/Magento/Config` to `lib/Magento/Framework/Config`
-    * Moved `lib/Magento/Model` to `lib/Magento/Framework/Model`
-    * Moved `lib/Magento/DB` to `lib/Magento/Framework/DB`
-    * Moved `lib/Magento/View` to `lib/Magento/Framework/View`
-  * Start supporting custom attributes in SOAP (MAGETWO-23119)
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (MAGETWO-20866, MAGETWO-23646, MAGETWO-23647, MAGETWO-23747)
   * Covered Magento application components with unit tests (MAGETWO-21540)
-    * `Sales/Helper/Guest.php`
-    * `Sales/Helper/Admin.php`
-    * `Sales/Model/Observer.php`
-    * `Sales/Model/Payment/Method/Converter.php`
-    * `Sales/Model/Email/Template.php`
-    * `Sales/Model/Observer/Backend/CustomerQuote.php`
-    * `Sales/Model/Status/ListStatus.php`
+     * `Sales/Helper/Guest.php`
+     * `Sales/Helper/Admin.php`
+     * `Sales/Model/Observer.php`
+     * `Sales/Model/Payment/Method/Converter.php`
+     * `Sales/Model/Email/Template.php`
+     * `Sales/Model/Observer/Backend/CustomerQuote.php`
+     * `Sales/Model/Status/ListStatus.php`
 * Refactored the following modules to use Customer Service:
   * Refactored Persistent Module (MAGETWO-20877)
   * Refactored GoogleShopping module (MAGETWO-20474)

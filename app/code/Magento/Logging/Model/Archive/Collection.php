@@ -23,7 +23,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     protected $_allowedFilesMask = '/^[a-z0-9\.\-\_]+\.csv$/i';
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -32,13 +32,13 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
      *
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
@@ -60,7 +60,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new \Magento\Stdlib\DateTime\Date(
+        $date = new \Magento\Framework\Stdlib\DateTime\Date(
             str_replace('.csv', '', $row['basename']),
             'yyyyMMddHH',
             $this->_localeResolver->getLocaleCode()
@@ -69,7 +69,7 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new \Magento\Stdlib\DateTime\Date(
+        $dateWithoutHours = new \Magento\Framework\Stdlib\DateTime\Date(
             str_replace('.csv', '', $row['basename']),
             'yyyyMMdd',
             $this->_localeResolver->getLocaleCode()

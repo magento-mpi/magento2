@@ -29,13 +29,13 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAddressServiceInterface */
     private $_addressService;
 
-    /** @var  \Magento\Registry */
+    /** @var  \Magento\Framework\Registry */
     private $_coreRegistry;
 
     /** @var \Magento\Backend\Model\Session */
     private $_backendSession;
 
-    /** @var  \Magento\ObjectManager */
+    /** @var  \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     /** @var  array */
@@ -50,7 +50,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_addressService = $this->_objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
-        $this->_coreRegistry = $this->_objectManager->get('Magento\Registry');
+        $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
@@ -151,7 +151,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),
-            'account' => \Magento\Service\EavDataObjectConverter::toFlatArray($customer)
+            'account' => \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */

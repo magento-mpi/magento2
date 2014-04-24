@@ -14,7 +14,7 @@ class Primary implements \Magento\Framework\Config\FileResolverInterface
     /**
      * Module configuration file reader
      *
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_moduleReader;
 

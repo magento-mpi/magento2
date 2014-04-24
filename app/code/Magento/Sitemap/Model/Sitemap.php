@@ -104,7 +104,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     protected $_sitemapData;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -124,7 +124,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     protected $_cmsFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
@@ -139,40 +139,40 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     protected $_request;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory $categoryFactory
      * @param \Magento\Sitemap\Model\Resource\Catalog\ProductFactory $productFactory
      * @param \Magento\Sitemap\Model\Resource\Cms\PageFactory $cmsFactory
-     * @param \Magento\Stdlib\DateTime\DateTime $modelDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $modelDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory $categoryFactory,
         \Magento\Sitemap\Model\Resource\Catalog\ProductFactory $productFactory,
         \Magento\Sitemap\Model\Resource\Cms\PageFactory $cmsFactory,
-        \Magento\Stdlib\DateTime\DateTime $modelDate,
+        \Magento\Framework\Stdlib\DateTime\DateTime $modelDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -226,7 +226,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
         $helper = $this->_sitemapData;
         $storeId = $this->getStoreId();
 
-        $this->_sitemapItems[] = new \Magento\Object(
+        $this->_sitemapItems[] = new \Magento\Framework\Object(
             array(
                 'changefreq' => $helper->getCategoryChangefreq($storeId),
                 'priority' => $helper->getCategoryPriority($storeId),
@@ -234,7 +234,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
             )
         );
 
-        $this->_sitemapItems[] = new \Magento\Object(
+        $this->_sitemapItems[] = new \Magento\Framework\Object(
             array(
                 'changefreq' => $helper->getProductChangefreq($storeId),
                 'priority' => $helper->getProductPriority($storeId),
@@ -242,7 +242,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
             )
         );
 
-        $this->_sitemapItems[] = new \Magento\Object(
+        $this->_sitemapItems[] = new \Magento\Framework\Object(
             array(
                 'changefreq' => $helper->getPageChangefreq($storeId),
                 'priority' => $helper->getPagePriority($storeId),
@@ -332,7 +332,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
     public function generateXml()
     {
         $this->_initSitemapItems();
-        /** @var $sitemapItem \Magento\Object */
+        /** @var $sitemapItem \Magento\Framework\Object */
         foreach ($this->_sitemapItems as $sitemapItem) {
             $changefreq = $sitemapItem->getChangefreq();
             $priority = $sitemapItem->getPriority();
@@ -580,7 +580,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
      * @param string $type
      * @return string
      */
-    protected function _getStoreBaseUrl($type = \Magento\UrlInterface::URL_TYPE_LINK)
+    protected function _getStoreBaseUrl($type = \Magento\Framework\UrlInterface::URL_TYPE_LINK)
     {
         return rtrim($this->_storeManager->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
     }
@@ -592,7 +592,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
      * @param string $type
      * @return string
      */
-    protected function _getUrl($url, $type = \Magento\UrlInterface::URL_TYPE_LINK)
+    protected function _getUrl($url, $type = \Magento\Framework\UrlInterface::URL_TYPE_LINK)
     {
         return $this->_getStoreBaseUrl($type) . ltrim($url, '/');
     }
@@ -605,7 +605,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
      */
     protected function _getMediaUrl($url)
     {
-        return $this->_getUrl($url, \Magento\UrlInterface::URL_TYPE_MEDIA);
+        return $this->_getUrl($url, \Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
     }
 
     /**
@@ -648,7 +648,7 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel
             $storeDomain = rtrim($url . '/' . $installationFolder, '/');
         } else {
             //case when documentRoot contains symlink to basedir
-            $url = $this->_getStoreBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB);
+            $url = $this->_getStoreBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
             $storeDomain = rtrim($url, '/');
         }
 

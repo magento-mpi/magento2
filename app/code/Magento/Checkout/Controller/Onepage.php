@@ -33,12 +33,12 @@ class Onepage extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
@@ -52,8 +52,8 @@ class Onepage extends Action
      * @param \Magento\Customer\Model\Session $customerSession
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
@@ -61,8 +61,8 @@ class Onepage extends Action
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService,
-        \Magento\Registry $coreRegistry,
-        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -235,7 +235,7 @@ class Onepage extends Action
             return;
         }
         $this->_objectManager->get('Magento\Checkout\Model\Session')->setCartWasUpdated(false);
-        $currentUrl = $this->_objectManager->create('Magento\UrlInterface')->getUrl('*/*/*', array('_secure' => true));
+        $currentUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*/*', array('_secure' => true));
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();
         $this->_view->loadLayout();
@@ -494,7 +494,7 @@ class Onepage extends Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result['error'] = __('Unable to set Payment Method');
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -598,7 +598,7 @@ class Onepage extends Action
             $result['goto_section'] = 'payment';
             $result['update_section'] = array('name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml());
         } catch (\Magento\Framework\Model\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_objectManager->get(
                 'Magento\Checkout\Helper\Data'
             )->sendPaymentFailedEmail(
@@ -626,7 +626,7 @@ class Onepage extends Action
                 $this->getOnepage()->getCheckout()->setUpdateSection(null);
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_objectManager->get(
                 'Magento\Checkout\Helper\Data'
             )->sendPaymentFailedEmail(

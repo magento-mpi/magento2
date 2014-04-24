@@ -15,7 +15,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     private $localeFormat;
 
@@ -56,7 +56,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->localeFormat = $this->getMockBuilder('Magento\Locale\FormatInterface')
+        $this->localeFormat = $this->getMockBuilder('Magento\Framework\Locale\FormatInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -847,7 +847,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->method('getTypeInstance')
             ->will($this->returnValue($typeInstanceMock));
 
-        $optionMock = $this->getMockBuilder('Magento\Object')
+        $optionMock = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
             ->setMethods(['getProduct'])
             ->getMock();
@@ -1023,7 +1023,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $origin = 'origin';
         $code = 1;
         $message = "message";
-        $additionalData = new \Magento\Object();
+        $additionalData = new \Magento\Framework\Object();
         $additionalData->setTemp(true);
 
         $this->errorInfos->expects($this->once())

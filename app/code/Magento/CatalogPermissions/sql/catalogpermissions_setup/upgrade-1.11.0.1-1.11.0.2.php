@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $this \Magento\Module\Setup */
+/* @var $this \Magento\Framework\Module\Setup */
 $this->startSetup();
 
 /** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */

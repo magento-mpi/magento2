@@ -37,7 +37,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $expectedHtml = '<a href="here">here</a>';
         $layoutMock = $this->getMock('\Magento\Framework\View\Layout', array(), array(), '', false);
-        $entityMock = $this->getMock('\Magento\Object', array(), array(), '', false);
+        $entityMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
         $inlineMock = $this->getMock(
             'Magento\GiftMessage\Block\Message\Inline',
             array('setId', 'setDontDisplayContainer', 'setEntity', 'setType', 'toHtml'),

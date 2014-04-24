@@ -65,7 +65,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $customers \Magento\Customer\Model\Customer[] */
         $customers = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ImportExport_Customer_Collection'
         );
@@ -159,7 +159,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
          * Change created_at date of first customer for future filter test.
          */
         $customers = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ImportExport_Customer_Collection'
         );
