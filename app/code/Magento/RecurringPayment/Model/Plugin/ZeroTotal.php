@@ -50,13 +50,8 @@ class ZeroTotal
         MethodInterface $paymentMethod,
         Quote $quote
     ) {
-        return $proceed(
-            $paymentMethod,
-            $quote
-        ) || $this->specification->isSatisfiedBy(
-            $paymentMethod->getCode()
-        ) && $this->filter->hasRecurringItems(
-            $quote
-        );
+        return $proceed($paymentMethod, $quote)
+            || $this->specification->isSatisfiedBy($paymentMethod->getCode())
+            && $this->filter->hasRecurringItems($quote);
     }
 }

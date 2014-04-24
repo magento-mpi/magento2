@@ -13,7 +13,9 @@ use Magento\Sales\Model\Order\Payment;
 /**
  * Payment method abstract model
  */
-abstract class AbstractMethod extends \Magento\Object implements \Magento\Payment\Model\MethodInterface
+abstract class AbstractMethod extends \Magento\Object implements
+    \Magento\Payment\Model\MethodInterface,
+    \Magento\Payment\Model\Checks\PaymentMethodInterface
 {
     const ACTION_ORDER = 'order';
 
