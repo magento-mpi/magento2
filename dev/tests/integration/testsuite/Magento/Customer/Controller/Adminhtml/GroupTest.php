@@ -29,7 +29,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     public function setUp()
     {
         parent::setUp();
-        $this->session = Bootstrap::getObjectManager()->get('Magento\Session\SessionManagerInterface');
+        $this->session = Bootstrap::getObjectManager()->get('Magento\Framework\Session\SessionManagerInterface');
     }
 
     public function tearDown()
