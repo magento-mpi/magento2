@@ -55,7 +55,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento\\FrameworkView\DesignInterface');
+        $this->_model = $objectManager->create('Magento\\Framework\View\DesignInterface');
         $this->_viewFileSystem = $objectManager->create('Magento\Framework\View\FileSystem');
         $this->_viewConfig = $objectManager->create('Magento\Framework\View\ConfigInterface');
         $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
@@ -95,8 +95,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDesignTheme()
     {
-        $this->_model->setDesignTheme('magento_blank', 'frontend');
-        $this->assertEquals('magento_blank', $this->_model->getDesignTheme()->getThemePath());
+        $this->_model->setDesignTheme('Magento/blank', 'frontend');
+        $this->assertEquals('Magento/blank', $this->_model->getDesignTheme()->getThemePath());
     }
 
     public function testGetDesignTheme()

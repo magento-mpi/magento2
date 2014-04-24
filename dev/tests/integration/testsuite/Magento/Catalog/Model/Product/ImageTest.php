@@ -59,15 +59,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $expectedFile = '/somewhere/watermark.png';
 
         /** @var \Magento\Framework\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject $viewFilesystem */
-        $viewFilesystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
-        $viewFilesystem->expects($this->once())
+        $viewFileSystem = $this->getMock('Magento\Framework\View\FileSystem', array(), array(), '', false);
+        $viewFileSystem->expects($this->once())
             ->method('getStaticFileName')
             ->with($inputFile)
             ->will($this->returnValue($expectedFile));
 
         /** @var $model \Magento\Catalog\Model\Product\Image */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Image', ['viewFilesystem' => $viewFilesystem]);
+            ->create('Magento\Catalog\Model\Product\Image', ['viewFileSystem' => $viewFileSystem]);
         $processor = $this->getMock(
             'Magento\Image',
             ['save', 'keepAspectRatio', 'keepFrame', 'keepTransparency', 'constrainOnly', 'backgroundColor', 'quality',

@@ -30,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetWysiwygJsPluginSrc()
     {
         $src = $this->_model->getWysiwygJsPluginSrc();
-        $this->assertStringStartsWith('http://localhost/pub/static/adminhtml/magento_backend/en_US/mage/adminhtml/',
+        $this->assertStringStartsWith('http://localhost/pub/static/adminhtml/Magento/backend/en_US/mage/adminhtml/',
             $src);
         $this->assertStringEndsWith('editor_plugin.js', $src);
     }

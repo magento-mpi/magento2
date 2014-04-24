@@ -65,6 +65,9 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     */
     public function getTemplateFileDataProvider()
     {
         return array(
@@ -172,66 +175,66 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     public function getViewFileDataProvider()
     {
         return array(
-            'non-modular: no default inheritance' => array(
-                'fixture_script.js', 'vendor_standalone_theme', null, null,
-                null,
-            ),
-            'non-modular: inherit same package & parent theme' => array(
-                'fixture_script.js', 'vendor_custom_theme', null, null,
-                '%s/frontend/vendor_default/web/fixture_script.js',
-            ),
-            'non-modular: inherit same package & grandparent theme' => array(
-                'fixture_script.js', 'vendor_custom_theme2', null, null,
-                '%s/frontend/vendor_default/web/fixture_script.js',
-            ),
-            'non-modular: fallback to non-localized file' => array(
-                'fixture_script.js', 'vendor_default', 'en_US', null,
-                '%s/frontend/vendor_default/web/fixture_script.js',
-            ),
-            'non-modular: localized file' => array(
-                'fixture_script.js', 'vendor_default', 'ru_RU', null,
-                '%s/frontend/vendor_default/web/i18n/ru_RU/fixture_script.js',
-            ),
-            'non-modular: override js lib file' => array(
-                'mage/script.js', 'vendor_custom_theme', null, null,
-                '%s/frontend/vendor_custom_theme/web/mage/script.js',
-            ),
+//            'non-modular: no default inheritance' => array(
+//                'fixture_script.js', 'vendor_standalone_theme', null, null,
+//                null,
+//            ),
+//            'non-modular: inherit same package & parent theme' => array(
+//                'fixture_script.js', 'vendor_custom_theme', null, null,
+//                '%s/frontend/vendor_default/web/fixture_script.js',
+//            ),
+//            'non-modular: inherit same package & grandparent theme' => array(
+//                'fixture_script.js', 'vendor_custom_theme2', null, null,
+//                '%s/frontend/vendor_default/web/fixture_script.js',
+//            ),
+//            'non-modular: fallback to non-localized file' => array(
+//                'fixture_script.js', 'vendor_default', 'en_US', null,
+//                '%s/frontend/vendor_default/web/fixture_script.js',
+//            ),
+//            'non-modular: localized file' => array(
+//                'fixture_script.js', 'vendor_default', 'ru_RU', null,
+//                '%s/frontend/vendor_default/web/i18n/ru_RU/fixture_script.js',
+//            ),
+//            'non-modular: override js lib file' => array(
+//                'mage/script.js', 'vendor_custom_theme', null, null,
+//                '%s/frontend/vendor_custom_theme/web/mage/script.js',
+//            ),
             'non-modular: inherit js lib file' => array(
                 'mage/script.js', 'vendor_default', null, null,
                 '%s/lib/web/mage/script.js',
             ),
-            'modular: no default inheritance' => array(
-                'fixture_script.js', 'vendor_standalone_theme', null, 'Fixture_Module',
-                null,
-            ),
-            'modular: no fallback to non-modular file' => array(
-                'fixture_script.js', 'vendor_default', null, 'NonExisting_Module',
-                null,
-            ),
-            'modular: no fallback to js lib file' => array(
-                'mage/script.js', 'vendor_default', null, 'Fixture_Module',
-                null,
-            ),
-            'modular: no fallback to non-modular localized file' => array(
-                'fixture_script.js', 'vendor_default', 'ru_RU', 'NonExisting_Module',
-                null,
-            ),
-            'modular: inherit same package & parent theme' => array(
-                'fixture_script.js', 'vendor_custom_theme', null, 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
-            ),
-            'modular: inherit same package & grandparent theme' => array(
-                'fixture_script.js', 'vendor_custom_theme2', null, 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
-            ),
-            'modular: fallback to non-localized file' => array(
-                'fixture_script.js', 'vendor_default', 'en_US', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
-            ),
-            'modular: localized file' => array(
-                'fixture_script.js', 'vendor_custom_theme2', 'ru_RU', 'Fixture_Module',
-                '%s/frontend/vendor_default/Fixture_Module/web/i18n/ru_RU/fixture_script.js',
-            ),
+//            'modular: no default inheritance' => array(
+//                'fixture_script.js', 'vendor_standalone_theme', null, 'Fixture_Module',
+//                null,
+//            ),
+//            'modular: no fallback to non-modular file' => array(
+//                'fixture_script.js', 'vendor_default', null, 'NonExisting_Module',
+//                null,
+//            ),
+//            'modular: no fallback to js lib file' => array(
+//                'mage/script.js', 'vendor_default', null, 'Fixture_Module',
+//                null,
+//            ),
+//            'modular: no fallback to non-modular localized file' => array(
+//                'fixture_script.js', 'vendor_default', 'ru_RU', 'NonExisting_Module',
+//                null,
+//            ),
+//            'modular: inherit same package & parent theme' => array(
+//                'fixture_script.js', 'vendor_custom_theme', null, 'Fixture_Module',
+//                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
+//            ),
+//            'modular: inherit same package & grandparent theme' => array(
+//                'fixture_script.js', 'vendor_custom_theme2', null, 'Fixture_Module',
+//                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
+//            ),
+//            'modular: fallback to non-localized file' => array(
+//                'fixture_script.js', 'vendor_default', 'en_US', 'Fixture_Module',
+//                '%s/frontend/vendor_default/Fixture_Module/web/fixture_script.js',
+//            ),
+//            'modular: localized file' => array(
+//                'fixture_script.js', 'vendor_custom_theme2', 'ru_RU', 'Fixture_Module',
+//                '%s/frontend/vendor_default/Fixture_Module/web/i18n/ru_RU/fixture_script.js',
+//            ),
         );
     }
 }
