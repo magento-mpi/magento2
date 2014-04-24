@@ -19,7 +19,7 @@ use Magento\Sales\Model\Quote\Address;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 
@@ -34,12 +34,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $quoteFactoryMock;
 
     /**
-     * @var \Magento\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $localeResolverMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $localeDateMock;
 
@@ -80,7 +80,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
+        $this->eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->storesConfigMock = $this->getMockBuilder('Magento\Store\Model\StoresConfig')
@@ -90,10 +90,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->localeResolverMock = $this->getMockBuilder('Magento\Locale\ResolverInterface')
+        $this->localeResolverMock = $this->getMockBuilder('Magento\Framework\Locale\ResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->localeDateMock = $this->getMockBuilder('Magento\Stdlib\DateTime\TimezoneInterface')
+        $this->localeDateMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->orderFactoryMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Report\OrderFactory')
@@ -242,17 +242,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Set up aggregate
      *
-     * @return \Magento\Stdlib\DateTime\DateInterface
+     * @return \Magento\Framework\Stdlib\DateTime\DateInterface
      */
     protected function setupAggregate()
     {
-        $date = (new ObjectManager($this))->getObject('Magento\Stdlib\DateTime\Date');
+        $date = (new ObjectManager($this))->getObject('Magento\Framework\Stdlib\DateTime\Date');
         $this->localeResolverMock->expects($this->once())
             ->method('emulate')
             ->with(0);
         $this->localeResolverMock->expects($this->once())
             ->method('revert');
-        $dateMock = $this->getMockBuilder('Magento\Stdlib\DateTime\DateInterface')
+        $dateMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dateMock->expects($this->once())
@@ -272,7 +272,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetQuoteCanApplyMsrp($isMsrpEnabled, $canApplyMsrp)
     {
-        $eventMock = $this->getMockBuilder('Magento\Event')
+        $eventMock = $this->getMockBuilder('Magento\Framework\Event')
             ->disableOriginalConstructor()
             ->setMethods(['getQuote'])
             ->getMock();
@@ -280,7 +280,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup', 'setCanApplyMsrp', 'getAllAddresses'])
             ->getMock();
-        $observerMock = $this->getMockBuilder('Magento\Event\Observer')
+        $observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')
             ->disableOriginalConstructor()
             ->getMock();
         $observerMock->expects($this->once())
@@ -354,7 +354,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ->method('addStatusHistoryComment')
                 ->with($orderHistoryComment, false);
         }
-        $observer = $objectManager->getObject('Magento\Event\Observer');
+        $observer = $objectManager->getObject('Magento\Framework\Event\Observer');
         $observer->setOrder($orderMock);
         $this->observer->addVatRequestParamsOrderComment($observer);
 
@@ -414,7 +414,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         if (!empty($groupId)) {
             $quoteAddress->setPrevQuoteCustomerGroupId($groupId);
         }
-        $observerMock = $this->getMockBuilder('Magento\Event\Observer')
+        $observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')
             ->disableOriginalConstructor()
             ->setMethods(['getQuoteAddress'])
             ->getMock();
