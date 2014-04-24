@@ -41,7 +41,7 @@ class Alternative extends Simple
             if (!is_string($extension) || !is_array($newExtensions)) {
                 throw new \InvalidArgumentException(
                     "\$alternativeExtensions must be an array with format: "
-                        . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]"
+                    . "array('ext1' => array('ext1', 'ext2'), 'ext3' => array(...)]"
                 );
             }
         }
