@@ -41,4 +41,34 @@ interface BundleCalculatorInterface extends CalculatorInterface
         $searchMin = true,
         $bundleProductAmount = null
     );
+
+    /**
+     * Calculate amount for bundle product with all selection prices
+     *
+     * @param float $basePriceValue
+     * @param Product $bundleProduct
+     * @param \Magento\Bundle\Pricing\Price\BundleSelectionPrice[] $selectionPriceList
+     * @param null|string $exclude code of adjustment that has to be excluded
+     * @return \Magento\Pricing\Amount\AmountInterface
+     */
+    public function calculateBundleAmount($basePriceValue, $bundleProduct, $selectionPriceList, $exclude = null);
+
+    /**
+     * Create selection price list for the retrieved options
+     *
+     * @param \Magento\Bundle\Model\Option $option
+     * @param Product $bundleProduct
+     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice[]
+     */
+    public function createSelectionPriceList($option, $bundleProduct);
+
+    /**
+     * Find minimal or maximal price for existing options
+     *
+     * @param \Magento\Bundle\Model\Option $option
+     * @param \Magento\Bundle\Pricing\Price\BundleSelectionPrice[] $selectionPriceList
+     * @param bool $searchMin
+     * @return \Magento\Bundle\Pricing\Price\BundleSelectionPrice[]
+     */
+    public function processOptions($option, $selectionPriceList, $searchMin = true);
 }
