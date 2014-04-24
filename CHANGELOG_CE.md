@@ -46,6 +46,7 @@
   * Implemented popup/modal window widget (MAGETWO-22996)
   * Implemented calendar widget (MAGETWO-22996)
   * Implemented suggest widget (MAGETWO-22996)
+* Added configuration for Travis CI (MAGETWO-21884)
 
 2.0.0.0-dev74
 =============
@@ -97,9 +98,10 @@
   * Multishipping
   * Paypal
 * Customer Service usage:
-  * Implement Service Context Provider (MAGETWO-11084)
-  * Restructure webapi.xml (MAGETWO-22665)
-  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
+  * Implemented Service Context Provider
+  * Restructured webapi.xml
+  * Renamed createAccount to createCustomer in CustomerAccountService
+  * Implemented Caching strategy for the Customer service
 * GitHub requests:
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
@@ -2510,3 +2512,4 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
+
