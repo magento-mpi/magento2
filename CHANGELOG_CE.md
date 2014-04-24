@@ -84,8 +84,8 @@
   * Improved backend grids UI
 * Framework Improvements:
   * Simplified Search related Data Objects
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*
-    * Moved `lib/Magento/App` to `lib/Magento/Framework/App
+  * Moved lib/Magento/* to lib/Magento/Framework/*
+    * Moved lib/Magento/App to lib/Magento/Framework/App
 * Refactored the following modules to use Customer service:
   * PayPalRecurringPayment
   * RecurringPayment

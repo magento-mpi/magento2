@@ -113,15 +113,15 @@
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>dev/tests/integration/testsuite/Magento/Mview</path>
+            <path>dev/tests/integration/testsuite/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>dev/tests/unit/testsuite/Magento/Mview</path>
+            <path>dev/tests/unit/testsuite/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>
-            <path>lib/Magento/Mview</path>
+            <path>lib/Magento/Framework/Mview</path>
             <word>CHANGELOG</word>
         </item>
         <item>
