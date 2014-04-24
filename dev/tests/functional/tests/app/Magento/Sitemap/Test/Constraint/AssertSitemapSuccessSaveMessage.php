@@ -19,6 +19,7 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 class AssertSitemapSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The sitemap has been saved.';
+
     /**
      * Constraint severeness
      *

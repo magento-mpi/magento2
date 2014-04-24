@@ -28,7 +28,7 @@ class Curl extends AbstractCurl implements SitemapInterface
      *
      * @var array
      */
-    protected $defaultAttributeValues = ['sitemap_store_id' => 1];
+    protected $defaultAttributeValues = ['store_id' => 1];
 
     /**
      * Prepare data for deleting sitemap
@@ -48,7 +48,7 @@ class Curl extends AbstractCurl implements SitemapInterface
         $curl->close();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
-            throw new \Exception("Sitemap entity creating  by curl handler was not successful! Response: $response");
+            throw new \Exception("Sitemap entity creating by curl handler was not successful! Response: $response");
         }
 
         return ['sitemap_id' => $this->getSitemapId($data)];
@@ -57,16 +57,15 @@ class Curl extends AbstractCurl implements SitemapInterface
     /**
      * Get id after created sitemap
      *
-     * @param $data
+     * @param array $data
      * @return mixed
      * @throws \Exception
      */
-    protected function getSitemapId($data)
+    protected function getSitemapId(array $data)
     {
         //Sort data in grid to define sitemap id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'admin/sitemap/index/sort/sitemap_id/dir/desc';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();

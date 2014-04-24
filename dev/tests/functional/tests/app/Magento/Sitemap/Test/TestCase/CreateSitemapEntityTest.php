@@ -32,23 +32,23 @@ class CreateSitemapEntityTest extends Injectable
     /**
      * @var SitemapIndex
      */
-    protected $adminSitemapIndex;
+    protected $sitemapIndex;
 
     /**
      * @var SitemapNew
      */
-    protected $sitemapNewIndex;
+    protected $sitemapNew;
 
     /**
-     * @param SitemapIndex $adminSitemapIndex
-     * @param SitemapNew $sitemapNewIndex
+     * @param SitemapIndex $sitemapIndex
+     * @param SitemapNew $sitemapNew
      */
     public function __inject(
-        SitemapIndex $adminSitemapIndex,
-        SitemapNew $sitemapNewIndex
+        SitemapIndex $sitemapIndex,
+        SitemapNew $sitemapNew
     ) {
-        $this->adminSitemapIndex = $adminSitemapIndex;
-        $this->sitemapNewIndex = $sitemapNewIndex;
+        $this->sitemapIndex = $sitemapIndex;
+        $this->sitemapNew = $sitemapNew;
     }
 
     /**
@@ -56,10 +56,10 @@ class CreateSitemapEntityTest extends Injectable
      */
     public function testCreateSitemap(Sitemap $sitemap)
     {
-        //Steps
-        $this->adminSitemapIndex->open();
-        $this->adminSitemapIndex->getGridPageActions()->addNew();
-        $this->sitemapNewIndex->getSitemapForm()->fill($sitemap);
-        $this->sitemapNewIndex->getFormPageActions()->save();
+        // Steps
+        $this->sitemapIndex->open();
+        $this->sitemapIndex->getGridPageActions()->addNew();
+        $this->sitemapNew->getSitemapForm()->fill($sitemap);
+        $this->sitemapNew->getFormPageActions()->save();
     }
 }

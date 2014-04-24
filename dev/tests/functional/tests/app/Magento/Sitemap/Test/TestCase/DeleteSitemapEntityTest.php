@@ -17,6 +17,9 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapEdit;
  * Cover deleting Sitemap Entity
  *
  * Test Flow:
+ * Preconditions:
+ *  1. Create new sitemap.
+ * Steps:
  *  1. Log in as admin user from data set.
  *  2. Navigate to Marketing > SEO and Search > Site Map.
  *  3. Open sitemap from precondition.
@@ -31,7 +34,7 @@ class DeleteSitemapEntityTest extends Injectable
     /**
      * @var SitemapIndex
      */
-    protected $adminSitemapIndex;
+    protected $sitemapIndex;
 
     /**
      * @var SitemapEdit
@@ -39,14 +42,14 @@ class DeleteSitemapEntityTest extends Injectable
     protected $sitemapEdit;
 
     /**
-     * @param SitemapIndex $adminSitemapIndex
+     * @param SitemapIndex $sitemapIndex
      * @param SitemapEdit $sitemapEdit
      */
     public function __inject(
-        SitemapIndex $adminSitemapIndex,
+        SitemapIndex $sitemapIndex,
         SitemapEdit $sitemapEdit
     ){
-        $this->adminSitemapIndex = $adminSitemapIndex;
+        $this->sitemapIndex = $sitemapIndex;
         $this->sitemapEdit = $sitemapEdit;
     }
 
@@ -62,9 +65,9 @@ class DeleteSitemapEntityTest extends Injectable
             'sitemap_path' => $sitemap->getSitemapPath(),
             'sitemap_id' => $sitemap->getSitemapId()
         ];
-        //Steps
-        $this->adminSitemapIndex->open();
-        $this->adminSitemapIndex->getSitemapGrid()->searchAndOpen($filter);
+        // Steps
+        $this->sitemapIndex->open();
+        $this->sitemapIndex->getSitemapGrid()->searchAndOpen($filter);
         $this->sitemapEdit->getFormPageActions()->delete();
     }
 }
