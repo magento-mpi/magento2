@@ -11,18 +11,20 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
-use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Special price model
  */
-class SpecialPrice extends RegularPrice implements SpecialPriceInterface
+class SpecialPrice extends AbstractPrice implements SpecialPriceInterface, BasePriceProviderInterface
 {
     /**
-     * @var string
+     * Price type special
      */
-    protected $priceType = self::PRICE_TYPE_SPECIAL;
+    const PRICE_CODE = 'special_price';
 
     /**
      * @var TimezoneInterface
@@ -30,18 +32,18 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
     protected $localeDate;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      * @param TimezoneInterface $localeDate
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
         TimezoneInterface $localeDate
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
         $this->localeDate = $localeDate;
     }
 
@@ -68,7 +70,7 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
      */
     public function getSpecialPrice()
     {
-        return $this->salableItem->getSpecialPrice();
+        return $this->product->getSpecialPrice();
     }
 
     /**
@@ -78,7 +80,7 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
      */
     public function getSpecialFromDate()
     {
-        return $this->salableItem->getSpecialFromDate();
+        return $this->product->getSpecialFromDate();
     }
 
     /**
@@ -88,7 +90,7 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
      */
     public function getSpecialToDate()
     {
-        return $this->salableItem->getSpecialToDate();
+        return $this->product->getSpecialToDate();
     }
 
     /**
@@ -97,7 +99,7 @@ class SpecialPrice extends RegularPrice implements SpecialPriceInterface
     public function isScopeDateInInterval()
     {
         return $this->localeDate->isScopeDateInInterval(
-            $this->salableItem->getStore(),
+            $this->product->getStore(),
             $this->getSpecialFromDate(),
             $this->getSpecialToDate()
         );

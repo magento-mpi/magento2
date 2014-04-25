@@ -9,13 +9,15 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
+use Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
+
 /**
  * Helper for fetching properties by product configurational item
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Configuration extends \Magento\Framework\App\Helper\AbstractHelper implements
-    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends AbstractHelper implements ConfigurationInterface
 {
     /**
      * Filter manager
@@ -73,15 +75,11 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
                 $option = $product->getOptionById($optionId);
                 if ($option) {
                     $itemOption = $item->getOptionByCode('option_' . $option->getId());
-                    $group = $option->groupFactory(
-                        $option->getType()
-                    )->setOption(
-                        $option
-                    )->setConfigurationItem(
-                        $item
-                    )->setConfigurationItemOption(
-                        $itemOption
-                    );
+                    /** @var $group \Magento\Catalog\Model\Product\Option\Type\DefaultType */
+                    $group = $option->groupFactory($option->getType())
+                        ->setOption($option)
+                        ->setConfigurationItem($item)
+                        ->setConfigurationItemOption($itemOption);
 
                     if ('file' == $option->getType()) {
                         $downloadParams = $item->getFileDownloadParams();

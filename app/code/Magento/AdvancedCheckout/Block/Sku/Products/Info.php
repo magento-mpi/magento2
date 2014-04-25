@@ -163,37 +163,35 @@ class Info extends \Magento\Framework\View\Element\Template
                 return '';
         }
     }
-
     /**
-     * Get html of tier price
+     * Get tier price formatted with html
      *
      * @return string
      */
-    public function getTierPriceHtml()
+    public function getProductTierPriceHtml()
     {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $this->getItem()->getProduct();
-        if (!$product || !$product->getId()) {
-            return '';
+        $priceRender = $this->getPriceRender();
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE,
+                $this->getItem()->getProduct(),
+                [
+                    'include_container' => true,
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
         }
 
-        $productTierPrices = $product->getData('tier_price');
-        if (!is_array($productTierPrices)) {
-            $productAttributes = $product->getAttributes();
-            if (!isset(
-                $productAttributes['tier_price']
-            ) || !$productAttributes['tier_price'] instanceof \Magento\Catalog\Model\Resource\Eav\Attribute
-            ) {
-                return '';
-            }
-            $productAttributes['tier_price']->getBackend()->afterLoad($product);
-        }
+        return $price;
+    }
 
-        $this->_coreRegistry->unregister('product');
-        $this->_coreRegistry->register('product', $product);
-        if (!$this->hasProductViewBlock()) {
-            $this->setProductViewBlock($this->getLayout()->createBlock('Magento\Catalog\Block\Product\View'));
-        }
-        return $this->getProductViewBlock()->getTierPriceHtml();
+    /**
+     * @return \Magento\Framework\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
     }
 }

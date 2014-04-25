@@ -336,7 +336,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getPriceBlock()->addProduct($product);
             }
-            $block = $this->_getPriceBlock()->toHtml();
+            $block = $this->_getPriceBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_PRICE_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -348,7 +348,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getStockBlock()->addProduct($product);
             }
-            $block = $this->_getStockBlock()->toHtml();
+            $block = $this->_getStockBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_STOCK_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -356,6 +356,10 @@ class Email extends \Magento\Framework\Model\AbstractModel
             );
         }
 
+        $alertGrid = $this->_appState->emulateAreaCode(
+            \Magento\Framework\App\Area::AREA_FRONTEND,
+            array($block, 'toHtml')
+        );
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
@@ -363,7 +367,10 @@ class Email extends \Magento\Framework\Model\AbstractModel
         )->setTemplateOptions(
             array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customerName' => $this->_customerHelper->getCustomerName($this->_customer), 'alertGrid' => $block)
+            array(
+                'customerName' => $this->_customerHelper->getCustomerName($this->_customer),
+                'alertGrid' => $alertGrid
+            )
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_IDENTITY,

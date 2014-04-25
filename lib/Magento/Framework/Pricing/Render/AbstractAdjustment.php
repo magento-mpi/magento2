@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,7 +49,7 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     /**
      * @param AmountRenderInterface $amountRender
      * @param array $arguments
-     * @return void
+     * @return string
      */
     public function render(AmountRenderInterface $amountRender, array $arguments = [])
     {
@@ -120,7 +122,7 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     }
 
     /**
-     * @return void
+     * @return string
      */
     abstract protected function apply();
 }

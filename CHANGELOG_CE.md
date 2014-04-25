@@ -1,3 +1,9 @@
+* Pricing Improvements:
+  * Eliminated price calculation from blocks and templates and implemented new calculation models for the following modules:
+     * ConfigurableProduct (MAGETWO-20399)
+     * Wishlist (MAGETWO-21556)
+     * Rss (MAGETWO-21555)
+     * ProductAlert (MAGETWO-21554)
 * JavaScript improvements:
   * Removed head.js usages from frontend (MAGETWO-18032)
   * Removed head.js usages from adminhtml (MAGETWO-18053)

@@ -742,6 +742,16 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     }
 
     /**
+     * Get quantity for product
+     *
+     * @return float
+     */
+    public function getQty()
+    {
+        return $this->getData('qty');
+    }
+
+    /**
      * Callback for entity reindex
      *
      * @return void

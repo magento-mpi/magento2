@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,6 +32,9 @@ class Calculator implements CalculatorInterface
     }
 
     /**
+     * Retrieve Amount object based on given float amount, product and exclude option.
+     * It is possible to pass "true" or adjustment code to exclude all or specific adjustment from an amount.
+     *
      * @param float|string $amount
      * @param SaleableInterface $saleableItem
      * @param null|bool|string $exclude

@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +22,7 @@ interface PriceInterface
      *
      * @return string
      */
-    public function getPriceType();
+    public function getPriceCode();
 
     /**
      * Get price value

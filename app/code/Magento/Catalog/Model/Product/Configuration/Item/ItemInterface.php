@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Product configurational item interface
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Product\Configuration\Item;
 
+/**
+ * Product configurational item interface
+ */
 interface ItemInterface
 {
     /**
