@@ -9,6 +9,8 @@
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
   * Fixed functional tests failing PSR2 test (MAGETWO-24351)
+  * Retest and fix benchmarking script (MAGETWO-23662)
+  * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
 
 2.0.0.0-dev77
 =============
