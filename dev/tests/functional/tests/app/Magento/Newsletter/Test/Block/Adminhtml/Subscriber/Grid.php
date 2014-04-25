@@ -11,12 +11,15 @@ namespace Magento\Newsletter\Test\Block\Adminhtml\Subscriber;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
- * Newsletter subscribers grid block
+ * Newsletter subscribers grid
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml\Subscriber
- * @param array $filters
  */
-class Grid extends AbstractGrid {
+class Grid extends AbstractGrid
+{
+    /**
+     * @var array
+     */
     protected $filters = [
         'email' => [
             'selector' => '#subscriberGrid_filter_email',

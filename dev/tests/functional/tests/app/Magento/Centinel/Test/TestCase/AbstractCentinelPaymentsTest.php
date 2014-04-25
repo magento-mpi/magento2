@@ -182,7 +182,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         $topLinks = $homePage->getLinksBlock();
         $topLinks->openLink('Register');
 
-        $createPage->getCreateForm()->create($customer);
+        $createPage->getCreateForm()->registerCustomer($customer);
 
         //Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();

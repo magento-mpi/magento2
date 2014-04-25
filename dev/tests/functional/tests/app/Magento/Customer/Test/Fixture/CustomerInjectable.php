@@ -18,11 +18,6 @@ use Mtf\Fixture\InjectableFixture;
 class CustomerInjectable extends InjectableFixture
 {
     /**
-     * Attribute set for mapping data into ui tabs
-     */
-    const GROUP_ACCOUNT_INFORMATION = 'account_information';
-
-    /**
      * @var string
      */
     protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerInjectable';
@@ -60,7 +55,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $default_billing = [
@@ -85,7 +80,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'boolean',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $dob = [
@@ -94,7 +89,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'date',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $email = [
@@ -103,7 +98,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $firstname = [
@@ -112,7 +107,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $gender = [
@@ -121,7 +116,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $group_id = [
@@ -130,7 +125,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $lastname = [
@@ -139,7 +134,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $middlename = [
@@ -148,7 +143,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $password_hash = [
@@ -165,7 +160,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $rp_token = [
@@ -198,7 +193,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $taxvat = [
@@ -207,7 +202,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $website_id = [
@@ -216,19 +211,22 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => self::GROUP_ACCOUNT_INFORMATION,
+        'group' => 'account_information',
     ];
 
     protected $is_subscribed = [
         'attribute_code' => 'is_subscribed',
+        'backend_type' => 'virtual',
     ];
 
     protected $password = [
         'attribute_code' => 'password',
+        'backend_type' => 'virtual',
     ];
 
     protected $password_confirmation = [
         'attribute_code' => 'password_confirmation',
+        'backend_type' => 'virtual',
     ];
 
     public function getConfirmation()

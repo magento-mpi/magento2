@@ -10,7 +10,7 @@ namespace Magento\Customer\Test\TestCase;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountCreate;
-use Magento\Customer\Test\Page\HomePage;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\TestCase\Injectable;
 
@@ -40,23 +40,23 @@ class CreateCustomerFrontendEntityTest extends Injectable
     protected $customerAccountLogout;
 
     /**
-     * @var HomePage
+     * @var CmsIndex $cmsIndex
      */
-    protected $homePage;
+    protected $cmsIndex;
 
     /**
      * @param CustomerAccountCreate $customerAccountCreate
      * @param CustomerAccountLogout $customerAccountLogout
-     * @param HomePage $homePage
+     * @param CmsIndex $cmsIndex
      */
     public function __inject(
         CustomerAccountCreate $customerAccountCreate,
         CustomerAccountLogout $customerAccountLogout,
-        HomePage $homePage
+        CmsIndex $cmsIndex
     ) {
         $this->customerAccountLogout = $customerAccountLogout;
         $this->customerAccountCreate = $customerAccountCreate;
-        $this->homePage = $homePage;
+        $this->cmsIndex = $cmsIndex;
     }
 
     /**
@@ -67,9 +67,9 @@ class CreateCustomerFrontendEntityTest extends Injectable
     public function testCreateCustomer(CustomerInjectable $customer)
     {
        //Steps
-       $this->homePage->open();
-       $this->homePage->getHomePage()->clickRegisterButton();
-       $this->customerAccountCreate->getCreateForm()->create($customer);
+        $this->cmsIndex->open();
+        $this->cmsIndex->getLinksBlock()->openLink('Register');
+        $this->customerAccountCreate->getCreateForm()->registerCustomer($customer);
     }
 
     /**

@@ -8,10 +8,6 @@
  */
 -->
 <page>
-    <homePage>
-        <mca>cms/index/index</mca>
-        <class>Magento\Customer\Test\Page\HomePage</class>
-    </homePage>
     <customerAccountCreate>
         <mca>customer/account/create</mca>
         <class>Magento\Customer\Test\Page\CustomerAccountCreate</class>

@@ -9,7 +9,7 @@
 namespace Magento\Newsletter\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Newsletter\Test\Page\Adminhtml\NewsletterSubscriber;
+use Magento\Newsletter\Test\Page\Adminhtml\SubscriberIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -30,12 +30,12 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
      * Assert customer is subscribed to newsletter
      *
      * @param CustomerInjectable $customer
-     * @param NewsletterSubscriber $subscriber
+     * @param SubscriberIndex $subscriberIndex
      * @return void
      */
     public function processAssert (
         CustomerInjectable $customer,
-        NewsletterSubscriber $subscriber
+        SubscriberIndex $subscriberIndex
     ) {
         $filter = [
             'email' => $customer->getEmail(),
@@ -44,15 +44,15 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
             'status' => 'Subscribed'
         ];
 
-        $subscriber->open();
+        $subscriberIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $subscriber->getSubscriberGrid()->isRowVisible($filter),
+            $subscriberIndex->getSubscriberGrid()->isRowVisible($filter),
             'Customer with email \'' . $customer->getEmail() . '\' is absent in Newsletter Subscribers grid.'
         );
     }
 
     /**
-     *Text of successful customer's subscription to newsletter
+     * Text of successful customer's subscription to newsletter
      *
      * @return string
      */

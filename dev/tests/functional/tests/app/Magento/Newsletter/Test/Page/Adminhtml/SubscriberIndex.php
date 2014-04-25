@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page\Adminhtml; 
+namespace Magento\Newsletter\Test\Page\Adminhtml; 
 
 use Mtf\Page\BackendPage; 
 
 /**
- * Class NewsletterSubscriber
+ * Class SubscriberIndex
  *
- * @package Magento\Customer\Test\Page\Adminhtml
+ * @package Magento\Newsletter\Test\Page\Adminhtml
  */
-class NewsletterSubscriber extends BackendPage
+class SubscriberIndex extends BackendPage
 {
-    const MCA = 'newsletter/subscriber';
+    const MCA = 'newsletter/subscriber/index';
 
     protected $_blocks = [
         'subscriberGrid' => [

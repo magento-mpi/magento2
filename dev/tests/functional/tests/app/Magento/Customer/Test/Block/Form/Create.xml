@@ -7,17 +7,12 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="0">
+<mapping strict="1">
     <fields>
         <firstname />
         <lastname />
         <email />
-        <is_subscribed>
-            <input>checkbox</input>
-        </is_subscribed>
         <password />
-        <password_confirmation>
-            <selector>[name=confirmation]</selector>
-        </password_confirmation>
+        <confirmation />
     </fields>
 </mapping>

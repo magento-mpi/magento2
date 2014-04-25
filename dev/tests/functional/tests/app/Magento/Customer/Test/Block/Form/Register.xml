@@ -27,6 +27,7 @@
             <input>select</input>
         </country_id>
         <password />
+        <confirmation />
         <is_subscribed>
             <input>checkbox</input>
         </is_subscribed>
