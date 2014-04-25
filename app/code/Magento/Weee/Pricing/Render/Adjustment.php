@@ -51,7 +51,7 @@ class Adjustment extends AbstractAdjustment
     /**
      * @return null
      */
-    protected function getHtml()
+    protected function apply()
     {
         if ($this->typeOfDisplay([Tax::DISPLAY_EXCL, Tax::DISPLAY_EXCL_DESCR_INCL])) {
             $this->finalAmount = $this->amountRender->getDisplayValue();

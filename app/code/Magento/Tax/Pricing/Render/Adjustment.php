@@ -42,7 +42,7 @@ class Adjustment extends AbstractAdjustment
     /**
      * @return string
      */
-    protected function getHtml()
+    protected function apply()
     {
         if ($this->displayBothPrices()) {
             if ($this->getZone() !== \Magento\Framework\Pricing\Render::ZONE_ITEM_OPTION) {
