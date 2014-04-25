@@ -29,7 +29,7 @@ abstract class AbstractObjectBuilder extends \Magento\Framework\Service\Data\Abs
     /**
      * Set array of custom attributes
      *
-     * @param \Magento\Service\Data\Eav\AttributeValue[] $attributes
+     * @param \Magento\Framework\Service\Data\Eav\AttributeValue[] $attributes
      * @return $this
      * @throws \LogicException If array elements are not of AttributeValue type
      */
