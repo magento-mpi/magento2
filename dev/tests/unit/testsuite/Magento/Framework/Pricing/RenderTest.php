@@ -175,7 +175,16 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $arguments = ['param' => 15];
         $expectedResult = 'default.default';
 
-        $pricingRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', [], [], '', false, true, true, false);
+        $pricingRender = $this->getMock(
+            'Magento\Framework\Pricing\Render\Amount',
+            [],
+            [],
+            '',
+            false,
+            true,
+            true,
+            false
+        );
         $this->renderPool->expects($this->once())
             ->method('createAmountRender')
             ->with(

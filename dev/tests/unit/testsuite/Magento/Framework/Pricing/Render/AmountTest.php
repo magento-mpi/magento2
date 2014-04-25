@@ -231,7 +231,9 @@ class AmountTest extends \PHPUnit_Framework_TestCase
 
     protected function getAdjustmentRenderMock($data = [], $html = '', $code = 'adjustment_code')
     {
-        $adjustmentRender = $this->getMockForAbstractClass('Magento\Framework\Pricing\Render\AdjustmentRenderInterface');
+        $adjustmentRender = $this->getMockForAbstractClass(
+            'Magento\Framework\Pricing\Render\AdjustmentRenderInterface'
+        );
         $adjustmentRender->expects($this->once())
             ->method('render')
             ->with($this->model, $data)

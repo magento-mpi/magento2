@@ -34,7 +34,13 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->priceCollection = $this->getMock('Magento\Framework\Pricing\Price\Collection', [], [], '', false);
-        $this->adjustmentCollection = $this->getMock('Magento\Framework\Pricing\Adjustment\Collection', [], [], '', false);
+        $this->adjustmentCollection = $this->getMock(
+            'Magento\Framework\Pricing\Adjustment\Collection',
+            [],
+            [],
+            '',
+            false
+        );
         $this->model = new Base($this->priceCollection, $this->adjustmentCollection);
     }
 
@@ -53,7 +59,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrice($entryParams, $createCount)
     {
-        $priceCode= current(array_values(reset($entryParams)));
+        $priceCode = current(array_values(reset($entryParams)));
 
         $this->priceCollection
             ->expects($this->exactly($createCount))
