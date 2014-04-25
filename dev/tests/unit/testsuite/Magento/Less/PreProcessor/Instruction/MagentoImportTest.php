@@ -26,14 +26,14 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     private $errorHandler;
 
     /**
-     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $notationResolver;
-
-    /**
      * @var \Magento\Framework\View\Asset\File|\PHPUnit_Framework_MockObject_MockObject
      */
     private $asset;
+
+    /**
+     * @var \Magento\Framework\View\Asset\Repository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $assetRepo;
 
     /**
      * @var \Magento\Less\PreProcessor\Instruction\Import
@@ -45,13 +45,14 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->fileSource = $this->getMockForAbstractClass('\Magento\Framework\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->notationResolver = $this->getMock(
-            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false
-        );
         $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
+        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
-            $this->design, $this->fileSource, $this->errorHandler, $this->notationResolver
+            $this->design,
+            $this->fileSource,
+            $this->errorHandler,
+            $this->assetRepo
         );
     }
 
@@ -67,10 +68,14 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     public function testProcess($originalContent, $foundPath, $resolvedPath, $foundFiles, $expectedContent)
     {
         $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
-        $this->notationResolver->expects($this->once())
-            ->method('convertModuleNotationToPath')
-            ->with($this->asset, $foundPath)
+        $relatedAsset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $relatedAsset->expects($this->once())
+            ->method('getFilePath')
             ->will($this->returnValue($resolvedPath));
+        $this->assetRepo->expects($this->once())
+            ->method('createRelated')
+            ->with($foundPath, $this->asset)
+            ->will($this->returnValue($relatedAsset));
         $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
         $this->design->expects($this->once())
             ->method('getDesignTheme')
@@ -109,16 +114,17 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
                     ['module' => null, 'filename' => 'some/file.css'],
                     ['module' => null, 'filename' => 'theme/some/file.css'],
                 ],
-                "@import 'some/file.css';\n@import 'theme/some/file.css';\n",
+                "@import 'some/file.css';\n@import 'some/file.css';\n",
             ],
             'modular' => [
                 '//@magento_import "Magento_Module::some/file.css";',
                 'Magento_Module::some/file.css',
-                'Magento_Module/some/file.css',
+                'some/file.css',
                 [
                     ['module' => 'Magento_Module', 'filename' => 'some/file.css'],
+                    ['module' => 'Magento_Two', 'filename' => 'some/file.css'],
                 ],
-                "@import 'Magento_Module::some/file.css';\n",
+                "@import 'Magento_Module::some/file.css';\n@import 'Magento_Two::some/file.css';\n",
             ],
         ];
     }
@@ -128,8 +134,8 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $originalContent = 'color: #000000;';
         $expectedContent = 'color: #000000;';
         $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
-        $this->notationResolver->expects($this->never())
-            ->method('convertModuleNotationToPath');
+        $this->assetRepo->expects($this->never())
+            ->method('createRelated');
         $this->object->process($chain);
         $this->assertEquals($expectedContent, $chain->getContent());
         $this->assertEquals('css', $chain->getContentType());
@@ -141,9 +147,8 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
             $this->asset, '//@magento_import "some/file.css";', 'css'
         );
         $exception = new \LogicException('Error happened');
-        $this->notationResolver->expects($this->once())
-            ->method('convertModuleNotationToPath')
-            ->with($this->asset, 'some/file.css')
+        $this->assetRepo->expects($this->once())
+            ->method('createRelated')
             ->will($this->throwException($exception));
         $this->errorHandler->expects($this->once())
             ->method('processException')

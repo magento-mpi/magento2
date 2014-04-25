@@ -39,11 +39,6 @@ class MagentoImport implements PreProcessorInterface
     protected $errorHandler;
 
     /**
-     * @var \Magento\Framework\View\Asset\ModuleNotation\Resolver
-     */
-    protected $notationResolver;
-
-    /**
      * @var \Magento\Framework\View\Asset\Repository
      */
     protected $assetRepo;
@@ -52,20 +47,17 @@ class MagentoImport implements PreProcessorInterface
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
-     * @param \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
-        \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver,
         \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
-        $this->notationResolver = $notationResolver;
         $this->assetRepo = $assetRepo;
     }
 
