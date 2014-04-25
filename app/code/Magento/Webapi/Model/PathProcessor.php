@@ -56,7 +56,7 @@ class PathProcessor
             return $path;
         } else {
             // store does not exist
-            throw new NoSuchEntityException('storeCode', $storeCode);
+            throw NoSuchEntityException::singleField('storeCode', $storeCode);
         }
     }
 }

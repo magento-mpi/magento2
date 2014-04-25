@@ -9,6 +9,8 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\Webapi\Exception as WebapiException;
+
 class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     protected function setUp()
@@ -23,12 +25,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/success',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         $item = $this->_webApiCall($serviceInfo);
 
-         // TODO: check Http Status = 200, cannot do yet due to missing header info returned
+        // TODO: check Http Status = 200, cannot do yet due to missing header info returned
 
         $this->assertEquals('a good id', $item['value'], 'Success case is correct');
     }
@@ -39,15 +41,15 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/notfound',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
-        // \Magento\Webapi\ServiceResourceNotFoundException
+        // \Magento\Framework\Service\ResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_NOT_FOUND,
-            "Resource with ID 'resourceY' not found."
+            ['resource_id' => 'resourceY'],
+            WebapiException::HTTP_NOT_FOUND,
+            'Resource with ID "%resource_id" not found.'
         );
     }
 
@@ -57,58 +59,16 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/unauthorized',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
-
-        // \Magento\Webapi\ServiceAuthorizationException
-        $this->_errorTest(
-            $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
-            "User with ID '30' is not authorized to access resource with ID 'resourceN'."
-        );
-    }
-
-    public function testServiceException()
-    {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/serviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
-
-        // \Magento\Webapi\ServiceException
-        $this->_errorTest(
-            $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            'Generic service exception'
-        );
-    }
-
-    public function testServiceExceptionWithParameters()
-    {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
-        $arguments = array(
-            'parameters' => array(
-                array('name' => 'key1', 'value' => 'value1'),
-                array('name' => 'key2', 'value' => 'value2'),
-            )
-        );
-        $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
-        // \Magento\Webapi\ServiceException (with parameters)
+
+        // \Magento\Framework\Service\AuthorizationException
         $this->_errorTest(
             $serviceInfo,
-            $arguments,
-            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            'Parameterized service exception',
-            $expectedExceptionParameters
+            [],
+            WebapiException::HTTP_UNAUTHORIZED,
+            'Consumer ID %consumer_id is not authorized to access %resources',
+            ['consumer_id' => '30', 'resources' => 'resourceN']
         );
     }
 
@@ -118,7 +78,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'rest' => array(
                 'resourcePath' => '/V1/errortest/otherexception',
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
+            )
         );
 
         $expectedMessages = array(
@@ -127,64 +87,9 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         );
         $this->_errorTest(
             $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            $expectedMessages
-        );
-    }
-
-    public function testEmptyInputException()
-    {
-        $expectedWrappedErrors = [];
-        $this->_testWrappedError($expectedWrappedErrors);
-    }
-
-    public function testSingleWrappedErrorException()
-    {
-        $expectedWrappedErrors = [
-            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1']
-        ];
-        $this->_testWrappedError($expectedWrappedErrors);
-    }
-
-    public function testMultipleWrappedErrorException()
-    {
-        $expectedWrappedErrors = [
-            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1'],
-            ['fieldName' => 'key2', 'code' => 'code2', 'value' => 'value2']
-        ];
-        $this->_testWrappedError($expectedWrappedErrors);
-    }
-
-    protected function _testWrappedError($expectedWrappedErrors)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => '/V1/errortest/inputException',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ],
-        ];
-
-        $expectedException = new \Magento\Framework\Exception\InputException();
-        foreach ($expectedWrappedErrors as $error) {
-            $expectedException->addError(
-                $error['code'],
-                $error['fieldName'],
-                $error['value']
-            );
-        }
-
-        $arguments = [
-            'wrappedErrorParameters' => $expectedWrappedErrors
-        ];
-
-        $this->_errorTest(
-            $serviceInfo,
-            $arguments,
-            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
-            $expectedException->getMessage(),
             [],
-            $expectedWrappedErrors
+            WebapiException::HTTP_INTERNAL_ERROR,
+            $expectedMessages
         );
     }
 
@@ -196,16 +101,9 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param int $httpStatus - Expected HTTP status
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
-     * @param array $wrappedErrors - Optional wrappedErrors array, or null if no parameters
      */
-    protected function _errorTest(
-        $serviceInfo,
-        $data,
-        $httpStatus,
-        $errorMessage,
-        $parameters = array(),
-        $wrappedErrors = array()
-    ) {
+    protected function _errorTest($serviceInfo, $data, $httpStatus, $errorMessage, $parameters = array())
+    {
         // TODO: need to get header info instead of catching the exception
         try {
             $this->_webApiCall($serviceInfo, $data);
@@ -215,8 +113,8 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $body = json_decode($e->getMessage(), true);
 
             $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
-            $actualMessage = $body['errors'][0]['message'];
-            $matches = [];
+            $actualMessage = $body['message'];
+            $matches = array();
             //Report ID was created dynamically, so we need to replace it with some static value in order to test
             if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
                 $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);
@@ -224,25 +122,14 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $this->assertContains(
                 $actualMessage,
                 $errorMessages,
-                "Message is invalid. Actual: '$actualMessage'. Expected one of: {'"
-                . implode("', '", $errorMessages) . "'}"
+                "Message is invalid. Actual: '{$actualMessage}'. Expected one of: {'" . implode(
+                    "', '",
+                    $errorMessages
+                ) . "'}"
             );
 
             if ($parameters) {
-                $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
-            }
-
-            if ($wrappedErrors) {
-                $this->assertEquals(
-                    $wrappedErrors,
-                    $body['errors'][0]['wrapped_errors'],
-                    'Checking body wrapped errors'
-                );
-            } else {
-                $this->assertFalse(
-                    isset($body['errors'][0]['wrapped_errors']),
-                    'Expected wrapped_errors not to be set'
-                );
+                $this->assertEquals($parameters, $body['parameters'], 'Checking body parameters');
             }
         }
     }

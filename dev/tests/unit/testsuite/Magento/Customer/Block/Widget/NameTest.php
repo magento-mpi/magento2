@@ -64,11 +64,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_escaper = $this->getMock('Magento\Framework\Escaper', array(), array(), '', false);
-        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $this->_escaper = $this->getMock('Magento\Framework\Escaper', [], [], '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 
-        $addressHelper = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
+        $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
         $this->_metadataService = $this->getMockBuilder(
             'Magento\Customer\Service\V1\CustomerMetadataService'
@@ -78,14 +78,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomCustomerAttributeMetadata'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
-        $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -113,7 +113,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowPrefix()
     {
-        $this->_setUpShowAttribute(array(Customer::PREFIX => self::PREFIX));
+        $this->_setUpShowAttribute([Customer::PREFIX => self::PREFIX]);
         $this->assertTrue($this->_block->showPrefix());
 
         $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
@@ -127,7 +127,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
         );
         $this->assertFalse($this->_block->showPrefix());
     }
@@ -143,21 +147,25 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
         );
         $this->assertFalse($this->_block->{$method}());
     }
 
     public function methodDataProvider()
     {
-        return array(
-            'showPrefix' => array('showPrefix'),
-            'isPrefixRequired' => array('isPrefixRequired'),
-            'showMiddlename' => array('showMiddlename'),
-            'isMiddlenameRequired' => array('isMiddlenameRequired'),
-            'showSuffix' => array('showSuffix'),
-            'isSuffixRequired' => array('isSuffixRequired')
-        );
+        return [
+            'showPrefix' => ['showPrefix'],
+            'isPrefixRequired' => ['isPrefixRequired'],
+            'showMiddlename' => ['showMiddlename'],
+            'isMiddlenameRequired' => ['isMiddlenameRequired'],
+            'showSuffix' => ['showSuffix'],
+            'isSuffixRequired' => ['isSuffixRequired']
+        ];
     }
 
     /**
@@ -171,7 +179,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(Customer::MIDDLENAME, self::MIDDLENAME));
+        $this->_setUpShowAttribute([Customer::MIDDLENAME, self::MIDDLENAME]);
         $this->assertTrue($this->_block->showMiddlename());
     }
 
@@ -183,7 +191,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowSuffix()
     {
-        $this->_setUpShowAttribute(array(Customer::SUFFIX => self::SUFFIX));
+        $this->_setUpShowAttribute([Customer::SUFFIX => self::SUFFIX]);
         $this->assertTrue($this->_block->showSuffix());
     }
 
@@ -203,7 +211,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $this->_block->setObject($customer);
 
-        $prefixOptions = array('Mrs' => 'Mrs', 'Ms' => 'Ms', 'Miss' => 'Miss');
+        $prefixOptions = ['Mrs' => 'Mrs', 'Ms' => 'Ms', 'Miss' => 'Miss'];
 
         $prefix = '&lt;' . self::PREFIX . '&gt;';
         $expectedOptions = $prefixOptions;
@@ -231,7 +239,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getNamePrefixOptions'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->assertEmpty($this->_block->getPrefixOptions());
@@ -246,7 +254,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $customer = (new CustomerBuilder($this->_metadataService))->setSuffix('  <' . self::SUFFIX . '>  ')->create();
         $this->_block->setObject($customer);
 
-        $suffixOptions = array('Sr' => 'Sr');
+        $suffixOptions = ['Sr' => 'Sr'];
 
         $suffix = '&lt;' . self::SUFFIX . '&gt;';
         $expectedOptions = $suffixOptions;
@@ -274,7 +282,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getNameSuffixOptions'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->assertEmpty($this->_block->getSuffixOptions());
@@ -333,12 +341,12 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function getContainerClassNameProvider()
     {
-        return array(
-            array(false, false, false, self::DEFAULT_CLASS_NAME),
-            array(true, false, false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_PREFIX),
-            array(false, true, false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_MIDDLENAME),
-            array(false, false, true, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_SUFFIX),
-            array(
+        return [
+            [false, false, false, self::DEFAULT_CLASS_NAME],
+            [true, false, false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_PREFIX],
+            [false, true, false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_MIDDLENAME],
+            [false, false, true, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_SUFFIX],
+            [
                 true,
                 true,
                 true,
@@ -346,8 +354,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
                 self::CONTAINER_CLASS_NAME_PREFIX .
                 self::CONTAINER_CLASS_NAME_MIDDLENAME .
                 self::CONTAINER_CLASS_NAME_SUFFIX
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -378,10 +386,10 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function getStoreLabelProvider()
     {
-        return array(
-            array(self::INVALID_ATTRIBUTE_CODE, '', ''),
-            array(self::PREFIX_ATTRIBUTE_CODE, self::PREFIX_STORE_LABEL, self::PREFIX_STORE_LABEL)
-        );
+        return [
+            [self::INVALID_ATTRIBUTE_CODE, '', ''],
+            [self::PREFIX_ATTRIBUTE_CODE, self::PREFIX_STORE_LABEL, self::PREFIX_STORE_LABEL]
+        ];
     }
 
     public function testGetStoreLabelWithException()
@@ -391,7 +399,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
         );
         $this->assertSame('', $this->_block->getStoreLabel('attributeCode'));
     }

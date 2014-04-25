@@ -73,7 +73,9 @@ interface CustomerGroupServiceInterface
      * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      * @throws \Magento\Framework\Exception\NoSuchEntityException If a group ID is sent but the group does not exist
-     * @throws \Exception If something goes wrong during save
+     * @throws \Magento\Framework\Exception\State\InvalidTransitionException
+     *      If saving customer group with customer group code that is used by an existing customer group
+     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
      * @return int customer group ID
      */
     public function saveGroup(\Magento\Customer\Service\V1\Data\CustomerGroup $group);

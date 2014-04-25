@@ -6,11 +6,11 @@
  * @license    {license_link}
  */
 
+namespace Magento\Framework\Oauth;
+
 /**
  * oAuth \Exception
  */
-namespace Magento\Framework\Oauth;
-
 class Exception extends \Magento\Webapi\Exception
 {
     /**

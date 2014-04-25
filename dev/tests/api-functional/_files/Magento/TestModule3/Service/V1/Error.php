@@ -9,7 +9,9 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
+use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 
@@ -28,7 +30,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function resourceNotFoundException()
     {
-        throw new \Magento\Webapi\ServiceResourceNotFoundException('', 2345, null, array(), 'resourceNotFound', 'resourceY');
+        throw new NoSuchEntityException('Resource with ID "%resource_id" not found.', ['resource_id' => 'resourceY']);
     }
 
     /**
@@ -56,7 +58,10 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function authorizationException()
     {
-        throw new \Magento\Webapi\ServiceAuthorizationException('', 4567, null, array(), 'authorization', 30, 'resourceN');
+        throw new AuthorizationException('Consumer ID %consumer_id is not authorized to access %resources', [
+            'consumer_id' => '30',
+            'resources'   => 'resourceN'
+        ]);
     }
 
     /**
@@ -91,7 +96,10 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
         $exception = new InputException();
         if ($wrappedErrorParameters) {
             foreach ($wrappedErrorParameters as $error) {
-                $exception->addError($error->getCode(), $error->getFieldName(), $error->getValue());
+                $exception->addError(
+                    InputException::INVALID_FIELD_VALUE,
+                    ['fieldName' => $error->getFieldName(), 'value' => $error->getValue()]
+                );
             }
         }
         throw $exception;

@@ -1,6 +1,6 @@
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
-  * Moved library related logic from “Magento\Core\Model\App”
+  * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
   * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
   * Fatal error on customer registration if mail server is off(MAGETWO-23558)
@@ -10,83 +10,31 @@
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
+  * Fixed: Warning appears when running system_config (MAGETWO-15336)
+  * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
+  * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
+  * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
   * Covered Magento Store components with unit tests:
-     * Magento\Store\Model\*
+     * `Magento\Store\Model\*`
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
-    * Moved lib/Magento/Data to lib/Magento/Framework/Data
-    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
-    * Moved lib/Magento/Config to lib/Magento/Framework/Config
-    * Moved lib/Magento/Model to lib/Magento/Framework/Model
-    * Moved lib/Magento/DB to lib/Magento/Framework/DB
-    * Moved lib/Magento/View to lib/Magento/Framework/View
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 3): (MAGETWO-23647)
-    * Moved lib/Magento/Archive to lib/Magento/Framework/Archive
-    * Moved lib/Magento/Backup to lib/Magento/Framework/Backup
-    * Moved lib/Magento/Event to lib/Magento/Framework/Event
-    * Moved lib/Magento/Acl to lib/Magento/Framework/Acl
-    * Moved lib/Magento/Authorization to lib/Magento/Framework/Authorization
-    * Moved lib/Magento/Session to lib/Magento/Framework/Session
-    * Moved lib/Magento/ObjectManager to lib/Magento/Framework/ObjectManager
-    * Moved lib/Magento/Exception to lib/Magento/Framework/Exception
-    * Moved lib/Magento/Autoload to lib/Magento/Framework/Autoload
-    * Moved lib/Magento/Code to lib/Magento/Framework/Code
-    * Moved lib/Magento/Stdlib to lib/Magento/Framework/Stdlib
-    * Moved lib/Magento/Translate to lib/Magento/Framework/Translate
-    * Moved lib/Magento/Cache to lib/Magento/Framework/Cache
-    * Moved lib/Magento/Phrase to lib/Magento/Framework/Phrase
-    * Moved lib/Magento/Locale to lib/Magento/Framework/Locale
-    * Moved lib/Magento/Message to lib/Magento/Framework/Message
-    * Moved lib/Magento/Logger to lib/Magento/Framework/Logger
-    * Moved lib/Magento/Error to lib/Magento/Framework/Error
-    * Moved lib/Magento/Filter to lib/Magento/Framework/Filter
-    * Moved lib/Magento/Module to lib/Magento/Framework/Module
-    * Moved lib/Magento/DomDocument to lib/Magento/Framework/DomDocument
-    * Moved lib/Magento/Css to lib/Magento/Framework/Css
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 4): (MAGETWO-23747)
-    * Moved lib/Magento/Pear to lib/Magento/Framework/Pear
-    * Moved lib/Magento/Pricing to lib/Magento/Framework/Pricing
-    * Moved lib/Magento/Connect to lib/Magento/Framework/Connect
-    * Moved lib/Magento/Profiler to lib/Magento/Framework/Profiler
-    * Moved lib/Magento/Simplexml to lib/Magento/Framework/Simplexml
-    * Moved lib/Magento/Controller to lib/Magento/Framework/Controller
-    * Moved lib/Magento/Convert to lib/Magento/Framework/Convert
-    * Moved lib/Magento/Shell to lib/Magento/Framework/Shell
-    * Moved lib/Magento/Encryption to lib/Magento/Framework/Encryption
-    * Moved lib/Magento/Option to lib/Magento/Framework/Option
-    * Moved lib/Magento/Service to lib/Magento/Framework/Service
-    * Moved lib/Magento/System to lib/Magento/Framework/System
-    * Moved lib/Magento/Url to lib/Magento/Framework/Url
-    * Moved lib/Magento/Validator to lib/Magento/Framework/Validator
-    * Moved lib/Magento/Xml to lib/Magento/Framework/Xml
-    * Moved lib/Magento/Interception to lib/Magento/Framework/Interception
-    * Moved lib/Magento/Json to lib/Magento/Framework/Json
-    * Moved lib/Magento/Less to lib/Magento/Framework/Less
-    * Moved lib/Magento/File to lib/Magento/Framework/File
-    * Moved lib/Magento/Flag to lib/Magento/Framework/Flag
-    * Moved lib/Magento/Io to lib/Magento/Framework/Io
-    * Moved lib/Magento/Mail to lib/Magento/Framework/Mail
-    * Moved lib/Magento/HTTP to lib/Magento/Framework/HTTP
-    * Moved lib/Magento/Math to lib/Magento/Framework/Math
-    * Moved lib/Magento/Gdata to lib/Magento/Framework/Gdata
-    * Moved lib/Magento/Image to lib/Magento/Framework/Image
-    * Moved lib/Magento/Oauth to lib/Magento/Framework/Oauth
-    * Moved lib/Magento/Object to lib/Magento/Framework/Object
-    * Moved lib/Magento/Currency to lib/Magento/Framework/Currency
-    * Moved lib/Magento/Debug to lib/Magento/Framework/Debug
-    * Moved lib/Magento/Escaper to lib/Magento/Framework/Escaper
-    * Moved lib/Magento/OsInfo to lib/Magento/Framework/OsInfo
-    * Moved lib/Magento/Registry to lib/Magento/Framework/Registry
-    * Moved lib/Magento/Util to lib/Magento/Framework/Util
-    * Moved lib/Magento/BootstrapException to lib/Magento/Framework/BootstrapException
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (MAGETWO-20866, MAGETWO-23646, MAGETWO-23647, MAGETWO-23747)
+  * Covered Magento application components with unit tests (MAGETWO-21540)
+     * `Sales/Helper/Guest.php`
+     * `Sales/Helper/Admin.php`
+     * `Sales/Model/Observer.php`
+     * `Sales/Model/Payment/Method/Converter.php`
+     * `Sales/Model/Email/Template.php`
+     * `Sales/Model/Observer/Backend/CustomerQuote.php`
+     * `Sales/Model/Status/ListStatus.php`
 * Refactored the following modules to use Customer Service:
   * Refactored Persistent Module (MAGETWO-20877)
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+* Customer Service usage:
+  * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
+  * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
 * JavaScript improvements:
   * Implemented dialog widget (MAGETWO-22996)
   * Implemented validation widget (MAGETWO-22996)
@@ -145,10 +93,9 @@
   * Multishipping
   * Paypal
 * Customer Service usage:
-  * Implemented Service Context Provider
-  * Restructured webapi.xml
-  * Renamed createAccount to createCustomer in CustomerAccountService
-  * Implemented Caching strategy for the Customer service
+  * Implement Service Context Provider (MAGETWO-11084)
+  * Restructure webapi.xml (MAGETWO-22665)
+  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
 * GitHub requests:
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
@@ -2559,4 +2506,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-

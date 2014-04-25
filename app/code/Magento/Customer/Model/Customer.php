@@ -30,6 +30,7 @@ use Magento\Customer\Service\V1\Data\Customer as CustomerData;
  * @method Customer setDefaultShipping($value)
  * @method Customer setPasswordHash($string)
  * @method string getPasswordHash()
+ * @method string getConfirmation()
  */
 class Customer extends \Magento\Framework\Model\AbstractModel
 {
