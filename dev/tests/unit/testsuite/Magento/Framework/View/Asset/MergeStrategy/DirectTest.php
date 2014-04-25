@@ -66,7 +66,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
             ->method('getPath')
             ->will($this->returnValue('foo/result'))
         ;
-        $this->resultAsset->expects($this->exactly(3))->method('getContentType')->will($this->returnValue('css'));
+        $this->resultAsset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
         $assets = $this->prepareAssetsToMerge(array('one', 'two'));
         $this->cssUrlResolver->expects($this->exactly(2))
             ->method('relocateRelativeUrls')
