@@ -96,7 +96,7 @@ class CsvImportHandler
         if (!isset($file['tmp_name'])) {
             throw new \Magento\Framework\Model\Exception('Invalid file upload attempt.');
         }
-        $csvProcessor = new \Magento\File\Csv();
+        $csvProcessor = new \Magento\Framework\File\Csv();
         $ratesRawData = $csvProcessor->getData($file['tmp_name']);
         // first row of file represents headers
         $fileFields = $ratesRawData[0];

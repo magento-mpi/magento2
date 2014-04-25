@@ -70,7 +70,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
                 $this->messageManager->addSuccess(
                     __(
                         'If there is an account associated with %1 you will receive an email with a link to reset your password.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($email)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($email)
                     )
                 );
                 // @codingStandardsIgnoreEnd

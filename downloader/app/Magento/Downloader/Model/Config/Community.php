@@ -32,7 +32,7 @@ class Community extends \Magento\Downloader\Model\Config\AbstractConfig implemen
     /**
      * Set data for Settings View
      *
-     * @param \Magento\Connect\Config $config
+     * @param \Magento\Framework\Connect\Config $config
      * @param \Magento\Downloader\View $view
      * @return void
      */
@@ -43,7 +43,7 @@ class Community extends \Magento\Downloader\Model\Config\AbstractConfig implemen
 
     /**
      * Set data for Settings View
-     * @param \Magento\Connect\Config $config
+     * @param \Magento\Framework\Connect\Config $config
      * @param \Magento\Downloader\View $view
      * @return void
      */
@@ -77,7 +77,7 @@ class Community extends \Magento\Downloader\Model\Config\AbstractConfig implemen
     /**
      * Set config data from POST
      *
-     * @param \Magento\Connect\Config $config Config object
+     * @param \Magento\Framework\Connect\Config $config Config object
      * @param array $post post data
      * @return void
      */

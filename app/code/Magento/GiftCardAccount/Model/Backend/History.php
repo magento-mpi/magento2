@@ -21,7 +21,7 @@ class History extends \Magento\GiftCardAccount\Model\History
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Auth\Session $adminSession
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -30,7 +30,7 @@ class History extends \Magento\GiftCardAccount\Model\History
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Auth\Session $adminSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

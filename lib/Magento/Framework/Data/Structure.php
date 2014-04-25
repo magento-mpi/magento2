@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Data;
 
-use Magento\Exception;
+use Magento\Framework\Exception;
 
 class Structure
 {

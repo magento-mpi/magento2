@@ -27,16 +27,16 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $data = array()
     ) {
@@ -52,7 +52,7 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
         $url = false;
         if ($this->getValue()) {
             $url = $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_MEDIA
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . 'catalog/category/' . $this->getValue();
         }
         return $url;

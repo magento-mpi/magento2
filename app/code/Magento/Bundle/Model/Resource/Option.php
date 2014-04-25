@@ -46,7 +46,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setOptionId($object->getId())->setStoreId($object->getStoreId())->setTitle($object->getTitle());
 
         $write->insert($this->getTable('catalog_product_bundle_option_value'), $data->getData());

@@ -22,7 +22,7 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -33,12 +33,12 @@ class Index extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_formKeyValidator = $formKeyValidator;
@@ -104,7 +104,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {
                     //Adding from product page
-                    $entity->addItem($request->getParam('product'), new \Magento\Object($request->getParams()));
+                    $entity->addItem($request->getParam('product'), new \Magento\Framework\Object($request->getParams()));
                     $count = $request->getParam('qty') ? $request->getParam('qty') : 1;
                 } else {
                     //Adding from cart
@@ -297,7 +297,7 @@ class Index extends \Magento\Framework\App\Action\Action
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't update the gift registry."));
@@ -573,7 +573,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 $isError = true;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save this gift registry."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $isError = true;
             }
 

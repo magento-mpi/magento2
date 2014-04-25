@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class ParameterBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class ParameterBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set Name.

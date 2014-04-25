@@ -30,7 +30,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $helperClass = get_class($this->_helper);
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            $objectManager->get('Magento\Registry')->unregister('_helper/' . $helperClass);
+            $objectManager->get('Magento\Framework\Registry')->unregister('_helper/' . $helperClass);
         }
         $this->_helper = null;
     }
@@ -69,7 +69,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
 
-        $category = new \Magento\Object(array('url' => $url));
+        $category = new \Magento\Framework\Object(array('url' => $url));
         $this->assertEquals($url, $this->_helper->getCategoryUrl($category));
     }
 

@@ -20,7 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_customerViewHelper;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_persistentSessionHelper;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -64,7 +64,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Helper\View'
         );
         $this->_escaper = $this->_objectManager->create(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         );
         $this->_customerAccountService = $this->_objectManager->create(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
@@ -136,12 +136,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             []
         )->getMock();
         $requestMock->expects($this->once())->method('getFullActionName')->will($this->returnValue('valid_action'));
-        $event = new\Magento\Event(
+        $event = new \Magento\Framework\Event(
             [
                 'request' => $requestMock
             ]
         );
-        $observer = new \Magento\Event\Observer();
+        $observer = new \Magento\Framework\Event\Observer();
         $observer->setEvent($event);
 
         $this->_customerSession->loginById(1);
@@ -164,7 +164,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmulateCustomer()
     {
-        $observer = new \Magento\Event\Observer();
+        $observer = new \Magento\Framework\Event\Observer();
 
         $this->_customerSession->loginById(1);
         $this->_customerSession->logout();

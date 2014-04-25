@@ -12,7 +12,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
 /**
  * Block with description of why item has not been added to ordered items list
  *
- * @method \Magento\Object                                                   getItem()
+ * @method \Magento\Framework\Object                                                   getItem()
  * @method \Magento\Catalog\Model\Product                                      getProduct()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setItem()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setProduct()
@@ -36,19 +36,19 @@ class Description extends \Magento\Backend\Block\Template
     protected $_checkoutData = null;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         array $data = array()
     ) {
@@ -99,7 +99,7 @@ class Description extends \Magento\Backend\Block\Template
     /**
      * Returns error message of the item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      *
      * @see \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_* constants for $code

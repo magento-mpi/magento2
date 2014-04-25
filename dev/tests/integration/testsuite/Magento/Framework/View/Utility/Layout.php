@@ -49,7 +49,7 @@ class Layout
         )->will(
             \PHPUnit_Framework_TestCase::returnValue($files)
         );
-        $cache = $this->_testCase->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $cache = $this->_testCase->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
         return $objectManager->create(
             'Magento\Framework\View\Layout\ProcessorInterface',
             array('fileSource' => $fileSource, 'cache' => $cache)
@@ -88,8 +88,8 @@ class Layout
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
             'processorFactory' => $objectManager->get('Magento\Framework\View\Layout\ProcessorFactory'),
-            'logger' => $objectManager->get('Magento\Logger'),
-            'eventManager' => $objectManager->get('Magento\Event\ManagerInterface'),
+            'logger' => $objectManager->get('Magento\Framework\Logger'),
+            'eventManager' => $objectManager->get('Magento\Framework\Event\ManagerInterface'),
             'blockFactory' => $objectManager->create('Magento\Framework\View\Element\BlockFactory', array()),
             'structure' => $objectManager->create('Magento\Framework\Data\Structure', array()),
             'argumentParser' => $objectManager->get('Magento\Framework\View\Layout\Argument\Parser'),
@@ -97,7 +97,7 @@ class Layout
             'scheduledStructure' => $objectManager->create('Magento\Framework\View\Layout\ScheduledStructure', array()),
             'scopeConfig' => $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface'),
             'appState' => $objectManager->get('Magento\Framework\App\State'),
-            'messageManager' => $objectManager->get('Magento\Message\ManagerInterface'),
+            'messageManager' => $objectManager->get('Magento\Framework\Message\ManagerInterface'),
             'themeResolver' => $objectManager->get('Magento\Framework\View\Design\Theme\ResolverInterface'),
             'scopeResolver' => $objectManager->get('Magento\Framework\App\ScopeResolverInterface'),
             'scopeType' => \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

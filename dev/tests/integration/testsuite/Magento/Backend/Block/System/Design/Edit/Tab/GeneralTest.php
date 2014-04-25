@@ -28,7 +28,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'design',
             $objectManager->create('Magento\Framework\App\DesignInterface')

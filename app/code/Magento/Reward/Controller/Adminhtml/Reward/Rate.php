@@ -23,15 +23,15 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -153,7 +153,7 @@ class Rate extends \Magento\Backend\App\Action
                 $rate->save();
                 $this->messageManager->addSuccess(__('You saved the rate.'));
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Logger')->logException($exception);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($exception);
                 $this->messageManager->addError(__('We cannot save Rate.'));
                 return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
@@ -191,7 +191,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(array('error' => false));
         $post = $this->getRequest()->getParam('rate');
         $message = null;
         /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */

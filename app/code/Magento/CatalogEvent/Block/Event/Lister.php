@@ -50,7 +50,7 @@ class Lister extends AbstractEvent
 
     /**
      * @param Context $context
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param Data $catalogEventData
      * @param CollectionFactory $eventCollectionFactory
      * @param HelperCategory $categoryHelper
@@ -58,7 +58,7 @@ class Lister extends AbstractEvent
      */
     public function __construct(
         Context $context,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         Data $catalogEventData,
         CollectionFactory $eventCollectionFactory,
         HelperCategory $categoryHelper,

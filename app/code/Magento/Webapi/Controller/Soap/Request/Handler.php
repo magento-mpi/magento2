@@ -8,8 +8,8 @@
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
-use Magento\Service\Data\AbstractObject;
-use Magento\Service\DataObjectConverter;
+use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\DataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -30,7 +30,7 @@ class Handler
     /** @var SoapRequest */
     protected $_request;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     /** @var SoapConfig */
@@ -49,7 +49,7 @@ class Handler
      * Initialize dependencies.
      *
      * @param SoapRequest $request
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
      * @param DataObjectConverter $dataObjectConverter
@@ -57,7 +57,7 @@ class Handler
      */
     public function __construct(
         SoapRequest $request,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationService $authorizationService,
         DataObjectConverter $dataObjectConverter,

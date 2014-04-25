@@ -12,8 +12,8 @@ use Magento\Customer\Helper\View;
 use Magento\Customer\Model\Resource\AbstractServiceCollection;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 
 /**
  * Customer Grid Collection backed by Services
@@ -70,7 +70,7 @@ class ServiceCollection extends AbstractServiceCollection
      * Creates a collection item that represents a customer for the customer Grid.
      *
      * @param CustomerDetails $customerDetail Input data for creating the item.
-     * @return \Magento\Object Collection item that represents a customer
+     * @return \Magento\Framework\Object Collection item that represents a customer
      */
     protected function createCustomerDetailItem(CustomerDetails $customerDetail)
     {
@@ -82,7 +82,7 @@ class ServiceCollection extends AbstractServiceCollection
             $customer->getLastname(),
             $customer->getSuffix(),
         );
-        $customerItem = new \Magento\Object();
+        $customerItem = new \Magento\Framework\Object();
         $customerItem->setId($customer->getId());
         $customerItem->setEntityId($customer->getId());
         // All parts of the customer name must be displayed in the name column of the grid

@@ -21,7 +21,7 @@ use Magento\Framework\View\Layout\Element;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
+class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Framework\View\LayoutInterface
 {
     /**
      * Scheduled structure array index for name
@@ -94,7 +94,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     /**
      * A variable for transporting output into observer during rendering
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_renderingOutput = null;
 
@@ -144,7 +144,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -156,7 +156,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Logger $logger
+     * @var \Magento\Framework\Logger $logger
      */
     protected $_logger;
 
@@ -171,7 +171,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
     protected $_appState;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -202,8 +202,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
 
     /**
      * @param \Magento\Framework\View\Layout\ProcessorFactory $processorFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\Data\Structure $structure
      * @param \Magento\Framework\View\Layout\Argument\Parser $argumentParser
@@ -211,7 +211,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * @param \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
      * @param string $scopeType
@@ -219,8 +219,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      */
     public function __construct(
         \Magento\Framework\View\Layout\ProcessorFactory $processorFactory,
-        \Magento\Logger $logger,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\Data\Structure $structure,
         \Magento\Framework\View\Layout\Argument\Parser $argumentParser,
@@ -228,7 +228,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         \Magento\Framework\View\Layout\ScheduledStructure $scheduledStructure,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\State $appState,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\View\Design\Theme\ResolverInterface $themeResolver,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,
         $scopeType,
@@ -243,7 +243,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new \Magento\Object;
+        $this->_renderingOutput = new \Magento\Framework\Object;
         $this->_scheduledStructure = $scheduledStructure;
         $this->_processorFactory = $processorFactory;
         $this->_logger = $logger;
@@ -305,8 +305,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      */
     public function generateElements()
     {
-        \Magento\Profiler::start(__CLASS__ . '::' . __METHOD__);
-        \Magento\Profiler::start('build_structure');
+        \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
+        \Magento\Framework\Profiler::start('build_structure');
 
         $this->_scheduledStructure->flushScheduledStructure();
 
@@ -325,9 +325,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             $this->_removeElement($elementToRemove);
         }
 
-        \Magento\Profiler::stop('build_structure');
+        \Magento\Framework\Profiler::stop('build_structure');
 
-        \Magento\Profiler::start('generate_elements');
+        \Magento\Framework\Profiler::start('generate_elements');
 
         while (false === $this->_scheduledStructure->isElementsEmpty()) {
             list($type, $node, $actions, $args, $attributes) = current($this->_scheduledStructure->getElements());
@@ -343,8 +343,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
                 $this->_scheduledStructure->unsetElement($elementName);
             }
         }
-        \Magento\Profiler::stop('generate_elements');
-        \Magento\Profiler::stop(__CLASS__ . '::' . __METHOD__);
+        \Magento\Framework\Profiler::stop('generate_elements');
+        \Magento\Framework\Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
 
     /**
@@ -532,7 +532,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * Schedule structural changes for move directive
      *
      * @param \Magento\Framework\View\Layout\Element $node
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @return $this
      */
     protected function _scheduleMove($node)
@@ -547,7 +547,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
                 array($destination, $siblingName, $isAfter, $alias)
             );
         } else {
-            throw new \Magento\Exception('Element name and destination must be specified.');
+            throw new \Magento\Framework\Exception('Element name and destination must be specified.');
         }
         return $this;
     }
@@ -766,13 +766,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      *
      * @param string $elementName
      * @return \Magento\Framework\View\Element\AbstractBlock|void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _generateBlock($elementName)
     {
         list($type, $node, $actions, $args) = $this->_scheduledStructure->getElement($elementName);
         if ($type !== Element::TYPE_BLOCK) {
-            throw new \Magento\Exception("Unexpected element type specified for generating block: {$type}.");
+            throw new \Magento\Framework\Exception("Unexpected element type specified for generating block: {$type}.");
         }
 
 
@@ -824,7 +824,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      * @param string $label
      * @param array $options
      * @return void
-     * @throws \Magento\Exception If any of arguments are invalid
+     * @throws \Magento\Framework\Exception If any of arguments are invalid
      */
     protected function _generateContainer($name, $label, array $options)
     {
@@ -851,7 +851,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             $allowedTags
         )
         ) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 __(
                     'Html tag "%1" is forbidden for usage in containers. Consider to use one of the allowed: %2.',
                     $options[Element::CONTAINER_OPT_HTML_TAG],
@@ -862,7 +862,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         if (empty($options[Element::CONTAINER_OPT_HTML_TAG]) && (!empty($options[Element::CONTAINER_OPT_HTML_ID]) ||
             !empty($options[Element::CONTAINER_OPT_HTML_CLASS]))
         ) {
-            throw new \Magento\Exception('HTML ID or class will not have effect, if HTML tag is not specified.');
+            throw new \Magento\Framework\Exception(
+                'HTML ID or class will not have effect, if HTML tag is not specified.'
+            );
         }
         foreach ($options as $key => $value) {
             $this->_structure->setAttribute($name, $key, $value);
@@ -892,7 +894,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
         }
 
         $profilerKey = 'BLOCK_ACTION:' . $parentName . '>' . $method;
-        \Magento\Profiler::start($profilerKey);
+        \Magento\Framework\Profiler::start($profilerKey);
 
         $block = $this->getBlock($parentName);
         if (!empty($block)) {
@@ -901,7 +903,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
             call_user_func_array(array($block, $method), $args);
         }
 
-        \Magento\Profiler::stop($profilerKey);
+        \Magento\Framework\Profiler::stop($profilerKey);
     }
 
     /**
@@ -1079,7 +1081,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\Framework\Vie
      *
      * @param string $name
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _renderBlock($name)
     {

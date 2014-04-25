@@ -12,7 +12,7 @@
  */
 namespace Magento\Translation\Model\Inline;
 
-class Parser implements \Magento\Translate\Inline\ParserInterface
+class Parser implements \Magento\Framework\Translate\Inline\ParserInterface
 {
     /**
      * data-translate html element attribute name
@@ -112,7 +112,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
@@ -129,7 +129,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
      * @param \Zend_Filter_Interface $inputFilter
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\App\Cache\TypeListInterface $appCache,
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
         \Magento\Translation\Model\Resource\StringFactory $resource,
@@ -137,7 +137,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
         \Zend_Filter_Interface $inputFilter,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\App\Cache\TypeListInterface $appCache,
-        \Magento\Translate\InlineInterface $translateInline
+        \Magento\Framework\Translate\InlineInterface $translateInline
     ) {
         $this->_resourceFactory = $resource;
         $this->_storeManager = $storeManager;

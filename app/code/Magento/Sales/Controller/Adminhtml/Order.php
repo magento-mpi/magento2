@@ -31,7 +31,7 @@ class Order extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,21 +41,21 @@ class Order extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Translate\InlineInterface
+     * @var \Magento\Framework\Translate\InlineInterface
      */
     protected $_translateInline;
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Translate\InlineInterface $translateInline
+        \Magento\Framework\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -145,7 +145,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->_redirect('sales/order/index');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Exception occurred during order load'));
                 $this->_redirect('sales/order/index');
                 return;
@@ -181,7 +181,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We couldn\'t send the email order.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
@@ -203,7 +203,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not canceled the item.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
         }
@@ -291,7 +291,7 @@ class Order extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
     }
@@ -551,7 +551,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -604,7 +604,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -657,7 +657,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -756,7 +756,7 @@ class Order extends \Magento\Backend\App\Action
             if ($flag) {
                 return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get(
-                        'Magento\Stdlib\DateTime\DateTime'
+                        'Magento\Framework\Stdlib\DateTime\DateTime'
                     )->date(
                         'Y-m-d_H-i-s'
                     ) . '.pdf',
@@ -783,14 +783,14 @@ class Order extends \Magento\Backend\App\Action
             return;
         }
         try {
-            $order->getPayment()->void(new \Magento\Object()); // workaround for backwards compatibility
+            $order->getPayment()->void(new \Magento\Framework\Object()); // workaround for backwards compatibility
             $order->save();
             $this->messageManager->addSuccess(__('The payment has been voided.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('sales/*/view', array('order_id' => $order->getId()));
     }

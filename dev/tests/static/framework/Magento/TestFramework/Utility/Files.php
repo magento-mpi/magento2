@@ -106,7 +106,7 @@ class Files
         $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$otherCode}/{$templates}";
         if (!isset(self::$_cache[$key])) {
             $namespace = $module = $area = '*';
-            $theme_path = '*/*';
+            $themePath = '*/*';
 
             $files = array();
             if ($appCode) {
@@ -129,7 +129,7 @@ class Files
                     $files,
                     self::getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.phtml'),
                     self::getFiles(
-                        array("{$this->_path}/app/design/{$area}/{$theme_path}/{$namespace}_{$module}"),
+                        array("{$this->_path}/app/design/{$area}/{$themePath}/{$namespace}_{$module}"),
                         '*.phtml'
                     )
                 );
@@ -405,11 +405,11 @@ class Files
             return self::$_cache[$key];
         }
         $namespace = $module = $area = $skin = '*';
-        $theme_path = '*/*';
+        $themePath = '*/*';
         $files = self::getFiles(
             array(
                 "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
-                "{$this->_path}/app/design/{$area}/{$theme_path}/skin/{$skin}",
+                "{$this->_path}/app/design/{$area}/{$themePath}/skin/{$skin}",
                 "{$this->_path}/pub/lib/{mage,varien}"
             ),
             '*.js'
@@ -431,10 +431,10 @@ class Files
             return self::$_cache[$key];
         }
         $namespace = $module =  '*';
-        $theme_path = '*/*';
+        $themePath = '*/*';
         $paths = array(
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
-            "{$this->_path}/app/design/{$area}/{$theme_path}",
+            "{$this->_path}/app/design/{$area}/{$themePath}",
             "{$this->_path}/pub/lib/varien"
         );
         $files = self::getFiles($paths, '*.js');

@@ -128,7 +128,7 @@ class Publisher implements PublicFilesManagerInterface
      *
      * @param Publisher\FileInterface $publisherFile
      * @return string|null
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function getPublishedFilePath(Publisher\FileInterface $publisherFile)
     {
@@ -140,7 +140,7 @@ class Publisher implements PublicFilesManagerInterface
         $fileToPublish = $this->preProcessor->process($publisherFile, $this->tmpDirectory);
 
         if (!$fileToPublish->isSourceFileExists()) {
-            throw new \Magento\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
+            throw new \Magento\Framework\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
         }
 
         if (!$fileToPublish->isPublicationAllowed()) {

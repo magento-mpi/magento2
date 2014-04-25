@@ -16,7 +16,7 @@ class Tracking extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -29,12 +29,12 @@ class Tracking extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -204,7 +204,7 @@ class Tracking extends \Magento\Framework\App\Action\Action
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
         throw new NotFoundException();
@@ -217,8 +217,8 @@ class Tracking extends \Magento\Framework\App\Action\Action
      */
     public function packagePrintAction()
     {
-        /** @var $rmaHelper \Magento\Stdlib\DateTime\DateTime */
-        $rmaHelper = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var $rmaHelper \Magento\Framework\Stdlib\DateTime\DateTime */
+        $rmaHelper = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         $data = $rmaHelper->decodeTrackingHash($this->getRequest()->getParam('hash'));
         if ($data['key'] == 'rma_id') {
             $this->_loadValidRma($data['id']);
@@ -235,8 +235,8 @@ class Tracking extends \Magento\Framework\App\Action\Action
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shippingInfoModel);
-            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),

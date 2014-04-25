@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for \Magento\ObjectManager\Test
+ * Test class for \Magento\Framework\ObjectManager\Test
  */
 namespace Magento\Test;
 
@@ -44,12 +44,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $factory = $this->getMock('\Magento\ObjectManager\Factory', array(), array(), '', false);
+        $factory = $this->getMock('\Magento\Framework\ObjectManager\Factory', array(), array(), '', false);
         $factory->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($className) {
-                    if ($className === 'Magento\Object') {
-                        return $this->getMock('Magento\Object', array(), array(), '', false);
+                    if ($className === 'Magento\Framework\Object') {
+                        return $this->getMock('Magento\Framework\Object', array(), array(), '', false);
                     }
                 }
             )
@@ -68,7 +68,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 ),
                 'Magento\Framework\Config\ScopeInterface' => $this->getMock('Magento\Framework\Config\ScopeInterface'),
                 'Magento\Framework\Config\CacheInterface' => $this->getMock('Magento\Framework\Config\CacheInterface'),
-                'Magento\Cache\FrontendInterface' => $this->getMock('Magento\Cache\FrontendInterface'),
+                'Magento\Framework\Cache\FrontendInterface' =>
+                    $this->getMock('Magento\Framework\Cache\FrontendInterface'),
                 'Magento\Framework\App\Resource' => $this->getMockBuilder('Magento\Framework\App\Resource')
                         ->disableOriginalConstructor()
                         ->getMock(),
@@ -84,12 +85,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $model->addSharedInstance($resource, 'Magento\Framework\App\Resource');
-        $instance1 = $model->get('Magento\Object');
+        $instance1 = $model->get('Magento\Framework\Object');
 
-        $this->assertSame($instance1, $model->get('Magento\Object'));
+        $this->assertSame($instance1, $model->get('Magento\Framework\Object'));
         $this->assertSame($model, $model->clearCache());
-        $this->assertSame($model, $model->get('Magento\ObjectManager'));
+        $this->assertSame($model, $model->get('Magento\Framework\ObjectManager'));
         $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
-        $this->assertNotSame($instance1, $model->get('Magento\Object'));
+        $this->assertNotSame($instance1, $model->get('Magento\Framework\Object'));
     }
 }

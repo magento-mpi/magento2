@@ -27,7 +27,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = $this->getMock('Magento\Reward\Helper\Data', array(), array(), '', false);
-        $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
+        $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend(
             $this->_helper,
             $this->_authorizationMock

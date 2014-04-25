@@ -16,7 +16,7 @@ interface TotalsInterface
      *
      * @abstract
      * @param \Magento\Framework\Data\Collection $collection
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function countTotals($collection);
 }

@@ -25,19 +25,19 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_elementFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
@@ -69,16 +69,16 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * Convert Array config to Object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
-        if ($this->_getData('config') instanceof \Magento\Object) {
+        if ($this->_getData('config') instanceof \Magento\Framework\Object) {
             return $this->_getData('config');
         }
 
         $configArray = $this->_getData('config');
-        $config = new \Magento\Object();
+        $config = new \Magento\Framework\Object();
         $this->setConfig($config);
         if (!is_array($configArray)) {
             return $this->_getData('config');

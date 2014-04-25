@@ -52,7 +52,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $registryClass = 'Magento\Registry';
+    protected $registryClass = 'Magento\Framework\Registry';
 
     /**
      * Name of mocked method

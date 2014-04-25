@@ -15,15 +15,15 @@ namespace Magento\Core\Model\Resource\Layout;
 class Update extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     private $_cache;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Cache\FrontendInterface $cache
+     * @param \Magento\Framework\Cache\FrontendInterface $cache
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Cache\FrontendInterface $cache)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Cache\FrontendInterface $cache)
     {
         parent::__construct($resource);
         $this->_cache = $cache;

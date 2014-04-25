@@ -333,7 +333,7 @@ function alpha() {
 if ($ftp) {
     $cwd=$ftpObj->getcwd();
     $dir=$cwd . '/' .$config->downloader_path . '/'
-        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
+        . \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
     $ftpObj->mkdirRecursive($dir,0777);
     $ftpObj->chdir($cwd);
 } else {
@@ -347,7 +347,13 @@ function alpha()
 {
     if ($ftp) {
         $cwd = $ftpObj->getcwd();
-        $dir = $cwd . '/' . $config->downloader_path . '/' . \Magento\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim(
+        $dir = $cwd .
+            '/' .
+            $config->downloader_path .
+            '/' .
+            \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH .
+            '/' .
+            trim(
             $pChan,
             "\\/"
         );
@@ -527,7 +533,7 @@ FC6;
 <?php
 class CSample7 {
     public function cS7() {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -539,7 +545,7 @@ class CSample7
 {
     public function cS7()
     {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );

@@ -13,7 +13,7 @@ class UrlGenerator implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorIn
 {
     /**
      * Create url for passed item using passed url model
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return null
      */
     public function getUrl($item)

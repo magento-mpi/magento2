@@ -13,7 +13,7 @@ namespace Magento\Checkout\Block;
 class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $_moduleManager;
 
@@ -24,13 +24,13 @@ class Link extends \Magento\Framework\View\Element\Html\Link
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Checkout\Helper\Data $checkoutHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Checkout\Helper\Data $checkoutHelper,
         array $data = array()
     ) {

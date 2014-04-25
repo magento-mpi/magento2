@@ -87,7 +87,7 @@ class Observer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
@@ -101,7 +101,7 @@ class Observer
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
@@ -127,7 +127,7 @@ class Observer
     /**
      * Update reward points for customer, send notification
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this|void
      */
     public function saveRewardPoints($observer)
@@ -171,7 +171,7 @@ class Observer
     /**
      * Update reward notifications for customer
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function saveRewardNotifications($observer)
@@ -219,7 +219,7 @@ class Observer
     /**
      * Update reward points after customer register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function customerRegister($observer)
@@ -264,7 +264,7 @@ class Observer
     /**
      * Update points balance after review submit
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function reviewSubmit($observer)
@@ -293,7 +293,7 @@ class Observer
     /**
      * Update points balance after first successful subscribtion
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function customerSubscribed($observer)
@@ -325,7 +325,7 @@ class Observer
     /**
      * Update points balance after customer registered by invitation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function invitationToCustomer($observer)
@@ -355,7 +355,7 @@ class Observer
     /**
      * Update points balance after order becomes completed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function orderCompleted($observer)
@@ -420,7 +420,7 @@ class Observer
     /**
      * Update invitation points balance after referral's order completed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     protected function _invitationToOrder($observer)
@@ -454,10 +454,10 @@ class Observer
     /**
      * Set flag to reset reward points totals
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setRewardPointsTotalReseted(false);
@@ -467,7 +467,7 @@ class Observer
     /**
      * Set use reward points flag to new quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function quoteMergeAfter($observer)
@@ -484,10 +484,10 @@ class Observer
     /**
      * Payment data import in checkout process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function paymentDataImport(\Magento\Event\Observer $observer)
+    public function paymentDataImport(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
@@ -503,7 +503,7 @@ class Observer
      * Enable Zero Subtotal Checkout payment method
      * if customer has enough points to cover grand total
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function preparePaymentMethod($observer)
@@ -535,10 +535,10 @@ class Observer
     /**
      * Payment data import in admin order create process
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function processOrderCreationData(\Magento\Event\Observer $observer)
+    public function processOrderCreationData(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
@@ -557,7 +557,7 @@ class Observer
      * set zero subtotal checkout payment if need
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param bool $useRewardPoints
      * @return $this
      */
@@ -624,10 +624,10 @@ class Observer
     /**
      * Revert reward points if order was not placed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function revertRewardPoints(\Magento\Event\Observer $observer)
+    public function revertRewardPoints(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
@@ -641,10 +641,10 @@ class Observer
     /**
      * Revert authorized reward points amounts for all orders
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function revertRewardPointsForAllOrders(\Magento\Event\Observer $observer)
+    public function revertRewardPointsForAllOrders(\Magento\Framework\Event\Observer $observer)
     {
         $orders = $observer->getEvent()->getOrders();
 
@@ -658,10 +658,10 @@ class Observer
     /**
      * Set forced can creditmemo flag if refunded amount less then invoiced amount of reward points
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function orderLoadAfter(\Magento\Event\Observer $observer)
+    public function orderLoadAfter(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
@@ -680,10 +680,10 @@ class Observer
     /**
      * Set invoiced reward amount to order after invoice register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function invoiceRegister(\Magento\Event\Observer $observer)
+    public function invoiceRegister(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $invoice = $observer->getEvent()->getInvoice();
@@ -703,10 +703,10 @@ class Observer
     /**
      * Update inviter balance if possible
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function invoicePay(\Magento\Event\Observer $observer)
+    public function invoicePay(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $invoice \Magento\Sales\Model\Order\Invoice */
         $invoice = $observer->getEvent()->getInvoice();
@@ -720,10 +720,10 @@ class Observer
     /**
      * Set reward points balance to refund before creditmemo register
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setRewardPointsBalanceToRefund(\Magento\Event\Observer $observer)
+    public function setRewardPointsBalanceToRefund(\Magento\Framework\Event\Observer $observer)
     {
         $input = $observer->getEvent()->getRequest()->getParam('creditmemo');
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -741,10 +741,10 @@ class Observer
     /**
      * Clear forced can creditmemo if whole reward amount was refunded
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function creditmemoRefund(\Magento\Event\Observer $observer)
+    public function creditmemoRefund(\Magento\Framework\Event\Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         /* @var $order \Magento\Sales\Model\Order */
@@ -761,10 +761,10 @@ class Observer
     /**
      * Set refunded reward amount order and update reward points balance if need
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function creditmemoSaveAfter(\Magento\Event\Observer $observer)
+    public function creditmemoSaveAfter(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -877,10 +877,10 @@ class Observer
     /**
      * Prepare orphan points of customers after website was deleted
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareCustomerOrphanPoints(\Magento\Event\Observer $observer)
+    public function prepareCustomerOrphanPoints(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $website \Magento\Store\Model\Website */
         $website = $observer->getEvent()->getWebsite();
@@ -891,10 +891,10 @@ class Observer
     /**
      * Prepare salesrule form. Add field to specify reward points delta
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareSalesruleForm(\Magento\Event\Observer $observer)
+    public function prepareSalesruleForm(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
@@ -917,10 +917,10 @@ class Observer
     /**
      * Set reward points delta to salesrule model after it loaded
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function loadRewardSalesruleData(\Magento\Event\Observer $observer)
+    public function loadRewardSalesruleData(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
@@ -939,10 +939,10 @@ class Observer
     /**
      * Save reward points delta for salesrule
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function saveRewardSalesruleData(\Magento\Event\Observer $observer)
+    public function saveRewardSalesruleData(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabled()) {
             return $this;
@@ -959,10 +959,10 @@ class Observer
     /**
      * Update customer reward points balance by points from applied sales rules
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function applyRewardSalesrulePoints(\Magento\Event\Observer $observer)
+    public function applyRewardSalesrulePoints(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $observer->getEvent()->getInvoice();
@@ -1001,10 +1001,10 @@ class Observer
     /**
      * If not all rates found, we should disable reward points on frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function checkRates(\Magento\Event\Observer $observer)
+    public function checkRates(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_rewardData->isEnabledOnFront()) {
             return $this;
@@ -1033,10 +1033,10 @@ class Observer
     /**
      * Add reward amount to payment discount total
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addPaymentRewardItem(\Magento\Event\Observer $observer)
+    public function addPaymentRewardItem(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
@@ -1050,10 +1050,10 @@ class Observer
     /**
      * Return reward points
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function returnRewardPoints(\Magento\Event\Observer $observer)
+    public function returnRewardPoints(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();

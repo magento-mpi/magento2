@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\Dependency;
 
-use Magento\File\Csv;
+use Magento\Framework\File\Csv;
 use Magento\Tools\Dependency\Circular as CircularTool;
 use Magento\Tools\Dependency\Parser;
 use Magento\Tools\Dependency\Report\Dependency;
@@ -59,7 +59,7 @@ class ServiceLocator
     /**
      * Csv file writer
      *
-     * @var \Magento\File\Csv
+     * @var \Magento\Framework\File\Csv
      */
     private static $csvWriter;
 
@@ -142,7 +142,7 @@ class ServiceLocator
     /**
      * Get csv file writer
      *
-     * @return \Magento\File\Csv
+     * @return \Magento\Framework\File\Csv
      */
     private static function getCsvWriter()
     {

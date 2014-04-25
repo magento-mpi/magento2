@@ -116,12 +116,12 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      *
      * @param string $controlName
      * @return array
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getControlData($controlName)
     {
         if (!isset($this->_data[$controlName])) {
-            throw new \Magento\Exception("Unknown control: \"{$controlName}\"");
+            throw new \Magento\Framework\Exception("Unknown control: \"{$controlName}\"");
         }
         return $this->_data[$controlName];
     }

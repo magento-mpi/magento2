@@ -32,7 +32,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
 
         $cacheInterfaceMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
 
@@ -66,16 +66,16 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
             $contextMock,
-            $this->getMock('Magento\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Entity\TypeFactory', array(), array(), '', false),
             $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false),
-            $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Validator\UniversalFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\ReservedAttributeList', array(), array(), '', false),
-            $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Locale\ResolverInterface', array(), array(), '', false),
             $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
             $this->_processor,
             $this->getMock('\Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false),

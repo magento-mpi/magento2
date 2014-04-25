@@ -54,7 +54,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory
      * @param array $data
@@ -62,7 +62,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
         $data = array()
@@ -104,7 +104,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
         if (isset($this->_types[$type])) {
             $className = $this->_types[$type];
         } else {
-            $className = 'Magento\\Data\\Form\\Element\\' . ucfirst(strtolower($type));
+            $className = 'Magento\\Framework\\Data\\Form\\Element\\' . ucfirst(strtolower($type));
         }
         $element = $this->_elementsFactory->create($className, $config);
         $element->setId($elementId);

@@ -78,9 +78,9 @@ class Segment extends \Magento\Rule\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Log\Model\Visitor $visitor
@@ -92,9 +92,9 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Log\Model\Visitor $visitor,
@@ -242,11 +242,11 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Validate customer by segment conditions for current website
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      *
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         $website = $this->_storeManager->getWebsite();
         if ($object instanceof \Magento\Customer\Model\Customer) {
@@ -261,7 +261,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Check if customer is matched by segment
      *
-     * @param int|\Magento\Customer\Model\Customer|\Magento\Object $customer
+     * @param int|\Magento\Customer\Model\Customer|\Magento\Framework\Object $customer
      * @param null|\Magento\Store\Model\Website|bool|int|string $website
      *
      * @return bool

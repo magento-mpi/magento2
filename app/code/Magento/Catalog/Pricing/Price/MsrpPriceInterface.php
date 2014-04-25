@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 
 /**
  * MSRP price interface
