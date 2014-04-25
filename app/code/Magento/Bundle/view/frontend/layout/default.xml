@@ -8,6 +8,9 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="bundle_checkout_page_head_components" template="Magento_Bundle::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="wishlist_sidebar">
         <action method="addPriceBlockType">
             <argument name="type" xsi:type="string">bundle</argument>
