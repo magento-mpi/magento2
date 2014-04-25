@@ -41,6 +41,8 @@
   * Refactor the rest of Customer Group usages (MAGETWO-23278)
   * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
   * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
+* Themes update:
+  * Plushe theme is now based on blank (MAGETWO-23528)
 * Customer Service usage:
   * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
   * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
