@@ -1,33 +1,41 @@
+* JavaScript improvements:
+  * Removed head.js usages from frontend (MAGETWO-18032)
+  * Removed head.js usages from adminhtml (MAGETWO-18053)
+* Themes update:
+  * Plushe theme is now based on blank (MAGETWO-23528)
+* Fixed bugs:  
+  * Unable to place order with product with custom option 'file'(MAGETWO-23679)
+  * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
+  * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
+  
+2.0.0.0-dev75
+=============
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
-  * Unable to place order with product with custom option 'file'(MAGETWO-23679)
-  * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
-  * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
-  * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
-  * Fatal error on customer registration if mail server is off(MAGETWO-23558)
-  * Customer with middle name can't be found in grid by name(MAGETWO-23615)
-  * Related products are not displayed on product page(MAGETWO-23680)
-  * View Files Population Tool is Broken(MAGETWO-23659)
-  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
-  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
-  * Fixed error on place order with cache turned on (MAGETWO-23523)
-  * Fixed possibility creating integration from config file (MAGETWO-22311)
-  * Fixed: Warning appears when running system_config (MAGETWO-15336)
-  * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
-  * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
-  * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
+  * Fixed an issue where Currency Options were not displayed on the Currency Setup tab
+  * Fixed an issue where a fatal error appeared during customer registration if mail server was off
+  * Fixed an issue where customer with middle name did not appear in the Customers grid in the backend
+  * Fixed an issue where related products were not displayed on the product page in the backend
+  * Fixed the broken View Files Population tool
+  * Fixed an issue where Magento broke down if the Main Web Site was deleted
+  * Fixed potential security issue with orders protect_code
+  * Fixed an issue where an error appeared when placing an order if cache was turned on
+  * Fixed an issue where a warning appeared when running system_config.php tool
+  * Fixed an issue with incorrect reset password link for users on custom websites
+  * Fixed an issue with invalid error message displayed when trying to save a customer group with existing group name
+  * Fixed an issue with  menu layout non-responsive behavior  in the Blank theme
 * Framework Improvements:
-  * Covered Magento library components with unit tests (MAGETWO-21136)
-    * `Magento\Store\Model\*`
-    * `Magento\Error\*`
-    * `Magento\Event\Observer\*`
+  * Covered Magento library components with unit tests
+    * `Magento\Framework\Error\*`
+    * `Magento\Framework\Event\Observer\*`
     * `Magento\Framework\Filesystem\*`
     * `Magento\Framework\Filesystem\File\*`
-  * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (MAGETWO-20866, MAGETWO-23646, MAGETWO-23647, MAGETWO-23747)
-  * Covered Magento application components with unit tests (MAGETWO-21540)
+  * Updated the obsolete_classes list with changes, introduced by Offline Payment Methods Module implementation
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*`
+  * Covered Magento application components with unit tests:
+     * `Store\Model\*`
      * `Sales/Helper/Guest.php`
      * `Sales/Helper/Admin.php`
      * `Sales/Model/Observer.php`
@@ -36,29 +44,24 @@
      * `Sales/Model/Observer/Backend/CustomerQuote.php`
      * `Sales/Model/Status/ListStatus.php`
 * Refactored the following modules to use Customer Service:
-  * Refactored Persistent Module (MAGETWO-20877)
-  * Refactored GoogleShopping module (MAGETWO-20474)
-  * Refactored ProductAlert module (MAGETWO-20481)
-  * Refactored SendFriend module (MAGETWO-20497)
-  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
-  * Refactor the rest of Customer Group usages (MAGETWO-23278)
-  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
-  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
-* Themes update:
-  * Plushe theme is now based on blank (MAGETWO-23528)
+  * Magento_Persistent
+  * Magento_GoogleShopping
+  * Magento_ProductAlert
+  * Magento_SendFriend
+  * Moved customer-specific logic from the Magento_ImportExport module to the Customer module
+  * Refactored the rest of Customer Group usages
+  * Refactored customerAccountService::createAccount to not expose the hashed password input from webapi
+  * Implemented a delimiter usage for Cache key in Customer Registry
 * Customer Service usage:
-  * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
-  * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
+  * Updated exception hierarchy with a new localized exception class
+  * Updated CRUD APIs to support email and base URL instead of IDs
 * JavaScript improvements:
-  * Implemented dialog widget (MAGETWO-22996)
-  * Implemented validation widget (MAGETWO-22996)
-  * Implemented tooltip widget (MAGETWO-22996)
-  * Implemented popup/modal window widget (MAGETWO-22996)
-  * Implemented calendar widget (MAGETWO-22996)
-  * Implemented suggest widget (MAGETWO-22996)
-  * Removed head.js usages from frontend (MAGETWO-18032)
-  * Removed head.js usages from adminhtml (MAGETWO-18053)
-* Added configuration for Travis CI (MAGETWO-21884)
+  * Implemented the validation widget
+  * Implemented the tooltip widget
+  * Implemented the popup/modal window widget
+  * Implemented the calendar widget
+  * Implemented the suggest widget
+* Added configuration for Travis CI
 
 2.0.0.0-dev74
 =============
