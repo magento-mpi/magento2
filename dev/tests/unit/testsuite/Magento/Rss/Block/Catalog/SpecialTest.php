@@ -165,7 +165,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
             'link' => $productUrl,
             'description' => $productDescription
         ];
-        $expectedResult = new \Magento\Object(['rss_feed' => '<xml>Feed of the rss</xml>']);
+        $expectedResult = new \Magento\Framework\Object(['rss_feed' => '<xml>Feed of the rss</xml>']);
 
         $this->addMocks();
         $this->productFactoryMock->expects($this->once())
