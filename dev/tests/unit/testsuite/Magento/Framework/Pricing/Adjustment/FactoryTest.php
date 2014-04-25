@@ -56,8 +56,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
