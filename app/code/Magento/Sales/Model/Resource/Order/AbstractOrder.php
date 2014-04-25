@@ -73,7 +73,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -83,15 +83,15 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     protected $_eavEntityTypeFactory;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
     ) {
         $this->_eventManager = $eventManager;
@@ -107,14 +107,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $joinCondition
      * @param string $column
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
     {
         $table = $this->getTable($table);
 
         if (!in_array($alias, $this->getGridColumns())) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }
@@ -169,7 +169,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             }
 
             if ($this->_eventPrefix && $this->_eventObject) {
-                $proxy = new \Magento\Object();
+                $proxy = new \Magento\Framework\Object();
                 $proxy->setIds($ids)->setData($this->_eventObject, $this);
 
                 $this->_eventManager->dispatch($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
@@ -195,7 +195,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $ids
      * @param array &$flatColumnsToSelect
      * @param array|null $gridColumns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getUpdateGridRecordsSelect($ids, &$flatColumnsToSelect, $gridColumns = null)
     {
@@ -288,11 +288,11 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Before save object attribute
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _beforeSaveAttribute(\Magento\Model\AbstractModel $object, $attribute)
+    protected function _beforeSaveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             $this->_eventManager->dispatch(
@@ -306,11 +306,11 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * After save object attribute
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _afterSaveAttribute(\Magento\Model\AbstractModel $object, $attribute)
+    protected function _afterSaveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             $this->_eventManager->dispatch(
@@ -324,12 +324,12 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      * @throws \Exception
      */
-    public function saveAttribute(\Magento\Model\AbstractModel $object, $attribute)
+    public function saveAttribute(\Magento\Framework\Model\AbstractModel $object, $attribute)
     {
         if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
             $attribute = $attribute->getAttributeCode();
@@ -343,7 +343,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             $this->beginTransaction();
             try {
                 $this->_beforeSaveAttribute($object, $attribute);
-                $data = new \Magento\Object();
+                $data = new \Magento\Framework\Object();
                 foreach ($attribute as $code) {
                     $data->setData($code, $object->getData($code));
                 }
@@ -370,10 +370,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType \Magento\Eav\Model\Entity\Type */
@@ -387,7 +387,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Update field in table if model have been already saved
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @param array $data
      * @return $this
      */
@@ -421,10 +421,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Save object data
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    public function save(\Magento\Model\AbstractModel $object)
+    public function save(\Magento\Framework\Model\AbstractModel $object)
     {
         if (!$object->getForceObjectSave()) {
             parent::save($object);

@@ -40,7 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ImportExport_Import_Data'
         );
@@ -51,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getUniqueColumnData() in case when in data stored in requested column is NOT unique
      *
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testGetUniqueColumnDataException()
     {
@@ -67,7 +67,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ImportExport_Import_Data'
         );
@@ -84,7 +84,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $expectedBunches = $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->registry(
             '_fixture/Magento_ImportExport_Import_Data'
         );

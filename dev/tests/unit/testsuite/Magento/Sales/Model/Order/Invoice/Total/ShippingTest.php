@@ -16,12 +16,12 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
      * Retrieve new invoice collection from an array of invoices' data
      *
      * @param array $invoicesData
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     protected function _getInvoiceCollection(array $invoicesData)
     {
         $className = 'Magento\Sales\Model\Order\Invoice';
-        $result = new \Magento\Data\Collection(
+        $result = new \Magento\Framework\Data\Collection(
             $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
         );
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -34,7 +34,13 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
                 '',
                 false
             ),
-            'calculatorFactory' => $this->getMock('Magento\Math\CalculatorFactory', array(), array(), '', false),
+            'calculatorFactory' => $this->getMock(
+                    'Magento\Framework\Math\CalculatorFactory',
+                    array(),
+                    array(),
+                    '',
+                    false
+                ),
             'invoiceItemCollectionFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory',
                 array(),

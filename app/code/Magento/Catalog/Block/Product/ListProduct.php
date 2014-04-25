@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
-use Magento\View\Block\IdentityInterface;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Product list
@@ -248,7 +248,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * @param array|string|integer|\Magento\App\Config\Element $code
+     * @param array|string|integer|\Magento\Framework\App\Config\Element $code
      * @return $this
      */
     public function addAttribute($code)
@@ -327,7 +327,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         $url = $this->getAddToCartUrl($product);
         $data = [
             'product' => $product->getEntityId(),
-            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
         ];
         return $this->_postDataHelper->getPostData($url, $data);
     }
@@ -348,7 +348,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
                 [
                     'include_container' => true,
                     'display_minimal_price' => true,
-                    'zone' => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }
@@ -357,7 +357,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     }
 
     /**
-     * @return \Magento\Pricing\Render
+     * @return \Magento\Framework\Pricing\Render
      */
     protected function getPriceRender()
     {

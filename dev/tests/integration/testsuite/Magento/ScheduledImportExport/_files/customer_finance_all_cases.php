@@ -22,8 +22,8 @@ $customerEmail = 'customer_finance_test_rp_cb@test.com';
 $registerKey = 'customer_finance_email_rp_cb';
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Registry')->unregister($registerKey);
-$objectManager->get('Magento\Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Framework\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -62,8 +62,8 @@ $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test_rp@test.com';
 $registerKey = 'customer_finance_email_rp';
-$objectManager->get('Magento\Registry')->unregister($registerKey);
-$objectManager->get('Magento\Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Framework\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -89,8 +89,8 @@ $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test_cb@test.com';
 $registerKey = 'customer_finance_email_cb';
-$objectManager->get('Magento\Registry')->unregister($registerKey);
-$objectManager->get('Magento\Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Framework\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -118,8 +118,8 @@ $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
-$objectManager->get('Magento\Registry')->unregister($registerKey);
-$objectManager->get('Magento\Registry')->register($registerKey, $customerEmail);
+$objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
+$objectManager->get('Magento\Framework\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

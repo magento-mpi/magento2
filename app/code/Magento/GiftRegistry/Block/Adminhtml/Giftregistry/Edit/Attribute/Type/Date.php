@@ -24,7 +24,7 @@ class Date extends \Magento\Backend\Block\Widget\Form
     public function getDateFormatSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => '{{prefix}}_attribute_{{id}}_date_format', 'class' => 'select global-scope')
         )->setName(
@@ -44,10 +44,10 @@ class Date extends \Magento\Backend\Block\Widget\Form
     public function getDateFormatOptions()
     {
         return array(
-            array('value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, 'label' => __('Short')),
-            array('value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, 'label' => __('Medium')),
-            array('value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG, 'label' => __('Long')),
-            array('value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL, 'label' => __('Full'))
+            array('value' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, 'label' => __('Short')),
+            array('value' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, 'label' => __('Medium')),
+            array('value' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG, 'label' => __('Long')),
+            array('value' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL, 'label' => __('Full'))
         );
     }
 }

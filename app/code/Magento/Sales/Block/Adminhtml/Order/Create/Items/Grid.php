@@ -11,7 +11,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Items;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Sales\Model\Quote\Item;
-use Magento\Session\SessionManagerInterface;
+use Magento\Framework\Session\SessionManagerInterface;
 
 /**
  * Adminhtml sales order create items grid block
@@ -525,7 +525,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * Get order item extra info block
      *
      * @param Item $item
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getItemExtraInfo($item)
     {

@@ -32,7 +32,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('current_product');
+        $objectManager->get('Magento\Framework\Registry')->unregister('current_product');
         $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
         $this->_model->updateProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
@@ -40,11 +40,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
         );
-        $objectManager->get('Magento\Registry')->register('current_product', $product->load(1));
+        $objectManager->get('Magento\Framework\Registry')->register('current_product', $product->load(1));
 
         foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\Config\MutableScopeConfigInterface'
+                'Magento\Framework\App\Config\MutableScopeConfigInterface'
             )->setValue(
                 'tax/weee/display',
                 $mode,
@@ -63,7 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
         ) as $mode) {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\App\Config\MutableScopeConfigInterface'
+                'Magento\Framework\App\Config\MutableScopeConfigInterface'
             )->setValue(
                 'tax/weee/display',
                 $mode,
@@ -79,12 +79,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Event\Observer
+     * @return \Magento\Framework\Event\Observer
      */
     protected function _createEventObserverForUpdateConfigurableProductOptions()
     {
-        $response = new \Magento\Object(array('additional_options' => array()));
-        $event = new \Magento\Event(array('response_object' => $response));
-        return new \Magento\Event\Observer(array('event' => $event));
+        $response = new \Magento\Framework\Object(array('additional_options' => array()));
+        $event = new \Magento\Framework\Event(array('response_object' => $response));
+        return new \Magento\Framework\Event\Observer(array('event' => $event));
     }
 }

@@ -66,7 +66,7 @@ $product = $this->getSaleableItem();
                                 'price_id'          => $index,
                                 'id_suffix'         => '-' . $index,
                                 'include_container' => true,
-                                'zone' => \Magento\Pricing\Render::ZONE_ITEM_OPTION
+                                'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_OPTION
                             ]
                         )
                     );
@@ -84,11 +84,9 @@ $product = $this->getSaleableItem();
     <?php if ($msrpShowOnGesture):?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/tier-price.js') ?>", function () {
-                    $('.product.info.main').tierPrice({
-                        inputQty: '#qty',
-                        productForm: '#product_addtocart_form'
-                    });
+                $('.product.info.main').mage('tierPrice', {
+                    inputQty: '#qty',
+                    productForm: '#product_addtocart_form'
                 });
             })(jQuery);
         </script>

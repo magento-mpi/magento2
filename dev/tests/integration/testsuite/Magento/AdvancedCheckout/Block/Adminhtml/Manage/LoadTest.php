@@ -15,7 +15,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
  */
 class LoadTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout = null;
 
     /** @var \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load */
@@ -25,7 +25,7 @@ class LoadTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Load');
     }
@@ -40,10 +40,10 @@ class LoadTest extends \PHPUnit_Framework_TestCase
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
-        $this->_layout->addBlock('Magento\View\Element\Text', $blockName, $parent)->setText($content);
+        $this->_layout->addBlock('Magento\Framework\View\Element\Text', $blockName, $parent)->setText($content);
         $this->_layout->addContainer($containerName, 'Container', array(), $parent);
-        $this->_layout->addBlock('Magento\View\Element\Text', '', $containerName)->setText($containerContent);
-        $this->_layout->addBlock('Magento\View\Element\Text', $blockNameOne, $parent)->setText($contentOne);
+        $this->_layout->addBlock('Magento\Framework\View\Element\Text', '', $containerName)->setText($containerContent);
+        $this->_layout->addBlock('Magento\Framework\View\Element\Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(

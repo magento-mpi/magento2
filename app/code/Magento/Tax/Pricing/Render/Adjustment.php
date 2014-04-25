@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Tax\Pricing\Render;
 
-use Magento\View\Element\Template;
-use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * @method string getIdSuffix()
@@ -48,7 +46,7 @@ class Adjustment extends AbstractAdjustment
     {
         $html = $this->toHtml();
         if ($this->displayBothPrices()) {
-            if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
+            if ($this->getZone() !== \Magento\Framework\Pricing\Render::ZONE_ITEM_OPTION) {
                 $this->amountRender->setPriceDisplayLabel(__('Excl. Tax:'));
             }
             $this->amountRender->setPriceId(

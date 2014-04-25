@@ -34,13 +34,13 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
 
     /**
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Store\Model\Website\Factory $websiteFactory
-     * @param \Magento\Store\Model\Group\Factory $groupFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Store\Model\GroupFactory $groupFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Store\Model\Website\Factory $websiteFactory,
-        \Magento\Store\Model\Group\Factory $groupFactory
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        \Magento\Store\Model\GroupFactory $groupFactory
     ) {
 
         $this->_store = $storeFactory->create();
@@ -108,7 +108,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return \Magento\Store\Model\Website
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -143,7 +143,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getGroup($groupId = null)
     {
@@ -204,16 +204,6 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
     }
 
     /**
-     * Get either default or any store view
-     *
-     * @return \Magento\Store\Model\Store|null
-     */
-    public function getAnyStoreView()
-    {
-        return null;
-    }
-
-    /**
      * Set current default store
      *
      * @param string $store
@@ -221,23 +211,5 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function setCurrentStore($store)
     {
-    }
-
-    /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException()
-    {
-    }
-
-    /**
-     * Get current store code
-     *
-     * @return string
-     */
-    public function getCurrentStore()
-    {
-        return $this->_store->getCode();
     }
 }

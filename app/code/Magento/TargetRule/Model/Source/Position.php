@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Model\Source;
 
-class Position implements \Magento\Option\ArrayInterface
+class Position implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get data for Position behavior selector

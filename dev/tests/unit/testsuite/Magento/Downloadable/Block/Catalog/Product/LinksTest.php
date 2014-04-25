@@ -27,7 +27,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     protected $linkPriceMock;
 
     /**
-     * @var \Magento\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $amountMock;
 
@@ -37,12 +37,12 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
     /**
-     * @var \Magento\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
@@ -51,12 +51,12 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $contextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false, false);
 
-        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->linkPriceMock = $this->getMock('Magento\Downloadable\Pricing\Price\LinkPrice', [], [], '', false);
         $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->amountMock = $this->getMock('Magento\Pricing\Amount\Base', [], [], '', false);
+        $this->amountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
         $this->linkMock = $this->getMock('Magento\Downloadable\Model\Link', [], [], '', false);
-        $this->layout = $this->getMock('Magento\View\Layout', [], [], '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $contextMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
@@ -90,7 +90,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             ->with($this->linkMock)
             ->will($this->returnValue($this->amountMock));
 
-        $priceBoxMock = $this->getMock('Magento\Pricing\Render', ['renderAmount'], [], '', false, false);
+        $priceBoxMock = $this->getMock('Magento\Framework\Pricing\Render', ['renderAmount'], [], '', false, false);
 
         $this->layout->expects($this->once())
             ->method('getBlock')

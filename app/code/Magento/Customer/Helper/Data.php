@@ -15,7 +15,7 @@ namespace Magento\Customer\Helper;
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Customer group cache context
@@ -115,7 +115,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerAddress = null;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -135,38 +135,38 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_formFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Math\Random $mathRandom
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Math\Random $mathRandom
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
@@ -459,7 +459,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return (int)$this->_scopeConfig->getValue(
             self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
-            \Magento\App\ScopeInterface::SCOPE_DEFAULT
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
         );
     }
 
@@ -478,7 +478,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve customer group ID based on his VAT number
      *
      * @param string $customerCountryCode
-     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Framework\Object $vatValidationResult
      * @param \Magento\Store\Model\Store|string|int $store
      * @return null|int
      */
@@ -514,17 +514,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param string $requesterCountryCode
      * @param string $requesterVatNumber
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkVatNumber($countryCode, $vatNumber, $requesterCountryCode = '', $requesterVatNumber = '')
     {
         // Default response
-        $gatewayResponse = new \Magento\Object(
+        $gatewayResponse = new \Magento\Framework\Object(
             array('is_valid' => false, 'request_date' => '', 'request_identifier' => '', 'request_success' => false)
         );
 
         if (!extension_loaded('soap')) {
-            $this->_logger->logException(new \Magento\Model\Exception(__('PHP SOAP extension is required.')));
+            $this->_logger->logException(new \Magento\Framework\Model\Exception(__('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
 
@@ -598,7 +598,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Get VAT class
      *
      * @param string $customerCountryCode
-     * @param \Magento\Object $vatValidationResult
+     * @param \Magento\Framework\Object $vatValidationResult
      * @param \Magento\Store\Model\Store|string|int|null $store
      * @return null|string
      */
@@ -642,7 +642,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Perform customer data filtration based on form code and form object
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param string $formCode The code of EAV form to take the list of attributes from
      * @param string $entityType entity type for the form
      * @param string[] $additionalAttributes The list of attribute codes to skip filtration for
@@ -651,7 +651,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @return array Filtered customer data
      */
     public function extractCustomerData(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         $formCode,
         $entityType,
         $additionalAttributes = array(),

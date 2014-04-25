@@ -14,7 +14,7 @@ namespace Magento\Widget\Model\Widget;
 class Config
 {
     /**
-     * @var \Magento\View\Url
+     * @var \Magento\Framework\View\Url
      */
     protected $_viewUrl;
 
@@ -41,13 +41,13 @@ class Config
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\View\Url $viewUrl,
+        \Magento\Framework\View\Url $viewUrl,
         \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
         $this->_backendUrl = $backendUrl;
@@ -59,7 +59,7 @@ class Config
     /**
      * Return config settings for widgets insertion plugin based on editor element config
      *
-     * @param \Magento\Object $config
+     * @param \Magento\Framework\Object $config
      * @return array
      */
     public function getPluginSettings($config)
@@ -79,7 +79,7 @@ class Config
     /**
      * Return Widgets Insertion Plugin Window URL
      *
-     * @param \Magento\Object $config Editor element config
+     * @param \Magento\Framework\Object $config Editor element config
      * @return string
      */
     public function getWidgetWindowUrl($config)

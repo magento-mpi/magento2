@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Model\Attribute;
 /**
  * Gift registry custom attribute processor model
  */
-class Processor extends \Magento\Model\AbstractModel
+class Processor extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PROTOTYPE_NODE = 'prototype';
 
@@ -30,7 +30,7 @@ class Processor extends \Magento\Model\AbstractModel
     {
         $data = $type->getAttributes();
         if ($data) {
-            $xmlObj = new \Magento\Simplexml\Element('<config></config>');
+            $xmlObj = new \Magento\Framework\Simplexml\Element('<config></config>');
             $typeXml = $xmlObj->addChild(self::XML_PROTOTYPE_NODE);
             if (is_array($data)) {
                 $groups = array();
@@ -55,7 +55,7 @@ class Processor extends \Magento\Model\AbstractModel
     /**
      * Process attribute types as xml
      *
-     * @param \Magento\Simplexml\Element $typeXml
+     * @param \Magento\Framework\Simplexml\Element $typeXml
      * @param string $group
      * @param array $attributes
      * @return void
@@ -99,7 +99,7 @@ class Processor extends \Magento\Model\AbstractModel
      * Add select type options to attribute node
      *
      * @param array $attribute
-     * @param \Magento\Simplexml\Element $itemXml
+     * @param \Magento\Framework\Simplexml\Element $itemXml
      * @return void
      */
     public function addSelectOptions($attribute, $itemXml)
@@ -122,7 +122,7 @@ class Processor extends \Magento\Model\AbstractModel
      * Add date type options to attribute node
      *
      * @param array $attribute
-     * @param \Magento\Simplexml\Element $itemXml
+     * @param \Magento\Framework\Simplexml\Element $itemXml
      * @return void
      */
     public function addDateOptions($attribute, $itemXml)
@@ -135,7 +135,7 @@ class Processor extends \Magento\Model\AbstractModel
      * Add region type options to attribute node
      *
      * @param array $attribute
-     * @param \Magento\Simplexml\Element $itemXml
+     * @param \Magento\Framework\Simplexml\Element $itemXml
      * @return void
      */
     public function addCountryOptions($attribute, $itemXml)
@@ -148,7 +148,7 @@ class Processor extends \Magento\Model\AbstractModel
      * Add frontend params to attribute node
      *
      * @param array $attribute
-     * @param \Magento\Simplexml\Element $itemXml
+     * @param \Magento\Framework\Simplexml\Element $itemXml
      * @return void
      */
     public function addFrontendParams($attribute, $itemXml)
@@ -170,7 +170,7 @@ class Processor extends \Magento\Model\AbstractModel
     public function processXml($xmlString = '')
     {
         if ($xmlString) {
-            $xmlObj = new \Magento\Simplexml\Element($xmlString);
+            $xmlObj = new \Magento\Framework\Simplexml\Element($xmlString);
             $attributes = $xmlObj->asArray();
             if (isset($attributes[self::XML_PROTOTYPE_NODE])) {
                 return $attributes[self::XML_PROTOTYPE_NODE];

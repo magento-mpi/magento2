@@ -7,17 +7,17 @@
  */
 namespace Magento\Store\Model\Config\Reader;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
-class Store implements \Magento\App\Config\Scope\ReaderInterface
+class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
 {
     /**
-     * @var \Magento\App\Config\Initial
+     * @var \Magento\Framework\App\Config\Initial
      */
     protected $_initialConfig;
 
     /**
-     * @var \Magento\App\Config\ScopePool
+     * @var \Magento\Framework\App\Config\ScopePool
      */
     protected $_scopePool;
 
@@ -37,7 +37,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_storeFactory;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -47,21 +47,21 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Config\Initial $initialConfig
-     * @param \Magento\App\Config\ScopePool $scopePool
+     * @param \Magento\Framework\App\Config\Initial $initialConfig
+     * @param \Magento\Framework\App\Config\ScopePool $scopePool
      * @param \Magento\Store\Model\Config\Converter $converter
      * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Config\Initial $initialConfig,
-        \Magento\App\Config\ScopePool $scopePool,
+        \Magento\Framework\App\Config\Initial $initialConfig,
+        \Magento\Framework\App\Config\ScopePool $scopePool,
         \Magento\Store\Model\Config\Converter $converter,
         \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_initialConfig = $initialConfig;
@@ -84,13 +84,15 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         if ($this->_appState->isInstalled()) {
             if (empty($code)) {
                 $store = $this->_storeManager->getStore();
+            } elseif (($code == \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT)) {
+                $store = $this->_storeManager->getDefaultStoreView();
             } else {
                 $store = $this->_storeFactory->create();
                 $store->load($code);
             }
 
             if (!$store->getCode()) {
-                throw new NoSuchEntityException('storeCode', $code);
+                throw NoSuchEntityException::singleField('storeCode', $code);
             }
             $websiteConfig = $this->_scopePool->getScope(
                 \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
@@ -109,7 +111,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         } else {
             $websiteConfig = $this->_scopePool->getScope(
                 \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
-                \Magento\App\ScopeInterface::SCOPE_DEFAULT
+                \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
             )->getSource();
             $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
         }

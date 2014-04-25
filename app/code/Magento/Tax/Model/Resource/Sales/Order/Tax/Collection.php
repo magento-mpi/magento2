@@ -16,7 +16,7 @@ namespace Magento\Tax\Model\Resource\Sales\Order\Tax;
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -31,7 +31,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Retrieve order tax collection by order identifier
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return \Magento\Tax\Model\Resource\Sales\Order\Tax\Collection
      */
     public function loadByOrder($order)

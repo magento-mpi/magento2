@@ -25,7 +25,7 @@
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner
@@ -184,12 +184,12 @@ class Banner extends \Magento\Model\AbstractModel implements \Magento\Object\Ide
     /**
      * Validate some data before saving
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
     {
         if ('' == trim($this->getName())) {
-            throw new \Magento\Model\Exception(__('Please enter a name.'));
+            throw new \Magento\Framework\Model\Exception(__('Please enter a name.'));
         }
         $bannerContents = $this->getStoreContents();
         $error = true;
@@ -200,7 +200,7 @@ class Banner extends \Magento\Model\AbstractModel implements \Magento\Object\Ide
             }
         }
         if ($error) {
-            throw new \Magento\Model\Exception(__('Please specify default content for at least one store view.'));
+            throw new \Magento\Framework\Model\Exception(__('Please specify default content for at least one store view.'));
         }
         return parent::_beforeSave();
     }

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Module\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 /*
  * Rename incorrectly named tables in early magento 2 development version

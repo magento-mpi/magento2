@@ -23,12 +23,12 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $salableItemMock;
 
     /**
-     * @var \Magento\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceCurrencyMock;
 
     /**
-     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -60,11 +60,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->priceCurrencyMock = $this->getMockBuilder(
-            'Magento\Pricing\PriceCurrencyInterface'
+            'Magento\Framework\Pricing\PriceCurrencyInterface'
         )->disableOriginalConstructor()->setMethods(['convertAndFormat', 'convert'])->getMockForAbstractClass();
 
         $this->contextMock = $this->getMock(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             ['getStoreManager'],
             [],
             '',
@@ -92,7 +92,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->storeManagerMock));
 
         $this->priceCurrencyMock = $this->getMockBuilder(
-            'Magento\Pricing\PriceCurrencyInterface'
+            'Magento\Framework\Pricing\PriceCurrencyInterface'
         )->disableOriginalConstructor()->setMethods(['convertAndFormat', 'convert'])->getMockForAbstractClass();
     }
 

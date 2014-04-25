@@ -16,20 +16,20 @@ use Magento\Reward\Model\Reward\History as ModelRewardHistory;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\Resource\Db\AbstractDb
+class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Date time formatter
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
         parent::__construct($resource);
@@ -189,7 +189,7 @@ class History extends \Magento\Model\Resource\Db\AbstractDb
             $update['expired_at_dynamic'] = $adapter->getDateAddSql(
                 'created_at',
                 $days,
-                \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
+                \Magento\Framework\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
         } else {
             $update['expired_at_dynamic'] = new \Zend_Db_Expr('NULL');

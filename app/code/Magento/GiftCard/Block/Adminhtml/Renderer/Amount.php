@@ -9,9 +9,11 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Backend\Block\Widget;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
-class Amount extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Amount extends Widget implements RendererInterface
 {
     /**
      * @var AbstractElement
@@ -31,7 +33,7 @@ class Amount extends \Magento\Backend\Block\Widget implements \Magento\Data\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -45,13 +47,13 @@ class Amount extends \Magento\Backend\Block\Widget implements \Magento\Data\Form
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_directoryHelper = $directoryHelper;

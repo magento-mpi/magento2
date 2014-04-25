@@ -17,10 +17,10 @@ class Email extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     /**
      * Render customer email as mailto link
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $customerEmail = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="mailto:' . $customerEmail . '">' . $this->escapeHtml($customerEmail) . '</a>';
