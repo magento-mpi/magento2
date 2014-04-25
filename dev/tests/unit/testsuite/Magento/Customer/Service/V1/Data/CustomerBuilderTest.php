@@ -47,7 +47,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $this->_valueBuilder = $this->_objectManager->getObject(
+            'Magento\Framework\Service\Data\Eav\AttributeValueBuilder'
+        );
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             [
@@ -437,6 +439,9 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        $this->assertEquals($expectedCustomerData, \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer));
+        $this->assertEquals(
+            $expectedCustomerData,
+            \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer)
+        );
     }
 }

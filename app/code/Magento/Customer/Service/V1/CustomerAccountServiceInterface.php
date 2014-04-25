@@ -63,8 +63,8 @@ interface CustomerAccountServiceInterface
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
-     * @throws \Magento\Exception\InputException If bad input is provided
-     * @throws \Magento\Exception\StateException If the provided email is already used
+     * @throws \Magento\Framework\Exception\InputException If bad input is provided
+     * @throws \Magento\Framework\Exception\State\InputMismatchException If the provided email is already used
      */
     public function createCustomerWithPasswordHash(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
