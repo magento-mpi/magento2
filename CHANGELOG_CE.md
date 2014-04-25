@@ -1,3 +1,5 @@
+2.0.0.0-dev75
+=============
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from `Magento\Core\Model\App`
