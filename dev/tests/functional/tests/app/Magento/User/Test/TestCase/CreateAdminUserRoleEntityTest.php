@@ -8,7 +8,6 @@
 
 namespace Magento\User\Test\TestCase;
 
-
 use Magento\User\Test\Fixture\AdminUserRole;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
@@ -26,7 +25,7 @@ use Mtf\TestCase\Injectable;
  * 6. Perform assertions
  *
  * @group ACL_(MX)
- * @ZephyrId MTA-46
+ * @ZephyrId MAGETWO-23413
  */
 class CreateAdminUserRoleEntityTest extends Injectable
 {
@@ -40,19 +39,25 @@ class CreateAdminUserRoleEntityTest extends Injectable
      */
     protected $userRoleEditRole;
 
+    /**
+     * @param UserRoleIndex $userRoleIndex
+     * @param UserRoleEditRole $userRoleEditRole
+     */
     public function __inject(
         UserRoleIndex $userRoleIndex,
         UserRoleEditRole $userRoleEditRole
-    )
-    {
+    ) {
         $this->userRoleIndex = $userRoleIndex;
         $this->userRoleEditRole = $userRoleEditRole;
-
     }
 
-    public function testCreateUserRole(
-        AdminUserRole $role
-    ) {
+    /**
+     * Runs Create Admin User Role Entity test.
+     *
+     * @param AdminUserRole $role
+     */
+    public function testCreateUserRole(AdminUserRole $role)
+    {
         //Steps
         $this->userRoleIndex->open();
         $this->userRoleIndex->getRoleActions()->addNew();

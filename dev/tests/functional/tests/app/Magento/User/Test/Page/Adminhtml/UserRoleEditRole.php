@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Page\Adminhtml; 
+namespace Magento\User\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class UserRoleEditRole
@@ -22,20 +22,20 @@ class UserRoleEditRole extends BackendPage
     protected $_blocks = [
         'pageActions' => [
             'name' => 'pageActions',
-            'class' => 'Magento\User\Test\Block\Adminhtml\PageActions',
+            'class' => 'Magento\User\Test\Block\Adminhtml\Role\PageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'roleFormTabs' => [
             'name' => 'roleFormTabs',
             'class' => 'Magento\User\Test\Block\Adminhtml\Role\Edit',
-            'locator' => '[id=\'page:main-container\']',
+            'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\User\Test\Block\Adminhtml\PageActions
+     * @return \Magento\User\Test\Block\Adminhtml\Role\PageActions
      */
     public function getPageActions()
     {

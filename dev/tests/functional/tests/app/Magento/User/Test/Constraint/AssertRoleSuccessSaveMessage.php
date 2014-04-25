@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Constraint; 
+namespace Magento\User\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
@@ -29,11 +29,13 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Asserts that success message equals to expected message.
+     *
      * @return void
      */
     public function processAssert(UserRoleIndex $rolePage)
     {
-        $successMessage = $rolePage->getMessageBlock()->getSuccessMessages();
+        $successMessage = $rolePage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $successMessage,
@@ -44,6 +46,8 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
     }
 
     /**
+     * Returns success message if equals to expected message.
+     *
      * @return string
      */
     public function toString()

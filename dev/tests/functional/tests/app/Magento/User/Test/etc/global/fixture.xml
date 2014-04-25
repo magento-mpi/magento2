@@ -18,10 +18,13 @@
         <entity_type>admin_role</entity_type>
         <collection>Magento\User\Model\Resource\Role\User\Collection</collection>
         <fields>
-            <all>
+            <resource_access>
                 <attribute_code>all</attribute_code>
-            </all>
+                <backend_type>virtual</backend_type>
+            </resource_access>
             <roles_resources>
+                <attribute_code>roles_resources</attribute_code>
+                <backend_type>virtual</backend_type>
             </roles_resources>
         </fields>
     </adminUserRole>

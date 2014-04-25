@@ -28,7 +28,8 @@ class AdminUserRole extends InjectableFixture
     protected $handlerInterface = 'Magento\User\Test\Handler\AdminUserRole\AdminUserRoleInterface';
 
     protected $defaultDataSet = [
-        'gws_is_all' => null,
+        'rolename' => 'AdminRole%isolation%',
+        'resource_access' => 'All',
     ];
 
     protected $role_id = [
@@ -95,35 +96,14 @@ class AdminUserRole extends InjectableFixture
         'input' => '',
     ];
 
-    protected $gws_is_all = [
-        'attribute_code' => 'gws_is_all',
-        'backend_type' => 'int',
-        'is_required' => '',
-        'default_value' => '1',
-        'input' => '',
-    ];
-
-    protected $gws_websites = [
-        'attribute_code' => 'gws_websites',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $gws_store_groups = [
-        'attribute_code' => 'gws_store_groups',
-        'backend_type' => 'varchar',
-        'is_required' => '',
-        'default_value' => '',
-        'input' => '',
-    ];
-
-    protected $all = [
-        'attribute_code' => 'all',
+    protected $resource_access = [
+        'attribute_code' => 'resource_access',
+        'backend_type' => 'virtual',
     ];
 
     protected $roles_resources = [
+        'attribute_code' => 'roles_resources',
+        'backend_type' => 'virtual',
     ];
 
     public function getRoleId()
@@ -181,9 +161,9 @@ class AdminUserRole extends InjectableFixture
         return $this->getData('gws_store_groups');
     }
 
-    public function getAll()
+    public function getResourceAccess()
     {
-        return $this->getData('all');
+        return $this->getData('resource_access');
     }
 
     public function getRolesResources()

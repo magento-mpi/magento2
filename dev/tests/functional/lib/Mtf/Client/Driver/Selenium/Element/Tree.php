@@ -8,29 +8,43 @@
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
-
 use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element as ElementInterface;
 
-abstract class Tree extends Element{
+/**
+ * Class Tree
+ * General class for tree elements. Holds general implementation of methods, which overrides in child classes.
+ *
+ * @package Mtf\Client\Driver\Selenium\Element
+ */
+abstract class Tree extends Element
+{
     /**
      * Css class for finding tree nodes
      *
      * @var string
      */
     protected $nodeCssClass;
+
     /**
      * Css class for detecting tree nodes
      *
      * @var string
      */
     protected $nodeSelector;
+
     /**
      * Css class for fetching node's name
      *
      * @var string
      */
     protected $nodeName;
+
+    /**
+     * @return mixed
+     */
+    abstract public function getStructure();
+
     /**
      * Drag'n'drop method is not accessible in this class.
      * Throws exception if used.
@@ -103,9 +117,10 @@ abstract class Tree extends Element{
      */
     protected function deep($pathChunk, $structureChunk)
     {
-        if(is_array($structureChunk)) {
+        if (is_array($structureChunk)) {
             foreach ($structureChunk as $structureNode) {
-                if (isset($structureNode) && preg_match('/' . $pathChunk . '\s\([\d]+\)|' . $pathChunk . '/', $structureNode['name'])) { //\(\d+\)/
+                $pattern = '/' . $pathChunk . '\s\([\d]+\)|' . $pathChunk . '/';
+                if (isset($structureNode) && preg_match($pattern, $structureNode['name'])) {
                     return $structureNode;
                 }
             }
@@ -115,8 +130,9 @@ abstract class Tree extends Element{
 
     /**
      *  Recursive walks tree
-     * @param $node
-     * @param $parentCssClass
+     *
+     * @param Element $node
+     * @param string $parentCssClass
      * @return array
      */
     protected function _getNodeContent($node, $parentCssClass)
@@ -124,35 +140,26 @@ abstract class Tree extends Element{
         $nodeArray = [];
         $nodeList = [];
         $counter = 1;
-
-        $newNode = $node->find($parentCssClass .' > '.$this->nodeSelector .':nth-of-type(' . $counter . ')' );
-
+        $newNode = $node->find($parentCssClass . ' > ' . $this->nodeSelector . ':nth-of-type(' . $counter . ')');
         //Get list of all children nodes to work with
         while ($newNode->isVisible()) {
             $nodeList[] = $newNode;
             ++$counter;
-            $newNode = $node->find($parentCssClass .' > '.$this->nodeSelector .':nth-of-type(' . $counter . ')' );
+            $newNode = $node->find($parentCssClass . ' > ' . $this->nodeSelector . ':nth-of-type(' . $counter . ')');
         }
-
         //Write to array values of current node
         foreach ($nodeList as $currentNode) {
             /** @var Element $currentNode */
             $nodesNames = $currentNode->find($this->nodeName);
             $nodesContents = $currentNode->find($this->nodeCssClass);
             $text = ltrim($nodesNames->getText());
-            $nodeArray[] = array(
+            $nodeArray[] = [
                 'name' => $text,
                 'element' => $currentNode,
                 'subnodes' => $nodesContents->isVisible() ?
                         $this->_getNodeContent($nodesContents, $this->nodeCssClass) : null
-            );
+            ];
         }
-
         return $nodeArray;
     }
-
-    /**
-     * @return mixed
-     */
-    abstract public function getStructure();
 }

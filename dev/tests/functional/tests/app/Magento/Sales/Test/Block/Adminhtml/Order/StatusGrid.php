@@ -8,8 +8,6 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Magento\Backend\Test\Block\Widget\Grid;
-
 /**
  * Class StatusGrid
  * Adminhtml sales order's status managment grid

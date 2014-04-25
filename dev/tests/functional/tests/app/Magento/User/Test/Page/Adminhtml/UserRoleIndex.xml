@@ -16,20 +16,14 @@
     </block>
     <block>
         <name>roleGrid</name>
-        <class>Magento\Backend\Test\Block\Widget\Grid</class>
+        <class>Magento\User\Test\Block\Adminhtml\RoleGrid</class>
         <locator>#roleGrid</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>roleGrid</name>
-        <class>Magento\User\Test\Block\Adminhtml\Block\Widget\Grid\ColumnSet</class>
-        <locator>#roleGrid</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
-        <locator>.messages</locator>
+        <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

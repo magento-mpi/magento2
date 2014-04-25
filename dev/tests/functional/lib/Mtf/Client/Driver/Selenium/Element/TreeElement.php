@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,18 +22,21 @@ class TreeElement extends Tree
      * @var string
      */
     protected $nodeCssClass = '.x-tree-node > .x-tree-node-ct';
+
     /**
      * Css class for detecting tree nodes
      *
      * @var string
      */
     protected $nodeSelector = '.x-tree-node';
+
     /**
      * Css class for fetching node's name
      *
      * @var string
      */
-    protected $nodeName = 'div > a'; //div > a > span
+    protected $nodeName = 'div > a';
+
     /**
      * Get structure of the tree element
      *

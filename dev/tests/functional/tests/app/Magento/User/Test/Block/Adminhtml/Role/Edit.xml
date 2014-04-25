@@ -24,13 +24,15 @@
         <selector>#role_info_tabs_account</selector>
         <strategy>css selector</strategy>
         <fields>
-            <all>
+            <resource_access>
                 <input>select</input>
-            </all>
+                <selector>#all</selector>
+                <strategy>css selector</strategy>
+            </resource_access>
             <roles_resources>
                 <input>jquerytree</input>
-                <selector>//fieldset//*[contains(@class,'x-tree')]</selector>
-                <strategy>xpath</strategy>
+                <selector>[data-role="resource-tree"]</selector>
+                <strategy>css selector</strategy>
             </roles_resources>
         </fields>
     </role-resources-tab>

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Page\Adminhtml; 
+namespace Magento\User\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class UserRoleIndex
@@ -28,12 +28,12 @@ class UserRoleIndex extends BackendPage
         ],
         'roleGrid' => [
             'name' => 'roleGrid',
-            'class' => 'Magento\User\Test\Block\Adminhtml\Block\Widget\Grid\ColumnSet',
+            'class' => 'Magento\User\Test\Block\Adminhtml\RoleGrid',
             'locator' => '#roleGrid',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages',
             'strategy' => 'css selector',
@@ -49,7 +49,7 @@ class UserRoleIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\User\Test\Block\Adminhtml\Block\Widget\Grid\ColumnSet
+     * @return \Magento\User\Test\Block\Adminhtml\RoleGrid
      */
     public function getRoleGrid()
     {
@@ -59,8 +59,8 @@ class UserRoleIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 }
