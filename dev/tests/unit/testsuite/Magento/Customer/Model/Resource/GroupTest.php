@@ -15,7 +15,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Resource\Group */
     protected $groupResourceModel;
 
-    /** @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject */
     protected $resource;
 
     /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -29,7 +29,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->resource = $this->getMock('Magento\App\Resource', [], [], '', false);
+        $this->resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->customersFactory = $this->getMock(
             'Magento\Customer\Model\Resource\Customer\CollectionFactory',
@@ -52,7 +52,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $dbAdapter = $this->getMock('Magento\DB\Adapter\AdapterInterface');
+        $dbAdapter = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
         $this->resource->expects($this->once())->method('getConnection')->will($this->returnValue($dbAdapter));
 
         $customer = $this->getMock(

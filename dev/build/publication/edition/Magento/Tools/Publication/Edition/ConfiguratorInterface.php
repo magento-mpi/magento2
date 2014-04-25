@@ -1,11 +1,14 @@
 <?php
 /**
- * Edition configurator interface
- *
  * {license_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
+ */
+namespace Magento\Tools\Publication\Edition;
+
+/**
+ * Edition configurator interface
  */
 interface ConfiguratorInterface
 {

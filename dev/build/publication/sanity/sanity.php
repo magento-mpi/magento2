@@ -14,7 +14,9 @@ require __DIR__ . '/../../../../app/autoload.php';
     realpath(__DIR__ . '/../../../tests/static/framework')
 ));
 
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
 php -f sanity.php -c <config_file> [-w <dir>] [-v]
     -c <config_file> path to configuration file with rules and white list
     [-w <dir>]       use specified working dir instead of current
@@ -42,14 +44,14 @@ if (sizeof($changeLog) > 1) {
     exit(1);
 }
 
-if($changeLog[0] !== $workingDir.'/CHANGELOG.md') {
+if ($changeLog[0] !== $workingDir.'/CHANGELOG.md') {
     echo "CHANGELOG.md file not found\n";
     exit(1);
 }
 
 echo "CHANGELOG.md file found\n";
 
-$wordsFinder = new SanityWordsFinder($configFile, $workingDir);
+$wordsFinder = new \Magento\Tools\Sanity\SanityWordsFinder($configFile, $workingDir);
 
 $verbose = isset($options['v']) ? true : false;
 if ($verbose) {

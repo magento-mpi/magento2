@@ -1,11 +1,14 @@
 <?php
 /**
- * Enterprise edition configurator
- *
  * {license_notice}
  *
  * @copyright  {copyright}
  * @license    {license_link}
+ */
+namespace Magento\Tools\Publication\Edition;
+
+/**
+ * Enterprise edition configurator
  */
 class EnterpriseConfigurator implements ConfiguratorInterface
 {
@@ -22,7 +25,7 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_filesystemDriver;
 
     /**
-     * @param $basePath
+     * @param string $basePath
      * @param \Magento\Framework\Filesystem\Driver\File $filesystemDriver
      */
     public function __construct($basePath, \Magento\Framework\Filesystem\Driver\File $filesystemDriver)

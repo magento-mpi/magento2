@@ -9,6 +9,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Sanity;
 
 /**
  * Extend words finder class, which is designed for sanity tests. The added functionality is method to search through
