@@ -29,7 +29,7 @@ class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that wrong success message is displayed after wrong sitemap save
+     * Assert that error message is displayed after creating sitemap with wrong folder
      *
      * @param SitemapIndex $sitemapPage
      * @param Sitemap $sitemap
@@ -41,19 +41,19 @@ class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             sprintf(self::FAIL_FOLDER_MESSAGE, $sitemap->getSitemapPath()),
             $actualMessage,
-            'Wrong success message is displayed.'
+            'Wrong error message is displayed.'
             . "\nExpected: " . self::FAIL_FOLDER_MESSAGE
             . "\nActual: " . $actualMessage
         );
     }
 
     /**
-     * Text of wrong success message create sitemap assert.
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Wrong success message for create sitemap is present.';
+        return 'Error message after creating sitemap with wrong folder is present.';
     }
 }
