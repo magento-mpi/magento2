@@ -48,7 +48,7 @@ class Url
     /**
      * URL builder
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -77,7 +77,7 @@ class Url
      * Constructor
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\View\Url\ConfigInterface $config
      * @param \Magento\Framework\View\Service $viewService
      * @param \Magento\Framework\View\Publisher $publisher
@@ -87,7 +87,7 @@ class Url
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\View\Url\ConfigInterface $config,
         \Magento\Framework\View\Service $viewService,
         \Magento\Framework\View\Publisher $publisher,
@@ -149,7 +149,7 @@ class Url
      * @param string $publicFilePath
      * @param bool|null $isSecure
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getPublicFileUrl($publicFilePath, $isSecure = null)
     {
@@ -171,7 +171,7 @@ class Url
             }
         }
 
-        throw new \Magento\Exception(
+        throw new \Magento\Framework\Exception(
             "Cannot build URL for the file '{$publicFilePath}' because it does not reside in a public directory."
         );
     }

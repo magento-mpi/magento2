@@ -129,7 +129,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      */
     public function renderPriceHtml(\Magento\Catalog\Model\Product $product, $displayMinimalPrice = false)
     {
-        /** @var \Magento\Pricing\Render $priceRender */
+        /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
         $price = '';
@@ -140,7 +140,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
                 [
                     'display_minimal_price'  => $displayMinimalPrice,
                     'use_link_for_as_low_as' => $this->_useLinkForAsLowAs,
-                    'zone'                   => \Magento\Pricing\Render::ZONE_ITEM_LIST
+                    'zone'                   => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
                 ]
             );
         }

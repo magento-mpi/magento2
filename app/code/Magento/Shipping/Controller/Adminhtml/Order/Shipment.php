@@ -21,7 +21,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -38,13 +38,13 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -250,7 +250,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             }
 
             $shipment->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
-            $responseAjax = new \Magento\Object();
+            $responseAjax = new \Magento\Framework\Object();
             $isNeedCreateLabel = isset($data['create_shipping_label']) && $data['create_shipping_label'];
 
             if ($isNeedCreateLabel && $this->_createShippingLabel($shipment)) {
@@ -277,7 +277,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(__('An error occurred while creating shipping label.'));
@@ -515,7 +515,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     public function createLabelAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         try {
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
@@ -527,7 +527,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response->setError(true);
             $response->setMessage(__('An error occurred while creating shipping label.'));
         }
@@ -574,7 +574,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('An error occurred while creating shipping label.'));
         }
         $this->_redirect(
@@ -596,7 +596,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $pdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging')->getPdf($shipment);
             return $this->_fileFactory->create(
                 'packingslip' . $this->_objectManager->get(
-                    'Magento\Stdlib\DateTime\DateTime'
+                    'Magento\Framework\Stdlib\DateTime\DateTime'
                 )->date(
                     'Y-m-d_H-i-s'
                 ) . '.pdf',

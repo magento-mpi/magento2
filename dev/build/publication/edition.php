@@ -16,7 +16,7 @@ try {
 
     $basePath = realpath($options['dir']);
     require $basePath . '/app/autoload.php';
-    (new \Magento\Autoload\IncludePath())->addIncludePath(
+    (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
         array(
             realpath($basePath . '/dev/build/publication/edition/'),
             realpath($basePath . '/lib/'),

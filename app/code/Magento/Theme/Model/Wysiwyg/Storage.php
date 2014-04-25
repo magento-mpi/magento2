@@ -53,12 +53,12 @@ class Storage
     protected $_helper;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var \Magento\Image\AdapterFactory
+     * @var \Magento\Framework\Image\AdapterFactory
      */
     protected $_imageFactory;
 
@@ -72,14 +72,14 @@ class Storage
      *
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Theme\Helper\Storage $helper
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Image\AdapterFactory $imageFactory
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Image\AdapterFactory $imageFactory
      */
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Theme\Helper\Storage $helper,
-        \Magento\ObjectManager $objectManager,
-        \Magento\Image\AdapterFactory $imageFactory
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\Image\AdapterFactory $imageFactory
     ) {
         $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         $this->_helper = $helper;
@@ -146,7 +146,7 @@ class Storage
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
             $image->save($this->mediaWriteDirectory->getAbsolutePath($thumbnailPath));
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             return false;
         }
 

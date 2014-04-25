@@ -32,7 +32,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $escaperMock = $this->getMock('Magento\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('Magento\Framework\Escaper', array(), array(), '', false);
         $elementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
             array('getForm', 'getHtmlAttributes'),
@@ -121,8 +121,8 @@ class RegionTest extends \PHPUnit_Framework_TestCase
             'with no defined regions' => array(array()),
             'with defined regions' => array(
                 array(
-                    new \Magento\Object(array('value' => 'Bavaria')),
-                    new \Magento\Object(array('value' => 'Saxony'))
+                    new \Magento\Framework\Object(array('value' => 'Bavaria')),
+                    new \Magento\Framework\Object(array('value' => 'Saxony'))
                 )
             )
         );

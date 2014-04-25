@@ -85,8 +85,10 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
             \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
 
-        /** @var $acl \Magento\Acl */
-        $acl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Acl\Builder')->getAcl();
+        /** @var $acl \Magento\Framework\Acl */
+        $acl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Acl\Builder')
+            ->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

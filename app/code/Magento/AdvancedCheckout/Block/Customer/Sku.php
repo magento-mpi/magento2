@@ -21,13 +21,13 @@ class Sku extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         parent::__construct($context, $checkoutData, $mathRandom, $data);

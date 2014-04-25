@@ -29,7 +29,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_reminder_rule',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reminder\Model\Rule')

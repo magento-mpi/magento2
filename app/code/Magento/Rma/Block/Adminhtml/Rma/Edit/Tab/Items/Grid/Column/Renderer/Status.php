@@ -22,10 +22,10 @@ class Status extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column
     /**
      * Renders status column when it is editable
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         $options = $this->getStatusManager()->getAllowedStatuses();
 

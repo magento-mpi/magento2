@@ -35,25 +35,25 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {

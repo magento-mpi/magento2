@@ -295,7 +295,7 @@ class Attributes extends AbstractCondition
         if ($this->getOperator() == '==') {
             $dateObj = $this->_localeDate->date(
                 $this->getValue(),
-                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 null,
                 false
             )->setHour(
@@ -306,8 +306,8 @@ class Attributes extends AbstractCondition
                 0
             );
             $value = array(
-                'start' => $dateObj->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }

@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Session;
+namespace Magento\Framework\Session;
 
 use \Magento\Backend\Model\SessionTest;
 

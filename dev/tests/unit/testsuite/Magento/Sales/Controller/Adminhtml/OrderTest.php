@@ -27,7 +27,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     protected $_orderMock;
 
     /**
-     * Mock for \Magento\Message
+     * Mock for \Magento\Framework\Message
      *
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -54,7 +54,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_messageMock = $this->getMockBuilder(
-            '\Magento\Message'
+            '\Magento\Framework\Message'
         )->disableOriginalConstructor()->setMethods(
             array('addError')
         )->getMock();

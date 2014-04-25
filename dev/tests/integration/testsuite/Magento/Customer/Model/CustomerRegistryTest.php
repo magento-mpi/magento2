@@ -8,7 +8,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -75,7 +75,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testRetrieveException()
@@ -90,16 +90,18 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
             $this->fail("NoSuchEntityException was not thrown as expected.");
         }  catch (NoSuchEntityException $e) {
             $expectedParams = [
-                'email' => 'customer@example.com',
-                'websiteId' => '1',
+                'fieldName' => 'email',
+                'fieldValue' => 'customer@example.com',
+                'field2Name' => 'websiteId',
+                'field2Value' => 1,
             ];
-            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals($expectedParams, $e->getParameters());
         }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @magentoAppArea adminhtml
      */
     public function testRemove()
@@ -113,7 +115,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @magentoAppArea adminhtml
      */
     public function testRemoveByEmail()

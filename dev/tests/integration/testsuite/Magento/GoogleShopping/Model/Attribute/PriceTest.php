@@ -13,7 +13,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Gdata\Gshopping\Entry $entry
+     * @param \Magento\Framework\Gdata\Gshopping\Entry $entry
      * @dataProvider convertAttributeDataProvider
      */
     public function testConvertAttribute($product, $entry)
@@ -34,7 +34,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function convertAttributeDataProvider()
     {
         $product = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-        $entry = Bootstrap::getObjectManager()->create('Magento\Gdata\Gshopping\Entry');
+        $entry = Bootstrap::getObjectManager()->create('Magento\Framework\Gdata\Gshopping\Entry');
         return [
             [$product, $entry]
         ];

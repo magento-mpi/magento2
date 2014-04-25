@@ -31,23 +31,23 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_widget;
 
     /**
-     * @var \Magento\Option\ArrayPool
+     * @var \Magento\Framework\Option\ArrayPool
      */
     protected $_sourceModelPool;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Option\ArrayPool $sourceModelPool
+     * @param \Magento\Framework\Option\ArrayPool $sourceModelPool
      * @param \Magento\Widget\Model\Widget $widget
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Option\ArrayPool $sourceModelPool,
+        \Magento\Framework\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
         array $data = array()
     ) {
@@ -138,7 +138,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add field to Options form based on parameter configuration
      *
-     * @param \Magento\Object $parameter
+     * @param \Magento\Framework\Object $parameter
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _addField($parameter)
@@ -204,7 +204,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
                 '',
                 array('data' => $helper->getData())
             );
-            if ($helperBlock instanceof \Magento\Object) {
+            if ($helperBlock instanceof \Magento\Framework\Object) {
                 $helperBlock->setConfig(
                     $helper->getData()
                 )->setFieldsetId(

@@ -116,7 +116,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
             }
 
             $ids = parent::getAllIds();
-            $ids = new \Magento\Object(array('items' => array_flip($ids)));
+            $ids = new \Magento\Framework\Object(array('items' => array_flip($ids)));
             /**
              * Updating collection with desired items
              */
@@ -140,7 +140,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
     public function getAllItems()
     {
         $collection = parent::getAllItems();
-        $collectionMock = new \Magento\Object(array('items' => $collection));
+        $collectionMock = new \Magento\Framework\Object(array('items' => $collection));
         $this->_eventManager->dispatch(
             'catalog_product_upsell',
             array(

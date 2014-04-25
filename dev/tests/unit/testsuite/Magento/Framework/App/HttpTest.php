@@ -78,9 +78,10 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $configLoaderMock->expects($this->once())->method('load')->with($areaCode)->will(
             $this->returnValue($areaConfig)
         );
-        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()->setMethods(
-            ['configure', 'get', 'create']
-        )->getMock();
+        $objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
+            ->disableOriginalConstructor()
+            ->setMethods(['configure', 'get', 'create'])
+            ->getMock();
         $objectManagerMock->expects($this->once())->method('configure')->with($areaConfig);
         $this->_responseMock = $this->getMockBuilder(
             'Magento\Framework\App\Response\Http'
@@ -98,7 +99,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_responseMock)
         );
         $this->_eventManagerMock = $this->getMockBuilder(
-            'Magento\Event\Manager'
+            'Magento\Framework\Event\Manager'
         )->disableOriginalConstructor()->setMethods(
             ['dispatch']
         )->getMock();

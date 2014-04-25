@@ -47,7 +47,7 @@ class Observer
     /**
      * Bind locale
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function bindLocale($observer)
@@ -75,10 +75,10 @@ class Observer
     /**
      * Set url class name for store 'admin'
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setUrlClassName(\Magento\Event\Observer $observer)
+    public function setUrlClassName(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
         $storeCollection = $observer->getEvent()->getStoreCollection();

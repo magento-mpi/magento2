@@ -43,14 +43,14 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Data\Form\Element\TextFactory $factoryText
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Data\Form\Element\TextFactory $factoryText,
         array $data = array()
     ) {

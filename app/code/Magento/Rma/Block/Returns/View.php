@@ -43,7 +43,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -116,7 +116,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -135,7 +135,7 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Customer\Helper\View $customerView,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -413,7 +413,7 @@ class View extends \Magento\Rma\Block\Form
 
     /**
      * @return \Magento\Customer\Service\V1\Data\Customer|null
-     * @throws \Magento\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()
     {

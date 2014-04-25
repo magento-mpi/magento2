@@ -54,8 +54,8 @@ class Package extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab
         );
 
         $versionsInfo = array(
-            array('label' => __('1.5.0.0 & later'), 'value' => \Magento\Connect\Package::PACKAGE_VERSION_2X),
-            array('label' => __('Pre-1.5.0.0'), 'value' => \Magento\Connect\Package::PACKAGE_VERSION_1X)
+            array('label' => __('1.5.0.0 & later'), 'value' => \Magento\Framework\Connect\Package::PACKAGE_VERSION_2X),
+            array('label' => __('Pre-1.5.0.0'), 'value' => \Magento\Framework\Connect\Package::PACKAGE_VERSION_1X)
         );
         $fieldset->addField(
             'version_ids',

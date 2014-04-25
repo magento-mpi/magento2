@@ -219,10 +219,10 @@ class Eav extends \Magento\Eav\Helper\Data
     /**
      * Retrieve additional style classes for text-based RMA attributes (represented by text input or textarea)
      *
-     * @param \Magento\Object $attribute
+     * @param \Magento\Framework\Object $attribute
      * @return string[]
      */
-    public function getAdditionalTextElementClasses(\Magento\Object $attribute)
+    public function getAdditionalTextElementClasses(\Magento\Framework\Object $attribute)
     {
         $additionalClasses = array();
 

@@ -8,10 +8,10 @@
 
 namespace Magento\TestFramework\Mail\Template;
 
-class TransportBuilderMock extends \Magento\Mail\Template\TransportBuilder
+class TransportBuilderMock extends \Magento\Framework\Mail\Template\TransportBuilder
 {
     /**
-     * @var \Magento\Mail\Message
+     * @var \Magento\Framework\Mail\Message
      */
     protected $_sentMessage;
 
@@ -29,7 +29,7 @@ class TransportBuilderMock extends \Magento\Mail\Template\TransportBuilder
     /**
      * Returns message object with prepared data
      *
-     * @return \Magento\Mail\Message|null
+     * @return \Magento\Framework\Mail\Message|null
      */
     public function getSentMessage()
     {

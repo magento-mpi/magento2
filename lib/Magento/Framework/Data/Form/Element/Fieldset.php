@@ -10,7 +10,7 @@
 namespace Magento\Framework\Data\Form\Element;
 
 use Magento\Framework\Data\Form;
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 /**
  * Form fieldset

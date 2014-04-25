@@ -28,7 +28,7 @@ class Data extends \Magento\Core\Helper\Data
     /**#@-*/
 
     /**
-     * @var \Magento\File\Size
+     * @var \Magento\Framework\File\Size
      */
     protected $_fileSize;
 
@@ -37,8 +37,8 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\File\Size $fileSize
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -46,8 +46,8 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\File\Size $fileSize,
         $dbCompatibleMode = true
     ) {
         $this->_fileSize = $fileSize;

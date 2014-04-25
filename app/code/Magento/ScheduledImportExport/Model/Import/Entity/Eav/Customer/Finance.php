@@ -14,7 +14,7 @@ namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
  *
  * @method array getData() getData()
  */
-class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+class Finance extends \Magento\Customer\Model\ImportExport\Import\AbstractCustomer
 {
     /**
      * Attribute collection name
@@ -117,7 +117,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
@@ -125,7 +125,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
+     * @param \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -135,7 +135,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
@@ -143,7 +143,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
+        \Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory $storageFactory,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

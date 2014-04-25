@@ -34,7 +34,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $filesystem->expects($this->any())->method('getPath')->will($this->returnValue('some_dir'));
 
         // 3. Get url model
-        $urlBuilder = $this->getMockBuilder('Magento\UrlInterface')->getMockForAbstractClass();
+        $urlBuilder = $this->getMockBuilder('Magento\Framework\UrlInterface')->getMockForAbstractClass();
         $urlBuilder->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://example.com/'));
 
         // 4. Get urlConfig model

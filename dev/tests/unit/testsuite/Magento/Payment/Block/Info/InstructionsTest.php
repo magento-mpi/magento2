@@ -17,7 +17,7 @@ namespace Magento\Payment\Block\Info;
 class InstructionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_method;
 
@@ -34,7 +34,7 @@ class InstructionsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_method = new \Magento\Object();
+        $this->_method = new \Magento\Framework\Object();
         $this->_info = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
         $this->_instructions = $objectManagerHelper->getObject('Magento\Payment\Block\Info\Instructions');
 

@@ -22,10 +22,10 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
     /**
      * Renders qty column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $isDisabled = $row->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU ||
             $row->getIsConfigureDisabled() ||

@@ -19,7 +19,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Core Date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -40,7 +40,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory
      * @param array $data
@@ -48,7 +48,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
         array $data = array()

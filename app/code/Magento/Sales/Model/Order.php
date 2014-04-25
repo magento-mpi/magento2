@@ -510,7 +510,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -591,16 +591,16 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
@@ -622,16 +622,16 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
@@ -1482,7 +1482,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Retrieve shipping method
      *
      * @param bool $asObject return carrier code and shipping method data as object
-     * @return string|\Magento\Object
+     * @return string|\Magento\Framework\Object
      */
     public function getShippingMethod($asObject = false)
     {
@@ -1491,7 +1491,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             return $shippingMethod;
         } else {
             list($carrierCode, $method) = explode('_', $shippingMethod, 2);
-            return new \Magento\Object(array('carrier_code' => $carrierCode, 'method' => $method));
+            return new \Magento\Framework\Object(array('carrier_code' => $carrierCode, 'method' => $method));
         }
     }
 
@@ -1561,7 +1561,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->addBcc($email);
             }
         }
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
@@ -1668,7 +1668,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
                     $this->_transportBuilder->addBcc($email);
                 }
             }
-            /** @var \Magento\Mail\TransportInterface $transport */
+            /** @var \Magento\Framework\Mail\TransportInterface $transport */
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -1883,7 +1883,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param mixed $itemId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemById($itemId)
     {
@@ -1892,7 +1892,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @param mixed $quoteItemId
-     * @return  \Magento\Object|null
+     * @return  \Magento\Framework\Object|null
      */
     public function getItemByQuoteItemId($quoteItemId)
     {

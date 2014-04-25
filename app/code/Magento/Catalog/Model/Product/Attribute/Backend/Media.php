@@ -60,7 +60,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -74,9 +74,9 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Construct
      *
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
@@ -84,9 +84,9 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $resourceProductAttribute
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactory,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
@@ -176,7 +176,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this|void
      */
     public function beforeSave($object)
@@ -266,7 +266,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      */
     public function afterSave($object)
@@ -708,7 +708,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function duplicate($object)

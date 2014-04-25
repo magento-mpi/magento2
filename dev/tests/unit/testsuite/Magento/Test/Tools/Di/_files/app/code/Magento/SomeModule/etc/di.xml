@@ -7,7 +7,7 @@
  * @license    {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Framework\App\RequestInterface" type="Magento\Framework\App\Request\Http\Proxy" />
     <preference for="Magento\Core\Model\Config\InvalidatorInterface" type="Magento\Core\Model\Config\Invalidator\Proxy" />
     <preference for="Magento\Framework\App\CacheInterface" type="Magento\Framework\App\Cache\Proxy" />
