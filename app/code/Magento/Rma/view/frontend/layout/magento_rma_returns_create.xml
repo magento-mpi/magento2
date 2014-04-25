@@ -9,6 +9,9 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="customer_account"/>
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="magento_rma_returns_create_head_components" template="Magento_Rma::js/components.phtml"/>
+    </referenceBlock>
     <referenceBlock name="customer_account_navigation">
         <action method="setActive">
             <argument name="path" xsi:type="string">rma/returns/history/</argument>

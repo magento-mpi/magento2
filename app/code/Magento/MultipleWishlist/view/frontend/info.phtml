@@ -37,7 +37,11 @@
     <div class="title">
         <strong><?php echo __('Wish List Items') ?></strong>
     </div>
-    <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form" class="form wishlist">
+    <form method="post" action="<?php echo $this->getToCartUrl();?>" id="wishlist-info-form"
+          data-mage-init='{"wishlist":{
+          "infoList":true,
+          "checkBoxValidationMessage":"<?php echo __('You must select items to add to the cart.');?>"}
+          }' class="form wishlist">
         <?php $this->getChildBlock('items')->setItems($this->getWishlistItems()); ?>
         <?php echo $this->getChildHtml('items');?>
         <?php if (count($wishlistItems) && $this->isSaleable()): ?>
@@ -52,17 +56,3 @@
         <?php endif; ?>
     </form>
 </div>
-<script>
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Wishlist::wishlist.js')?>", function() {
-                $('#wishlist-info-form').wishlist({
-                    infoList: true,
-                    checkBoxValidationMessage: '<?php echo __('You must select items to add to the cart.');?>'
-                });
-            });
-    })(jQuery);
-</script>

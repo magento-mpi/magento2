@@ -201,10 +201,8 @@ if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay(array(1, 2, 4))) {
     <?php if ($_catalogHelper->isShowPriceOnGesture($_product)):?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/tier-price.js') ?>", function () {
-                    $('#product_addtocart_form').tierPrice({
-                        inputQty: '#qty'
-                    });
+                $('#product_addtocart_form').mage('tierPrice', {
+                    inputQty: '#qty'
                 });
             })(jQuery);
         </script>

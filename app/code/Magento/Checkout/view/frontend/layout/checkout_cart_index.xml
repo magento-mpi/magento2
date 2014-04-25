@@ -10,6 +10,9 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="page_one_column"/>
     <update handle="checkout_cart_item_renderers" />
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="checkout_cart_head_components" template="Magento_Checkout::js/components.phtml"/>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Cart" name="checkout.cart" template="cart.phtml">
             <container name="checkout.cart.items" label="invisible" as="with-items">
