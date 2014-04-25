@@ -10,7 +10,6 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 use Magento\Catalog\Model\Product;
-use Magento\Bundle\Pricing\BundleOptionService;
 
 /**
  * Bundle option price model
@@ -28,9 +27,9 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     protected $calculator;
 
     /**
-     * @var \Magento\Bundle\Pricing\BundleOptionService
+     * @var BundleSelectionFactory
      */
-    protected $optionService;
+    protected $selectionFactory;
 
     /**
      * @var float|bool|null
@@ -41,15 +40,15 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
      * @param Product $saleableItem
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
-     * @param BundleOptionService $optionService
+     * @param BundleSelectionFactory $bundleSelectionFactory
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         BundleCalculatorInterface $calculator,
-        BundleOptionService $optionService
+        BundleSelectionFactory $bundleSelectionFactory
     ) {
-        $this->optionService = $optionService;
+        $this->selectionFactory = $bundleSelectionFactory;
         parent::__construct($saleableItem, $quantity, $calculator);
         $this->product->setQty($this->quantity);
     }
@@ -103,45 +102,42 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
     }
 
     /**
+     * Get selection amount
+     *
      * @param \Magento\Bundle\Model\Selection $selection
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getOptionSelectionAmount($selection)
     {
-        return $this->optionService->createSelectionAmount($selection, $this->product);
+        $selectionPrice = $this->selectionFactory->create($this->product, $selection, $selection->getSelectionQty());
+        return $selectionPrice->getAmount();
     }
 
     /**
+     * Calculate maximal or minimal options value
+     *
      * @param bool $searchMin
      * @return bool|float
      */
     protected function calculateOptions($searchMin = true)
     {
-        $price = false;
-        $amountList = [];
+        $priceList = [];
         /* @var $option \Magento\Bundle\Model\Option */
         foreach ($this->getOptions() as $option) {
-            if (!$option->getSelections()) {
+            if ($searchMin && !$option->getRequired()) {
                 continue;
             }
-            if ($option->getSelections() && !($searchMin && !$option->getRequired())) {
-                $selectionAmountList = $this->optionService->createSelectionAmountList($this->product, $option, true);
-                $amountList = array_merge(
-                    $amountList,
-                    $this->optionService->processOptions($option, $selectionAmountList, $searchMin)
-                );
-            }
+            $selectionPriceList = $this->calculator->createSelectionPriceList($option, $this->product);
+            $selectionPriceList = $this->calculator->processOptions($option, $selectionPriceList, $searchMin);
+            $priceList = array_merge($priceList, $selectionPriceList);
         }
-        if (!empty($amountList)) {
-            $price = 0.;
-            foreach ($amountList as $itemAmount) {
-                $price += $itemAmount->getValue();
-            }
-        }
-        return $price;
+        $amount = $this->calculator->calculateBundleAmount(0., $this->product, $priceList);
+        return $amount->getValue();
     }
 
     /**
+     * Get minimal amount of bundle price with options
+     *
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount()

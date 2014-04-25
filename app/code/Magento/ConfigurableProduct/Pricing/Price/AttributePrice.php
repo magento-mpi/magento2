@@ -174,7 +174,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param array $value
      * @return float
      */
-    protected function getPricingValue(array $value)
+    protected function getPricingValue(array $value = [])
     {
         if ($value['is_percent'] && !empty($value['pricing_value'])) {
             return $this->preparePrice($value);

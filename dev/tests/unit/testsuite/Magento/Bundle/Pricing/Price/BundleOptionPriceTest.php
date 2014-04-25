@@ -18,6 +18,11 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected $bundleOptionPrice;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $baseCalculator;
+
+    /**
      * @var ObjectManagerHelper
      */
     protected $objectManagerHelper;
@@ -38,6 +43,11 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected $selectionFactoryMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $amountFactory;
+
+    /**
      * @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
@@ -54,28 +64,29 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('setQty')
             ->will($this->returnSelf());
 
-        $this->bundleCalculatorMock = $this->getMock('Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface');
-        $this->selectionFactoryMock = $this->getMock(
-            'Magento\Bundle\Pricing\Price\BundleSelectionFactory',
-            [],
-            [],
-            '',
-            false
+        $this->selectionFactoryMock = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleSelectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->amountFactory = $this->getMock('Magento\Framework\Pricing\Amount\AmountFactory', [], [], '', false);
+        $factoryCallback = $this->returnCallback(
+            function ($fullAmount, $adjustments) {
+                return $this->createAmountMock(['amount' => $fullAmount, 'adjustmentAmounts' => $adjustments]);
+            }
         );
+        $this->amountFactory->expects($this->any())->method('create')->will($factoryCallback);
+        $this->baseCalculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->bundleCalculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->setConstructorArgs([$this->baseCalculator, $this->amountFactory, $this->selectionFactoryMock])
+            ->setMethods(['getOptionsAmount'])
+            ->getMock();
         $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $optionServiceMock = $this->objectManagerHelper->getObject(
-            'Magento\Bundle\Pricing\BundleOptionService',
-            [
-                'bundleSelectionFactory' => $this->selectionFactoryMock,
-            ]
-        );
         $this->bundleOptionPrice = $this->objectManagerHelper->getObject(
             'Magento\Bundle\Pricing\Price\BundleOptionPrice',
             [
                 'saleableItem' => $this->saleableItemMock,
                 'quantity' => 1.,
                 'calculator' => $this->bundleCalculatorMock,
-                'optionService' => $optionServiceMock
+                'bundleSelectionFactory' => $this->selectionFactoryMock
             ]
         );
     }
@@ -184,6 +195,23 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Create amount mock
+     *
+     * @param array $amountData
+     * @return \Magento\Framework\Pricing\Amount\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function createAmountMock($amountData)
+    {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\Amount\Base $amount */
+        $amount = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
+        $amount->expects($this->any())->method('getAdjustmentAmounts')->will(
+            $this->returnValue(isset($amountData['adjustmentAmounts']) ? $amountData['adjustmentAmounts'] : [])
+        );
+        $amount->expects($this->any())->method('getValue')->will($this->returnValue($amountData['amount']));
+        return $amount;
+    }
+
+    /**
      * Create option mock
      *
      * @param array $optionData
@@ -218,8 +246,8 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         // All items are saleable
         $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
-        $amountMock = $this->getMock('Magento\Framework\Pricing\Amount\AmountInterface');
-        $amountMock->expects($this->any())->method('getValue')->will($this->returnValue($selectionData['value']));
+        $selection->setData($selectionData['data']);
+        $amountMock = $this->createAmountMock($selectionData['amount']);
         $selection->expects($this->any())->method('getAmount')->will($this->returnValue($amountMock));
         return $selection;
     }
@@ -232,6 +260,9 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
         $storeId = 1;
         $this->saleableItemMock->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
         $this->selectionFactoryMock->expects($this->any())->method('create')->will($this->returnArgument(1));
+
+        $this->baseCalculator->expects($this->atLeastOnce())->method('getAmount')
+            ->will($this->returnValue($this->createAmountMock(['amount' => 0.])));
 
         $options = [];
         foreach ($optionList as $optionData) {
@@ -266,61 +297,82 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
                     [
                         'isMultiSelection' => false,
                         'data' => [
-                            'title'         => 'test option 1',
+                            'title' => 'test option 1',
                             'default_title' => 'test option 1',
-                            'type'          => 'select',
-                            'option_id'     => '1',
-                            'position'      => '0',
-                            'required'      => '1',
+                            'type' => 'select',
+                            'option_id' => '1',
+                            'position' => '0',
+                            'required' => '1',
                         ],
                         'selections' => [
-                            ['value'=> 70.],
-                            ['value' => 80.],
-                            ['value' => 50.]
+                            [
+                                'data' => ['price' => 70.],
+                                'amount' => ['amount' => 70]
+                            ],
+                            [
+                                'data' => ['price' => 80.],
+                                'amount' => ['amount' => 80]
+                            ],
+                            [
+                                'data' => ['price' => 50.],
+                                'amount' => ['amount' => 50]
+                            ]
                         ]
                     ],
                     // second not required option
                     [
                         'isMultiSelection' => false,
                         'data' => [
-                            'title'         => 'test option 2',
+                            'title' => 'test option 2',
                             'default_title' => 'test option 2',
-                            'type'          => 'select',
-                            'option_id'     => '2',
-                            'position'      => '1',
-                            'required'      => '0',
+                            'type' => 'select',
+                            'option_id' => '2',
+                            'position' => '1',
+                            'required' => '0',
                         ],
                         'selections' => [
-                            ['value' => 20.]
+                            [
+                                'data' => ['value' => 20.],
+                                'amount' => ['amount' => 20]
+                            ]
                         ]
                     ],
-                    // third with multiselection
+                    // third with multi-selection
                     [
                         'isMultiSelection' => true,
                         'data' => [
-                            'title'         => 'test option 3',
+                            'title' => 'test option 3',
                             'default_title' => 'test option 3',
-                            'type'          => 'select',
-                            'option_id'     => '3',
-                            'position'      => '2',
-                            'required'      => '1',
+                            'type' => 'select',
+                            'option_id' => '3',
+                            'position' => '2',
+                            'required' => '1',
                         ],
                         'selections' => [
-                            ['value' => 40.],
-                            ['value' => 20.],
-                            ['value' => 60.],
+                            [
+                                'data' => ['price' => 40.],
+                                'amount' => ['amount' => 40]
+                            ],
+                            [
+                                'data' => ['price' => 20.],
+                                'amount' => ['amount' => 20]
+                            ],
+                            [
+                                'data' => ['price' => 60.],
+                                'amount' => ['amount' => 60]
+                            ],
                         ]
                     ],
                     // fourth without selections
                     [
                         'isMultiSelection' => true,
                         'data' => [
-                            'title'         => 'test option 3',
+                            'title' => 'test option 3',
                             'default_title' => 'test option 3',
-                            'type'          => 'select',
-                            'option_id'     => '4',
-                            'position'      => '3',
-                            'required'      => '1',
+                            'type' => 'select',
+                            'option_id' => '4',
+                            'position' => '3',
+                            'required' => '1',
                         ],
                         'selections' => []
                     ],

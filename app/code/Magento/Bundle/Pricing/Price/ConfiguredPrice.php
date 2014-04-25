@@ -13,10 +13,8 @@ namespace Magento\Bundle\Pricing\Price;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
-use Magento\Framework\Pricing\Amount\AmountFactory;
-use Magento\Bundle\Pricing\BundleOptionService;
 use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
+use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Configured price model
@@ -29,14 +27,9 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     const PRICE_CODE = self::CONFIGURED_PRICE_CODE;
 
     /**
-     * @var AmountFactory
+     * @var BundleCalculatorInterface
      */
-    protected $amountFactory;
-
-    /**
-     * @var \Magento\Bundle\Pricing\BundleOptionService
-     */
-    protected $optionService;
+    protected $calculator;
 
     /**
      * @var null|ItemInterface
@@ -46,21 +39,15 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     /**
      * @param Product $saleableItem
      * @param float $quantity
-     * @param CalculatorInterface $calculator
-     * @param AmountFactory $amountFactory
-     * @param BundleOptionService $optionService
+     * @param BundleCalculatorInterface $calculator
      * @param ItemInterface $item
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
-        CalculatorInterface $calculator,
-        AmountFactory $amountFactory,
-        BundleOptionService $optionService,
+        BundleCalculatorInterface $calculator,
         ItemInterface $item = null
     ) {
-        $this->amountFactory = $amountFactory;
-        $this->optionService = $optionService;
         $this->item = $item;
         parent::__construct($saleableItem, $quantity, $calculator);
     }
@@ -107,28 +94,23 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
     /**
      * Option amount calculation for bundle product
      *
+     * @param float $baseValue
      * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
-    public function getOptionsAmount()
+    public function getConfiguredAmount($baseValue = 0.)
     {
-        $amountList = [$this->calculator->getAmount($this->basePrice->getValue(), $this->product)];
+        $selectionPriceList = [];
         foreach ($this->getOptions() as $option) {
-            $amountList = array_merge(
-                $amountList,
-                $this->optionService->createSelectionAmountList($this->product, $option, true)
+            $selectionPriceList = array_merge(
+                $selectionPriceList,
+                $this->calculator->createSelectionPriceList($option, $this->product)
             );
         }
-
-        $fullAmount = 0.;
-        $adjustments = [];
-        /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
-        foreach ($amountList as $itemAmount) {
-            $fullAmount += $itemAmount->getValue();
-            foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
-                $adjustments[$code] = isset($adjustments[$code]) ? $adjustments[$code] + $adjustment : $adjustment;
-            }
-        }
-        return $this->amountFactory->create($fullAmount, $adjustments);
+        return $this->calculator->calculateBundleAmount(
+            $baseValue,
+            $this->product,
+            $selectionPriceList
+        );
     }
 
     /**
@@ -138,8 +120,12 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
      */
     public function getValue()
     {
-        $bundleOptionsPrice = $this->priceInfo->getPrice(BundleOptionPrice::PRICE_CODE, $this->quantity);
-        return parent::getValue() + $this->basePrice->calculateBaseValue($bundleOptionsPrice->getValue());
+        if ($this->item) {
+            $configuredOptionsAmount = $this->getConfiguredAmount()->getBaseAmount();
+            return parent::getValue() + $this->basePrice->calculateBaseValue($configuredOptionsAmount);
+        } else {
+            return parent::getValue();
+        }
     }
 
     /**
@@ -149,6 +135,6 @@ class ConfiguredPrice extends CatalogPrice\FinalPrice implements ConfiguredPrice
      */
     public function getAmount()
     {
-        return $this->item ? $this->getOptionsAmount() : parent::getAmount();
+        return $this->item ? $this->getConfiguredAmount($this->basePrice->getValue()) : parent::getAmount();
     }
 }
