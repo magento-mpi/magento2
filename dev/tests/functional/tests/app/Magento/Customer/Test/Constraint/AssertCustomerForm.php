@@ -48,7 +48,8 @@ class AssertCustomerForm extends AbstractConstraint
         $pageCustomerIndex->open();
         $pageCustomerIndex->getCustomerGridBlock()->searchAndOpen($filter);
         \PHPUnit_Framework_Assert::assertTrue(
-            $pageCustomerIndexEdit->getCustomerForm()->verifyCustomer($customer, $address)
+            $pageCustomerIndexEdit->getCustomerForm()->verifyCustomer($customer, $address),
+            'Customer data on edit page(backend) not equals passed from fixture.'
         );
     }
 

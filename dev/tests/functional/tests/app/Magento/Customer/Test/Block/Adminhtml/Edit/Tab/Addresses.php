@@ -40,7 +40,6 @@ class Addresses extends Tab
      *
      * @param FixtureInterface|FixtureInterface[]|null $address
      * @return $this
-     * @throws \Exception
      */
     public function fillAddresses($address)
     {
@@ -50,23 +49,11 @@ class Addresses extends Tab
             foreach ($addresses as $address) {
                 $addressData = $address->getData();
                 if (null !== $addressData) {
+                    $this->addNewAddress();
                     $this->fillFormTab($addressData, $this->_rootElement);
                 }
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @param array $fields
-     * @param Element $element
-     * @return $this
-     */
-    public function fillFormTab(array $fields, Element $element)
-    {
-        $this->addNewAddress();
-        parent::fillFormTab($fields, $element);
 
         return $this;
     }
@@ -95,20 +82,20 @@ class Addresses extends Tab
     }
 
     /**
-     * @return $this
+     * Click "Add New Address" button
      */
-    public function addNewAddress()
+    protected function addNewAddress()
     {
         $this->_rootElement->find($this->addNewAddress)->click();
-        return $this;
     }
 
     /**
+     * Open customer address
+     *
      * @param int $addressNumber
-     * @return $this
      * @throws \Exception
      */
-    public function openCustomerAddress($addressNumber)
+    protected function openCustomerAddress($addressNumber)
     {
         $addressTab = $this->_rootElement->find(
             sprintf($this->customerAddress, $addressNumber),
@@ -119,7 +106,5 @@ class Addresses extends Tab
             throw new \Exception("Can't open customer address #{$addressNumber}");
         }
         $addressTab->click();
-
-        return $this;
     }
 }
