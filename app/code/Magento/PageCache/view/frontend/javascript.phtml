@@ -8,9 +8,9 @@
 ?>
 <?php /** @var \Magento\PageCache\Block\Javascript $this */ ?>
 <script type="text/javascript">
+    //<![CDATA[
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_PageCache::js/page-cache.js')?>", head.ready(function () {
-            $('body').pageCache(<?php echo $this->getScriptOptions(); ?>);
-        }));
+        $('body').mage('pageCache', <?php echo $this->getScriptOptions(); ?>);
     })(jQuery);
+    //]]>
 </script>

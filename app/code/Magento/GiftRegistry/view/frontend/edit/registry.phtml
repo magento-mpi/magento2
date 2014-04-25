@@ -65,17 +65,15 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
         <?php if ($this->useRegionUpdater($data)) : ?>
             <script type="text/javascript">
                 (function($) {
-                    head.js("<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>", head.ready(function () {
-                        $('#<?php echo $field ?>').regionUpdater({
-                            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-                            regionListId: '#<?php echo $field ?>_region',
-                            regionInputId: '#<?php echo $field ?>_region_text',
-                            isRegionRequired: false,
-                            isZipRequired: false,
-                            isCountryRequired: true,
-                            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
-                        });
-                    }));
+                    $('#<?php echo $field ?>').mage('regionUpdater', {
+                        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+                        regionListId: '#<?php echo $field ?>_region',
+                        regionInputId: '#<?php echo $field ?>_region_text',
+                        isRegionRequired: false,
+                        isZipRequired: false,
+                        isCountryRequired: true,
+                        regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
+                    });
                 })(jQuery);
             </script>
         <?php endif; ?>

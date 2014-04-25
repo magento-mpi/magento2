@@ -12,20 +12,17 @@
 <?php if ($this->getCanUseRewardPoints()): ?>
 <div class="checkout multishipping payment additional rewardpoints" id="reward-block">
     <div class="field choice payment">
-        <input type="checkbox" name="payment[use_reward_points]" value="1" id="use-reward-points"<?php echo $this->useRewardPoints()?' checked="checked"':'' ?> class="checkbox" />
+        <input type="checkbox" name="payment[use_reward_points]" value="1"
+               id="use-reward-points"
+               data-mage-init='{"checkoutBalance":{
+                    "balance":"<?php echo (float)$this->getCurrencyAmount(); ?>"},
+                    "amountSubstracted":"<?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>"},
+                    "usedAmount":"<?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>"}
+                }'
+                <?php echo $this->useRewardPoints()?' checked="checked"':'' ?> class="checkbox" />
         <label for="use-reward-points" class="label">
             <span><?php echo __('Use my reward points; %1 are available.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?></span>
         </label>
     </div>
 </div>
-
-<script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>", head.ready(function () {
-        jQuery('#use-reward-points').checkoutBalance({
-            amountSubstracted: <?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
-            usedAmount: <?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>,
-            balance: <?php echo (float)$this->getCurrencyAmount(); ?>
-        });
-    }));
-</script>
 <?php endif; ?>

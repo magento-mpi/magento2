@@ -61,7 +61,10 @@
                     <?php echo $this->getShowPackagesButton() ?>
                 <?php endif; ?>
             </div>
-            <form method="post" id="rma_track_info" class="form tracking">
+            <form method="post"
+                  id="rma_track_info"
+                  class="form tracking"
+                  data-mage-init='{"rmaTrackInfo":{"addLabelUrl": "<?php echo $this->getAddLabelUrl() ?>"}, "validation":{}}'>
                 <table class="data table" id="track-info-table">
                     <thead>
                         <tr>
@@ -96,22 +99,6 @@
                 </table>
             </form>
         </div>
-        <script type="text/javascript">
-            jQuery(function() {
-                head.js(
-                    "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-                    "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-                    "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-                    "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-                    "<?php echo $this->getViewFileUrl('Magento_Rma::rma-track-info.js') ?>",
-                    head.ready(function () {
-                        jQuery('#rma_track_info')
-                            .rmaTrackInfo({addLabelUrl: '<?php echo $this->getAddLabelUrl() ?>'})
-                            .validation();
-                    })
-                );
-            });
-        </script>
     <?php endif ?>
 
     <div class="returns subtitle caption">
@@ -187,7 +174,11 @@
     <div class="block returns comments">
         <div class="title"><span><?php echo __('Leave Comment') ?></span></div>
         <div class="content">
-            <form method="post" id="rma_comment" action="<?php echo $this->getSubmitUrl() ?>" class="form">
+            <form method="post"
+                  id="rma_comment"
+                  action="<?php echo $this->getSubmitUrl() ?>"
+                  class="form"
+                  data-mage-init='{"validation":{}}'>
                 <div class="field comment">
                     <label class="label"><span><?php echo __('Comment Text') ?></span></label>
                     <div class="control">
@@ -223,15 +214,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            head.ready(function () {
-                $('#rma_comment').validation();
-            }));
-    })(jQuery);
-</script>

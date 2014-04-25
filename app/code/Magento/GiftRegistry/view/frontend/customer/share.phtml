@@ -87,29 +87,21 @@
 
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>",
-            head.ready(function () {
-                var formDataPost;
-                <?php if (is_array($this->getFormData('recipients'))): ?>
-                formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
-                <?php endif; ?>
-                $('#giftregistry-sharing-form').rowBuilder({
-                    rowTemplate: '#add-recipient-tmpl',
-                    rowContainer: '#recipients-options',
-                    maxRows: '<?php echo $this->getRecipientsLimit() ?>',
-                    maxRowsMsg: '#max-recipient-message',
-                    addRowBtn: '#add-recipient-button',
-                    rowParentElem: '<fieldset></fieldset>',
-                    rowContainerClass: 'fieldset',
-                    remEventSelector: 'span',
-                    btnRemoveSelector: '.action.remove',
-                    formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
-                }).validation();
-            }))
+        var formDataPost;
+        <?php if (is_array($this->getFormData('recipients'))): ?>
+        formDataPost = <?php echo json_encode($this->getFormData('recipients')); ?>;
+        <?php endif; ?>
+        $('#giftregistry-sharing-form').mage('rowBuilder', {
+            rowTemplate: '#add-recipient-tmpl',
+            rowContainer: '#recipients-options',
+            maxRows: '<?php echo $this->getRecipientsLimit() ?>',
+            maxRowsMsg: '#max-recipient-message',
+            addRowBtn: '#add-recipient-button',
+            rowParentElem: '<fieldset></fieldset>',
+            rowContainerClass: 'fieldset',
+            remEventSelector: 'span',
+            btnRemoveSelector: '.action.remove',
+            formDataPost: {"formData": formDataPost, "templateFields": ['recipients-name', 'recipients-email']}
+        }).mage('validation');
     })(jQuery);
 </script>

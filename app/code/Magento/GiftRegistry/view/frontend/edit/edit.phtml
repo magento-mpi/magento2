@@ -8,7 +8,12 @@
  */
 ?>
 
-<form action="<?php echo $this->getUrl('*/*/editPost'); ?>" method="post" id="form-validate" class="form giftregistry edit validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
+<form action="<?php echo $this->getUrl('*/*/editPost'); ?>"
+      method="post"
+      id="form-validate"
+      class="form giftregistry edit validation"
+      data-hasrequired="<?php echo __('* Required Fields') ?>"
+      data-mage-init='{"validation":{}}'>
     <?php echo $this->getBlockHtml('formkey')?>
     <?php echo $this->getChildHtml(); ?>
 
@@ -25,16 +30,3 @@
         </div>
     </div>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            head.ready(function () {
-                $('#form-validate').validation();
-            }));
-    })(jQuery);
-</script>

@@ -15,9 +15,7 @@
 
 <a href="#" data-post='<?php echo $_wishlistSubmitParams; ?>' class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a>
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/add-to-wishlist.js') ?>", head.ready(function () {
-        jQuery('body').addToWishlist(
-            <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(array('productType' => $_product->getTypeId()))?>
-        );
-    }));
+    jQuery('body').mage('addToWishlist',
+        <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(array('productType' => $_product->getTypeId()))?>
+    );
 </script>

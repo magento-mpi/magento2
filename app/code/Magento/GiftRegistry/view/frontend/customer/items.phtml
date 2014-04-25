@@ -9,7 +9,11 @@
 ?>
 
 <?php if (count($this->getItems()) > 0): ?>
-<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form" class="form giftregistry items">
+<form action="<?php echo $this->getActionUpdateUrl() ?>"
+      method="post"
+      id="gift-registry-items-form"
+      class="form giftregistry items"
+      data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
         <div class="wrapper table giftregistry">
@@ -42,18 +46,6 @@
         </div>
     </fieldset>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            head.ready(function () {
-                $('#gift-registry-items-form').validation();
-            }));
-    })(jQuery);
-</script>
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('This gift registry has no items.') ?></span></div>
 <?php endif ?>

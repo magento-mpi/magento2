@@ -17,17 +17,15 @@
     <?php $selectedGrAddressesIndexes = $this->getGiftregistrySelectedAddressesIndexes(); ?>
     <?php $selectedGrAddressesIndexesJson = '[' . implode(',', $selectedGrAddressesIndexes) . ']'; ?>
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_GiftRegistry::address-option.js') ?>", head.ready(function () {
-            var registryItems = [];
-            <?php foreach ($this->getItems() as $itemId => $registryItem): ?>
-                registryItems.push({"item": <?php echo $itemId ?>, "address": <?php echo $registryItem['item_id'] ?>});
-            <?php endforeach ?>
-            $('#multiship-addresses-table').addressOption({
-                registryItems: registryItems,
-                addressItemPrefix: '<?php echo $this->getAddressIdPrefix(); ?>',
-                selectedAddressIndices: <?php echo $selectedGrAddressesIndexesJson ?>
-            });
-        }));
+        var registryItems = [];
+        <?php foreach ($this->getItems() as $itemId => $registryItem): ?>
+            registryItems.push({"item": <?php echo $itemId ?>, "address": <?php echo $registryItem['item_id'] ?>});
+        <?php endforeach ?>
+        $('#multiship-addresses-table').mage('addressOption', {
+            'registryItems': registryItems,
+            'addressItemPrefix': '<?php echo $this->getAddressIdPrefix(); ?>',
+            'selectedAddressIndices': <?php echo $selectedGrAddressesIndexesJson ?>
+        });
     })(jQuery);
 </script>
 <?php endif; ?>

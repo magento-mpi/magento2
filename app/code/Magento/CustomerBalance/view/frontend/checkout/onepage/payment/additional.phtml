@@ -19,7 +19,13 @@
     <input type="hidden" name="payment[use_customer_balance]" value="0"/>
     <div class="field choice payment">
         <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
-               id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
+               id="use-customer-balance"
+               data-mage-init='{"checkoutBalance":{
+                   "amountSubstracted":"<?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>",
+                   "usedAmount":"<?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>",
+                   "balance":"<?php echo (float)$this->getBalance(); ?>"
+               }'
+               <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
         <?php $balance = $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
         <label for="use-customer-balance" class="label">
@@ -31,16 +37,5 @@
         </label>
     </div>
 </div>
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('Magento_Customer::js/checkout-balance.js') ?>", head.ready(function () {
-            $('#use-customer-balance').checkoutBalance({
-                balance: <?php echo (float)$this->getBalance(); ?>,
-                amountSubstracted: <?php if ($this->isCustomerBalanceUsed()): ?>true<?php else: ?>false<?php endif; ?>,
-                usedAmount: <?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>
-            });
-        }));
-    })(jQuery);
-</script>
 <?php endif; ?>
 

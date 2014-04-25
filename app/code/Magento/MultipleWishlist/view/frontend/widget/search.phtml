@@ -22,17 +22,20 @@
         <?php endif;?>
         <script type="text/javascript">
             (function($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Wishlist::js/search.js')?>", head.ready(function () {
-                    $('#<?php echo $this->getBlockId();?>-search_by').wishlistSearch({
-                        nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
-                        emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
-                    });
-                }));
+                $('#<?php echo $this->getBlockId();?>-search_by').mage('wishlistSearch',{
+                    nameFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form',
+                    emailFormSelector: '#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form'
+                });
             })(jQuery);
         </script>
 
         <?php if ($this->useNameForm()) : ?>
-            <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form" action="<?php echo $this->getActionUrl() ?>" method="get" class="form search" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?> data-hasrequired="* <?php echo __('Please enter at least two letters.') ?>">
+            <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form"
+                  action="<?php echo $this->getActionUrl() ?>"
+                  method="get"
+                  class="form search" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>
+                  data-hasrequired="* <?php echo __('Please enter at least two letters.') ?>"
+                  data-mage-init='{"validation":{}}'>
                 <fieldset class="fieldset">
                     <div class="field required name">
                         <label for="<?php echo $this->getBlockId();?>-quick_search_firstname" class="label"><span><?php echo __('First Name') ?></span></label>
@@ -55,7 +58,11 @@
         <?php endif; ?>
 
         <?php if ($this->useEmailForm()) : ?>
-            <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form" action="<?php echo $this->getActionUrl() ?>" method="get" class="form search" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>>
+            <form id="<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form"
+                  action="<?php echo $this->getActionUrl() ?>"
+                  method="get"
+                  class="form search" <?php if ($this->useSearchFormSelect()) : ?>style="display:none;"<?php endif;?>
+                  data-mage-init='{"validation":{}}'>
                 <fieldset class="fieldset">
                     <div class="field required email">
                         <label for="<?php echo $this->getBlockId();?>-quick_search_email" class="label"><span><?php echo __('Owner Email') ?></span></label>
@@ -72,16 +79,3 @@
         <?php endif; ?>
     </div>
 </div>
-<script>
-    (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            head.ready(function () {
-                $('#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-name-form')
-                    .add('#<?php echo $this->getBlockId();?>-wishlist-quick-search-widget-email-form').validation();
-            }));
-    })(jQuery);
-</script>
