@@ -173,7 +173,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $configurableAttributes = [
             $this->getAttributeMock($attributeId, $attributeCode, $attributeLabel, $attributePrices)
         ];
-        $configuredValueMock = $this->getMockBuilder('Magento\Object')
+        $configuredValueMock = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
             ->getMock();
         $configuredValueMock->expects($this->any())
