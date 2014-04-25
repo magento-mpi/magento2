@@ -346,9 +346,11 @@ class Repository
      */
     public static function extractModule($fileId)
     {
+        /*
         if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
             throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
         }
+        */
         if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
             return array('', $fileId);
         }

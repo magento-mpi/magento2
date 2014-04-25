@@ -44,21 +44,29 @@ class MagentoImport implements PreProcessorInterface
     protected $notationResolver;
 
     /**
+     * @var \Magento\Framework\View\Asset\Repository
+     */
+    protected $assetRepo;
+
+    /**
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
      * @param \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
+     * @param \Magento\Framework\View\Asset\Repository $assetRepo
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
-        \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver
+        \Magento\Framework\View\Asset\ModuleNotation\Resolver $notationResolver,
+        \Magento\Framework\View\Asset\Repository $assetRepo
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
         $this->notationResolver = $notationResolver;
+        $this->assetRepo = $assetRepo;
     }
 
     /**
@@ -85,13 +93,14 @@ class MagentoImport implements PreProcessorInterface
         $importsContent = '';
         try {
             $matchedFileId = $matchedContent['path'];
-            $resolvedPath = $this->notationResolver->convertModuleNotationToPath($asset, $matchedFileId);
+            $relatedAsset = $this->assetRepo->createRelated($matchedFileId, $asset);
+            $resolvedPath = $relatedAsset->getFilePath();
             $importFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), $resolvedPath);
             /** @var $importFile \Magento\Framework\View\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .= $importFile->getModule()
-                    ? "@import '{$importFile->getModule()}::{$importFile->getFilename()}';\n"
-                    : "@import '{$importFile->getFilename()}';\n";
+                    ? "@import '{$importFile->getModule()}::{$resolvedPath}';\n"
+                    : "@import '{$matchedFileId}';\n";
             }
         } catch (\LogicException $e) {
             $this->errorHandler->processException($e);
