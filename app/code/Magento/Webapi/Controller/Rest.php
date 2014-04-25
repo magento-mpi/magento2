@@ -9,6 +9,8 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Framework\Service\Data\AbstractObject;
+use Magento\Framework\Service\Data\Eav\AbstractObject as EavAbstractObject;
+use Magento\Framework\Service\EavDataObjectConverter;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
@@ -187,20 +189,39 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $result = [];
             foreach ($data as $datum) {
                 if ($datum instanceof AbstractObject) {
-                    $result[] = $datum->__toArray();
-                } else {
-                    $result[] = $datum;
+                    $datum = $this->processDataObject($datum->__toArray());
                 }
+                $result[] = $datum;
             }
+            return $result;
         } else if ($data instanceof AbstractObject) {
-            $result = $data->__toArray();
+            return $this->processDataObject($data->__toArray());
         } else if (is_null($data)) {
-            $result = [];
+            return [];
         } else {
             /** No processing is required for scalar types */
-            $result = $data;
+            return $data;
         }
-        return $result;
+    }
+
+    /**
+     * Convert data object to array and process available custom attributes
+     *
+     * @param array $dataObjectArray
+     * @return array
+     */
+    protected function processDataObject($dataObjectArray)
+    {
+        if (isset($dataObjectArray[EavAbstractObject::CUSTOM_ATTRIBUTES_KEY])) {
+            $dataObjectArray = EavDataObjectConverter::convertCustomAttributesToSequentialArray($dataObjectArray);
+        }
+        //Check for nested custom_attributes
+        foreach ($dataObjectArray as $key => $value) {
+            if (is_array($value)) {
+                $dataObjectArray[$key] = $this->processDataObject($value);
+            }
+        }
+        return $dataObjectArray;
     }
 
     /**

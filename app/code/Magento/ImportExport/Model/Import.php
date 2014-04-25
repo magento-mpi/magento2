@@ -639,7 +639,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     }
 
     /**
-     * Gets array of customer entities and appropriate behaviours
+     * Gets array of entities and appropriate behaviours
      * array(
      *     <entity_code> => array(
      *         'token' => <behavior_class_name>,

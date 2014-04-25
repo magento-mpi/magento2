@@ -299,9 +299,9 @@ class Observer
     {
         $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
 
-        if (!$this->_persistentData->canProcess($observer) ||
-            !$this->_persistentSession->isPersistent() ||
-            $this->_customerSession->isLoggedIn()
+        if (!$this->_persistentData->canProcess($observer)
+            || !$this->_persistentSession->isPersistent()
+            || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
@@ -584,7 +584,7 @@ class Observer
             )->setCustomerLastname(
                 null
             )->setCustomerGroupId(
-                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
             )->setIsPersistent(
                 false
             )->removeAllAddresses();
@@ -635,7 +635,7 @@ class Observer
                 ->setIsActive(true)
                 ->setIsPersistent(false)
                 ->setCustomerId(null)
-                ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
+                ->setCustomerGroupId(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
         }
     }
 

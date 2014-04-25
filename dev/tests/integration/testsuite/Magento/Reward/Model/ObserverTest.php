@@ -16,7 +16,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Magento/ImportExport/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/import_export/customer.php
      * @dataProvider saveRewardPointsDataProvider
      *
      * @param integer $pointsDelta

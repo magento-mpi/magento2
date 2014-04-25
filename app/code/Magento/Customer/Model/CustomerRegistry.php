@@ -32,6 +32,8 @@ class CustomerRegistry
      */
     private $customerRegistryByEmail = [];
 
+    const REGISTRY_SEPARATOR = ':';
+
     /**
      * @var StoreManagerInterface
      */
@@ -157,14 +159,14 @@ class CustomerRegistry
     }
 
     /**
-     * Helper function that calculates the email key.
+     * Create registry key
      *
      * @param string $customerEmail
-     * @param string|int $websiteId
+     * @param string $websiteId
      * @return string
      */
-    private function getEmailKey($customerEmail, $websiteId)
+    protected function getEmailKey($customerEmail, $websiteId)
     {
-        return $customerEmail . '|' . $websiteId;
+        return $customerEmail . self::REGISTRY_SEPARATOR . $websiteId;
     }
 }
