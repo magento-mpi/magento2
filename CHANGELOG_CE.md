@@ -1,3 +1,9 @@
+* Pricing Improvements:
+  * Eliminated price calculation from blocks and templates and implemented new calculation models for the following modules:
+     * ConfigurableProduct (MAGETWO-20399)
+     * Wishlist (MAGETWO-21556)
+     * Rss (MAGETWO-21555)
+     * ProductAlert (MAGETWO-21554)
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from `Magento\Core\Model\App`
