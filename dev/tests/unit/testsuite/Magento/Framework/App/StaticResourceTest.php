@@ -74,7 +74,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             $this->assetRepo,
             $this->moduleList,
             $this->objectManager,
-            $this->configLoader
+            $this->configLoader,
+            $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface')
         );
     }
 
