@@ -13,6 +13,10 @@
  */
 namespace Magento\Install\Model\Installer;
 
+use Magento\Framework\App\Filesystem;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Message\MessageInterface;
+
 class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
@@ -29,14 +33,21 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      *
      * @var array
      */
-    protected $installParameters = array();
+    protected $installParameters = [];
+
+    /**
+     * Stores errors on file delete
+     *
+     * @var array
+     */
+    protected $fileDeleteErrors = [];
 
     /**
      * Required parameters with descriptions
      *
      * @var array
      */
-    protected $requiredParameters = array(
+    protected $requiredParameters = [
         'license_agreement_accepted' => 'Accept licence. See LICENSE*.txt. Flag value.',
         'locale' => 'Locale to use. Run with --show_locales for full list',
         'timezone' => 'Time zone to use. Run with --show_timezones for full list',
@@ -54,14 +65,14 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         'admin_email' => 'Admin email',
         'admin_username' => 'Admin login',
         'admin_password' => 'Admin password'
-    );
+    ];
 
     /**
      * Optional parameters with descriptions
      *
      * @var array
      */
-    protected $optionalParameters = array(
+    protected $optionalParameters = [
         'db_model' => 'DB driver. "mysql4" is default and the only supported now',
         'db_pass' => 'DB password. Empty by default',
         'db_prefix' => 'Use prefix for tables of this installation. Empty by default',
@@ -73,10 +84,10 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         'enable_charts' => 'Enable charts on backend dashboard. Flag value. Enabled by default',
         'order_increment_prefix' => 'Order number prefix. Empty by default.',
         'cleanup_database' => 'Clean up database before installation. Flag value. Disabled by default'
-    );
+    ];
 
     /**
-     * @var \Magento\Framework\App\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 
@@ -133,7 +144,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Framework\App\Resource\Config $resourceConfig
      * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
-     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
@@ -143,7 +154,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\Install\Model\Installer $installer,
         \Magento\Framework\App\Resource\Config $resourceConfig,
         \Magento\Framework\Module\UpdaterInterface $dbUpdater,
-        \Magento\Framework\App\Filesystem $filesystem,
+        Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Locale\ListsInterface $localeLists,
@@ -192,7 +203,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             return false;
         }
 
-        $result = array();
+        $result = [];
         foreach ($this->installParameters as $optionName) {
             $result[$optionName] = isset($options[$optionName]) ? $options[$optionName] : '';
         }
@@ -276,18 +287,18 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
              * Locale settings
              */
             $this->_installerData->setLocaleData(
-                array(
+                [
                     'locale' => $options['locale'],
                     'timezone' => $options['timezone'],
                     'currency' => $options['default_currency']
-                )
+                ]
             );
 
             /**
              * Database and web config
              */
             $this->_installerData->setConfigData(
-                array(
+                [
                     'db_model' => $options['db_model'],
                     'db_host' => $options['db_host'],
                     'db_name' => $options['db_name'],
@@ -305,20 +316,20 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
                     'skip_url_validation' => $this->_getFlagValue($options['skip_url_validation']),
                     'enable_charts' => $this->_getFlagValue($options['enable_charts']),
                     'order_increment_prefix' => $options['order_increment_prefix']
-                )
+                ]
             );
 
             /**
              * Primary admin user
              */
             $this->_installerData->setAdminData(
-                array(
+                [
                     'firstname' => $options['admin_firstname'],
                     'lastname' => $options['admin_lastname'],
                     'email' => $options['admin_email'],
                     'username' => $options['admin_username'],
                     'password' => $options['admin_password']
-                )
+                ]
             );
 
             $installer = $this->_getInstaller();
@@ -368,12 +379,12 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR)->changePermissions('', 0777);
+            $this->_filesystem->getDirectoryWrite(Filesystem::VAR_DIR)->changePermissions('', 0777);
 
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Framework\Model\Exception) {
-                foreach ($e->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $errorMessage) {
+                foreach ($e->getMessages(MessageInterface::TYPE_ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {
@@ -397,6 +408,55 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     }
 
     /**
+     * Remove temp directory
+     *
+     * @return void
+     */
+
+    protected function _removeTempDir()
+    {
+        $varDirectory = $this->_filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
+        foreach ($varDirectory->read() as $path) {
+            if ($varDirectory->isDirectory($path)) {
+                try {
+                    $varDirectory->delete($path);
+                } catch (FilesystemException $e) {
+                    $this->fileDeleteErrors[] = $e->getMessage();
+                }
+            }
+        }
+    }
+
+    /**
+     * Remove local.xml
+     *
+     * @return void
+     */
+
+    protected function _removeLocalXml()
+    {
+        try {
+            $this->_filesystem->getDirectoryWrite(Filesystem::CONFIG_DIR)->delete('local.xml');
+        } catch (FilesystemException $e) {
+            $this->fileDeleteErrors[] = $e->getMessage();
+        }
+    }
+
+    /**
+     * Display files that were not deleted on uninstall
+     *
+     * @return void
+     */
+
+    protected function _displayFileDeleteErrors()
+    {
+        foreach ($this->fileDeleteErrors as $errors) {
+            $unDeletedFile = explode(" ", $errors)[2];
+            echo "Please delete the file manually : $unDeletedFile \n";
+        }
+    }
+
+    /**
      * Uninstall the application
      *
      * @return bool
@@ -408,15 +468,11 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         }
 
         $this->_cleanUpDatabase();
-
-        /* Remove temporary directories and local.xml */
-        $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
-        foreach ($varDirectory->read() as $path) {
-            if ($varDirectory->isDirectory($path)) {
-                $varDirectory->delete($path);
-            }
+        $this->_removeTempDir();
+        $this->_removeLocalXml();
+        if (!empty($this->fileDeleteErrors)) {
+            $this->_displayFileDeleteErrors();
         }
-        $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::CONFIG_DIR)->delete('local.xml');
         return true;
     }
 
