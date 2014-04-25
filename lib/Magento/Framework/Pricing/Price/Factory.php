@@ -18,7 +18,7 @@ class Factory
     /**
      * Object Manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
