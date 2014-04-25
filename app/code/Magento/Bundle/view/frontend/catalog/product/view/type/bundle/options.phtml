@@ -17,9 +17,9 @@ $helper = $this->helper('Magento\Catalog\Helper\Output');
         <script type="text/javascript">
             //<![CDATA[
             (function ($) {
-                head.js("<?php echo $this->getViewFileUrl('Magento_Bundle::bundle.js') ?>", function () {
-                    $('#product_addtocart_form')
-                        .bundleOption({'optionConfig':<?php echo $this->getJsonConfig()?>})
+                $(document).ready(function() {
+                    $('#product_addtocart_form').mage('bundleOption', {
+                        optionConfig:<?php echo $this->getJsonConfig()?>})
                         .trigger('changeSelection');
                 });
             })(jQuery);
