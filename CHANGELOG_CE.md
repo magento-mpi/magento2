@@ -2,6 +2,9 @@
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
+  * Unable to place order with product with custom option 'file'(MAGETWO-23679)
+  * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
+  * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
   * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
   * Fatal error on customer registration if mail server is off(MAGETWO-23558)
   * Customer with middle name can't be found in grid by name(MAGETWO-23615)
