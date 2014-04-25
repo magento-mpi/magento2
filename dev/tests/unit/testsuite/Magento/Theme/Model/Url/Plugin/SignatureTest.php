@@ -36,10 +36,7 @@ class SignatureTest extends \PHPUnit_Framework_TestCase
         $this->deploymentVersion = $this->getMock(
             'Magento\Framework\App\View\Deployment\Version', array(), array(), '', false
         );
-        /**
-         * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-         */
-        $this->closureMock = function ($type = '', $secure = null) {
+        $this->closureMock = function () {
             return 'http://127.0.0.1/magento/pub/static/';
         };
         $this->object = new Signature($this->config, $this->deploymentVersion);
