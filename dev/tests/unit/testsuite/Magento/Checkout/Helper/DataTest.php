@@ -7,6 +7,7 @@
  */
 namespace Magento\Checkout\Helper;
 
+use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Store\Model\ScopeInterface;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -26,22 +27,107 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     private $_translator;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected  $_checkoutSession;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected  $_scopeConfig;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected  $_collectionFactory;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected  $_storeManager;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_eventManager;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected  $_context;
+
     protected function setUp()
     {
-        $this->_translator = $this->getMock(
-            'Magento\Framework\Translate\Inline\StateInterface',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $this->_translator = $this->getMockBuilder('Magento\Framework\Translate\Inline\StateInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_context = $this->getMock('\Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $this->_eventManager = $this->getMockForAbstractClass('\Magento\Framework\Event\ManagerInterface');
+        $this->_context->expects($this->once())
+            ->method('getEventManager')
+            ->will($this->returnValue($this->_eventManager));
+        $this->_scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_scopeConfig->expects($this->any())
+            ->method('getValue')
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array(
+                            'checkout/payment_failed/template',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'fixture_email_template_payment_failed'
+                        ),
+                        array(
+                            'checkout/payment_failed/receiver',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/email',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'sysadmin@example.com'
+                        ),
+                        array(
+                            'trans_email/ident_sysadmin/name',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'System Administrator'
+                        ),
+                        array(
+                            'checkout/payment_failed/identity',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            8,
+                            'noreply@example.com'
+                        ),
+                        array(
+                            'carriers/ground/title',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Ground Shipping'
+                        ),
+                        array(
+                            'payment/fixture-payment-method/title',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'Check Money Order'
+                        ),
+                        array(
+                            'checkout/options/onepage_checkout_enabled',
+                            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                            null,
+                            'One Page Checkout'
+                        )
+                    )
+                )
+            );
 
-        $scopeConfig = $this->getScopeConfigMock();
+        $this->_storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
 
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
-
-        $checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
+        $this->_checkoutSession = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
 
         $localeDate = $this->getMock(
             '\Magento\Framework\Stdlib\DateTime\TimezoneInterface',
@@ -52,19 +138,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $localeDate->expects($this->any())->method('date')->will($this->returnValue('Oct 02, 2013'));
 
-        $this->_transportBuilder = $this->getMock(
-            '\Magento\Framework\Mail\Template\TransportBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->_transportBuilder = $this->getMockBuilder('Magento\Framework\Mail\Template\TransportBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_helper = new Data(
-            $context,
-            $scopeConfig,
-            $storeManager,
-            $checkoutSession,
+            $this->_context,
+            $this->_scopeConfig,
+            $this->_storeManager,
+            $this->_checkoutSession,
             $localeDate,
             $this->_transportBuilder,
             $this->_translator
@@ -186,59 +268,202 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getScopeConfigMock()
+    public function testGetCheckout()
     {
-        $scopeConfig = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $scopeConfig->expects($this->any())
-            ->method('getValue')
-            ->will(
-                $this->returnValueMap(
-                    array(
-                        array(
-                            'checkout/payment_failed/template',
-                            ScopeInterface::SCOPE_STORE,
-                            8,
-                            'fixture_email_template_payment_failed'
-                        ),
-                        array(
-                            'checkout/payment_failed/receiver',
-                            ScopeInterface::SCOPE_STORE,
-                            8,
-                            'sysadmin'
-                        ),
-                        array(
-                            'trans_email/ident_sysadmin/email',
-                            ScopeInterface::SCOPE_STORE,
-                            8,
-                            'sysadmin@example.com'
-                        ),
-                        array(
-                            'trans_email/ident_sysadmin/name',
-                            ScopeInterface::SCOPE_STORE,
-                            8,
-                            'System Administrator'
-                        ),
-                        array(
-                            'checkout/payment_failed/identity',
-                            ScopeInterface::SCOPE_STORE,
-                            8,
-                            'noreply@example.com'
-                        ),
-                        array(
-                            'carriers/ground/title',
-                            ScopeInterface::SCOPE_STORE,
-                            null,
-                            'Ground Shipping'
-                        ),
-                        array(
-                            'payment/fixture-payment-method/title',
-                            ScopeInterface::SCOPE_STORE,
-                            null,
-                            'Check Money Order'
-                        )
-                    )
-                )
-            );
-        return $scopeConfig;
+        $this->assertEquals($this->_checkoutSession, $this->_helper->getCheckout());
+    }
+
+    public function testGetQuote()
+    {
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
+        $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
+        $this->assertEquals($quoteMock, $this->_helper->getQuote());
+    }
+
+    public function testFormatPrice()
+    {
+        $price = 5.5;
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Core\Model\Store', array('formatPrice'), array(), '', false);
+        $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
+        $quoteMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+        $storeMock->expects($this->once())->method('formatPrice')->will($this->returnValue('5.5'));
+        $this->assertEquals('5.5', $this->_helper->formatPrice($price));
+    }
+
+    public function testConvertPrice()
+    {
+        $price = 5.5;
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Core\Model\Store', array('convertPrice'), array(), '', false);
+        $this->_checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
+        $quoteMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+        $storeMock->expects($this->once())->method('convertPrice')->will($this->returnValue('5.5'));
+        $this->assertEquals(5.5, $this->_helper->convertPrice($price));
+    }
+
+    public function testCanOnepageCheckout()
+    {
+        $this->_scopeConfig->expects($this->once())->method('getValue')->with(
+            'checkout/options/onepage_checkout_enabled',
+            'store'
+        )->will($this->returnValue(true));
+        $this->assertTrue($this->_helper->canOnepageCheckout());
+    }
+
+    public function testIsContextCheckout()
+    {
+        $objectManagerHelper = new ObjectManager($this);
+        $context = $objectManagerHelper->getObject(
+            'Magento\Framework\App\Helper\Context'
+        );
+        $helper = $objectManagerHelper->getObject(
+            'Magento\Checkout\Helper\Data',
+            ['context' => $context]
+        );
+        $context->getRequest()->expects($this->once())->method('getParam')->with('context')->will(
+            $this->returnValue('checkout')
+        );
+        $this->assertTrue($helper->isContextCheckout());
+    }
+
+    public function testIsCustomerMustBeLogged()
+    {
+        $this->_scopeConfig->expects($this->once())->method('isSetFlag')->with(
+            'checkout/options/customer_must_be_logged',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )->will($this->returnValue(true));
+        $this->assertTrue($this->_helper->isCustomerMustBeLogged());
+    }
+
+    public function testGetPriceInclTax()
+    {
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getPriceInclTax'), array(), '', false);
+        $itemMock->expects($this->exactly(2))->method('getPriceInclTax')->will($this->returnValue(5.5));
+        $this->assertEquals(5.5, $this->_helper->getPriceInclTax($itemMock));
+    }
+
+    public function testGetPriceInclTaxWithoutTax()
+    {
+        $qty = 1;
+        $taxAmount = 1;
+        $discountTaxCompensation = 1;
+        $rowTotal = 15;
+        $roundPrice = 17;
+        $expected = 17;
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $objectManagerHelper = new ObjectManager($this);
+        $helper = $objectManagerHelper->getObject(
+            '\Magento\Checkout\Helper\Data',
+            ['storeManager' => $storeManager]
+        );
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
+        $itemMock = $this->getMock(
+            'Magento\Framework\Object',
+            array('getPriceInclTax', 'getQty', 'getTaxAmount', 'getDiscountTaxCompensation', 'getRowTotal'),
+            array(),
+            '',
+            false
+        );
+        $itemMock->expects($this->once())->method('getPriceInclTax')->will($this->returnValue(false));
+        $itemMock->expects($this->exactly(2))->method('getQty')->will($this->returnValue($qty));
+        $itemMock->expects($this->never())->method('getQtyOrdered');
+        $itemMock->expects($this->once())->method('getTaxAmount')->will($this->returnValue($taxAmount));
+        $itemMock->expects($this->once())
+            ->method('getDiscountTaxCompensation')->will($this->returnValue($discountTaxCompensation));
+        $itemMock->expects($this->once())->method('getRowTotal')->will($this->returnValue($rowTotal));
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+        $storeMock->expects($this->once())
+            ->method('roundPrice')->with($roundPrice)->will($this->returnValue($roundPrice));
+        $this->assertEquals($expected, $helper->getPriceInclTax($itemMock));
+    }
+
+    public function testGetSubtotalInclTax()
+    {
+        $rowTotalInclTax = 5.5;
+        $expected = 5.5;
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getRowTotalInclTax'), array(), '', false);
+        $itemMock->expects($this->exactly(2))->method('getRowTotalInclTax')->will($this->returnValue($rowTotalInclTax));
+        $this->assertEquals($expected, $this->_helper->getSubtotalInclTax($itemMock));
+    }
+
+    public function testGetSubtotalInclTaxNegative()
+    {
+        $taxAmount = 1;
+        $discountTaxCompensation = 1;
+        $rowTotal = 15;
+        $expected = 17;
+        $itemMock = $this->getMock(
+            'Magento\Framework\Object',
+            array('getRowTotalInclTax', 'getTaxAmount', 'getDiscountTaxCompensation', 'getRowTotal'),
+            array(),
+            '',
+            false
+        );
+        $itemMock->expects($this->once())->method('getRowTotalInclTax')->will($this->returnValue(false));
+        $itemMock->expects($this->once())->method('getTaxAmount')->will($this->returnValue($taxAmount));
+        $itemMock->expects($this->once())
+            ->method('getDiscountTaxCompensation')->will($this->returnValue($discountTaxCompensation));
+        $itemMock->expects($this->once())->method('getRowTotal')->will($this->returnValue($rowTotal));
+        $this->assertEquals($expected, $this->_helper->getSubtotalInclTax($itemMock));
+    }
+
+    public function testGetBasePriceInclTaxWithoutQty()
+    {
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $objectManagerHelper = new ObjectManager($this);
+        $helper = $objectManagerHelper->getObject(
+            '\Magento\Checkout\Helper\Data',
+            ['storeManager' => $storeManager]
+        );
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getQty'), array(), '', false);
+        $itemMock->expects($this->once())->method('getQty');
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
+                $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+        $storeMock->expects($this->once())->method('roundPrice');
+        $helper->getPriceInclTax($itemMock);
+    }
+
+    public function testGetBasePriceInclTax()
+    {
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $objectManagerHelper = new ObjectManager($this);
+        $helper = $objectManagerHelper->getObject(
+            '\Magento\Checkout\Helper\Data',
+            ['storeManager' => $storeManager]
+        );
+        $itemMock = $this->getMock('Magento\Framework\Object', array('getQty', 'getQtyOrdered'), array(), '', false);
+        $itemMock->expects($this->once())->method('getQty')->will($this->returnValue(false));
+        $itemMock->expects($this->exactly(2))->method('getQtyOrdered')->will($this->returnValue(5.5));
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array('roundPrice'), array(), '', false);
+        $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
+        $storeMock->expects($this->once())->method('roundPrice');
+        $helper->getBasePriceInclTax($itemMock);
+    }
+
+    public function testGetBaseSubtotalInclTax()
+    {
+        $itemMock = $this->getMock(
+            'Magento\Framework\Object',
+            array('getBaseTaxAmount', 'getBaseDiscountTaxCompensation', 'getBaseRowTotal'),
+            array(),
+            '',
+            false
+        );
+        $itemMock->expects($this->once())->method('getBaseTaxAmount');
+        $itemMock->expects($this->once())->method('getBaseDiscountTaxCompensation');
+        $itemMock->expects($this->once())->method('getBaseRowTotal');
+        $this->_helper->getBaseSubtotalInclTax($itemMock);
+    }
+
+    public function testIsAllowedGuestCheckoutWithoutStore()
+    {
+        $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
+        $store = null;
+        $quoteMock->expects($this->once())->method('getStoreId')->will($this->returnValue(1));
+        $this->_scopeConfig->expects($this->once())
+            ->method('isSetFlag')
+            ->will($this->returnValue(true));
+        $this->assertTrue($this->_helper->isAllowedGuestCheckout($quoteMock, $store));
     }
 }

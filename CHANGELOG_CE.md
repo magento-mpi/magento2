@@ -10,6 +10,7 @@
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
   * Fixed: Warning appears when running system_config (MAGETWO-15336)
   * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
@@ -36,6 +37,10 @@
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
+  * Refactor the rest of Customer Group usages (MAGETWO-23278)
+  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
+  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
 * Customer Service usage:
   * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
   * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
