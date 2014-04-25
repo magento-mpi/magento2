@@ -189,8 +189,6 @@ class Converter
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);
-            //try getData if getDataUsingMethod returns null. eg 'sample_attribute_1' fails using getDataUsingMethod.
-            //Probably a bug in \Magento\Object::_underscore does not allow keys with numbers
             $value = $value ? $value : $customerModel->getData($attrCode);
             if (null !== $value) {
                 if ($attrCode == 'entity_id') {
