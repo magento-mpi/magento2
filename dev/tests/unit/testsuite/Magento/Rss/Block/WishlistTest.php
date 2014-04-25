@@ -89,7 +89,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->urlBuilderMock = $this->getMockForAbstractClass(
-            'Magento\UrlInterface',
+            'Magento\Framework\UrlInterface',
             [],
             '',
             true,
