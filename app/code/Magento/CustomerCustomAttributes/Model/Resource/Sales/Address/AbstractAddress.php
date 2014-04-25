@@ -24,7 +24,7 @@ abstract class AbstractAddress extends \Magento\CustomerCustomAttributes\Model\R
     /**
      * Attach data to models
      *
-     * @param \Magento\Object[] $entities
+     * @param \Magento\Framework\Object[] $entities
      * @return $this
      */
     public function attachDataToEntities(array $entities)
@@ -32,7 +32,7 @@ abstract class AbstractAddress extends \Magento\CustomerCustomAttributes\Model\R
         $items = array();
         $itemIds = array();
         foreach ($entities as $item) {
-            /** @var $item \Magento\Object */
+            /** @var $item \Magento\Framework\Object */
             $itemIds[] = $item->getId();
             $items[$item->getId()] = $item;
         }

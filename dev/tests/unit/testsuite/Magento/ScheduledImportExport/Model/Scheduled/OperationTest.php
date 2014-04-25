@@ -38,7 +38,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Registry | Mock
+     * @var \Magento\Framework\Registry | Mock
      */
     protected $registryMock;
 
@@ -68,7 +68,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $valueFactoryMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime | Mock
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime | Mock
      */
     protected $datetimeMock;
 
@@ -78,17 +78,17 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     protected $configScopeMock;
 
     /**
-     * @var \Magento\Stdlib\String | Mock
+     * @var \Magento\Framework\Stdlib\String | Mock
      */
     protected $stringStdLibMock;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder | Mock
+     * @var \Magento\Framework\Mail\Template\TransportBuilder | Mock
      */
     protected $transportBuilderMock;
 
     /**
-     * @var \Magento\Io\Ftp | Mock
+     * @var \Magento\Framework\Io\Ftp | Mock
      */
     protected $ftpMock;
 
@@ -107,7 +107,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->contextMock = $this->getMockBuilder('Magento\Framework\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->registryMock = $this->getMockBuilder('Magento\Registry')
+        $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
             ->getMock();
         $this->filesystemMock = $this->getMockBuilder('Magento\Framework\App\Filesystem')
@@ -128,19 +128,19 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->valueFactoryMock = $this->getMockBuilder('Magento\Framework\App\Config\ValueFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->datetimeMock = $this->getMockBuilder('Magento\Stdlib\DateTime\DateTime')
+        $this->datetimeMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\DateTime')
             ->disableOriginalConstructor()
             ->getMock();
         $this->configScopeMock = $this->getMockBuilder('Magento\Framework\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->stringStdLibMock = $this->getMockBuilder('Magento\Stdlib\String')
+        $this->stringStdLibMock = $this->getMockBuilder('Magento\Framework\Stdlib\String')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->transportBuilderMock = $this->getMockBuilder('Magento\Mail\Template\TransportBuilder')
+        $this->transportBuilderMock = $this->getMockBuilder('Magento\Framework\Mail\Template\TransportBuilder')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->ftpMock = $this->getMockBuilder('Magento\Io\Ftp')
+        $this->ftpMock = $this->getMockBuilder('Magento\Framework\Io\Ftp')
             ->disableOriginalConstructor()
             ->getMock();
         $this->resourceMock = $this->getMockBuilder('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation')
@@ -221,7 +221,13 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array('date'),
+            array(),
+            '',
+            false
+        );
         $dateModelMock->expects(
             $this->any()
         )->method(
@@ -268,7 +274,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback to use instead of \Magento\Stdlib\DateTime\DateTime::date()
+     * Callback to use instead of \Magento\Framework\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

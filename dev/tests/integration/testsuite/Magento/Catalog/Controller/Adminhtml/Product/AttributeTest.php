@@ -88,8 +88,8 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         )->setDesignTheme(
             1
         );
-        /** @var \Magento\TranslateInterface $translate */
-        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        /** @var \Magento\Framework\TranslateInterface $translate */
+        $translate = $this->_objectManager->get('Magento\Framework\TranslateInterface');
         $translate->loadData(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, true);
         return __($string);
     }

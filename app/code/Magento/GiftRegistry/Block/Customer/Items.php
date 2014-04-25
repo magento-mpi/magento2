@@ -84,7 +84,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getAddedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getAddedAt(), \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

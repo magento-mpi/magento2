@@ -31,7 +31,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * Retrieve order tax collection by order identifier
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return \Magento\Tax\Model\Resource\Sales\Order\Tax\Collection
      */
     public function loadByOrder($order)

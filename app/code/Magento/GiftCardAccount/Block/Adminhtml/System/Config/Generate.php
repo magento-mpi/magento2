@@ -52,7 +52,7 @@ class Generate extends \Magento\Backend\Block\System\Config\Form\Field
     /**
      * Return code pool usage
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getUsage()
     {

@@ -31,7 +31,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
                 'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
-                'objectManager' => $this->getMock('Magento\ObjectManager', array(), array(), '', false),
+                'objectManager' => $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false),
                 'urlBuilder' => $this->_urlBuilder
             )
         );

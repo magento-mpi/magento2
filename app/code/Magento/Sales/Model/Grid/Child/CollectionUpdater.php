@@ -12,15 +12,15 @@ namespace Magento\Sales\Model\Grid\Child;
 class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registryManager;
 
     /**
-     * @param \Magento\Registry $registryManager
+     * @param \Magento\Framework\Registry $registryManager
      */
     public function __construct(
-        \Magento\Registry $registryManager
+        \Magento\Framework\Registry $registryManager
     ) {
         $this->registryManager = $registryManager;
     }

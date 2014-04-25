@@ -14,10 +14,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\CacheInvalidate\Model\Observer */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\Observer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Event\Observer */
     protected $_observerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\HTTP\Adapter\Curl */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\HTTP\Adapter\Curl */
     protected $_curlMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\PageCache\Model\Config */
@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Object\ */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Object\ */
     protected $_observerObject;
 
     /**
@@ -43,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array('getUrl'), array(), '', false);
         $this->_curlMock = $this->getMock(
-            '\Magento\HTTP\Adapter\Curl',
+            '\Magento\Framework\HTTP\Adapter\Curl',
             array('setOptions', 'write', 'read', 'close'),
             array(),
             '',
@@ -54,7 +54,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_helperMock,
             $this->_curlMock
         );
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
+        $this->_observerMock = $this->getMock(
+            'Magento\Framework\Event\Observer',
+            array('getEvent'),
+            array(),
+            '',
+            false
+        );
         $this->_observerObject = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
     }
 
@@ -74,7 +80,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(\Magento\PageCache\Model\Config::VARNISH)
         );
-        $eventMock = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
+        $eventMock = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
         $eventMock->expects($this->once())->method('getObject')->will($this->returnValue($this->_observerObject));
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
         $this->_observerObject->expects($this->once())->method('getIdentities')->will($this->returnValue($tags));

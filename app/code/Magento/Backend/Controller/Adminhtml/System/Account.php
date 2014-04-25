@@ -65,7 +65,7 @@ class Account extends Action
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Magento\Locale\Validator')->isValid($interfaceLocale)) {
+        if ($this->_objectManager->get('Magento\Framework\Locale\Validator')->isValid($interfaceLocale)) {
 
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get(

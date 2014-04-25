@@ -9,10 +9,10 @@
  */
 namespace Magento\Framework\Model;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventDispatcher;
 
@@ -22,7 +22,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -37,15 +37,15 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_actionValidator;
 
     /**
-     * @param \Magento\Logger $logger
-     * @param \Magento\Event\ManagerInterface $eventDispatcher
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Event\ManagerInterface $eventDispatcher
      * @param \Magento\Framework\App\CacheInterface $cacheManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Model\ActionValidator\RemoveAction $actionValidator
      */
     public function __construct(
-        \Magento\Logger $logger,
-        \Magento\Event\ManagerInterface $eventDispatcher,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Event\ManagerInterface $eventDispatcher,
         \Magento\Framework\App\CacheInterface $cacheManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Model\ActionValidator\RemoveAction $actionValidator
@@ -66,7 +66,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Event\ManagerInterface
+     * @return \Magento\Framework\Event\ManagerInterface
      */
     public function getEventDispatcher()
     {
@@ -74,7 +74,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

@@ -10,7 +10,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
@@ -45,7 +45,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice()
     {
@@ -53,7 +53,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     }
 
     /**
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice()
     {
@@ -62,7 +62,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
 
 
     /**
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getAmount()
     {

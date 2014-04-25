@@ -25,9 +25,9 @@ class Filter extends \Magento\Cms\Model\Template\Filter
     protected $_widget;
 
     /**
-     * @param \Magento\Stdlib\String $string
-     * @param \Magento\Logger $logger
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Stdlib\String $string
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
@@ -39,9 +39,9 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Widget\Model\Widget $widget
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
-        \Magento\Logger $logger,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Stdlib\String $string,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,

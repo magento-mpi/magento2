@@ -9,9 +9,9 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
-use Magento\Exception\AuthorizationException;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 

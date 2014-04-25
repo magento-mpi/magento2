@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 /**
  * Configuration source model for Wysiwyg toggling
  */
-class Enabled implements \Magento\Option\ArrayInterface
+class Enabled implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * {@inheritdoc}

@@ -89,7 +89,7 @@ class Observer
     /**
      * Handle view_block_abstract_to_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function viewBlockAbstractToHtmlBefore($observer)
@@ -110,7 +110,7 @@ class Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -224,7 +224,7 @@ class Observer
     /**
      * Handle controller_action_predispatch event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function controllerActionPredispatch($observer)

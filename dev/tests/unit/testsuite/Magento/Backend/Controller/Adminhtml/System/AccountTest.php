@@ -21,10 +21,10 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\ResponseInterface */
     protected $_responseMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\ObjectManager\ObjectManager */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\ObjectManager\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Message\ManagerInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Message\ManagerInterface */
     protected $_messagesMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data */
@@ -36,13 +36,13 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\User\Model\User */
     protected $_userMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Locale\Validator */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Locale\Validator */
     protected $_validatorMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Locale\Manager */
     protected $_managerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\TranslateInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\TranslateInterface */
     protected $_translatorMock;
 
     protected function setUp()
@@ -58,7 +58,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             array()
         )->getMock();
         $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\ObjectManager\ObjectManager'
+            'Magento\Framework\ObjectManager\ObjectManager'
         )->disableOriginalConstructor()->setMethods(
             array('get', 'create')
         )->getMock();
@@ -72,7 +72,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             array('getUrl')
         )->getMock();
         $this->_messagesMock = $this->getMockBuilder(
-            'Magento\Message\Manager'
+            'Magento\Framework\Message\Manager'
         )->disableOriginalConstructor()->setMethods(
             array('addSuccess')
         )->getMockForAbstractClass();
@@ -90,7 +90,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_validatorMock = $this->getMockBuilder(
-            'Magento\Locale\Validator'
+            'Magento\Framework\Locale\Validator'
         )->disableOriginalConstructor()->setMethods(
             array('isValid')
         )->getMock();
@@ -102,7 +102,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $this->_translatorMock = $this->getMockBuilder(
-            'Magento\TranslateInterface'
+            'Magento\Framework\TranslateInterface'
         )->disableOriginalConstructor()->getMock();
 
         $contextMock = $this->getMock('Magento\Backend\App\Action\Context', array(), array(), '', false);
@@ -191,7 +191,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         )->method(
             'get'
         )->with(
-            $this->equalTo('Magento\Locale\Validator')
+            $this->equalTo('Magento\Framework\Locale\Validator')
         )->will(
             $this->returnValue($this->_validatorMock)
         );

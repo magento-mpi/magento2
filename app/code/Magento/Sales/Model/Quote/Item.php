@@ -174,7 +174,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -185,10 +185,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -198,10 +198,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -479,9 +479,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             if (in_array($code, $this->_notRepresentOptions)) {
                 continue;
             }
-            if (!isset(
-                $options2[$code]
-            ) || $options2[$code]->getValue() === null || $options2[$code]->getValue() != $option->getValue()
+            if (!isset($options2[$code])
+                || $options2[$code]->getValue() === null
+                || $options2[$code]->getValue() != $option->getValue()
             ) {
                 return false;
             }
@@ -547,6 +547,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         if ($product) {
             return $product->getTypeId();
         }
+        // $product should always exist or there will be an error in getProduct()
         return $this->_getData('product_type');
     }
 
@@ -614,7 +615,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Add option to item
      *
-     * @param \Magento\Sales\Model\Quote\Item\Option|\Magento\Object $option
+     * @param \Magento\Sales\Model\Quote\Item\Option|\Magento\Framework\Object $option
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
@@ -622,7 +623,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     {
         if (is_array($option)) {
             $option = $this->_itemOptionFactory->create()->setData($option)->setItem($this);
-        } elseif ($option instanceof \Magento\Object && !$option instanceof \Magento\Sales\Model\Quote\Item\Option) {
+        } elseif ($option instanceof \Magento\Framework\Object && !$option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             $option = $this->_itemOptionFactory->create()->setData(
                 $option->getData()
             )->setProduct(
@@ -651,11 +652,11 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Example: cataloginventory decimal qty validation may change qty to int,
      * so need to change quote item qty option value.
      *
-     * @param \Magento\Object $option
+     * @param \Magento\Framework\Object $option
      * @param int|float|null $value
      * @return $this
      */
-    public function updateQtyOption(\Magento\Object $option, $value)
+    public function updateQtyOption(\Magento\Framework\Object $option, $value)
     {
         $optionProduct = $option->getProduct();
         $options = $this->getQtyOptions();
@@ -809,12 +810,12 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new \Magento\Framework\Object($option ? unserialize($option->getValue()) : []);
 
         // Overwrite standard buy request qty, because item qty could have changed since adding to quote
         $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
@@ -873,7 +874,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param string|null $origin Usually a name of module, that embeds error
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
-     * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
+     * @param \Magento\Framework\Object|null $additionalData Any additional data, that caller would like to store
      * @return $this
      */
     public function addErrorInfo($origin = null, $code = null, $message = null, $additionalData = null)

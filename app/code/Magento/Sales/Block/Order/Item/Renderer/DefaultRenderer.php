@@ -17,7 +17,7 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -28,13 +28,13 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         array $data = array()
     ) {
@@ -44,10 +44,10 @@ class DefaultRenderer extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return $this
      */
-    public function setItem(\Magento\Object $item)
+    public function setItem(\Magento\Framework\Object $item)
     {
         $this->setData('item', $item);
         return $this;

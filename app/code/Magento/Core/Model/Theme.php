@@ -97,7 +97,7 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
      * Initialize dependencies
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\Framework\View\Design\Theme\Domain\Factory $domainFactory
      * @param \Magento\Framework\View\Design\Theme\ImageFactory $imageFactory
@@ -111,7 +111,7 @@ class Theme extends \Magento\Framework\Model\AbstractModel implements ThemeInter
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\Framework\View\Design\Theme\Domain\Factory $domainFactory,
         \Magento\Framework\View\Design\Theme\ImageFactory $imageFactory,

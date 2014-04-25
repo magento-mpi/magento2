@@ -23,7 +23,7 @@ use Magento\Framework\Data\Form\Element\Fieldset;
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class AbstractForm extends \Magento\Object
+class AbstractForm extends \Magento\Framework\Object
 {
     /**
      * Form level elements collection

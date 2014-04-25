@@ -20,18 +20,18 @@ class Transactions extends \Magento\Framework\View\Element\Text\ListText impleme
     \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         array $data = array()
     ) {
          $this->_authorization = $authorization;

@@ -102,9 +102,9 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ]
         ];
 
-        $expectedException = new \Magento\Exception\InputException();
+        $expectedException = new \Magento\Framework\Exception\InputException();
         foreach ($parameters as $error) {
-            $expectedException->addError(\Magento\Exception\InputException::INVALID_FIELD_VALUE, $error);
+            $expectedException->addError(\Magento\Framework\Exception\InputException::INVALID_FIELD_VALUE, $error);
         }
 
         $arguments = [
@@ -155,7 +155,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
-        $errorDetailsNode = 'TestModule3ErrorV1InputExceptionMagento_Exception_InputExceptionFault';
+        $errorDetailsNode = 'TestModule3ErrorV1InputExceptionMagento_Framework_Exception_InputExceptionFault';
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
         if (!empty($expectedErrorParams) || $isTraceExpected || !empty($expectedWrappedErrors)) {
             /** Check SOAP fault details */

@@ -83,7 +83,7 @@ class Layout extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve current applied page layout
      *
-     * @return \Magento\Object|boolean
+     * @return \Magento\Framework\Object|boolean
      */
     public function getCurrentPageLayout()
     {

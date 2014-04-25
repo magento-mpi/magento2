@@ -22,15 +22,15 @@ class Queue extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -127,7 +127,7 @@ class Queue extends \Magento\Backend\App\Action
             }
 
             $queue->setQueueStartAt(
-                $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
             )->setQueueStatus(
                 \Magento\Newsletter\Model\Queue::STATUS_SENDING
             )->save();

@@ -19,7 +19,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
         );
         $omit = array('password' => 'password_with_1_number', 'password_confirmation' => 'password_with_1_number');
 
-        /** @var $session \Magento\Session\Generic */
+        /** @var $session \Magento\Framework\Session\Generic */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Install\Model\Session');
         $session->setAdminData(array_merge($preserve, $omit));
 

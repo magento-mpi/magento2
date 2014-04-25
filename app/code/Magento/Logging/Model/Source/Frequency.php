@@ -13,7 +13,7 @@
  */
 namespace Magento\Logging\Model\Source;
 
-class Frequency implements \Magento\Option\ArrayInterface
+class Frequency implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options as array

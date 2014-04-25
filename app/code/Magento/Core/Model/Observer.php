@@ -47,7 +47,7 @@ class Observer
     protected $_registration;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -58,7 +58,7 @@ class Observer
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory
      * @param Theme\Registration $registration
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
@@ -67,7 +67,7 @@ class Observer
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
@@ -86,7 +86,7 @@ class Observer
      */
     public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
     {
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
             $cacheFrontend->getBackend()->clean(\Zend_Cache::CLEANING_MODE_OLD);
@@ -96,10 +96,10 @@ class Observer
     /**
      * Theme registration
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function themeRegistration(\Magento\Event\Observer $observer)
+    public function themeRegistration(\Magento\Framework\Event\Observer $observer)
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
@@ -113,11 +113,11 @@ class Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(\Magento\Event\Observer $observer)
+    public function applyThemeCustomization(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {

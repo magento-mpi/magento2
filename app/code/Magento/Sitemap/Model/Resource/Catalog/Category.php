@@ -125,11 +125,11 @@ class Category extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Prepare category
      *
      * @param array $categoryRow
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _prepareCategory(array $categoryRow)
     {
-        $category = new \Magento\Object();
+        $category = new \Magento\Framework\Object();
         $category->setId($categoryRow[$this->getIdFieldName()]);
         $categoryUrl = !empty($categoryRow['url']) ? $categoryRow['url'] : 'catalog/category/view/id/' .
             $category->getId();

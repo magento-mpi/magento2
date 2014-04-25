@@ -92,7 +92,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Factory for validator composite object
      *
-     * @var \Magento\Validator\ObjectFactory
+     * @var \Magento\Framework\Validator\ObjectFactory
      */
     protected $_validatorObject;
 
@@ -104,17 +104,17 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     protected $_roleFactory;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -125,14 +125,14 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Validator\ObjectFactory $validatorObjectFactory
+     * @param \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -142,14 +142,14 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Validator\ObjectFactory $validatorObjectFactory,
+        \Magento\Framework\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -204,14 +204,14 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     {
         parent::__wakeup();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
+        $this->_eventManager = $objectManager->get('Magento\Framework\Event\ManagerInterface');
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
-        $this->_registry = $objectManager->get('Magento\Registry');
-        $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
+        $this->_registry = $objectManager->get('Magento\Framework\Registry');
+        $this->_validatorObject = $objectManager->get('Magento\Framework\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
-        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
-        $this->_transportBuilder = $objectManager->get('Magento\Mail\Template\TransportBuilder');
+        $this->_encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
+        $this->_transportBuilder = $objectManager->get('Magento\Framework\Mail\Template\TransportBuilder');
         $this->_storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
     }
 
@@ -277,7 +277,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
         $emailValidity = new \Zend_Validate_EmailAddress();
         $emailValidity->setMessage(__('Please enter a valid email.'), \Zend_Validate_EmailAddress::INVALID);
 
-        /** @var $validator \Magento\Validator\Object */
+        /** @var $validator \Magento\Framework\Validator\Object */
         $validator = $this->_validatorObject->create();
         $validator->addRule(
             $userNameNotEmpty,
@@ -302,10 +302,10 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     /**
      * Add validation rules for the password management fields
      *
-     * @param \Magento\Validator\Object $validator
+     * @param \Magento\Framework\Validator\Object $validator
      * @return void
      */
-    protected function _addPasswordValidation(\Magento\Validator\Object $validator)
+    protected function _addPasswordValidation(\Magento\Framework\Validator\Object $validator)
     {
         $passwordNotEmpty = new \Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(__('Password is required field.'), \Zend_Validate_NotEmpty::IS_EMPTY);
@@ -423,7 +423,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     public function sendPasswordResetConfirmationEmail()
     {
         // Set all required params and send emails
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_FORGOT_EMAIL_TEMPLATE)
         )->setTemplateOptions(
@@ -449,7 +449,7 @@ class User extends \Magento\Framework\Model\AbstractModel implements \Magento\Ba
     public function sendPasswordResetNotificationEmail()
     {
         // Set all required params and send emails
-        /** @var \Magento\Mail\TransportInterface $transport */
+        /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_config->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE)
         )->setTemplateOptions(

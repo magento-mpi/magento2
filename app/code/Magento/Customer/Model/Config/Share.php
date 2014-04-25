@@ -16,7 +16,7 @@ namespace Magento\Customer\Model\Config;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Share extends \Magento\Framework\App\Config\Value implements \Magento\Option\ArrayInterface
+class Share extends \Magento\Framework\App\Config\Value implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
@@ -44,7 +44,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Opti
      * Constructor
      *
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
@@ -54,7 +54,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Opti
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,

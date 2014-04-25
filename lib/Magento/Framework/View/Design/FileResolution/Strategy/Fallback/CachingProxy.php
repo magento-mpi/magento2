@@ -209,12 +209,12 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param string $file
      * @param string $filePath
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function setToMap($fileType, $area, ThemeInterface $theme, $locale, $module, $file, $filePath)
     {
         if (0 !== strpos($filePath, $this->baseDir)) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 "Attempt to store fallback path '{$filePath}', which is not within '{$this->baseDir}'"
             );
         }

@@ -9,7 +9,7 @@
 
 namespace Magento\Customer\Controller;
 
-use Magento\Message\MessageInterface;
+use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class AccountTest extends \Magento\TestFramework\TestCase\AbstractController

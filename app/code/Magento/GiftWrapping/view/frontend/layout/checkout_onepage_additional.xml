@@ -8,5 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="giftwrapping_checkout_onepage_head_components" template="Magento_GiftWrapping::js/components.phtml"/>
+    </referenceBlock>
     <block class="Magento\GiftWrapping\Block\Checkout\Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
 </layout>

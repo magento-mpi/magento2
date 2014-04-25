@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-use Magento\Autoload\IncludePath;
+use Magento\Framework\Autoload\IncludePath;
 use Magento\Tools\Migration\System\Configuration\Formatter;
 use Magento\Tools\Migration\System\Configuration\Generator;
 use Magento\Tools\Migration\System\Configuration\Mapper\Field;

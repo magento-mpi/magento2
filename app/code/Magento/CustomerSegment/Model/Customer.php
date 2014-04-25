@@ -83,7 +83,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
@@ -97,7 +97,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
@@ -162,14 +162,14 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      */
     public function processEvent($eventName, $customer, $website)
     {
-        \Magento\Profiler::start('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::start('__SEGMENTS_MATCHING__');
 
         $website = $this->_storeManager->getWebsite($website);
         $segments = $this->getActiveSegmentsForEvent($eventName, $website->getId());
 
         $this->_processSegmentsValidation($customer, $website, $segments);
 
-        \Magento\Profiler::stop('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
     }
 
@@ -275,7 +275,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this
@@ -303,7 +303,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this

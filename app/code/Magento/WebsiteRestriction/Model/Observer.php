@@ -30,7 +30,7 @@ class Observer
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
@@ -42,12 +42,12 @@ class Observer
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $_urlFactory;
 
@@ -59,21 +59,21 @@ class Observer
     /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\UrlFactory $urlFactory
+     * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\UrlFactory $urlFactory,
+        \Magento\Framework\UrlFactory $urlFactory,
         \Magento\Framework\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
@@ -89,7 +89,7 @@ class Observer
     /**
      * Implement website stub or private sales restriction
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictWebsite($observer)
@@ -97,7 +97,7 @@ class Observer
         /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
-        $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
+        $dispatchResult = new \Magento\Framework\Object(array('should_proceed' => true, 'customer_logged_in' => false));
         $this->_eventManager->dispatch(
             'websiterestriction_frontend',
             array('controller' => $controller, 'result' => $dispatchResult)
@@ -192,7 +192,7 @@ class Observer
     /**
      * Make layout load additional handler when in private sales mode
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addPrivateSalesLayoutUpdate($observer)

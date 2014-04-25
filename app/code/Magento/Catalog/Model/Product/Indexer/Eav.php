@@ -49,7 +49,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -57,7 +57,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -201,7 +201,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         $reindexEav = false;
 
-        /* @var $actionObject \Magento\Object */
+        /* @var $actionObject \Magento\Framework\Object */
         $actionObject = $event->getDataObject();
         // check if attributes changed
         $attrData = $actionObject->getAttributesData();

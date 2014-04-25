@@ -17,7 +17,7 @@ class Config implements ConfigInterface
     protected $_reader;
 
     /**
-     * @var \Magento\Cache\FrontendInterface
+     * @var \Magento\Framework\Cache\FrontendInterface
      */
     protected $_cache;
 

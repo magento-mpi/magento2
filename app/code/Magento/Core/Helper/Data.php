@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Helper;
 
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Core data helper
@@ -41,16 +41,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @var string[]
      */
     protected $_allowedFormats = array(
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
     );
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 

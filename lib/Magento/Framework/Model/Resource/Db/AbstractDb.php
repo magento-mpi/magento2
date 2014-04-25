@@ -569,7 +569,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
                 $this->_uniqueFields = array(array('field' => $fields, 'title' => $fields));
             }
 
-            $data = new \Magento\Object($this->_prepareDataForSave($object));
+            $data = new \Magento\Framework\Object($this->_prepareDataForSave($object));
             $select = $this->_getWriteAdapter()->select()->from($this->getMainTable());
 
             foreach ($fields as $unique) {
@@ -619,7 +619,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Perform actions after object load
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
@@ -630,7 +630,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
@@ -641,7 +641,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
@@ -652,7 +652,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Perform actions before object delete
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
@@ -663,7 +663,7 @@ abstract class AbstractDb extends \Magento\Framework\Model\Resource\AbstractReso
     /**
      * Perform actions after object delete
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _afterDelete(\Magento\Framework\Model\AbstractModel $object)

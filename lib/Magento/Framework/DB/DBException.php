@@ -16,6 +16,6 @@ namespace Magento\Framework\DB;
  * @package     Magento_Db
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DBException extends \Magento\Exception
+class DBException extends \Magento\Framework\Exception
 {
 }

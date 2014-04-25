@@ -8,9 +8,9 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Customer\Service\V1\Data\Customer;
@@ -18,12 +18,12 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Service\V1\Data\Search\FilterGroupBuilder;
-use Magento\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Class CustomerAccountServiceTest
@@ -105,20 +105,25 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
         );
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         $this->filterGroupBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Service\V1\Data\Search\FilterGroupBuilder'
+            'Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder'
         );
         $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
     }
 
-    /**
-     * Execute per test cleanup.
-     */
     public function tearDown()
     {
         unset($this->customerAccountService);
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
+        $model->load('address_user_attribute', 'attribute_code')
+            ->delete();
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Attribute');
+        $model->load('user_attribute', 'attribute_code')
+            ->delete();
     }
 
     public function testCreateCustomer()
@@ -621,7 +626,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
         );
         $this->_getCustomerDetails($customerData[Customer::ID]);
@@ -1050,7 +1055,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
         );
         $this->customerAccountService->getCustomerByEmail($customerData[Customer::EMAIL]);
@@ -1155,6 +1160,65 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address.php
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
+     */
+    public function testCustomAttributes()
+    {
+        //Sample customer data comes with the  disable_auto_group_change custom attribute
+        $customerDetails = $this->_createSampleCustomerDetailsData();
+        //address attribute code from fixture
+        $fixtureAddressAttributeCode = 'address_user_attribute';
+        //customer attribute code from fixture
+        $fixtureCustomerAttributeCode = 'user_attribute';
+        //Custom Attribute Values
+        $address1CustomAttributeValue = 'value1';
+        $address2CustomAttributeValue = 'value2';
+        $customerCustomAttributeValue = 'value3';
+
+        //Verify if the custom attributes are saved from  the fixture
+        $this->assertTrue(in_array($fixtureCustomerAttributeCode, $this->customerBuilder->getCustomAttributesCodes()));
+        $this->assertTrue(in_array($fixtureAddressAttributeCode, $this->addressBuilder->getCustomAttributesCodes()));
+
+        $address1 = $this->addressBuilder
+            ->populate($customerDetails->getAddresses()[0])
+            ->setCustomAttribute($fixtureAddressAttributeCode, $address1CustomAttributeValue)
+            ->create();
+        $address2 = $this->addressBuilder
+            ->populate($customerDetails->getAddresses()[1])
+            ->setCustomAttribute($fixtureAddressAttributeCode, $address2CustomAttributeValue)
+            ->create();
+
+        $customer = $this->customerBuilder
+            ->populate($customerDetails->getCustomer())
+            ->setCustomAttribute($fixtureCustomerAttributeCode, $customerCustomAttributeValue)
+            ->create();
+
+        $customerDetails = $this->customerDetailsBuilder
+            ->setAddresses([$address1, $address2])
+            ->setCustomer($customer)
+            ->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateCustomer'
+            ]
+        ];
+
+        $customerDetailsAsArray = $customerDetails->__toArray();
+        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
+        $customerData = $this->_webApiCall($serviceInfo, $requestData);
+        //TODO: Fix assertions to verify custom attributes
+        $this->assertNotNull($customerData);
+    }
+
+    /**
      * @return CustomerDetails
      */
     private function _createSampleCustomerDetailsData()
@@ -1215,7 +1279,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
             Customer::STORE_ID => self::STORE_ID,
             Customer::SUFFIX => self::SUFFIX,
             Customer::TAXVAT => self::TAXVAT,
-            Customer::WEBSITE_ID => self::WEBSITE_ID
+            Customer::WEBSITE_ID => self::WEBSITE_ID,
+            Customer::CUSTOM_ATTRIBUTES_KEY => [
+                [
+                    'attribute_code' => 'disable_auto_group_change',
+                    'value' => '0'
+                ]
+            ]
         ];
         return $this->customerBuilder->populateWithArray($customerData)->create();
     }
