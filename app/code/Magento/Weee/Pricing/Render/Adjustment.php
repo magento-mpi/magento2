@@ -70,7 +70,6 @@ class Adjustment extends AbstractAdjustment
      */
     public function getAdjustmentCode()
     {
-        //@TODO We can build two model using DI, not code. What about passing it in constructor?
         return \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE;
     }
 

@@ -45,7 +45,7 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
         );
         $this->model = $this->getMockBuilder('Magento\Framework\Pricing\Render\AbstractAdjustment')
             ->setConstructorArgs($constructorArgs)
-            ->setMethods(['getData', 'setData', 'getHtml'])
+            ->setMethods(['getData', 'setData', 'apply'])
             ->getMockForAbstractClass();
     }
 
@@ -78,7 +78,7 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
             ->method('setData')
             ->with($mergedArguments);
         $this->model->expects($this->at(2))
-            ->method('getHtml');
+            ->method('apply');
         $this->model->expects($this->at(3))
             ->method('setData')
             ->with($this->data);
