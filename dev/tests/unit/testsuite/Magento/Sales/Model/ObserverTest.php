@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model;
 
-use Magento\Object;
+use Magento\Framework\Object;
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
 

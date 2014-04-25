@@ -45,8 +45,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $customerMetadataService = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\CustomerMetadataService'
         );
-        $customerBuilder = new CustomerBuilder($customerMetadataService);
-        $expected = \Magento\Framework\Service\DataObjectConverter::toFlatArray(
+        $customerBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $customerMetadataService]
+        );
+        $expected = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray(
             $customerAccountService->getCustomer(1)
         );
         $customerBuilder->populateWithArray($expected);

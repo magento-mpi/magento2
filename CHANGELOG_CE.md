@@ -10,13 +10,18 @@
   * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
   * Fixed potential security risk with orders protect_code (MAGETWO-21266)
   * Fixed error on place order with cache turned on (MAGETWO-23523)
+  * Fixed possibility creating integration from config file (MAGETWO-22311)
   * Fixed: Warning appears when running system_config (MAGETWO-15336)
   * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
   * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
   * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
 * Framework Improvements:
-  * Covered Magento Store components with unit tests:
-     * `Magento\Store\Model\*`
+  * Covered Magento library components with unit tests (MAGETWO-21136)
+    * `Magento\Store\Model\*`
+    * `Magento\Error\*`
+    * `Magento\Event\Observer\*`
+    * `Magento\Framework\Filesystem\*`
+    * `Magento\Framework\Filesystem\File\*`
   * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
   * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (MAGETWO-20866, MAGETWO-23646, MAGETWO-23647, MAGETWO-23747)
   * Covered Magento application components with unit tests (MAGETWO-21540)
@@ -32,6 +37,10 @@
   * Refactored GoogleShopping module (MAGETWO-20474)
   * Refactored ProductAlert module (MAGETWO-20481)
   * Refactored SendFriend module (MAGETWO-20497)
+  * Refactor ImportExport move Customer-specific logic to the Customer module (MAGETWO-20507)
+  * Refactor the rest of Customer Group usages (MAGETWO-23278)
+  * Refactor customerAccountService::createAccount to not expose hashed password input from webapi (MAGETWO-22977)
+  * Use delimiter for Cache key in Customer Registry (MAGETWO-23478)
 * Customer Service usage:
   * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
   * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
@@ -44,6 +53,7 @@
   * Implemented suggest widget (MAGETWO-22996)
   * Removed head.js usages from frontend (MAGETWO-18032)
   * Removed head.js usages from adminhtml (MAGETWO-18053)
+* Added configuration for Travis CI (MAGETWO-21884)
 
 2.0.0.0-dev74
 =============
@@ -95,9 +105,10 @@
   * Multishipping
   * Paypal
 * Customer Service usage:
-  * Implement Service Context Provider (MAGETWO-11084)
-  * Restructure webapi.xml (MAGETWO-22665)
-  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
+  * Implemented Service Context Provider
+  * Restructured webapi.xml
+  * Renamed createAccount to createCustomer in CustomerAccountService
+  * Implemented Caching strategy for the Customer service
 * GitHub requests:
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
@@ -2508,3 +2519,4 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
+

@@ -151,7 +151,10 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($quote->getCustomerId());
         $this->assertTrue($quote->getCustomerIsGuest());
-        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $quote->getCustomerGroupId());
+        $this->assertEquals(
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            $quote->getCustomerGroupId()
+        );
 
         $this->assertNotEmpty($quote->getBillingAddress());
         $this->assertNotEmpty($quote->getShippingAddress());

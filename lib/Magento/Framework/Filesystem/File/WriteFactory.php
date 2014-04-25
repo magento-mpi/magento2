@@ -30,17 +30,14 @@ class WriteFactory
      * Create a readable file.
      *
      * @param string $path
-     * @param string|null $protocol
-     * @param DriverInterface $directoryDriver [optional]
-     * @param string $mode
+     * @param string|null $protocol [optional]
+     * @param DriverInterface $driver [optional]
+     * @param string $mode [optional]
      * @return Write
      */
-    public function create($path, $protocol, DriverInterface $directoryDriver = null, $mode = 'r')
+    public function create($path, $protocol = null, DriverInterface $driver = null, $mode = 'r')
     {
-        $fileDriver = $directoryDriver;
-        if ($protocol) {
-            $fileDriver = $this->driverFactory->get($protocol, $directoryDriver);
-        }
-        return new \Magento\Framework\Filesystem\File\Write($path, $fileDriver, $mode);
+        $driver = $protocol ? $this->driverFactory->get($protocol, get_class($driver)) : $driver;
+        return new \Magento\Framework\Filesystem\File\Write($path, $driver, $mode);
     }
 }

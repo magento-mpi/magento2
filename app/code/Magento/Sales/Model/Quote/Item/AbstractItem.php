@@ -37,6 +37,15 @@ use Magento\Sales\Model\Quote\Item;
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountCalculationPrice($price)
  * @method int[] getAppliedRuleIds()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
+ * @method float getBaseTaxAmount()
+ * @method float getBaseDiscountTaxCompensation()
+ * @method float getBaseRowTotal()
+ * @method float getQtyOrdered()
+ * @method float getRowTotalInclTax()
+ * @method float getTaxAmount()
+ * @method float getDiscountTaxCompensation()
+ * @method float getRowTotal()
+ * @method float getPriceInclTax()
  */
 abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface

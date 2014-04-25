@@ -210,7 +210,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param CustomerBuilder $customerDataBuilder
@@ -231,7 +230,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         CustomerBuilder $customerDataBuilder,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -248,7 +246,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         $this->_groupService = $groupService;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
-        $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
         $this->_customerDataBuilder = $customerDataBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -514,17 +511,6 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     public function hashPassword($password, $salt = true)
     {
         return $this->_encryptor->getHash($password, $salt);
-    }
-
-    /**
-     * Retrieve random password
-     *
-     * @param   int $length
-     * @return  string
-     */
-    public function generatePassword($length = 6)
-    {
-        return $this->mathRandom->getRandomString($length);
     }
 
     /**

@@ -13,11 +13,6 @@ namespace Magento\Tax\Model\TaxClass\Type;
 class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 {
     /**
-     * @var \Magento\Customer\Model\Group
-     */
-    protected $_modelCustomerGroup;
-
-    /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $groupService;

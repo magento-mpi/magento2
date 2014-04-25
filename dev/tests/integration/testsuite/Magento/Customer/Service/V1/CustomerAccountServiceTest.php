@@ -654,8 +654,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
         $passwordFromFixture = 'password';
         $this->_customerAccountService->authenticate($customerAfter->getEmail(), $passwordFromFixture);
-        $attributesBefore = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -714,8 +714,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -780,8 +780,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -867,8 +867,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Service\DataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($existingCustomer);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -991,6 +991,48 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
         $this->assertTrue(!$savedCustomer->getSuffix());
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateNewCustomerWithPasswordHash()
+    {
+        $email = 'email@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
+        /** @var \Magento\Framework\Math\Random $mathRandom */
+        $password = $this->_objectManager->get('Magento\Framework\Math\Random')->getRandomString(
+            CustomerAccountServiceInterface::DEFAULT_PASSWORD_LENGTH
+        );
+        /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
+        $encryptor = $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
+        $passwordHash = $encryptor->getHash($password);
+        $savedCustomer = $this->_customerAccountService->createCustomerWithPasswordHash(
+            $customerDetails,
+            $passwordHash
+        );
+        $this->assertNotNull($savedCustomer->getId());
+        $this->assertEquals($email, $savedCustomer->getEmail());
+        $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($firstname, $savedCustomer->getFirstname());
+        $this->assertEquals($lastname, $savedCustomer->getLastname());
+        $this->assertEquals($groupId, $savedCustomer->getGroupId());
+        $this->assertTrue(!$savedCustomer->getSuffix());
+        $this->assertEquals(
+            $savedCustomer->getId(),
+            $this->_customerAccountService->authenticate($email, $password)->getId()
+        );
     }
 
     /**
