@@ -94,7 +94,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testToHtml($data, $priceType, $cssClasses)
     {
         $this->price->expects($this->once())
-            ->method('getPriceType')
+            ->method('getPriceCode')
             ->will($this->returnValue($priceType));
 
         $priceBox = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', array(
