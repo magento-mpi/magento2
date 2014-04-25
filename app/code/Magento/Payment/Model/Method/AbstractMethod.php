@@ -15,7 +15,7 @@ use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
 /**
  * Payment method abstract model
  */
-abstract class AbstractMethod extends \Magento\Object implements MethodInterface, PaymentMethodChecksInterface
+abstract class AbstractMethod extends \Magento\Framework\Object implements MethodInterface, PaymentMethodChecksInterface
 {
     const ACTION_ORDER = 'order';
 
@@ -187,31 +187,31 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
      * Log adapter factory
      *
-     * @var \Magento\Logger\AdapterFactory
+     * @var \Magento\Framework\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
     /**
      * Construct
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -284,10 +284,10 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $payment
+     * @param   \Magento\Framework\Object $payment
      * @return  bool
      */
-    public function canVoid(\Magento\Object $payment)
+    public function canVoid(\Magento\Framework\Object $payment)
     {
         return $this->_canVoid;
     }
@@ -473,13 +473,13 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Order payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function order(\Magento\Object $payment, $amount)
+    public function order(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canOrder()) {
             throw new \Magento\Framework\Model\Exception(__('The order action is not available.'));
@@ -490,13 +490,13 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Authorize payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canAuthorize()) {
             throw new \Magento\Framework\Model\Exception(__('The authorize action is not available.'));
@@ -507,13 +507,13 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Capture payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      *
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canCapture()) {
             throw new \Magento\Framework\Model\Exception(__('The capture action is not available.'));
@@ -555,12 +555,12 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Refund specified amount for payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         if (!$this->canRefund()) {
             throw new \Magento\Framework\Model\Exception(__('The refund action is not available.'));
@@ -583,11 +583,11 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Cancel payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      *
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         return $this;
     }
@@ -595,11 +595,11 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Void payment abstract method
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         if (!$this->canVoid($payment)) {
             throw new \Magento\Framework\Model\Exception(__('Void action is not available.'));
@@ -678,14 +678,14 @@ abstract class AbstractMethod extends \Magento\Object implements MethodInterface
     /**
      * Assign data to info model instance
      *
-     * @param array|\Magento\Object $data
+     * @param array|\Magento\Framework\Object $data
      * @return $this
      */
     public function assignData($data)
     {
         if (is_array($data)) {
             $this->getInfoInstance()->addData($data);
-        } elseif ($data instanceof \Magento\Object) {
+        } elseif ($data instanceof \Magento\Framework\Object) {
             $this->getInfoInstance()->addData($data->getData());
         }
         return $this;

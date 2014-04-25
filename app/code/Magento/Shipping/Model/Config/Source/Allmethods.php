@@ -9,7 +9,7 @@
  */
 namespace Magento\Shipping\Model\Config\Source;
 
-class Allmethods implements \Magento\Option\ArrayInterface
+class Allmethods implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Core store config

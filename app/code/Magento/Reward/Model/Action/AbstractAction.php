@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Model\Action;
 
-abstract class AbstractAction extends \Magento\Object
+abstract class AbstractAction extends \Magento\Framework\Object
 {
     /**
      * Reward Instance
@@ -33,7 +33,7 @@ abstract class AbstractAction extends \Magento\Object
 
     /**
      * Entity Instance
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_entity;
 
@@ -177,13 +177,13 @@ abstract class AbstractAction extends \Magento\Object
     /**
      * Setter for $_entity and assign entity Id to history
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return $this
      */
     public function setEntity($entity)
     {
         $this->_entity = $entity;
-        if ($this->getHistory() instanceof \Magento\Object) {
+        if ($this->getHistory() instanceof \Magento\Framework\Object) {
             $this->getHistory()->setEntity($entity->getId());
         }
         return $this;
@@ -192,7 +192,7 @@ abstract class AbstractAction extends \Magento\Object
     /**
      * Description goes here...
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getEntity()
     {

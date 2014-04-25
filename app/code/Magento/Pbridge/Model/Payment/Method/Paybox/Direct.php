@@ -75,11 +75,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -89,11 +89,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -106,12 +106,12 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      * @throws CoreException
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         throw new CoreException(__('Refund action is not available.'));
     }

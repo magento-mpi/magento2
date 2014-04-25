@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Resource\Customer;
 
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Resource collection of customers matched by reminder rule
@@ -27,15 +27,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param Registry $coreRegistry
      * @param mixed $connection
      * @param string $modelName
@@ -44,15 +44,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         Registry $coreRegistry,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME

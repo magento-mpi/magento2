@@ -20,7 +20,7 @@ class Matrix extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,7 +40,7 @@ class Matrix extends \Magento\Backend\Block\Template
     protected $_applicationConfig;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -49,8 +49,8 @@ class Matrix extends \Magento\Backend\Block\Template
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
@@ -58,8 +58,8 @@ class Matrix extends \Magento\Backend\Block\Template
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Registry $coreRegistry,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_configurableType = $configurableType;

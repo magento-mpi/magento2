@@ -140,10 +140,10 @@ class Custom extends \Magento\Backend\App\Action
             $ext->setData($post);
             $packageVersion = $this->getRequest()->getPost('version_ids');
             if (is_array($packageVersion)) {
-                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {
+                if (in_array(\Magento\Framework\Connect\Package::PACKAGE_VERSION_2X, $packageVersion)) {
                     $ext->createPackage();
                 }
-                if (in_array(\Magento\Connect\Package::PACKAGE_VERSION_1X, $packageVersion)) {
+                if (in_array(\Magento\Framework\Connect\Package::PACKAGE_VERSION_1X, $packageVersion)) {
                     $ext->createPackageV1x();
                 }
             }

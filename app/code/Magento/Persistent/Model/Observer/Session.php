@@ -9,7 +9,7 @@
  */
 namespace Magento\Persistent\Model\Observer;
 
-use Magento\Event\Observer;
+use Magento\Framework\Event\Observer;
 
 /**
  * Persistent Session Observer
@@ -40,7 +40,7 @@ class Session
     /**
      * Cookie model
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -65,7 +65,7 @@ class Session
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Session
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_persistentData = $persistentData;
@@ -90,7 +90,7 @@ class Session
      */
     public function synchronizePersistentOnLogin(Observer $observer)
     {
-        /** @var $customer \Magento\Customer\Model\Customer */
+        /** @var $customer \Magento\Customer\Service\V1\Data\Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
         if (!$customer || !$customer->getId() || !$this->_persistentSession->isRememberMeChecked()) {
@@ -136,19 +136,13 @@ class Session
     /**
      * Unload persistent session (if set in config)
      *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param Observer $observer
      * @return void
      */
     public function synchronizePersistentOnLogout(Observer $observer)
     {
         if (!$this->_persistentData->isEnabled() || !$this->_persistentData->getClearOnLogout()) {
-            return;
-        }
-
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $observer->getEvent()->getCustomer();
-        // Check if customer is valid
-        if (!$customer || !$customer->getId()) {
             return;
         }
 

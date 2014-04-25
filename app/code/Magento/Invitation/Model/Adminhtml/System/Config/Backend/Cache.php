@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
 
-class Cache extends \Magento\Backend\Model\Config\Backend\Cache implements \Magento\Object\IdentityInterface
+class Cache extends \Magento\Backend\Model\Config\Backend\Cache implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Cache tags to clean

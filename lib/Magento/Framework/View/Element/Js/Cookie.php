@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Element\Js;
 
-use Magento\Session\Config\ConfigInterface;
+use Magento\Framework\Session\Config\ConfigInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 

@@ -12,7 +12,7 @@ namespace Magento\Framework\App;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
-use Magento\Event;
+use Magento\Framework\Event;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -20,12 +20,12 @@ use Magento\Event;
 class Http implements \Magento\Framework\AppInterface
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var \Magento\Event\Manager
+     * @var \Magento\Framework\Event\Manager
      */
     protected $_eventManager;
 
@@ -60,7 +60,7 @@ class Http implements \Magento\Framework\AppInterface
     protected $_response;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param Event\Manager $eventManager
      * @param AreaList $areaList
      * @param RequestHttp $request
@@ -70,7 +70,7 @@ class Http implements \Magento\Framework\AppInterface
      * @param Filesystem $filesystem
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         Event\Manager $eventManager,
         AreaList $areaList,
         RequestHttp $request,

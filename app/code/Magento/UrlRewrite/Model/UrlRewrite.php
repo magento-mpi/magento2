@@ -51,7 +51,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -67,9 +67,9 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -78,9 +78,9 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -311,7 +311,7 @@ class UrlRewrite extends \Magento\Framework\Model\AbstractModel
         }
 
 
-        $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, $this->getRequestPath());
+        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $this->getRequestPath());
         $external = substr($this->getTargetPath(), 0, 6);
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {

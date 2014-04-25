@@ -31,7 +31,7 @@ abstract class AbstractDatabase extends \Magento\Framework\Model\AbstractModel
     /**
      * Date model
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -42,9 +42,9 @@ abstract class AbstractDatabase extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -53,9 +53,9 @@ abstract class AbstractDatabase extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

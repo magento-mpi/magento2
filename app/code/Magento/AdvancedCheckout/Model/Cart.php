@@ -10,7 +10,7 @@
 namespace Magento\AdvancedCheckout\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\Message\MessageInterface;
+use Magento\Framework\Message\MessageInterface;
 
 /**
  * Admin Checkout processing model
@@ -22,7 +22,7 @@ use Magento\Message\MessageInterface;
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
+class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Context of the cart - admin order
@@ -103,12 +103,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Message\Factory
+     * @var \Magento\Framework\Message\Factory
      */
     protected $messageFactory;
 
@@ -158,7 +158,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -168,7 +168,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_itemFailedStatus;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -190,8 +190,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
-     * @param \Magento\Message\Factory $messageFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Message\Factory $messageFactory
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
@@ -199,8 +199,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param \Magento\Customer\Model\Session $customerSession
@@ -210,8 +210,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
-        \Magento\Message\Factory $messageFactory,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Message\Factory $messageFactory,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
@@ -219,8 +219,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         \Magento\Customer\Model\Session $customerSession,
@@ -266,7 +266,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function setCustomer($customer)
     {
-        if ($customer instanceof \Magento\Object && $customer->getId()) {
+        if ($customer instanceof \Magento\Framework\Object && $customer->getId()) {
             $this->_customer = $customer;
             $this->_quote = null;
         }
@@ -417,7 +417,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
             if ($storeId != $defaultStoreId) {
-                $defaultStore = $this->_storeManager->getAnyStoreView();
+                $defaultStore = $this->_storeManager->getDefaultStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
                 }
@@ -437,19 +437,19 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * In case of newer behaviour same product ids with different configs are added as separate quote items.
      *
      * @param   Product|int $product
-     * @param   array|float|int|\Magento\Object $config
+     * @param   array|float|int|\Magento\Framework\Object $config
      * @return  $this
      * @throws  \Magento\Framework\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
-        if (is_array($config) || $config instanceof \Magento\Object) {
-            $config = is_array($config) ? new \Magento\Object($config) : $config;
+        if (is_array($config) || $config instanceof \Magento\Framework\Object) {
+            $config = is_array($config) ? new \Magento\Framework\Object($config) : $config;
             $qty = (double)$config->getQty();
             $separateSameProducts = true;
         } else {
             $qty = (double)$config;
-            $config = new \Magento\Object();
+            $config = new \Magento\Framework\Object();
             $config->setQty($qty);
             $separateSameProducts = false;
         }
@@ -517,7 +517,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         if ($product->getId()) {
             $info = $orderItem->getProductOptionByCode('info_buyRequest');
-            $info = new \Magento\Object($info);
+            $info = new \Magento\Framework\Object($info);
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
@@ -528,7 +528,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
             if ($additionalOptions = $orderItem->getProductOptionByCode('additional_options')) {
                 $item->addOption(
-                    new \Magento\Object(
+                    new \Magento\Framework\Object(
                         array(
                             'product' => $item->getProduct(),
                             'code' => 'additional_options',
@@ -586,7 +586,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
-                $item = $this->getQuote()->updateItem($itemId, new \Magento\Object($info));
+                $item = $this->getQuote()->updateItem($itemId, new \Magento\Framework\Object($info));
                 $itemQty = (double)$item->getQty();
             } else {
                 $item = $this->getQuote()->getItemById($itemId);
@@ -1638,10 +1638,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Sets session where data is going to be stored
      *
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @return $this
      */
-    public function setSession(\Magento\Session\SessionManagerInterface $session)
+    public function setSession(\Magento\Framework\Session\SessionManagerInterface $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1650,7 +1650,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Returns current session used to store data about affected items
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {

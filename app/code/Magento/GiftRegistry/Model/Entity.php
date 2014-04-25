@@ -111,7 +111,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_resource;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -153,7 +153,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $productFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTimeFactory
+     * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
      */
     protected $dateFactory;
 
@@ -173,12 +173,12 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $request;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -188,16 +188,16 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param Item $itemModel
@@ -209,23 +209,23 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         Item $itemModel,
@@ -237,13 +237,13 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
@@ -328,7 +328,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * Add new product to registry
      *
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
-     * @param null|\Magento\Object $request
+     * @param null|\Magento\Framework\Object $request
      * @return false|Item
      * @throws \Magento\Framework\Model\Exception
      */
@@ -356,7 +356,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new \Magento\Object();
+                $request = new \Magento\Framework\Object();
                 //Bundle options mocking for compatibility
                 $request->setBundleOption(array());
             }
@@ -465,7 +465,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -478,7 +478,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -490,14 +490,14 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     /**
      * Send share emails
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_escaper->escapeHtml($this->getSenderName());
         $senderEmail = $this->_escaper->escapeHtml($this->getSenderEmail());
-        $result = new \Magento\Object(array('is_success' => false));
+        $result = new \Magento\Framework\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(__('You need to enter sender data.'));
@@ -578,7 +578,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -591,7 +591,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -633,7 +633,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -646,7 +646,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -1104,7 +1104,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      *
      * @param array $items
      * @return void
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateItems($items)
@@ -1118,7 +1118,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
                     $stockItem->loadByProduct($model->getProductId());
                     // not \Magento\Framework\Model\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\Framework\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {

@@ -43,10 +43,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     public function testViewLessFilesPreProcessing()
     {
         $errorHandlerMock = $this->getMock(
-            'Magento\Less\PreProcessor\ErrorHandlerInterface',
+            'Magento\Framework\Less\PreProcessor\ErrorHandlerInterface',
             array('processException')
         );
-        $this->objectManager->addSharedInstance($errorHandlerMock, 'Magento\Less\PreProcessor\ErrorHandler');
+        $this->objectManager->addSharedInstance($errorHandlerMock, 'Magento\Framework\Less\PreProcessor\ErrorHandler');
         $errorHandlerMock->expects($this->any())->method('processException')->will(
             $this->returnCallback(
                 function ($exception) {
@@ -55,8 +55,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
                 }
             )
         );
-        /** @var $lessPreProcessor \Magento\Less\PreProcessor */
-        $lessPreProcessor = $this->objectManager->create('Magento\Less\PreProcessor');
+        /** @var $lessPreProcessor \Magento\Framework\Less\PreProcessor */
+        $lessPreProcessor = $this->objectManager->create('Magento\Framework\Less\PreProcessor');
         $directoryRead = $this->filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::ROOT_DIR);
         /**
          * Solution for \Magento\Framework\View\Layout\File\Source\Base aggregator, it depends on theme and area

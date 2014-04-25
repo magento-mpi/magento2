@@ -93,7 +93,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     /**
      * Core date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
@@ -105,12 +105,12 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     protected $_customerBalance = null;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -143,43 +143,43 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     protected $_poolFactory = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -217,9 +217,9 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
 
         if (!$this->getId()) {
             $now = $this->_localeDate->date()->setTimezone(
-                \Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE
             )->toString(
-                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
+                \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT
             );
 
             $this->setDateCreated($now);
@@ -245,13 +245,13 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             if ($this->getDateExpires()) {
                 $expirationDate = $this->_localeDate->date(
                     $this->getDateExpires(),
-                    \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                    \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null,
                     false
                 );
                 $currentDate = $this->_localeDate->date(
                     null,
-                    \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                    \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null,
                     false
                 );
@@ -638,7 +638,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             array(
                 'name' => $recipientName,
@@ -662,7 +662,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         try {
             $transport->sendMessage();
             $this->setEmailSent(true)->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_SENT)->save();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $this->setEmailSent(false);
         }
     }

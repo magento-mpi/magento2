@@ -24,15 +24,15 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @param \Magento\Logger $logger
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Stdlib\String $string
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Stdlib\String $string)
+    public function __construct(\Magento\Framework\Logger $logger, \Magento\Framework\Stdlib\String $string)
     {
         $this->string = $string;
         parent::__construct($logger);
@@ -43,7 +43,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
      * a) check some rules for password
      * b) transform temporary attribute 'password' into real attribute 'password_hash'
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
@@ -75,7 +75,7 @@ class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
     }
 
     /**
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
     public function validate($object)

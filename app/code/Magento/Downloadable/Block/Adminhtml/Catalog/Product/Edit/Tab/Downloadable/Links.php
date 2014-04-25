@@ -21,7 +21,7 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Block config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_config;
 
@@ -54,7 +54,7 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -79,16 +79,16 @@ class Links extends \Magento\Backend\Block\Template
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceModel
      * @param \Magento\Downloadable\Model\Link $link
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
@@ -97,10 +97,10 @@ class Links extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceModel,
         \Magento\Downloadable\Model\Link $link,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
@@ -324,7 +324,7 @@ class Links extends \Magento\Backend\Block\Template
             if ($this->getProduct()->getStoreId() && $priceWebsiteScope) {
                 $tmpLinkItem['website_price'] = $item->getWebsitePrice();
             }
-            $linkArr[] = new \Magento\Object($tmpLinkItem);
+            $linkArr[] = new \Magento\Framework\Object($tmpLinkItem);
         }
         return $linkArr;
     }
@@ -428,12 +428,12 @@ class Links extends \Magento\Backend\Block\Template
     /**
      * Retrieve config object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getConfig()
     {
         if (is_null($this->_config)) {
-            $this->_config = new \Magento\Object();
+            $this->_config = new \Magento\Framework\Object();
         }
 
         return $this->_config;

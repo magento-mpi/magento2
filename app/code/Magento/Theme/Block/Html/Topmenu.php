@@ -59,7 +59,7 @@ class Topmenu extends Template implements IdentityInterface
 
         $html = $this->_getHtml($this->_menu, $childrenWrapClass, $limit);
 
-        $transportObject = new \Magento\Object(array('html' => $html));
+        $transportObject = new \Magento\Framework\Object(array('html' => $html));
         $this->_eventManager->dispatch(
             'page_block_html_topmenu_gethtml_after',
             array('menu' => $this->_menu, 'transportObject' => $transportObject)

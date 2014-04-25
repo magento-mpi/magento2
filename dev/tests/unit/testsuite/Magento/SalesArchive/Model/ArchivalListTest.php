@@ -25,7 +25,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('get', 'create'),
             array(),
             '',
@@ -80,7 +80,7 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
             array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
             array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
             array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
-            array(false, 'Magento\Object')
+            array(false, 'Magento\Framework\Object')
         );
     }
 }

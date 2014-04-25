@@ -9,7 +9,7 @@
  */
 namespace Magento\ImportExport\Model;
 
-use Magento\HTTP\Adapter\FileTransferFactory;
+use Magento\Framework\HTTP\Adapter\FileTransferFactory;
 
 /**
  * Import model
@@ -100,7 +100,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_csvFactory;
 
     /**
-     * @var \Magento\HTTP\Adapter\FileTransferFactory
+     * @var \Magento\Framework\HTTP\Adapter\FileTransferFactory
      */
     protected $_httpFactory;
 
@@ -125,32 +125,32 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_filesystem;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Logger\AdapterFactory $adapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
      * @param \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory
-     * @param \Magento\HTTP\Adapter\FileTransferFactory $httpFactory
+     * @param \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param array $data
      */
     public function __construct(
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Logger\AdapterFactory $adapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\ImportExport\Model\Import\ConfigInterface $importConfig,
         \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory,
-        \Magento\HTTP\Adapter\FileTransferFactory $httpFactory,
+        \Magento\Framework\HTTP\Adapter\FileTransferFactory $httpFactory,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         \Magento\Index\Model\Indexer $indexer,
@@ -639,7 +639,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     }
 
     /**
-     * Gets array of customer entities and appropriate behaviours
+     * Gets array of entities and appropriate behaviours
      * array(
      *     <entity_code> => array(
      *         'token' => <behavior_class_name>,

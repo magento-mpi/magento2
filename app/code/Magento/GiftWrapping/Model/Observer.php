@@ -86,7 +86,7 @@ class Observer
     /**
      * Process gift wrapping options on checkout proccess
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function checkoutProcessWrappingInfo($observer)
@@ -132,7 +132,7 @@ class Observer
     /**
      * Process admin order creation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function processOrderCreationData($observer)
@@ -161,10 +161,10 @@ class Observer
     /**
      * Set the flag is it new collecting totals
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setIsNewGiftWrappingCollecting(true);
@@ -174,10 +174,10 @@ class Observer
     /**
      * Add gift wrapping items into payment checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addPaymentGiftWrappingItem(\Magento\Event\Observer $observer)
+    public function addPaymentGiftWrappingItem(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
@@ -208,10 +208,10 @@ class Observer
     /**
      * Set gift options available flag for items
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function prepareGiftOptpionsItems(\Magento\Event\Observer $observer)
+    public function prepareGiftOptpionsItems(\Magento\Framework\Event\Observer $observer)
     {
         $items = $observer->getEvent()->getItems();
         foreach ($items as $item) {
@@ -226,7 +226,7 @@ class Observer
     /**
      * Import giftwrapping data from order to quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function salesEventOrderToQuote($observer)
@@ -252,7 +252,7 @@ class Observer
     /**
      * Import giftwrapping data from order item to quote item
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function salesEventOrderItemToQuoteItem($observer)

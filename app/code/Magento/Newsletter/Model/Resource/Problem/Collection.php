@@ -10,7 +10,7 @@
 namespace Magento\Newsletter\Model\Resource\Problem;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Newsletter problems collection
@@ -64,9 +64,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param CustomerAccountServiceInterface $customerAccountService,
      * @param \Magento\Customer\Helper\View $customerView
      * @param null|\Zend_Db_Adapter_Abstract $connection
@@ -74,9 +74,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
         $connection = null,

@@ -30,7 +30,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $_wishlistData = null;
 
     /**
-     * @var \Magento\Object\Copy\Config
+     * @var \Magento\Framework\Object\Copy\Config
      */
     protected $_fieldsetConfig;
 
@@ -43,13 +43,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\MultipleWishlist\Model\Resource\Item $itemResource
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
@@ -58,13 +58,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\MultipleWishlist\Model\Resource\Item $itemResource,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null

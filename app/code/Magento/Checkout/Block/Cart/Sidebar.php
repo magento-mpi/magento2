@@ -129,7 +129,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
                 if (!isset($products[$productId])) {
                     continue;
                 }
-                $urlDataObject = new \Magento\Object($products[$productId]);
+                $urlDataObject = new \Magento\Framework\Object($products[$productId]);
                 $item->getProduct()->setUrlDataObject($urlDataObject);
             }
 

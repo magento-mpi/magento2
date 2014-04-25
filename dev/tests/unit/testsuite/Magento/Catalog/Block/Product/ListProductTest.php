@@ -15,7 +15,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
@@ -47,7 +47,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->postDataHelperMock = $this->getMock(
             'Magento\Core\Helper\PostData',

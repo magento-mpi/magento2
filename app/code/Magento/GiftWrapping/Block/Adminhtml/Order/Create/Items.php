@@ -39,7 +39,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
     /**
      * Prepare and return quote items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
@@ -52,11 +52,11 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
-                        $temp['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
-                        $temp['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
+                        $temp['price_incl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price, true);
+                        $temp['price_excl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price);
                     } else {
                         $temp['price'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $this->getDisplayWrappingPriceInclTax()
                         );
@@ -66,7 +66,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
                 $data[$item->getId()] = $temp;
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

@@ -65,7 +65,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     protected $_urlHelper;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -80,7 +80,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -89,7 +89,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -373,12 +373,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
             }
         }
 
-        /* @var $collection \Magento\Message\Collection */
+        /* @var $collection \Magento\Framework\Message\Collection */
         $collection = $this->messageManager->getMessages('quote_item' . $quoteItem->getId());
         if ($collection) {
             $additionalMessages = $collection->getItems();
             foreach ($additionalMessages as $message) {
-                /* @var $message \Magento\Message\MessageInterface */
+                /* @var $message \Magento\Framework\Message\MessageInterface */
                 $messages[] = array('text' => $message->getText(), 'type' => $message->getType());
             }
         }

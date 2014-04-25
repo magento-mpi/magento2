@@ -10,7 +10,7 @@ namespace Magento\Translation\Block;
 
 use Magento\Framework\View\Element\BlockInterface;
 use \Magento\Translation\Model\Js as DataProvider;
-use \Magento\Translate\InlineInterface as InlineTranslator;
+use \Magento\Framework\Translate\InlineInterface as InlineTranslator;
 
 class Js
 {

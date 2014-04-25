@@ -158,7 +158,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -178,18 +178,18 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var \Magento\Math\Division
+     * @var \Magento\Framework\Math\Division
      */
     protected $mathDivision;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
@@ -197,16 +197,16 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Math\Division $mathDivision
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Math\Division $mathDivision
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,
@@ -214,9 +214,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Math\Division $mathDivision,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Math\Division $mathDivision,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -639,11 +639,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param int|float $qty quantity of this item (item qty x parent item qty)
      * @param int|float $summaryQty quantity of this product
      * @param int|float $origQty original qty of item (not multiplied on parent item qty)
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $result->setHasError(false);
 
         if (!is_numeric($qty)) {
@@ -787,11 +787,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * Check qty increments
      *
      * @param int|float $qty
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function checkQtyIncrements($qty)
     {
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         if ($this->getSuppressCheckQtyIncrements()) {
             return $result;
         }
@@ -885,7 +885,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
                         null,
                         false
                     )->toString(
-                        \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                        \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
                     )
                 );
             }

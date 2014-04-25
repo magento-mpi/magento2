@@ -31,7 +31,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     protected $_uploaderFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\File\Size
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\File\Size
      */
     protected $_fileSizeMock;
 
@@ -79,7 +79,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         /** @var $service \Magento\Theme\Model\Uploader\Service */
 
         $this->_fileSizeMock = $this->getMockBuilder(
-            'Magento\File\Size'
+            'Magento\Framework\File\Size'
         )->setMethods(
             array('getMaxFileSize')
         )->disableOriginalConstructor()->getMock();

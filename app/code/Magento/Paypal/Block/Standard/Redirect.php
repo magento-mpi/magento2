@@ -27,7 +27,7 @@ class Redirect extends \Magento\Framework\View\Element\AbstractBlock
     protected $_paypalStandardFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
@@ -36,7 +36,7 @@ class Redirect extends \Magento\Framework\View\Element\AbstractBlock
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Redirect extends \Magento\Framework\View\Element\AbstractBlock
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;

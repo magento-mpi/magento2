@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Layout\File\FileList;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 /**
  * Factory that produces layout file list instances

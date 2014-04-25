@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
-    <preference for="Magento\Locale\ResolverInterface" type="Magento\Backend\Model\Locale\Resolver" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
+    <preference for="Magento\Framework\Locale\ResolverInterface" type="Magento\Backend\Model\Locale\Resolver" />
     <preference for="Magento\Framework\App\Action\Context" type="Magento\Backend\App\Action\Context" />
-    <preference for="Magento\UrlInterface" type="Magento\Backend\Model\UrlInterface" />
+    <preference for="Magento\Framework\UrlInterface" type="Magento\Backend\Model\UrlInterface" />
     <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
     <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
     <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
@@ -30,7 +30,7 @@
             <argument name="backendUrl" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Session\Generic">
+    <type name="Magento\Framework\Session\Generic">
         <arguments>
             <argument name="sessionName" xsi:type="string">adminhtml</argument>
         </arguments>
@@ -102,12 +102,12 @@
     <type name="Magento\Framework\App\Action\Action">
         <plugin name="storeCheck" disabled="true" />
     </type>
-    <type name="Magento\Message\Manager">
+    <type name="Magento\Framework\Message\Manager">
         <arguments>
             <argument name="defaultGroup" xsi:type="string">backend</argument>
         </arguments>
     </type>
-    <type name="Magento\Translate">
+    <type name="Magento\Framework\Translate">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\Framework\App\Cache\Type\Translate</argument>
             <argument name="locale" xsi:type="object">Magento\Backend\Model\Locale\Resolver\Proxy</argument>

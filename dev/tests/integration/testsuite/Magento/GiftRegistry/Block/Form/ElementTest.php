@@ -27,12 +27,12 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         );
 
         $value = null;
-        $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL;
+        $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
         $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->getDateFormat(
             $formatType
         );

@@ -28,14 +28,14 @@ class Text extends \Magento\Framework\Data\Form\Element\Text
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {

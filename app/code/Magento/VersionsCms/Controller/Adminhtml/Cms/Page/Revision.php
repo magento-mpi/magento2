@@ -20,7 +20,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
     protected $_cmsPage;
 
     /**
-     * @var \Magento\Core\Model\Design
+     * @var \Magento\Framework\App\DesignInterface
      */
     protected $_design;
 
@@ -31,26 +31,26 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Cms\Model\Page $cmsPage
-     * @param \Magento\Core\Model\Design $design
+     * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design,
+        \Magento\Framework\App\DesignInterface $design,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
@@ -299,7 +299,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
+        $this->_objectManager->get('Magento\Framework\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get(
             'Magento\Framework\App\State'
         )->emulateAreaCode(
@@ -421,7 +421,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                 $this->messageManager->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }

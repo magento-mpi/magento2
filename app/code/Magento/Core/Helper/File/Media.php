@@ -15,7 +15,7 @@ namespace Magento\Core\Helper\File;
 class Media extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -28,12 +28,12 @@ class Media extends \Magento\Framework\App\Helper\AbstractHelper
      * Constructor
      *
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\App\Filesystem $filesystem
     ) {
         parent::__construct($context);

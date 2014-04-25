@@ -13,7 +13,7 @@ namespace Magento\Framework\Model\Resource;
 
 use Magento\Framework\Model\Resource\Zend_Db_Select;
 
-class Iterator extends \Magento\Object
+class Iterator extends \Magento\Framework\Object
 {
     /**
      * Walk over records fetched from query one by one using callback function

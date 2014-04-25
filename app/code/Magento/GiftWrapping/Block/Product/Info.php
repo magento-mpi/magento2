@@ -41,7 +41,7 @@ class Info extends \Magento\Framework\View\Element\Template
     /**
      * Return product gift wrapping info
      *
-     * @return false|\Magento\Object
+     * @return false|\Magento\Framework\Object
      */
     public function getGiftWrappingInfo()
     {

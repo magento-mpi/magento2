@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
-class Result implements \Magento\Option\ArrayInterface
+class Result implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data

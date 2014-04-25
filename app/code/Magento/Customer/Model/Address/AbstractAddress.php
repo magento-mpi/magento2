@@ -89,7 +89,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Config $addressConfig
@@ -101,7 +101,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         Config $addressConfig,
@@ -233,7 +233,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
      *
      * @param array|string $key
      * @param null $value
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function setData($key, $value = null)
     {

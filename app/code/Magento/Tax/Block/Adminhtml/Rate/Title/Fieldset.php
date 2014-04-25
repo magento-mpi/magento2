@@ -26,14 +26,14 @@ class Fieldset extends \Magento\Framework\Data\Form\Element\Fieldset
     /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Tax\Block\Adminhtml\Rate\Title $title
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Tax\Block\Adminhtml\Rate\Title $title,
         $data = array()
     ) {

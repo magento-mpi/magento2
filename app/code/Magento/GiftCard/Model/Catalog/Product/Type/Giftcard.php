@@ -35,7 +35,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_store;
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
@@ -58,15 +58,15 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      *
@@ -77,15 +77,15 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
@@ -182,12 +182,12 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Prepare product and its configuration to be added to some products list.
      * Use standard preparation process and also add specific giftcard options.
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
-    protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
+    protected function _prepareProduct(\Magento\Framework\Object $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
 
@@ -232,13 +232,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Validate Gift Card product, determine and return its amount
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
      * @return mixed
      * @throws \Magento\Framework\Model\Exception
      */
-    private function _validate(\Magento\Object $buyRequest, $product, $processMode)
+    private function _validate(\Magento\Framework\Object $buyRequest, $product, $processMode)
     {
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
         $allowedAmounts = $this->_getAllowedAmounts($product);
@@ -305,7 +305,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Check and count empty fields
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
      * @return void
@@ -337,7 +337,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Count empty fields
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @return int
      */
@@ -391,7 +391,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Fields check
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @param bool $isPhysical
      * @param int $amount
      * @return void
@@ -422,7 +422,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Get giftcard custom amount
      *
-     * @param \Magento\Object $buyRequest
+     * @param \Magento\Framework\Object $buyRequest
      * @return int|null
      */
     protected function _getCustomGiftcardAmount($buyRequest)
@@ -450,7 +450,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
         if ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
-            $buyRequest = new \Magento\Object(unserialize($option->getValue()));
+            $buyRequest = new \Magento\Framework\Object(unserialize($option->getValue()));
             $this->_validate($buyRequest, $product, self::PROCESS_MODE_FULL);
         }
         return $this;
@@ -475,7 +475,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Prepare selected options for giftcard
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Object $buyRequest
+     * @param  \Magento\Framework\Object $buyRequest
      * @return array
      */
     public function processBuyRequest($product, $buyRequest)

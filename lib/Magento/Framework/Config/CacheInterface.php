@@ -9,6 +9,6 @@
  */
 namespace Magento\Framework\Config;
 
-interface CacheInterface extends \Magento\Cache\FrontendInterface
+interface CacheInterface extends \Magento\Framework\Cache\FrontendInterface
 {
 }
