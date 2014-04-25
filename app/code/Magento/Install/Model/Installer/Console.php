@@ -13,7 +13,7 @@
  */
 namespace Magento\Install\Model\Installer;
 
-use Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem as AppFilesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 use Magento\Framework\Message\MessageInterface;
 
@@ -87,7 +87,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     ];
 
     /**
-     * @var Filesystem
+     * @var AppFilesystem
      */
     protected $_filesystem;
 
@@ -144,7 +144,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Framework\App\Resource\Config $resourceConfig
      * @param \Magento\Framework\Module\UpdaterInterface $dbUpdater
-     * @param Filesystem $filesystem
+     * @param AppFilesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Locale\ListsInterface $localeLists
@@ -154,7 +154,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\Install\Model\Installer $installer,
         \Magento\Framework\App\Resource\Config $resourceConfig,
         \Magento\Framework\Module\UpdaterInterface $dbUpdater,
-        Filesystem $filesystem,
+        AppFilesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Locale\ListsInterface $localeLists,
@@ -379,14 +379,20 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->getDirectoryWrite(Filesystem::VAR_DIR)->changePermissions('', 0777);
+            $this->_filesystem->getDirectoryWrite(AppFilesystem::VAR_DIR)->changePermissions('', 0777);
 
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Framework\Model\Exception) {
-                foreach ($e->getMessages(MessageInterface::TYPE_ERROR) as $errorMessage) {
-                    $this->addError($errorMessage);
+                $errorMessages = $e->getMessages(MessageInterface::TYPE_ERROR);
+                if (!empty($errorMessages)) {
+                    foreach ($errorMessages as $errorMessage) {
+                        $this->addError($errorMessage->getText());
+                    }
+                } else {
+                    $this->addError($e->getMessage());
                 }
+
             } else {
                 $this->addError('ERROR: ' . $e->getMessage());
             }
@@ -415,7 +421,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
 
     protected function _removeTempDir()
     {
-        $varDirectory = $this->_filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
+        $varDirectory = $this->_filesystem->getDirectoryWrite(AppFilesystem::VAR_DIR);
         foreach ($varDirectory->read() as $path) {
             if ($varDirectory->isDirectory($path)) {
                 try {
@@ -436,7 +442,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _removeLocalXml()
     {
         try {
-            $this->_filesystem->getDirectoryWrite(Filesystem::CONFIG_DIR)->delete('local.xml');
+            $this->_filesystem->getDirectoryWrite(AppFilesystem::CONFIG_DIR)->delete('local.xml');
         } catch (FilesystemException $e) {
             $this->fileDeleteErrors[] = $e->getMessage();
         }
