@@ -18,6 +18,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     protected $_helper;
 
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_session;
+
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -61,13 +66,12 @@ class SessionTest extends \PHPUnit_Framework_TestCase
                 'storage' => new \Magento\Framework\Session\Storage()
             )
         );
-        /** @var \Magento\Checkout\Model\Session $session */
-        $session = $this->_helper->getObject('Magento\Checkout\Model\Session', $constructArguments);
-        $session->setLastRealOrderId($orderId);
+        $this->_session = $this->_helper->getObject('Magento\Checkout\Model\Session', $constructArguments);
+        $this->_session->setLastRealOrderId($orderId);
 
-        $this->assertSame($orderMock, $session->getLastRealOrder());
+        $this->assertSame($orderMock, $this->_session->getLastRealOrder());
         if ($orderId == $incrementId) {
-            $this->assertSame($orderMock, $session->getLastRealOrder());
+            $this->assertSame($orderMock, $this->_session->getLastRealOrder());
         }
     }
 
@@ -117,11 +121,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testClearHelperData($paramToClear)
     {
         $storage = new \Magento\Framework\Session\Storage('default', array($paramToClear => 'test_data'));
-        /** @var \Magento\Checkout\Model\Session $session */
-        $session = $this->_helper->getObject('Magento\Checkout\Model\Session', array('storage' => $storage));
+        $this->_session = $this->_helper->getObject('Magento\Checkout\Model\Session', array('storage' => $storage));
 
-        $session->clearHelperData();
-        $this->assertNull($session->getData($paramToClear));
+        $this->_session->clearHelperData();
+        $this->assertNull($this->_session->getData($paramToClear));
     }
 
     /**
@@ -256,5 +259,85 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function restoreQuoteDataProvider()
     {
         return array(array(true, true), array(true, false), array(false, true), array(false, false));
+    }
+
+    public function testHasQuote()
+    {
+        $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $session = $this->_helper->getObject('Magento\Checkout\Model\Session', array('quote' => $quote));
+        $this->assertFalse($session->hasQuote());
+    }
+
+    public function testReplaceQuote()
+    {
+        $replaceQuoteId = 3;
+        $websiteId = 1;
+
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(['getWebsiteId', '__wakeup'])
+            ->getMock();
+        $store->expects($this->exactly(2))
+            ->method('getWebsiteId')
+            ->will($this->returnValue($websiteId));
+
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
+        $storeManager->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
+        $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $quote->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($replaceQuoteId));
+
+        $storage = $this->getMockBuilder('Magento\Framework\Session\Storage')
+            ->disableOriginalConstructor()
+            ->setMethods(['setData', 'getData'])
+            ->getMock();
+        $storage->expects($this->once())
+            ->method('setData')
+            ->with('quote_id_' . $websiteId, $replaceQuoteId);
+        $storage->expects($this->once())
+            ->method('getData')
+            ->with('quote_id_' . $websiteId)
+            ->will($this->returnValue($replaceQuoteId));;
+
+        $session = $this->_helper->getObject(
+            'Magento\Checkout\Model\Session',
+            [
+                'storeManager' => $storeManager,
+                'storage' => $storage
+            ]
+        );
+
+        $session->replaceQuote($quote);
+
+        $this->assertSame($quote, $session->getQuote());
+        $this->assertEquals($replaceQuoteId, $session->getQuoteId());
+    }
+
+    public function testClearStorage()
+    {
+        $storage = $this->getMockBuilder('Magento\Framework\Session\Storage')
+            ->disableOriginalConstructor()
+            ->setMethods(['unsetData'])
+            ->getMock();
+        $storage->expects($this->once())
+            ->method('unsetData');
+
+        $session = $this->_helper->getObject(
+            'Magento\Checkout\Model\Session',
+            [
+                'storage' => $storage
+            ]
+        );
+
+        $this->assertInstanceOf('Magento\Checkout\Model\Session', $session->clearStorage());
+        $this->assertFalse($session->hasQuote());
     }
 }

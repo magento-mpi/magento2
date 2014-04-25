@@ -59,8 +59,14 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerBuilderMock;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->storeId = 1;
         $this->customerDataMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\Customer',
@@ -130,9 +136,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerDataMock->expects($this->any())->method('getStoreId')->will($this->returnValue($this->storeId));
 
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $this->model = $objectManager->getObject(
+        $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             array(
                 'customerAddressHelper' => $this->customerAddressMock,
@@ -145,14 +149,18 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableAutoGroupChange()
     {
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(true);
         $this->customerDataMock->expects(
-            $this->once()
+            $this->exactly(2)
         )->method(
             'getCustomAttribute'
         )->with(
             'disable_auto_group_change'
         )->will(
-            $this->returnValue(true)
+            $this->returnValue($attributeValueBuilder->create())
         );
 
         $this->model->dispatch($this->observerMock);
@@ -160,14 +168,18 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableVatValidator()
     {
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         $this->customerDataMock->expects(
-            $this->once()
+            $this->exactly(2)
         )->method(
             'getCustomAttribute'
         )->with(
             'disable_auto_group_change'
         )->will(
-            $this->returnValue(false)
+            $this->returnValue($attributeValueBuilder->create())
         );
 
         $this->vatValidatorMock->expects(
@@ -185,15 +197,19 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryNotInEUAndNotLoggedCustomerInGroup()
     {
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
         $this->customerDataMock->expects(
-            $this->once()
+            $this->exactly(2)
         )->method(
             'getCustomAttribute'
         )->with(
             'disable_auto_group_change'
         )->will(
-            $this->returnValue(false)
+            $this->returnValue($attributeValueBuilder->create())
         );
 
         $this->vatValidatorMock->expects(
@@ -239,15 +255,19 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDefaultCustomerGroupId()
     {
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
         $this->customerDataMock->expects(
-            $this->once()
+            $this->exactly(2)
         )->method(
             'getCustomAttribute'
         )->with(
             'disable_auto_group_change'
         )->will(
-            $this->returnValue(false)
+            $this->returnValue($attributeValueBuilder->create())
         );
 
         $this->vatValidatorMock->expects(
@@ -315,100 +335,58 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryInEU()
     {
+        /** @var \Magento\Framework\Service\Data\Eav\AttributeValueBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\Data\Eav\AttributeValueBuilder');
+        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
         /** Preconditions */
-        $this->customerDataMock->expects(
-            $this->once()
-        )->method(
-            'getCustomAttribute'
-        )->with(
-            'disable_auto_group_change'
-        )->will(
-            $this->returnValue(false)
-        );
+        $this->customerDataMock->expects($this->exactly(2))
+            ->method('getCustomAttribute')
+            ->with('disable_auto_group_change')
+            ->will($this->returnValue($attributeValueBuilder->create()));
 
-        $this->vatValidatorMock->expects(
-            $this->once()
-        )->method(
-            'isEnabled'
-        )->with(
-            $this->quoteAddressMock,
-            $this->storeId
-        )->will(
-            $this->returnValue(true)
-        );
+        $this->vatValidatorMock->expects($this->once())
+            ->method('isEnabled')
+            ->with($this->quoteAddressMock, $this->storeId)
+            ->will($this->returnValue(true));
 
-        $this->quoteAddressMock->expects(
-            $this->once()
-        )->method(
-            'getCountryId'
-        )->will(
-            $this->returnValue('customerCountryCode')
-        );
-        $this->quoteAddressMock->expects($this->once())->method('getVatId')->will($this->returnValue('vatID'));
+        $this->quoteAddressMock->expects($this->once())
+            ->method('getCountryId')
+            ->will($this->returnValue('customerCountryCode'));
+        $this->quoteAddressMock->expects($this->once())
+            ->method('getVatId')
+            ->will($this->returnValue('vatID'));
 
-        $this->customerHelperMock->expects(
-            $this->once()
-        )->method(
-            'isCountryInEU'
-        )->with(
-            'customerCountryCode'
-        )->will(
-            $this->returnValue(true)
-        );
+        $this->customerHelperMock->expects($this->once())
+            ->method('isCountryInEU')
+            ->with('customerCountryCode')
+            ->will($this->returnValue($attributeValueBuilder->create()));
 
-        $this->quoteMock->expects(
-            $this->once()
-        )->method(
-            'getCustomerGroupId'
-        )->will(
-            $this->returnValue('customerGroupId')
-        );
+        $this->quoteMock->expects($this->once())
+            ->method('getCustomerGroupId')
+            ->will($this->returnValue('customerGroupId'));
 
         $validationResult = array('some' => 'result');
-        $this->vatValidatorMock->expects(
-            $this->once()
-        )->method(
-            'validate'
-        )->with(
-            $this->quoteAddressMock,
-            $this->storeId
-        )->will(
-            $this->returnValue($validationResult)
-        );
+        $this->vatValidatorMock->expects($this->once())
+            ->method('validate')
+            ->with($this->quoteAddressMock, $this->storeId)
+            ->will($this->returnValue($validationResult));
 
-        $this->customerHelperMock->expects(
-            $this->once()
-        )->method(
-            'getCustomerGroupIdBasedOnVatNumber'
-        )->with(
-            'customerCountryCode',
-            $validationResult,
-            $this->storeId
-        )->will(
-            $this->returnValue('customerGroupId')
-        );
+        $this->customerHelperMock->expects($this->once())
+            ->method('getCustomerGroupIdBasedOnVatNumber')
+            ->with('customerCountryCode', $validationResult, $this->storeId)
+            ->will($this->returnValue('customerGroupId'));
 
         /** Assertions */
-        $this->quoteAddressMock->expects(
-            $this->once()
-        )->method(
-            'setPrevQuoteCustomerGroupId'
-        )->with(
-            'customerGroupId'
-        );
-        $this->quoteMock->expects($this->once())->method('setCustomerGroupId')->with('customerGroupId');
-        $this->customerBuilderMock->expects(
-            $this->once()
-        )->method(
-            'mergeDataObjectWithArray'
-        )->with(
-            $this->customerDataMock,
-            array('group_id' => 'customerGroupId')
-        )->will(
-            $this->returnValue($this->customerDataMock)
-        );
+        $this->quoteAddressMock->expects($this->once())
+            ->method('setPrevQuoteCustomerGroupId')
+            ->with('customerGroupId');
 
-        /** SUT execution */
+        $this->quoteMock->expects($this->once())->method('setCustomerGroupId')->with('customerGroupId');
+        $this->customerBuilderMock->expects($this->once())
+            ->method('mergeDataObjectWithArray')
+            ->with($this->customerDataMock, array('group_id' => 'customerGroupId'))
+            ->will($this->returnValue($this->customerDataMock));
         $this->model->dispatch($this->observerMock);
     }
 }

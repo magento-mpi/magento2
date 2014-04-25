@@ -14,6 +14,7 @@ use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Framework\Service\Data\Eav\AttributeValueBuilder;
 use Magento\Framework\Service\V1\Data\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
 
@@ -225,15 +226,25 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue(array())
             );
 
-        $this->_customerBuilder = new Data\CustomerBuilder($this->_customerMetadataService);
-
-        $customerBuilder = new CustomerBuilder($this->_customerMetadataService);
-        $this->_customerDetailsBuilder = new Data\CustomerDetailsBuilder(
-            $this->_customerBuilder,
-            new Data\AddressBuilder(new Data\RegionBuilder(), $this->_customerMetadataService)
+        $this->_customerBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            ['metadataService' => $this->_customerMetadataService]
         );
 
-        $this->_converter = new Converter($customerBuilder, $this->_customerFactoryMock);
+        $addressBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressBuilder',
+            ['metadataService' => $this->_customerMetadataService]
+        );
+
+        $this->_customerDetailsBuilder = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder',
+            [
+                'customerBuilder' => $this->_customerBuilder,
+                'addressBuilder' => $addressBuilder
+            ]
+        );
+
+        $this->_converter = new Converter($this->_customerBuilder, $this->_customerFactoryMock);
 
         $this->_customerRegistry = $this->getMockBuilder('\Magento\Customer\Model\CustomerRegistry')
             ->setMethods(['retrieve', 'retrieveByEmail'])
@@ -1489,7 +1500,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(4, count(\Magento\Framework\Service\DataObjectConverter::toFlatArray($actualCustomer)));
+        $this->assertEquals(4, count(\Magento\Framework\Service\EavDataObjectConverter::toFlatArray($actualCustomer)));
     }
 
     public function testSearchCustomersEmpty()

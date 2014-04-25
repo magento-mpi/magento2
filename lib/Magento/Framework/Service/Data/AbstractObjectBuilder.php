@@ -78,8 +78,8 @@ abstract class AbstractObjectBuilder
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $possibleMethods = array(
-                'get' . $this->_snakeCaseToCamelCase($key),
-                'is' . $this->_snakeCaseToCamelCase($key)
+                'get' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($key),
+                'is' . \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($key)
             );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
@@ -161,22 +161,6 @@ abstract class AbstractObjectBuilder
     protected function _getDataObjectType()
     {
         return substr(get_class($this), 0, -7);
-    }
-
-    /**
-     * Converts an input string from snake_case to upper CamelCase.
-     *
-     * @param string $input
-     * @return string
-     */
-    protected function _snakeCaseToCamelCase($input)
-    {
-        $output = '';
-        $segments = explode('_', $input);
-        foreach ($segments as $segment) {
-            $output .= ucfirst($segment);
-        }
-        return $output;
     }
 
     /**
