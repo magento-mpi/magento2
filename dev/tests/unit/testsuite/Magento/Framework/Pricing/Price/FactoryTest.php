@@ -43,7 +43,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $salableItem = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface');
         $arguments = [];
 
-        $argumentsResult = array_merge($arguments, ['salableItem' => $salableItem, 'quantity' => $quantity]);
+        $argumentsResult = array_merge($arguments, ['saleableItem' => $salableItem, 'quantity' => $quantity]);
 
         $this->objectManagerMock->expects($this->once())
             ->method('create')
@@ -68,7 +68,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $salableItem = $this->getMock('Magento\Framework\Pricing\Object\SaleableInterface');
         $arguments = [];
 
-        $argumentsResult = array_merge($arguments, ['salableItem' => $salableItem, 'quantity' => $quantity]);
+        $argumentsResult = array_merge($arguments, ['saleableItem' => $salableItem, 'quantity' => $quantity]);
 
         $this->objectManagerMock->expects($this->once())
             ->method('create')
