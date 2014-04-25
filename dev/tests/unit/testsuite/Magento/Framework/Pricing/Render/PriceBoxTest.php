@@ -2,6 +2,9 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,7 +55,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
+        $eventManager = $this->getMock('Magento\Event\ManagerInterface');
         $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
@@ -87,15 +90,15 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $data
-     * @param string $priceType
+     * @param string $priceCode
      * @param array $cssClasses
      * @dataProvider toHtmlDataProvider
      */
-    public function testToHtml($data, $priceType, $cssClasses)
+    public function testToHtml($data, $priceCode, $cssClasses)
     {
         $this->price->expects($this->once())
             ->method('getPriceCode')
-            ->will($this->returnValue($priceType));
+            ->will($this->returnValue($priceCode));
 
         $priceBox = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', array(
             'context' => $this->context,
@@ -113,12 +116,12 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'data' => [],
-                'price_type' => 'test_price',
+                'price_code' => 'test_price',
                 'css_classes' => 'price-test_price'
             ),
             array(
                 'data' => ['css_classes' => 'some_css_class'],
-                'price_type' => 'test_price',
+                'price_code' => 'test_price',
                 'css_classes' => 'some_css_class price-test_price'
         ));
     }
@@ -136,21 +139,20 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testGetPriceType()
     {
         $priceCode = 'test_price';
-        $quantity = 1.;
 
         $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
 
         $priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
         $priceInfo->expects($this->once())
             ->method('getPrice')
-            ->with($priceCode, $quantity)
+            ->with($priceCode)
             ->will($this->returnValue($price));
 
         $this->saleable->expects($this->once())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfo));
 
-        $this->assertEquals($price, $this->model->getPriceType($priceCode, $quantity));
+        $this->assertEquals($price, $this->model->getPriceType($priceCode));
     }
 
     public function testRenderAmount()
@@ -173,5 +175,60 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($amountRender));
 
         $this->assertEquals($resultHtml, $this->model->renderAmount($amount, $arguments));
+    }
+
+    public function testGetPriceIdHasDataPriceId()
+    {
+        $priceId = 'data_price_id';
+        $this->model->setData('price_id', $priceId);
+        $this->assertEquals($priceId, $this->model->getPriceId());
+    }
+
+    /**
+     * @dataProvider getPriceIdProvider
+     * @param string $prefix
+     * @param string $suffix
+     * @param string $defaultPrefix
+     * @param string $defaultSuffix
+     */
+    public function testGetPriceId($prefix, $suffix, $defaultPrefix, $defaultSuffix)
+    {
+        $priceId = 'price_id';
+        $this->saleable->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($priceId));
+
+        if (!empty($prefix)) {
+            $this->model->setData('price_id_prefix', $prefix);
+            $expectedPriceId = $prefix . $priceId;
+        } else {
+            $expectedPriceId = $defaultPrefix . $priceId;
+        }
+        if (!empty($suffix)) {
+            $this->model->setData('price_id_suffix', $suffix);
+            $expectedPriceId = $expectedPriceId . $suffix;
+        } else {
+            $expectedPriceId = $expectedPriceId . $defaultSuffix;
+        }
+
+        $this->assertEquals($expectedPriceId, $this->model->getPriceId($defaultPrefix, $defaultSuffix));
+    }
+
+    public function getPriceIdProvider()
+    {
+        return [
+            ['prefix', 'suffix', 'default_prefix', 'default_suffix'],
+            ['prefix', 'suffix', 'default_prefix', ''],
+            ['prefix', 'suffix', '', 'default_suffix'],
+            ['prefix', '', 'default_prefix', 'default_suffix'],
+            ['', 'suffix', 'default_prefix', 'default_suffix'],
+            ['', '', 'default_prefix', 'default_suffix'],
+            ['prefix', 'suffix', '', '']
+        ];
+    }
+
+    public function testGetRendererPool()
+    {
+        $this->assertEquals($this->rendererPool, $this->model->getRendererPool());
     }
 }

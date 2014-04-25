@@ -2,6 +2,9 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -172,16 +175,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
         $arguments = ['param' => 15];
         $expectedResult = 'default.default';
 
-        $pricingRender = $this->getMock(
-            'Magento\Framework\Pricing\Render\Amount',
-            [],
-            [],
-            '',
-            false,
-            true,
-            true,
-            false
-        );
+        $pricingRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', [], [], '', false, true, true, false);
         $this->renderPool->expects($this->once())
             ->method('createAmountRender')
             ->with(
@@ -201,5 +195,19 @@ class RenderTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->model->renderAmount($this->amount, $this->price, $this->saleableItem, $arguments);
         $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Wrong Price Rendering layout configuration. Factory block is missed
+     */
+    public function testAmountRenderNoRenderPool()
+    {
+        $this->priceLayout->expects($this->once())
+            ->method('getBlock')
+            ->with('render.product.prices')
+            ->will($this->returnValue(false));
+
+        $this->model->renderAmount($this->amount, $this->price, $this->saleableItem);
     }
 }

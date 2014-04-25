@@ -2,6 +2,9 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +27,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             'adj5' => ['className' => 'adj5_class'],
         ];
 
-        /** @var $adjustmentFactory \Magento\Framework\Pricing\Adjustment\Factory  */
+        /** @var \Magento\Framework\Pricing\Adjustment\Factory|\PHPUnit_Framework_MockObject_MockObject $adjustmentFactory */
         $adjustmentFactory = $this->getMockBuilder('Magento\Framework\Pricing\Adjustment\Factory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
