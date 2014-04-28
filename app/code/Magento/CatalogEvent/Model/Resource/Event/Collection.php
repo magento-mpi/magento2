@@ -92,10 +92,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (is_array($condition) && isset($condition['eq'])) {
                 $condition = $condition['eq'];
             }
-            if (in_array((int)$condition, array(0, 1))) {
-                $this->getSelect()->where('display_state = ?', (int)$condition);
+            if ((int)$condition > 0) {
+                $this->getSelect()->where('display_state = 3 OR display_state = ?', (int)$condition);
             } else {
-                $this->getSelect()->where('display_state=?', 0);
+                $this->getSelect()->where('display_state IN (0,1,2,3)');
             }
             return $this;
         }
