@@ -457,7 +457,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _displayFileDeleteErrors()
     {
         foreach ($this->fileDeleteErrors as $errors) {
-            $unDeletedFile = explode(" ", $errors)[2];
+            $unDeletedFile = trim(explode(" ", $errors)[2]);
             echo "Please delete the file manually : $unDeletedFile \n";
         }
     }
