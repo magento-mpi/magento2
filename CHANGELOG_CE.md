@@ -19,9 +19,34 @@
   * Impossible to change status for rating in Admin (MAGETWO-22577)
   * User have no possibility to create new email template (MAGETWO-18659)
   * Billing Agreements tab is displayed during New Customer creation from backend (MAGETWO-20534)
+  * Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
 * GitHub requests:
-  * [GITHUB] PHPUnit 4.0 Compatibility #489 (MAGETWO-23333)
-  * [GITHUB] Image management for products #535 (MAGETWO-23169)
+  * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
+* Framework Improvements:
+  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
+      * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
+      * `lib/Magento/Framework/Data/Form/Element/Button.php`
+      * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
+      * `lib/Magento/Framework/Data/Form/Element/CollectionFactory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Column.php`
+      * `lib/Magento/Framework/Data/Form/Element/File.php`
+      * `lib/Magento/Framework/Data/Form/Element/Hidden.php`
+      * `lib/Magento/Framework/Data/Form/Element/Editablemultiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Factory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Image.php`
+      * `lib/Magento/Framework/Data/Form/Element/Imagefile.php`
+      * `lib/Magento/Framework/Data/Form/Element/Label.php`
+      * `lib/Magento/Framework/Data/Form/Element/Link.php`
+      * `lib/Magento/Framework/Data/Form/Element/Multiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Note.php`
+      * `lib/Magento/Framework/Data/Form/Element/Obscure.php`
+      * `lib/Magento/Framework/Data/Form/Element/Password.php`
+      * `lib/Magento/Framework/Data/Form/Element/Radio.php`
+      * `lib/Magento/Framework/Data/Form/Element/Reset.php`
+      * `lib/Magento/Framework/Data/Form/Element/Submit.php`
+      * `lib/Magento/Framework/Data/Form/Element/Text.php`
+      * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
   
 2.0.0.0-dev75
 =============
