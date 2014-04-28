@@ -9,7 +9,7 @@
 -->
 <page mca="customer/account/create" >
     <block>
-        <name>createForm</name>
+        <name>registerForm</name>
         <class>Magento\Customer\Test\Block\Form\Register</class>
         <locator>#form-validate</locator>
         <strategy>css selector</strategy>

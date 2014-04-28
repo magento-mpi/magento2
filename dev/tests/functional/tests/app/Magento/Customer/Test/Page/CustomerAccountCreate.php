@@ -20,8 +20,8 @@ class CustomerAccountCreate extends FrontendPage
     const MCA = 'customer/account/create';
 
     protected $_blocks = [
-        'createForm' => [
-            'name' => 'createForm',
+        'registerForm' => [
+            'name' => 'registerForm',
             'class' => 'Magento\Customer\Test\Block\Form\Register',
             'locator' => '#form-validate',
             'strategy' => 'css selector',
@@ -37,9 +37,9 @@ class CustomerAccountCreate extends FrontendPage
     /**
      * @return \Magento\Customer\Test\Block\Form\Register
      */
-    public function getCreateForm()
+    public function getRegisterForm()
     {
-        return $this->getBlockInstance('createForm');
+        return $this->getBlockInstance('registerForm');
     }
 
     /**

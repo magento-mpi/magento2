@@ -33,7 +33,7 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
      * @param SubscriberIndex $subscriberIndex
      * @return void
      */
-    public function processAssert (
+    public function processAssert(
         CustomerInjectable $customer,
         SubscriberIndex $subscriberIndex
     ) {

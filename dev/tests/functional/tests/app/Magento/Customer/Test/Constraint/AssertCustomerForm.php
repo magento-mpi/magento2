@@ -32,16 +32,16 @@ class AssertCustomerForm extends AbstractConstraint
      * Assert that displayed customer data on edit page(backend) equals passed from fixture
      *
      * @param CustomerInjectable $customer
-     * @param AddressInjectable $address
      * @param CustomerIndex $pageCustomerIndex
      * @param CustomerIndexEdit $pageCustomerIndexEdit
+     * @param AddressInjectable $address [optional]
      * @return void
      */
     public function processAssert(
         CustomerInjectable $customer,
-        AddressInjectable $address,
         CustomerIndex $pageCustomerIndex,
-        CustomerIndexEdit $pageCustomerIndexEdit
+        CustomerIndexEdit $pageCustomerIndexEdit,
+        AddressInjectable $address = null
     ) {
         $filter = ['email' => $customer->getEmail()];
 

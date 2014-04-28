@@ -66,10 +66,10 @@ class CreateCustomerFrontendEntityTest extends Injectable
      */
     public function testCreateCustomer(CustomerInjectable $customer)
     {
-       //Steps
+        //Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink('Register');
-        $this->customerAccountCreate->getCreateForm()->registerCustomer($customer);
+        $this->customerAccountCreate->getRegisterForm()->registerCustomer($customer);
     }
 
     /**
