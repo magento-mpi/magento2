@@ -32,7 +32,6 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -40,8 +39,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
@@ -49,8 +47,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             $context,
             $coreData,
             $itemFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

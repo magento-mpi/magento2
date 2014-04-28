@@ -28,7 +28,15 @@
                         <td>
                             <a class="product-image" href="<?php echo $this->getProductUrl($item) ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')->resize(113, 113); ?>" width="113" height="113" alt="<?php echo $this->escapeHtml($product->getName()) ?>" /></a>
                             <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
-                            <?php echo $this->getPriceHtml($product) ?>
+                            </strong>
+                            <?php
+                                echo $this->getProductPriceHtml(
+                                    $product,
+                                    \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+                                    \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
+                                    ['item' => $item]
+                                );
+                            ?>
                             <?php echo $this->getDetailsHtml($item) ?>
 
                             <?php if ($product->isSaleable()): ?>

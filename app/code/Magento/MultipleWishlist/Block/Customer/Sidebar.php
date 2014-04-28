@@ -30,23 +30,20 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_multipleWishlistHelper = $multipleWishlistHelper;
         parent::__construct(
             $context,
             $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
