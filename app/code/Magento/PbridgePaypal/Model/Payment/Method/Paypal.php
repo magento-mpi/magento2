@@ -7,10 +7,13 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
+use Magento\Payment\Model\MethodInterface;
+use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+
 /**
  * Paypal dummy payment method model
  */
-class Paypal implements \Magento\Payment\Model\MethodInterface
+class Paypal implements MethodInterface, PaymentMethodChecksInterface
 {
     /**
      * @var \Magento\Pbridge\Helper\Data
@@ -201,5 +204,48 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     public function getTitle()
     {
         return $this->_paypalMethodInstance->getTitle();
+    }
+
+    /**
+     * Using internal pages for input payment data
+     * Can be used in admin
+     *
+     * @return bool
+     */
+    public function canUseInternal()
+    {
+        return $this->_paypalMethodInstance->canUseInternal();
+    }
+
+    /**
+     * Can be used in regular checkout
+     *
+     * @return bool
+     */
+    public function canUseCheckout()
+    {
+        return $this->_paypalMethodInstance->canUseCheckout();
+    }
+
+    /**
+     * To check billing country is allowed for the payment method
+     *
+     * @param string $country
+     * @return bool
+     */
+    public function canUseForCountry($country)
+    {
+        return $this->_paypalMethodInstance->canUseForCountry($country);
+    }
+
+    /**
+     * Check method for processing with base currency
+     *
+     * @param string $currencyCode
+     * @return bool
+     */
+    public function canUseForCurrency($currencyCode)
+    {
+        return $this->_paypalMethodInstance->canUseForCurrency($currencyCode);
     }
 }

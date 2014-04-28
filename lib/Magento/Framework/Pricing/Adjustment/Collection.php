@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Framework\Pricing\Adjustment;
-
-use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
 
 /**
  * Adjustment collection model

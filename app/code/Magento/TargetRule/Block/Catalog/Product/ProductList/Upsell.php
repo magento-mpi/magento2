@@ -33,7 +33,6 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Checkout\Model\Cart $cart
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -43,8 +42,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Checkout\Model\Cart $cart,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_cart = $cart;
         parent::__construct(
@@ -54,8 +52,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
             $productCollectionFactory,
             $visibility,
             $indexFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
