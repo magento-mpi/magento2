@@ -42,15 +42,10 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
-        $paymentFactory->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            'paypal class name'
-        )->will(
-            $this->returnValue($this->_methodInstance)
-        );
+        $paymentFactory->expects($this->once())
+            ->method('create')
+            ->with('paypal class name')
+            ->will($this->returnValue($this->_methodInstance));
         $this->_model = $helper->getObject(
             'Magento\PbridgePaypal\Model\Payment\Method\Paypal',
             array(
@@ -65,26 +60,14 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testMagicCall()
     {
-        $this->_methodInstance->expects(
-            $this->at(0)
-        )->method(
-            '__call'
-        )->with(
-            'anyMethod',
-            array('args')
-        )->will(
-            $this->returnSelf()
-        );
-        $this->_methodInstance->expects(
-            $this->at(1)
-        )->method(
-            '__call'
-        )->with(
-            'anyOtherMethod',
-            array('other args')
-        )->will(
-            $this->returnValue('some value')
-        );
+        $this->_methodInstance->expects($this->at(0))
+            ->method('__call')
+            ->with('anyMethod', array('args'))
+            ->will($this->returnSelf());
+        $this->_methodInstance->expects($this->at(1))
+            ->method('__call')
+            ->with('anyOtherMethod', array('other args'))
+            ->will($this->returnValue('some value'));
         $this->assertSame($this->_model, $this->_model->anyMethod('args'));
         $this->assertSame('some value', $this->_model->anyOtherMethod('other args'));
     }
@@ -134,13 +117,9 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFormBlockType()
     {
-        $this->_methodInstance->expects(
-            $this->once()
-        )->method(
-            'getFormBlockType'
-        )->will(
-            $this->returnValue('some value')
-        );
+        $this->_methodInstance->expects($this->once())
+            ->method('getFormBlockType')
+            ->will($this->returnValue('some value'));
         $this->assertEquals('some value', $this->_model->getFormBlockType());
     }
 
@@ -164,22 +143,13 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $pbridgeMethodInstance->expects(
-            $this->once()
-        )->method(
-            'setOriginalMethodInstance'
-        )->with(
-            $this->identicalTo($this->_model)
-        );
-        $this->_paymentData->expects(
-            $this->once()
-        )->method(
-            'getMethodInstance'
-        )->with(
-            'pbridge'
-        )->will(
-            $this->returnValue($pbridgeMethodInstance)
-        );
+        $pbridgeMethodInstance->expects($this->once())
+            ->method('setOriginalMethodInstance')
+            ->with($this->identicalTo($this->_model));
+        $this->_paymentData->expects($this->once())
+            ->method('getMethodInstance')
+            ->with('pbridge')
+            ->will($this->returnValue($pbridgeMethodInstance));
         return $pbridgeMethodInstance;
     }
 
@@ -211,34 +181,66 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $newStoreId = $storeId;
         if (!isset($storeId)) {
             $newStoreId = 'some store id';
-            $this->_methodInstance->expects(
-                $this->once()
-            )->method(
-                '__call'
-            )->with(
-                'getStore'
-            )->will(
-                $this->returnValue($newStoreId)
-            );
+            $this->_methodInstance->expects($this->once())
+                ->method('__call')
+                ->with('getStore')
+                ->will($this->returnValue($newStoreId));
         }
         $this->_methodInstance->expects($this->once())->method('getCode')->will($this->returnValue('some_code'));
         $path = 'payment/some_code/some_field';
-        $this->_scopeConfig->expects(
-            $this->once()
-        )->method(
-            'getValue'
-        )->with(
-            $path,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $newStoreId
-        )->will(
-            $this->returnValue('config value')
-        );
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $newStoreId)
+            ->will($this->returnValue('config value'));
         $this->assertEquals('config value', $this->_model->getConfigData('some_field', $storeId));
     }
 
     public function getConfigDataDataProvider()
     {
         return array(array(null), array('any store id'));
+    }
+
+    public function testCanUseInternal()
+    {
+        $canUseInternal = true;
+        $this->_methodInstance->expects($this->once())
+            ->method('canUseInternal')
+            ->will($this->returnValue($canUseInternal));
+
+        $this->assertSame($canUseInternal, $this->_model->canUseInternal());
+    }
+
+    public function testCanUseCheckout()
+    {
+        $canUseCheckout = true;
+        $this->_methodInstance->expects($this->once())
+            ->method('canUseCheckout')
+            ->will($this->returnValue($canUseCheckout));
+
+        $this->assertSame($canUseCheckout, $this->_model->canUseCheckout());
+    }
+
+    public function testCanUseForCountry()
+    {
+        $country = 'some_country_code';
+        $canUseForCountry = true;
+        $this->_methodInstance->expects($this->once())
+            ->method('canUseForCountry')
+            ->with($country)
+            ->will($this->returnValue($canUseForCountry));
+
+        $this->assertSame($canUseForCountry, $this->_model->canUseForCountry($country));
+    }
+
+    public function testCanUseForCurrency()
+    {
+        $currencyCode = 'some_country_code';
+        $canUseForCurrency = true;
+        $this->_methodInstance->expects($this->once())
+            ->method('canUseForCurrency')
+            ->with($currencyCode)
+            ->will($this->returnValue($canUseForCurrency));
+
+        $this->assertSame($canUseForCurrency, $this->_model->canUseForCurrency($currencyCode));
     }
 }

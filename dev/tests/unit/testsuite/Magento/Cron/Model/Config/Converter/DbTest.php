@@ -44,11 +44,13 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $notFullJob = array('schedule' => '');
         $source = array(
             'crontab' => array(
-                'jobs' => array(
-                    'job_name_1' => $fullJob,
-                    'job_name_2' => $nullJob,
-                    'job_name_3' => $notFullJob,
-                    'job_name_4' => array()
+                'default' => array(
+                    'jobs' => array(
+                        'job_name_1' => $fullJob,
+                        'job_name_2' => $nullJob,
+                        'job_name_3' => $notFullJob,
+                        'job_name_4' => array()
+                    )
                 )
             )
         );
@@ -84,11 +86,13 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
         $source = array(
             'crontab' => array(
-                'jobs' => array(
-                    'job_name_1' => $runFullJob,
-                    'job_name_2' => $runNoMethodJob,
-                    'job_name_3' => $runEmptyMethodJob,
-                    'job_name_4' => $runNoModelJob
+                'default' => array(
+                    'jobs' => array(
+                        'job_name_1' => $runFullJob,
+                        'job_name_2' => $runNoMethodJob,
+                        'job_name_3' => $runEmptyMethodJob,
+                        'job_name_4' => $runNoModelJob
+                    )
                 )
             )
         );

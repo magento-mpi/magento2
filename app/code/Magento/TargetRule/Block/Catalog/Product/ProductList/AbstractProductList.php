@@ -65,7 +65,6 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -74,8 +73,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
@@ -84,8 +82,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
             $context,
             $index,
             $targetRuleData,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

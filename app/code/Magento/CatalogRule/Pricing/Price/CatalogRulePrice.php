@@ -10,9 +10,9 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\RegularPrice;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Framework\Pricing\Adjustment\Calculator;
-use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;
@@ -21,17 +21,12 @@ use Magento\CatalogRule\Model\Resource\RuleFactory;
 /**
  * Class CatalogRulePrice
  */
-class CatalogRulePrice extends RegularPrice
+class CatalogRulePrice extends AbstractPrice
 {
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE = 'catalog_rule_price';
-
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE;
+    const PRICE_CODE = 'catalog_rule_price';
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
@@ -54,7 +49,7 @@ class CatalogRulePrice extends RegularPrice
     protected $resourceRuleFactory;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $saleableItem
      * @param float $quantity
      * @param Calculator $calculator
      * @param TimezoneInterface $dateTime
@@ -63,7 +58,7 @@ class CatalogRulePrice extends RegularPrice
      * @param RuleFactory $catalogRuleResourceFactory
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $saleableItem,
         $quantity,
         Calculator $calculator,
         TimezoneInterface $dateTime,
@@ -71,7 +66,7 @@ class CatalogRulePrice extends RegularPrice
         Session $customerSession,
         RuleFactory $catalogRuleResourceFactory
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator);
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
@@ -91,7 +86,7 @@ class CatalogRulePrice extends RegularPrice
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
                     $this->storeManager->getStore()->getWebsiteId(),
                     $this->customerSession->getCustomerGroupId(),
-                    $this->salableItem->getId()
+                    $this->product->getId()
                 );
             $this->value = $this->value ? floatval($this->value) : false;
         }

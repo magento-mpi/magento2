@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,13 +48,6 @@ interface AmountRenderInterface
      * @return PriceInterface
      */
     public function getPrice();
-
-    /**
-     * @param string $code
-     * @param string $html
-     * @return void
-     */
-    public function addAdjustmentHtml($code, $html);
 
     /**
      * @return string
