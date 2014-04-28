@@ -10,14 +10,14 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Fixture\InjectableFixture;
+use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductOutOfStock
+ * Class AssertDownloadableLinks
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductOutOfStock extends AbstractConstraint
+class AssertDownloadableLinks extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -29,33 +29,31 @@ class AssertProductOutOfStock extends AbstractConstraint
     /**
      * Text value for checking Stock Availability
      */
-    const STOCK_AVAILABILITY = 'Out of stock';
+    const STOCK_AVAILABILITY = 'In stock';
 
     /**
-     * Assert  that Out of Stock status is displayed on product page
+     * Assert Link block for downloadable product on front-end
      *
      * @param CatalogProductView $catalogProductView
-     * @param InjectableFixture $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, InjectableFixture $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::STOCK_AVAILABILITY,
-            $catalogProductView->getViewBlock()->stockAvailability(),
-            'Control \'' . self::STOCK_AVAILABILITY . '\' is not visible.'
+        \PHPUnit_Framework_Assert::assertTrue(
+            true,
+            $catalogProductView->getViewBlock()->downloadLinksData($product),
+            'Link block for downloadable product on front-end is not visible.'
         );
     }
 
     /**
-     * Text of Out of Stock assert
-     *
      * @return string
      */
     public function toString()
     {
-        return 'Out of stock control is visible.';
+        return 'Link block for downloadable product on front-end is visible.';
     }
 }

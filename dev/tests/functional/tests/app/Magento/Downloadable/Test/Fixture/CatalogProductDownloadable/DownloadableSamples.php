@@ -6,21 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
+namespace Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class TierPriceOptions
+ * Class DownloadableSamples
  *
  * Data keys:
- *  - preset (Price options preset name)
+ *  - link (link options preset name)
  *  - products (comma separated sku identifiers)
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class TierPriceOptions implements FixtureInterface
+class DownloadableSamples implements FixtureInterface
 {
     /**
      * @var \Mtf\Fixture\FixtureFactory
@@ -78,20 +78,23 @@ class TierPriceOptions implements FixtureInterface
     protected function getPreset($name)
     {
         $presets = [
-            'MAGETWO-23002' => [
-                '0' => [
-                    'price' => 90,
-                    'website' => 'All Websites [USD]',
-                    'quantity' => '1',
-                    'customer_group' => 'ALL GROUPS'
-                ]
-            ],
             'default' => [
-                '0' => [
-                    'price' => 90,
-                    'website' => 'All Websites [USD]',
-                    'quantity' => '1',
-                    'customer_group' => 'ALL GROUPS'
+                'title' => 'Samples%isolation%',
+                'downloadable' => [
+                    'sample' => [
+                        [
+                            'title' => 'row1%isolation%',
+                            'type' => 'url',
+                            'sample_url' => 'http://example.com',
+                            'sort_order' => 0
+                        ],
+                        [
+                            'title' => 'row2%isolation%',
+                            'type' => 'url',
+                            'sample_url' => 'http://example2.com',
+                            'sort_order' => 1
+                        ]
+                    ]
                 ]
             ]
         ];

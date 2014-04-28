@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <title>
+            <selector>[name$='[title]']</selector>
+            <strategy>css selector</strategy>
+            <input>text</input>
+        </title>
+        <type_file>
+            <selector>[value='file'][name$='[type]']</selector>
+            <strategy>css selector</strategy>
+            <input>checkbox</input>
+        </type_file>
+        <type_url>
+            <selector>[value='url'][name$='[type]']</selector>
+            <strategy>css selector</strategy>
+            <input>checkbox</input>
+        </type_url>
+        <sample_url>
+            <selector>[name$='[sample_url]']</selector>
+            <strategy>css selector</strategy>
+            <input>text</input>
+        </sample_url>
+        <sort_order>
+            <selector>[name$='[sort_order]']</selector>
+            <strategy>css selector</strategy>
+            <input>text</input>
+        </sort_order>
+    </fields>
+</mapping>

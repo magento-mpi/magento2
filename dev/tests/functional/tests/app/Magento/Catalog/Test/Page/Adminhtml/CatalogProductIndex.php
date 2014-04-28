@@ -22,7 +22,7 @@ class CatalogProductIndex extends BackendPage
     protected $_blocks = [
         'productGrid' => [
             'name' => 'productGrid',
-            'class' => 'Magento\Catalog\Test\Block\Backend\ProductGrid',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\ProductGrid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
@@ -50,10 +50,16 @@ class CatalogProductIndex extends BackendPage
             'locator' => '[id="add_new_product"]',
             'strategy' => 'css selector',
         ],
+        'GridPageActions' => [
+            'name' => 'GridPageActions',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\GridPageActions',
+            'locator' => '#add_new_product',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\ProductGrid
+     * @return \Magento\Catalog\Test\Block\Adminhtml\ProductGrid
      */
     public function getProductGrid()
     {
@@ -90,5 +96,13 @@ class CatalogProductIndex extends BackendPage
     public function getAddNewSpliteButtonBlock()
     {
         return $this->getBlockInstance('addNewSplitButtonBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\GridPageActions
+     */
+    public function getGridPageActions()
+    {
+        return $this->getBlockInstance('GridPageActions');
     }
 }

@@ -8,46 +8,54 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Factory\Factory;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
 
 /**
- * Class AssertProductInGrid
+ * Class AssertProductForm
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductInGrid extends AbstractConstraint
+class AssertProductForm extends AbstractConstraint
 {
     /**
      * Constraint severeness
      *
      * @var string
      */
-    protected $severeness = 'high';
+    protected $severeness = 'low';
 
     /**
      * Assert product availability in Products Grid
      *
      * @param InjectableFixture $product
      * @param CatalogProductIndex $productPageGrid
+     * @param CatalogProductEdit $productBlockForm
      * @return void
      */
-    public function processAssert(InjectableFixture $product, CatalogProductIndex $productPageGrid)
-    {
+    public function processAssert(
+        InjectableFixture $product,
+        CatalogProductIndex $productPageGrid,
+        CatalogProductEdit $productBlockForm
+    ) {
+        return;
         $filter = ['sku' => $product->getData('sku')];
         $productPageGrid->open();
+        $productPageGrid->getProductGrid()->searchAndOpen($filter);
         \PHPUnit_Framework_Assert::assertTrue(
-            $productPageGrid->getProductGrid()->isRowVisible($filter),
-            'Product with sku \'' . $product->getData('sku') . '\' is absent in Products grid.'
+            $productBlockForm->getProductBlockForm()->verify($product),
+            'Displayed product data on edit page not equals passed from fixture.'
         );
     }
 
     /**
-     * @inheritdoc
+     * @return string
      */
     public function toString()
     {
-        return 'Product is present in Products grid.';
+        return 'Displayed product data on edit page equals passed from fixture.';
     }
 }

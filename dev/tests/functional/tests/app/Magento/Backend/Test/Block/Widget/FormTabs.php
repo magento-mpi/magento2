@@ -166,12 +166,37 @@ class FormTabs extends Form
     public function verify(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
+        foreach ($tabs as $tabName => $tabFields) {
+            $tabElement = $this->getTabElement($tabName);
+            $this->openTab($tabName);
+            $tabElement->verifyFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+            $this->updateUnassignedFields($tabElement);
+        }
+        if (!empty($this->unassignedFields)) {
+            $this->fillMissedFields($tabs);
+        }
+       /* $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
+            $k=10;
             if (!$this->openTab($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
                 throw new \Exception('Invalid form data.');
             }
         }
-        return $this;
+        return $this;*/
+    }
+
+    /**
+     * Verify data to fields on tab
+     *
+     * @param array $fields
+     * @param Element $element
+     *
+     * @return bool
+     */
+    public function verifyFormTab(array $fields, Element $element)
+    {
+        $data = $this->dataMapping($fields);
+        return $this->_verify($data, $element);
     }
 
     /**

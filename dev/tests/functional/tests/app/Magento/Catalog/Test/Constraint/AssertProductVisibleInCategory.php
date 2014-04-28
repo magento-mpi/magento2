@@ -12,7 +12,7 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Fixture\Category;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertProductVisibleInCategory
@@ -33,20 +33,20 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param CatalogProductSimple $product
+     * @param InjectableFixture $product
      * @param Category $category
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        CatalogProductSimple $product,
+        InjectableFixture $product,
         Category $category
     ) {
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName()),
+            $catalogCategoryView->getListProductBlock()->isProductVisible($product->getData('name')),
             'Product is absent on category page.'
         );
     }

@@ -81,11 +81,11 @@ class CatalogProductNew extends Page
     /**
      * Get product form block
      *
-     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
      */
     public function getProductBlockForm()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductForm(
             $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
         );
     }

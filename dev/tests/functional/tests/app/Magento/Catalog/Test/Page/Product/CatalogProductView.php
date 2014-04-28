@@ -126,7 +126,7 @@ class CatalogProductView extends Page
      */
     public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getUrlKey() . '.html';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getData('url_key') . '.html';
     }
 
     /**

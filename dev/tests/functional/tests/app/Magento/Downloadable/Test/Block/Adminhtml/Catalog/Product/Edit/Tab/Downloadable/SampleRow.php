@@ -9,25 +9,19 @@ namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Dow
 
 use Mtf\Block\Form;
 
-class LinkRow extends Form
+class SampleRow extends Form
 {
     /**
      * @param array $fields
      */
     private function mappingUpdate(array $fields)
     {
-        if ($fields['sample']['sample_type'] == 'url') {
-            $fields['sample']['sample_type_url'] = 'Yes';
+        if ($fields['type'] == 'url') {
+            $fields['type_url'] = 'Yes';
         } else {
-            $fields['sample']['sample_type_file'] = 'Yes';
+            $fields['type_file'] = 'Yes';
         }
-        unset($fields['sample']['sample_type']);
-        if ($fields['file_type'] == 'url') {
-            $fields['file_type_url'] = 'Yes';
-        } else {
-            $fields['file_type_file'] = 'Yes';
-        }
-        unset($fields['file_type']);
+        unset($fields['type']);
         $mapping = $this->dataMapping($fields);
         return $mapping;
     }
@@ -35,7 +29,7 @@ class LinkRow extends Form
     /**
      * @param array $fields
      */
-    public function fillLinks(array $fields)
+    public function fillSamples(array $fields)
     {
         $mapping = $this->mappingUpdate($fields);
         $this->_fill($mapping);
@@ -44,10 +38,9 @@ class LinkRow extends Form
     /**
      * @param array $fields
      */
-    public function verifyLinks(array $fields)
+    public function verifySamples(array $fields)
     {
         $mapping = $this->mappingUpdate($fields);
         $this->_verify($mapping);
     }
-
 }

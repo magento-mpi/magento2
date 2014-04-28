@@ -13,11 +13,11 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductInStock
+ * Class AssertDownloadableSamplesData
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductInStock extends AbstractConstraint
+class AssertDownloadableSamplesData extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,12 +27,7 @@ class AssertProductInStock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Text value for checking Stock Availability
-     */
-    const STOCK_AVAILABILITY = 'In stock';
-
-    /**
-     * Assert that In Stock status is displayed on product page
+     * Assert Sample block for downloadable product on front-end
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -42,20 +37,18 @@ class AssertProductInStock extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::STOCK_AVAILABILITY,
-            $catalogProductView->getViewBlock()->stockAvailability(),
-            'Control \'' . self::STOCK_AVAILABILITY . '\' is not visible.'
+        \PHPUnit_Framework_Assert::assertTrue(
+            true,
+            $catalogProductView->getViewBlock()->downloadSamplesData($product),
+            'Sample block for downloadable product on front-end is not visible.'
         );
     }
 
     /**
-     * Text of In Stock assertion
-     *
      * @return string
      */
     public function toString()
     {
-        return 'In stock control is visible.';
+        return 'Sample block for downloadable product on front-end is visible.';
     }
 }

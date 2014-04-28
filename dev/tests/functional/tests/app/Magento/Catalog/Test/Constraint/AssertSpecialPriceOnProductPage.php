@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\Catalog\Test\Constraint; 
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductInStock
+ * Class AssertSpecialPriceOnProductPage
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductInStock extends AbstractConstraint
+class AssertSpecialPriceOnProductPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,12 +27,7 @@ class AssertProductInStock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Text value for checking Stock Availability
-     */
-    const STOCK_AVAILABILITY = 'In stock';
-
-    /**
-     * Assert that In Stock status is displayed on product page
+     * Assert that displayed special price on product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -42,20 +37,19 @@ class AssertProductInStock extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
+        $fields = $product->getData();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::STOCK_AVAILABILITY,
-            $catalogProductView->getViewBlock()->stockAvailability(),
-            'Control \'' . self::STOCK_AVAILABILITY . '\' is not visible.'
+            $fields['special_price'],
+            $catalogProductView->getViewBlock()->getProductPrice()['price_special price'],
+            'Assert that displayed special price on product page NOT equals passed from fixture.'
         );
     }
 
     /**
-     * Text of In Stock assertion
-     *
      * @return string
      */
     public function toString()
     {
-        return 'In stock control is visible.';
+        return "Assert that displayed special price on product page equals passed from fixture";
     }
 }

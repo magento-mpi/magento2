@@ -13,11 +13,11 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class AssertProductInStock
+ * Class AssertGroupedPriceOnProductPage
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductInStock extends AbstractConstraint
+class AssertGroupedPriceOnProductPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,12 +27,7 @@ class AssertProductInStock extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Text value for checking Stock Availability
-     */
-    const STOCK_AVAILABILITY = 'In stock';
-
-    /**
-     * Assert that In Stock status is displayed on product page
+     * Assert that displayed grouped price on product page equals passed from fixture
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -42,20 +37,22 @@ class AssertProductInStock extends AbstractConstraint
     {
         $catalogProductView->init($product);
         $catalogProductView->open();
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::STOCK_AVAILABILITY,
-            $catalogProductView->getViewBlock()->stockAvailability(),
-            'Control \'' . self::STOCK_AVAILABILITY . '\' is not visible.'
-        );
+        $fields = $product->getData();
+        if(isset($fields['group_price'])){
+            foreach($fields['group_price'] as $itemGroupPrice)
+            \PHPUnit_Framework_Assert::assertEquals(
+                $itemGroupPrice['price'],
+                $catalogProductView->getViewBlock()->getProductPrice()['price_special price'],
+                'Assert that displayed grouped price on product page NOT equals passed from fixture.'
+            );
+        }
     }
 
     /**
-     * Text of In Stock assertion
-     *
      * @return string
      */
     public function toString()
     {
-        return 'In stock control is visible.';
+        return 'Assert that displayed grouped price on product page equals passed from fixture.';
     }
 }
