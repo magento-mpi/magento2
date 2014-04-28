@@ -136,6 +136,72 @@ class CustomOptions implements FixtureInterface
                         ]
                     ]
                 ]
+            ],
+            'options-suite' => [
+                [
+                    'title' => 'Test1 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Field',
+                    'options' => [
+                        [
+                            'price' => 120.03,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku1_%isolation%',
+                            'max_characters' => 45
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test1 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Field',
+                    'options' => [
+                        [
+                            'price' => 120.03,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku1_%isolation%',
+                            'max_characters' => 45
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test2 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => 'Test1 %isolation%',
+                            'price' => 10.01,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku2_%isolation%'
+                        ],
+                        [
+                            'title' => 'Test2 %isolation%',
+                            'price' => 20.02,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku3_%isolation%'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test2 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => 'Test1 %isolation%',
+                            'price' => 10.01,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku2_%isolation%'
+                        ],
+                        [
+                            'title' => 'Test2 %isolation%',
+                            'price' => 20.02,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku3_%isolation%'
+                        ]
+                    ]
+                ]
             ]
         ];
         if (!isset($presets[$name])) {

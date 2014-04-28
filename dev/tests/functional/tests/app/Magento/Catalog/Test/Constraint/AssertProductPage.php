@@ -13,11 +13,11 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
- * Class AssertProductView
+ * Class AssertProductPage
  *
  * @package Magento\Catalog\Test\Constraint
  */
-class AssertProductView extends AbstractConstraint
+class AssertProductPage extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -27,6 +27,8 @@ class AssertProductView extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Process assert
+     *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductSimple $product
      * @return void
@@ -35,6 +37,7 @@ class AssertProductView extends AbstractConstraint
         CatalogProductView $catalogProductView,
         CatalogProductSimple $product
     ) {
+        // TODO fix initialization url for frontend page
         //Open product view page
         $catalogProductView->init($product);
         $catalogProductView->open();
@@ -44,7 +47,7 @@ class AssertProductView extends AbstractConstraint
     }
 
     /**
-     * Assert data on the product view page
+     * Assert prices on the product view page
      *
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
@@ -56,6 +59,8 @@ class AssertProductView extends AbstractConstraint
         $price = $viewBlock->getProductPriceBlock()->getPrice();
         $name = $viewBlock->getProductName();
         $sku = $viewBlock->getProductSku();
+        $shortDescription = $viewBlock->getProductShortDescription();
+        $description = $viewBlock->getProductDescription();
 
         \PHPUnit_Framework_Assert::assertEquals(
             $product->getName(),
@@ -67,41 +72,28 @@ class AssertProductView extends AbstractConstraint
             $sku,
             'Product sku on product view page is not correct.'
         );
-
-        if (isset($price['price_regular_price'])) {
-            \PHPUnit_Framework_Assert::assertEquals(
-                number_format($product->getPrice(), 2),
-                $price['price_regular_price'],
-                'Product regular price on product view page is not correct.'
-            );
-        }
-
-        $priceComparing = false;
-        if ($specialPrice = $product->getSpecialPrice()) {
-            $priceComparing = $specialPrice;
-        }
-
-        if ($groupPrice = $product->getGroupPrice()) {
-            $groupPrice = reset($groupPrice);
-            $priceComparing = $groupPrice['price'];
-        }
-
-        if ($priceComparing && isset($price['price_special_price'])) {
-            \PHPUnit_Framework_Assert::assertEquals(
-                number_format($priceComparing, 2),
-                $price['price_special_price'],
-                'Product special price on product view page is not correct.'
-            );
-        }
+        \PHPUnit_Framework_Assert::assertEquals(
+            number_format($product->getPrice(), 2),
+            $price['price_regular_price'],
+            'Product regular price on product view page is not correct.'
+        );
+        \PHPUnit_Framework_Assert::assertEquals(
+            $product->getShortDescription(),
+            $shortDescription,
+            'Product short description on product view page is not correct.'
+        );
+        \PHPUnit_Framework_Assert::assertEquals(
+            $product->getDescription(),
+            $description,
+            'Product description on product view page is not correct.'
+        );
     }
 
     /**
-     * Text of Visible in category assert
-     *
      * @return string
      */
     public function toString()
     {
-        return 'Product data on product view page is not correct.';
+        return 'Product on product view page is not correct.';
     }
 }

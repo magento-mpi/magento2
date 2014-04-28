@@ -40,6 +40,7 @@ class AssertProductInStock extends AbstractConstraint
      */
     public function processAssert(CatalogProductView $catalogProductView, CatalogProductSimple $product)
     {
+        // TODO fix initialization url for frontend page
         $catalogProductView->init($product);
         $catalogProductView->open();
         \PHPUnit_Framework_Assert::assertEquals(

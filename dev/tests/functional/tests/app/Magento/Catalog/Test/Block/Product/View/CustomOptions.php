@@ -23,8 +23,72 @@ use Mtf\Factory\Factory;
  */
 class CustomOptions extends Block
 {
+    /**
+     * Field set selector
+     *
+     * @var string
+     */
     protected $fieldsetSelector = '.fieldset';
+
+    /**
+     * Row selector
+     *
+     * @var string
+     */
     protected $rowSelector = '.field';
+
+    /**
+     * Get product options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        $options = [];
+        $index = 1;
+
+        while (($fieldElement = $this->_rootElement->find(
+                '//*[@id="product-options-wrapper"]//div[contains(@class,"field")][' . $index . ']',
+                Locator::SELECTOR_XPATH))
+            && $fieldElement->isVisible()
+        ) {
+            $option = ['price' => []];
+            $option['is_require'] = $this->_rootElement->find(
+                '//*[@id="product-options-wrapper"]//div[contains(@class,"field") and contains(@class,"required")][[' .
+                $index . ']]',
+                Locator::SELECTOR_XPATH
+            )->isVisible();
+            $option['title'] = $fieldElement->find('.label span:not(.price-notice)')->getText();
+
+            if (($price = $fieldElement->find('.label .price-notice'))
+                && $price->isVisible()
+            ) {
+                $matches = [];
+                if (preg_match('#\$(\d+\.\d+)$#', $price->getText(), $matches)) {
+                    $option['price'][] = $matches[1];
+                }
+            } elseif (($prices = $fieldElement->find(
+                    '//div[contains(@class,"control")]//select',
+                    Locator::SELECTOR_XPATH))
+                && $prices->isVisible()
+            ) {
+                $priceIndex = 0;
+                while (($price = $prices->find('//option[' . ++$priceIndex . ']', Locator::SELECTOR_XPATH))
+                    && $price->isVisible()
+                ) {
+                    $matches = [];
+                    if (preg_match('#\$(\d+\.\d+)$#', $price->getText(), $matches)) {
+                        $option['price'][] = $matches[1];
+                    }
+                }
+            }
+
+            $options[] = $option;
+            $index += 1;
+        }
+
+        return $options;
+    }
 
     /**
      * Get options
@@ -63,5 +127,4 @@ class CustomOptions extends Block
         }
         return $options;
     }
-
 }

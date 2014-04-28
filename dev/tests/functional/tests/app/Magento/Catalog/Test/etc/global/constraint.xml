@@ -76,4 +76,34 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertProductInCart>
+    <assertProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertProductPage>
+    <assertGroupedPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertGroupedPriceOnProductPage>
+    <assertSpecialPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertSpecialPriceOnProductPage>
+    <assertTierPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertTierPriceOnProductPage>
+    <assertCustomOptionsOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertCustomOptionsOnProductPage>
+    <assertProductForm module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertProductForm>
 </constraint>

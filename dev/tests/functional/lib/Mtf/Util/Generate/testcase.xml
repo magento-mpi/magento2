@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <!--
 /**
  * {license_notice}
@@ -30,7 +30,22 @@
     <ticketId>MTA-3</ticketId>
     <steps/>
   </testcase>
-  <testcase>
-    <id>MTA-46</id>
+  <testcase module="Magento\Catalog">
+    <id>MTA-179</id>
+    <ticketId>MTA-179</ticketId>
+    <name>CreateSimpleProductEntityTest</name>
+    <description>Test Creation for CreateSimpleProductEntity</description>
+    <module>Catalog</module>
+    <components>
+      <component>Products (CS)</component>
+    </components>
+    <steps>
+      <step>Login to the backend.</step>
+      <step>Navigate to Products &gt; Catalog.</step>
+      <step>Start to create simple product.</step>
+      <step>Fill in data according to attached data set.</step>
+      <step>Save Product.</step>
+      <step>Perform appropriate assertions.</step>
+    </steps>
   </testcase>
 </testcases>

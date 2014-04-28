@@ -76,6 +76,18 @@ class Cart extends Block
     }
 
     /**
+     * Get sub-total for the specified item in the cart by product name
+     *
+     * @param string $productName
+     * @return string
+     */
+    public function getCartItemSubTotalByProductName($productName)
+    {
+        $selector = '//tr[normalize-space(td)="' . $productName . '"]' . $this->itemSubTotalSelector;
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
      * Get unit price for the specified item in the cart
      *
      * @param Product $product
@@ -106,6 +118,40 @@ class Cart extends Block
     {
         $selector = '//tr[string(td/div/strong/a)="' . $this->getProductName($product)
             . '"]//dl[@class="cart item options"]';
+
+        $optionsBlock = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
+        if (!$optionsBlock->isVisible()) {
+            return '';
+        }
+        return $optionsBlock->getText();
+    }
+
+    /**
+     * Get product options value in the cart by product name
+     *
+     * @param string $productName
+     * @return string
+     */
+    public function getCartItemOptionsNameByProductName($productName)
+    {
+        $selector = '//tr[string(td/div/strong/a)="' . $productName . '"]//dl[@class="cart item options"]//dt';
+
+        $optionsBlock = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
+        if (!$optionsBlock->isVisible()) {
+            return '';
+        }
+        return $optionsBlock->getText();
+    }
+
+    /**
+     * Get product options value in the cart by product name
+     *
+     * @param string $productName
+     * @return string
+     */
+    public function getCartItemOptionsValueByProductName($productName)
+    {
+        $selector = '//tr[string(td/div/strong/a)="' . $productName . '"]//dl[@class="cart item options"]//dd';
 
         $optionsBlock = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
         if (!$optionsBlock->isVisible()) {

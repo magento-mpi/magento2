@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <title>
+            <selector>#product_option_%row-1%_select_%row-2%_title</selector>
+        </title>
+        <price>
+            <selector>#product_option_%row-1%_select_%row-2%_price</selector>
+        </price>
+        <price_type>
+            <selector>#product_option_%row-1%_select_%row-2%_price_type</selector>
+            <input>select</input>
+        </price_type>
+        <sku>
+            <selector>[name='product[options][%row-1%][values][%row-2%][sku]']</selector>
+        </sku>
+    </fields>
+</mapping>

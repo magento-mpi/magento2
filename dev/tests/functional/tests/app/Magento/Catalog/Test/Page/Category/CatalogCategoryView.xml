@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="catalog/category/view" >
+    <block>
+        <name>listProductBlock</name>
+        <class>Magento\Catalog\Test\Block\Product\ListProduct</class>
+        <locator>.products.wrapper.grid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>mapBlock</name>
+        <class>Magento\Catalog\Test\Block\Product\Price</class>
+        <locator>#map-popup-content</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>layeredNavigationBlock</name>
+        <class>Magento\Search\Test\Block\Catalog\Layer\View</class>
+        <locator>.block.filter</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>productPagination</name>
+        <class>Magento\Catalog\Test\Block\Category\ProductPagination</class>
+        <locator>.pages .items</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>
