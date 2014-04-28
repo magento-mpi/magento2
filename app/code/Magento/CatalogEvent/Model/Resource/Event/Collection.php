@@ -88,7 +88,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'display_state') {
-            $field = $this->_getMappedField($field);
             if (is_array($condition) && isset($condition['eq'])) {
                 $condition = $condition['eq'];
             }
