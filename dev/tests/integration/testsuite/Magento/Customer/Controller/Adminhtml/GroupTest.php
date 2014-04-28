@@ -8,7 +8,7 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Message\MessageInterface;
+use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -23,13 +23,13 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     const BASE_CONTROLLER_URL = 'http://localhost/index.php/backend/customer/group/';
     const CUSTOMER_GROUP_ID = 2;
 
-    /** @var  \Magento\Session\SessionManagerInterface */
+    /** @var  \Magento\Framework\Session\SessionManagerInterface */
     private $session;
 
     public function setUp()
     {
         parent::setUp();
-        $this->session = Bootstrap::getObjectManager()->get('Magento\Session\SessionManagerInterface');
+        $this->session = Bootstrap::getObjectManager()->get('Magento\Framework\Session\SessionManagerInterface');
     }
 
     public function tearDown()
@@ -138,7 +138,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupData = \Magento\Service\DataObjectConverter::toFlatArray(
+        $customerGroupData = \Magento\Framework\Service\DataObjectConverter::toFlatArray(
             $groupService->getGroup($groupId)
         );
         ksort($customerGroupData);

@@ -36,7 +36,7 @@ class LabelTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
         $this->_label = new \Magento\Framework\Data\Form\Element\Label(
             $factoryMock,
             $collectionFactoryMock,

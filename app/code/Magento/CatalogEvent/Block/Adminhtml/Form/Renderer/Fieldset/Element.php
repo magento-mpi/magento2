@@ -24,7 +24,7 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
     /**
      * Retrieve data object related with form
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDataObject()
     {

@@ -10,18 +10,19 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Adjustment\CalculatorInterface;
-use Magento\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 
 /**
  * Final price model
  */
-class FinalPrice extends RegularPrice implements FinalPriceInterface
+class FinalPrice extends AbstractPrice implements FinalPriceInterface
 {
     /**
-     * @var string
+     * Price type final
      */
-    protected $priceType = self::PRICE_TYPE_FINAL;
+    const PRICE_CODE = 'final_price';
 
     /**
      * @var BasePrice
@@ -29,18 +30,17 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
     protected $basePrice;
 
     /**
-     * @param SaleableInterface $salableItem
+     * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
      */
     public function __construct(
-        SaleableInterface $salableItem,
+        Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator
     ) {
-        parent::__construct($salableItem, $quantity, $calculator);
-        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE);
-        $this->baseAmount = $this->getValue();
+        parent::__construct($saleableItem, $quantity, $calculator);
+        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
     }
 
     /**
@@ -50,30 +50,30 @@ class FinalPrice extends RegularPrice implements FinalPriceInterface
      */
     public function getValue()
     {
-        return max(0, $this->basePrice->getValue()); // + custom options price
+        return max(0, $this->basePrice->getValue());
     }
 
     /**
      * Get Minimal Price Amount
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMinimalPrice()
     {
-        $minimalPrice = $this->salableItem->getMinimalPrice();
+        $minimalPrice = $this->product->getMinimalPrice();
         if ($minimalPrice === null) {
             $minimalPrice = $this->getValue();
         }
-        return $this->calculator->getAmount($minimalPrice, $this->salableItem);
+        return $this->calculator->getAmount($minimalPrice, $this->product);
     }
 
     /**
      * Get Maximal Price Amount
      *
-     * @return \Magento\Pricing\Amount\AmountInterface
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getAmount($this->getValue(), $this->salableItem);
+        return $this->calculator->getAmount($this->getValue(), $this->product);
     }
 }

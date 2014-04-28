@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 /**
  * Quick style file uploader
  */
-class ImageUploader extends \Magento\Object
+class ImageUploader extends \Magento\Framework\Object
 {
     /**
      * Quick style images path prefix

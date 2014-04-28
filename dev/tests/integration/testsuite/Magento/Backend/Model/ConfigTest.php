@@ -77,7 +77,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
                 $_configData['payment/payflow_link/pwd'] = $objectManager->get(
-                    'Magento\Encryption\EncryptorInterface'
+                    'Magento\Framework\Encryption\EncryptorInterface'
                 )->decrypt(
                     $_configData['payment/payflow_link/pwd']
                 );

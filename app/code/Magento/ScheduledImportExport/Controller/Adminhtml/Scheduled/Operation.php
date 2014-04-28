@@ -22,15 +22,15 @@ class Operation extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -168,7 +168,7 @@ class Operation extends \Magento\Backend\App\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__("We couldn't save the scheduled operation."));
             }
         }
@@ -201,7 +201,7 @@ class Operation extends \Magento\Backend\App\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something sent wrong deleting the scheduled operation.'));
             }
         }
@@ -242,7 +242,7 @@ class Operation extends \Magento\Backend\App\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('We cannot delete all items.'));
             }
         }
@@ -277,7 +277,7 @@ class Operation extends \Magento\Backend\App\Action
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('We cannot change status for all items.'));
             }
         }
@@ -326,7 +326,7 @@ class Operation extends \Magento\Backend\App\Action
         $result = false;
         try {
             $operationId = (int)$this->getRequest()->getParam('operation');
-            $schedule = new \Magento\Object();
+            $schedule = new \Magento\Framework\Object();
             $schedule->setJobCode(
                 \Magento\ScheduledImportExport\Model\Scheduled\Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
@@ -373,7 +373,7 @@ class Operation extends \Magento\Backend\App\Action
      */
     public function logCleanAction()
     {
-        $schedule = new \Magento\Object();
+        $schedule = new \Magento\Framework\Object();
         $result = $this->_objectManager->get(
             'Magento\ScheduledImportExport\Model\Observer'
         )->scheduledLogClean(

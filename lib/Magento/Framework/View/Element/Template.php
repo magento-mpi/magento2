@@ -234,7 +234,7 @@ class Template extends AbstractBlock
     public function fetchView($fileName)
     {
         $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'TEMPLATE:' . $fileName,
             array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
         );
@@ -248,7 +248,7 @@ class Template extends AbstractBlock
             $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
         }
 
-        \Magento\Profiler::stop('TEMPLATE:' . $fileName);
+        \Magento\Framework\Profiler::stop('TEMPLATE:' . $fileName);
         return $html;
     }
 
@@ -281,11 +281,11 @@ class Template extends AbstractBlock
     /**
      * Get data from specified object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param string $key
      * @return mixed
      */
-    public function getObjectData(\Magento\Object $object, $key)
+    public function getObjectData(\Magento\Framework\Object $object, $key)
     {
         return $object->getDataUsingMethod((string)$key);
     }

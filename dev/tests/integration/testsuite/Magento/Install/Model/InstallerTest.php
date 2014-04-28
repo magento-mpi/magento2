@@ -72,7 +72,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Framework\App\RequestInterface'),
                 $filesystem,
                 $objectManager->get('Magento\Store\Model\StoreManager'),
-                $objectManager->get('Magento\Message\Manager')
+                $objectManager->get('Magento\Framework\Message\Manager')
             );
             $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
         }
@@ -131,7 +131,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testInstallEncryptionKeySizeViolation()
@@ -150,7 +150,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Key must not exceed
      */
     public function testGetValidEncryptionKeySizeViolation()

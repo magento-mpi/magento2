@@ -32,7 +32,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     protected $_columnCount = 4;
 
     /**
-     * @var  \Magento\Object[]
+     * @var  \Magento\Framework\Object[]
      */
     protected $_items;
 
@@ -73,23 +73,20 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -141,7 +138,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     }
 
     /**
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getItems()
     {

@@ -35,7 +35,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeAction
@@ -43,7 +43,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeAction,
@@ -101,7 +101,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form implements
     /**
      * Retrieve attributes for product mass update
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAttributes()
     {

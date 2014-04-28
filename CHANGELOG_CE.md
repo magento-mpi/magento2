@@ -1,79 +1,98 @@
+* Pricing Improvements:
+  * Eliminated price calculation from blocks and templates and implemented new calculation models for the following modules:
+     * ConfigurableProduct (MAGETWO-20399)
+     * Wishlist (MAGETWO-21556)
+     * Rss (MAGETWO-21555)
+     * ProductAlert (MAGETWO-21554)
+* JavaScript improvements:
+  * Removed head.js usages from frontend (MAGETWO-18032)
+  * Removed head.js usages from adminhtml (MAGETWO-18053)
+* Themes update:
+  * Plushe theme is now based on blank (MAGETWO-23528)
+* Fixed bugs:  
+  * Unable to place order with product with custom option 'file'(MAGETWO-23679)
+  * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
+  * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
+  * Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
+* Framework Improvements:
+  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
+      * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
+      * `lib/Magento/Framework/Data/Form/Element/Button.php`
+      * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
+      * `lib/Magento/Framework/Data/Form/Element/CollectionFactory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Column.php`
+      * `lib/Magento/Framework/Data/Form/Element/File.php`
+      * `lib/Magento/Framework/Data/Form/Element/Hidden.php`
+      * `lib/Magento/Framework/Data/Form/Element/Editablemultiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Factory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Image.php`
+      * `lib/Magento/Framework/Data/Form/Element/Imagefile.php`
+      * `lib/Magento/Framework/Data/Form/Element/Label.php`
+      * `lib/Magento/Framework/Data/Form/Element/Link.php`
+      * `lib/Magento/Framework/Data/Form/Element/Multiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Note.php`
+      * `lib/Magento/Framework/Data/Form/Element/Obscure.php`
+      * `lib/Magento/Framework/Data/Form/Element/Password.php`
+      * `lib/Magento/Framework/Data/Form/Element/Radio.php`
+      * `lib/Magento/Framework/Data/Form/Element/Reset.php`
+      * `lib/Magento/Framework/Data/Form/Element/Submit.php`
+      * `lib/Magento/Framework/Data/Form/Element/Text.php`
+      * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
+  
+2.0.0.0-dev75
+=============
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
   * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
-  * Currency Options are not displayed on Currency Setup tab(MAGETWO-23505)
-  * Fatal error on customer registration if mail server is off(MAGETWO-23558)
-  * Customer with middle name can't be found in grid by name(MAGETWO-23615)
-  * Related products are not displayed on product page(MAGETWO-23680)
-  * View Files Population Tool is Broken(MAGETWO-23659)
-  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
-  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
-  * Fixed error on place order with cache turned on (MAGETWO-23523)
-  * Fixed: Warning appears when running system_config (MAGETWO-15336)
-  * Fixed: Incorrect reset password link for customer from custom website (MAGETWO-22605)
-  * Fixed: Invalid error message text appears when saving Customer Group with existing group name (MAGETWO-23698)
-  * Fixed: Broken menu layout for responsive in Blank theme (MAGETWO-23777)
-  * Fixed: Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
+  * Fixed an issue where Currency Options were not displayed on the Currency Setup tab
+  * Fixed an issue where a fatal error appeared during customer registration if mail server was off
+  * Fixed an issue where customer with middle name did not appear in the Customers grid in the backend
+  * Fixed an issue where related products were not displayed on the product page in the backend
+  * Fixed the broken View Files Population tool
+  * Fixed an issue where Magento broke down if the Main Web Site was deleted
+  * Fixed potential security issue with orders protect_code
+  * Fixed an issue where an error appeared when placing an order if cache was turned on
+  * Fixed an issue where a warning appeared when running system_config.php tool
+  * Fixed an issue with incorrect reset password link for users on custom websites
+  * Fixed an issue with invalid error message displayed when trying to save a customer group with existing group name
+  * Fixed an issue with  menu layout non-responsive behavior  in the Blank theme
 * Framework Improvements:
-  * Covered Magento Store components with unit tests:
-    * `Magento\Store\Model\*`
-  * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 1): (MAGETWO-20866)
-    * Moved `lib/Magento/App` to `lib/Magento/Framework/App`
-  * Moved `lib/Magento/*` to `lib/Magento/Framework/*` (Part 2): (MAGETWO-23646)
-    * Moved `lib/Magento/Data` to `lib/Magento/Framework/Data`
-    * Moved `lib/Magento/Filesystem` to `lib/Magento/Framework/Filesystem`
-    * Moved `lib/Magento/Config` to `lib/Magento/Framework/Config`
-    * Moved `lib/Magento/Model` to `lib/Magento/Framework/Model`
-    * Moved `lib/Magento/DB` to `lib/Magento/Framework/DB`
-    * Moved `lib/Magento/View` to `lib/Magento/Framework/View`
-  * Covered Magento application components with unit tests (MAGETWO-21540)
-    * `Sales/Helper/Guest.php`
-    * `Sales/Helper/Admin.php`
-    * `Sales/Model/Observer.php`
-    * `Sales/Model/Payment/Method/Converter.php`
-    * `Sales/Model/Email/Template.php`
-    * `Sales/Model/Observer/Backend/CustomerQuote.php`
-    * `Sales/Model/Status/ListStatus.php`
-  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
-    * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
-    * `lib/Magento/Framework/Data/Form/Element/Button.php`
-    * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
-    * `lib/Magento/Framework/Data/Form/Element/CollectionFactory.php`
-    * `lib/Magento/Framework/Data/Form/Element/Column.php`
-    * `lib/Magento/Framework/Data/Form/Element/File.php`
-    * `lib/Magento/Framework/Data/Form/Element/Hidden.php`
-    * `lib/Magento/Framework/Data/Form/Element/Editablemultiselect.php`
-    * `lib/Magento/Framework/Data/Form/Element/Factory.php`
-    * `lib/Magento/Framework/Data/Form/Element/Image.php`
-    * `lib/Magento/Framework/Data/Form/Element/Imagefile.php`
-    * `lib/Magento/Framework/Data/Form/Element/Label.php`
-    * `lib/Magento/Framework/Data/Form/Element/Link.php`
-    * `lib/Magento/Framework/Data/Form/Element/Multiselect.php`
-    * `lib/Magento/Framework/Data/Form/Element/Note.php`
-    * `lib/Magento/Framework/Data/Form/Element/Obscure.php`
-    * `lib/Magento/Framework/Data/Form/Element/Password.php`
-    * `lib/Magento/Framework/Data/Form/Element/Radio.php`
-    * `lib/Magento/Framework/Data/Form/Element/Reset.php`
-    * `lib/Magento/Framework/Data/Form/Element/Submit.php`
-    * `lib/Magento/Framework/Data/Form/Element/Text.php`
-    * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
+  * Covered Magento library components with unit tests
+    * `Magento\Framework\Error\*`
+    * `Magento\Framework\Event\Observer\*`
+    * `Magento\Framework\Filesystem\*`
+    * `Magento\Framework\Filesystem\File\*`
+  * Updated the obsolete_classes list with changes, introduced by Offline Payment Methods Module implementation
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*`
+  * Covered Magento application components with unit tests:
+     * `Store\Model\*`
+     * `Sales/Helper/Guest.php`
+     * `Sales/Helper/Admin.php`
+     * `Sales/Model/Observer.php`
+     * `Sales/Model/Payment/Method/Converter.php`
+     * `Sales/Model/Email/Template.php`
+     * `Sales/Model/Observer/Backend/CustomerQuote.php`
+     * `Sales/Model/Status/ListStatus.php`
 * Refactored the following modules to use Customer Service:
-  * Refactored Persistent Module (MAGETWO-20877)
-  * Refactored GoogleShopping module (MAGETWO-20474)
-  * Refactored ProductAlert module (MAGETWO-20481)
-  * Refactored SendFriend module (MAGETWO-20497)
+  * Magento_Persistent
+  * Magento_GoogleShopping
+  * Magento_ProductAlert
+  * Magento_SendFriend
+  * Moved customer-specific logic from the Magento_ImportExport module to the Customer module
+  * Refactored the rest of Customer Group usages
+  * Refactored customerAccountService::createAccount to not expose the hashed password input from webapi
+  * Implemented a delimiter usage for Cache key in Customer Registry
 * Customer Service usage:
-  * Update Exception Hierarchy with LocalizedException (MAGETWO-22964)
-  * Update CRUD APIs to support email and base url instead of IDs (MAGETWO-22113)
+  * Updated exception hierarchy with a new localized exception class
+  * Updated CRUD APIs to support email and base URL instead of IDs
 * JavaScript improvements:
-  * Implemented dialog widget (MAGETWO-22996)
-  * Implemented validation widget (MAGETWO-22996)
-  * Implemented tooltip widget (MAGETWO-22996)
-  * Implemented popup/modal window widget (MAGETWO-22996)
-  * Implemented calendar widget (MAGETWO-22996)
-  * Implemented suggest widget (MAGETWO-22996)
+  * Implemented the validation widget
+  * Implemented the tooltip widget
+  * Implemented the popup/modal window widget
+  * Implemented the calendar widget
+  * Implemented the suggest widget
+* Added configuration for Travis CI
 
 2.0.0.0-dev74
 =============
@@ -125,9 +144,10 @@
   * Multishipping
   * Paypal
 * Customer Service usage:
-  * Implement Service Context Provider (MAGETWO-11084)
-  * Restructure webapi.xml (MAGETWO-22665)
-  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
+  * Implemented Service Context Provider
+  * Restructured webapi.xml
+  * Renamed createAccount to createCustomer in CustomerAccountService
+  * Implemented Caching strategy for the Customer service
 * GitHub requests:
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
@@ -2538,3 +2558,4 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
+

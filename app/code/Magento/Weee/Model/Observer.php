@@ -40,7 +40,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param Tax $weeeTax
      * @param \Magento\Weee\Helper\Data $weeeData
@@ -52,7 +52,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\View\LayoutInterface $layout,
         Tax $weeeTax,
         \Magento\Weee\Helper\Data $weeeData,
@@ -73,10 +73,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign custom renderer for product create/edit form weee attribute element
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
+    public function setWeeeRendererInForm(\Magento\Framework\Event\Observer $observer)
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $observer->getEvent()->getForm();
@@ -95,10 +95,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Exclude WEEE attributes from standard form generation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function updateExcludedFieldList(\Magento\Event\Observer $observer)
+    public function updateExcludedFieldList(\Magento\Framework\Event\Observer $observer)
     {
         //adminhtml_catalog_product_form_prepare_excluded_field_list
 
@@ -125,10 +125,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Add new attribute type to manage attributes interface
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function addWeeeTaxAttributeType(\Magento\Event\Observer $observer)
+    public function addWeeeTaxAttributeType(\Magento\Framework\Event\Observer $observer)
     {
         // adminhtml_product_attribute_types
 
@@ -155,10 +155,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Automaticaly assign backend model to weee attributes
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function assignBackendModelToAttribute(\Magento\Event\Observer $observer)
+    public function assignBackendModelToAttribute(\Magento\Framework\Event\Observer $observer)
     {
         $backendModel = \Magento\Weee\Model\Attribute\Backend\Weee\Tax::getBackendModelName();
         /** @var $object \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
@@ -183,10 +183,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Add custom element type for attributes form
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function updateElementTypes(\Magento\Event\Observer $observer)
+    public function updateElementTypes(\Magento\Framework\Event\Observer $observer)
     {
         $response = $observer->getEvent()->getResponse();
         $types = $response->getTypes();
@@ -198,10 +198,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Update WEEE amounts discount percents
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function updateDiscountPercents(\Magento\Event\Observer $observer)
+    public function updateDiscountPercents(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_weeeData->isEnabled()) {
             return $this;
@@ -221,10 +221,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Update options of the product view page
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function updateProductOptions(\Magento\Event\Observer $observer)
+    public function updateProductOptions(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_weeeData->isEnabled()) {
             return $this;
@@ -254,10 +254,10 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     /**
      * Process bundle options selection for prepare view json
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function updateBundleProductOptions(\Magento\Event\Observer $observer)
+    public function updateBundleProductOptions(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_weeeData->isEnabled()) {
             return $this;

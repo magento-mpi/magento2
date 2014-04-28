@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Wysiwyg;
 /**
  * Wysiwyg Config for Editor HTML Element
  */
-class Config extends \Magento\Object
+class Config extends \Magento\Framework\Object
 {
     /**
      * Wysiwyg behaviour
@@ -29,7 +29,7 @@ class Config extends \Magento\Object
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -58,7 +58,7 @@ class Config extends \Magento\Object
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -81,9 +81,9 @@ class Config extends \Magento\Object
 
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Cms\Helper\Data $cmsData
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
@@ -93,9 +93,9 @@ class Config extends \Magento\Object
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Cms\Helper\Data $cmsData,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
@@ -116,7 +116,7 @@ class Config extends \Magento\Object
     }
 
     /**
-     * Return Wysiwyg config as \Magento\Object
+     * Return Wysiwyg config as \Magento\Framework\Object
      *
      * Config options description:
      *
@@ -128,12 +128,12 @@ class Config extends \Magento\Object
      * files_browser_*:         Files Browser (media, images) settings
      * encode_directives:       Encode template directives with JS or not
      *
-     * @param array|\Magento\Object $data \Magento\Object constructor params to override default config values
-     * @return \Magento\Object
+     * @param array|\Magento\Framework\Object $data \Magento\Framework\Object constructor params to override default config values
+     * @return \Magento\Framework\Object
      */
     public function getConfig($data = array())
     {
-        $config = new \Magento\Object();
+        $config = new \Magento\Framework\Object();
 
         $config->setData(
             array(

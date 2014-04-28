@@ -29,7 +29,7 @@ class CollectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerMock = $this->getMock(
-            'Magento\ObjectManager\ObjectManager',
+            'Magento\Framework\ObjectManager\ObjectManager',
             array('create'),
             array(),
             '',

@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Exception\ErrorMessage;
+use Magento\Framework\Exception\ErrorMessage;
 use Magento\Webapi\Model\Soap\Fault;
 
 class Exception extends \RuntimeException

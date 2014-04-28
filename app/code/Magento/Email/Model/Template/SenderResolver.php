@@ -9,7 +9,7 @@
  */
 namespace Magento\Email\Model\Template;
 
-class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
+class SenderResolver implements \Magento\Framework\Mail\Template\SenderResolverInterface
 {
     /**
      * Core store config
@@ -49,7 +49,7 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
         }
 
         if (!isset($result['name']) || !isset($result['email'])) {
-            throw new \Magento\Mail\Exception(__('Invalid sender data'));
+            throw new \Magento\Framework\Mail\Exception(__('Invalid sender data'));
         }
 
         return $result;

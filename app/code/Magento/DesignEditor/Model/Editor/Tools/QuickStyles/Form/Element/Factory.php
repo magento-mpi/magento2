@@ -9,12 +9,12 @@
  */
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element;
 
-use Magento\ObjectManager;
+use Magento\Framework\ObjectManager;
 
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

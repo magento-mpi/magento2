@@ -32,12 +32,12 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupPrice($groupPrice, $customerGroup, $expected)
     {
-        $salableItemMock = $this->prepareSalableItem($groupPrice);
-        $sessionMock = $this->prepareSession($salableItemMock, $customerGroup);
+        $saleableItemMock = $this->prepareSaleableItem($groupPrice);
+        $sessionMock = $this->prepareSession($saleableItemMock, $customerGroup);
         $groupPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
             [
-                'salableItem'     => $salableItemMock,
+                'saleableItem'     => $saleableItemMock,
                 'customerSession' => $sessionMock
             ]
         );
@@ -45,18 +45,18 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product $salableItemMock
+     * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product $saleableItemMock
      * @param int $customerGroup
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Session
      */
-    protected function prepareSession($salableItemMock, $customerGroup)
+    protected function prepareSession($saleableItemMock, $customerGroup)
     {
         $session = $this->getMock('Magento\Customer\Model\Session', ['getCustomerGroupId'], [], '', false);
         $session->expects($this->any())
             ->method('getCustomerGroupId')
             ->will($this->returnValue($customerGroup));
 
-        $salableItemMock->expects($this->any())
+        $saleableItemMock->expects($this->any())
             ->method('getCustomerGroupId')
             ->will($this->returnValue(false));
 
@@ -74,11 +74,14 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
         $groupPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
             [
-                'salableItem'     => $this->prepareSalableItem($groupPrice),
+                'saleableItem'     => $this->prepareSaleableItem($groupPrice),
                 'customerSession' => $this->getMock('Magento\Customer\Model\Session', [], [], '', false)
             ]
         );
 
+        $this->assertEquals($expected, $groupPriceModel->getValue());
+
+        //Verify that storedGroupPrice is cached
         $this->assertEquals($expected, $groupPriceModel->getValue());
     }
 
@@ -86,9 +89,9 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      * @param array|null $groupPrice
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function prepareSalableItem($groupPrice)
+    protected function prepareSaleableItem($groupPrice)
     {
-        $salableItemMock = $this->getMock(
+        $saleableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['getCustomerGroupId', 'getData', 'getPrice', 'getPriceInfo', 'getResource', '__wakeup'],
             [],
@@ -96,44 +99,44 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $salableItemMock->expects($this->at(1))
+        $saleableItemMock->expects($this->at(1))
             ->method('getData')
             ->will($this->returnValue(null));
 
-        $salableItemMock->expects($this->at(2))
+        $saleableItemMock->expects($this->at(2))
             ->method('getData')
             ->will($this->returnValue($groupPrice));
 
-        $salableItemMock->expects($this->any())
+        $saleableItemMock->expects($this->any())
             ->method('getResource')
-            ->will($this->returnValue($this->prepareSalableItemResource()));
+            ->will($this->returnValue($this->prepareSaleableItemResource()));
 
         $priceInfo = $this->getMockBuilder(
-            'Magento\Pricing\PriceInfoInterface'
+            'Magento\Framework\Pricing\PriceInfoInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $priceInfo->expects($this->any())
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
-        $salableItemMock->expects($this->any())
+        $saleableItemMock->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfo));
 
-        return $salableItemMock;
+        return $saleableItemMock;
     }
 
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Resource\Product
      */
-    protected function prepareSalableItemResource()
+    protected function prepareSaleableItemResource()
     {
         $resourceMock = $this->getMockBuilder(
             'Magento\Catalog\Model\Resource\Product'
         )->disableOriginalConstructor()->setMethods(['getAttribute', '__wakeup'])->getMock();
 
         $attributeMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             ['getBackend', 'afterLoad'],
             [],
             '',

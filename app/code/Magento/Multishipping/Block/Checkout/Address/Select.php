@@ -12,7 +12,7 @@ namespace Magento\Multishipping\Block\Checkout\Address;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Multishipping checkout select billing address

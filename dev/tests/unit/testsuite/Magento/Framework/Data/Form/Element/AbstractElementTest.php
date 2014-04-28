@@ -32,7 +32,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     protected $_collectionFactoryMock;
 
     /**
-     * @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_escaperMock;
 
@@ -44,7 +44,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $this->_collectionFactoryMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory', array(), array(), '', false
         );
-        $this->_escaperMock = $this->getMock('Magento\Escaper', array(), array(), '', false);
+        $this->_escaperMock = $this->getMock('Magento\Framework\Escaper', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass('Magento\Framework\Data\Form\Element\AbstractElement', array(
             $this->_factoryMock,
@@ -260,7 +260,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $value = '<a href="#hash_tag">my \'quoted\' string</a>';
         $expectedValue = '&lt;a href=&quot;#hash_tag&quot;&gt;my \'quoted\' string&lt;/a&gt;';
 
-        $filterMock = $this->getMock('Magento\Object', array('filter'), array(), '', false);
+        $filterMock = $this->getMock('Magento\Framework\Object', array('filter'), array(), '', false);
         $filterMock->expects($this->once())
             ->method('filter')
             ->with($value)

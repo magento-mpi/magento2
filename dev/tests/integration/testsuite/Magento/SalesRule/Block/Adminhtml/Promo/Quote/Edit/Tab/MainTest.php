@@ -29,7 +29,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_promo_quote_rule',
             $objectManager->create('Magento\SalesRule\Model\Rule')
@@ -54,7 +54,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         // assert Customer Groups field
         $customerGroupsField = $form->getElement('customer_group_ids');
         $customerGroupService = $objectManager->create('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $objectConverter = $objectManager->get('Magento\Convert\Object');
+        $objectConverter = $objectManager->get('Magento\Framework\Convert\Object');
         $groups = $customerGroupService->getGroups();
         $expected = $objectConverter->toOptionArray($groups, 'id', 'code');
         $this->assertEquals($expected, $customerGroupsField->getValues());

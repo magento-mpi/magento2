@@ -36,13 +36,13 @@ class HiddenTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
         $this->_model = new \Magento\Framework\Data\Form\Element\Hidden(
             $factoryMock,
             $collectionFactoryMock,
             $escaperMock
         );
-        $formMock = new \Magento\Object();
+        $formMock = new \Magento\Framework\Object();
         $formMock->getHtmlIdPrefix('id_prefix');
         $formMock->getHtmlIdPrefix('id_suffix');
         $this->_model->setForm($formMock);

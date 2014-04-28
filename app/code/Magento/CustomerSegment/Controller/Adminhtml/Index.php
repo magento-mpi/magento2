@@ -19,7 +19,7 @@ class Index extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -31,12 +31,12 @@ class Index extends Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -237,7 +237,7 @@ class Index extends Action
                     $data['apply_to'] = (int)$data['apply_to'];
                 }
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);
@@ -274,7 +274,7 @@ class Index extends Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We're unable to save the segment."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('customersegment/*/');
@@ -297,7 +297,7 @@ class Index extends Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We're unable to delete the segement."));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('customersegment/*/');
     }

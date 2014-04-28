@@ -19,7 +19,6 @@
             controlContainer: 'dd'
         },
         _create: function() {
-
             this.element.on('changePrice', $.proxy(function(e, data) {
                     this.changePrice(data.config, data.price);
                 }, this)).on('reloadPrice', $.proxy(function() {
@@ -208,8 +207,10 @@
                             price = price + getOptionPrices[0];
                         }
 
-
-                        var priceHtml = $.tmpl(this.options.priceTemplate, {'formattedPrice': this._formatCurrency(price, this.options.priceConfig.priceFormat)});
+                        var priceHtml = $.tmpl(
+                            this.options.priceTemplate,
+                            {'formattedPrice': this._formatCurrency(price, this.options.priceConfig.priceFormat)}
+                        );
                         priceElement.html(priceHtml[0].outerHTML);
                         // If clone exists, update clone price as well
                         if (!isClone && clone.length === 1) {

@@ -12,7 +12,7 @@ namespace Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
-use Magento\Logger;
+use Magento\Framework\Logger;
 
 /**
  * Base items collection class
@@ -146,10 +146,10 @@ class Db extends \Magento\Framework\Data\Collection
     /**
      * Get collection item identifier
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return mixed
      */
-    protected function _getItemId(\Magento\Object $item)
+    protected function _getItemId(\Magento\Framework\Object $item)
     {
         if ($field = $this->getIdFieldName()) {
             return $item->getData($field);
@@ -566,7 +566,7 @@ class Db extends \Magento\Framework\Data\Collection
      * Returns a collection item that corresponds to the fetched row
      * and moves the internal data pointer ahead
      *
-     * @return  \Magento\Object|bool
+     * @return  \Magento\Framework\Object|bool
      */
     public function fetchItem()
     {

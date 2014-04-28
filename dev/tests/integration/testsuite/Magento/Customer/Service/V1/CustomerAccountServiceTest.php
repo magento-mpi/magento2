@@ -10,10 +10,10 @@ namespace Magento\Customer\Service\V1;
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Service\V1\Data\FilterBuilder;
-use Magento\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -32,7 +32,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAddressServiceInterface needed to setup tests */
     private $_customerAddressService;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     private $_objectManager;
 
     /** @var \Magento\Customer\Service\V1\Data\Address[] */
@@ -121,7 +121,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongPassword()
@@ -131,7 +131,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongUsername()
@@ -155,7 +155,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Exception\AuthenticationException
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
      * @expectedExceptionMessage Password doesn't match for this account
      */
     public function testChangePasswordWrongPassword()
@@ -164,7 +164,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testChangePasswordWrongUser()
     {
@@ -192,7 +192,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
-     * @expectedException \Magento\Exception\State\InputMismatchException
+     * @expectedException \Magento\Framework\Exception\State\InputMismatchException
      */
     public function testActivateCustomerConfirmationKeyWrongKey()
     {
@@ -229,7 +229,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
-     * @expectedException \Magento\Exception\State\InvalidTransitionException
+     * @expectedException \Magento\Framework\Exception\State\InvalidTransitionException
      */
     public function testActivateCustomerAlreadyActive()
     {
@@ -254,7 +254,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\State\ExpiredException
+     * @expectedException \Magento\Framework\Exception\State\ExpiredException
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -399,7 +399,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\State\ExpiredException
+     * @expectedException \Magento\Framework\Exception\State\ExpiredException
      */
     public function testResetPasswordTokenExpired()
     {
@@ -514,7 +514,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\State\InvalidTransitionException
+     * @expectedException \Magento\Framework\Exception\State\InvalidTransitionException
      */
     public function testResendConfirmationNotNeeded()
     {
@@ -654,8 +654,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
         $passwordFromFixture = 'password';
         $this->_customerAccountService->authenticate($customerAfter->getEmail(), $passwordFromFixture);
-        $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -714,8 +714,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -780,8 +780,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerBefore);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -867,8 +867,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Service\DataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Service\DataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($existingCustomer);
+        $attributesAfter = \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -934,7 +934,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
-        $dataInService = \Magento\Service\DataObjectConverter::toFlatArray($savedCustomer);
+        $dataInService = \Magento\Framework\Service\DataObjectConverter::toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',
@@ -991,6 +991,48 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($lastname, $savedCustomer->getLastname());
         $this->assertEquals($groupId, $savedCustomer->getGroupId());
         $this->assertTrue(!$savedCustomer->getSuffix());
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testCreateNewCustomerWithPasswordHash()
+    {
+        $email = 'email@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($newCustomerEntity)->create();
+        /** @var \Magento\Framework\Math\Random $mathRandom */
+        $password = $this->_objectManager->get('Magento\Framework\Math\Random')->getRandomString(
+            CustomerAccountServiceInterface::DEFAULT_PASSWORD_LENGTH
+        );
+        /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
+        $encryptor = $this->_objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
+        $passwordHash = $encryptor->getHash($password);
+        $savedCustomer = $this->_customerAccountService->createCustomerWithPasswordHash(
+            $customerDetails,
+            $passwordHash
+        );
+        $this->assertNotNull($savedCustomer->getId());
+        $this->assertEquals($email, $savedCustomer->getEmail());
+        $this->assertEquals($storeId, $savedCustomer->getStoreId());
+        $this->assertEquals($firstname, $savedCustomer->getFirstname());
+        $this->assertEquals($lastname, $savedCustomer->getLastname());
+        $this->assertEquals($groupId, $savedCustomer->getGroupId());
+        $this->assertTrue(!$savedCustomer->getSuffix());
+        $this->assertEquals(
+            $savedCustomer->getId(),
+            $this->_customerAccountService->authenticate($email, $password)->getId()
+        );
     }
 
     /**
@@ -1095,7 +1137,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId =
      */
     public function testGetCustomerInvalidIds($custId)
@@ -1117,8 +1159,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Service\V1\Data\Filter[] $filters
-     * @param \Magento\Service\V1\Data\Filter[] $filterGroup
+     * @param \Magento\Framework\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Framework\Service\V1\Data\Filter[] $filterGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider
@@ -1128,9 +1170,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomers($filters, $filterGroup, $expectedResult)
     {
-        /** @var \Magento\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
         );
         foreach ($filters as $filter) {
             $searchBuilder->addFilter([$filter]);
@@ -1203,9 +1245,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomersOrder()
     {
-        /** @var \Magento\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
         $searchBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Service\V1\Data\SearchCriteriaBuilder');
+            ->create('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder');
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = new FilterBuilder();
@@ -1251,7 +1293,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer_sample.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testGetCustomerDetailsWithException()
     {
@@ -1271,7 +1313,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService->deleteCustomer(1);
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             'No such entity with customerId = 1'
         );
         $this->_customerAccountService->getCustomer(1);
@@ -1281,7 +1323,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomerWithAddress()
@@ -1366,7 +1408,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $email
      * @param $websiteId
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @dataProvider getInvalidEmailDataProvider
      */
     public function testGetCustomerByEmailWithException($email, $websiteId)
@@ -1513,7 +1555,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Exception\StateException
+     * @expectedException \Magento\Framework\Exception\StateException
      */
     public function testUpdateCustomerDetailsByEmailWithException()
     {
@@ -1544,7 +1586,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerAccountService->deleteCustomerByEmail('customer@example.com');
         //Verify if the customer is deleted
         $this->setExpectedException(
-            'Magento\Exception\NoSuchEntityException',
+            'Magento\Framework\Exception\NoSuchEntityException',
             'No such entity with email = customer@example.com'
         );
         $this->_customerAccountService->getCustomerByEmail('customer@example.com');

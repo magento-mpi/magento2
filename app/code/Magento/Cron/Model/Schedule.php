@@ -49,22 +49,22 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
     const STATUS_ERROR = 'error';
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -117,22 +117,11 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
 
         $d = getdate($this->_date->timestamp($time));
 
-        $match = $this->matchCronExpression(
-            $e[0],
-            $d['minutes']
-        ) && $this->matchCronExpression(
-            $e[1],
-            $d['hours']
-        ) && $this->matchCronExpression(
-            $e[2],
-            $d['mday']
-        ) && $this->matchCronExpression(
-            $e[3],
-            $d['mon']
-        ) && $this->matchCronExpression(
-            $e[4],
-            $d['wday']
-        );
+        $match = $this->matchCronExpression($e[0], $d['minutes'])
+            && $this->matchCronExpression($e[1], $d['hours'])
+            && $this->matchCronExpression($e[2], $d['mday'])
+            && $this->matchCronExpression($e[3], $d['mon'])
+            && $this->matchCronExpression($e[4], $d['wday']);
 
         if ($match) {
             $this->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()));

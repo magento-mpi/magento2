@@ -43,7 +43,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      * @expectedExceptionMessage No such entity with storeCode = InvalidStorecode
      */
     public function testProcessWithInValidStoreCode()

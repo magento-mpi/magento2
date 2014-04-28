@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Exception\AuthorizationException;
+use Magento\Framework\Exception\AuthorizationException;
 
 /**
  * Test Rest controller.
@@ -31,7 +31,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Webapi\Controller\Rest\Router\Route */
     protected $_routeMock;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManagerMock;
 
     /** @var \stdClass */
@@ -40,7 +40,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State */
     protected $_appStateMock;
 
-    /** @var \Magento\Oauth\OauthInterface */
+    /** @var \Magento\Framework\Oauth\OauthInterface */
     protected $_oauthServiceMock;
 
     /** @var \Magento\Authz\Service\AuthorizationV1Interface */
@@ -76,13 +76,13 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_routeMock = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Router\Route')
             ->setMethods(['isSecure', 'getServiceMethod', 'getServiceClass', 'getAclResources', 'getParameters'])
             ->disableOriginalConstructor()->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
-            ->getMock();
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
+            ->disableOriginalConstructor()->getMock();
         $this->_serviceMock = $this->getMockBuilder(self::SERVICE_ID)->setMethods([self::SERVICE_METHOD])
             ->disableOriginalConstructor()->getMock();
         $this->_appStateMock = $this->getMockBuilder('Magento\Framework\App\State')
             ->disableOriginalConstructor()->getMock();
-        $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Oauth\OauthInterface')
+        $this->_oauthServiceMock = $this->getMockBuilder('\Magento\Framework\Oauth\OauthInterface')
             ->setMethods(['validateAccessTokenRequest'])->getMockForAbstractClass();
         $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
             ->disableOriginalConstructor()->getMock();

@@ -43,13 +43,13 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
      * @param \Magento\GiftRegistry\Model\Type $defaultTypeInstance
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -57,7 +57,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
@@ -304,7 +304,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     /**
      * Prepare and return attribute values
      *
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAttributeValues()
     {
@@ -367,7 +367,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
                 }
             }
 
-            $values[] = new \Magento\Object($value);
+            $values[] = new \Magento\Framework\Object($value);
             $innerId++;
         }
         return $values;
@@ -426,12 +426,12 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
     }
 
     /**
-     * Prepare and return static types as \Magento\Object
+     * Prepare and return static types as \Magento\Framework\Object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getStaticTypes()
     {
-        return new \Magento\Object($this->getConfig()->getStaticTypes());
+        return new \Magento\Framework\Object($this->getConfig()->getStaticTypes());
     }
 }

@@ -36,13 +36,13 @@ class TextareaTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
         $this->_model = new \Magento\Framework\Data\Form\Element\Textarea(
             $factoryMock,
             $collectionFactoryMock,
             $escaperMock
         );
-        $formMock = new \Magento\Object();
+        $formMock = new \Magento\Framework\Object();
         $formMock->getHtmlIdPrefix('id_prefix');
         $formMock->getHtmlIdPrefix('id_suffix');
         $this->_model->setForm($formMock);

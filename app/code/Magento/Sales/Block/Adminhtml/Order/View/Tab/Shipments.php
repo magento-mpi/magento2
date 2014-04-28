@@ -18,7 +18,7 @@ class Shipments extends \Magento\Framework\View\Element\Text\ListText implements
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -26,12 +26,12 @@ class Shipments extends \Magento\Framework\View\Element\Text\ListText implements
      * Collection factory
      *
      * @param \Magento\Framework\View\Element\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
          $this->_coreRegistry = $coreRegistry;

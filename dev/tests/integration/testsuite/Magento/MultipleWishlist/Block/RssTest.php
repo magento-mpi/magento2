@@ -16,7 +16,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -81,8 +81,8 @@ class RssTest extends \PHPUnit_Framework_TestCase
                 'wishlistHelper' => $wishlistHelper
             ]
         );
-        /** @var \Magento\Escaper $escaper */
-        $escaper = $this->_objectManager->create('Magento\Escaper');
+        /** @var \Magento\Framework\Escaper $escaper */
+        $escaper = $this->_objectManager->create('Magento\Framework\Escaper');
 
         $expectedSting = '%A' . __("<title><![CDATA[%1 %2's Wish List]]></title>",
             $escaper->escapeHtml($this->_customerSession->getCustomerDataObject()->getFirstname()),

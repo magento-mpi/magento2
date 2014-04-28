@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Wishlist\Block;
 
 /**
  * Wishlist Product Items abstract Block
- *
- * @category   Magento
- * @package    Magento_Wishlist
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Block;
-
 abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -49,21 +44,18 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->httpContext = $httpContext;
         $this->_productFactory = $productFactory;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -234,7 +226,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     public function getFormatedDate($date)
     {
-        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**
@@ -286,48 +278,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     public function hasWishlistItems()
     {
         return $this->getWishlistItemsCount() > 0;
-    }
-
-    /**
-     * Returns product price block html
-     * Overwrites parent price html return to be ready to show configured, partially configured and
-     * non-configured products
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param bool $displayMinimalPrice
-     * @param string $idSuffix
-     *
-     * @return string
-     */
-    public function getPriceHtml($product, $displayMinimalPrice = false, $idSuffix = '')
-    {
-        $type_id = $product->getTypeId();
-        if ($this->_catalogData->canApplyMsrp($product)) {
-            $realPriceHtml = $this->_preparePriceRenderer(
-                $type_id
-            )->setProduct(
-                $product
-            )->setDisplayMinimalPrice(
-                $displayMinimalPrice
-            )->setIdSuffix(
-                $idSuffix
-            )->setIsEmulateMode(
-                true
-            )->toHtml();
-            $product->setAddToCartUrl($this->getAddToCartUrl($product));
-            $product->setRealPriceHtml($realPriceHtml);
-            $type_id = $this->_mapRenderer;
-        }
-
-        return $this->_preparePriceRenderer(
-            $type_id
-        )->setProduct(
-            $product
-        )->setDisplayMinimalPrice(
-            $displayMinimalPrice
-        )->setIdSuffix(
-            $idSuffix
-        )->toHtml();
     }
 
     /**

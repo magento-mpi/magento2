@@ -9,7 +9,7 @@ namespace Magento\Framework\View\Layout\File\Source\Decorator;
 
 use Magento\Framework\View\Layout\File\SourceInterface;
 use Magento\Framework\View\Layout\File;
-use Magento\Module\Manager;
+use Magento\Framework\Module\Manager;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
@@ -27,7 +27,7 @@ class ModuleOutput implements SourceInterface
     /**
      * Module manager
      *
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     private $moduleManager;
 

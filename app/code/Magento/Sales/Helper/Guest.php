@@ -20,7 +20,7 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -30,12 +30,12 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_coreCookie;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -64,11 +64,11 @@ class Guest extends \Magento\Core\Helper\Data
      * @param App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\Cookie $coreCookie
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Stdlib\Cookie $coreCookie
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\App\ViewInterface $view
      * @param bool $dbCompatibleMode
@@ -78,11 +78,11 @@ class Guest extends \Magento\Core\Helper\Data
         App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\Cookie $coreCookie,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Stdlib\Cookie $coreCookie,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\ViewInterface $view,
         $dbCompatibleMode = true

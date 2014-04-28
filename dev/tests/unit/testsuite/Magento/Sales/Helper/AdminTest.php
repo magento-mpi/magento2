@@ -27,7 +27,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
     protected $salesConfigMock;
 
     /**
-     * @var \Magento\Object|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Object|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $magentoObjectMock;
 
@@ -62,7 +62,7 @@ class AdminTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->magentoObjectMock = $this->getMockBuilder('Magento\Object')
+        $this->magentoObjectMock = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
             ->setMethods(['getOrder', 'getData'])
             ->getMock();

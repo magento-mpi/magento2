@@ -36,15 +36,15 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Escaper', array(), array(), '', false);
-        $urlBuilderMock = $this->getMock('\Magento\Url', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
+        $urlBuilderMock = $this->getMock('\Magento\Framework\Url', array(), array(), '', false);
         $this->_image = new \Magento\Framework\Data\Form\Element\Image(
             $factoryMock,
             $collectionFactoryMock,
             $escaperMock,
             $urlBuilderMock
         );
-        $formMock = new \Magento\Object();
+        $formMock = new \Magento\Framework\Object();
         $formMock->getHtmlIdPrefix('id_prefix');
         $formMock->getHtmlIdPrefix('id_suffix');
         $this->_image->setForm($formMock);

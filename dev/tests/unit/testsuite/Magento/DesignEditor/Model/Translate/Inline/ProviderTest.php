@@ -16,7 +16,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     protected $translateVde;
 
     /**
-     * @var \Magento\Translate\Inline
+     * @var \Magento\Framework\Translate\Inline
      */
     protected $translateInline;
 
@@ -28,7 +28,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->translateVde = $this->getMock('Magento\DesignEditor\Model\Translate\Inline', [], [], '', false);
-        $this->translateInline = $this->getMock('Magento\Translate\Inline', [], [], '', false);
+        $this->translateInline = $this->getMock('Magento\Framework\Translate\Inline', [], [], '', false);
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
     }
 
@@ -61,7 +61,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     public function dataProviderGet()
     {
         return [
-            [false, 'Magento\Translate\Inline'],
+            [false, 'Magento\Framework\Translate\Inline'],
             [true, 'Magento\DesignEditor\Model\Translate\Inline'],
         ];
     }
