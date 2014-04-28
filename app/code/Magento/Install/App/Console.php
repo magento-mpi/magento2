@@ -153,7 +153,7 @@ class Console implements \Magento\Framework\AppInterface
             $installerModel = $this->_objectManager
                 ->create('Magento\Install\Model\Installer', ['session' => $sessionConsole]);
             $installer = $this->_installerFactory
-                ->create(array('installArgs' => $this->_arguments, 'installer' => $installerModel));
+                ->create(['installArgs' => $this->_arguments, 'installer' => $installerModel]);
         } else {
             $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
         }
