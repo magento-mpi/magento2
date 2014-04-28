@@ -47,10 +47,9 @@ class Addresses extends Tab
             $addresses = is_array($address) ? $address : [$address];
 
             foreach ($addresses as $address) {
-                $addressData = $address->getData();
-                if (null !== $addressData) {
+                if ($address->hasData()) {
                     $this->addNewAddress();
-                    $this->fillFormTab($addressData, $this->_rootElement);
+                    $this->fillFormTab($address->getData(), $this->_rootElement);
                 }
             }
         }
@@ -69,10 +68,9 @@ class Addresses extends Tab
         $addresses = is_array($address) ? $address : [1 => $address];
 
         foreach ($addresses as $addressNumber => $address) {
-            $addressData = $address->getData();
-            if (null !== $addressData) {
+            if ($address->hasData()) {
                 $this->openCustomerAddress($addressNumber);
-                if (!$this->verifyFormTab($addressData, $this->_rootElement)) {
+                if (!$this->verifyFormTab($address->getData(), $this->_rootElement)) {
                     return false;
                 }
             }

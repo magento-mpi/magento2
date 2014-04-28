@@ -35,8 +35,13 @@ class AssertCustomerInGrid extends AbstractConstraint
      */
     public function processAssert(CustomerInjectable $customer, CustomerIndex $pageCustomerIndex)
     {
+        $name = ($customer->hasData('prefix') ? $customer->getPrefix() . ' ' : '')
+            . $customer->getFirstname()
+            . ($customer->hasData('middlename') ? ' ' . $customer->getMiddlename() : '')
+            . ' ' . $customer->getLastname()
+            . ($customer->hasData('suffix') ? ' ' . $customer->getSuffix() : '');
         $filter = [
-            'name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
+            'name' => $name,
             'email' => $customer->getEmail(),
         ];
 
