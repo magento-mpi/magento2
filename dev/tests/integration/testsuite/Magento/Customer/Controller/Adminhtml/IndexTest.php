@@ -1050,8 +1050,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
     {
         $this->dispatch('backend/customer/index/new/');
         $html = $this->getResponse()->getBody();
-        $this->assertSelectCount('[role=tab]', 2, $html);
-        $this->assertSelectCount("[title='Account Information']", 1, $html);
-        $this->assertSelectCount("[title='Addresses']", 1, $html);
+        $this->assertSelectCount('.tab-item-link', 2, $html);
+        $this->assertSelectCount('[title="Account Information"]', 1, $html);
+        $this->assertSelectCount('[title="Addresses"]', 1, $html);
     }
 }

@@ -29,7 +29,8 @@
 <script type="text/javascript">
     (function($) {
         "use strict";
-        head.js('<?php echo $this->getViewFileUrl('Magento_Review::rating/validation-rules.js'); ?>');
+        $.mage.extend('validation', 'validation',
+            '<?php echo $this->getViewFileUrl('Magento_Review::rating/validation-rules.js'); ?>');
         $('[data-widget=ratingControl]').ratingControl();
     })(jQuery);
 </script>

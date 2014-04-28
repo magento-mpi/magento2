@@ -13,6 +13,15 @@
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
   * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
+  * errors when deleting customer group (MAGETWO-23192)
+  * [IE10] A lot of essential buttons do not work and block other functionality (MAGETWO-22321)
+  * 'Insert Widget' button is not presented in 'Insert Widget' popup while creating CMS page (MAGETWO-23538)
+  * Impossible to change status for rating in Admin (MAGETWO-22577)
+  * User have no possibility to create new email template (MAGETWO-18659)
+  * Billing Agreements tab is displayed during New Customer creation from backend (MAGETWO-20534)
+* GitHub requests:
+  * [GITHUB] PHPUnit 4.0 Compatibility #489 (MAGETWO-23333)
+  * [GITHUB] Image management for products #535 (MAGETWO-23169)
   
 2.0.0.0-dev75
 =============
