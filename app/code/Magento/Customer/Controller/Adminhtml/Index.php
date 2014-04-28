@@ -806,7 +806,7 @@ class Index extends \Magento\Backend\App\Action
 
         if ($response->getError()) {
             $this->_view->getLayout()->initMessages();
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
