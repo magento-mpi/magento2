@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Error;
+namespace Magento\Framework\Error;
 
 /**
  * Error processor
@@ -118,7 +118,7 @@ class Processor
     /**
      * Internal config object
      *
-     * @var stdClass
+     * @var \stdClass
     */
     protected $_config;
 
@@ -315,7 +315,7 @@ class Processor
         $design = $this->_loadXml(self::MAGE_ERRORS_DESIGN_XML);
 
         //initial settings
-        $config = new stdClass();
+        $config = new \stdClass();
         $config->action         = '';
         $config->subject        = 'Store Debug Information';
         $config->email_address  = '';
@@ -578,10 +578,10 @@ class Processor
      * Skin setter
      *
      * @param string $value
-     * @param stdClass $config
+     * @param \stdClass $config
      * @return void
      */
-    protected function _setSkin($value, stdClass $config = null)
+    protected function _setSkin($value, \stdClass $config = null)
     {
         if (preg_match('/^[a-z0-9_]+$/i', $value) && is_dir($this->_indexDir . self::ERROR_DIR . '/' . $value)) {
             if (!$config) {
