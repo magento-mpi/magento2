@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+
+<constraint>
+    <assertCatalogEventSuccessCreateMessage module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventSuccessCreateMessage>
+    <assertCatalogEventInGrid module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventInGrid>
+    <assertCatalogEventIsClosed module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventIsClosed>
+    <assertCatalogEventBlockVisible module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventBlockVisible>
+    <assertAddToCartButtonAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonAbsent>
+    <assertCatalogEventIsUpcoming module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventIsUpcoming>
+    <assertCatalogEventIsOpen module="Magento_CatalogEvent">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertCatalogEventIsOpen>
+    <assertAddToCartButtonPresent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonPresent>
+</constraint>

@@ -38,20 +38,31 @@ class CategoryIds implements FixtureInterface
     protected $category;
 
     /**
-     * @param Category $category
+     * @var
+     */
+    protected $params;
+
+
+    /**
+     * @param CatalogCategoryEntity $catalogCategoryEntity
+     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
      */
-    public function __construct(Category $category, array $params, array $data = [])
+    public function __construct(CatalogCategoryEntity $catalogCategoryEntity,
+        FixtureFactory $fixtureFactory, array $params, array $data = [])
     {
         $this->params = $params;
         if (isset($data['presets']) && $data['presets'] !== '-') {
             $presets = explode(',', $data['presets']);
             foreach ($presets as $preset) {
-                $category->switchData($preset);
+                $category = $fixtureFactory->createByCode('catalogCategoryEntity', ['dataSet' => $preset]);
+//                $category->switchData($preset);
                 $category->persist();
-                $this->category = $category;
-                $this->data[] = $category->getCategoryId();
+
+                /** @var CatalogCategoryEntity $category*/
+                $this->data[] = $category->getId();
+                $this->category[] = $category;
             }
         }
     }
@@ -97,4 +108,8 @@ class CategoryIds implements FixtureInterface
         return $this->category;
     }
 
+    public function addCategory()
+    {
+        return $this->category;
+    }
 }

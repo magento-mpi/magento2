@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <catalogCategoryIndex>
+        <mca>catalog/category/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex</class>
+    </catalogCategoryIndex>
+    <adminCatalogEventNew>
+        <mca>admin/catalog_event/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CatalogEvent\Test\Page\Adminhtml\AdminCatalogEventNew</class>
+    </adminCatalogEventNew>
+    <adminCatalogEventIndex>
+        <mca>admin/catalog_event/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\CatalogEvent\Test\Page\Adminhtml\AdminCatalogEventIndex</class>
+    </adminCatalogEventIndex>
+    <cmsIndex>
+        <mca>cms/index/index</mca>
+        <class>Magento\Cms\Test\Page\CmsIndex</class>
+    </cmsIndex>
+    <cmsHomeIndex>
+        <mca>catalog/category/view</mca>
+        <class>Magento\Catalog\Test\Page\Category\CatalogCategoryView</class>
+    </cmsHomeIndex>
+</page>

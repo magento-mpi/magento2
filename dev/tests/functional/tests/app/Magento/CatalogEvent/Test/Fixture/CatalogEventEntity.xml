@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity">
+    <module>Magento_CatalogEvent</module>
+    <type>flat</type>
+    <entity_type>magento_catalogevent_event</entity_type>
+    <collection>Magento\CatalogEvent\Model\Resource\Event\Collection</collection>
+    <fields>
+        <event_id>
+            <attribute_code>event_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </event_id>
+        <category_id>
+            <attribute_code>category_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </category_id>
+        <date_start>
+            <attribute_code>date_start</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </date_start>
+        <date_end>
+            <attribute_code>date_end</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </date_end>
+        <display_state>
+            <attribute_code>display_state</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </display_state>
+        <sort_order>
+            <attribute_code>sort_order</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </sort_order>
+    </fields>
+    <repository_class>Magento\CatalogEvent\Test\Repository\CatalogEventEntity</repository_class>
+    <handler_interface>Magento\CatalogEvent\Test\Handler\CatalogEventEntity\CatalogEventEntityInterface</handler_interface>
+</fixture>

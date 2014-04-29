@@ -67,6 +67,13 @@ class ListProduct extends Block
     protected $oldPrice = ".old-price .price";
 
     /**
+     *
+     *
+     * @var string
+     */
+    protected $addToCard = "button.action.tocart";
+
+    /**
      * This method returns the price box block for the named product.
      *
      * @param string $productName String containing the name of the product to find.
@@ -136,9 +143,9 @@ class ListProduct extends Block
             $this->productTitle,
             Locator::SELECTOR_CSS
         )->find(
-            '//*[@title="' . $productName . '"]',
-            Locator::SELECTOR_XPATH
-        );
+                '//*[@title="' . $productName . '"]',
+                Locator::SELECTOR_XPATH
+            );
     }
 
     /**
@@ -171,5 +178,15 @@ class ListProduct extends Block
             '.price-box #product-price-' . $productId . ' .price',
             Locator::SELECTOR_CSS
         )->getText();
+    }
+
+    /**
+     * Add To Card Button is visible
+     *
+     * @return bool
+     */
+    public function getAddToCardButton()
+    {
+        return $this->_rootElement->find($this->addToCard, Locator::SELECTOR_CSS)->isVisible();
     }
 }

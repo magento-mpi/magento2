@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="cms/index/index" >
+    <block>
+        <name>searchBlock</name>
+        <class>Magento\Catalog\Test\Block\Search</class>
+        <locator>#search_mini_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>topmenuBlock</name>
+        <class>Magento\Theme\Test\Block\Html\Topmenu</class>
+        <locator>[role=navigation]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>titleBlock</name>
+        <class>Magento\Theme\Test\Block\Html\Title</class>
+        <locator>.page.title</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>footerBlock</name>
+        <class>Magento\Theme\Test\Block\Html\Footer</class>
+        <locator>footer.footer</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>linksBlock</name>
+        <class>Magento\Theme\Test\Block\Links</class>
+        <locator>.header .links</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>storeSwitcherBlock</name>
+        <class>Magento\Store\Test\Block\Switcher</class>
+        <locator>//*[@data-ui-id="language-switcher"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

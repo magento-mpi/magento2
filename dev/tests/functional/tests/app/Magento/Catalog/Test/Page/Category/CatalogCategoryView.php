@@ -2,94 +2,93 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category;
+namespace Magento\Catalog\Test\Page\Category; 
 
-use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
-use Mtf\Page\Page;
+use Mtf\Page\FrontendPage; 
 
 /**
  * Class CatalogCategoryView
- * Category page on frontend
  *
  * @package Magento\Catalog\Test\Page\Category
  */
-class CatalogCategoryView extends Page
+class CatalogCategoryView extends FrontendPage
 {
-    /**
-     * URL for category page
-     */
     const MCA = 'catalog/category/view';
 
-    /**
-     * List of results of product search
-     *
-     * @var string
-     */
-    protected $listProductBlock = '.products.wrapper.grid';
+    protected $_blocks = [
+        'listProductBlock' => [
+            'name' => 'listProductBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\ListProduct',
+            'locator' => '.products.wrapper.grid',
+            'strategy' => 'css selector',
+        ],
+        'mapBlock' => [
+            'name' => 'mapBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\Price',
+            'locator' => '#map-popup-content',
+            'strategy' => 'css selector',
+        ],
+        'layeredNavigationBlock' => [
+            'name' => 'layeredNavigationBlock',
+            'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
+            'locator' => '.block.filter',
+            'strategy' => 'css selector',
+        ],
+        'productPagination' => [
+            'name' => 'productPagination',
+            'class' => 'Magento\Catalog\Test\Block\Category\ProductPagination',
+            'locator' => '.pages .items',
+            'strategy' => 'css selector',
+        ],
+        'eventBlock' => [
+            'name' => 'eventBlock',
+            'class' => 'Magento\CatalogEvent\Test\Block\Event',
+            'locator' => '.top-container',
+            'strategy' => 'css selector',
+        ],
+    ];
 
     /**
-     * MAP popup
-     *
-     * @var string
-     */
-    protected $mapBlock = '#map-popup-content';
-
-    /**
-     * Layered navigation block
-     *
-     * @var string
-     */
-    protected $layeredNavigationBlock = '.block.filter';
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-    }
-
-    /**
-     * Get product list block
-     *
      * @return \Magento\Catalog\Test\Block\Product\ListProduct
      */
     public function getListProductBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
-            $this->_browser->find($this->listProductBlock, Locator::SELECTOR_CSS)
-        );
+        return $this->getBlockInstance('listProductBlock');
     }
 
     /**
-     * Get product price block
-     *
      * @return \Magento\Catalog\Test\Block\Product\Price
      */
     public function getMapBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_browser->find($this->mapBlock, Locator::SELECTOR_CSS)
-        );
+        return $this->getBlockInstance('mapBlock');
     }
 
     /**
-     * Get layered navigation block
-     *
      * @return \Magento\Search\Test\Block\Catalog\Layer\View
      */
     public function getLayeredNavigationBlock()
     {
-        return Factory::getBlockFactory()->getMagentoSearchCatalogLayerView(
-            $this->_browser->find($this->layeredNavigationBlock, Locator::SELECTOR_CSS)
-        );
+        return $this->getBlockInstance('layeredNavigationBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Category\ProductPagination
+     */
+    public function getProductPagination()
+    {
+        return $this->getBlockInstance('productPagination');
+    }
+    
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Event
+     */
+    public function getEventBlock()
+    {
+        return $this->getBlockInstance('eventBlock');
     }
 }

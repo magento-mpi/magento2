@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <wrapper>catalogevent</wrapper>
+    <fields>
+        <date_start />
+        <date_end />
+        <sort_order />
+        <category_page>
+            <selector>#event_edit_display_state_array_1</selector>
+            <input>checkbox</input>
+        </category_page>
+        <product_page>
+            <selector>#event_edit_display_state_array_2</selector>
+            <input>checkbox</input>
+        </product_page>
+        <display_state>
+            <category_page>
+                <selector>#event_edit_display_state_array_1</selector>
+                <strategy>css selector</strategy>
+                <input>checkbox</input>
+            </category_page>
+            <product_page>
+                <selector>#event_edit_display_state_array_2</selector>
+                <strategy>css selector</strategy>
+                <input>checkbox</input>
+            </product_page>
+        </display_state>
+    </fields>
+</mapping>
