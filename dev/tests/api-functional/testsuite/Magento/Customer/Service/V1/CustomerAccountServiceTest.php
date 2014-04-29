@@ -782,6 +782,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
