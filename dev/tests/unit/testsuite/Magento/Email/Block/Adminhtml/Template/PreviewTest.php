@@ -51,15 +51,16 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($template));
 
 
-        $request = $this->getMock('Magento\App\RequestInterface');
+        $request = $this->getMock('Magento\Framework\App\RequestInterface');
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap($requestParamMap));
-        $eventManage = $this->getMock('Magento\Event\ManagerInterface');
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $design = $this->getMock('Magento\View\DesignInterface');
+        $eventManage = $this->getMock('Magento\Framework\Event\ManagerInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $design = $this->getMock('Magento\Framework\View\DesignInterface');
         $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__wakeup'), array(), '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
-        $storeManager->expects($this->any())->method('getAnyStoreView')->will($this->returnValue($store));
+        $storeManager->expects($this->any())->method('getDefaultStoreView')->will($this->returnValue(null));
+        $storeManager->expects($this->any())->method('getStores')->will($this->returnValue([$store]));
 
         $context = $this->getMock('Magento\Backend\Block\Template\Context',
             array('getRequest', 'getEventManager', 'getScopeConfig', 'getDesignPackage', 'getStoreManager'),
@@ -71,7 +72,13 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getDesignPackage')->will($this->returnValue($design));
         $context->expects($this->any())->method('getStoreManager')->will($this->returnValue($storeManager));
 
-        $maliciousCode = $this->getMock('Magento\Filter\Input\MaliciousCode', array('filter'), array(), '', false);
+        $maliciousCode = $this->getMock(
+            'Magento\Framework\Filter\Input\MaliciousCode',
+            array('filter'),
+            array(),
+            '',
+            false
+        );
         $maliciousCode->expects($this->once())->method('filter')->with($this->equalTo($requestParamMap[1][2]))
             ->will($this->returnValue(self::MALICIOUS_TEXT));
 
