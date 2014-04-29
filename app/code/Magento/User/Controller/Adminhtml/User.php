@@ -179,7 +179,10 @@ class User extends \Magento\Backend\App\AbstractAction
         if (isset($data['password']) && $data['password'] === '') {
             unset($data['password']);
         }
-        if (isset($data['password_confirmation']) && $data['password_confirmation'] === '') {
+        if (!isset($data['password'])
+            && isset($data['password_confirmation'])
+            && $data['password_confirmation'] === ''
+        ) {
             unset($data['password_confirmation']);
         }
         return $data;
