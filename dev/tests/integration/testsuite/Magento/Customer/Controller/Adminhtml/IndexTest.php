@@ -160,6 +160,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->getRequest()->setPost($post);
         $this->getRequest()->setParam('back', '1');
+
+        // Emulate setting customer data to session in editAction
+        $objectManager->get('Magento\Backend\Model\Session')->setCustomerData($post);
+
         $this->dispatch('backend/customer/index/save');
         /**
          * Check that errors was generated and set to session
@@ -167,7 +171,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);
 
         /**
-         * Check that customer data were set to session
+         * Check that customer data were cleaned after it was saved successfully
          */
         $this->assertEmpty($objectManager->get('Magento\Backend\Model\Session')->getCustomerData());
 
