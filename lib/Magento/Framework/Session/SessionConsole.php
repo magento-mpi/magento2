@@ -7,11 +7,11 @@
  */
 namespace Magento\Framework\Session;
 
-/**
- * To prevent the session start in console uninstall
- */
 class SessionConsole extends Generic
 {
+    /**
+     * Empty constructor to prevent session start
+     */
     public function __construct()
     {
 
