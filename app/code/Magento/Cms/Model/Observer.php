@@ -24,17 +24,17 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_scopeConfig = $scopeConfig;
@@ -43,10 +43,10 @@ class Observer
     /**
      * Modify No Route Forward object
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function noRoute(\Magento\Event\Observer $observer)
+    public function noRoute(\Magento\Framework\Event\Observer $observer)
     {
         $observer->getEvent()->getStatus()->setLoaded(
             true
@@ -63,10 +63,10 @@ class Observer
     /**
      * Modify no Cookies forward object
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function noCookies(\Magento\Event\Observer $observer)
+    public function noCookies(\Magento\Framework\Event\Observer $observer)
     {
         $redirect = $observer->getEvent()->getRedirect();
 

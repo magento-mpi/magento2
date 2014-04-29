@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page\Adminhtml;
+namespace Magento\Customer\Test\Page\Adminhtml; 
 
-use Mtf\Page\BackendPage;
+use Mtf\Page\BackendPage; 
 
 /**
  * Class CustomerIndexNew
@@ -17,22 +17,50 @@ use Mtf\Page\BackendPage;
  */
 class CustomerIndexNew extends BackendPage
 {
-    const MCA = 'customer/index/new/';
+    const MCA = 'customer/index/new';
 
     protected $_blocks = [
-        'editForm' => [
-            'name' => 'editForm',
-            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '#messages',
+            'strategy' => 'css selector',
+        ],
+        'pageActionsBlock' => [
+            'name' => 'pageActionsBlock',
+            'class' => 'Magento\Backend\Test\Block\FormPageActions',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'customerForm' => [
+            'name' => 'customerForm',
+            'class' => 'Magento\Customer\Test\Block\Adminhtml\Edit\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\CustomerForm
+     * @return \Magento\Core\Test\Block\Messages
      */
-    public function getEditForm()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('editForm');
+        return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\FormPageActions
+     */
+    public function getPageActionsBlock()
+    {
+        return $this->getBlockInstance('pageActionsBlock');
+    }
+
+    /**
+     * @return \Magento\Customer\Test\Block\Adminhtml\Edit\Form
+     */
+    public function getCustomerForm()
+    {
+        return $this->getBlockInstance('customerForm');
     }
 }

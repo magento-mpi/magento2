@@ -58,7 +58,7 @@ return array(
     array('_getAmounts', 'Magento\GiftCard\Block\Catalog\Product\Price'),
     array('searchSuggestions', 'Magento\Search\Model\Client\Solr'),
     array('_registerProductsView', 'Magento\FullPageCache\Model\Container\Viewedproducts'),
-    array('_getForeignKeyName', 'Magento\DB\Adapter\Oracle'),
+    array('_getForeignKeyName', 'Magento\Framework\DB\Adapter\Oracle'),
     array('getCacheInstance', 'Magento\FullPageCache\Model\Cache'),
     array('saveCustomerSegments', 'Magento\Banner\Model\Resource\Banner'),
     array('saveOptions', 'Magento\FullPageCache\Model\Cache'),
@@ -226,4 +226,5 @@ return array(
     array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('getCacheIdTags', 'Magento\CatalogEvent\Model\Event'),
     ['_compareSortOrder', 'Magento\Rma\Block\Returns\Create'],
+    ['getTierPriceHtml', 'Magento\AdvancedCheckout\Block\Sku\Products\Info'],
 );

@@ -23,7 +23,7 @@ class Application
     /**
      * Configuration object
      *
-     * @param \Magento\Config
+     * @var \Magento\TestFramework\Performance\Config
      */
     protected $_config;
 
@@ -35,12 +35,12 @@ class Application
     protected $_installerScript;
 
     /**
-     * @var \Magento\Shell
+     * @var \Magento\Framework\Shell
      */
     protected $_shell;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -62,14 +62,14 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Performance\Config $config
-     * @param \Magento\Shell $shell
-     * @throws \Magento\Exception
+     * @param \Magento\Framework\Shell $shell
+     * @throws \Magento\Framework\Exception
      */
-    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Shell $shell)
+    public function __construct(\Magento\TestFramework\Performance\Config $config, \Magento\Framework\Shell $shell)
     {
         $installerScript = $config->getApplicationBaseDir() . '/dev/shell/install.php';
         if (!is_file($installerScript)) {
-            throw new \Magento\Exception("File '{$installerScript}' is not found.");
+            throw new \Magento\Framework\Exception("File '{$installerScript}' is not found.");
         }
         $this->_installerScript = realpath($installerScript);
         $this->_config = $config;
@@ -137,13 +137,13 @@ class Application
      * Install application according to installation options
      *
      * @return \Magento\TestFramework\Application
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _install()
     {
         $installOptions = $this->_config->getInstallOptions();
         if (!$installOptions) {
-            throw new \Magento\Exception('Trying to install Magento, but installation options are not set');
+            throw new \Magento\Framework\Exception('Trying to install Magento, but installation options are not set');
         }
 
         // Populate install options with global options
@@ -172,11 +172,11 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDirectory */
         $varDirectory = $this->getObjectManager()->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
         $varDirectory->changePermissions('', 0777);
     }
@@ -189,9 +189,9 @@ class Application
     protected function _bootstrap()
     {
         $this->getObjectManager()->configure(
-            $this->getObjectManager()->get('Magento\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
+            $this->getObjectManager()->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load(self::AREA_CODE)
         );
-        $this->getObjectManager()->get('Magento\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
+        $this->getObjectManager()->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope(self::AREA_CODE);
         return $this;
     }
 
@@ -258,14 +258,14 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
-            $this->_objectManager->get('Magento\App\State')->setAreaCode(self::AREA_CODE);
+            $this->_objectManager->get('Magento\Framework\App\State')->setAreaCode(self::AREA_CODE);
         }
         return $this->_objectManager;
     }
@@ -273,7 +273,7 @@ class Application
     /**
      * Reset object manager
      *
-     * @return \Magento\ObjectManager
+     * @return \Magento\Framework\ObjectManager
      */
     public function resetObjectManager()
     {

@@ -18,7 +18,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Cart extends \Magento\Framework\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Get checkout session model instance
@@ -103,9 +103,9 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             $this->messageManager->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                throw new \Magento\Model\Exception($cart->getErrorMessage());
+                throw new \Magento\Framework\Model\Exception($cart->getErrorMessage());
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addException($e, $e->getMessage());
         }
 
@@ -170,11 +170,11 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
         $qty = $this->getRequest()->getParam('qty', 1);
 
         try {
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new \Magento\Object(array('product' => $id, 'qty' => $qty));
+            $buyRequest = new \Magento\Framework\Object(array('product' => $id, 'qty' => $qty));
 
             $params->setBuyRequest($buyRequest);
 
@@ -182,13 +182,13 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
             $view = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
             $params->setBeforeHandles(array('catalog_product_view'));
             $view->prepareAndRender($id, $this, $params);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot configure a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -203,7 +203,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     {
         $hasError = false;
         $id = (int)$this->getRequest()->getParam('id');
-        $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+        $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
         try {
             $cart = $this->_getCart();
 
@@ -221,17 +221,17 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()) {
-                    $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->messageManager->addSuccess($message);
                 }
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('You cannot add a product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $hasError = true;
         }
 

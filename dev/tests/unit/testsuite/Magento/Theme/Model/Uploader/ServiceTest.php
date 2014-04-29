@@ -31,17 +31,17 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     protected $_uploaderFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\File\Size
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\File\Size
      */
     protected $_fileSizeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Filesystem
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Filesystem
      */
     protected $_filesystemMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\Directory\Read
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Filesystem\Directory\Read
      */
     protected $_directoryMock;
 
@@ -61,8 +61,14 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
-        $this->_directoryMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
-        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->_directoryMock = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Read',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_filesystemMock = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_filesystemMock->expects(
             $this->any()
         )->method(
@@ -73,7 +79,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         /** @var $service \Magento\Theme\Model\Uploader\Service */
 
         $this->_fileSizeMock = $this->getMockBuilder(
-            'Magento\File\Size'
+            'Magento\Framework\File\Size'
         )->setMethods(
             array('getMaxFileSize')
         )->disableOriginalConstructor()->getMock();
@@ -207,7 +213,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testUploadInvalidCssFile()
     {
@@ -286,7 +292,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testUploadInvalidJsFile()
     {

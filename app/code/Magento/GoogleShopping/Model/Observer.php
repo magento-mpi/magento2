@@ -17,12 +17,12 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -58,16 +58,16 @@ class Observer
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
     public function __construct(
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -81,7 +81,7 @@ class Observer
     /**
      * Update product item in Google Content
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function saveProductItem($observer)
@@ -101,7 +101,7 @@ class Observer
     /**
      * Delete product item from Google Content
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function deleteProductItem($observer)
@@ -143,10 +143,10 @@ class Observer
     /**
      * Check if synchronize process is finished and generate notification message
      *
-     * @param  \Magento\Event\Observer $observer
+     * @param  \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function checkSynchronizationOperations(\Magento\Event\Observer $observer)
+    public function checkSynchronizationOperations(\Magento\Framework\Event\Observer $observer)
     {
         $this->_flag->loadSelf();
         if ($this->_flag->isExpired()) {

@@ -28,5 +28,11 @@
         </country_id>
         <password />
         <confirmation />
+        <is_subscribed>
+            <input>checkbox</input>
+        </is_subscribed>
+        <password_confirmation>
+            <selector>[name=confirmation]</selector>
+        </password_confirmation>
     </fields>
 </mapping>

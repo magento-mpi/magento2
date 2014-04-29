@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * GoogleShopping Admin Item Types Controller
@@ -19,15 +19,15 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -37,7 +37,7 @@ class Types extends \Magento\Backend\App\Action
      * Dispatches controller_action_postdispatch_adminhtml Event
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -135,7 +135,7 @@ class Types extends \Magento\Backend\App\Action
             );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't create Attribute Set Mapping."));
             $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
         }
@@ -176,7 +176,7 @@ class Types extends \Magento\Backend\App\Action
             );
             $this->_view->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't edit Attribute Set Mapping."));
             $this->_redirect('adminhtml/*/index');
         }
@@ -246,7 +246,7 @@ class Types extends \Magento\Backend\App\Action
                 );
             }
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
@@ -268,7 +268,7 @@ class Types extends \Magento\Backend\App\Action
             }
             $this->messageManager->addSuccess(__('Attribute set mapping was deleted'));
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__("We can't delete Attribute Set Mapping."));
         }
         $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
@@ -294,7 +294,7 @@ class Types extends \Magento\Backend\App\Action
                 )->toHtml()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             // just need to output text with error
             $this->messageManager->addError(__("We can't load attributes."));
         }
@@ -316,7 +316,7 @@ class Types extends \Magento\Backend\App\Action
                 )->toHtml()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             // just need to output text with error
             $this->messageManager->addError(__("We can't load attribute sets."));
         }

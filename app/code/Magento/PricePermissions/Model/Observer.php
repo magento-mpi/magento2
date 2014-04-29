@@ -10,7 +10,7 @@
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Backend\Block\Widget\Grid;
 
 /**
@@ -23,7 +23,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -107,7 +107,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -134,8 +134,8 @@ class Observer
 
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -143,8 +143,8 @@ class Observer
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -389,7 +389,7 @@ class Observer
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-        /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -589,7 +589,7 @@ class Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      */
     protected function _hidePriceElements($block)

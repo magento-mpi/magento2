@@ -23,7 +23,7 @@ class Category
     protected $appConfig;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $authorization;
 
@@ -35,13 +35,13 @@ class Category
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\CatalogPermissions\App\ConfigInterface $appConfig
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
         \Magento\CatalogPermissions\App\ConfigInterface $appConfig,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
     ) {
         $this->indexer = $indexer;

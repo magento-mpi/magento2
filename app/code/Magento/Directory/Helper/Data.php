@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured
@@ -66,7 +66,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_optZipCountries = null;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -91,29 +91,29 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Country\Collection $countryCollection
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollectionFactory,
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Country\Collection $countryCollection,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regCollectionFactory,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\App\Config\ScopeConfigInterface $config
+        \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -159,7 +159,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegionJson()
     {
-        \Magento\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
@@ -193,7 +193,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_regionJson = $json;
         }
 
-        \Magento\Profiler::stop('TEST: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('TEST: ' . __METHOD__);
         return $this->_regionJson;
     }
 

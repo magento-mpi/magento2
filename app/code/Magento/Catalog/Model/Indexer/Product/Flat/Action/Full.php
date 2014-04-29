@@ -22,7 +22,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
      * @param null|array $ids
      *
      * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Full
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      * @throws \Exception
      */
     public function execute($ids = null)
@@ -32,7 +32,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
                 $this->_reindex($store->getId());
             }
         } catch (\Exception $e) {
-            throw new \Magento\Model\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new \Magento\Framework\Model\Exception($e->getMessage(), $e->getCode(), $e);
         }
         return $this;
     }

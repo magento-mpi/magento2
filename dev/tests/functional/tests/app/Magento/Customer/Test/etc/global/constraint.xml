@@ -8,6 +8,41 @@
  */
 -->
 <constraint>
+    <assertCustomerSuccessSaveMessage module="Magento_Customer">
+        <severeness>low</severeness>
+        <require>
+            <pageCustomerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+        </require>
+    </assertCustomerSuccessSaveMessage>
+    <assertCustomerSuccessRegisterMessage module="Magento_Customer">
+        <severeness>low</severeness>
+        <require>
+            <registerPage class="Magento\Customer\Test\Page\CustomerAccountCreate" />
+        </require>
+    </assertCustomerSuccessRegisterMessage>
+    <assertCustomerInGrid module="Magento_Customer">
+        <severeness>middle</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <pageCustomerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+        </require>
+    </assertCustomerInGrid>
+    <assertCustomerForm module="Magento_Customer">
+        <severeness>middle</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <pageCustomerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
+            <pageCustomerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
+        </require>
+    </assertCustomerForm>
+    <assertCustomerInvalidEmail module="Magento_Customer">
+        <severeness>middle</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <addresses class="Magento\Customer\Test\Fixture\AddressInjectable" />
+            <pageCustomerIndexNew class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew" />
+        </require>
+    </assertCustomerInvalidEmail>
     <assertCustomerGroupSuccessCreateMessage module="Magento_Customer">
         <severeness>low</severeness>
     </assertCustomerGroupSuccessCreateMessage>

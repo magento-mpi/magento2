@@ -9,11 +9,12 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Object\IdentityInterface;
+
 /**
  * Catalog product model
  *
- * @method Resource\Product getResource()
- * @method Resource\Product _getResource()
  * @method \Magento\Catalog\Model\Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
@@ -25,7 +26,7 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityInterface, SaleableInterface
 {
     /**
      * Entity code.
@@ -33,6 +34,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     const ENTITY = 'catalog_product';
 
+    /**
+     * Product cache tag
+     */
     const CACHE_TAG = 'catalog_product';
 
     const CACHE_CATEGORY_TAG = 'catalog_category_product';
@@ -148,7 +152,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_catalogImage = null;
 
     /**
-     * @var \Magento\Data\CollectionFactory
+     * @var \Magento\Framework\Data\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -218,7 +222,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Filesystem facade
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
@@ -238,8 +242,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     protected $_productPriceIndexerProcessor;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @var \Magento\Framework\Pricing\PriceInfo\Base
+     */
+    protected $_priceInfo;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -257,8 +266,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
@@ -267,8 +276,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -286,8 +295,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
         \Magento\Catalog\Helper\Product $catalogProduct,
         Resource\Product $resource,
         Resource\Product\Collection $resourceCollection,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\Data\CollectionFactory $collectionFactory,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
@@ -542,13 +551,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
             }
         }
 
-        return (array)$this->_getData('category_ids');
+        return (array) $this->_getData('category_ids');
     }
 
     /**
      * Retrieve product categories
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getCategoryCollection()
     {
@@ -689,7 +698,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function canAffectOptions($value = null)
     {
         if (null !== $value) {
-            $this->_canAffectOptions = (bool)$value;
+            $this->_canAffectOptions = (bool) $value;
         }
         return $this->_canAffectOptions;
     }
@@ -715,7 +724,31 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
 
         $this->_indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
+        $this->reloadPriceInfo();
         return $result;
+    }
+
+    /**
+     * Set quantity for product
+     *
+     * @param float $qty
+     * @return $this
+     */
+    public function setQty($qty)
+    {
+        $this->setData('qty', $qty);
+        $this->reloadPriceInfo();
+        return $this;
+    }
+
+    /**
+     * Get quantity for product
+     *
+     * @return float
+     */
+    public function getQty()
+    {
+        return $this->getData('qty');
     }
 
     /**
@@ -812,6 +845,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
+     * Get product Price Info object
+     *
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
+     */
+    public function getPriceInfo()
+    {
+        if (!$this->_priceInfo) {
+            $this->_priceInfo = $this->_catalogProductType->getPriceInfo($this);
+        }
+        return $this->_priceInfo;
+    }
+
+    /**
      * Get product group price
      *
      * @return float
@@ -826,6 +872,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      *
      * @param   float $qty
      * @return  float|array
+     * @deprecated
      */
     public function getTierPrice($qty = null)
     {
@@ -836,6 +883,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * Count how many tier prices we have for the product
      *
      * @return  int
+     * @deprecated
      */
     public function getTierPriceCount()
     {
@@ -843,10 +891,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Get formated by currency tier price
+     * Get formatted by currency tier price
      *
      * @param   float $qty
      * @return  array || double
+     * @deprecated
      */
     public function getFormatedTierPrice($qty = null)
     {
@@ -854,7 +903,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Get formated by currency product price
+     * Get formatted by currency product price
      *
      * @return  array || double
      */
@@ -918,6 +967,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * Returns special price
      *
      * @return float
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialPrice()
     {
@@ -928,6 +978,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * Returns starting date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialFromDate()
     {
@@ -938,6 +989,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      * Returns end date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialToDate()
     {
@@ -1156,11 +1208,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Retrieve media gallery images
      *
-     * @return \Magento\Data\Collection
+     * @return \Magento\Framework\Data\Collection
      */
     public function getMediaGalleryImages()
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MEDIA_DIR);
         if (!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
@@ -1170,7 +1222,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
                 $image['id'] = isset($image['value_id']) ? $image['value_id'] : null;
                 $image['path'] = $directory->getAbsolutePath($this->getMediaConfig()->getMediaPath($image['file']));
-                $images->addItem(new \Magento\Object($image));
+                $images->addItem(new \Magento\Framework\Object($image));
             }
             $this->setData('media_gallery_images', $images);
         }
@@ -1293,7 +1345,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
 
         $salable = $this->isAvailable();
 
-        $object = new \Magento\Object(array('product' => $this, 'is_salable' => $salable));
+        $object = new \Magento\Framework\Object(array('product' => $this, 'is_salable' => $salable));
         $this->_eventManager->dispatch(
             'catalog_product_is_salable_after',
             array('product' => $this, 'salable' => $object)
@@ -1463,7 +1515,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function toArray(array $arrAttributes = array())
     {
         $data = parent::toArray($arrAttributes);
-        if ($stock = $this->getStockItem()) {
+        $stock = $this->getStockItem();
+        if ($stock) {
             $data['stock_item'] = $stock->toArray();
         }
         unset($data['stock_item']['product']);
@@ -1794,12 +1847,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Parse buyRequest into options values used by product
      *
-     * @param  \Magento\Object $buyRequest
-     * @return \Magento\Object
+     * @param  \Magento\Framework\Object $buyRequest
+     * @return \Magento\Framework\Object
      */
-    public function processBuyRequest(\Magento\Object $buyRequest)
+    public function processBuyRequest(\Magento\Framework\Object $buyRequest)
     {
-        $options = new \Magento\Object();
+        $options = new \Magento\Framework\Object();
 
         /* add product custom options data */
         $customOptions = $buyRequest->getOptions();
@@ -1827,13 +1880,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Get preconfigured values from product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getPreconfiguredValues()
     {
         $preConfiguredValues = $this->getData('preconfigured_values');
         if (!$preConfiguredValues) {
-            $preConfiguredValues = new \Magento\Object();
+            $preConfiguredValues = new \Magento\Framework\Object();
         }
 
         return $preConfiguredValues;
@@ -1901,7 +1954,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
          * unload product options
          */
         if (!empty($this->_options)) {
-            foreach ($this->_options as $key => $option) {
+            foreach ($this->_options as $option) {
                 $option->setProduct();
                 $option->clearInstance();
             }
@@ -2004,5 +2057,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
             $identities[] = self::CACHE_CATEGORY_TAG . '_' . $categoryId;
         }
         return $identities;
+    }
+
+    /**
+     * Reload PriceInfo object
+     *
+     * @return \Magento\Framework\Pricing\PriceInfo\Base
+     */
+    public function reloadPriceInfo()
+    {
+        if ($this->_priceInfo) {
+            $this->_priceInfo = null;
+            return $this->getPriceInfo();
+        }
     }
 }

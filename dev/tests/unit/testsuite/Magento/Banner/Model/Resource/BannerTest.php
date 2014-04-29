@@ -39,7 +39,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
 
         $writeAdapter = $this->getMockForAbstractClass(
-            'Magento\DB\Adapter\AdapterInterface',
+            'Magento\Framework\DB\Adapter\AdapterInterface',
             array(),
             '',
             false,
@@ -51,7 +51,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
-            'Magento\DB\Adapter\AdapterInterface',
+            'Magento\Framework\DB\Adapter\AdapterInterface',
             array(),
             '',
             false,
@@ -62,7 +62,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            'Magento\App\Resource',
+            'Magento\Framework\App\Resource',
             array('getConnection', 'getTableName'),
             array(),
             '',
@@ -77,7 +77,13 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap(array(array('core_write', $writeAdapter), array('core_read', $this->_readAdapter)))
         );
 
-        $this->_eventManager = $this->getMock('Magento\Event\ManagerInterface', array('dispatch'), array(), '', false);
+        $this->_eventManager = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array('dispatch'),
+            array(),
+            '',
+            false
+        );
 
         $this->_bannerConfig = $this->getMock(
             'Magento\Banner\Model\Config',

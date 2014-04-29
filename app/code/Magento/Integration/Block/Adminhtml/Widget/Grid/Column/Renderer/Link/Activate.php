@@ -11,7 +11,7 @@ namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 
 use Magento\Integration\Model\Integration;
 use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
-use Magento\Object;
+use Magento\Framework\Object;
 
 class Activate extends Link
 {

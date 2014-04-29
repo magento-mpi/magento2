@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin for \Magento\Mview\View\StateInterface model
+ * Plugin for \Magento\Framework\Mview\View\StateInterface model
  *
  * {license_notice}
  *
@@ -12,12 +12,12 @@ namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 class MviewState
 {
     /**
-     * @var \Magento\Mview\View\StateInterface
+     * @var \Magento\Framework\Mview\View\StateInterface
      */
     protected $state;
 
     /**
-     * @var \Magento\Mview\View\ChangelogInterface
+     * @var \Magento\Framework\Mview\View\ChangelogInterface
      */
     protected $changelog;
 
@@ -32,12 +32,12 @@ class MviewState
     );
 
     /**
-     * @param \Magento\Mview\View\StateInterface $state
-     * @param \Magento\Mview\View\ChangelogInterface $changelog
+     * @param \Magento\Framework\Mview\View\StateInterface $state
+     * @param \Magento\Framework\Mview\View\ChangelogInterface $changelog
      */
     public function __construct(
-        \Magento\Mview\View\StateInterface $state,
-        \Magento\Mview\View\ChangelogInterface $changelog
+        \Magento\Framework\Mview\View\StateInterface $state,
+        \Magento\Framework\Mview\View\ChangelogInterface $changelog
     ) {
         $this->state = $state;
         $this->changelog = $changelog;
@@ -46,10 +46,10 @@ class MviewState
     /**
      * Synchronize status for view
      *
-     * @param \Magento\Mview\View\StateInterface $state
-     * @return \Magento\Mview\View\StateInterface
+     * @param \Magento\Framework\Mview\View\StateInterface $state
+     * @return \Magento\Framework\Mview\View\StateInterface
      */
-    public function afterSetStatus(\Magento\Mview\View\StateInterface $state)
+    public function afterSetStatus(\Magento\Framework\Mview\View\StateInterface $state)
     {
         if (in_array($state->getViewId(), $this->viewIds)) {
             $viewId = $state->getViewId() ==
@@ -58,20 +58,20 @@ class MviewState
             $relatedState = $this->state->loadByView($viewId);
 
             // If equals nothing to change
-            if ($relatedState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED ||
+            if ($relatedState->getMode() == \Magento\Framework\Mview\View\StateInterface::MODE_DISABLED ||
                 $state->getStatus() == $relatedState->getStatus()
             ) {
                 return $state;
             }
 
             // Suspend
-            if ($state->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
-                $relatedState->setStatus(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED);
+            if ($state->getStatus() == \Magento\Framework\Mview\View\StateInterface::STATUS_SUSPENDED) {
+                $relatedState->setStatus(\Magento\Framework\Mview\View\StateInterface::STATUS_SUSPENDED);
                 $relatedState->setVersionId($this->changelog->setViewId($viewId)->getVersion());
                 $relatedState->save();
             } else {
-                if ($relatedState->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
-                    $relatedState->setStatus(\Magento\Mview\View\StateInterface::STATUS_IDLE);
+                if ($relatedState->getStatus() == \Magento\Framework\Mview\View\StateInterface::STATUS_SUSPENDED) {
+                    $relatedState->setStatus(\Magento\Framework\Mview\View\StateInterface::STATUS_IDLE);
                     $relatedState->save();
                 }
             }

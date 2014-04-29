@@ -64,7 +64,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        \Magento\System\Dirs::rm($this->_pathPath);
+        \Magento\Framework\System\Dirs::rm($this->_pathPath);
     }
 
     public function testGeneration()

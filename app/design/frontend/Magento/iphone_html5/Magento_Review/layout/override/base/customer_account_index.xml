@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../code/Magento/Core/etc/layout_single.xsd">
+    <referenceBlock name="customer_account_dashboard">
+        <block class="Magento\Review\Block\Customer\Recent" name="customer_account_dashboard_info1" as="info1" template="customer/recent.phtml" cacheable="false"/>
+    </referenceBlock>
+</layout>

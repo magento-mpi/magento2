@@ -15,7 +15,7 @@ namespace Magento\GiftRegistry\Block\Search;
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Results extends \Magento\View\Element\Template
+class Results extends \Magento\Framework\View\Element\Template
 {
     /**
      * Set search results and create html pager block
@@ -59,7 +59,7 @@ class Results extends \Magento\View\Element\Template
         if ($item->getEventDate()) {
             return $this->formatDate(
                 $item->getEventDate(),
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
             );
         }
     }

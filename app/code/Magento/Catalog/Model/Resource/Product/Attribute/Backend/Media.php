@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Media extends \Magento\Model\Resource\Db\AbstractDb
+class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     const GALLERY_TABLE = 'catalog_product_entity_media_gallery';
 
@@ -69,7 +69,7 @@ class Media extends \Magento\Model\Resource\Db\AbstractDb
             'main.entity_id = ?',
             $product->getId()
         )->order(
-            $positionCheckSql . ' ' . \Magento\DB\Select::SQL_ASC
+            $positionCheckSql . ' ' . \Magento\Framework\DB\Select::SQL_ASC
         );
 
         $result = $adapter->fetchAll($select);
@@ -109,7 +109,7 @@ class Media extends \Magento\Model\Resource\Db\AbstractDb
     public function insertGallery($data)
     {
         $adapter = $this->_getWriteAdapter();
-        $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getMainTable());
+        $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getMainTable());
         $adapter->insert($this->getMainTable(), $data);
 
         return $adapter->lastInsertId($this->getMainTable());
@@ -143,7 +143,7 @@ class Media extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function insertGalleryValueInStore($data)
     {
-        $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
+        $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getTable(self::GALLERY_VALUE_TABLE));
         $this->_getWriteAdapter()->insert($this->getTable(self::GALLERY_VALUE_TABLE), $data);
 
         return $this;

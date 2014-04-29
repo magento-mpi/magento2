@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 $installer = $this;
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 
 $installer->startSetup();
 /**
@@ -16,19 +16,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('admin_system_messages')
 )->addColumn(
     'identity',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     100,
     array('nullable' => false, 'primary' => true),
     'Message id'
 )->addColumn(
     'severity',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Problem type'
 )->addColumn(
     'created_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array('nullable' => false),
     'Create date'

@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Block\Sales\Order;
 
-class Total extends \Magento\View\Element\Template
+class Total extends \Magento\Framework\View\Element\Template
 {
     /**
      * Reward data
@@ -19,12 +19,12 @@ class Total extends \Magento\View\Element\Template
     protected $_rewardData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
@@ -84,7 +84,7 @@ class Total extends \Magento\View\Element\Template
             $value = -$source->getRewardCurrencyAmount();
 
             $this->getParentBlock()->addTotal(
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         'code' => 'reward_points',
                         'strong' => false,

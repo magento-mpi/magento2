@@ -33,7 +33,7 @@ class EavTest extends \PHPUnit_Framework_TestCase
             array(
                 'collectionFactory' => $collectionFactory,
                 'attributeConfig' => $attributeConfig,
-                'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false)
+                'context' => $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false)
             )
         );
     }
@@ -46,7 +46,7 @@ class EavTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAdditionalTextElementClasses($validateRules, $additionalClasses)
     {
-        $attributeMock = new \Magento\Object(array('validate_rules' => $validateRules));
+        $attributeMock = new \Magento\Framework\Object(array('validate_rules' => $validateRules));
         $this->assertEquals($this->_model->getAdditionalTextElementClasses($attributeMock), $additionalClasses);
     }
 

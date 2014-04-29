@@ -9,7 +9,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
 
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Import frame result block.
@@ -50,18 +50,18 @@ class Result extends \Magento\Backend\Block\Template
     protected $_messages = array('error' => array(), 'success' => array(), 'notice' => array());
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -195,8 +195,8 @@ class Result extends \Magento\Backend\Block\Template
      */
     public function getMessagesHtml()
     {
-        /** @var $messagesBlock \Magento\View\Element\Messages */
-        $messagesBlock = $this->_layout->createBlock('Magento\View\Element\Messages');
+        /** @var $messagesBlock \Magento\Framework\View\Element\Messages */
+        $messagesBlock = $this->_layout->createBlock('Magento\Framework\View\Element\Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";

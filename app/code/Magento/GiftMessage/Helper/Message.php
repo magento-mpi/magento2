@@ -42,7 +42,7 @@ class Message extends \Magento\Core\Helper\Data
     protected $_productFactory;
 
     /**
-     * @var \Magento\View\LayoutFactory
+     * @var \Magento\Framework\View\LayoutFactory
      */
     protected $_layoutFactory;
 
@@ -52,74 +52,96 @@ class Message extends \Magento\Core\Helper\Data
     protected $_giftMessageFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * Pages to skip message checks
+     *
+     * @var array
+     */
+    protected $skipMessageCheck = array();
+
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\View\LayoutFactory $layoutFactory
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
+     * @param array $skipMessageCheck
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\View\LayoutFactory $layoutFactory,
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
+        $skipMessageCheck = array(),
         $dbCompatibleMode = true
     ) {
         $this->_escaper = $escaper;
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct($context, $scopeConfig, $storeManager, $appState, $dbCompatibleMode);
+        $this->skipMessageCheck = $skipMessageCheck;
+        parent::__construct(
+            $context,
+            $scopeConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**
      * Retrieve inline giftmessage edit form for specified entity
      *
      * @param string $type
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @param bool $dontDisplayContainer
      * @return string
      */
-    public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
+    public function getInline($type, \Magento\Framework\Object $entity, $dontDisplayContainer = false)
     {
-        if (!$this->isMessagesAvailable($type, $entity)) {
+        if (!$this->skipPage($type) && !$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
-        return $this->_layoutFactory->create()->createBlock(
-            'Magento\GiftMessage\Block\Message\Inline'
-        )->setId(
-            'giftmessage_form_' . $this->_nextId++
-        )->setDontDisplayContainer(
-            $dontDisplayContainer
-        )->setEntity(
-            $entity
-        )->setType(
-            $type
-        )->toHtml();
+        return $this->_layoutFactory->create()->createBlock('Magento\GiftMessage\Block\Message\Inline')
+            ->setId('giftmessage_form_' . $this->_nextId++)
+            ->setDontDisplayContainer($dontDisplayContainer)
+            ->setEntity($entity)
+            ->setType($type)->toHtml();
+    }
+
+    /**
+     * @param string $pageType
+     * @return bool
+     */
+    protected function skipPage($pageType)
+    {
+        return in_array($pageType, $this->skipMessageCheck);
     }
 
     /**
      * Check availability of giftmessages for specified entity.
      *
      * @param string $type
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @param \Magento\Store\Model\Store|int|null $store
      * @return bool|string|null
      */
-    public function isMessagesAvailable($type, \Magento\Object $entity, $store = null)
+    public function isMessagesAvailable($type, \Magento\Framework\Object $entity, $store = null)
     {
         if ($type == 'items') {
             $items = $entity->getAllItems();
@@ -186,11 +208,11 @@ class Message extends \Magento\Core\Helper\Data
      * Alias for isMessagesAvailable(...)
      *
      * @param string $type
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @param \Magento\Store\Model\Store|int|null $store
      * @return bool|null|string
      */
-    public function getIsMessagesAvailable($type, \Magento\Object $entity, $store = null)
+    public function getIsMessagesAvailable($type, \Magento\Framework\Object $entity, $store = null)
     {
         return $this->isMessagesAvailable($type, $entity, $store);
     }
@@ -198,10 +220,10 @@ class Message extends \Magento\Core\Helper\Data
     /**
      * Retrieve escaped and preformated gift message text for specified entity
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return string|null
      */
-    public function getEscapedGiftMessage(\Magento\Object $entity)
+    public function getEscapedGiftMessage(\Magento\Framework\Object $entity)
     {
         $message = $this->getGiftMessageForEntity($entity);
         if ($message) {
@@ -213,10 +235,10 @@ class Message extends \Magento\Core\Helper\Data
     /**
      * Retrieve gift message for entity. If message not exists return null
      *
-     * @param \Magento\Object $entity
+     * @param \Magento\Framework\Object $entity
      * @return \Magento\GiftMessage\Model\Message
      */
-    public function getGiftMessageForEntity(\Magento\Object $entity)
+    public function getGiftMessageForEntity(\Magento\Framework\Object $entity)
     {
         if ($entity->getGiftMessageId() && !$entity->getGiftMessage()) {
             $message = $this->getGiftMessage($entity->getGiftMessageId());

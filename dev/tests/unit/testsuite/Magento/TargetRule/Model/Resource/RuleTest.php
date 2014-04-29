@@ -19,12 +19,12 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $resourceRule;
 
     /**
-     * @var \Magento\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleManager;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -34,33 +34,33 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $context;
 
     /**
-     * @var \Magento\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $ruleModel;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $adapter;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $appResource;
 
     protected function setUp()
     {
-        $this->moduleManager = $this->getMock('Magento\Module\Manager', [], [], '', false);
-        $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
+        $this->moduleManager = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
+        $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->context = $this->getMock('Magento\Indexer\Model\CacheContext', [], [], '', false);
         $this->ruleModel = $this->getMock('Magento\TargetRule\Model\Rule', [], [], '', false);
 
-        $this->adapter = $this->getMock('Magento\DB\Adapter\Pdo\Mysql',
+        $this->adapter = $this->getMock('Magento\Framework\DB\Adapter\Pdo\Mysql',
             ['_connect', 'delete', 'describeTable', 'fetchCol', 'insert', 'lastInsertId', 'quote'], [], '', false);
         $this->adapter->expects($this->any())->method('describeTable')->will($this->returnValue([]));
         $this->adapter->expects($this->any())->method('lastInsertId')->will($this->returnValue(1));
 
-        $this->appResource = $this->getMock('Magento\App\Resource', [], [], '', false);
+        $this->appResource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->appResource->expects($this->any())->method('getConnection')->will($this->returnValue($this->adapter));
 
         $this->resourceRule = (new ObjectManager($this))->getObject('Magento\TargetRule\Model\Resource\Rule', [
@@ -77,7 +77,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $matchedProductIds = [3, 4, 5];
         $productIdsForClean = [1, 2, 3, 4 => 4, 5 => 5]; // result of array_unique and array_merge
 
-        $this->adapter->expects($this->once())->method('fetchCol')->with($this->isInstanceOf('Magento\DB\Select'))
+        $this->adapter->expects($this->once())
+            ->method('fetchCol')
+            ->with($this->isInstanceOf('Magento\Framework\DB\Select'))
             ->will($this->returnValue($productIdsBeforeUnbind));
 
         $this->ruleModel->expects($this->once())->method('getMatchingProductIds')

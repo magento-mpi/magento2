@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Module/etc/module.xsd">
     <module name="Magento_Checkout" version="1.6.0.0" active="true">
         <sequence>
             <module name="Magento_Sales"/>
@@ -27,7 +27,6 @@
             <module name="Magento_GiftMessage"/>
             <module name="Magento_Wishlist"/>
             <module name="Magento_Weee"/>
-            <module name="Magento_Backend"/>
             <module name="Magento_PageCache"/>
             <module name="Magento_Theme"/>
         </depends>

@@ -8,6 +8,25 @@
  */
 -->
 <page>
+    <customerAccountCreate>
+        <mca>customer/account/create</mca>
+        <class>Magento\Customer\Test\Page\CustomerAccountCreate</class>
+    </customerAccountCreate>
+    <customerIndex>
+        <mca>customer/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndex</class>
+    </customerIndex>
+    <customerIndexNew>
+        <mca>customer/index/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew</class>
+    </customerIndexNew>
+    <customerIndexEdit>
+        <mca>customer/index/edit</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit</class>
+    </customerIndexEdit>
     <customerGroupIndex>
         <mca>customer/group/index</mca>
         <area>adminhtml</area>
@@ -18,9 +37,4 @@
         <area>adminhtml</area>
         <class>Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew</class>
     </customerGroupNew>
-    <customerIndexNew>
-        <mca>customer/index/new/</mca>
-        <area>adminhtml</area>
-        <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew</class>
-    </customerIndexNew>
 </page>
