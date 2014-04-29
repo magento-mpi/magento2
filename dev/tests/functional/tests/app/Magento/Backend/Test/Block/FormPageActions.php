@@ -73,6 +73,8 @@ class FormPageActions extends PageActions
     public function saveAndContinue()
     {
         $this->_rootElement->find($this->saveAndContinueButton)->click();
+        $this->waitForElementNotVisible('.popup popup-loading');
+        $this->waitForElementNotVisible('.loader');
     }
 
     /**

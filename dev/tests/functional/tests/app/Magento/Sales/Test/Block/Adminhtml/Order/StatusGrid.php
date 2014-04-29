@@ -8,7 +8,7 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
  * Class StatusGrid
@@ -16,7 +16,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
  *
  * @package Magento\Sales\Test\Block\Adminhtml\Order
  */
-class StatusGrid extends Grid
+class StatusGrid extends GridInterface
 {
     /**
      * Initialize block elements
