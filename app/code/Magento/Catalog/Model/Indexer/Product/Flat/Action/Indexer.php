@@ -31,7 +31,7 @@ class Indexer
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
-       ) {
+    ) {
         $this->_productIndexerHelper = $productHelper;
         $this->_connection = $resource->getConnection('default');
     }
@@ -93,14 +93,14 @@ class Indexer
                         ) . ' AND t.store_id = 0',
                         array()
                     )->joinLeft(
-                            array('t2' => $tableName),
-                            't.entity_id = t2.entity_id ' .
-                            ' AND t.attribute_id = t2.attribute_id  ' .
-                            $this->_connection->quoteInto(
-                                ' AND t2.store_id = ?',
-                                $storeId
-                            ),
-                            array()
+                        array('t2' => $tableName),
+                        't.entity_id = t2.entity_id ' .
+                        ' AND t.attribute_id = t2.attribute_id  ' .
+                        $this->_connection->quoteInto(
+                            ' AND t2.store_id = ?',
+                            $storeId
+                        ),
+                        array()
                         )->where(
                             'e.entity_id = ' . $productId
                         )->where(
@@ -123,8 +123,8 @@ class Indexer
                             array('t' => $this->_productIndexerHelper->getTable('eav_attribute_option_value')),
                             array('t.option_id', 't.value')
                         )->where(
-                                $this->_connection->quoteInto('t.option_id IN (?)', $valueIds)
-                            );
+                            $this->_connection->quoteInto('t.option_id IN (?)', $valueIds)
+                        );
                         $cursor = $this->_connection->query($select);
                         while ($row = $cursor->fetch(\Zend_Db::FETCH_ASSOC)) {
                             $valueColumnName = $valueColumns[$row['option_id']];
@@ -141,8 +141,8 @@ class Indexer
                         array('e' => $this->_productIndexerHelper->getTable('catalog_product_entity')),
                         $columnNames
                     )->where(
-                            'e.entity_id = ' . $productId
-                        );
+                        'e.entity_id = ' . $productId
+                    );
                     $cursor = $this->_connection->query($select);
                     $row = $cursor->fetch(\Zend_Db::FETCH_ASSOC);
                     if (!empty($row)) {
@@ -165,4 +165,4 @@ class Indexer
 
         return $this;
     }
-} 
+}
