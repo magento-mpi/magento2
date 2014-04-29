@@ -303,25 +303,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $file
-     * @param string $expectedErrorMessage
-     * @dataProvider extractModuleExceptionDataProvider
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage Scope separator "::" cannot be used without scope identifier.
      */
-    public function testExtractModuleException($file, $expectedErrorMessage)
+    public function testExtractModuleException()
     {
-        $this->setExpectedException('\Magento\Exception', $expectedErrorMessage);
-        Repository::extractModule($file);
-    }
-
-    /**
-     * @return array
-     */
-    public function extractModuleExceptionDataProvider()
-    {
-        return array(
-            array('::no_scope.ext', 'Scope separator "::" cannot be used without scope identifier.'),
-            array('../file.ext', 'File name \'../file.ext\' is forbidden for security reasons.'),
-        );
+        Repository::extractModule('::no_scope.ext');
     }
 
     public function testExtractModule()

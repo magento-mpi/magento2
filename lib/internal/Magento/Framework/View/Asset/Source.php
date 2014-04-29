@@ -8,6 +8,8 @@
 
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\View\Design\FileResolution\Fallback\Resolver\Simple;
+
 /**
  * A service for preprocessing content of assets
  */
@@ -218,6 +220,7 @@ class Source
     private function findFile(LocalInterface $asset, \Magento\Framework\View\Asset\File\Context $context)
     {
         $dir = $this->filesystem->getDirectoryRead($context->getBaseDirType());
+        Simple::assertFilePathFormat($asset->getFilePath());
         return $dir->getAbsolutePath($asset->getPath());
     }
 }

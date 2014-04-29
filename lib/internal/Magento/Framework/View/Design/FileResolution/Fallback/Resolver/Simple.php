@@ -51,6 +51,7 @@ class Simple implements Fallback\ResolverInterface
      */
     public function resolve($type, $file, $area = null, ThemeInterface $theme = null, $locale = null, $module = null)
     {
+        self::assertFilePathFormat($file);
         $themePath = $theme ? $theme->getThemePath() : '';
         $path = $this->cache->getFromCache($type, $file, $area, $themePath, $locale, $module);
         if (false !== $path) {
@@ -71,6 +72,19 @@ class Simple implements Fallback\ResolverInterface
             $this->cache->saveToCache($cachedValue, $type, $file, $area, $themePath, $locale, $module);
         }
         return $path;
+    }
+
+    /**
+     * Validate the file path format
+     *
+     * @param string $filePath
+     * @throws \InvalidArgumentException
+     */
+    public static function assertFilePathFormat($filePath)
+    {
+        if (strpos(str_replace('\\', '/', $filePath), './') !== false) {
+            throw new \InvalidArgumentException("File path '{$filePath}' is forbidden for security reasons.");
+        }
     }
 
     /**

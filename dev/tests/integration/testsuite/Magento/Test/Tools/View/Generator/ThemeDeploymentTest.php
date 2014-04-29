@@ -52,6 +52,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-22650');
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
         $this->filesystem = $this->getMock('Magento\Framework\App\Filesystem', $methods, array(), '', false);
         $this->filesystem->expects(
@@ -95,6 +96,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        $this->markTestIncomplete('MAGETWO-22650');
         $this->filesystemAdapter->deleteDirectory($this->_tmpDir);
     }
 

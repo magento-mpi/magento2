@@ -71,6 +71,7 @@
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
+    <preference for="Magento\Framework\View\Design\FileResolution\Fallback\CacheDataInterface" type="Magento\Framework\View\Design\FileResolution\Fallback\CacheData\Flat"/>
     <type name="Magento\Framework\Model\Context">
         <arguments>
             <argument name="actionValidator" xsi:type="object">Magento\Framework\Model\ActionValidator\RemoveAction\Proxy</argument>

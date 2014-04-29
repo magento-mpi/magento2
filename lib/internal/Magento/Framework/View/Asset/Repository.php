@@ -291,9 +291,7 @@ class Repository
         if ($module) {
             return $this->createSimilar($fileId, $relativeTo);
         }
-        $filePath = \Magento\Framework\View\FileSystem::normalizePath(
-            dirname($relativeTo->getFilePath()) . '/' . $filePath
-        );
+        $filePath = \Magento\Framework\View\FileSystem::getRelatedPath($relativeTo->getFilePath(), $filePath);
         return $this->createSimilar($filePath, $relativeTo);
     }
 
@@ -346,11 +344,6 @@ class Repository
      */
     public static function extractModule($fileId)
     {
-        /*
-        if (strpos(str_replace('\\', '/', $fileId), './') !== false) {
-            throw new \Magento\Exception("File name '{$fileId}' is forbidden for security reasons.");
-        }
-        */
         if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
             return array('', $fileId);
         }

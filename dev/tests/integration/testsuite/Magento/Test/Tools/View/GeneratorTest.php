@@ -28,6 +28,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-22650');
         $this->tmpDir = BP . '/var/static';
         $this->shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer());
         $this->filesystem = new \Magento\Framework\Filesystem\Driver\File();
@@ -38,6 +39,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
+        $this->markTestIncomplete('MAGETWO-22650');
         if ($this->filesystem->isExists($this->tmpDir)) {
             $this->filesystem->deleteDirectory($this->tmpDir);
         }

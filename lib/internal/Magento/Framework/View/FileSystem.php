@@ -197,6 +197,18 @@ class FileSystem
     }
 
     /**
+     * Concatenate/normalize a path to another path as a relative, assuming it will be relative to its directory
+     *
+     * @param string $relativeTo
+     * @param string $path
+     * @return string
+     */
+    public static function getRelatedPath($relativeTo, $path)
+    {
+        return self::normalizePath(dirname($relativeTo) . '/' . $path);
+    }
+
+    /**
      * Left-trim same part of two paths
      *
      * @param string $pathOne

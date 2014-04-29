@@ -151,6 +151,15 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage File path '../file.ext' is forbidden for security reasons.
+     */
+    public function testResolveSecurityException()
+    {
+        $this->object->resolve('type', '../file.ext', '', null, '', '');
+    }
+
     public function testResolveNoPatterns()
     {
         $this->cache->expects($this->once())
