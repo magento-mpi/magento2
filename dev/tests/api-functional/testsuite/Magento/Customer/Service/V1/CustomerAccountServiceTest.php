@@ -745,6 +745,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($lastName . "Updated", $customerDetails->getCustomer()->getLastname());
     }
 
+    /**
+     * Verify expected behavior when the website id is not set
+     */
     public function testUpdateCustomerNoWebsiteId()
     {
         $customerData = $this->_createSampleCustomer();
