@@ -215,6 +215,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Category|int $parentNode
      * @param integer $recursionLevel
      * @param integer $storeId
+     * @param bool $skipMenuFilter
      * @return array
      */
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0, $skipMenuFilter = false)
