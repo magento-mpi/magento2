@@ -128,58 +128,58 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_searchData;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $connection = null
     ) {
         $this->_searchData = $searchData;

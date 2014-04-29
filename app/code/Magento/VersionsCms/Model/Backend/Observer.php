@@ -9,7 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Backend;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Versions cms page observer for backend area
@@ -24,7 +24,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
@@ -45,7 +45,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -90,7 +90,7 @@ class Observer
     protected $_versionCollectionFactory;
 
     /**
-     * @var \Magento\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -110,16 +110,16 @@ class Observer
     protected $_cmsIncrement;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_httpRequest;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Config $config
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
@@ -128,20 +128,20 @@ class Observer
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
-     * @param \Magento\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Config $config,
-        \Magento\AuthorizationInterface $authorization,
+        \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Backend\Model\UrlInterface $backendUrl,
@@ -150,11 +150,11 @@ class Observer
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
-        \Magento\Model\Resource\Iterator $resourceIterator,
+        \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
-        \Magento\App\RequestInterface $httpRequest
+        \Magento\Framework\App\RequestInterface $httpRequest
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -185,9 +185,9 @@ class Observer
     public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
-        /* @var $baseFieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $baseFieldset \Magento\Framework\Data\Form\Element\Fieldset */
 
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
@@ -506,7 +506,7 @@ class Observer
 
         try {
             $version->delete();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher

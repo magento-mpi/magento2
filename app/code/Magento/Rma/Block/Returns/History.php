@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Returns;
 
-class History extends \Magento\View\Element\Template
+class History extends \Magento\Framework\View\Element\Template
 {
     /**
      * Rma grid collection
@@ -26,13 +26,13 @@ class History extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
@@ -98,7 +98,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Get rma view url
      *
-     * @param \Magento\Object $return
+     * @param \Magento\Framework\Object $return
      * @return string
      */
     public function getViewUrl($return)

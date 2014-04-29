@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Event/etc/events.xsd">
     <event name="core_layout_render_element">
         <observer name="pagecache" instance="Magento\PageCache\Model\Observer" method="processLayoutRenderElement" />
     </event>
@@ -56,7 +56,7 @@
                   method="flushCacheByTags" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="register_from_key"
+        <observer name="register_form_key"
                   instance="Magento\PageCache\Model\Observer"
                   method="registerFormKeyFromCookie" />
     </event>

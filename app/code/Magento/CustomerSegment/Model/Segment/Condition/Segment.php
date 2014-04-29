@@ -181,10 +181,10 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   \Magento\Sales\Model\Quote\Address|\Magento\Object $object
+     * @param   \Magento\Sales\Model\Quote\Address|\Magento\Framework\Object $object
      * @return  bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         if (!$this->_customerSegmentData->isEnabled()) {
             return false;

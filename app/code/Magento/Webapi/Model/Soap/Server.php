@@ -26,16 +26,16 @@ class Server
     const REQUEST_PARAM_WSDL = 'wsdl';
 
     /**
-     * @var \Magento\App\AreaLIst
+     * @var \Magento\Framework\App\AreaLIst
      */
     protected $_areaList;
 
     /**
-     * @var \Magento\Config\ScopeInterface
+     * @var \Magento\Framework\Config\ScopeInterface
      */
     protected $_configScope;
 
-    /** @var \Magento\DomDocument\Factory */
+    /** @var \Magento\Framework\DomDocument\Factory */
     protected $_domDocumentFactory;
 
     /** @var \Magento\Webapi\Controller\Soap\Request */
@@ -51,32 +51,32 @@ class Server
     protected $_typeProcessor;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
      * Initialize dependencies, initialize WSDL cache.
      *
-     * @param \Magento\App\AreaList $areaList
-     * @param \Magento\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\App\AreaList $areaList
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
      * @param \Magento\Webapi\Controller\Soap\Request $request
-     * @param \Magento\DomDocument\Factory $domDocumentFactory
+     * @param \Magento\Framework\DomDocument\Factory $domDocumentFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
      * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @throws \Magento\Webapi\Exception
      */
     public function __construct(
-        \Magento\App\AreaList $areaList,
-        \Magento\Config\ScopeInterface $configScope,
+        \Magento\Framework\App\AreaList $areaList,
+        \Magento\Framework\Config\ScopeInterface $configScope,
         \Magento\Webapi\Controller\Soap\Request $request,
-        \Magento\DomDocument\Factory $domDocumentFactory,
+        \Magento\Framework\DomDocument\Factory $domDocumentFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory,
         \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         if (!extension_loaded('soap')) {
             throw new \Magento\Webapi\Exception(
@@ -156,9 +156,9 @@ class Server
      */
     public function getEndpointUri()
     {
-        return $this->_storeManager->getStore()->getBaseUrl() . $this->_areaList->getFrontName(
-            $this->_configScope->getCurrentScope()
-        );
+        return $this->_storeManager->getStore()->getBaseUrl()
+            . $this->_areaList->getFrontName($this->_configScope->getCurrentScope())
+            . '/' . $this->_storeManager->getStore()->getCode();
     }
 
     /**

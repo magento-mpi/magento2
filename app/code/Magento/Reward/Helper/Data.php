@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * XML configuration paths - section general
@@ -97,17 +97,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -117,19 +117,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_ratesFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
@@ -261,7 +261,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new \Magento\Object(
+                $result[$websiteId] = new \Magento\Framework\Object(
                     array(
                         'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                         'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),

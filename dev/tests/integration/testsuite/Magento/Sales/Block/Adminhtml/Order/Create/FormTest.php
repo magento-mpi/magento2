@@ -19,7 +19,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form */
     protected $_orderCreateBlock;
 
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     /**
@@ -49,8 +49,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->any())->method('getCurrentCurrencyCode')->will($this->returnValue('USD'));
         $sessionMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
-        /** @var \Magento\View\LayoutInterface $layout */
-        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        /** @var \Magento\Framework\View\LayoutInterface $layout */
+        $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
         $this->_orderCreateBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form',
             'order_create_block' . rand(),

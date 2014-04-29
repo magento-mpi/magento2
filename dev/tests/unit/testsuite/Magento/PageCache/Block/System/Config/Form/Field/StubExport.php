@@ -21,7 +21,7 @@ class StubExport extends \Magento\PageCache\Block\System\Config\Form\Field\Expor
     {
     }
 
-    public function setUrlBuilder(\Magento\UrlInterface $urlBuilder)
+    public function setUrlBuilder(\Magento\Framework\UrlInterface $urlBuilder)
     {
         $this->_urlBuilder = $urlBuilder;
     }
@@ -29,7 +29,7 @@ class StubExport extends \Magento\PageCache\Block\System\Config\Form\Field\Expor
     /**
      * Retrieve element HTML markup
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
     public function getElementHtml($element)

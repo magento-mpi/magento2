@@ -9,6 +9,6 @@
  */
 namespace Magento\Sales\Model\Order;
 
-class Total extends \Magento\Object
+class Total extends \Magento\Framework\Object
 {
 }

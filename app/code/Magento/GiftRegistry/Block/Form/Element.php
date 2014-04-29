@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Block\Form;
 /**
  * Abstract block to render form elements
  */
-class Element extends \Magento\View\Element\Template
+class Element extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\Directory\Model\Country
@@ -25,7 +25,7 @@ class Element extends \Magento\View\Element\Template
     protected $region;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -40,15 +40,15 @@ class Element extends \Magento\View\Element\Template
     protected $_regionCollection;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
         array $data = array()
@@ -178,7 +178,7 @@ class Element extends \Magento\View\Element\Template
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             $this->_getFieldName($name)
         )->setId(
@@ -237,11 +237,11 @@ class Element extends \Magento\View\Element\Template
     public function getCalendarDateHtml($name, $id, $value = null, $formatType = null, $class = '')
     {
         if (is_null($formatType)) {
-            $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Date'
+            'Magento\Framework\View\Element\Html\Date'
         )->setName(
             $this->_getFieldName($name)
         )->setId(

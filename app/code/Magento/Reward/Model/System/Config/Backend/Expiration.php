@@ -12,7 +12,7 @@ namespace Magento\Reward\Model\System\Config\Backend;
 /**
  * Backend model for "Reward Points Lifetime"
  */
-class Expiration extends \Magento\App\Config\Value
+class Expiration extends \Magento\Framework\App\Config\Value
 {
     const XML_PATH_EXPIRATION_DAYS = 'magento_reward/general/expiration_days';
 
@@ -33,25 +33,25 @@ class Expiration extends \Magento\App\Config\Value
     protected $_storeManager;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

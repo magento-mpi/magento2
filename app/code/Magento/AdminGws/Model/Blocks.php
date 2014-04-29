@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Blocks limiter
@@ -20,7 +20,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -38,13 +38,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_cmsPageResource = $cmsPageResource;
         $this->_categoryResource = $categoryResource;
@@ -436,7 +436,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model \Magento\Model\AbstractModel */
+        /* @var $model \Magento\Framework\Model\AbstractModel */
         $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -1206,7 +1206,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function disableTaxRelatedMultiselects($observer)
     {
         /**
-         * @var $form \Magento\Data\Form
+         * @var $form \Magento\Framework\Data\Form
          */
         $form = $observer->getEvent()->getBlock()->getForm();
         $form->getElement('tax_customer_class')->setDisabled(true);

@@ -39,7 +39,7 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
@@ -50,11 +50,11 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testValidateDuplicate()
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
@@ -66,11 +66,11 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testValidateDuplicateWebsite()
     {
-        $product = new \Magento\Object();
+        $product = new \Magento\Framework\Object();
         $product->setTierPrice(
             array(
                 array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),

@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Methods extends \Magento\View\Element\Template
+class Methods extends \Magento\Framework\View\Element\Template
 {
     /**
      * Tax data
@@ -21,29 +21,29 @@ class Methods extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * Json encoder interface
      *
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

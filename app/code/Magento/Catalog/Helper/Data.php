@@ -9,10 +9,12 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
 /**
  * Catalog data helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const PRICE_SCOPE_GLOBAL = 0;
 
@@ -76,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -95,7 +97,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_catalogCategory;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -147,40 +149,40 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_templateFilterFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param Category $catalogCategory
      * @param Product $catalogProduct
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param string $templateFilterModel
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         Category $catalogCategory,
         Product $catalogProduct,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         $templateFilterModel
     ) {
         $this->_eavAttributeFactory = $eavAttributeFactory;
@@ -409,7 +411,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve template processor for catalog content
      *
-     * @return \Magento\Filter\Template
+     * @return \Magento\Framework\Filter\Template
      */
     public function getPageTemplateProcessor()
     {
@@ -451,7 +453,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)$this->_scopeConfig->getValue(
+        return (bool) $this->_scopeConfig->getValue(
             self::XML_PATH_MSRP_APPLY_TO_ALL,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->_storeId
@@ -521,7 +523,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         $result = $product->getMsrpEnabled();
-        if ($result == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
+        if ($result == Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
             $result = $this->isMsrpApplyToAll();
         }
 
@@ -531,16 +533,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         if ($result && $visibility !== null) {
             $productVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
-            ) {
+            if ($productVisibility == Type\Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
             $result = $productVisibility == $visibility;
         }
 
-        if ($product->getTypeInstance()->isComposite(
-            $product
-        ) && $checkAssociatedItems && (!$result || $visibility !== null)
+        if ($product->getTypeInstance()->isComposite($product)
+            && $checkAssociatedItems
+            && (!$result || $visibility !== null)
         ) {
             $resultInOptions = $product->getTypeInstance()->isMapEnabledInOptions($product, $visibility);
             if ($resultInOptions !== null) {
@@ -579,13 +580,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMsrpPriceMessage($product)
     {
         $message = "";
-        if ($this->canApplyMsrp($product, \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_IN_CART)) {
+        if ($this->canApplyMsrp($product, Type::TYPE_IN_CART)) {
             $message = __('To see product price, add this item to your cart. You can always remove it later.');
-        } elseif ($this->canApplyMsrp(
-            $product,
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM
-        )
-        ) {
+        } elseif ($this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM)) {
             $message = __('See price before order confirmation.');
         }
         return $message;
@@ -599,10 +596,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowPriceOnGesture($product)
     {
-        return $this->canApplyMsrp(
-            $product,
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_ON_GESTURE
-        );
+        return $this->canApplyMsrp($product, Type::TYPE_ON_GESTURE);
     }
 
     /**

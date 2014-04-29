@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
-use Magento\View\Element\BlockInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Catalog category widgets controller for CMS WYSIWYG
@@ -23,15 +23,15 @@ class Widget extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);

@@ -15,7 +15,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
@@ -47,7 +47,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->postDataHelperMock = $this->getMock(
             'Magento\Core\Helper\PostData',
@@ -127,7 +127,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
         $url = 'http://localhost.com/dev/';
         $id = 1;
         $uenc = strtr(base64_encode($url), '+/=', '-_,');
-        $data = array('product' => $id, \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $uenc);
+        $data = array('product' => $id, \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $uenc);
         $expectedPostData = json_encode(
             array(
                 'action' => $url,

@@ -12,7 +12,6 @@
         <block class="Magento\Backend\Block\Widget\Grid\Column" as="gws">
             <arguments>
                 <argument name="header" xsi:type="string" translate="true">Allowed Scopes</argument>
-                <argument name="width" xsi:type="string">200px</argument>
                 <argument name="sortable" xsi:type="string">0</argument>
                 <argument name="filter" xsi:type="string">0</argument>
                 <argument name="renderer" xsi:type="string">Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws</argument>

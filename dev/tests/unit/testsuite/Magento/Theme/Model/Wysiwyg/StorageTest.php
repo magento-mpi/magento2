@@ -21,7 +21,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_storageRoot;
 
     /**
-     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -31,7 +31,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_helperStorage;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -41,22 +41,28 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_storageModel;
 
     /**
-     * @var \Magento\Image\AdapterFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Image\AdapterFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryWrite;
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false);
         $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
-        $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->_imageFactory = $this->getMock('Magento\Image\AdapterFactory', array(), array(), '', false);
-        $this->directoryWrite = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
+        $this->_imageFactory = $this->getMock('Magento\Framework\Image\AdapterFactory', array(), array(), '', false);
+        $this->directoryWrite = $this->getMock(
+            'Magento\Framework\Filesystem\Directory\Write',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_filesystem->expects(
             $this->once()
@@ -111,7 +117,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         /** Prepare image */
 
-        $image = $this->getMock('Magento\Image\Adapter\Gd2', array(), array(), '', false);
+        $image = $this->getMock('Magento\Framework\Image\Adapter\Gd2', array(), array(), '', false);
 
         $image->expects($this->once())->method('open')->will($this->returnValue(true));
 
@@ -139,7 +145,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\Wysiwyg\Storage::uploadFile
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testUploadInvalidFile()
     {
@@ -237,7 +243,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\Wysiwyg\Storage::createFolder
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testCreateFolderWithInvalidName()
     {
@@ -247,7 +253,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\Wysiwyg\Storage::createFolder
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testCreateFolderDirectoryAlreadyExist()
     {
@@ -303,7 +309,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\Wysiwyg\Storage::getDirsCollection
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testGetDirsCollectionWrongDirName()
     {
@@ -516,7 +522,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\Wysiwyg\Storage::deleteDirectory
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testDeleteRootDirectory()
     {

@@ -56,17 +56,8 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Magento/WebsiteRestrictio
 LICENSE_EE.html
 LICENSE_EE.txt
 
-app/design/adminhtml/Magento/backend/css/*-ee.css
-app/design/adminhtml/Magento/backend/less/*-ee.less
-app/design/adminhtml/Magento/backend/less/styles/*-ee.less
 app/design/adminhtml/Magento/backend/Magento_Enterprise/
 app/design/frontend/Magento/iphone_html5
-app/design/frontend/Magento/plushe/Magento_Enterprise
-app/design/frontend/Magento/plushe/Magento_GiftCardAccount
-app/design/frontend/Magento/plushe/Magento_Reward
-app/design/frontend/Magento/plushe/Magento_WebsiteRestriction
-app/design/frontend/Magento/plushe/css/styles-ee.less
-app/design/frontend/Magento/plushe/css/source/responsive/responsive-ee.less
 app/design/frontend/Magento/blank/Magento_AdvancedCheckout
 app/design/frontend/Magento/blank/Magento_Banner
 app/design/frontend/Magento/blank/Magento_CatalogEvent

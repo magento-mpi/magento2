@@ -23,7 +23,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,13 +36,13 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
     ) {
@@ -55,7 +55,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      * Retrieve available order
      *
      * @return Order
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getOrder()
     {
@@ -68,7 +68,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         if ($this->_coreRegistry->registry('order')) {
             return $this->_coreRegistry->registry('order');
         }
-        throw new \Magento\Model\Exception(__('We cannot get the order instance.'));
+        throw new \Magento\Framework\Model\Exception(__('We cannot get the order instance.'));
     }
 
     /**
@@ -141,7 +141,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function displayShippingPriceInclTax($order)

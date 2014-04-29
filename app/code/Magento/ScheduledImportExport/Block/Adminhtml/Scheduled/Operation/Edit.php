@@ -28,7 +28,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,14 +41,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_operationFactory = $operationFactory;
@@ -86,7 +86,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Prepare page layout.
      * Set form object to container.
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _prepareLayout()
@@ -99,7 +99,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            throw new \Magento\Model\Exception(__('Please correct the scheduled operation type.'));
+            throw new \Magento\Framework\Model\Exception(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton(

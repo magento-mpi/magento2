@@ -368,7 +368,7 @@
          */
         _addToNew: function(data) {
             this._callback = $.proxy(function(wishlistId) {
-                data.wishlist_id = wishlistId;
+                data.data.wishlist_id = wishlistId;
                 $.mage.dataPost().postData(data);
             }, this);
             this._showCreateWishlist(this.options.createUrl, true);

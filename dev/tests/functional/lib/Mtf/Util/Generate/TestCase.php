@@ -240,9 +240,9 @@ class TestCase extends AbstractGenerate
         $content .= "    }\n";
         $content .= "}\n";
 
-        $generatedFolderPath =  MTF_TESTS_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $namespace);
+        $generatedFolderPath =  MTF_TESTS_PATH . str_replace('\\', '/', $namespace);
         $newFileName = $className . '.php';
-        $newFilePath = $generatedFolderPath . DIRECTORY_SEPARATOR . $newFileName;
+        $newFilePath = $generatedFolderPath . '/' . $newFileName;
 
         if (file_exists($newFilePath)) {
             return;

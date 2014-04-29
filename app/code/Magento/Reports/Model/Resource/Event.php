@@ -18,12 +18,12 @@
  */
 namespace Magento\Reports\Model\Resource;
 
-class Event extends \Magento\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -33,13 +33,13 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
@@ -83,7 +83,7 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
      * The collection id field is used without corellation, so it must be unique.
      * DESC ordering by event will be added to the collection
      *
-     * @param \Magento\Data\Collection\Db $collection
+     * @param \Magento\Framework\Data\Collection\Db $collection
      * @param int $eventTypeId
      * @param int $eventSubjectId
      * @param int $subtype
@@ -91,7 +91,7 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
      * @return $this
      */
     public function applyLogToCollection(
-        \Magento\Data\Collection\Db $collection,
+        \Magento\Framework\Data\Collection\Db $collection,
         $eventTypeId,
         $eventSubjectId,
         $subtype,
@@ -130,7 +130,7 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
             "{$idFieldName} = evt.object_id",
             array()
         )->order(
-            'evt.event_id ' . \Magento\DB\Select::SQL_DESC
+            'evt.event_id ' . \Magento\Framework\DB\Select::SQL_DESC
         );
 
         return $this;

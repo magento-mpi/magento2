@@ -41,8 +41,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -50,8 +50,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -190,10 +190,10 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
                     }
                 }
                 $this->messageManager->addSuccess(__('A total of %1 record(s) have been deleted.', count($ids)));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->messageManager->addError(__('Something went wrong while deleting these versions.'));
             }
         }

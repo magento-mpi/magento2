@@ -10,8 +10,8 @@
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
 use Magento\Store\Model\Store;
-use Magento\Model\Exception as CoreException;
-use Magento\View\Design\ThemeInterface;
+use Magento\Framework\Model\Exception as CoreException;
+use Magento\Framework\View\Design\ThemeInterface;
 
 /**
  * Backend controller for the design editor
@@ -91,7 +91,7 @@ class Editor extends \Magento\Backend\App\Action
 
             $response = array('content' => $this->_view->getLayout()->getOutput());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -141,12 +141,12 @@ class Editor extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
         } catch (CoreException $e) {
             $this->messageManager->addException($e, $e->getMessage());
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -189,7 +189,7 @@ class Editor extends \Magento\Backend\App\Action
             }
             $response = array('message' => $successMessage, 'themeId' => $themeCustomization->getId());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->getResponse()->setBody(
                 $coreHelper->jsonEncode(array('error' => __('This theme is not assigned.')))
             );
@@ -220,9 +220,9 @@ class Editor extends \Magento\Backend\App\Action
             $response = array('success' => true);
         } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('This theme is not saved.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -261,7 +261,7 @@ class Editor extends \Magento\Backend\App\Action
             }
             $response = array('message' => $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
         }
 
@@ -279,7 +279,7 @@ class Editor extends \Magento\Backend\App\Action
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         /** @var $themeCopy ThemeInterface */
-        $themeCopy = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
+        $themeCopy = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         /** @var $copyService \Magento\Theme\Model\CopyService */
         $copyService = $this->_objectManager->get('Magento\Theme\Model\CopyService');
         try {
@@ -295,9 +295,9 @@ class Editor extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(__('You saved a duplicate copy of this theme in "My Customizations."'));
         } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('You cannot duplicate this theme.'));
         }
         $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
@@ -336,11 +336,11 @@ class Editor extends \Magento\Backend\App\Action
                     break;
 
                 default:
-                    throw new \Magento\Exception('Invalid revert mode "%s"', $revertTo);
+                    throw new \Magento\Framework\Exception('Invalid revert mode "%s"', $revertTo);
             }
             $response = array('message' => $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Unknown error'));
         }
         /** @var $coreHelper \Magento\Core\Helper\Data */
@@ -367,8 +367,8 @@ class Editor extends \Magento\Backend\App\Action
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\Framework\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
             throw new CoreException(__('We can\'t find this theme.'));
@@ -509,7 +509,7 @@ class Editor extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t load the list of themes.'));
             $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

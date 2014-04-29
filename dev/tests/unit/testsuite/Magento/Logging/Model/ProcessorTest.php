@@ -28,10 +28,10 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Model\Auth\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $_authSessionMock;
 
-    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
     protected $messageManager;
 
-    /** @var  \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /**
@@ -42,7 +42,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_requestMock;
 
-    /** @var  \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
     /** @var  \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject */
@@ -89,11 +89,11 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $this->messageManager = $this->getMockBuilder(
-            'Magento\Message\ManagerInterface'
+            'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\ObjectManager'
+            'Magento\Framework\ObjectManager'
         )->setMethods(
             array('create', 'get', 'configure', 'setFactory')
         )->disableOriginalConstructor()->getMock();
@@ -106,9 +106,9 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
-        $this->_loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento\Framework\Logger')->disableOriginalConstructor()->getMock();
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
@@ -283,7 +283,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         );
         $this->_authSessionMock->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
-        $messages = new \Magento\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(array('errors' => array()));
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingEventMock = $this->getMockBuilder(
@@ -424,7 +424,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setUpModelActionAfter();
 
-        $messages = new \Magento\Object(array('errors' => array()));
+        $messages = new \Magento\Framework\Object(array('errors' => array()));
         $this->messageManager->expects($this->once())->method('getMessages')->will($this->returnValue($messages));
 
         $loggingMock = $this->getMockBuilder(

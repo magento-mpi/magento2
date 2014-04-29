@@ -9,23 +9,28 @@
  */
 namespace Magento\CatalogSearch\Helper;
 
-use Magento\App\Helper\AbstractHelper;
-use Magento\App\Helper\Context;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\CatalogSearch\Model\Fulltext;
 use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
-use Magento\App\Config\ScopeConfigInterface;
-use Magento\Escaper;
-use Magento\Filter\FilterManager;
-use Magento\Stdlib\String;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Escaper;
+use Magento\Framework\Filter\FilterManager;
+use Magento\Framework\Stdlib\String;
 
 /**
  * Catalog search helper
  */
 class Data extends AbstractHelper
 {
+    /**
+     * @var array
+     */
+    protected $_suggestData = null;
+
     /**
      * Query variable
      */
@@ -398,5 +403,33 @@ class Data extends AbstractHelper
             }
         }
         return join($separator, $_index);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestData()
+    {
+        if (!$this->_suggestData) {
+            $collection = $this->getSuggestCollection();
+            $query = $this->getQueryText();
+            $counter = 0;
+            $data = array();
+            foreach ($collection as $item) {
+                $_data = array(
+                    'title' => $item->getQueryText(),
+                    'row_class' => ++$counter % 2 ? 'odd' : 'even',
+                    'num_of_results' => $item->getNumResults()
+                );
+
+                if ($item->getQueryText() == $query) {
+                    array_unshift($data, $_data);
+                } else {
+                    $data[] = $_data;
+                }
+            }
+            $this->_suggestData = $data;
+        }
+        return $this->_suggestData;
     }
 }

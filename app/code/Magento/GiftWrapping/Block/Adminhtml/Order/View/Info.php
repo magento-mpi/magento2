@@ -25,18 +25,18 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
     protected $_wrappingFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
@@ -49,7 +49,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getOrderInfo()
     {
@@ -74,13 +74,13 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -105,7 +105,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
                 $data['price'] = $this->_preparePrices($order->getGwCardBasePrice(), $order->getGwCardPrice());
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

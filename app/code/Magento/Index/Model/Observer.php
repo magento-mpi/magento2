@@ -9,7 +9,7 @@
  */
 namespace Magento\Index\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -133,7 +133,7 @@ class Observer
         $configData = $observer->getEvent()->getConfigData();
         $this->_indexer->processEntityAction(
             $configData,
-            \Magento\App\Config\ValueInterface::ENTITY,
+            \Magento\Framework\App\Config\ValueInterface::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }

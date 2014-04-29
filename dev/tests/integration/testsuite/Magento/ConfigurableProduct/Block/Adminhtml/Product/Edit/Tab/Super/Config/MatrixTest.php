@@ -21,7 +21,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_product',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -31,9 +31,9 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             )
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
-            'Magento\View\Element\Text',
+            'Magento\Framework\View\Element\Text',
             'head'
         );
         /** @var $usedAttribute \Magento\Catalog\Model\Entity\Attribute */
@@ -50,7 +50,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
         /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             preg_replace('/Test$/', '', __CLASS__)
         );

@@ -15,11 +15,11 @@ class RowsFactory extends \Magento\CatalogPermissions\Model\Indexer\Category\Act
     /**
      * Factory constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows'
     ) {
         parent::__construct($objectManager, $instanceName);

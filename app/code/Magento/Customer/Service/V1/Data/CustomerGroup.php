@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Data;
 /**
  * CustomerGroup Service Data Object
  */
-class CustomerGroup extends \Magento\Service\Data\AbstractObject
+class CustomerGroup extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**#@+
      * Constants for Data Object keys
@@ -48,5 +48,15 @@ class CustomerGroup extends \Magento\Service\Data\AbstractObject
     public function getTaxClassId()
     {
         return $this->_get(self::TAX_CLASS_ID);
+    }
+
+    /**
+     * Retrieve tax class name
+     *
+     * @return string|null
+     */
+    public function getTaxClassName()
+    {
+        return $this->_get('tax_class_name');
     }
 }

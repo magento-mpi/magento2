@@ -28,7 +28,7 @@ use \Magento\CustomerSegment\Helper\Data;
  * @method int getWebsiteId()
  * @method \Magento\CustomerSegment\Model\Customer setWebsiteId(int $value)
  */
-class Customer extends \Magento\Model\AbstractModel
+class Customer extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -77,36 +77,36 @@ class Customer extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $_httpContext;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\Http\Context $httpContext,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -162,14 +162,14 @@ class Customer extends \Magento\Model\AbstractModel
      */
     public function processEvent($eventName, $customer, $website)
     {
-        \Magento\Profiler::start('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::start('__SEGMENTS_MATCHING__');
 
         $website = $this->_storeManager->getWebsite($website);
         $segments = $this->getActiveSegmentsForEvent($eventName, $website->getId());
 
         $this->_processSegmentsValidation($customer, $website, $segments);
 
-        \Magento\Profiler::stop('__SEGMENTS_MATCHING__');
+        \Magento\Framework\Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
     }
 
@@ -275,7 +275,7 @@ class Customer extends \Magento\Model\AbstractModel
     /**
      * Add visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this
@@ -303,7 +303,7 @@ class Customer extends \Magento\Model\AbstractModel
     /**
      * Remove visitor-segment relation for specified website
      *
-     * @param \Magento\Session\SessionManagerInterface $visitorSession
+     * @param \Magento\Framework\Session\SessionManagerInterface $visitorSession
      * @param int $websiteId
      * @param array $segmentIds
      * @return $this

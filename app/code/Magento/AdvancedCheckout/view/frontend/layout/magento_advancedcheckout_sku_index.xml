@@ -19,7 +19,7 @@
             <action method="setIsTitleHidden">
                 <argument name="value" xsi:type="string">true</argument>
             </action>
-            <block class="Magento\View\Element\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
         </block>
     </referenceContainer>
 </layout>

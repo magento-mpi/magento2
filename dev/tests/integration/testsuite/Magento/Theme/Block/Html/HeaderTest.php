@@ -24,7 +24,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $context;
 
@@ -34,7 +34,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $this->context = $objectManager->get('Magento\App\Http\Context');
+        $this->context = $objectManager->get('Magento\Framework\App\Http\Context');
         $this->context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
 
         //Setup customer session

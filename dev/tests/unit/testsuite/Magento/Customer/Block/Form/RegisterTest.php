@@ -30,13 +30,13 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
     private $_coreData;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\Config\ScopeConfigInterface */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\App\Config\ScopeConfigInterface */
     private $_scopeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
     private $_customerSession;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Module\Manager */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Module\Manager */
     private $_moduleManager;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
@@ -47,8 +47,8 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+        $this->_moduleManager = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->_customerSession = $this->getMock(
@@ -59,14 +59,14 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getScopeConfig')->will($this->returnValue($this->_scopeConfig));
 
         $this->_block = new Register(
             $context,
             $this->_coreData,
-            $this->getMockForAbstractClass('Magento\Json\EncoderInterface', array(), '', false),
-            $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Json\EncoderInterface', array(), '', false),
+            $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\Directory\Model\Resource\Country\CollectionFactory', array(), array(), '', false),
             $this->_moduleManager,
@@ -139,18 +139,18 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormDataNotNullFormData()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $this->_block->setData(self::FORM_DATA, $data);
         $this->assertSame($data, $this->_block->getFormData());
     }
 
     /**
      * Form data has not been set on the block and there is no customer data in the customer session. So
-     * we expect an empty \Magento\Object.
+     * we expect an empty \Magento\Framework\Object.
      */
     public function testGetFormDataNullFormData()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $this->_customerSession->expects($this->once())->method('getCustomerFormData')->will($this->returnValue(null));
         $this->assertEquals($data, $this->_block->getFormData());
         $this->assertEquals($data, $this->_block->getData(self::FORM_DATA));
@@ -162,7 +162,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormDataNullFormDataCustomerFormData()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setFirstname('John');
         $data->setCustomerData(1);
         $customerFormData = array('firstname' => 'John');
@@ -183,7 +183,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormDataCustomerFormDataRegionId()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setRegionId(self::REGION_ID_ATTRIBUTE_VALUE);
         $data->setCustomerData(1);
         $data[self::REGION_ID_ATTRIBUTE_CODE] = (int)self::REGION_ID_ATTRIBUTE_VALUE;
@@ -207,7 +207,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountryIdFormData()
     {
-        $formData = new \Magento\Object();
+        $formData = new \Magento\Framework\Object();
         $formData->setCountryId(self::COUNTRY_ID);
         $this->_block->setData(self::FORM_DATA, $formData);
         $this->assertEquals(self::COUNTRY_ID, $this->_block->getCountryId());
@@ -245,7 +245,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRegionByRegion()
     {
-        $formData = new \Magento\Object();
+        $formData = new \Magento\Framework\Object();
         $formData->setRegion(self::REGION_ATTRIBUTE_VALUE);
         $this->_block->setData(self::FORM_DATA, $formData);
         $this->assertSame(self::REGION_ATTRIBUTE_VALUE, $this->_block->getRegion());
@@ -257,7 +257,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRegionByRegionId()
     {
-        $formData = new \Magento\Object();
+        $formData = new \Magento\Framework\Object();
         $formData->setRegionId(self::REGION_ID_ATTRIBUTE_VALUE);
         $this->_block->setData(self::FORM_DATA, $formData);
         $this->assertSame(self::REGION_ID_ATTRIBUTE_VALUE, $this->_block->getRegion());
@@ -269,7 +269,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRegionNull()
     {
-        $formData = new \Magento\Object();
+        $formData = new \Magento\Framework\Object();
         $this->_block->setData(self::FORM_DATA, $formData);
         $this->assertNull($this->_block->getRegion());
     }
@@ -308,7 +308,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestoreSessionData()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setRegionId(self::REGION_ID_ATTRIBUTE_VALUE);
         $data->setCustomerData(1);
         $data[self::REGION_ID_ATTRIBUTE_CODE] = (int)self::REGION_ID_ATTRIBUTE_VALUE;
@@ -321,7 +321,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($customerFormData)
         );
         $form = $this->getMock('Magento\Customer\Model\Metadata\Form', array(), array(), '', false);
-        $request = $this->getMockForAbstractClass('Magento\App\RequestInterface', array(), '', false);
+        $request = $this->getMockForAbstractClass('Magento\Framework\App\RequestInterface', array(), '', false);
         $formData = $this->_block->getFormData();
         $form->expects(
             $this->once()

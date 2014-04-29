@@ -22,9 +22,9 @@ class AppArea
      * @var array
      */
     private $_allowedAreas = array(
-        \Magento\Core\Model\App\Area::AREA_GLOBAL,
+        \Magento\Framework\App\Area::AREA_GLOBAL,
         \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-        \Magento\Core\Model\App\Area::AREA_FRONTEND,
+        \Magento\Framework\App\Area::AREA_FRONTEND,
         'install',
         'webapi_rest',
         'webapi_soap',
@@ -44,7 +44,7 @@ class AppArea
      *
      * @param array $annotations
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _getTestAppArea($annotations)
     {
@@ -59,7 +59,7 @@ class AppArea
         ) : \Magento\TestFramework\Application::DEFAULT_APP_AREA);
 
         if (false == in_array($area, $this->_allowedAreas)) {
-            throw new \Magento\Exception(
+            throw new \Magento\Framework\Exception(
                 'Invalid "@magentoAppArea" annotation, can be "' . implode('", "', $this->_allowedAreas) . '" only.'
             );
         }
