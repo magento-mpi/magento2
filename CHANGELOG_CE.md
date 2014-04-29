@@ -24,7 +24,6 @@
   * Fixed: Fatal error if preview sample(type=link) or view link for download(type="link") for downloadable product (MAGETWO-23957)
   * Fixed: Customer is redirected to Home Page after adding new address in Checkout with Multiple Addresses if secure URLs is enabled in Frontend (MAGETWO-23959)
   * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
-  * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
   * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
   * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
 * GitHub requests:
