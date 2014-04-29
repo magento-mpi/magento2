@@ -101,11 +101,11 @@ class Indexer
                             $storeId
                         ),
                         array()
-                        )->where(
-                            'e.entity_id = ' . $productId
-                        )->where(
-                            't.attribute_id IS NOT NULL'
-                        );
+                    )->where(
+                        'e.entity_id = ' . $productId
+                    )->where(
+                        't.attribute_id IS NOT NULL'
+                    );
                     $cursor = $this->_connection->query($select);
                     while ($row = $cursor->fetch(\Zend_Db::FETCH_ASSOC)) {
                         $updateData[$ids[$row['attribute_id']]] = $row['value'];
