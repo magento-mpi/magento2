@@ -1,3 +1,5 @@
+* GitHub requests:
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message
 * Pricing Improvements:
   * Eliminated price calculation from blocks and templates and implemented new calculation models for the following modules:
      * ConfigurableProduct (MAGETWO-20399)
