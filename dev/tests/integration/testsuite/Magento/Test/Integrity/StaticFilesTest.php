@@ -217,7 +217,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
     public function referencesFromPhtmlFilesDataProvider()
     {
         $result = array();
-        foreach (\Magento\TestFramework\Utility\Files::init()->getPhtmlFiles() as $file => $info) {
+        foreach (\Magento\TestFramework\Utility\Files::init()->getPhtmlFiles(true) as $file => $info) {
             list($area, $themePath) = $info;
             foreach ($this->collectGetViewFileUrl($file) as $fileId) {
                 $result[] = array($file, $area, $themePath, $fileId);

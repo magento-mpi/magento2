@@ -123,7 +123,7 @@ class Files
                 );
             }
             if ($templates) {
-                $files = array_merge($files, $this->getPhtmlFiles(false));
+                $files = array_merge($files, $this->getPhtmlFiles());
             }
             self::$_cache[$key] = $files;
         }
@@ -345,6 +345,13 @@ class Files
         return self::$_cache[__METHOD__][$cacheKey];
     }
 
+    /**
+     * Parse meta-info of a layout file in module
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseModuleLayout($file, $path)
     {
         preg_match(
@@ -356,6 +363,13 @@ class Files
         return array($area, '', $namespace . '_' . $module, $filePath);
     }
 
+    /**
+     * Parse meta-info of a layout file in theme
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseThemeLayout($file, $path)
     {
         $invariant = '/^' . preg_quote("{$path}/app/design/", '/')
@@ -495,6 +509,14 @@ class Files
         return $result;
     }
 
+    /**
+     * Search files by the specified patterns and accumulate them, applying a callback to each found row
+     *
+     * @param array $patterns
+     * @param string $filePattern
+     * @param array $result
+     * @param bool $subroutine
+     */
     private function _accumulateFilesByPatterns(array $patterns, $filePattern, array &$result, $subroutine = false)
     {
         $path = str_replace(DIRECTORY_SEPARATOR, '/', $this->_path);
@@ -508,6 +530,13 @@ class Files
         }
     }
 
+    /**
+     * Parse meta-info of a static file in module
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseModuleStatic($file, $path)
     {
         preg_match(
@@ -519,6 +548,13 @@ class Files
         return array($area, '', '', $namespace . '_' . $module, $filePath);
     }
 
+    /**
+     * Parse meta-info of a localized (translated) static file in module
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseModuleLocaleStatic($file, $path)
     {
         preg_match(
@@ -531,6 +567,13 @@ class Files
         return array($area, '', $locale, $namespace . '_' . $module, $filePath);
     }
 
+    /**
+     * Parse meta-info of a static file in theme
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseThemeStatic($file, $path)
     {
         if (preg_match(
@@ -552,6 +595,13 @@ class Files
         return array($area, $themeNS . '/' . $themeCode, '', '', $filePath);
     }
 
+    /**
+     * Parse meta-info of a localized (translated) static file in theme
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
     private function _parseThemeLocaleStatic($file, $path)
     {
         if (preg_match(
@@ -615,8 +665,12 @@ class Files
      * @param bool $withMetaInfo
      * @return array
      */
-    public function getPhtmlFiles($withMetaInfo = true)
+    public function getPhtmlFiles($withMetaInfo = false)
     {
+        $key = __METHOD__ . $this->_path . '|' . (int)$withMetaInfo;
+        if (isset(self::$_cache[$key])) {
+            return self::$_cache[$key];
+        }
         $namespace = '*';
         $module = '*';
         $area = '*';
@@ -634,6 +688,7 @@ class Files
             $result,
             $withMetaInfo ? '_parseThemeTemplate' : false
         );
+        self::$_cache[$key] = $result;
         return $result;
     }
 
