@@ -20,6 +20,12 @@
   * User have no possibility to create new email template (MAGETWO-18659)
   * Billing Agreements tab is displayed during New Customer creation from backend (MAGETWO-20534)
   * Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
+  * Fixed: Error message "Asymmetric transaction rollback" when creating simple product with flat catalog product option (MAGETWO-22844)
+  * Fixed: Fatal error if preview sample(type=link) or view link for download(type="link") for downloadable product (MAGETWO-23957)
+  * Fixed: Customer is redirected to Home Page after adding new address in Checkout with Multiple Addresses if secure URLs is enabled in Frontend (MAGETWO-23959)
+  * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
+  * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
+  * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
