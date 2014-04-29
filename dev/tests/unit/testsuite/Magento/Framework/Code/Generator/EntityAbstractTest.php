@@ -283,7 +283,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(self::RESULT_DIRECTORY)
         );
 
-        $autoloader->staticExpects(
+        $autoloader->expects(
             $this->at(0)
         )->method(
             'getFile'
@@ -293,7 +293,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($classExistsFirst)
         );
         if ($classExistsFirst) {
-            $autoloader->staticExpects(
+            $autoloader->expects(
                 $this->at(1)
             )->method(
                 'getFile'
@@ -308,7 +308,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         if ($classExistsFirst) {
             $expectedInvocations = 2;
         }
-        $autoloader->staticExpects($this->exactly($expectedInvocations))->method('getFile');
+        $autoloader->expects($this->exactly($expectedInvocations))->method('getFile');
 
         $expectedInvocations = 1;
         if (!$classExistsFirst || $classExistsSecond) {

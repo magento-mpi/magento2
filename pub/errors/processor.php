@@ -7,11 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Error;
 
 /**
  * Error processor
  */
-class Error_Processor
+class Processor
 {
     const MAGE_ERRORS_LOCAL_XML = 'local.xml';
     const MAGE_ERRORS_DESIGN_XML = 'design.xml';
@@ -264,6 +265,7 @@ class Error_Processor
     /**
      * Retrieve base URL
      *
+     * @param bool $param
      * @return string
      */
     public function getBaseUrl($param = false)
@@ -304,6 +306,8 @@ class Error_Processor
 
     /**
      * Prepare config data
+     *
+     * @return void
      */
     protected function _prepareConfig()
     {
@@ -432,6 +436,7 @@ class Error_Processor
      * Set report data
      *
      * @param array $reportData
+     * @return void
      */
     protected function _setReportData($reportData)
     {
@@ -452,6 +457,7 @@ class Error_Processor
      * Create report
      *
      * @param array $reportData
+     * @return void
      */
     public function saveReport($reportData)
     {
@@ -484,6 +490,7 @@ class Error_Processor
      * Get report
      *
      * @param int $reportId
+     * @return void
      */
     public function loadReport($reportId)
     {
@@ -500,6 +507,7 @@ class Error_Processor
     /**
      * Send report
      *
+     * @return void
      */
     public function sendReport()
     {
@@ -559,8 +567,10 @@ class Error_Processor
      */
     protected function _validate()
     {
-        $email = preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',
-            $this->postData['email']);
+        $email = preg_match(
+            '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',
+            $this->postData['email']
+        );
         return ($this->postData['firstName'] && $this->postData['lastName'] && $email);
     }
 
@@ -569,6 +579,7 @@ class Error_Processor
      *
      * @param string $value
      * @param stdClass $config
+     * @return void
      */
     protected function _setSkin($value, stdClass $config = null)
     {
@@ -586,6 +597,8 @@ class Error_Processor
 
     /**
      * Set current report URL from current params
+     *
+     * @return void
      */
     protected function _setReportUrl()
     {

@@ -119,10 +119,10 @@ abstract class AbstractSyntax
      *
      * @param string $haystack String to look in.
      * @param string $needle String to find.
-     * @param bool $case_insensitivity If true, then comparison is case insensitive.
+     * @param bool $caseInsensitivity If true, then comparison is case insensitive.
      * @return bool
      */
-    protected function endsWith($haystack, $needle, $case_insensitivity = false)
+    protected function endsWith($haystack, $needle, $caseInsensitivity = false)
     {
         $found = false;
         // determine lengths to make sure the haystack is longer than the needle
@@ -130,7 +130,7 @@ abstract class AbstractSyntax
         $needleLength = strlen($needle);
         // only need to do the compare if the haystack can actually contain the needle
         if ($haystackLength >= $needleLength) {
-            $found = substr_compare($haystack, $needle, -$needleLength, $needleLength, $case_insensitivity) === 0;
+            $found = substr_compare($haystack, $needle, -$needleLength, $needleLength, $caseInsensitivity) === 0;
         }
         return $found;
     }

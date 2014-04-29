@@ -36,7 +36,7 @@ class ZendTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public static function proxyMethodDataProvider()
+    public function proxyMethodDataProvider()
     {
         return array(
             'test' => array('test', array('record_id'), array('RECORD_ID'), 111),
@@ -70,7 +70,7 @@ class ZendTest extends \PHPUnit_Framework_TestCase
                 'getBackend',
                 array(),
                 array(),
-                \PHPUnit_Framework_MockObject_Generator::getMock('Zend_Cache_Backend')
+                $this->getMock('Zend_Cache_Backend')
             )
         );
     }

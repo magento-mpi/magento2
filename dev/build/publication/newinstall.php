@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-define('SYNOPSIS', <<<SYNOPSIS
+define(
+    'SYNOPSIS',
+<<<SYNOPSIS
 php -f install.php -- --build_properties_file "<path_to_file>"
 
 SYNOPSIS
