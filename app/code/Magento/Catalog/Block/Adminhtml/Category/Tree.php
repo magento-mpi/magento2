@@ -277,7 +277,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
         if (is_null($expanded) && $this->_backendSession->getIsTreeWasExpanded() || $expanded == true) {
             $params['expand_all'] = true;
         }
-        return $this->getUrl('catalog/*/categoriesJson', $params);
+        return $this->getUrl('*/*/categoriesJson', $params);
     }
 
     /**
