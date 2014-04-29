@@ -79,7 +79,12 @@
                         <div class="primary">
                             <?php if ($isPossibleOnepageCheckout): ?>
                                 <?php echo $this->getChildHtml('extra_actions') ?>
-                                <button id="top-cart-btn-checkout" type="button" class="action checkout" title="<?php echo __('Checkout') ?>">
+                                <button
+                                    id="top-cart-btn-checkout"
+                                    type="button"
+                                    class="action checkout"
+                                    title="<?php echo __('Checkout') ?>"
+                                    onclick="window.location='<?php echo $this->getCheckoutUrl() ?>';">
                                     <span><?php echo __('Checkout') ?></span>
                                 </button>
                             <?php endif; ?>

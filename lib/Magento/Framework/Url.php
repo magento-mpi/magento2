@@ -776,6 +776,7 @@ class Url extends \Magento\Framework\Object implements \Magento\Framework\UrlInt
          * this method has condition for adding default controller and action names
          * in case when we have params
          */
+        $this->_routeParamsResolver->unsetData('secure');
         $fragment = null;
         if (isset($routeParams['_fragment'])) {
             $fragment = $routeParams['_fragment'];
@@ -829,7 +830,7 @@ class Url extends \Magento\Framework\Object implements \Magento\Framework\UrlInt
         if (!is_null($fragment)) {
             $url .= '#' . $fragment;
         }
-
+        $this->_routeParamsResolver->unsetData('secure');
         return $this->escape($url);
     }
 

@@ -260,7 +260,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
      */
     public function getCheckoutUrl()
     {
-        return $this->_urlHelper->getCheckoutUrl();
+        return $this->getUrl('checkout/onepage');
     }
 
     /**
