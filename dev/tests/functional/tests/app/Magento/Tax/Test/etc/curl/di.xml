@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Magento\Tax\Test\Handler\TaxClass\TaxClassInterface"
+                type="Magento\Tax\Test\Handler\TaxClass\Curl"/>
+</config>

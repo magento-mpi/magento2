@@ -14,7 +14,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class CustomerGroupGrid
  * Adminhtml customer group grid
  *
- * @package Magento\Catalog\Test\Block
+ * @package  Magento\Customer\Test\Block\Adminhtml\Group
  */
 class CustomerGroupGrid extends Grid
 {
