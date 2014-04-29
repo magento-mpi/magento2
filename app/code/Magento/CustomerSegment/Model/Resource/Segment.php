@@ -29,21 +29,21 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_resourceHelper = $resourceHelper;
@@ -91,10 +91,10 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add website ids to rule data after load
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -106,10 +106,10 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Match and save events.
      * Save websites associations.
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         $segmentId = $object->getId();
 
@@ -254,7 +254,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get select query result
      *
-     * @param \Magento\DB\Select|string $sql
+     * @param \Magento\Framework\DB\Select|string $sql
      * @param array $bindParams array of bind variables
      * @return int
      */
@@ -266,7 +266,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get empty select object
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function createSelect()
     {
@@ -397,7 +397,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save all website Ids associated to specified segment
      *
-     * @param \Magento\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
      * @return $this
      * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      */

@@ -26,13 +26,13 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateDataOnEmpty()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $this->assertTrue($this->_model->validateData($data), 'True for empty object');
     }
 
     public function testValidateDataOnValid()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setRule(
             array('actions' => array('test' => array('type' => 'Magento\TargetRule\Model\Actions\Condition\Combine')))
         );
@@ -46,7 +46,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateDataOnInvalidCode($code)
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setRule(
             array(
                 'actions' => array(
@@ -69,11 +69,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testValidateDataOnInvalidType()
     {
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setRule(array('actions' => array('test' => array('type' => 'Magento\TargetRule\Invalid'))));
         $this->_model->validateData($data);
     }

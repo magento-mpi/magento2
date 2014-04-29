@@ -9,7 +9,7 @@
  */
 namespace Magento\SalesArchive\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Order archive observer model
@@ -199,11 +199,11 @@ class Observer
          */
         $controller = $observer->getControllerAction();
         /**
-         * @var \Magento\App\ResponseInterface $response
+         * @var \Magento\Framework\App\ResponseInterface $response
          */
         $response = $controller->getResponse();
         /**
-         * @var \Magento\App\RequestInterface $request
+         * @var \Magento\Framework\App\RequestInterface $request
          */
         $request = $controller->getRequest();
 

@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Model\Resource;
 
-class Item extends \Magento\Model\Resource\Db\AbstractDb
+class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @return void
@@ -35,7 +35,7 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByProduct($model)
     {
-        if (!$model->getProduct() instanceof \Magento\Object) {
+        if (!$model->getProduct() instanceof \Magento\Framework\Object) {
             return $this;
         }
 

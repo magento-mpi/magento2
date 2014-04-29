@@ -50,8 +50,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $customerSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
@@ -63,8 +63,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\Product\Visibility $visibility,
@@ -207,8 +207,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
             $product->getDescription();
 
         if ($product->getAllowedPriceInRss()) {
-            $description .= $this->getPriceHtml($product, true);
-            $description .= 'NEWPRICETEST: ' . $this->renderPriceHtml($product, true) . ' ENDNEWPRICETEST';
+            $description .= $this->renderPriceHtml($product, true);
         }
 
         $description .= '</td></tr></table>';

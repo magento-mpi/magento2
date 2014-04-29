@@ -25,7 +25,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlBuilderMock;
 
@@ -50,7 +50,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->urlBuilderMock = $this->getMockForAbstractClass(
-            '\Magento\UrlInterface',
+            '\Magento\Framework\UrlInterface',
             array(),
             '',
             false,

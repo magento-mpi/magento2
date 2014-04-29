@@ -9,26 +9,26 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Gift registry frontend controller
  */
-class View extends \Magento\App\Action\Action
+class View extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -38,8 +38,8 @@ class View extends \Magento\App\Action\Action
      * Check if gift registry is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -117,11 +117,11 @@ class View extends \Magento\App\Action\Action
                 $success = false;
                 $this->messageManager->addError(__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if (!$success) {
             $this->_redirect('*/*', array('_current' => true));

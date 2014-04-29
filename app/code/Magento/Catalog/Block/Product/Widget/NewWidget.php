@@ -47,24 +47,9 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     protected $_pager;
 
     /**
-     * Initialize block's cache and template settings
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'bundle/catalog/product/price.phtml'
-        );
-    }
-
-    /**
      * Product collection initialize process
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getProductCollection()
     {
@@ -82,7 +67,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     /**
      * Prepare collection for recent product list
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getRecentlyAddedProductsCollection()
     {
@@ -189,7 +174,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof \Magento\View\Element\AbstractBlock) {
+            if ($this->_pager instanceof \Magento\Framework\View\Element\AbstractBlock) {
                 return $this->_pager->toHtml();
             }
         }
@@ -208,7 +193,7 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     public function getProductPriceHtml(
         \Magento\Catalog\Model\Product $product,
         $priceType = null,
-        $renderZone = \Magento\Pricing\Render::ZONE_ITEM_LIST,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
         array $arguments = []
     ) {
         if (!isset($arguments['zone'])) {
@@ -227,13 +212,13 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
             ? $arguments['display_minimal_price']
             : true;
 
-            /** @var \Magento\Pricing\Render $priceRender */
+            /** @var \Magento\Framework\Pricing\Render $priceRender */
         $priceRender = $this->getLayout()->getBlock('product.price.render.default');
 
         $price = '';
         if ($priceRender) {
             $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPriceInterface::PRICE_TYPE_FINAL,
+                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
                 $product,
                 $arguments
             );

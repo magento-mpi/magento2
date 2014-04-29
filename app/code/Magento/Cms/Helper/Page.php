@@ -9,12 +9,12 @@
  */
 namespace Magento\Cms\Helper;
 
-use Magento\App\Action\Action;
+use Magento\Framework\App\Action\Action;
 
 /**
  * CMS Page Helper
  */
-class Page extends \Magento\App\Helper\AbstractHelper
+class Page extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * CMS no-route config path
@@ -41,7 +41,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Design package instance
      *
-     * @var \Magento\View\DesignInterface
+     * @var \Magento\Framework\View\DesignInterface
      */
     protected $_design;
 
@@ -51,12 +51,12 @@ class Page extends \Magento\App\Helper\AbstractHelper
     protected $_page;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -75,38 +75,38 @@ class Page extends \Magento\App\Helper\AbstractHelper
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Theme\Helper\Layout $pageLayout
-     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Cms\Model\Page $page,
         \Magento\Theme\Helper\Layout $pageLayout,
-        \Magento\View\DesignInterface $design,
+        \Magento\Framework\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Escaper $escaper,
-        \Magento\App\ViewInterface $view
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\App\ViewInterface $view
     ) {
         $this->messageManager = $messageManager;
         $this->_view = $view;

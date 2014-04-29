@@ -16,7 +16,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -24,14 +24,14 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
@@ -94,29 +94,42 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->addColumn(
             'in_banner_salesrule',
             array(
-                'header_css_class' => 'a-center',
                 'type' => 'checkbox',
                 'name' => 'in_banner_salesrule',
                 'values' => $this->_getSelectedRules(),
-                'align' => 'center',
-                'index' => 'rule_id'
+                'index' => 'rule_id',
+                'header_css_class' => 'col-select col-massaction',
+                'column_css_class' => 'col-select col-massaction'
             )
         );
         $this->addColumn(
             'salesrule_rule_id',
-            array('header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id')
+            array(
+                'header' => __('ID'),
+                'index' => 'rule_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
+            )
         );
 
-        $this->addColumn('salesrule_name', array('header' => __('Rule'), 'align' => 'left', 'index' => 'name'));
+        $this->addColumn(
+            'salesrule_name',
+            array(
+                'header' => __('Rule'),
+                'index' => 'name',
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
+            )
+        );
 
         $this->addColumn(
             'salesrule_from_date',
             array(
                 'header' => __('Start on'),
-                'align' => 'left',
-                'width' => '120px',
                 'type' => 'date',
-                'index' => 'from_date'
+                'index' => 'from_date',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
             )
         );
 
@@ -124,11 +137,11 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
             'salesrule_to_date',
             array(
                 'header' => __('End on'),
-                'align' => 'left',
-                'width' => '120px',
                 'type' => 'date',
                 'default' => '--',
-                'index' => 'to_date'
+                'index' => 'to_date',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
             )
         );
 
@@ -136,11 +149,11 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
             'salesrule_is_active',
             array(
                 'header' => __('Status'),
-                'align' => 'left',
-                'width' => '80px',
                 'index' => 'is_active',
                 'type' => 'options',
-                'options' => array(1 => 'Active', 0 => 'Inactive')
+                'options' => array(1 => 'Active', 0 => 'Inactive'),
+                'header_css_class' => 'col-status',
+                'column_css_class' => 'col-status'
             )
         );
 

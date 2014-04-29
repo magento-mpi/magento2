@@ -10,8 +10,8 @@
  * @license    {license_link}
  */
 
-use Magento\App\Cache\Frontend\Factory;
-use Magento\Module\Declaration\Reader\Filesystem;
+use Magento\Framework\App\Cache\Frontend\Factory;
+use Magento\Framework\Module\Declaration\Reader\Filesystem;
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
@@ -55,7 +55,7 @@ if ($mediaDirectory) {
     }
 
     if (is_readable($request->getFilePath())) {
-        $transfer = new \Magento\File\Transfer\Adapter\Http();
+        $transfer = new \Magento\Framework\File\Transfer\Adapter\Http();
         $transfer->send($request->getFilePath());
         exit;
     }
@@ -67,7 +67,7 @@ if (empty($mediaDirectory)) {
     $params[Factory::PARAM_CACHE_FORCED_OPTIONS]['frontend_options']['disable_save'] = true;
 }
 
-$entryPoint = new \Magento\App\EntryPoint\EntryPoint(dirname(__DIR__), $params);
+$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(dirname(__DIR__), $params);
 $entryPoint->run('Magento\Core\App\Media', array(
     'request' => $request,
     'workingDirectory' => __DIR__,

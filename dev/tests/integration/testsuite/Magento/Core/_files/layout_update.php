@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager \Magento\ObjectManager */
+/** @var $objectManager \Magento\Framework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\App\AreaList')
+$objectManager->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
-/** @var $theme \Magento\View\Design\ThemeInterface */
-$theme = $objectManager->create('Magento\View\Design\ThemeInterface');
+    ->load(\Magento\Framework\App\Area::PART_CONFIG);
+/** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+$theme = $objectManager->create('Magento\Framework\View\Design\ThemeInterface');
 $theme->setThemePath(
     'test/test'
 )->setThemeVersion(
@@ -25,7 +25,7 @@ $theme->setThemePath(
 )->setThemeTitle(
     'Test Theme'
 )->setType(
-    \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+    \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
 )->save();
 
 /** @var $updateNotTemporary \Magento\Core\Model\Layout\Update */

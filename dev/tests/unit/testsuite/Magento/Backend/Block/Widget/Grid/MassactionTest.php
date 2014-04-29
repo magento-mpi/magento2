@@ -52,7 +52,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         $this->_gridMock->expects($this->any())->method('getId')->will($this->returnValue('test_grid'));
 
         $this->_layoutMock = $this->getMock(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array('getParentName', 'getBlock', 'helper'),
             array(),
             '',
@@ -79,7 +79,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_gridMock)
         );
 
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
@@ -122,7 +122,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $itemId
      * @param $item
-     * @param $expectedItem \Magento\Object
+     * @param $expectedItem \Magento\Framework\Object
      * @dataProvider itemsDataProvider
      */
     public function testItemsProcessing($itemId, $item, $expectedItem)
@@ -146,7 +146,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->_block->getCount());
 
         $actualItem = $this->_block->getItem($itemId);
-        $this->assertInstanceOf('Magento\Object', $actualItem);
+        $this->assertInstanceOf('Magento\Framework\Object', $actualItem);
         $this->assertEquals($expectedItem->getData(), $actualItem->getData());
 
         $this->_block->removeItem($itemId);
@@ -160,7 +160,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             array(
                 'test_id1',
                 array("label" => "Test Item One", "url" => "*/*/test1"),
-                new \Magento\Object(
+                new \Magento\Framework\Object(
                     array(
                         "label" => "Test Item One",
                         "url" => "http://localhost/index.php/backend/admin/test/test1",
@@ -170,8 +170,8 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'test_id2',
-                new \Magento\Object(array("label" => "Test Item Two", "url" => "*/*/test2")),
-                new \Magento\Object(
+                new \Magento\Framework\Object(array("label" => "Test Item Two", "url" => "*/*/test2")),
+                new \Magento\Framework\Object(
                     array(
                         "label" => "Test Item Two",
                         "url" => "http://localhost/index.php/backend/admin/test/test2",

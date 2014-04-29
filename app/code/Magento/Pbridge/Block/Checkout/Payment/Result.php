@@ -14,7 +14,7 @@ namespace Magento\Pbridge\Block\Checkout\Payment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Result extends \Magento\View\Element\Template
+class Result extends \Magento\Framework\View\Element\Template
 {
     /**
      * Pbridge data
@@ -26,19 +26,19 @@ class Result extends \Magento\View\Element\Template
     /**
      * Json encoder interface
      *
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {

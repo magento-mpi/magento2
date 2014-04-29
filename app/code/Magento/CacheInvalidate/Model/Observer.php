@@ -17,7 +17,7 @@ class Observer
     /**
      * Application config object
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -27,7 +27,7 @@ class Observer
     protected $_helper;
 
     /**
-     * @var \Magento\HTTP\Adapter\Curl
+     * @var \Magento\Framework\HTTP\Adapter\Curl
      */
     protected $_curlAdapter;
 
@@ -36,12 +36,12 @@ class Observer
      *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\PageCache\Helper\Data $helper
-     * @param \Magento\HTTP\Adapter\Curl $curlAdapter
+     * @param \Magento\Framework\HTTP\Adapter\Curl $curlAdapter
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\PageCache\Helper\Data $helper,
-        \Magento\HTTP\Adapter\Curl $curlAdapter
+        \Magento\Framework\HTTP\Adapter\Curl $curlAdapter
     ) {
         $this->_config = $config;
         $this->_helper = $helper;
@@ -52,14 +52,14 @@ class Observer
      * If Varnish caching is enabled it collects array of tags
      * of incoming object and asks to clean cache.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function invalidateVarnish(\Magento\Event\Observer $observer)
+    public function invalidateVarnish(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
-            if ($object instanceof \Magento\Object\IdentityInterface) {
+            if ($object instanceof \Magento\Framework\Object\IdentityInterface) {
                 $tags = array();
                 $pattern = "((^|,)%s(,|$))";
                 foreach ($object->getIdentities() as $tag) {
@@ -74,10 +74,10 @@ class Observer
     /**
      * Flash Varnish cache
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function flushAllCache(\Magento\Event\Observer $observer)
+    public function flushAllCache(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $this->sendPurgeRequest('.*');

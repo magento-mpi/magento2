@@ -9,8 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition;
 
-use Magento\DB\Select;
-use Magento\Model\Exception;
+use Magento\Framework\DB\Select;
 
 /**
  * Customer wishlist conditions combine
@@ -20,14 +19,14 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Core Date
      *
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
      * Core resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -41,16 +40,16 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -137,13 +136,13 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
      * @return Select
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The root wish list condition should have a days value of 1 or greater.')
             );
         }

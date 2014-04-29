@@ -10,12 +10,12 @@
 
 namespace Magento\GiftCard\Pricing\Render;
 
-use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\Price\PriceInterface;
-use Magento\Pricing\Render\RendererPool;
-use Magento\View\Element\Template;
-use Magento\Pricing\PriceCurrencyInterface;
-use Magento\Pricing\Render\PriceBox;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Price\PriceInterface;
+use Magento\Framework\Pricing\Render\RendererPool;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\PriceBox;
 
 /**
  * Gift card final price box
@@ -39,7 +39,7 @@ class FinalPriceBox extends PriceBox
 
     /**
      * @param Template\Context $context
-     * @param SaleableInterface $saleableItem
+     * @param Product $saleableItem
      * @param PriceInterface $price
      * @param RendererPool $rendererPool
      * @param PriceCurrencyInterface $priceCurrency
@@ -47,7 +47,7 @@ class FinalPriceBox extends PriceBox
      */
     public function __construct(
         Template\Context $context,
-        SaleableInterface $saleableItem,
+        Product $saleableItem,
         PriceInterface $price,
         RendererPool $rendererPool,
         PriceCurrencyInterface $priceCurrency,

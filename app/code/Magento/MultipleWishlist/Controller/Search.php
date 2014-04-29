@@ -9,15 +9,15 @@
  */
 namespace Magento\MultipleWishlist\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Search extends \Magento\App\Action\Action
+class Search extends \Magento\Framework\App\Action\Action
 {
     /**
      * Localization filter
@@ -29,12 +29,12 @@ class Search extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -97,8 +97,8 @@ class Search extends \Magento\App\Action\Action
     /**
      * Construct
      *
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
@@ -107,11 +107,11 @@ class Search extends \Magento\App\Action\Action
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
@@ -120,7 +120,7 @@ class Search extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
@@ -159,8 +159,8 @@ class Search extends \Magento\App\Action\Action
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @return \Magento\Framework\App\ResponseInterface
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -190,7 +190,7 @@ class Search extends \Magento\App\Action\Action
      * Wishlist search action
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function resultsAction()
     {
@@ -199,7 +199,7 @@ class Search extends \Magento\App\Action\Action
         try {
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
-                throw new \Magento\Model\Exception(__('Please specify correct search options.'));
+                throw new \Magento\Framework\Model\Exception(__('Please specify correct search options.'));
             }
 
             $strategy = null;
@@ -211,7 +211,7 @@ class Search extends \Magento\App\Action\Action
                     $strategy = $this->_strategyEmailFactory->create();
                     break;
                 default:
-                    throw new \Magento\Model\Exception(__('Please specify correct search options.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please specify correct search options.'));
             }
 
             $strategy->setSearchParams($params);
@@ -221,7 +221,7 @@ class Search extends \Magento\App\Action\Action
             $this->_customerSession->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
             $this->messageManager->addNotice($e->getMessage());
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not perform the search.'));
@@ -297,7 +297,7 @@ class Search extends \Magento\App\Action\Action
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
                     } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
@@ -306,7 +306,7 @@ class Search extends \Magento\App\Action\Action
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
                 } catch (\Exception $e) {
-                    $this->_objectManager->get('Magento\Logger')->logException($e);
+                    $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                     $messages[] = __('We could not add the item to shopping cart.');
                 }
             }

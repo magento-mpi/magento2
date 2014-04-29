@@ -10,9 +10,9 @@
  */
 namespace Magento\GoogleAdwords\Model\Validator;
 
-use Magento\Validator\Int;
-use Magento\Validator\Regex;
-use Magento\Validator\UniversalFactory;
+use Magento\Framework\Validator\Int;
+use Magento\Framework\Validator\Regex;
+use Magento\Framework\Validator\UniversalFactory;
 
 class Factory
 {
@@ -33,7 +33,7 @@ class Factory
      * Create color validator
      *
      * @param string $currentColor
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     public function createColorValidator($currentColor)
     {
@@ -41,15 +41,15 @@ class Factory
             'Conversion Color value is not valid "%1". Please set hexadecimal 6-digit value.',
             $currentColor
         );
-        /** @var \Magento\Validator\Builder $builder */
+        /** @var \Magento\Framework\Validator\Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(
-            'Magento\Validator\Builder',
+            'Magento\Framework\Validator\Builder',
             array(
                 'constraints' => array(
                     array(
                         'alias' => 'Regex',
                         'type' => '',
-                        'class' => 'Magento\Validator\Regex',
+                        'class' => 'Magento\Framework\Validator\Regex',
                         'options' => array(
                             'arguments' => array('pattern' => '/^[0-9a-f]{6}$/i'),
                             'methods' => array(
@@ -72,20 +72,20 @@ class Factory
      * Create Conversion id validator
      *
      * @param int|string $currentId
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     public function createConversionIdValidator($currentId)
     {
         $message = __('Conversion Id value is not valid "%1". Conversion Id should be an integer.', $currentId);
-        /** @var \Magento\Validator\Builder $builder */
+        /** @var \Magento\Framework\Validator\Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(
-            'Magento\Validator\Builder',
+            'Magento\Framework\Validator\Builder',
             array(
                 'constraints' => array(
                     array(
                         'alias' => 'Int',
                         'type' => '',
-                        'class' => 'Magento\Validator\Int',
+                        'class' => 'Magento\Framework\Validator\Int',
                         'options' => array(
                             'methods' => array(
                                 array(

@@ -57,16 +57,12 @@ class Account extends Action
         )->setEmail(
             strtolower($this->getRequest()->getParam('email', false))
         );
-
         if ($password !== '') {
             $user->setPassword($password);
-        }
-        if ($passwordConfirmation !== '') {
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
-        if ($this->_objectManager->get('Magento\Locale\Validator')->isValid($interfaceLocale)) {
-
+        if ($this->_objectManager->get('Magento\Framework\Locale\Validator')->isValid($interfaceLocale)) {
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get(
                 'Magento\Backend\Model\Locale\Manager'
@@ -79,7 +75,7 @@ class Account extends Action
             $user->save();
             $user->sendPasswordResetNotificationEmail();
             $this->messageManager->addSuccess(__('The account has been saved.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('An error occurred while saving account.'));

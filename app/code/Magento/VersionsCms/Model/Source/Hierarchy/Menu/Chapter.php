@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Chapter implements \Magento\Option\ArrayInterface
+class Chapter implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return options for Chapter/Section meta links

@@ -26,7 +26,7 @@
  */
 namespace Magento\Invitation\Model\Invitation;
 
-class History extends \Magento\Model\AbstractModel
+class History extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Invitation Status
@@ -36,26 +36,26 @@ class History extends \Magento\Model\AbstractModel
     protected $_invitationStatus;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

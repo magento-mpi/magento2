@@ -95,7 +95,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_storeManager;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -105,9 +105,9 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -118,18 +118,18 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Module\Dir\Reader $configReader
+     * @param \Magento\Framework\Module\Dir\Reader $configReader
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -140,9 +140,9 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Module\Dir\Reader $configReader,
+        \Magento\Framework\Module\Dir\Reader $configReader,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         array $data = array()
     ) {
@@ -250,7 +250,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     {
         $this->_request = $request;
 
-        $r = new \Magento\Object();
+        $r = new \Magento\Framework\Object();
 
         if ($request->getLimitMethod()) {
             $r->setService($request->getLimitMethod());
@@ -970,7 +970,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      */
     protected function setTrackingReqeust()
     {
-        $r = new \Magento\Object();
+        $r = new \Magento\Framework\Object();
 
         $account = $this->getConfigData('account');
         $r->setAccount($account);
@@ -1202,10 +1202,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Form array with appropriate structure for shipment request
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return array
      */
-    protected function _formShipmentRequest(\Magento\Object $request)
+    protected function _formShipmentRequest(\Magento\Framework\Object $request)
     {
         if ($request->getReferenceData()) {
             $referenceData = $request->getReferenceData() . $request->getPackageId();
@@ -1229,7 +1229,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         $productIds = array();
         $packageItems = $request->getPackageItems();
         foreach ($packageItems as $itemShipment) {
-            $item = new \Magento\Object();
+            $item = new \Magento\Framework\Object();
             $item->setData($itemShipment);
 
             $unitPrice += $item->getPrice();
@@ -1369,13 +1369,13 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      */
-    protected function _doShipmentRequest(\Magento\Object $request)
+    protected function _doShipmentRequest(\Magento\Framework\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $client = $this->_createShipSoapClient();
         $requestClient = $this->_formShipmentRequest($request);
         $response = $client->processShipment($requestClient);
@@ -1431,10 +1431,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Return container types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(\Magento\Object $params = null)
+    public function getContainerTypes(\Magento\Framework\Object $params = null)
     {
         if ($params == null) {
             return $this->_getAllowedContainers($params);
@@ -1495,10 +1495,10 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Framework\Object $params = null)
     {
         return $this->getCode('delivery_confirmation_types');
     }

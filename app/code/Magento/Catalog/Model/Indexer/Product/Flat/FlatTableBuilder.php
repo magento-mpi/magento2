@@ -21,12 +21,12 @@ class FlatTableBuilder
     protected $_productIndexerHelper;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface $config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     protected $_config;
 
@@ -42,15 +42,15 @@ class FlatTableBuilder
 
     /**
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productIndexerHelper
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param TableDataInterface $tableData
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Flat\Indexer $productIndexerHelper,
-        \Magento\App\Resource $resource,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Indexer\Product\Flat\TableDataInterface $tableData
     ) {
@@ -98,7 +98,7 @@ class FlatTableBuilder
      *
      * @param int|string $storeId
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _createTemporaryFlatTable($storeId)
     {
@@ -110,7 +110,7 @@ class FlatTableBuilder
             \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction::XML_NODE_MAX_INDEX_COUNT
         );
         if ($maxIndex && count($indexesNeed) > $maxIndex) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     "The Flat Catalog module has a limit of %2\$d filterable and/or sortable attributes." .
                     "Currently there are %1\$d of them." .
@@ -123,7 +123,7 @@ class FlatTableBuilder
 
         $indexKeys = array();
         $indexProps = array_values($indexesNeed);
-        $upperPrimaryKey = strtoupper(\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
+        $upperPrimaryKey = strtoupper(\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
         foreach ($indexProps as $i => $indexProp) {
             $indexName = $this->_connection->getIndexName(
                 $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($storeId)),
@@ -146,7 +146,7 @@ class FlatTableBuilder
         }
         $indexesNeed = array_combine($indexKeys, $indexProps);
 
-        /** @var $table \Magento\DB\Ddl\Table */
+        /** @var $table \Magento\Framework\DB\Ddl\Table */
         $table = $this->_connection->newTable(
             $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($storeId))
         );
@@ -299,7 +299,7 @@ class FlatTableBuilder
                         ' AND t.store_id = ' .
                         $storeId .
                         ' AND t.value IS NOT NULL';
-                    /** @var $select \Magento\DB\Select */
+                    /** @var $select \Magento\Framework\DB\Select */
                     $select = $this->_connection->select()->joinInner(
                         array('t' => $tableName),
                         $joinCondition,

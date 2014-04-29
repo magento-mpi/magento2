@@ -21,15 +21,15 @@ class Status extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -118,8 +118,8 @@ class Status extends \Magento\Backend\App\Action
             $statusCode = $this->getRequest()->getParam('status');
 
             //filter tags in labels/status
-            /** @var $filterManager \Magento\Filter\FilterManager */
-            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+            /** @var $filterManager \Magento\Framework\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
             if ($isNew) {
                 $statusCode = $data['status'] = $filterManager->stripTags($data['status']);
             }
@@ -144,7 +144,7 @@ class Status extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You have saved the order status.'));
                 $this->_redirect('sales/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(
@@ -195,7 +195,7 @@ class Status extends \Magento\Backend\App\Action
                     $this->messageManager->addSuccess(__('You have assigned the order status.'));
                     $this->_redirect('sales/*/');
                     return;
-                } catch (\Magento\Model\Exception $e) {
+                } catch (\Magento\Framework\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $this->messageManager->addException(
@@ -223,7 +223,7 @@ class Status extends \Magento\Backend\App\Action
             try {
                 $status->unassignState($state);
                 $this->messageManager->addSuccess(__('You have unassigned the order status.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(

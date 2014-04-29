@@ -45,19 +45,16 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Reports\Model\Product\Index\Factory $indexFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Reports\Model\Product\Index\Factory $indexFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;
@@ -97,7 +94,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         try {
             $model = $this->_indexFactory->get($this->_indexType);
         } catch (\InvalidArgumentException $e) {
-            new \Magento\Model\Exception(__('Index type is not valid'));
+            new \Magento\Framework\Model\Exception(__('Index type is not valid'));
         }
 
         return $model;

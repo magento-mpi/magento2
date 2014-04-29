@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
+class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
 {
     /**
      * Indexer ID in configuration

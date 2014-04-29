@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
+    <block name="test.block.insert" class="Magento\Framework\View\Element\Text"/>
+    <block class="Magento\Framework\View\Element\Template">
+        <action method="insert">
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.insert</argument>
+        </action>
+    </block>
+    <block name="test.block.append" class="Magento\Framework\View\Element\Text"/>
+    <block class="Magento\Framework\View\Element\Text">
+        <action method="append">
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="element" xsi:type="string">test.block.append</argument>
+        </action>
+    </block>
+</layout>

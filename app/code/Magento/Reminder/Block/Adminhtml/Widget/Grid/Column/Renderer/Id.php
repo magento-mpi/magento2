@@ -38,10 +38,10 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
     /**
      * Render customer id linked to its account edit page
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
         return '<a href="' . $this->_urlBuilder->getUrl(

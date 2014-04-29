@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Catalogrule;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -30,14 +30,14 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _construct()
     {
-        $this->_init('Magento\Object', 'Magento\CatalogRule\Model\Resource\Rule');
+        $this->_init('Magento\Framework\Object', 'Magento\CatalogRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_catalogrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

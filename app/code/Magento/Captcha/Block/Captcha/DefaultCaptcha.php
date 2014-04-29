@@ -14,7 +14,7 @@ namespace Magento\Captcha\Block\Captcha;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class DefaultCaptcha extends \Magento\View\Element\Template
+class DefaultCaptcha extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string
@@ -32,12 +32,12 @@ class DefaultCaptcha extends \Magento\View\Element\Template
     protected $_captchaData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Captcha\Helper\Data $captchaData,
         array $data = array()
     ) {

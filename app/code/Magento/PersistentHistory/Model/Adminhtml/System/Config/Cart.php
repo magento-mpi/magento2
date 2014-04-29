@@ -14,7 +14,7 @@
  */
 namespace Magento\PersistentHistory\Model\Adminhtml\System\Config;
 
-class Cart extends \Magento\App\Config\Value
+class Cart extends \Magento\Framework\App\Config\Value
 {
     /**
      * Prefix of model events names

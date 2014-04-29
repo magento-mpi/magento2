@@ -13,7 +13,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Braintree;
 
-class PaymentAction implements \Magento\Option\ArrayInterface
+class PaymentAction implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

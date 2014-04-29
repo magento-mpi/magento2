@@ -9,19 +9,19 @@
  */
 namespace Magento\Email\Model\Template;
 
-class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
+class SenderResolver implements \Magento\Framework\Mail\Template\SenderResolverInterface
 {
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig)
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
         $this->_scopeConfig = $scopeConfig;
     }
@@ -49,7 +49,7 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
         }
 
         if (!isset($result['name']) || !isset($result['email'])) {
-            throw new \Magento\Mail\Exception(__('Invalid sender data'));
+            throw new \Magento\Framework\Mail\Exception(__('Invalid sender data'));
         }
 
         return $result;

@@ -15,7 +15,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_scopePullMock;
 
@@ -41,9 +41,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_scopePullMock = $this->getMock('Magento\App\Config\ScopePool', [], [], '', false);
+        $this->_scopePullMock = $this->getMock('Magento\Framework\App\Config\ScopePool', [], [], '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', [], [], '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', [], [], '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Store\Model\Resource\Config\Collection\ScopedFactory',
             ['create'],
@@ -55,7 +55,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_storeMock));
 
-        $this->_appStateMock = $this->getMock('Magento\App\State', [], [], '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
@@ -80,9 +80,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider readDataProvider
      * @param string|null $storeCode
-     * @param PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount $getStoreCount
+     * @param string $storeMethod
      */
-    public function testRead($storeCode, $getStoreExpectsCount)
+    public function testRead($storeCode, $storeMethod)
     {
         $websiteCode = 'default';
         $storeId = 1;
@@ -93,7 +93,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock->expects($this->any())->method('getId')->will($this->returnValue($storeId));
         $this->_storeMock->expects($this->any())->method('getCode')->will($this->returnValue($websiteCode));
 
-        $dataMock = $this->getMock('Magento\App\Config\Data', [], [], '', false);
+        $dataMock = $this->getMock('Magento\Framework\App\Config\Data', [], [], '', false);
         $dataMock->expects(
             $this->any()
         )->method(
@@ -138,31 +138,33 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 [
-                    new \Magento\Object(['path' => 'config/key1', 'value' => 'store_db_value1']),
-                    new \Magento\Object(['path' => 'config/key3', 'value' => 'store_db_value3'])
+                    new \Magento\Framework\Object(['path' => 'config/key1', 'value' => 'store_db_value1']),
+                    new \Magento\Framework\Object(['path' => 'config/key3', 'value' => 'store_db_value3'])
                 ]
             )
         );
-        $this->_storeManagerMock->expects(
-            $getStoreExpectsCount
-        )->method(
-            'getStore'
-        )->will(
-            $this->returnValue($this->_storeMock)
-        );
-        $expectedData = [
-            'config' => [
+
+        $this->_storeManagerMock
+            ->expects($this->any())
+            ->method($storeMethod)
+            ->will($this->returnValue($this->_storeMock));
+        $expectedData = array(
+            'config' => array(
                 'key0' => 'website_value0',
                 'key1' => 'store_db_value1',
                 'key2' => 'store_value2',
                 'key3' => 'store_db_value3'
-            ]
-        ];
+            )
+        );
         $this->assertEquals($expectedData, $this->_model->read($storeCode));
     }
 
     public function readDataProvider()
     {
-        return [['default', $this->never()], [null, $this->once()]];
+        return array(
+            array('default', 'getDefaultStoreView'),
+            array(null, 'getStore'),
+            array('code', '')
+        );
     }
 }

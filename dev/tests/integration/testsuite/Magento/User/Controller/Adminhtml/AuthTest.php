@@ -87,17 +87,18 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/auth/resetpassword');
         $this->assertSessionMessages(
             $this->equalTo(array('Your password reset link has expired.')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect();
     }
 
     /**
+     * @dataProvider resetPasswordDataProvider
      * @covers \Magento\User\Controller\Adminhtml\Auth::resetPasswordPostAction
      * @covers \Magento\User\Controller\Adminhtml\Auth::_validateResetPasswordLinkToken
      * @magentoDataFixture Magento/User/_files/dummy_user.php
      */
-    public function testResetPasswordPostAction()
+    public function testResetPasswordPostAction($password, $passwordConfirmation, $isPasswordChanged)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
@@ -112,8 +113,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $resetPasswordToken = $helper->generateResetPasswordLinkToken();
         $user->changeResetPasswordLinkToken($resetPasswordToken);
         $user->save();
-
-        $newDummyPassword = 'new_dummy_password2';
+        $oldPassword = $user->getPassword();
 
         $this->getRequest()->setQuery(
             'token',
@@ -123,25 +123,47 @@ class AuthTest extends \Magento\Backend\Utility\Controller
             $user->getId()
         )->setPost(
             'password',
-            $newDummyPassword
+            $password
         )->setPost(
             'confirmation',
-            $newDummyPassword
+            $passwordConfirmation
         );
 
         $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         /** @var \Magento\Backend\Helper\Data $backendHelper */
         $backendHelper = $objectManager->get('Magento\Backend\Helper\Data');
-        $this->assertRedirect($this->equalTo($backendHelper->getHomePageUrl()));
+        if ($isPasswordChanged) {
+            $this->assertRedirect($this->equalTo($backendHelper->getHomePageUrl()));
+        } else {
+            $this->assertRedirect(
+                $this->stringContains('backend/admin/auth/resetpassword')
+            );
+        }
 
         /** @var $user \Magento\User\Model\User */
         $user = $objectManager->create('Magento\User\Model\User');
         $user->loadByUsername('dummy_username');
 
-        /** @var \Magento\Encryption\EncryptorInterface $encryptor */
-        $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
-        $this->assertTrue($encryptor->validateHash($newDummyPassword, $user->getPassword()));
+        if ($isPasswordChanged) {
+            /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
+            $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+            $this->assertTrue($encryptor->validateHash($password, $user->getPassword()));
+        } else {
+            $this->assertEquals($oldPassword, $user->getPassword());
+        }
+    }
+
+    public function resetPasswordDataProvider()
+    {
+        $password = uniqid('123q');
+        return array(
+            array($password, $password, true),
+            array($password, '', false),
+            array($password, $password . '123', false),
+            array('', '', false),
+            array('', $password, false)
+        );
     }
 
     /**
@@ -155,7 +177,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/auth/resetpasswordpost');
         $this->assertSessionMessages(
             $this->equalTo(array('Your password reset link has expired.')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -207,7 +229,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array('Your password confirmation must match your password.')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect();
     }
