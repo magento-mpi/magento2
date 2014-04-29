@@ -20,6 +20,9 @@ class Cookie extends Template
      */
     protected $sessionConfig;
 
+    /**
+     * @var \Zend\Validator\Ip
+     */
     protected $ipValidator;
 
     /**
@@ -30,8 +33,12 @@ class Cookie extends Template
      * @param \Zend\Validator\Ip $ipValidator
      * @param array $data
      */
-    public function __construct(Context $context, ConfigInterface $cookieConfig, \Zend\Validator\Ip $ipValidator, array $data = array())
-    {
+    public function __construct(
+        Context $context,
+        ConfigInterface $cookieConfig,
+        \Zend\Validator\Ip $ipValidator,
+        array $data = array()
+    ) {
         $this->sessionConfig = $cookieConfig;
         $this->ipValidator = $ipValidator;
         parent::__construct($context, $data);
