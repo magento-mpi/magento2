@@ -74,6 +74,9 @@ class Tab extends AbstractForm
     {
         $mapping = empty($mapping) ? $this->mapping : $mapping;
         foreach ($mapping as &$item) {
+            if (empty($item['selector'])) {
+                continue;
+            }
             $item['selector'] = strtr($item['selector'], $placeholder);
         }
         unset($item);
