@@ -60,9 +60,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'index' => 0,
                 'data' => array(
                     'category_id' => null,
-                    'display_state' => 1, /*\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE*/
+                    'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                     'sort_order' => 30,
-                    'status' => 'closed', /*\Magento\CatalogEvent\Model\Event::STATUS_CLOSED*/
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED,
                     'image' => 'default_store_view.jpg'
                 )
             ),
@@ -70,9 +70,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'index' => 1,
                 'data' => array(
                     'category_id' => 1,
-                    'display_state' => 2, /*\Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE*/
+                    'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
                     'sort_order' => 20,
-                    'status' => 'open', /*\Magento\CatalogEvent\Model\Event::STATUS_OPEN*/
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_OPEN,
                     'image' => 'default_website.jpg'
                 )
             ),
@@ -84,7 +84,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     /*\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                         \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE*/
                     'sort_order' => 10,
-                    'status' => 'upcoming', /*\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING*/
+                    'status' => \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING,
                     'image' => 'default_store_view.jpg'
                 )
             )

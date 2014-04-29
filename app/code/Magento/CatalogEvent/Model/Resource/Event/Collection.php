@@ -93,8 +93,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             }
             if ((int)$condition > 0) {
                 $this->getSelect()->where('display_state = 3 OR display_state = ?', (int)$condition);
-            } else {
-                $this->getSelect()->where('display_state IN (0,1,2,3)');
             }
             return $this;
         }
