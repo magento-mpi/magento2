@@ -6,9 +6,8 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\Catalog\Test\Constraint; 
 
-use Mtf\Factory\Factory;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
@@ -29,25 +28,24 @@ class AssertProductForm extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert product availability in Products Grid
+     * Assert form data equals fixture data
      *
      * @param InjectableFixture $product
-     * @param CatalogProductIndex $productPageGrid
-     * @param CatalogProductEdit $productBlockForm
+     * @param CatalogProductIndex $productGrid
+     * @param CatalogProductEdit $productPage
      * @return void
      */
     public function processAssert(
         InjectableFixture $product,
-        CatalogProductIndex $productPageGrid,
-        CatalogProductEdit $productBlockForm
+        CatalogProductIndex $productGrid,
+        CatalogProductEdit $productPage
     ) {
-        return;
         $filter = ['sku' => $product->getData('sku')];
-        $productPageGrid->open();
-        $productPageGrid->getProductGrid()->searchAndOpen($filter);
+        $productGrid->open()->getProductGrid()->searchAndOpen($filter);
+
         \PHPUnit_Framework_Assert::assertTrue(
-            $productBlockForm->getProductBlockForm()->verify($product),
-            'Displayed product data on edit page not equals passed from fixture.'
+            (bool)$productPage->getProductBlockForm()->verify($product),
+            'Form data not equals fixture data'
         );
     }
 
@@ -56,6 +54,6 @@ class AssertProductForm extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Displayed product data on edit page equals passed from fixture.';
+        return 'Form data equal the fixture data.';
     }
 }

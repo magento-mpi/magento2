@@ -12,8 +12,7 @@ use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex as CatalogProductIndexPage;
-use Magento\Catalog\Test\Page\Product\CatalogProductNew;
-
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
  * Test Creation for Create DownloadableProductEntity
@@ -36,10 +35,12 @@ class CreateDownloadableProductEntityTest extends Injectable
      * @var Category
      */
     protected $category;
+
     /**
      * @var CatalogProductIndexPage
      */
     protected $catalogProductIndex;
+
     /**
      * @var CatalogProductNew
      */
@@ -83,10 +84,9 @@ class CreateDownloadableProductEntityTest extends Injectable
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getGridPageActions()->setTypeProduct("downloadable");
         $this->catalogProductIndex->getGridPageActions()->addNew();
-        $productBlockForm = $this->catalogProductNew->getProductBlockForm();
-        //$product->getDownloadableLinks();
+        $productBlockForm = $this->catalogProductNew->getProductForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $this->catalogProductNew->getProductPageAction()->save();
     }
 }

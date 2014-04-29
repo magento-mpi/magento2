@@ -8,7 +8,6 @@
 
 namespace Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -71,9 +70,10 @@ class DownloadableSamples implements FixtureInterface
     }
 
     /**
+     * Preset array for downloadable samples
+     *
      * @param string $name
-     * @return mixed
-     * @throws \Exception
+     * @return array|bool
      */
     protected function getPreset($name)
     {
@@ -93,6 +93,31 @@ class DownloadableSamples implements FixtureInterface
                             'type' => 'url',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
+                        ]
+                    ]
+                ]
+            ],
+            'with_three_samples' => [
+                'title' => 'Samples%isolation%',
+                'downloadable' => [
+                    'sample' => [
+                        [
+                            'title' => 'row1%isolation%',
+                            'type' => 'url',
+                            'sample_url' => 'http://example.com',
+                            'sort_order' => 0
+                        ],
+                        [
+                            'title' => 'row2%isolation%',
+                            'type' => 'url',
+                            'sample_url' => 'http://example2.com',
+                            'sort_order' => 1
+                        ],
+                        [
+                            'title' => 'row3%isolation%',
+                            'type' => 'url',
+                            'sample_url' => 'http://example3.com',
+                            'sort_order' => 2
                         ]
                     ]
                 ]

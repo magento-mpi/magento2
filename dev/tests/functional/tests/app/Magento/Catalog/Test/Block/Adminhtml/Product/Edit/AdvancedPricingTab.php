@@ -8,18 +8,27 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
+use Mtf\ObjectManager;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Factory\Factory;
 
 /**
- * Custom Options Tab
+ * Custom options tab
  *
  * @package Magento\Catalog\Test\Block\Product
  */
 class AdvancedPricingTab extends Tab
 {
+    /**
+     * Subform of the main tab form
+     *
+     * @var array
+     */
+    protected $childrenForm = [
+        'group_price' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab\OptionGroup',
+        'tier_price' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab\OptionTier'
+    ];
+
     /**
      * Fill group price options
      *
@@ -29,44 +38,81 @@ class AdvancedPricingTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        $root = $element;
-        $this->_rootElement->waitUntil(
-            function () use ($root) {
-                return $root->find('#product_info_tabs_advanced-pricing_content')->isVisible();
+        foreach ($fields as $fieldName => $field) {
+
+            // Fill form
+            if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
+
+                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
+                $optionsForm = ObjectManager::getInstance()->create(
+                    $this->childrenForm[$fieldName],
+                    ['element' => $element]
+                );
+
+                $optionIsolationMapping = $optionsForm->getMapping();
+                foreach ($field['value'] as $row => $option) {
+
+                    $placeholder = ['%row%' => $row];
+                    $mapping = $this->preparingSelectors(
+                        $placeholder,
+                        $optionIsolationMapping
+                    );
+
+                    $optionsForm->setMapping($mapping);
+                    $optionsForm->fillAnArray($option, $placeholder);
+                }
+
+            } elseif (!empty($field['value'])) {
+
+                $data = $this->dataMapping([$fieldName => $field]);
+                $this->_fill($data, $element);
             }
-        );
-        if (isset($fields['special_price']['value'])) {
-            $container = $root->find('#attribute-special_price-container');
-            Factory::getBlockFactory()
-                ->getMagentoCatalogAdminhtmlProductEditAdvancedPricingTabSpecialOption($container)
-                ->fill($fields['special_price']);
         }
 
-        if (isset($fields['group_price']['value'])) {
-            $button = $root->find('[title="Add Group Price"]');
-            $container = $root->find('#attribute-group_price-container');
-            foreach ($fields['group_price']['value'] as $rowId => $data) {
-                $rowPrefix = 'group_price_row_' . $rowId;
-                $button->click();
-                $row = $container->find('//tr[td[select[@id="' . $rowPrefix . '_website"]]]', Locator::SELECTOR_XPATH);
-                Factory::getBlockFactory()
-                    ->getMagentoCatalogAdminhtmlProductEditAdvancedPricingTabGroupOption($row)
-                    ->fill($rowPrefix, $data);
-            }
-        }
-        if (isset($fields['tier_price']['value'])) {
-            $button = $root->find('[title="Add Tier"]');
+        return $this;
+    }
 
-            $container = $root->find('#attribute-tier_price-container');
-            foreach ($fields['tier_price']['value'] as $rowId => $data) {
-                $rowPrefix = 'tier_price_row_' . $rowId;
-                $button->click();
-                $row = $container->find('//tr[td[select[@id="' . $rowPrefix . '_website"]]]', Locator::SELECTOR_XPATH);
-                Factory::getBlockFactory()
-                    ->getMagentoCatalogAdminhtmlProductEditAdvancedPricingTabGroupOption($row)
-                    ->fill($rowPrefix, $data);
+    /**
+     * Verify data to fields on tab
+     *
+     * @param array $fields
+     * @param Element $element
+     *
+     * @return bool
+     */
+    public function verifyFormTab(array $fields, Element $element)
+    {
+        foreach ($fields as $fieldName => $field) {
+
+            // Verify form
+            if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
+
+                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
+                $optionsForm = ObjectManager::getInstance()->create(
+                    $this->childrenForm[$fieldName],
+                    ['element' => $element]
+                );
+
+                $optionIsolationMapping = $optionsForm->getMapping();
+                foreach ($field['value'] as $row => $option) {
+
+                    $placeholder = ['%row%' => $row];
+                    $mapping = $this->preparingSelectors(
+                        $placeholder,
+                        $optionIsolationMapping
+                    );
+
+                    $optionsForm->setMapping($mapping);
+                    $optionsForm->verifyAnArray($option, $placeholder);
+                }
+
+            } elseif (!empty($field['value'])) {
+
+                $data = $this->dataMapping([$fieldName => $field]);
+                $this->_verify($data, $element);
             }
         }
+
         return $this;
     }
 }

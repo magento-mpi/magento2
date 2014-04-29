@@ -44,7 +44,7 @@ class AssertProductInGrid extends AbstractConstraint
     }
 
     /**
-     * @inheritdoc
+     * @return string
      */
     public function toString()
     {

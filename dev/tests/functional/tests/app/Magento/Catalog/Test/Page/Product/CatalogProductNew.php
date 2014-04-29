@@ -91,18 +91,6 @@ class CatalogProductNew extends Page
     }
 
     /**
-     * Get product form block
-     *
-     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
-     */
-    public function getConfigurableBlockForm()
-    {
-        return Factory::getBlockFactory()->getMagentoConfigurableProductAdminhtmlProductProductForm(
-            $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
      * Get global messages block
      *
      * @return \Magento\Core\Test\Block\Messages

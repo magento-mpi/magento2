@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductInCategory
+ *
  * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInCategory extends AbstractConstraint
@@ -32,6 +33,7 @@ class AssertProductInCategory extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogProductSimple $product
      * @param Category $category
+     * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
@@ -39,11 +41,24 @@ class AssertProductInCategory extends AbstractConstraint
         CatalogProductSimple $product,
         Category $category
     ) {
-        //Open category view page
+        //Open category view page and check visible product
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
 
-        //process asserts
+        $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
+        while (!$isProductVisible
+            && ($productListBlock = $catalogCategoryView->getProductPagination()->getNextPage()) !== null
+        ) {
+            $productListBlock->click();
+            $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
+        }
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            $isProductVisible,
+            'Product is absent on category page.'
+        );
+
+        //process price asserts
         $this->assertPrice($product, $catalogCategoryView);
     }
 
@@ -52,41 +67,20 @@ class AssertProductInCategory extends AbstractConstraint
      *
      * @param CatalogProductSimple $product
      * @param CatalogCategoryView $catalogCategoryView
+     * @return void
      */
     protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
-        $pricePresetData = $priceFixture->getPreset();
+        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
+            $product->getName()
+        )->getRegularPrice();
 
-        //Regular price verification
-        if (isset($pricePresetData['category_special_price'])) {
-            $regularPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
-                ->getRegularPrice();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $pricePresetData['category_price'],
-                $regularPrice,
-                'Product regular price on category page is not correct.'
-            );
-            //Special price verification
-            $specialPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
-                $product->getName()
-            )->getSpecialPrice();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $pricePresetData['category_special_price'],
-                $specialPrice,
-                'Product special price on category page is not correct.'
-            );
-        } else {
-            //Price verification
-            $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
-                ->getPrice();
-            \PHPUnit_Framework_Assert::assertContains(
-                (string)$price,
-                $pricePresetData['category_price'],
-                'Product price on category page is not correct.'
-            );
-        }
+        $priceComparing = '$' . number_format($product->getPrice(), 2);
+        \PHPUnit_Framework_Assert::assertEquals(
+            $priceComparing,
+            $price,
+            'Product regular price on category page is not correct.'
+        );
     }
 
     /**

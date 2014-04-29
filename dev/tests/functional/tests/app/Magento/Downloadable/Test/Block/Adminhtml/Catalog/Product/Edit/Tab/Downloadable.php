@@ -23,78 +23,77 @@ use Mtf\Client\Element\Locator;
 class Downloadable extends Tab
 {
     /**
-     * 'Add New Row' button
+     * 'Add New Row for links' button
      *
      * @var string
      */
     protected $addNewLinkRow = '[data-action=add-link]';
 
     /**
-     * 'Add New Row' button
+     * 'Add New Row for samples' button
      *
      * @var string
      */
     protected $addNewSampleRow = '[data-action=add-sample]';
 
     /**
-     * 'Show Sample' button
+     * 'Show Sample block' button
      *
      * @var string
      */
     protected $showSample = '[data-ui-id=widget-accordion-1-samples-title-link]';
 
     /**
-     * 'Show Sample' button
+     * 'Show Links block' button
      *
      * @var string
      */
     protected $showLinks = '[data-ui-id=widget-accordion-1-links-title-link]';
 
     /**
-     * 'Show Sample' button
+     * 'link separately type' select
      *
      * @var string
      */
     protected $linkSeparately = "//*[@id='downloadable_link_purchase_type']";
 
     /**
-     * Downloadable links block
+     * Downloadable link item block
      *
      * @var string
      */
     protected $downloadableLinkBlock = '#link_items_body tr:nth-child(';
 
     /**
-     * Downloadable sample block
+     * Downloadable sample item block
      *
      * @var string
      */
     protected $downloadableSampleBlock = '#sample_items_body tr:nth-child(';
 
     /**
-     * Downloadable sample block
+     * Sample title block
      *
      * @var string
      */
     protected $downloadableSamplesTitle = "input[name='product[samples_title]']";
 
     /**
-     * Downloadable sample block
+     * Downloadable title block
      *
      * @var string
      */
     protected $downloadableLinksTitle = "input[name='product[links_title]']";
 
     /**
-     * Downloadable sample block
+     * links purchased separately select
      *
      * @var string
      */
     protected $downloadableLinksPurchasedSeparately = "[name='product[links_purchased_separately]']";
 
-
     /**
-     * Get product row assigned to bundle option
+     * Get product row assigned to downloadable link
      *
      * @param int $blockNumber
      * @param Element $context
@@ -109,7 +108,7 @@ class Downloadable extends Tab
     }
 
     /**
-     * Get product row assigned to bundle option
+     * Get product row assigned to downloadable sample
      *
      * @param int $blockNumber
      * @param Element $context

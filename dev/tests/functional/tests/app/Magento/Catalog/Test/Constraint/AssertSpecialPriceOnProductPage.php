@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint; 
+namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -38,9 +38,13 @@ class AssertSpecialPriceOnProductPage extends AbstractConstraint
         $catalogProductView->init($product);
         $catalogProductView->open();
         $fields = $product->getData();
+        $specialPrice = $catalogProductView->getViewBlock()->getProductPrice();
+        $specialPrice = (isset($specialPrice['price_special_price']))
+            ? $specialPrice['price_special_price']
+            : null;
         \PHPUnit_Framework_Assert::assertEquals(
             $fields['special_price'],
-            $catalogProductView->getViewBlock()->getProductPrice()['price_special price'],
+            $specialPrice,
             'Assert that displayed special price on product page NOT equals passed from fixture.'
         );
     }

@@ -14,7 +14,6 @@ use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Repository\RepositoryFactory;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class CatalogProductDownloadable
@@ -45,7 +44,7 @@ class CatalogProductDownloadable extends InjectableFixture
     public function persist()
     {
         $id = Factory::getApp()->magentoDownloadableCreateDownloadable($this);
-        $this->_data['fields']['id']['value'] = $id;
+        $this->data['fields']['id']['value'] = $id;
     }
 
     /**
@@ -934,11 +933,15 @@ class CatalogProductDownloadable extends InjectableFixture
         return $this->getData('custom_options');
     }
 
-    public function getDownloadableLinks()
+    /*
+     * @param string $name
+     * @return array
+     */
+    public function getDownloadableLinks($name)
     {
-        return $this->data['downloadable_information1'] = $this->getDataFieldConfig(
-            'downloadable_information2'
-        )['fixture']->getPreset();
+        return $this->data['downloadable_information'] = $this->getDataFieldConfig(
+            'downloadable_information'
+        )['fixture']->getPreset($name);
     }
 
 }

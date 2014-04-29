@@ -2,23 +2,21 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Block\Product;
 
 use Magento\Connect\Controller\Adminhtml\Extension\Local;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class View
@@ -61,21 +59,21 @@ class View extends Block
      *
      * @var string
      */
-    protected $productSku = "div[itemprop='sku']";
+    protected $productSku = '.product.attibute.sku div[itemprop="sku"]';
 
     /**
-     * Product sku element
+     * Product description element
      *
      * @var string
      */
-    protected $productDescription = "//*/dd/div[contains(concat(' ', @class, ' '), ' description')]/div[@class='value']";
+    protected $productDescription = '.product.attibute.description';
 
     /**
-     * Product sku element
+     * Product short-description element
      *
      * @var string
      */
-    protected $productShortDescription = "div[itemprop='description']";
+    protected $productShortDescription = '.product.attibute.overview';
 
     /**
      * Product price element
@@ -120,23 +118,66 @@ class View extends Block
     protected $customizeButton = '.action.primary.customize';
 
     /**
+     * This member holds the class name of the tier price block.
+     *
+     * @var string
+     */
+    protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
+
+    /**
      * downloadLinksData
      *
      * @var string
      */
     protected $downloadLinksData = '.downloads';
+
+    /**
+     * Title for for links
+     *
+     * @var string
+     */
     protected $downloadLinksDataTitleForForLink = ".//*/label/span[text()='";
+
+    /**
+     * Title item links
+     *
+     * @var string
+     */
     protected $downloadLinksDataTitleForList = "//*[@id='downloadable-links-list']/div[%d]/label[@class='label']/span[text() = '";
+
+    /**
+     * Price item links
+     *
+     * @var string
+     */
     protected $downloadLinksDataPriceForList = "//*[@id='downloadable-links-list']/div[@data-role='link']/label/span[@class='price-notice']/span[text() = '";
+
+    /**
+     * Checkbox item links
+     *
+     * @var string
+     */
     protected $downloadLinksDataCheckboxForList = "//*[@id='downloadable-links-list']/div[%d]/input[@type='checkbox']";
+
+    /**
+     * Block item links
+     *
+     * @var string
+     */
     protected $downloadLinksDataItemBlock = '[data-role=link]';
 
     /**
-     * downloadSamplesData
+     * Title for for samples
      *
      * @var string
      */
     protected $downloadSamplesDataTitleForForSample = "//*/dl[contains(concat(' ', @class, ' '), ' downloadable')]/dt[contains(concat(' ', @class, ' '), ' title')][text()='";
+
+    /**
+     * Title item sample
+     *
+     * @var string
+     */
     protected $downloadSampleDataTitleForList = "//*/dl[contains(concat(' ', @class, ' '), ' downloadable')]/dd[%d]/a[text()[contains(., '";
 
     /**
@@ -233,6 +274,8 @@ class View extends Block
     }
 
     /**
+     * Get block price
+     *
      * @return \Magento\Catalog\Test\Block\Product\Price
      */
     protected function getPriceBlock()
@@ -246,6 +289,7 @@ class View extends Block
      * Add product to shopping cart
      *
      * @param FixtureInterface $product
+     * @return void
      */
     public function addToCart(FixtureInterface $product)
     {
@@ -255,6 +299,8 @@ class View extends Block
 
     /**
      * Click link
+     *
+     * @return void
      */
     public function clickAddToCart()
     {
@@ -263,6 +309,8 @@ class View extends Block
 
     /**
      * Press 'Check out with PayPal' button
+     *
+     * @return void
      */
     public function paypalCheckout()
     {
@@ -296,7 +344,7 @@ class View extends Block
      */
     public function getProductDescription()
     {
-        if ($productDescription = $this->_rootElement->find($this->productDescription, Locator::SELECTOR_XPATH)) {
+        if ($productDescription = $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)) {
             return $productDescription->getText();
         } else {
             return false;
@@ -388,6 +436,7 @@ class View extends Block
      * Fill in the option specified for the product
      *
      * @param BundleFixture|Product $product
+     * @return void
      */
     public function fillOptions($product)
     {
@@ -406,7 +455,22 @@ class View extends Block
     }
 
     /**
+     * This method return array tier prices
+     *
+     * @param int $lineNumber
+     * @return array
+     */
+    public function getTierPrices($lineNumber = 1)
+    {
+        return $this->_rootElement->find(
+            str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
+            Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
      * Click "Customize and add to cart button"
+     *
+     * @return void
      */
     public function clickCustomize()
     {
@@ -416,6 +480,8 @@ class View extends Block
 
     /**
      * Click "ADD TO CART" button
+     *
+     * @return void
      */
     public function clickAddToCartButton()
     {
@@ -423,6 +489,8 @@ class View extends Block
     }
 
     /**
+     * Verification of group products
+     *
      * @param GroupedProduct $product
      * @return bool
      */
@@ -442,6 +510,8 @@ class View extends Block
 
     /**
      * Open MAP block on Product View page
+     *
+     * @return void
      */
     public function openMapBlockOnProductPage()
     {
@@ -462,7 +532,7 @@ class View extends Block
     /**
      * Get text of Stock Availability control
      *
-     * @return array|string
+     * @return string
      */
     public function stockAvailability()
     {

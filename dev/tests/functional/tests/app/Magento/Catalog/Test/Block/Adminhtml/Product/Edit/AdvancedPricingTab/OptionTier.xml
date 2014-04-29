@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <price>
+            <selector>#tier_price_row_%row%_price</selector>
+        </price>
+        <website>
+            <selector>#tier_price_row_%row%_website</selector>
+            <input>select</input>
+        </website>
+        <customer_group>
+            <selector>#tier_price_row_%row%_cust_group</selector>
+            <input>select</input>
+        </customer_group>
+        <price_qty>
+            <selector>#tier_price_row_%row%_qty</selector>
+        </price_qty>
+    </fields>
+</mapping>

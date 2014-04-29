@@ -76,34 +76,46 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertProductInCart>
+    <assertProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertProductPage>
+    <assertGroupedPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertGroupedPriceOnProductPage>
+    <assertSpecialPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertSpecialPriceOnProductPage>
+    <assertTierPriceOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertTierPriceOnProductPage>
+    <assertCustomOptionsOnProductPage module="Magento_Catalog">
+        <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+    </assertCustomOptionsOnProductPage>
     <assertProductForm module="Magento_Catalog">
         <severeness>low</severeness>
+        <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        <product class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
     </assertProductForm>
     <assertProductIsNotDisplayingOnFrontend module="Magento_Catalog">
         <severeness>low</severeness>
     </assertProductIsNotDisplayingOnFrontend>
-    <assertProductPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertProductPage>
     <assertDownloadableSamplesData module="Magento_Catalog">
         <severeness>low</severeness>
     </assertDownloadableSamplesData>
     <assertDownloadableLinks module="Magento_Catalog">
         <severeness>low</severeness>
     </assertDownloadableLinks>
-    <assertCustomOptionsOnProductPage module="Magento_Catalog">
+    <assertProductPage module="Magento_Catalog">
         <severeness>low</severeness>
-    </assertCustomOptionsOnProductPage>
-    <assertCustomOptionsOnProductPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertCustomOptionsOnProductPage>
-    <assertSpecialPriceOnProductPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertSpecialPriceOnProductPage>
-    <assertGroupedPriceOnProductPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertGroupedPriceOnProductPage>
-    <assertTierPriceOnProductPage module="Magento_Catalog">
-        <severeness>low</severeness>
-    </assertTierPriceOnProductPage>
+    </assertProductPage>
 </constraint>

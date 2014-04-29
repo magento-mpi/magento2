@@ -33,4 +33,23 @@
   <testcase>
     <id>MTA-46</id>
   </testcase>
+    <testcase>
+        <id>MTA-15</id>
+        <ticketId>MTA-15</ticketId>
+        <name>CreateDownloadableProductEntityTest</name>
+        <description>Test Creation for Create DownloadableProductEntity </description>
+        <module>Catalog</module>
+        <components>
+            <component>Downloadable Product (CS)</component>
+        </components>
+        <steps>
+            <step> Log in to Backend.</step>
+            <step> Navigate to Products &gt; Catalog.</step>
+            <step> Start to create new Downloadable product.</step>
+            <step> Fill in data according to data set.</step>
+            <step> Fill Downloadable Information tab according to data set.</step>
+            <step> Save product.</step>
+            <step> Verify created product.</step>
+        </steps>
+    </testcase>
 </testcases>

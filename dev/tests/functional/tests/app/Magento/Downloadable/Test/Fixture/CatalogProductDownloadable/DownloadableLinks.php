@@ -8,7 +8,6 @@
 
 namespace Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
@@ -71,9 +70,10 @@ class DownloadableLinks implements FixtureInterface
     }
 
     /**
+     * Preset array for downloadable links
+     *
      * @param string $name
-     * @return mixed
-     * @throws \Exception
+     * @return array|null
      */
     protected function getPreset($name)
     {
@@ -109,6 +109,53 @@ class DownloadableLinks implements FixtureInterface
                             'is_shareable' => 'Yes',
                             'sort_order' => 1
                         ],
+                    ]
+                ]
+            ],
+            'with_three_links' => [
+                'title' => 'Links%isolation%',
+                'links_purchased_separately' => 'Yes',
+                'downloadable' => [
+                    'link' => [
+                        [
+                            'title' => 'row1%isolation%',
+                            'price' => 2.43,
+                            'number_of_downloads' => 2,
+                            'sample' => [
+                                'sample_type' => 'url',
+                                'sample_url' => 'http://example.com'
+                            ],
+                            'file_type' => 'url',
+                            'file_link_url' => 'http://example.com',
+                            'is_shareable' => 'No',
+                            'sort_order' => 0
+                        ],
+                        [
+                            'title' => 'row2%isolation%',
+                            'price' => 3,
+                            'number_of_downloads' => 3,
+                            'sample' => [
+                                'sample_type' => 'url',
+                                'sample_url' => 'http://example3.com'
+                            ],
+                            'file_type' => 'url',
+                            'file_link_url' => 'http://example3.com',
+                            'is_shareable' => 'Yes',
+                            'sort_order' => 1
+                        ],
+                        [
+                            'title' => 'row3%isolation%',
+                            'price' => 5.43,
+                            'number_of_downloads' => 5,
+                            'sample' => [
+                                'sample_type' => 'url',
+                                'sample_url' => 'http://example3.com'
+                            ],
+                            'file_type' => 'url',
+                            'file_link_url' => 'http://example3.com',
+                            'is_shareable' => 'Yes',
+                            'sort_order' => 2
+                        ]
                     ]
                 ]
             ]

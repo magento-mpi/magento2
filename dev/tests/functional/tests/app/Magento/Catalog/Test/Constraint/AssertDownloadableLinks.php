@@ -27,11 +27,6 @@ class AssertDownloadableLinks extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Text value for checking Stock Availability
-     */
-    const STOCK_AVAILABILITY = 'In stock';
-
-    /**
      * Assert Link block for downloadable product on front-end
      *
      * @param CatalogProductView $catalogProductView

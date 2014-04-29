@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductSaveMessage
@@ -35,7 +35,7 @@ class AssertProductSaveMessage extends AbstractConstraint
      */
     public function processAssert(CatalogProductEdit $productPage)
     {
-        $actualMessage = $productPage->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $productPage->getMessage()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
@@ -46,7 +46,7 @@ class AssertProductSaveMessage extends AbstractConstraint
     }
 
     /**
-     * @inheritdoc
+     * @return string
      */
     public function toString()
     {

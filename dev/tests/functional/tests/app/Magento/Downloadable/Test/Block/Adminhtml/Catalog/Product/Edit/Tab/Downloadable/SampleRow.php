@@ -12,7 +12,10 @@ use Mtf\Block\Form;
 class SampleRow extends Form
 {
     /**
+     * Update array for mapping
+     *
      * @param array $fields
+     * @return array
      */
     private function mappingUpdate(array $fields)
     {
@@ -27,7 +30,10 @@ class SampleRow extends Form
     }
 
     /**
+     * Fill item sample
+     *
      * @param array $fields
+     * @return void
      */
     public function fillSamples(array $fields)
     {
@@ -36,7 +42,10 @@ class SampleRow extends Form
     }
 
     /**
+     * Verify item sample
+     *
      * @param array $fields
+     * @return void
      */
     public function verifySamples(array $fields)
     {

@@ -62,4 +62,25 @@ class Tab extends AbstractForm
     {
         $this->fillFormTab($fields, $element);
     }
+
+    /**
+     * Preparation of selectors forms
+     *
+     * @param array $placeholder
+     * @param array &$mapping
+     * @return array
+     */
+    protected function preparingSelectors(array $placeholder, array $mapping = [])
+    {
+        $mapping = empty($mapping) ? $this->mapping : $mapping;
+        foreach ($mapping as &$item) {
+            if (empty($item['selector'])) {
+                continue;
+            }
+            $item['selector'] = strtr($item['selector'], $placeholder);
+        }
+        unset($item);
+
+        return $mapping;
+    }
 }

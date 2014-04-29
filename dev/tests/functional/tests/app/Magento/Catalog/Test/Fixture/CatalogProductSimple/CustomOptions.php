@@ -137,10 +137,76 @@ class CustomOptions implements FixtureInterface
                     ]
                 ]
             ],
+            'options-suite' => [
+                [
+                    'title' => 'Test1 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Field',
+                    'options' => [
+                        [
+                            'price' => 120.03,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku1_%isolation%',
+                            'max_characters' => 45
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test1 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Field',
+                    'options' => [
+                        [
+                            'price' => 120.03,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku1_%isolation%',
+                            'max_characters' => 45
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test2 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => 'Test1 %isolation%',
+                            'price' => 10.01,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku2_%isolation%'
+                        ],
+                        [
+                            'title' => 'Test2 %isolation%',
+                            'price' => 20.02,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku3_%isolation%'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'Test2 option %isolation%',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => 'Test1 %isolation%',
+                            'price' => 10.01,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku2_%isolation%'
+                        ],
+                        [
+                            'title' => 'Test2 %isolation%',
+                            'price' => 20.02,
+                            'price_type' => 'Fixed',
+                            'sku' => 'sku3_%isolation%'
+                        ]
+                    ]
+                ]
+            ],
             'default' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -153,7 +219,35 @@ class CustomOptions implements FixtureInterface
                 ],
                 [
                     'title' => 'custom option drop down2',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '20 percent',
+                            'price' => 20,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row_2'
+                        ]
+                    ]
+                ]
+            ],
+            'two_options' => [
+                [
+                    'title' => 'custom option drop down',
+                    'is_require' => 'Yes',
+                    'type' => 'Drop-down',
+                    'options' => [
+                        [
+                            'title' => '10 percent',
+                            'price' => 10,
+                            'price_type' => 'Percent',
+                            'sku' => 'sku_drop_down_row_1'
+                        ]
+                    ]
+                ],
+                [
+                    'title' => 'custom option drop down2',
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [

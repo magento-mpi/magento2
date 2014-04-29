@@ -8,16 +8,13 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductView
+ *
  * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductView extends AbstractConstraint
@@ -32,6 +29,7 @@ class AssertProductView extends AbstractConstraint
     /**
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductSimple $product
+     * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
@@ -46,37 +44,53 @@ class AssertProductView extends AbstractConstraint
     }
 
     /**
-     * Assert prices on the product view Page
+     * Assert data on the product view page
      *
      * @param CatalogProductSimple $product
      * @param CatalogProductView $catalogProductView
+     * @return void
      */
     protected function assertOnProductView(CatalogProductSimple $product, CatalogProductView $catalogProductView)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
-        $pricePresetData = $priceFixture->getPreset();
+        $viewBlock = $catalogProductView->getViewBlock();
+        $price = $viewBlock->getProductPriceBlock()->getPrice();
+        $name = $viewBlock->getProductName();
+        $sku = $viewBlock->getProductSku();
 
-        if (isset($pricePresetData['product_special_price'])) {
-            $regularPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getRegularPrice();
+        \PHPUnit_Framework_Assert::assertEquals(
+            $product->getName(),
+            $name,
+            'Product name on product view page is not correct.'
+        );
+        \PHPUnit_Framework_Assert::assertEquals(
+            $product->getSku(),
+            $sku,
+            'Product sku on product view page is not correct.'
+        );
+
+        if (isset($price['price_regular_price'])) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $pricePresetData['product_price'],
-                $regularPrice,
+                number_format($product->getPrice(), 2),
+                $price['price_regular_price'],
                 'Product regular price on product view page is not correct.'
             );
+        }
 
-            $specialPrice = $catalogProductView->getViewBlock()->getProductPriceBlock()->getSpecialPrice();
+        $priceComparing = false;
+        if ($specialPrice = $product->getSpecialPrice()) {
+            $priceComparing = $specialPrice;
+        }
+
+        if ($groupPrice = $product->getGroupPrice()) {
+            $groupPrice = reset($groupPrice);
+            $priceComparing = $groupPrice['price'];
+        }
+
+        if ($priceComparing && isset($price['price_special_price'])) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $pricePresetData['product_special_price'],
-                $specialPrice,
+                number_format($priceComparing, 2),
+                $price['price_special_price'],
                 'Product special price on product view page is not correct.'
-            );
-        } else {
-            $price = $catalogProductView->getViewBlock()->getProductPriceBlock()->getPrice();
-            \PHPUnit_Framework_Assert::assertContains(
-                (string)$price,
-                $pricePresetData['product_price'],
-                'Product price on product view page is not correct.'
             );
         }
     }
@@ -88,6 +102,6 @@ class AssertProductView extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Product price on product view page is not correct.';
+        return 'Product data on product view page is not correct.';
     }
 }

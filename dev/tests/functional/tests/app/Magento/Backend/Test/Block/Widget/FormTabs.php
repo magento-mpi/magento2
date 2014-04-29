@@ -119,6 +119,25 @@ class FormTabs extends Form
     }
 
     /**
+     * Fill tabs attribute
+     *
+     * @param string $tabName
+     * @param string $attribute
+     * @param null $value
+     * @return bool
+     */
+    public function fillTabAttribute($tabName, $attribute, $value = null)
+    {
+        $this->openTab($tabName);
+        /** @var \Magento\Backend\Test\Block\Widget\Tab $tabElement */
+        $tabElement = $this->getTabElement($tabName);
+        $this->openTab($tabName);
+        $mapping = $tabElement->dataMapping([$attribute => $value]);
+        $this->_fill($mapping);
+        return true;
+    }
+
+    /**
      * Update array with fields which aren't assigned to any tab
      *
      * @param Tab $tabElement
@@ -160,20 +179,19 @@ class FormTabs extends Form
      *
      * @param FixtureInterface $fixture
      * @param Element $element
-     * @return bool
+     * @throws \Exception
+     * @return FormTabs
      */
     public function verify(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
-
-        foreach ($tabs as $tab => $tabFields) {
-            $this->openTab($tab);
-            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
-                return false;
-            }
-        }
-
-        return true;
+        foreach ($tabs as $tabName => $tabFields) {
+            $tabElement = $this->getTabElement($tabName);
+            $this->openTab($tabName);
+            $tabElement->verifyFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
+            $this->updateUnassignedFields($tabElement);
+        }      
+        return $this;
     }
 
     /**

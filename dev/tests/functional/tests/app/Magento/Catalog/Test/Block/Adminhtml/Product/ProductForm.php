@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,23 +16,15 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class ProductForm
  * Product creation form
  *
- * @package Magento\Catalog\Test\Block
+ * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
 class ProductForm extends FormTabs
 {
-    /**
-     * 'Save' split button
-     *
-     * @var string
-     */
-    protected $saveButton = '#save-split-button-button';
-
     /**
      * Variations tab selector
      *
@@ -147,36 +136,48 @@ class ProductForm extends FormTabs
             return;
         }
         $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName),
-            Locator::SELECTOR_XPATH
+            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
         );
         if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName,
-                'category_ids-suggest',
-                '//*[@id="attribute-category_ids-container"]'
+                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
             );
         }
     }
 
     /**
-     * Save product
+     * Fills select category field
      *
-     * @param FixtureInterface $fixture
-     * @return \Magento\Backend\Test\Block\Widget\Form|void
+     * @param string $name
+     * @param string $elementId
+     * @param string $parentLocation
+     * @return void
      */
-    public function save(FixtureInterface $fixture = null)
+    protected function fillCategoryField($name, $elementId, $parentLocation)
     {
-        parent::save($fixture);
-        if ($this->getAffectedAttributeSetBlock()->isVisible()) {
-            $this->getAffectedAttributeSetBlock()->chooseAttributeSet($fixture);
-        }
+        // TODO should be removed after suggest widget implementation as typified element
+        $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
+        //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
+        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
+        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
+        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
+        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
+    }
+
+    /**
+     * Open new category dialog
+     */
+    protected function openNewCategoryDialog()
+    {
+        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible('input#new_category_name');
     }
 
     /**
      * Save new category
      *
      * @param Product $fixture
+     * @return void
      */
     public function addNewCategory(Product $fixture)
     {
@@ -189,47 +190,6 @@ class ProductForm extends FormTabs
 
         $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
-    }
-
-    /**
-     * Get variations block
-     *
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config
-     */
-    protected function getVariationsBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperConfig(
-            $this->_rootElement->find($this->variationsWrapper)
-        );
-    }
-
-    /**
-     * Fill product variations
-     *
-     * @param ConfigurableProduct $variations
-     */
-    public function fillVariations(ConfigurableProduct $variations)
-    {
-        $variationsBlock = $this->getVariationsBlock();
-        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
-        $variationsBlock->generateVariations();
-        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
-    }
-
-    /**
-     * Open variations tab
-     */
-    public function openVariationsTab()
-    {
-        $this->_rootElement->find($this->variationsTab)->click();
-    }
-
-    /**
-     * Click on 'Create New Variation Set' button
-     */
-    public function clickCreateNewVariationSet()
-    {
-        $this->_rootElement->find($this->newVariationSet)->click();
     }
 
     /**
@@ -254,33 +214,6 @@ class ProductForm extends FormTabs
             'new_category_parent-suggest',
             '//*[@id="new_category_form_fieldset"]'
         );
-    }
-
-    /**
-     * Fills select category field
-     *
-     * @param string $name
-     * @param string $elementId
-     * @param string $parentLocation
-     */
-    protected function fillCategoryField($name, $elementId, $parentLocation)
-    {
-        // TODO should be removed after suggest widget implementation as typified element
-        $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
-        //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
-        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
-        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
-        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
-        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Open new category dialog
-     */
-    protected function openNewCategoryDialog()
-    {
-        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible('input#new_category_name');
     }
 
     /**
@@ -331,4 +264,4 @@ class ProductForm extends FormTabs
 
         return $this;
     }
-}
+} 

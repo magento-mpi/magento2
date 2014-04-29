@@ -12,7 +12,10 @@ use Mtf\Block\Form;
 class LinkRow extends Form
 {
     /**
+     * Update array for mapping
+     *
      * @param array $fields
+     * @return array
      */
     private function mappingUpdate(array $fields)
     {
@@ -33,7 +36,10 @@ class LinkRow extends Form
     }
 
     /**
+     * Fill item link
+     *
      * @param array $fields
+     * @return void
      */
     public function fillLinks(array $fields)
     {
@@ -42,7 +48,10 @@ class LinkRow extends Form
     }
 
     /**
+     * Fill item sample
+     *
      * @param array $fields
+     * @return void
      */
     public function verifyLinks(array $fields)
     {

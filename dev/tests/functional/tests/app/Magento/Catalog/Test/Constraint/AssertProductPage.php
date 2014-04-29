@@ -46,7 +46,7 @@ class AssertProductPage extends AbstractConstraint
         );
         //2. Price
         $price = (is_array($catalogProductView->getViewBlock()->getProductPrice())) ? $catalogProductView->getViewBlock(
-        )->getProductPrice()['price_regular price'] : $catalogProductView->getViewBlock()->getProductPrice();
+        )->getProductPrice()['price_regular_price'] : $catalogProductView->getViewBlock()->getProductPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $fields['price'],
             $price,
@@ -84,6 +84,6 @@ class AssertProductPage extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Assert that displayed product data on product page(front-end) is NOT equals passed from fixture (name, price, description)';
+        return 'Product on product view page is not correct.';
     }
 }
