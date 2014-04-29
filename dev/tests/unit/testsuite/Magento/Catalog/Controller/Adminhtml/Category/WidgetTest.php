@@ -54,7 +54,13 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->viewMock = $this->getMock('Magento\Backend\Model\View', array('getLayout'), array(), '', false);
-        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array(), array(), '', false);
+        $this->objectManagerMock = $this->getMock(
+            'Magento\Framework\ObjectManager\ObjectManager',
+            array(),
+            array(),
+            '',
+            false
+        );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $context = $this->getMock(
