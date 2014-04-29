@@ -72,7 +72,7 @@ class Preview extends \Magento\Backend\Block\Widget
         $vars = array();
 
         $template->setDesignConfig(
-            array('area' => $this->_design->getArea(), 'store' => $this->_storeManager->getDefaultStoreView()->getId())
+            array('area' => $this->_design->getArea(), 'store' => $this->_storeManager->getAnyStoreView()->getId())
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 
