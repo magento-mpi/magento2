@@ -103,7 +103,7 @@ class UserTest extends \Magento\Backend\Utility\Controller
             $this->assertEquals($postData['email'], $user->getEmail());
             $this->assertEquals($postData['firstname'], $user->getFirstname());
             $this->assertEquals($postData['lastname'], $user->getLastname());
-            $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+            $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
             $this->assertTrue($encryptor->validateHash($postData['password'], $user->getPassword()));
         } else {
             $this->assertRedirect($this->stringContains('backend/admin/user/edit'));

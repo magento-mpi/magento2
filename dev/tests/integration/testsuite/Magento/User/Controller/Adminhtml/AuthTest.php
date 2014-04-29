@@ -147,7 +147,7 @@ class AuthTest extends \Magento\Backend\Utility\Controller
 
         if ($isPasswordChanged) {
             /** @var \Magento\Framework\Encryption\EncryptorInterface $encryptor */
-            $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+            $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
             $this->assertTrue($encryptor->validateHash($password, $user->getPassword()));
         } else {
             $this->assertEquals($oldPassword, $user->getPassword());

@@ -60,7 +60,7 @@ class AccountTest extends \Magento\Backend\Utility\Controller
             $this->assertNotEquals($oldPassword, $user->getPassword());
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             /** @var $encryptor \Magento\Framework\Encryption\EncryptorInterface */
-            $encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
+            $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
             $this->assertTrue($encryptor->validateHash($password, $user->getPassword()));
 
         } else {
