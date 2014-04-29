@@ -47,7 +47,7 @@ class PreviewTest extends \PHPUnit_Framework_TestCase
         $emailFactory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
         $emailFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo(array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND))))
+            ->with($this->equalTo(array('data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND))))
             ->will($this->returnValue($template));
 
 
