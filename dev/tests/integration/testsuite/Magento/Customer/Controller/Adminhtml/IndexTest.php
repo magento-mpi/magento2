@@ -1045,4 +1045,13 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit'));
     }
+
+    public function testIndexActionCorrectTabsQty()
+    {
+        $this->dispatch('backend/customer/index/new/');
+        $html = $this->getResponse()->getBody();
+        $this->assertSelectCount('.tab-item-link', 2, $html);
+        $this->assertSelectCount('[title="Account Information"]', 1, $html);
+        $this->assertSelectCount('[title="Addresses"]', 1, $html);
+    }
 }
