@@ -61,7 +61,6 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
         $this->flatItemEraser = $flatItemEraser;
     }
 
-
     /**
      * Execute row reindex action
      *
