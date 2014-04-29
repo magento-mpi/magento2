@@ -65,15 +65,17 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
      */
     protected function getExpandedPath()
     {
-        return array_unique($this->_expandedPath);
+        return $this->_expandedPath;
     }
 
     /**
-     * @param array $path
+     * @param $path
+     * @return $this
      */
     protected function setExpandedPath($path)
     {
         $this->_expandedPath = array_merge($this->_expandedPath, explode('/', $path));
+        return $this;
     }
 
     /**
