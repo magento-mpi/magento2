@@ -129,6 +129,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_assertCollectionData($expectedCount, 0, $expectedItemData);
     }
 
+    /**
+     * Data for testAddFieldToFilter
+     *
+     * @return array
+     */
     public function addFieldToFilterDataProvider()
     {
         $data = $this->loadDataProvider();
