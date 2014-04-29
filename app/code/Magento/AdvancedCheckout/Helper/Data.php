@@ -10,6 +10,7 @@
 namespace Magento\AdvancedCheckout\Helper;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Enterprise Checkout Helper
@@ -89,7 +90,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Contains session object to which data is saved
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -140,7 +141,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_products;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -193,7 +194,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager = null;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -202,7 +203,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
@@ -214,14 +215,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Cart $checkoutCart,
@@ -233,7 +234,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -257,7 +258,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Return session for affected items
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -267,10 +268,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Sets session instance to use for saving data
      *
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @return void
      */
-    public function setSession(\Magento\Session\SessionManagerInterface $session)
+    public function setSession(\Magento\Framework\Session\SessionManagerInterface $session)
     {
         $this->_session = $session;
     }
@@ -278,10 +279,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve error message for the item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    public function getMessageByItem(\Magento\Object $item)
+    public function getMessageByItem(\Magento\Framework\Object $item)
     {
         $message = $this->getMessage($item->getCode());
         return $message ? $message : $item->getError();
@@ -365,7 +366,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID || in_array(
+                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
                         $groupId,
                         $this->getSkuCustomerGroups()
                     );

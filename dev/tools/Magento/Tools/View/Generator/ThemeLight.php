@@ -14,7 +14,7 @@ use Magento\Framework\View\Design\ThemeInterface;
 /**
  * Lightweight theme that implements minimal required interface
  */
-class ThemeLight extends \Magento\Object implements ThemeInterface
+class ThemeLight extends \Magento\Framework\Object implements ThemeInterface
 {
     /**
      * {@inheritdoc}

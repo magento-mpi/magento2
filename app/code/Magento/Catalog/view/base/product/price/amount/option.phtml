@@ -1,0 +1,12 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Framework\Pricing\Render\Amount $this */
+?>
+<?php echo $this->convertAndFormatCurrency($this->getDisplayValue(), (bool) $this->getIncludeContainer()) ?>

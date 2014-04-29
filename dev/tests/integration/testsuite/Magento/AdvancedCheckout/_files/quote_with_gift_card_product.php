@@ -15,7 +15,7 @@ require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->load(1);
 
-$requestInfo = new \Magento\Object(
+$requestInfo = new \Magento\Framework\Object(
     array(
         'qty' => 1,
         'giftcard_amount' => 'custom',
@@ -35,7 +35,7 @@ $cart->save();
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
+$objectManager->get('Magento\Framework\Registry')->unregister('_singleton/Magento\Checkout\Model\Session');
 
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

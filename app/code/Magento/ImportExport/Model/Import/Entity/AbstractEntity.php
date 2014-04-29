@@ -195,7 +195,7 @@ abstract class AbstractEntity
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -211,7 +211,7 @@ abstract class AbstractEntity
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -220,7 +220,7 @@ abstract class AbstractEntity
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\Stdlib\String $string
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_coreData = $coreData;
         $this->_importExportData = $importExportData;

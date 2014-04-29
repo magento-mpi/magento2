@@ -24,7 +24,7 @@ class General extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractM
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
@@ -35,7 +35,7 @@ class General extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractM
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,

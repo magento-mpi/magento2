@@ -19,9 +19,9 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('store_type');
-        $objectManager->get('Magento\Registry')->unregister('store_data');
-        $objectManager->get('Magento\Registry')->unregister('store_action');
+        $objectManager->get('Magento\Framework\Registry')->unregister('store_type');
+        $objectManager->get('Magento\Framework\Registry')->unregister('store_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('store_action');
     }
 
     /**
@@ -35,7 +35,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             if ($key == 'store_data') {
                 $value = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($value);
             }
-            $objectManager->get('Magento\Registry')->register($key, $value);
+            $objectManager->get('Magento\Framework\Registry')->register($key, $value);
         }
     }
 

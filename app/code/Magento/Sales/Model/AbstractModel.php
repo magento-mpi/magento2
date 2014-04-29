@@ -16,29 +16,29 @@ namespace Magento\Sales\Model;
 abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -72,7 +72,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     /**
      * Get object created at date affected current active store timezone
      *
-     * @return \Magento\Stdlib\DateTime\Date
+     * @return \Magento\Framework\Stdlib\DateTime\Date
      */
     public function getCreatedAtDate()
     {
@@ -82,7 +82,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     /**
      * Get object created at date affected with object store timezone
      *
-     * @return \Magento\Stdlib\DateTime\Date
+     * @return \Magento\Framework\Stdlib\DateTime\Date
      */
     public function getCreatedAtStoreDate()
     {

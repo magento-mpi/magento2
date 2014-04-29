@@ -108,7 +108,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -135,7 +135,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
 
     /**
      * Mail transport builder
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -153,16 +153,16 @@ class Reward extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -170,16 +170,16 @@ class Reward extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -754,7 +754,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             array(
                 'store' => $store,
@@ -785,7 +785,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         $error = false;
         try {
             $transport->sendMessage();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $error = true;
         }
 
@@ -833,7 +833,7 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
         )->setTemplateVars(
             array(
                 'store' => $store,

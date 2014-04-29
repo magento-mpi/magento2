@@ -43,7 +43,7 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -63,27 +63,27 @@ class Index extends \Magento\Framework\App\Action\Action
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;

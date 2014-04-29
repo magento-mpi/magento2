@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -117,14 +117,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Filter manager
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $_filterManager;
 
     /**
      * Date time formatter
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -147,14 +147,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
-     * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
@@ -165,14 +165,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Filter\FilterManager $filterManager,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
@@ -300,11 +300,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get return contact name
      *
      * @param int|null $storeId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getReturnContactName($storeId = null)
     {
-        $contactName = new \Magento\Object();
+        $contactName = new \Magento\Framework\Object();
         if ($this->_scopeConfig->isSetFlag(
             Rma::XML_PATH_USE_STORE_ADDRESS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -636,7 +636,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
         return $this->_localeDate->formatDate(
             $storeDate,
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
         );
     }
 

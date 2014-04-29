@@ -72,24 +72,24 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     protected $_formFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -327,7 +327,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
                     $value = $this->_localeDate->date(
                         $value,
-                        \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                        \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                         null,
                         false
                     );
@@ -342,10 +342,10 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     /**
      * Validate rule conditions to determine if rule can run
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool
      */
-    public function validate(\Magento\Object $object)
+    public function validate(\Magento\Framework\Object $object)
     {
         return $this->getConditions()->validate($object);
     }
@@ -353,10 +353,10 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
     /**
      * Validate rule data
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return bool|string[] - return true if validation passed successfully. Array with errors description otherwise
      */
-    public function validateData(\Magento\Object $object)
+    public function validateData(\Magento\Framework\Object $object)
     {
         $result = array();
         $fromDate = $toDate = null;
@@ -367,8 +367,8 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
         }
 
         if ($fromDate && $toDate) {
-            $fromDate = new \Magento\Stdlib\DateTime\Date($fromDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
-            $toDate = new \Magento\Stdlib\DateTime\Date($toDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+            $fromDate = new \Magento\Framework\Stdlib\DateTime\Date($fromDate, \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+            $toDate = new \Magento\Framework\Stdlib\DateTime\Date($toDate, \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
                 $result[] = __('End Date must follow Start Date.');

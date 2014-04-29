@@ -105,7 +105,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get and sort available payment methods for specified or current store
      *
      * Array structure:
-     *  $index => \Magento\Simplexml\Element
+     *  $index => \Magento\Framework\Simplexml\Element
      *
      * @param null|string|bool|int|Store $store
      * @param Quote|null $quote
@@ -204,7 +204,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
+            $paymentBlock->setArea(\Magento\Framework\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {

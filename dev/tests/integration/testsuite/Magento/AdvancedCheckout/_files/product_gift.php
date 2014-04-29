@@ -53,7 +53,7 @@ $product->setTypeId(
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $product->load(1);
 
-$requestInfo = new \Magento\Object(
+$requestInfo = new \Magento\Framework\Object(
     array(
         'qty' => 1,
         'giftcard_amount' => 'custom',

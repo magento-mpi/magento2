@@ -109,17 +109,17 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -130,32 +130,32 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Resource\Invitation $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -303,7 +303,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
         )->setTemplateVars(
             array(
                 'url' => $this->_invitationData->getInvitationUrl($this),
@@ -320,7 +320,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         $transport = $this->_transportBuilder->getTransport();
         try {
             $transport->sendMessage();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             return false;
         }
         $this->setStatus(self::STATUS_SENT)->setUpdateDate(true)->save();

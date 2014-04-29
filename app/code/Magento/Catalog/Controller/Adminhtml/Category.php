@@ -54,8 +54,8 @@ class Category extends \Magento\Backend\App\Action
         if ($activeTabId) {
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setActiveTabId($activeTabId);
         }
-        $this->_objectManager->get('Magento\Registry')->register('category', $category);
-        $this->_objectManager->get('Magento\Registry')->register('current_category', $category);
+        $this->_objectManager->get('Magento\Framework\Registry')->register('category', $category);
+        $this->_objectManager->get('Magento\Framework\Registry')->register('current_category', $category);
         $this->_objectManager->get(
             'Magento\Cms\Model\Wysiwyg\Config'
         )->setStoreId(
@@ -178,7 +178,7 @@ class Category extends \Magento\Backend\App\Action
             );
             $this->_view->loadLayout();
 
-            $eventResponse = new \Magento\Object(
+            $eventResponse = new \Magento\Framework\Object(
                 array(
                     'content' => $this->_view->getLayout()->getBlock(
                         'category.edit'
@@ -230,7 +230,7 @@ class Category extends \Magento\Backend\App\Action
         )->getStore(
             $storeId
         )->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_MEDIA
+            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
         );
 
         $content = $this->_view->getLayout()->createBlock(
@@ -456,7 +456,7 @@ class Category extends \Magento\Backend\App\Action
             $this->getResponse()->setBody($e->getMessage());
         } catch (\Exception $e) {
             $this->getResponse()->setBody(__('There was a category move error %1', $e));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

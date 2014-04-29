@@ -122,7 +122,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $integrationsData1 = new \Magento\Object(
+        $integrationsData1 = new \Magento\Framework\Object(
             array(
                 'id' => 1,
                 Integration::NAME => 'TestIntegration1',
@@ -132,7 +132,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $integrationsData2 = new \Magento\Object(
+        $integrationsData2 = new \Magento\Framework\Object(
             array(
                 'id' => 2,
                 Integration::NAME => 'TestIntegration2',

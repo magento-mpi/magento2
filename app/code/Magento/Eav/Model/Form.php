@@ -105,7 +105,7 @@ abstract class Form
     protected $_ignoreInvisible = true;
 
     /**
-     * @var \Magento\Validator
+     * @var \Magento\Framework\Validator
      */
     protected $_validator = null;
 
@@ -120,7 +120,7 @@ abstract class Form
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -130,7 +130,7 @@ abstract class Form
     protected $_attrDataFactory;
 
     /**
-     * @var \Magento\Validator\UniversalFactory $universalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory $universalFactory
      */
     protected $_universalFactory;
 
@@ -140,29 +140,29 @@ abstract class Form
     protected $_httpRequest;
 
     /**
-     * @var \Magento\Validator\ConfigFactory
+     * @var \Magento\Framework\Validator\ConfigFactory
      */
     protected $_validatorConfigFactory;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param RequestInterface $httpRequest
-     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
+     * @param \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
      *
      * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         RequestInterface $httpRequest,
-        \Magento\Validator\ConfigFactory $validatorConfigFactory
+        \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
     ) {
         if (empty($this->_moduleName)) {
             throw new \Magento\Framework\Model\Exception(__('Current module pathname is undefined'));
@@ -451,13 +451,13 @@ abstract class Form
      * Get validator
      *
      * @param array $data
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
             $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
-            /** @var $validatorFactory \Magento\Validator\Config */
+            /** @var $validatorFactory \Magento\Framework\Validator\Config */
             $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 

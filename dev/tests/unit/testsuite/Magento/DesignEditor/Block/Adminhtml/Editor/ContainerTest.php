@@ -62,7 +62,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout()
     {
         $buttonTitle = 'Back';
-        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $arguments = $this->_getBlockArguments();
         $arguments['eventManager'] = $eventManager;
 

@@ -66,7 +66,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
 
     /**
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -76,7 +76,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      */
     public function __construct(
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

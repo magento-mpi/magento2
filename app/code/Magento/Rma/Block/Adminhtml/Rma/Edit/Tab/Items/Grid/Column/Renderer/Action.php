@@ -24,10 +24,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
      *
      * Shows link in one row instead of select element in parent class
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $actions = $this->getColumn()->getActions();
         if (empty($actions) || !is_array($actions)) {

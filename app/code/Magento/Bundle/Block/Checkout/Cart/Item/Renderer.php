@@ -38,7 +38,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Configuration $bundleProdConfigur
      * @param array $data
      */
@@ -48,7 +48,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         Configuration $bundleProdConfigur,
         array $data = array()
     ) {

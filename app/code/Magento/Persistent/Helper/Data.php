@@ -37,12 +37,12 @@ class Data extends \Magento\Core\Helper\Data
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -51,9 +51,9 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Escaper $escaper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
@@ -61,9 +61,9 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Escaper $escaper,
         $dbCompatibleMode = true
     ) {
         $this->_modulesReader = $modulesReader;
@@ -193,7 +193,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Check whether specified action should be processed
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return bool
      */
     public function canProcess($observer)

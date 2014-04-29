@@ -42,7 +42,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         );
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
-        )->getAnyStoreView()->getId();
+        )->getDefaultStoreView()->getId();
         // fixture design_change
         $designChange = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Design'
@@ -103,12 +103,13 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadChangeCache()
     {
-        /** @var \Magento\Stdlib\DateTime $dateTime */
-        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime $dateTime */
+        $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Stdlib\DateTime');
         $date = $dateTime->now(true);
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
-        )->getAnyStoreView()->getId();
+        )->getDefaultStoreView()->getId();
         // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
@@ -175,13 +176,13 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             $storeCode
         );
         $defaultTimeZonePath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->getDefaultTimezonePath();
         $store->setConfig($defaultTimeZonePath, $storeTimezone);
         $storeId = $store->getId();
 
-        /** @var $locale \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject */
-        $locale = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
+        /** @var $locale \Magento\Framework\Stdlib\DateTime\TimezoneInterface */
+        $locale = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $locale->expects(
             $this->once()
         )->method(

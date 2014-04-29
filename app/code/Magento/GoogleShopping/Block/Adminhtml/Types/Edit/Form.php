@@ -32,7 +32,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -66,7 +66,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\GoogleShopping\Model\Resource\Type\CollectionFactory $typeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory
@@ -78,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\GoogleShopping\Model\Resource\Type\CollectionFactory $typeCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
@@ -250,7 +250,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $ids = array();
         $itemType = $this->getItemType();
-        if (!($itemType instanceof \Magento\Object && $itemType->getId())) {
+        if (!($itemType instanceof \Magento\Framework\Object && $itemType->getId())) {
             $typesCollection = $this->_typeCollectionFactory->create()->addCountryFilter($targetCountry)->load();
             foreach ($typesCollection as $type) {
                 $ids[] = $type->getAttributeSetId();

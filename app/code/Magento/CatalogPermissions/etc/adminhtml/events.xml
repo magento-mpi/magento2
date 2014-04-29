@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/Event/etc/events.xsd">
     <event name="adminhtml_catalog_category_tabs">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Adminhtml\Observer" method="addCategoryPermissionTab" />
     </event>

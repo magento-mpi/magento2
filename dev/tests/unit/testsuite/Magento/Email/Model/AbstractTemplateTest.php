@@ -32,7 +32,7 @@ class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
                 'Magento\Email\Model\AbstractTemplate',
                 array(
                     'design' => $this->getMock('Magento\Framework\View\DesignInterface'),
-                    'data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1)
+                    'data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1)
                 )
             )
         );
@@ -40,7 +40,7 @@ class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $config
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider invalidInputParametersDataProvider
      */
     public function testSetDesignConfigWithInvalidInputParametersThrowsException($config)

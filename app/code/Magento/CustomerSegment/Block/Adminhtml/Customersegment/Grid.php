@@ -130,7 +130,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row click URL
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -17,7 +17,7 @@ class Info extends \Magento\Framework\View\Element\Template
     /**
      * Payment rendered specific information
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_paymentSpecificInformation = null;
 
@@ -142,16 +142,16 @@ class Info extends \Magento\Framework\View\Element\Template
     /**
      * Prepare information specific to current payment method
      *
-     * @param null|\Magento\Object|array $transport
-     * @return \Magento\Object
+     * @param null|\Magento\Framework\Object|array $transport
+     * @return \Magento\Framework\Object
      */
     protected function _prepareSpecificInformation($transport = null)
     {
         if (null === $this->_paymentSpecificInformation) {
             if (null === $transport) {
-                $transport = new \Magento\Object();
+                $transport = new \Magento\Framework\Object();
             } elseif (is_array($transport)) {
-                $transport = new \Magento\Object($transport);
+                $transport = new \Magento\Framework\Object($transport);
             }
             $this->_eventManager->dispatch(
                 'payment_info_block_prepare_specific_information',

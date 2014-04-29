@@ -30,7 +30,7 @@ class Country extends \Magento\Framework\Model\AbstractModel
     public static $_format = array();
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
@@ -46,8 +46,8 @@ class Country extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
      * @param Country\FormatFactory $formatFactory
      * @param Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -56,8 +56,8 @@ class Country extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -117,11 +117,11 @@ class Country extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @param bool $html
      * @return string
      */
-    public function formatAddress(\Magento\Object $address, $html = false)
+    public function formatAddress(\Magento\Framework\Object $address, $html = false)
     {
         //TODO: is it still used?
         $address->getRegion();
@@ -147,7 +147,7 @@ T: {{telephone}}";
             }
         }
 
-        $filter = new \Magento\Filter\Template\Simple();
+        $filter = new \Magento\Framework\Filter\Template\Simple();
         $addressText = $filter->setData($address->getData())->filter($template);
 
         if ($html) {

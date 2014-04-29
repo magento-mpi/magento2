@@ -97,21 +97,21 @@ class Processor
     protected $_authSession;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Logger model
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -130,7 +130,7 @@ class Processor
     protected $_request;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -140,25 +140,25 @@ class Processor
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\Logging\Model\Handler\Models $modelsHandler
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Config $config,
         \Magento\Logging\Model\Handler\Models $modelsHandler,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\ObjectManager $objectManager,
-        \Magento\Logger $logger,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
         \Magento\Logging\Model\EventFactory $eventFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_config = $config;
         $this->_modelsHandler = $modelsHandler;

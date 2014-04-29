@@ -12,7 +12,7 @@
  */
 namespace Magento\Rule\Model\Condition;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class Context implements \Magento\Framework\ObjectManager\ContextInterface
 {
     /**
      * @var \Magento\Framework\View\Url
@@ -20,7 +20,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -35,23 +35,23 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * @param \Magento\Framework\View\Url $viewUrl
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Rule\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Framework\View\Url $viewUrl,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ConditionFactory $conditionFactory,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->_viewUrl = $viewUrl;
         $this->_localeDate = $localeDate;
@@ -69,7 +69,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Stdlib\DateTime\TimezoneInterface
+     * @return \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     public function getLocaleDate()
     {
@@ -93,7 +93,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

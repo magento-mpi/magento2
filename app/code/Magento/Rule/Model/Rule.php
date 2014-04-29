@@ -33,9 +33,9 @@ class Rule extends AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $actionsFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -44,9 +44,9 @@ class Rule extends AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rule\Model\Condition\CombineFactory $conditionsFactory,
         \Magento\Rule\Model\Action\CollectionFactory $actionsFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

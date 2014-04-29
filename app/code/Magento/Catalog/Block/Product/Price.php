@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Block\Product;
 
 /**
  * Product price block
- *
- * @category   Magento
- * @package    Magento_Catalog
  */
-namespace Magento\Catalog\Block\Product;
-
 class Price extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
@@ -32,7 +28,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -51,17 +47,17 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
     protected $_catalogData = null;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -72,23 +68,23 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\String $string
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\String $string
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\String $string,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\String $string,
+        \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         array $data = array()
     ) {
@@ -140,70 +136,6 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
     public function getIdSuffix()
     {
         return $this->_idSuffix;
-    }
-
-    /**
-     * Get tier prices (formatted)
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return array
-     * @deprecated
-     */
-    public function getTierPrices($product = null)
-    {
-        if (is_null($product)) {
-            $product = $this->getProduct();
-        }
-        $prices = $product->getFormatedTierPrice();
-
-        $res = array();
-        if (is_array($prices)) {
-            foreach ($prices as $price) {
-                $price['price_qty'] = $price['price_qty'] * 1;
-
-                $productPrice = $product->getPrice();
-                if ($product->getPrice() != $product->getFinalPrice()) {
-                    $productPrice = $product->getFinalPrice();
-                }
-
-                // Group price must be used for percent calculation if it is lower
-                $groupPrice = $product->getGroupPrice();
-                if ($productPrice > $groupPrice) {
-                    $productPrice = $groupPrice;
-                }
-
-                if ($price['price'] < $productPrice) {
-                    $price['savePercent'] = ceil(100 - 100 / $productPrice * $price['price']);
-
-                    $tierPrice = $this->_storeManager->getStore()->convertPrice(
-                        $this->_taxData->getPrice($product, $price['website_price'])
-                    );
-                    $price['formated_price'] = $this->_storeManager->getStore()->formatPrice($tierPrice);
-                    $price['formated_price_incl_tax'] = $this->_storeManager->getStore()->formatPrice(
-                        $this->_storeManager->getStore()->convertPrice(
-                            $this->_taxData->getPrice($product, $price['website_price'], true)
-                        )
-                    );
-
-                    if ($this->_catalogData->canApplyMsrp($product)) {
-                        $oldPrice = $product->getFinalPrice();
-                        $product->setPriceCalculation(false);
-                        $product->setPrice($tierPrice);
-                        $product->setFinalPrice($tierPrice);
-
-                        $this->getLayout()->getBlock('product.info')->getPriceHtml($product);
-                        $product->setPriceCalculation(true);
-
-                        $price['real_price_html'] = $product->getRealPriceHtml();
-                        $product->setFinalPrice($oldPrice);
-                    }
-
-                    $res[] = $price;
-                }
-            }
-        }
-
-        return $res;
     }
 
     /**

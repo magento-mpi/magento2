@@ -17,7 +17,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Grid export types
      *
-     * @var  \Magento\Object[]
+     * @var  \Magento\Framework\Object[]
      */
     protected $_exportTypes = array();
 
@@ -97,7 +97,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Retrieve totals
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getTotals()
     {
@@ -127,7 +127,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Retrieve grid export types
      *
-     * @return  \Magento\Object[]|false
+     * @return  \Magento\Framework\Object[]|false
      */
     public function getExportTypes()
     {
@@ -185,7 +185,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
      */
     public function addExportType($url, $label)
     {
-        $this->_exportTypes[] = new \Magento\Object(
+        $this->_exportTypes[] = new \Magento\Framework\Object(
             array('url' => $this->getUrl($url, array('_current' => true)), 'label' => $label)
         );
         return $this;
@@ -275,11 +275,11 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      * Write item data to csv export file
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param \Magento\Framework\Filesystem\File\WriteInterface $stream
      * @return void
      */
-    protected function _exportCsvItem(\Magento\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
+    protected function _exportCsvItem(\Magento\Framework\Object $item, \Magento\Framework\Filesystem\File\WriteInterface $stream)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -400,10 +400,10 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     /**
      *  Get a row data of the particular columns
      *
-     * @param \Magento\Object $data
+     * @param \Magento\Framework\Object $data
      * @return string[]
      */
-    public function getRowRecord(\Magento\Object $data)
+    public function getRowRecord(\Magento\Framework\Object $data)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -426,7 +426,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     {
         $collection = $this->_getRowCollection();
 
-        $convert = new \Magento\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
+        $convert = new \Magento\Framework\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
@@ -489,7 +489,7 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
+        $convert = new \Magento\Framework\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
@@ -506,13 +506,13 @@ class Export extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
         }
         $collection = $this->_collectionFactory->create();
 
-        /** @var $item \Magento\Object */
+        /** @var $item \Magento\Framework\Object */
         foreach ($baseCollection as $item) {
             if ($item->getIsEmpty()) {
                 continue;
             }
             if ($item->hasChildren() && count($item->getChildren()) > 0) {
-                /** @var $subItem \Magento\Object */
+                /** @var $subItem \Magento\Framework\Object */
                 foreach ($item->getChildren() as $subItem) {
                     $tmpItem = clone $item;
                     $tmpItem->unsChildren();

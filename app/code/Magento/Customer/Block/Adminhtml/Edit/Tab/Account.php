@@ -33,7 +33,7 @@ class Account extends GenericMetadata
     protected $_systemStore;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
@@ -59,9 +59,9 @@ class Account extends GenericMetadata
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Customer\Helper\Data $customerHelper
@@ -74,9 +74,9 @@ class Account extends GenericMetadata
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Helper\Data $customerHelper,
@@ -129,7 +129,8 @@ class Account extends GenericMetadata
             )->setDisableAutoGroupChangeAttribute(
                 $customerForm->getAttribute(self::DISABLE_ATTRIBUTE_NAME)
             )->setDisableAutoGroupChangeAttributeValue(
-                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)
+                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME) ?
+                $customerDataObject->getCustomAttribute(self::DISABLE_ATTRIBUTE_NAME)->getValue() : null
             )
         );
 
@@ -232,7 +233,7 @@ class Account extends GenericMetadata
         return $this->_customerFormFactory->create(
             'customer',
             'adminhtml_customer',
-            \Magento\Service\DataObjectConverter::toFlatArray($customer)
+            \Magento\Framework\Service\EavDataObjectConverter::toFlatArray($customer)
         );
     }
 
@@ -275,14 +276,14 @@ class Account extends GenericMetadata
             }
             $sendEmail->setAfterElementHtml(
                 '<script type="text/javascript">' .
-                "\n                document.observe('dom:loaded', function()".
-                "{\n                    \$('{$prefix}website_id').disableSendemail = function() ".
-                "{\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || ".
+                "\n                document.observe('dom:loaded', function()" .
+                "{\n                    \$('{$prefix}website_id').disableSendemail = function() " .
+                "{\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || " .
                 "'0' == this.value);" .
                 $_disableStoreField .
-                "\n}.bind(\$('{$prefix}website_id'));\n                    ".
-                "Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);".
-                "\n                    \$('{$prefix}website_id').disableSendemail();\n                });".
+                "\n}.bind(\$('{$prefix}website_id'));\n                    " .
+                "Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);" .
+                "\n                    \$('{$prefix}website_id').disableSendemail();\n                });" .
                 "\n                " .
                 '</script>'
             );
@@ -324,13 +325,13 @@ class Account extends GenericMetadata
                 $this->_jsonEncoder->encode(
                     $websites
                 ) .
-                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)".
-                "{\n                        return {$prefix}_websites[elem.value] == true;\n                    },".
+                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)" .
+                "{\n                       return {$prefix}_websites[elem.value] == true;\n                    }," .
                 "\n                    '" .
                 $note .
-                "'\n                );\n                ".
-                "Element.observe('{$prefix}website_id', 'change', function()".
-                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');".
+                "'\n                );\n                " .
+                "Element.observe('{$prefix}website_id', 'change', function()" .
+                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');" .
                 "\n                }.bind(\$('{$prefix}website_id')));\n                " .
                 '</script>'
             );

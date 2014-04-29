@@ -51,12 +51,12 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_page;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -75,7 +75,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
@@ -86,26 +86,26 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Cms\Model\Page $page,
         \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\ViewInterface $view
     ) {
         $this->messageManager = $messageManager;

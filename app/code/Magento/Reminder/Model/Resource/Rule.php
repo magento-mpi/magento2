@@ -50,12 +50,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\DB\Helper $resourceHelper
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\DB\Helper $resourceHelper,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_resourceHelper = $resourceHelper;

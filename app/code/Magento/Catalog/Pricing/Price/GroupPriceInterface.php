@@ -16,11 +16,6 @@ namespace Magento\Catalog\Pricing\Price;
 interface GroupPriceInterface
 {
     /**
-     * Price type group
-     */
-    const PRICE_TYPE_GROUP = 'group_price';
-
-    /**
      * @return array
      */
     public function getStoredGroupPrice();

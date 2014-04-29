@@ -215,7 +215,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     {
         return $this->formatDate(
             $item->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
         );
     }
 

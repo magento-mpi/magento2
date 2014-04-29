@@ -33,15 +33,15 @@ try {
 /**
  * Replace {{skin url=""}} with {{view url=""}} for given table field
  *
- * @param \Magento\ObjectManager $objectManager
+ * @param \Magento\Framework\ObjectManager $objectManager
  * @param string $table
  * @param string $col
  * @return void
  */
 function updateFieldForTable($objectManager, $table, $col)
 {
-    /** @var $installer \Magento\Module\Setup */
-    $installer = $objectManager->create('Magento\Module\Setup');
+    /** @var $installer \Magento\Framework\Module\Setup */
+    $installer = $objectManager->create('Magento\Framework\Module\Setup');
     $installer->startSetup();
 
     $table = $installer->getTable($table);

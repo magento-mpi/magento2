@@ -34,7 +34,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         $moduleName = 'Magento_GiftRegistry',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_typeFactory = $typeFactory;
         parent::__construct(

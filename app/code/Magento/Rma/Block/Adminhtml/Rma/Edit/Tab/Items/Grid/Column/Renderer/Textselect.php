@@ -22,10 +22,10 @@ class Textselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Co
     /**
      * Renders column as select when it is editable
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         $selectName = 'items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']';
         $html = '<select name="' . $selectName . '" class="action-select required-entry">';

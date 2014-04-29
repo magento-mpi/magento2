@@ -13,7 +13,7 @@ namespace Magento\ProductAlert\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -65,13 +65,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'preferences' => [
-                    'Magento\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
                     'Magento\TestFramework\Mail\Template\TransportBuilder' =>
                         'Magento\TestFramework\Mail\Template\TransportBuilderMock'
                 ]
             ]
         );
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         $observer = $this->_objectManager->get('Magento\ProductAlert\Model\Observer');
         $observer->process();
 

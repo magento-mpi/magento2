@@ -17,7 +17,7 @@ class EventConfigFilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_schemaFile = $objectManager->get('Magento\Event\Config\SchemaLocator')->getSchema();
+        $this->_schemaFile = $objectManager->get('Magento\Framework\Event\Config\SchemaLocator')->getSchema();
     }
 
     /**

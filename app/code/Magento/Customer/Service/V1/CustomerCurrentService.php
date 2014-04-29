@@ -38,7 +38,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     protected $request;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $moduleManager;
 
@@ -48,7 +48,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      * @param Data\CustomerBuilder $customerBuilder
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
@@ -57,7 +57,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Framework\App\ViewInterface $view
     ) {
         $this->customerSession = $customerSession;

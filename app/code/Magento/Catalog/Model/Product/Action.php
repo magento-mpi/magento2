@@ -39,7 +39,7 @@ class Action extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
@@ -49,7 +49,7 @@ class Action extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
