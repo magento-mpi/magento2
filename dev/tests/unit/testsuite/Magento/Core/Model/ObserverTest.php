@@ -41,9 +41,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
+        $this->_cacheFrontendMock = $this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface');
 
-        $this->_frontendPoolMock = $this->getMock('Magento\App\Cache\Frontend\Pool', array(), array(), '', false);
+        $this->_frontendPoolMock = $this->getMock(
+            'Magento\Framework\App\Cache\Frontend\Pool',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_frontendPoolMock->expects($this->any())->method('valid')->will($this->onConsecutiveCalls(true, false));
         $this->_frontendPoolMock->expects(
             $this->any()
@@ -54,7 +60,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_themeCustomization = $this->getMock(
-            'Magento\View\Design\Theme\Customization',
+            'Magento\Framework\View\Design\Theme\Customization',
             array(),
             array(),
             '',
@@ -75,11 +81,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_themeCustomization)
         );
 
-        $designMock = $this->getMock('Magento\View\DesignInterface');
+        $designMock = $this->getMock('Magento\Framework\View\DesignInterface');
         $designMock->expects($this->any())->method('getDesignTheme')->will($this->returnValue($themeMock));
 
         $this->_assetsMock = $this->getMock(
-            'Magento\View\Asset\GroupedCollection',
+            'Magento\Framework\View\Asset\GroupedCollection',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_configMock = $this->getMock(
+            '\Magento\Framework\App\Config\ReinitableConfigInterface',
             array(),
             array(),
             '',
@@ -88,7 +102,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_assetFactory = $this->getMock(
-            'Magento\View\Asset\PublicFileFactory',
+            'Magento\Framework\View\Asset\PublicFileFactory',
             array('create'),
             array(),
             '',
@@ -133,9 +147,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testApplyThemeCustomization()
     {
-        $asset = new \Magento\View\Asset\Remote('http://127.0.0.1/test.css');
+        $asset = new \Magento\Framework\View\Asset\Remote('http://127.0.0.1/test.css');
         $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
-        $fileService = $this->getMock('Magento\View\Design\Theme\Customization\File\Css', array(), array(), '', false);
+        $fileService = $this->getMock(
+            'Magento\Framework\View\Design\Theme\Customization\File\Css',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $fileService->expects($this->atLeastOnce())->method('getContentType')->will($this->returnValue('css'));
 
@@ -156,7 +176,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_assetsMock->expects($this->once())->method('add')->with($this->anything(), $asset);
 
-        $observer = new \Magento\Event\Observer();
+        $observer = new \Magento\Framework\Event\Observer();
         $this->_model->applyThemeCustomization($observer);
     }
 }

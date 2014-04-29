@@ -16,7 +16,7 @@ namespace Magento\SalesArchive\Model\Resource;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
      * Call afterApplyAllUpdates flag
@@ -55,18 +55,18 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_salesHelper;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $moduleName = 'Magento_SalesArchive',
-        $connectionName = ''
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_salesHelper = $salesHelper;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

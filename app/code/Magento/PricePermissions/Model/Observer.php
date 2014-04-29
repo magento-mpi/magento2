@@ -10,7 +10,7 @@
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Backend\Block\Widget\Grid;
 
 /**
@@ -23,7 +23,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -107,7 +107,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -128,25 +128,25 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -389,7 +389,7 @@ class Observer
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-        /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -589,7 +589,7 @@ class Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Framework\View\Element\AbstractBlock $block
      * @return void
      */
     protected function _hidePriceElements($block)
@@ -611,12 +611,10 @@ class Observer
                 'special_from_date',
                 'special_to_date',
                 'cost',
-                // GiftCard attributes
                 'open_amount_max',
                 'open_amount_min',
                 'allow_open_amount',
                 'giftcard_amounts',
-                // MAP attributes
                 'msrp_enabled',
                 'msrp_display_actual_price_type',
                 'msrp'

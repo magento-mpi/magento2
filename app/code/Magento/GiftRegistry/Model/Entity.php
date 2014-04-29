@@ -39,7 +39,7 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity extends \Magento\Model\AbstractModel
+class Entity extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -99,7 +99,7 @@ class Entity extends \Magento\Model\AbstractModel
     /**
      * Store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -111,7 +111,7 @@ class Entity extends \Magento\Model\AbstractModel
     protected $_resource;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -153,7 +153,7 @@ class Entity extends \Magento\Model\AbstractModel
     protected $productFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTimeFactory
+     * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
      */
     protected $dateFactory;
 
@@ -163,36 +163,41 @@ class Entity extends \Magento\Model\AbstractModel
     protected $changesFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param Item $itemModel
@@ -204,22 +209,23 @@ class Entity extends \Magento\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Logging\Model\Event\ChangesFactory $changesFactory
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         Item $itemModel,
@@ -231,12 +237,13 @@ class Entity extends \Magento\Model\AbstractModel
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Logging\Model\Event\ChangesFactory $changesFactory,
-        \Magento\App\RequestInterface $request,
-        \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
@@ -261,6 +268,7 @@ class Entity extends \Magento\Model\AbstractModel
         $this->storeManager = $storeManager;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->inlineTranslation = $inlineTranslation;
     }
@@ -279,7 +287,7 @@ class Entity extends \Magento\Model\AbstractModel
     /**
      * Get resource instance
      *
-     * @return \Magento\Model\Resource\Db\AbstractDb
+     * @return \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
@@ -320,9 +328,9 @@ class Entity extends \Magento\Model\AbstractModel
      * Add new product to registry
      *
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
-     * @param null|\Magento\Object $request
+     * @param null|\Magento\Framework\Object $request
      * @return false|Item
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
@@ -339,7 +347,7 @@ class Entity extends \Magento\Model\AbstractModel
             $product
         ) && (!$request && !$itemToAdd instanceof \Magento\Sales\Model\Quote\Item)
         ) {
-            throw new \Magento\Model\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Framework\Model\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
@@ -348,7 +356,7 @@ class Entity extends \Magento\Model\AbstractModel
             $cartCandidates = array($cartCandidate);
         } else {
             if (!$request) {
-                $request = new \Magento\Object();
+                $request = new \Magento\Framework\Object();
                 //Bundle options mocking for compatibility
                 $request->setBundleOption(array());
             }
@@ -357,7 +365,7 @@ class Entity extends \Magento\Model\AbstractModel
 
         if (is_string($cartCandidates)) {
             //prepare process has error, seems like we have bundle
-            throw new \Magento\Model\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Framework\Model\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = $this->itemFactory->create();
@@ -434,9 +442,18 @@ class Entity extends \Magento\Model\AbstractModel
         if (is_array($sender)) {
             $identity = $sender;
         } else {
-            $identity = $store->getConfig(self::XML_PATH_SHARE_EMAIL_IDENTITY);
+            $identity = $this->_scopeConfig->getValue(
+                self::XML_PATH_SHARE_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            );
         }
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_SHARE_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $templateVars = array(
             'store' => $store,
             'entity' => $this,
@@ -446,9 +463,9 @@ class Entity extends \Magento\Model\AbstractModel
         );
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
@@ -461,7 +478,7 @@ class Entity extends \Magento\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -473,14 +490,14 @@ class Entity extends \Magento\Model\AbstractModel
     /**
      * Send share emails
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
         $senderName = $this->_escaper->escapeHtml($this->getSenderName());
         $senderEmail = $this->_escaper->escapeHtml($this->getSenderEmail());
-        $result = new \Magento\Object(array('is_success' => false));
+        $result = new \Magento\Framework\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(__('You need to enter sender data.'));
@@ -547,14 +564,25 @@ class Entity extends \Magento\Model\AbstractModel
 
         $templateVars = array('store' => $store, 'owner' => $owner, 'entity' => $this);
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_UPDATE_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
-            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY)
+            $from
         )->addTo(
             $owner->getEmail(),
             $owner->getName()
@@ -563,7 +591,7 @@ class Entity extends \Magento\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -592,14 +620,24 @@ class Entity extends \Magento\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_OWNER_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_OWNER_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             $templateVars
         )->setFrom(
-            $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY)
+            $from
         )->addTo(
             $owner->getEmail(),
             $owner->getName()
@@ -608,7 +646,7 @@ class Entity extends \Magento\Model\AbstractModel
         try {
             $transport->sendMessage();
             $result = true;
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $result = false;
         }
 
@@ -873,8 +911,10 @@ class Entity extends \Magento\Model\AbstractModel
 
         if (!\Zend_Validate::is($this->getIsPublic(), 'NotEmpty')) {
             $errors[] = __('Please enter correct the Privacy setting.');
-        } else if (!array_key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
-            $errors[] = __('Please enter correct the Privacy setting.');
+        } else {
+            if (!array_key_exists($this->getIsPublic(), $this->getOptionsIsPublic())) {
+                $errors[] = __('Please enter correct the Privacy setting.');
+            }
         }
 
         $allCustomValues = $this->getCustomValues();
@@ -908,7 +948,7 @@ class Entity extends \Magento\Model\AbstractModel
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                throw new \Magento\Model\Exception(__('We cannot specify the product.'));
+                throw new \Magento\Framework\Model\Exception(__('We cannot specify the product.'));
             }
 
             $product = $this->productFactory->create()->load($productId);
@@ -968,8 +1008,10 @@ class Entity extends \Magento\Model\AbstractModel
         $value = null;
         if (isset($data[$field])) {
             $value = $data[$field];
-        } else if (isset($data['custom_values']) && isset($data['custom_values'][$field])) {
-            $value = $data['custom_values'][$field];
+        } else {
+            if (isset($data['custom_values']) && isset($data['custom_values'][$field])) {
+                $value = $data['custom_values'][$field];
+            }
         }
         return $value;
     }
@@ -1062,8 +1104,8 @@ class Entity extends \Magento\Model\AbstractModel
      *
      * @param array $items
      * @return void
-     * @throws \Magento\Exception
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _validateItems($items)
     {
@@ -1074,13 +1116,13 @@ class Entity extends \Magento\Model\AbstractModel
                     /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                     $stockItem = $this->inventoryStockItem;
                     $stockItem->loadByProduct($model->getProductId());
-                    // not \Magento\Model\Exception intentionally
+                    // not \Magento\Framework\Model\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
-                        throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
+                        throw new \Magento\Framework\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
-                throw new \Magento\Model\Exception(__('Please correct the gift registry item ID.'));
+                throw new \Magento\Framework\Model\Exception(__('Please correct the gift registry item ID.'));
             }
         }
     }

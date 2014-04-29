@@ -17,7 +17,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -37,16 +37,10 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         //Prepare objects for constructor
-        $this->_cacheMock = $this->getMock('Magento\App\CacheInterface');
-        $this->_storeConfigMock = $this->getMock(
-            'Magento\Core\Model\Store\Config',
-            array('getConfig'),
-            array(),
-            '',
-            false
-        );
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface');
+        $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_curlFactoryMock = $this->getMock(
-            'Magento\HTTP\Adapter\CurlFactory',
+            'Magento\Framework\HTTP\Adapter\CurlFactory',
             array('create'),
             array(),
             '',
@@ -56,7 +50,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
             'cache' => $this->_cacheMock,
-            'storeConfig' => $this->_storeConfigMock,
+            'scopeConfig' => $this->_scopeConfigMock,
             'curlFactory' => $this->_curlFactoryMock
         );
         $this->_messageModel = $objectManagerHelper->getObject(
@@ -78,11 +72,11 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue($cached));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(null));
 
-        $httpAdapterMock = $this->getMock('Magento\HTTP\Adapter\Curl', array(), array(), '', false);
+        $httpAdapterMock = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', array(), array(), '', false);
         $httpAdapterMock->expects($this->any())->method('read')->will($this->returnValue($response));
         $this->_curlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($httpAdapterMock));
 
-        $this->_storeConfigMock->expects($this->any())->method('getConfig')->will($this->returnValue(null));
+        $this->_scopeConfigMock->expects($this->any())->method('getValue')->will($this->returnValue(null));
 
         $this->assertEquals($expectedResult, $this->_messageModel->isDisplayed());
     }

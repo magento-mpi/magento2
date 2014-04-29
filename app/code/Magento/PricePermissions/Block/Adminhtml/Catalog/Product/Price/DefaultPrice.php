@@ -43,10 +43,10 @@ class DefaultPrice extends \Magento\Backend\Block\System\Config\Form\Field
     /**
      * Render Default Product Price field as disabled if user does not have enough permissions
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         if (!$this->_pricePermissionsData->getCanAdminEditProductPrice()) {
             $element->setReadonly(true, true);

@@ -23,12 +23,12 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $plugin;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
     /**
-     * @var \Magento\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\SessionManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sessionMock;
 
@@ -43,12 +43,12 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerFactoryMock;
 
     /**
-     * @var \Magento\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManagerMock;
 
     /**
-     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
 
@@ -58,12 +58,12 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $customerMock;
 
     /**
-     * @var \Magento\App\Http\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Http\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $httpContextMock;
 
     /**
-     * @var \Magento\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleManagerMock;
 
@@ -77,16 +77,16 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
-        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
             array('getCustomerSegmentIds', 'setCustomerSegmentIds'),
             array(),
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
         $this->cacheConfig = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
 

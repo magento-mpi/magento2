@@ -8,8 +8,8 @@
 
 namespace Mtf\Util\Generate\Fixture;
 
-use Magento\App\Resource;
-use Magento\ObjectManager;
+use Magento\Framework\App\Resource;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class FieldsProvider
@@ -24,18 +24,18 @@ class FieldsProvider implements FieldsProviderInterface
     protected $eavConfig;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $resource;
 
     /**
      * @constructor
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
         $this->eavConfig = $objectManager->create('Magento\Eav\Model\Config');
-        $this->resource = $objectManager->create('Magento\App\Resource');
+        $this->resource = $objectManager->create('Magento\Framework\App\Resource');
     }
 
     /**
@@ -107,7 +107,7 @@ class FieldsProvider implements FieldsProviderInterface
     {
         $entityType = $fixture['entity_type'];
 
-        /** @var $connection \Magento\DB\Adapter\AdapterInterface */
+        /** @var $connection \Magento\Framework\DB\Adapter\AdapterInterface */
         $connection = $this->resource->getConnection('core_write');
         $fields = $connection->describeTable($entityType);
 

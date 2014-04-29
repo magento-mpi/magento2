@@ -9,20 +9,20 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
-use Magento\Model\Exception;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Model\Exception;
 
 /**
  * Gift registry frontend controller
  */
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -32,13 +32,13 @@ class Index extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_formKeyValidator = $formKeyValidator;
@@ -52,7 +52,7 @@ class Index extends \Magento\App\Action\Action
      *
      * @param RequestInterface $request
      * @return ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -104,7 +104,7 @@ class Index extends \Magento\App\Action\Action
                 $request = $this->getRequest();
                 if ($request->getParam('product')) {
                     //Adding from product page
-                    $entity->addItem($request->getParam('product'), new \Magento\Object($request->getParams()));
+                    $entity->addItem($request->getParam('product'), new \Magento\Framework\Object($request->getParams()));
                     $count = $request->getParam('qty') ? $request->getParam('qty') : 1;
                 } else {
                     //Adding from cart
@@ -297,7 +297,7 @@ class Index extends \Magento\App\Action\Action
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (\Magento\Exception $e) {
+        } catch (\Magento\Framework\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't update the gift registry."));
@@ -573,7 +573,7 @@ class Index extends \Magento\App\Action\Action
                 $isError = true;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save this gift registry."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $isError = true;
             }
 
@@ -593,7 +593,7 @@ class Index extends \Magento\App\Action\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftRegistry\Model\Entity
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initEntity($requestParam = 'id')
     {

@@ -19,7 +19,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testPrepareForm()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\DesignInterface'
+            'Magento\Framework\View\DesignInterface'
         )->setArea(
             \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
         )->setDefaultDesignTheme();
@@ -30,9 +30,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $event->setCategoryId(1)->setId(1);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('magento_catalogevent_event', $event);
+        $objectManager->get('Magento\Framework\Registry')->register('magento_catalogevent_event', $event);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form'
         );

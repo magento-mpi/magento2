@@ -23,15 +23,15 @@ OptionTemplateSelect =
     '<table class="data-table">'+
         '<thead>'+
         '<tr>'+
-            '<th>' + <?php echo $coreHelper->jsonEncode(__('Code')) ?> + '<span class="required">*</span></th>'+
-            '<th>' + <?php echo $coreHelper->jsonEncode(__('Label')) ?> + '<span class="required">*</span></th>'+
+            '<th class="required">' + <?php echo $coreHelper->jsonEncode(__('Code')) ?> + '</th>'+
+            '<th class="required">' + <?php echo $coreHelper->jsonEncode(__('Label')) ?> + '</th>'+
             '<th>' + <?php echo $coreHelper->jsonEncode(__('Is Default')) ?> +'</th>'+
             '<th class="type-butt scope-item">&nbsp;</th>'+
         '</tr>'+
         '</thead>'+
         '<tbody id="<?php echo $this->getFieldPrefix() ?>_select_option_type_row_{{id}}"></tbody>'+
         '<tfoot>'+
-            '<tr><td colspan="10" class="a-right scope-item">' + $('ui\:button\:add').innerHTML + '</td></tr>'+
+            '<tr><td colspan="10" class="scope-item">' + $('ui\:button\:add').innerHTML + '</td></tr>'+
         '</tfoot>'+
     '</table>'+
     '<input type="hidden" class="required-option-select-rows" name="validation_{{id}}_result" value="" >';
@@ -101,7 +101,7 @@ selectOptionType = {
             }
         }
     }
-}
+};
 head.js('<?php echo $this->getViewFileUrl('Magento_GiftRegistry::edit/validation-rules.js'); ?>');
 //]]>
 </script>

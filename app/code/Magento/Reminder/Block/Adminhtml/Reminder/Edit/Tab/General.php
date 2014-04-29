@@ -19,22 +19,22 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Store\Model\System\Store $store,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
@@ -49,7 +49,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         $isEditable = $this->getCanEditReminderRule() !== false ? true : false;
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
@@ -91,7 +91,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         $model->unsSalesruleId();
         $helperBlock = $this->getLayout()->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser');
 
-        if ($helperBlock instanceof \Magento\Object) {
+        if ($helperBlock instanceof \Magento\Framework\Object) {
             $helperBlock->setConfig(
                 $this->getChooserConfig()
             )->setFieldsetId(
@@ -135,7 +135,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             $model->setData('is_active', '1');
         }
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField(
             'from_date',
@@ -145,7 +145,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('From Date'),
                 'title' => __('From Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
-                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
             )
         );
@@ -157,7 +157,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('To Date'),
                 'title' => __('To Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
-                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
             )
         );

@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * EAV attribute metadata service
@@ -28,7 +28,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_attrFormCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     private $_storeManager;
 
@@ -48,9 +48,19 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_attributeMetadataBuilder;
 
     /**
+     * @var array
+     */
+    private $customerDataObjectMethods;
+
+    /**
+     * @var array
+     */
+    private $addressDataObjectMethods;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Store\Model\StoreManager $storeManager
      * @param Data\Eav\OptionBuilder $optionBuilder
      * @param Data\Eav\ValidationRuleBuilder $validationRuleBuilder
      * @param Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
@@ -58,7 +68,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Store\Model\StoreManager $storeManager,
         Data\Eav\OptionBuilder $optionBuilder,
         Data\Eav\ValidationRuleBuilder $validationRuleBuilder,
         Data\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
@@ -82,8 +92,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributeMetadata = $this->_createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
-            throw (new NoSuchEntityException('entityType', $entityType))
-                ->addField('attributeCode', $attributeCode);
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                [
+                    'fieldName' => 'entityType',
+                    'fieldValue' => $entityType,
+                    'field2Name' => 'attributeCode',
+                    'field2Value' => $attributeCode,
+                ]
+            );
         }
     }
 
@@ -95,7 +112,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (null === $storeId) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $object = new \Magento\Object(
+        $object = new \Magento\Framework\Object(
             [
                 'store_id' => $storeId,
                 'attribute_set_id' => $attributeSetId,
@@ -224,10 +241,20 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomCustomerAttributeMetadata()
     {
         $customAttributes = [];
+        if (!$this->customerDataObjectMethods) {
+            $this->customerDataObjectMethods = array_flip(
+                get_class_methods('Magento\Customer\Service\V1\Data\Customer')
+            );
+        }
         foreach ($this->getAllCustomerAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()
-                /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
-                || $attributeMetadata->getAttributeCode() == 'disable_auto_group_change'
+            $attributeCode = $attributeMetadata->getAttributeCode();
+            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $isDataObjectMethod = isset($this->customerDataObjectMethods['get' . $camelCaseKey])
+                || isset($this->customerDataObjectMethods['is' . $camelCaseKey]);
+
+            /** Even though disable_auto_group_change is system attribute, it should be available to the clients */
+            if (!$isDataObjectMethod
+                && (!$attributeMetadata->isSystem() || $attributeCode == 'disable_auto_group_change')
             ) {
                 $customAttributes[] = $attributeMetadata;
             }
@@ -241,8 +268,18 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getCustomAddressAttributeMetadata()
     {
         $customAttributes = [];
+        if (!$this->addressDataObjectMethods) {
+            $this->addressDataObjectMethods = array_flip(
+                get_class_methods('Magento\Customer\Service\V1\Data\Address')
+            );
+        }
         foreach ($this->getAllAddressAttributeMetadata() as $attributeMetadata) {
-            if (!$attributeMetadata->isSystem()) {
+            $attributeCode = $attributeMetadata->getAttributeCode();
+            $camelCaseKey = \Magento\Framework\Service\DataObjectConverter::snakeCaseToCamelCase($attributeCode);
+            $isDataObjectMethod = isset($this->addressDataObjectMethods['get' . $camelCaseKey])
+                || isset($this->addressDataObjectMethods['is' . $camelCaseKey]);
+
+            if (!$isDataObjectMethod && !$attributeMetadata->isSystem()) {
                 $customAttributes[] = $attributeMetadata;
             }
         }

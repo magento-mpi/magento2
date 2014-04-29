@@ -21,18 +21,18 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
     public static $websites = array();
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroupCollection,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection,
         array $data = array()
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;
@@ -47,10 +47,10 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
      * - website_ids - string, comma-separated
      * - store_group_ids - string, comma-separated
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($row->getData('gws_is_all')) {
             return __('All');
@@ -59,7 +59,7 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
         // lookup websites and store groups in system
         if (!self::$websites) {
             foreach ($this->_storeGroupCollection as $storeGroup) {
-                /* @var $storeGroup \Magento\Core\Model\Store\Group */
+                /* @var $storeGroup \Magento\Store\Model\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();

@@ -11,13 +11,14 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Exception as WebapiException;
+use Magento\Webapi\Model\PathProcessor;
 
 /**
  * TODO: Consider warnings suppression removal
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Soap implements \Magento\App\FrontControllerInterface
+class Soap implements \Magento\Framework\App\FrontControllerInterface
 {
     /**#@+
      * Content types used for responses processed by SOAP web API.
@@ -43,24 +44,29 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var \Magento\App\State */
+    /** @var \Magento\Framework\App\State */
     protected $_appState;
 
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
     /**
-     * @var \Magento\Oauth\OauthInterface
+     * @var \Magento\Framework\Oauth\OauthInterface
      */
     protected $_oauthService;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @var \Magento\App\AreaList
+     * @var PathProcessor
+     */
+    protected $_pathProcessor;
+
+    /**
+     * @var \Magento\Framework\App\AreaList
      */
     protected $areaList;
 
@@ -70,11 +76,12 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param ErrorProcessor $errorProcessor
-     * @param \Magento\App\State $appState
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Oauth\OauthInterface $oauthService
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\App\AreaList $areaList
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\Oauth\OauthInterface $oauthService
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param PathProcessor $pathProcessor
+     * @param \Magento\Framework\App\AreaList $areaList
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,11 +91,12 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Wsdl\Generator $wsdlGenerator,
         \Magento\Webapi\Model\Soap\Server $soapServer,
         ErrorProcessor $errorProcessor,
-        \Magento\App\State $appState,
-        \Magento\View\LayoutInterface $layout,
-        \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\App\AreaList $areaList
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\Oauth\OauthInterface $oauthService,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        PathProcessor $pathProcessor,
+        \Magento\Framework\App\AreaList $areaList
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -99,22 +107,22 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
+        $this->_pathProcessor = $pathProcessor;
         $this->areaList = $areaList;
     }
 
     /**
      * Dispatch SOAP request.
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
-        $pathParts = explode('/', trim($request->getPathInfo(), '/'));
-        array_shift($pathParts);
-        $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->areaList->getArea($this->_layout->getArea())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+        $path = $this->_pathProcessor->process($request->getPathInfo());
+        $this->_request->setPathInfo($path);
+        $this->areaList->getArea($this->_appState->getAreaCode())
+            ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new WebapiException(__('Magento is not yet installed'));

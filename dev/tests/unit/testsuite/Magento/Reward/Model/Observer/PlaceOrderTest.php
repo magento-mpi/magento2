@@ -47,7 +47,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_restrictionMock = $this->getMock('Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface');
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock = $this->getMock(
             'Magento\Reward\Model\RewardFactory',
             array('create'),
@@ -70,7 +70,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
 
         $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder(
             $this->_restrictionMock,
@@ -98,7 +98,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects(
@@ -111,7 +111,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
         );
         $model = $this->getMock('Magento\Reward\Model\Reward', array(), array(), '', false);
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($model));
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
         $resource = $this->getMock('Magento\Reward\Model\Resource\Reward', array(), array(), '', false);
@@ -131,7 +131,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));
@@ -152,7 +152,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));

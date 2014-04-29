@@ -24,7 +24,7 @@ class Observer
     protected $_processor;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -46,7 +46,7 @@ class Observer
     /**
      * Request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -63,7 +63,7 @@ class Observer
     protected $eventFactory;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     * @var \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
 
@@ -73,10 +73,10 @@ class Observer
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
      * @param \Magento\Logging\Model\Processor $processor
-     * @param \Magento\App\ConfigInterface $coreConfig
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Logging\Model\Resource\EventFactory $eventFactory,
@@ -84,10 +84,10 @@ class Observer
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
         \Magento\Logging\Model\Processor $processor,
-        \Magento\App\ConfigInterface $coreConfig,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->eventFactory = $eventFactory;
         $this->_config = $config;
@@ -103,7 +103,7 @@ class Observer
     /**
      * Model after save observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelSaveAfter($observer)
@@ -114,7 +114,7 @@ class Observer
     /**
      * Model after delete observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelDeleteAfter($observer)
@@ -125,7 +125,7 @@ class Observer
     /**
      * Model after load observer.
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function modelLoadAfter($observer)
@@ -136,7 +136,7 @@ class Observer
     /**
      * Log marked actions
      *
-     * @param \Magento\Event\Observer $observer $observer
+     * @param \Magento\Framework\Event\Observer $observer $observer
      * @return void
      */
     public function controllerPostdispatch($observer)
@@ -149,7 +149,7 @@ class Observer
     /**
      * Log successful admin sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginSuccess($observer)
@@ -160,7 +160,7 @@ class Observer
     /**
      * Log failure of sign in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminSessionLoginFailed($observer)

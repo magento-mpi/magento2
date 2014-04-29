@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer balance model
@@ -30,7 +30,7 @@ use Magento\Model\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Balance extends \Magento\Model\AbstractModel
+class Balance extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Customer
@@ -48,7 +48,7 @@ class Balance extends \Magento\Model\AbstractModel
     protected $_eventObject = 'balance';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -63,23 +63,23 @@ class Balance extends \Magento\Model\AbstractModel
     protected $_historyFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_customerFactory = $customerFactory;
@@ -113,7 +113,7 @@ class Balance extends \Magento\Model\AbstractModel
      * Website id should either be set or not admin
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function loadByCustomer()
     {
@@ -141,14 +141,14 @@ class Balance extends \Magento\Model\AbstractModel
      * @param bool $shouldNotify
      * @param int|null $storeId
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
         $this->setData('notify_by_email', $shouldNotify);
         if ($shouldNotify) {
             if (null === $storeId) {
-                throw new Exception(__('Please also set the Store ID.'));
+                throw new \Magento\Framework\Model\Exception(__('Please also set the Store ID.'));
             }
             $this->setStoreId($storeId);
         }
@@ -166,7 +166,7 @@ class Balance extends \Magento\Model\AbstractModel
         $this->_ensureCustomer();
 
         if (0 == $this->getWebsiteId()) {
-            throw new Exception(__('A website ID must be set.'));
+            throw new \Magento\Framework\Model\Exception(__('A website ID must be set.'));
         }
 
         // check history action
@@ -186,7 +186,7 @@ class Balance extends \Magento\Model\AbstractModel
             $this->setNotifyByEmail(false);
         }
         if ($this->getNotifyByEmail() && !$this->hasStoreId()) {
-            throw new Exception(__('The Store ID must be set to send email notifications.'));
+            throw new \Magento\Framework\Model\Exception(__('The Store ID must be set to send email notifications.'));
         }
 
         return parent::_beforeSave();
@@ -213,7 +213,7 @@ class Balance extends \Magento\Model\AbstractModel
      * Make sure proper customer information is set. Load customer if required
      *
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _ensureCustomer()
     {
@@ -221,13 +221,13 @@ class Balance extends \Magento\Model\AbstractModel
             $this->setCustomerId($this->getCustomer()->getId());
         }
         if (!$this->getCustomerId()) {
-            throw new Exception(__('A customer ID must be specified.'));
+            throw new \Magento\Framework\Model\Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
             $this->setCustomer($this->_customerFactory->create()->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
-            throw new Exception(__('This customer is not set or does not exist.'));
+            throw new \Magento\Framework\Model\Exception(__('This customer is not set or does not exist.'));
         }
     }
 

@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Block\Widget;
 /**
  * Cms Hierarchy Node Widget Block
  */
-class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
+class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -31,7 +31,7 @@ class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,14 +41,14 @@ class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     protected $_hierarchyNodeFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {
@@ -144,7 +144,7 @@ class Node extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+            $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
             $key
         );
         foreach ($dataKeys as $value) {

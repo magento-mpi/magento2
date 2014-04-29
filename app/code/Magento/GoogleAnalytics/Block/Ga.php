@@ -11,12 +11,8 @@ namespace Magento\GoogleAnalytics\Block;
 
 /**
  * GoogleAnalitics Page Block
- *
- * @category   Magento
- * @package    Magento_GoogleAnalytics
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Ga extends \Magento\View\Element\Template
+class Ga extends \Magento\Framework\View\Element\Template
 {
     /**
      * Google analytics data
@@ -31,13 +27,13 @@ class Ga extends \Magento\View\Element\Template
     protected $_salesOrderCollection;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection
      * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection,
         \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
         array $data = array()
@@ -55,7 +51,7 @@ class Ga extends \Magento\View\Element\Template
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

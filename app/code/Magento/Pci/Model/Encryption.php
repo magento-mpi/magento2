@@ -9,15 +9,15 @@
  */
 namespace Magento\Pci\Model;
 
-use Magento\Model\Exception;
-use Magento\Encryption\Crypt;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Encryption\Crypt;
 
 /**
  * More sophisticated encryption model, that can:
  * - generate/check hashes of different versions
  * - use different encryption ciphers
  */
-class Encryption extends \Magento\Encryption\Encryptor
+class Encryption extends \Magento\Framework\Encryption\Encryptor
 {
     const HASH_VERSION_MD5 = 0;
 
@@ -55,13 +55,13 @@ class Encryption extends \Magento\Encryption\Encryptor
     protected $_keys = array();
 
     /**
-     * @param \Magento\Math\Random $randomGenerator
-     * @param \Magento\Encryption\CryptFactory $cryptFactory
+     * @param \Magento\Framework\Math\Random $randomGenerator
+     * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
      * @param string $cryptKey
      */
     public function __construct(
-        \Magento\Math\Random $randomGenerator,
-        \Magento\Encryption\CryptFactory $cryptFactory,
+        \Magento\Framework\Math\Random $randomGenerator,
+        \Magento\Framework\Encryption\CryptFactory $cryptFactory,
         $cryptKey
     ) {
         parent::__construct($randomGenerator, $cryptFactory, $cryptKey);

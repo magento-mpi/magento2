@@ -9,8 +9,8 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Model\Exception;
-use Magento\DB\Select;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart items attributes subselection condition
@@ -87,7 +87,7 @@ class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
      * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
      * @return Select
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getConditionsSql($customer, $website)
     {

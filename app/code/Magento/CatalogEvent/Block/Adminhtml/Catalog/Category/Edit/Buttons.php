@@ -19,7 +19,8 @@ use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-use Magento\Registry;
+use Magento\Framework\Registry;
+use Magento\Catalog\Model\CategoryFactory;
 
 class Buttons extends AbstractCategory
 {
@@ -44,6 +45,7 @@ class Buttons extends AbstractCategory
      * @param Context $context
      * @param Tree $categoryTree
      * @param Registry $registry
+     * @param CategoryFactory $categoryFactory
      * @param CollectionFactory $eventCollectionFactory
      * @param Data $catalogeventHelper
      * @param BackendHelperData $backendHelper
@@ -53,6 +55,7 @@ class Buttons extends AbstractCategory
         Context $context,
         Tree $categoryTree,
         Registry $registry,
+        CategoryFactory $categoryFactory,
         CollectionFactory $eventCollectionFactory,
         Data $catalogeventHelper,
         BackendHelperData $backendHelper,
@@ -60,7 +63,7 @@ class Buttons extends AbstractCategory
     ) {
         $this->_backendHelper = $backendHelper;
         $this->_catalogeventHelper = $catalogeventHelper;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
 
         $this->_eventCollectionFactory = $eventCollectionFactory;
     }

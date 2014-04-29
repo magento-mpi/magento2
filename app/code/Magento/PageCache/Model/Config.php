@@ -9,9 +9,7 @@
  */
 namespace Magento\PageCache\Model;
 
-use Magento\App\ConfigInterface;
-use Magento\App\Filesystem;
-use Magento\Core\Model\Store\Config as StoreConfig;
+use Magento\Framework\App\Filesystem;
 
 /**
  * Model is responsible for replacing default vcl template
@@ -52,14 +50,9 @@ class Config
     const XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX = 'design/theme/ua_regexp';
 
     /**
-     * @var StoreConfig
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
-
-    /**
-     * @var ConfigInterface
-     */
-    protected $_config;
+    protected $_scopeConfig;
 
     /**
      * XML path to value for saving temporary .vcl configuration
@@ -67,30 +60,27 @@ class Config
     const VARNISH_CONFIGURATION_PATH = 'system/full_page_cache/varnish/path';
 
     /**
-     * @var \Magento\App\Cache\StateInterface $_cacheState
+     * @var \Magento\Framework\App\Cache\StateInterface $_cacheState
      */
     protected $_cacheState;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $_modulesDirectory;
 
     /**
      * @param Filesystem $filesystem
-     * @param StoreConfig $coreStoreConfig
-     * @param ConfigInterface $config
-     * @param \Magento\App\Cache\StateInterface $cacheState
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      */
     public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        StoreConfig $coreStoreConfig,
-        ConfigInterface $config,
-        \Magento\App\Cache\StateInterface $cacheState
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Cache\StateInterface $cacheState
     ) {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_config = $config;
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Framework\App\Filesystem::MODULES_DIR);
+        $this->_scopeConfig = $scopeConfig;
         $this->_cacheState = $cacheState;
     }
 
@@ -101,7 +91,7 @@ class Config
      */
     public function getType()
     {
-        return $this->_config->getValue(self::XML_PAGECACHE_TYPE);
+        return $this->_scopeConfig->getValue(self::XML_PAGECACHE_TYPE);
     }
 
     /**
@@ -111,7 +101,7 @@ class Config
      */
     public function getTtl()
     {
-        return $this->_config->getValue(self::XML_PAGECACHE_TTL);
+        return $this->_scopeConfig->getValue(self::XML_PAGECACHE_TTL);
     }
 
     /**
@@ -121,7 +111,7 @@ class Config
      */
     public function getVclFile()
     {
-        $data = $this->_modulesDirectory->readFile($this->_config->getValue(self::VARNISH_CONFIGURATION_PATH));
+        $data = $this->_modulesDirectory->readFile($this->_scopeConfig->getValue(self::VARNISH_CONFIGURATION_PATH));
         return strtr($data, $this->_getReplacements());
     }
 
@@ -133,8 +123,14 @@ class Config
     protected function _getReplacements()
     {
         return array(
-            '{{ host }}' => $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_HOST),
-            '{{ port }}' => $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_PORT),
+            '{{ host }}' => $this->_scopeConfig->getValue(
+                self::XML_VARNISH_PAGECACHE_BACKEND_HOST,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ),
+            '{{ port }}' => $this->_scopeConfig->getValue(
+                self::XML_VARNISH_PAGECACHE_BACKEND_PORT,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            ),
             '{{ ips }}' => $this->_getAccessList(),
             '{{ design_exceptions_code }}' => $this->_getDesignExceptions()
         );
@@ -154,7 +150,10 @@ class Config
     {
         $result = '';
         $tpl = "    \"%s\";";
-        $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST);
+        $accessList = $this->_scopeConfig->getValue(
+            self::XML_VARNISH_PAGECACHE_ACCESS_LIST,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
             foreach ($ips as $ip) {
@@ -177,7 +176,11 @@ class Config
     {
         $result = '';
         $tpl = "%s (req.http.user-agent ~ \"%s\") {\n" . "        hash_data(\"%s\");\n" . "    }";
-        $expressions = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX);
+
+        $expressions = $this->_scopeConfig->getValue(
+            self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if ($expressions) {
             $rules = array_values(unserialize($expressions));
             foreach ($rules as $i => $rule) {

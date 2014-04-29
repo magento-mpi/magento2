@@ -10,14 +10,14 @@ namespace Magento\DesignEditor\Model;
 class AreaEmulator
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -29,7 +29,7 @@ class AreaEmulator
     public function emulateLayoutArea($areaCode)
     {
         $configuration = array(
-            'Magento\Core\Model\Layout' => array(
+            'Magento\Framework\View\Layout' => array(
                 'arguments' => array(
                     'area' => $areaCode
                 )

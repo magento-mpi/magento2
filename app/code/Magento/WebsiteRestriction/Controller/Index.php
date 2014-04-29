@@ -16,7 +16,7 @@ namespace Magento\WebsiteRestriction\Controller;
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var string
@@ -24,7 +24,7 @@ class Index extends \Magento\App\Action\Action
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -43,12 +43,12 @@ class Index extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
@@ -58,38 +58,38 @@ class Index extends \Magento\App\Action\Action
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Website $website,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;
         $this->_website = $website;
         $this->_pageFactory = $pageFactory;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_localeDate = $localeDate;
         parent::__construct($context);
         $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
@@ -111,7 +111,10 @@ class Index extends \Magento\App\Action\Action
              */
             /** @var \Magento\Cms\Model\Page $page */
             $page = $this->_pageFactory->create()->load(
-                $this->_storeConfig->getConfig($this->_stubPageIdentifier),
+                $this->_scopeConfig->getValue(
+                    $this->_stubPageIdentifier,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                ),
                 'identifier'
             );
 
@@ -125,7 +128,7 @@ class Index extends \Magento\App\Action\Action
                 )
                 ) {
                     $this->_objectManager->get(
-                        'Magento\View\DesignInterface'
+                        'Magento\Framework\View\DesignInterface'
                     )->setDesignTheme(
                         $page->getCustomTheme()
                     );
@@ -153,7 +156,7 @@ class Index extends \Magento\App\Action\Action
             $this->_configCacheType->save(
                 $this->getResponse()->getBody(),
                 $this->_cacheKey,
-                array(\Magento\Core\Model\Website::CACHE_TAG)
+                array(\Magento\Store\Model\Website::CACHE_TAG)
             );
         }
     }

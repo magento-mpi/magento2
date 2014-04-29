@@ -22,21 +22,21 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
@@ -90,8 +90,9 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'price',
                 'type' => 'currency',
                 'width' => '120px',
-                'currency_code' => (string)$this->_storeConfig->getConfig(
-                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE
+                'currency_code' => (string)$this->_scopeConfig->getValue(
+                    \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )
         );
@@ -133,7 +134,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Return grid row url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
+     * @param \Magento\Catalog\Model\Product|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

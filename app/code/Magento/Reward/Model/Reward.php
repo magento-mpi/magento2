@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Reward model
@@ -26,7 +26,7 @@ use Magento\Model\Exception;
  * @method \Magento\Reward\Model\Reward setAction() setAction(int $value)
  * @method \Magento\Reward\Model\Reward setComment() setComment(string $value)
  */
-class Reward extends \Magento\Model\AbstractModel
+class Reward extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
 
@@ -103,12 +103,12 @@ class Reward extends \Magento\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -135,7 +135,7 @@ class Reward extends \Magento\Model\AbstractModel
 
     /**
      * Mail transport builder
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -147,35 +147,42 @@ class Reward extends \Magento\Model\AbstractModel
     protected $_reward;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardCustomer = $rewardCustomer;
@@ -187,6 +194,7 @@ class Reward extends \Magento\Model\AbstractModel
         $this->_historyFactory = $historyFactory;
         $this->_rateFactory = $rateFactory;
         $this->_transportBuilder = $transportBuilder;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -221,12 +229,12 @@ class Reward extends \Magento\Model\AbstractModel
      * @param int $actionId
      * @param string $actionModelClass
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            throw new Exception(__('The action ID you enter must be a numerical integer.'));
+            throw new \Magento\Framework\Model\Exception(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -395,7 +403,7 @@ class Reward extends \Magento\Model\AbstractModel
      * Getter for store (for emails etc)
      * Trying get store from customer if its not assigned
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStore()
     {
@@ -732,10 +740,21 @@ class Reward extends \Magento\Model\AbstractModel
         $history = $this->getHistory();
         $store = $this->_storeManager->getStore($this->getStore());
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_BALANCE_UPDATE_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             array(
                 'store' => $store,
@@ -758,7 +777,7 @@ class Reward extends \Magento\Model\AbstractModel
                 'update_comment' => $history->getComment()
             )
         )->setFrom(
-            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+            $from
         )->addTo(
             $this->getCustomer()->getEmail()
         );
@@ -766,7 +785,7 @@ class Reward extends \Magento\Model\AbstractModel
         $error = false;
         try {
             $transport->sendMessage();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $error = true;
         }
 
@@ -795,23 +814,39 @@ class Reward extends \Magento\Model\AbstractModel
         );
         $action = $this->getActionInstance($item->getAction());
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_BALANCE_WARNING_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $remainingDays = $this->_scopeConfig->getValue(
+            'magento_reward/notification/expiry_day_before',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $this->_transportBuilder->setTemplateIdentifier(
-            $store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE)
+            $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
         )->setTemplateVars(
             array(
                 'store' => $store,
                 'customer_name' => $item->getCustomerFirstname() . ' ' . $item->getCustomerLastname(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
-                'remaining_days' => $store->getConfig('magento_reward/notification/expiry_day_before'),
+                'remaining_days' => $remainingDays,
                 'points_balance' => $item->getPointsBalanceTotal(),
                 'points_expiring' => $item->getTotalExpired(),
                 'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
                 'update_message' => $action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : ''
             )
         )->setFrom(
-            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+            $from
         )->addTo(
             $item->getCustomerEmail()
         );

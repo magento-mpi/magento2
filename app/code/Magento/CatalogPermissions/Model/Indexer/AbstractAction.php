@@ -7,11 +7,11 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction
@@ -51,7 +51,7 @@ abstract class AbstractAction
     const PRODUCT_STEP_COUNT = 1000000;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $resource;
 
@@ -116,7 +116,7 @@ abstract class AbstractAction
     protected $catalogConfig;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param WebsiteCollectionFactory $websiteCollectionFactory
      * @param GroupCollectionFactory $groupCollectionFactory
      * @param ConfigInterface $config
@@ -124,7 +124,7 @@ abstract class AbstractAction
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
         ConfigInterface $config,
@@ -142,7 +142,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getReadAdapter()
     {
@@ -157,7 +157,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getWriteAdapter()
     {
@@ -274,13 +274,13 @@ abstract class AbstractAction
     /**
      * Return selects cut by min and max
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $field
      * @param int $stepCount
-     * @return \Magento\DB\Select[]
+     * @return \Magento\Framework\DB\Select[]
      */
     protected function prepareSelectsByRange(
-        \Magento\DB\Select $select,
+        \Magento\Framework\DB\Select $select,
         $field,
         $stepCount = self::CATEGORY_STEP_COUNT
     ) {
@@ -543,7 +543,7 @@ abstract class AbstractAction
     /**
      * Create select for populating product index
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function createProductSelect()
     {
@@ -560,6 +560,7 @@ abstract class AbstractAction
             'is_active'
         )->getId();
 
+
         $select = $this->getReadAdapter()->select()->from(
             array('category_product' => $this->getTable('catalog_category_product')),
             array()
@@ -573,11 +574,11 @@ abstract class AbstractAction
             'product_website.product_id = category_product.product_id',
             array()
         )->joinInner(
-            array('store_group' => $this->getTable('core_store_group')),
+            array('store_group' => $this->getTable('store_group')),
             'store_group.website_id = product_website.website_id',
             array()
         )->joinInner(
-            array('store' => $this->getTable('core_store')),
+            array('store' => $this->getTable('store')),
             'store.website_id = product_website.website_id' . ' AND store.group_id = store_group.group_id',
             array()
         )->joinInner(
@@ -691,7 +692,7 @@ abstract class AbstractAction
                         'grant_catalog_product_price',
                         'grant_checkout_items'
                     ),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }

@@ -21,7 +21,7 @@ use Magento\Sales\Model\Quote\Address;
 class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
-     * @var \Magento\Filter\Object\GridFactory
+     * @var \Magento\Framework\Filter\Object\GridFactory
      */
     protected $_filterGridFactory;
 
@@ -31,15 +31,15 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     protected $_taxHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Filter\Object\GridFactory $filterGridFactory
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Filter\Object\GridFactory $filterGridFactory,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
@@ -95,7 +95,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param Address $address
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getAddressItems($address)
     {
@@ -108,7 +108,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
             $items[] = $item;
         }
         $itemsFilter = $this->_filterGridFactory->create();
-        $itemsFilter->addFilter(new \Magento\Filter\Sprintf('%d'), 'qty');
+        $itemsFilter->addFilter(new \Magento\Framework\Filter\Sprintf('%d'), 'qty');
         return $itemsFilter->filter($items);
     }
 
@@ -137,7 +137,11 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title')) {
+        if ($name = $this->_scopeConfig->getValue(
+            'carriers/' . $carrierCode . '/title',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )
+        ) {
             return $name;
         }
         return $carrierCode;
@@ -193,12 +197,12 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve text for items box
      *
-     * @param \Magento\Object $addressEntity
+     * @param \Magento\Framework\Object $addressEntity
      * @return string
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getItemsBoxTextAfter(\Magento\Object $addressEntity)
+    public function getItemsBoxTextAfter(\Magento\Framework\Object $addressEntity)
     {
         return '';
     }

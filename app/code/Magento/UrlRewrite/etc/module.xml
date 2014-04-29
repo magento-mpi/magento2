@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Module/etc/module.xsd">
     <module name="Magento_UrlRewrite" version="1.0.0.0" active="true">
         <depends>
             <module name="Magento_Catalog" />
             <module name="Magento_Core" />
+            <module name="Magento_Store" />
         </depends>
     </module>
 </config>

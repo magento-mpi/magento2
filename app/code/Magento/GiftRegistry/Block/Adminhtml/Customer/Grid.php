@@ -17,7 +17,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $entityFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $systemStore;
 
@@ -25,14 +25,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->entityFactory = $entityFactory;
@@ -127,7 +127,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
+     * @param \Magento\Catalog\Model\Product|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

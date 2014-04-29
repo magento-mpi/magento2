@@ -77,7 +77,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/integration/save');
         $this->assertSessionMessages(
             $this->equalTo(array("The integration '{$integrationName}' has been saved.")),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/integration/index/'));
     }
@@ -98,7 +98,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The integration '{$integrationName}' has been saved.")),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/integration/index/'));
     }

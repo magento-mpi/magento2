@@ -12,7 +12,7 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 /**
  * Customer balance block for order creation page
  */
-class Payment extends \Magento\View\Element\Template
+class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance
@@ -40,7 +40,7 @@ class Payment extends \Magento\View\Element\Template
     protected $_customerBalanceHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -48,7 +48,7 @@ class Payment extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
@@ -75,7 +75,7 @@ class Payment extends \Magento\View\Element\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Core\Model\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {

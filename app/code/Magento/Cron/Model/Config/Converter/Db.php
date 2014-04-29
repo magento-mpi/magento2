@@ -12,7 +12,7 @@ namespace Magento\Cron\Model\Config\Converter;
 /**
  * Convert data incoming from data base storage
  */
-class Db implements \Magento\Config\ConverterInterface
+class Db implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * Convert data
@@ -22,7 +22,7 @@ class Db implements \Magento\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $jobs = isset($source['crontab']['jobs']) ? $source['crontab']['jobs'] : array();
+        $jobs = isset($source['crontab']['default']['jobs']) ? $source['crontab']['default']['jobs'] : array();
 
         if (empty($jobs)) {
             return $jobs;

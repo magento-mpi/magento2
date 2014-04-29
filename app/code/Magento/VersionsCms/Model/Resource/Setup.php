@@ -12,36 +12,28 @@ namespace Magento\VersionsCms\Model\Resource;
 /**
  * Resource Setup Model
  */
-class Setup extends \Magento\Core\Model\Resource\Setup
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
-     * @var \Magento\Enterprise\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_entMigrationFactory;
-
-    /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
-     * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
-        \Magento\Stdlib\DateTime\DateTime $coreDate,
-        \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         $moduleName = 'Magento_VersionsCms',
-        $connectionName = ''
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_coreDate = $coreDate;
-        $this->_entMigrationFactory = $entMigrationFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 }

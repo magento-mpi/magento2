@@ -22,7 +22,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -44,25 +44,25 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
         \Magento\CustomerSegment\Helper\Data $segmentHelper,
-        \Magento\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
@@ -75,10 +75,10 @@ class Observer
     /**
      * Add Customer Segment condition to the salesrule management
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addSegmentsToSalesRuleCombine(\Magento\Event\Observer $observer)
+    public function addSegmentsToSalesRuleCombine(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
@@ -97,10 +97,10 @@ class Observer
     /**
      * Process customer related data changing. Method can process just events with customer object
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function processCustomerEvent(\Magento\Event\Observer $observer)
+    public function processCustomerEvent(\Magento\Framework\Event\Observer $observer)
     {
         $customer = $observer->getEvent()->getCustomer();
         $dataObject = $observer->getEvent()->getDataObject();
@@ -121,10 +121,10 @@ class Observer
      * Match customer segments on supplied event for currently logged in customer or visitor and current website.
      * Can be used for processing just frontend events
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function processEvent(\Magento\Event\Observer $observer)
+    public function processEvent(\Magento\Framework\Event\Observer $observer)
     {
         $customer = $this->_coreRegistry->registry('segment_customer');
 
@@ -144,10 +144,10 @@ class Observer
      * Match quote customer to all customer segments.
      * Used before quote recollect in admin
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function processQuote(\Magento\Event\Observer $observer)
+    public function processQuote(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $customer = $quote->getCustomer();
@@ -160,10 +160,10 @@ class Observer
     /**
      * Add field "Use in Customer Segment" for Customer and Customer Address attribute edit form
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Event\Observer $observer)
+    public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Framework\Event\Observer $observer)
     {
         $form = $observer->getEvent()->getForm();
         $fieldset = $form->getElement('base_fieldset');
@@ -184,19 +184,19 @@ class Observer
      *
      * Observe  targetrule_edit_tab_main_after_prepare_form event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addFieldsToTargetRuleForm(\Magento\Event\Observer $observer)
+    public function addFieldsToTargetRuleForm(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_segmentHelper->isEnabled()) {
             return;
         }
-        /* @var $form \Magento\Data\Form */
+        /* @var $form \Magento\Framework\Data\Form */
         $form = $observer->getEvent()->getForm();
-        /** @var \Magento\Object $model */
+        /** @var \Magento\Framework\Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var \Magento\View\Element\AbstractBlock $block */
+        /** @var \Magento\Framework\View\Element\AbstractBlock $block */
         $block = $observer->getEvent()->getBlock();
 
         /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies */

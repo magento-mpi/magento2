@@ -12,7 +12,7 @@
 
 define('RELATIVE_APP_ROOT', '../../..');
 require __DIR__ . '/../../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(realpath(RELATIVE_APP_ROOT . '/lib'));
 
 $userConfig = normalize('jsTestDriver.php');
 $defaultConfig = normalize('jsTestDriver.php.dist');
@@ -119,7 +119,7 @@ fclose($fh);
 
 $testOutput = __DIR__ . '/test-output';
 
-$filesystemAdapter = new \Magento\Filesystem\Driver\File();
+$filesystemAdapter = new \Magento\Framework\Filesystem\Driver\File();
 if ($filesystemAdapter->isExists($testOutput)) {
     $filesystemAdapter->deleteDirectory($testOutput);
 }

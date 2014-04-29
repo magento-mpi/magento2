@@ -35,7 +35,7 @@
     $(function () {
         $('#fileupload').fileupload({
             dataType: 'json',
-            dropZone: '#media_gallery_content',
+            dropZone: '[data-tab-panel=image-management]',
             sequentialUploads: true,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxFileSize: <?php echo $this->getFileSizeService()->getMaxFileSize() ?>,
@@ -87,8 +87,8 @@
                 },
                 {
                     action: 'resize',
-                    maxWidth: <?php echo \Magento\File\Uploader::MAX_IMAGE_WIDTH ?>,
-                    maxHeight: <?php echo \Magento\File\Uploader::MAX_IMAGE_HEIGHT ?>
+                    maxWidth: <?php echo \Magento\Framework\File\Uploader::MAX_IMAGE_WIDTH ?>,
+                    maxHeight: <?php echo \Magento\Framework\File\Uploader::MAX_IMAGE_HEIGHT ?>
                 },
                 {
                     action: 'save'

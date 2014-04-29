@@ -21,12 +21,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_filterItemFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -51,7 +51,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_attributeItem;
 
     /**
-     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_string;
 
@@ -98,9 +98,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_filterItem)
         );
 
-        $this->_store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManager = $this->getMock(
-            '\Magento\Core\Model\StoreManagerInterface',
+            '\Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',
@@ -150,12 +150,18 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_attributeItem)
         );
 
-        $this->_string = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false);
+        $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false);
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
-        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute($this->_filterItemFactory,
-            $this->_storeManager, $this->_layer, $this->_attributeFactory, $this->_string, $this->_resourceEngine);
+        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute(
+            $this->_filterItemFactory,
+            $this->_storeManager,
+            $this->_layer,
+            $this->_attributeFactory,
+            $this->_string,
+            $this->_resourceEngine
+        );
     }
 
     /**

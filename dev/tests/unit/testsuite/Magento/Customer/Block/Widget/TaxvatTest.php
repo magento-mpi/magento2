@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class TaxvatTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,15 +31,15 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
     {
         $this->_attribute = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_attributeMetadata = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
-            array(),
+            [],
             '',
             false
         );
@@ -54,8 +54,8 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_block = new Taxvat(
-            $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false),
+            $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false),
+            $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
             $this->_attributeMetadata
         );
     }
@@ -78,7 +78,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function isEnabledDataProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 
     public function testIsEnabledWithException()
@@ -88,7 +88,11 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
         );
         $this->assertSame(false, $this->_block->isEnabled());
     }
@@ -111,7 +115,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function isRequiredDataProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 
     public function testIsRequiredWithException()
@@ -121,7 +125,11 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributeMetadata'
         )->will(
-            $this->throwException(new NoSuchEntityException('field', 'value'))
+            $this->throwException(new NoSuchEntityException(
+                    NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                    ['fieldName' => 'field', 'fieldValue' => 'value']
+                )
+            )
         );
         $this->assertSame(false, $this->_block->isRequired());
     }

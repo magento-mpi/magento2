@@ -7,12 +7,13 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Module/etc/module.xsd">
     <module name="Magento_User" version="1.6.1.6" active="true">
         <sequence>
             <module name="Magento_Backend"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Magento_Catalog"/>
@@ -25,7 +26,7 @@
             <module name="Magento_CatalogRule"/>
             <module name="Magento_CatalogSearch"/>
             <module name="Magento_Checkout"/>
-            <module name="Magento_Contacts"/>
+            <module name="Magento_Contact"/>
             <module name="Magento_CurrencySymbol"/>
             <module name="Magento_Customer"/>
             <module name="Magento_DesignEditor"/>

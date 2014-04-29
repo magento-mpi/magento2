@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * XML configuration paths - section general
@@ -92,22 +92,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -117,23 +117,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_ratesFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\App\ConfigInterface $config,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
     ) {
         $this->_storeManager = $storeManager;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_config = $config;
         $this->_localeCurrency = $localeCurrency;
         $this->_ratesFactory = $ratesFactory;
@@ -169,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -261,7 +261,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $result = array();
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
-                $result[$websiteId] = new \Magento\Object(
+                $result[$websiteId] = new \Magento\Framework\Object(
                     array(
                         'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                         'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
@@ -299,7 +299,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
+        $pageIdentifier = $this->_scopeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
@@ -452,6 +452,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_scopeConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

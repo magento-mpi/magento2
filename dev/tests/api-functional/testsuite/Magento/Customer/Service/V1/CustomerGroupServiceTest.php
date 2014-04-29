@@ -7,11 +7,12 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
 use Magento\Customer\Service\V1\CustomerGroupService;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
@@ -30,12 +31,21 @@ class CustomerGroupServiceTest extends WebapiAbstract
     private $groupService;
 
     /**
+     * @var GroupRegistry
+     */
+    private $groupRegistry;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->groupRegistry = $objectManager->get('Magento\Customer\Model\GroupRegistry');
+        $this->groupService = $objectManager->get(
+            'Magento\Customer\Service\V1\CustomerGroupServiceInterface',
+            ['groupRegistry' => $this->groupRegistry]
+        );
     }
 
     /**
@@ -70,7 +80,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function testGetGroup($testGroup)
     {
-        $groupId = $testGroup['id'];
+        $groupId = $testGroup[CustomerGroup::ID];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$groupId",
@@ -96,10 +106,28 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function getGroupDataProvider()
     {
         return [
-            'NOT LOGGED IN' => [['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3]],
-            'General' => [['id' => 1, 'code' => 'General', 'tax_class_id' => 3]],
-            'Wholesale' => [['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3]],
-            'Retailer' => [['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]],
+            'NOT LOGGED IN' => [
+                [
+                    CustomerGroup::ID => 0,
+                    CustomerGroup::CODE => 'NOT LOGGED IN',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
+            'General' => [[CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
+            'Wholesale' => [
+                [
+                    CustomerGroup::ID => 2,
+                    CustomerGroup::CODE => 'Wholesale',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
+            'Retailer' => [
+                [
+                    CustomerGroup::ID => 3,
+                    CustomerGroup::CODE => 'Retailer',
+                    CustomerGroup::TAX_CLASS_ID => 3
+                ]
+            ],
         ];
     }
 
@@ -109,10 +137,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testGetGroups()
     {
         $expectedGroups = [
-            ['id' => 0, 'code' => 'NOT LOGGED IN', 'tax_class_id' => 3],
-            ['id' => 1, 'code' => 'General', 'tax_class_id' => 3],
-            ['id' => 2, 'code' => 'Wholesale', 'tax_class_id' => 3],
-            ['id' => 3, 'code' => 'Retailer', 'tax_class_id' => 3]
+            [CustomerGroup::ID => 0, CustomerGroup::CODE => 'NOT LOGGED IN', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 2, CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3],
+            [CustomerGroup::ID => 3, CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]
         ];
 
         $serviceInfo = [
@@ -173,8 +201,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function getDefaultGroupDataProvider()
     {
         return [
-            'admin' => [0, ['id' => 1, 'code' => 'General', 'tax_class_id' => 3]],
-            'base' => [1, ['id' => 1, 'code' => 'General', 'tax_class_id' => 3]]
+            'admin' => [
+                0,
+                [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]
+            ],
+            'base' => [1, [CustomerGroup::ID => 1, CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
         ];
     }
 
@@ -198,7 +229,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['storeId' => $nonExistentStoreId];
-        $expectedMessage = "No such entity with storeId = $nonExistentStoreId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -215,6 +246,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$nonExistentStoreId, $e->getMessage());
         }
     }
 
@@ -286,7 +318,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $requestData = ['groupId' => $groupId];
 
-        $expectedMessage = "No such entity with groupId = $groupId";
+        $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -303,6 +335,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            $this->assertContains((string)$groupId, $e->getMessage());
         }
     }
 
@@ -321,9 +354,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Create Group REST',
-            'tax_class_id' => 3
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Create Group REST',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -332,9 +365,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
-            $groupData['tax_class_id'],
+            $groupData[CustomerGroup::TAX_CLASS_ID],
             $newGroup->getTaxClassId(),
             'The group tax class id does not match.'
         );
@@ -351,9 +384,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => $duplicateGroupCode,
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => $duplicateGroupCode,
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -365,18 +398,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => $duplicateGroupCode,
-            'tax_class_id' => 3
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => $duplicateGroupCode,
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
-
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . " }\n";
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -384,16 +410,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorData = json_decode($e->getMessage(), true);
 
-            $this->assertTrue(
-                isset($errorData['errors'][0]['message']),
-                'Invalid error message format: ' . $e->getMessage()
+            $this->assertEquals(
+                'Customer Group already exists.',
+                $errorData['message']
             );
-
-            $this->assertCount(1, $errorData['errors']);
-            $errorData = $errorData['errors'][0];
-
-            $this->assertEquals($expectedMessage, $errorData['message'], 'Invalid error message');
-            $this->assertEquals(400, $errorData['http_code'], 'Invalid HTTP code');
+            $this->assertEquals(400, $e->getCode(), 'Invalid HTTP code');
         }
     }
 
@@ -412,9 +433,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Default Class Tax ID REST',
-            'tax_class_id' => null
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Default Class Tax ID REST',
+            CustomerGroup::TAX_CLASS_ID => null
         ];
         $requestData = ['group' => $groupData];
 
@@ -423,7 +444,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
             CustomerGroupService::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
@@ -446,28 +467,23 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => null,
-            'tax_class_id' => null
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => null,
+            CustomerGroup::TAX_CLASS_ID => null
         ];
         $requestData = ['group' => $groupData];
-
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\tcode: \n'
-            . '\tparams: []\n'
-            . ' }';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"code","value":""}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // @codingStandardsIgnoreEnd
         }
     }
 
@@ -488,28 +504,23 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Invalid Tax Class Id Code',
-            'tax_class_id' => $invalidTaxClassId
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Invalid Tax Class Id Code',
+            CustomerGroup::TAX_CLASS_ID => $invalidTaxClassId
         ];
         $requestData = ['group' => $groupData];
-
-        $expectedMessage = 'One or more input exceptions have occurred.\n'
-            . '{\n'
-            . '\tcode: INVALID_FIELD_VALUE\n'
-            . '\ttaxClassId: ' . $invalidTaxClassId . '\n'
-            . '\tparams: []\n'
-            . ' }';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail("Expected exception");
         } catch (\Exception $e) {
+            // @codingStandardsIgnoreStart
             $this->assertContains(
-                $expectedMessage,
+                '{"message":"Invalid value of \"%value\" provided for the %fieldName field.","parameters":{"fieldName":"taxClassId","value":9999}',
                 $e->getMessage(),
                 "Exception does not contain expected message."
             );
+            // codingStandardsIgnoreEnd
         }
     }
 
@@ -522,9 +533,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => 'New Group REST',
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => 'New Group REST',
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -536,9 +547,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $groupId,
-            'code' => 'Updated Group REST',
-            'tax_class_id' => 3
+            CustomerGroup::ID => $groupId,
+            CustomerGroup::CODE => 'Updated Group REST',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
@@ -546,9 +557,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
 
         $group = $this->groupService->getGroup($newGroupId);
-        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
-            $groupData['tax_class_id'],
+            $groupData[CustomerGroup::TAX_CLASS_ID],
             $group->getTaxClassId(),
             'The group tax class id did not change'
         );
@@ -571,18 +582,18 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $nonExistentGroupId,
-            'code' => 'Updated Group REST Does Not Exist',
-            'tax_class_id' => 3
+            CustomerGroup::ID => $nonExistentGroupId,
+            CustomerGroup::CODE => 'Updated Group REST Does Not Exist',
+            CustomerGroup::TAX_CLASS_ID => 3
         ];
         $requestData = ['group' => $groupData];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
-            $this->fail("Expected exception");
+            $this->fail('Expected exception');
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
-
+            $expectedMessage = '{"message":"No such entity with %fieldName = %fieldValue",'
+             . '"parameters":{"fieldName":"id","fieldValue":9999}';
             $this->assertContains(
                 $expectedMessage,
                 $e->getMessage(),
@@ -607,8 +618,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Create Group SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Create Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -618,7 +629,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
             $groupData['taxClassId'],
             $newGroup->getTaxClassId(),
@@ -635,11 +646,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $duplicateGroupCode = 'Duplicate Group Code SOAP';
 
-        $groupId = $this->createGroup(
+        $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => $duplicateGroupCode,
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => $duplicateGroupCode,
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -652,18 +663,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => $duplicateGroupCode,
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => $duplicateGroupCode,
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "Customer Group already exists.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: " . $duplicateGroupCode . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Customer Group already exists.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -693,8 +699,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Default Class Tax ID SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Default Class Tax ID SOAP',
             'taxClassId' => null
         ];
         $requestData = ['group' => $groupData];
@@ -704,7 +710,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $newGroup = $this->groupService->getGroup($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
-        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), "The group code does not match.");
         $this->assertEquals(
             CustomerGroupService::DEFAULT_TAX_CLASS_ID,
             $newGroup->getTaxClassId(),
@@ -728,18 +734,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => null,
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => null,
             'taxClassId' => null
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\tcode: \n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage ='Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -771,18 +772,13 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => null,
-            'code' => 'Invalid Class Tax ID SOAP',
+            CustomerGroup::ID => null,
+            CustomerGroup::CODE => 'Invalid Class Tax ID SOAP',
             'taxClassId' => $invalidTaxClassId
         ];
         $requestData = ['group' => $groupData];
 
-        $expectedMessage = "One or more input exceptions have occurred.\n"
-            . "{\n"
-            . "\tcode: INVALID_FIELD_VALUE\n"
-            . "\ttaxClassId: " . $invalidTaxClassId . "\n"
-            . "\tparams: []\n"
-            . ' }';
+        $expectedMessage = 'Invalid value of "%value" provided for the %fieldName field.';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -805,9 +801,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                    'id' => null,
-                    'code' => 'New Group SOAP',
-                    'tax_class_id' => 3
+                    CustomerGroup::ID => null,
+                    CustomerGroup::CODE => 'New Group SOAP',
+                    CustomerGroup::TAX_CLASS_ID => 3
                 ])->create()
         );
 
@@ -820,8 +816,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $groupId,
-            'code' => 'Updated Group SOAP',
+            CustomerGroup::ID => $groupId,
+            CustomerGroup::CODE => 'Updated Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -830,7 +826,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupId, $newGroupId, 'The group id should remain unchanged.');
 
         $group = $this->groupService->getGroup($newGroupId);
-        $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
+        $this->assertEquals($groupData[CustomerGroup::CODE], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'],
             $group->getTaxClassId(),
@@ -856,8 +852,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $groupData = [
-            'id' => $nonExistentGroupId,
-            'code' => 'Updated Non-Existent Group SOAP',
+            CustomerGroup::ID => $nonExistentGroupId,
+            CustomerGroup::CODE => 'Updated Non-Existent Group SOAP',
             'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
@@ -865,7 +861,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
 
             $this->assertContains(
                 $expectedMessage,
@@ -882,9 +878,9 @@ class CustomerGroupServiceTest extends WebapiAbstract
     {
         $groupId = $this->createGroup(
             (new CustomerGroupBuilder())->populateWithArray([
-                'id' => null,
-                'code' => 'Delete Group',
-                'tax_class_id' => 3
+                CustomerGroup::ID => null,
+                CustomerGroup::CODE => 'Delete Group',
+                CustomerGroup::TAX_CLASS_ID => 3
             ])->create()
         );
 
@@ -935,24 +931,44 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['groupId' => $groupId];
-        $expectedMessage = "No such entity with groupId = $groupId";
+        $requestData = array('groupId' => $groupId);
+        $expectedMessage = NoSuchEntityException::MESSAGE_SINGLE_FIELD;
+        $expectedParameters = ['fieldName' => 'groupId', 'fieldValue' => $groupId];
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
+            $this->assertContains($expectedMessage, $e->getMessage(), "SoapFault does not contain expected message.");
         } catch (\Exception $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "Exception does not contain expected message."
-            );
+            $errorObj = $this->_processRestExceptionResult($e);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
+            $this->assertEquals($expectedParameters, $errorObj['parameters']);
         }
+    }
+
+    /**
+     * @param \Exception $e
+     * @return array
+     * <pre> ex.
+     * 'message' => "No such entity with %fieldName1 = %value1, %fieldName2 = %value2"
+     * 'parameters' => [
+     *      "fieldName1" => "email",
+     *      "value1" => "dummy@example.com",
+     *      "fieldName2" => "websiteId",
+     *      "value2" => 0
+     * ]
+     *
+     * </pre>
+     */
+    protected function _processRestExceptionResult(\Exception $e)
+    {
+        $error = json_decode($e->getMessage(), true);
+        //Remove line breaks and replace with space
+        $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
+        // remove trace and type, will only be present if server is in dev mode
+        unset($error['trace']);
+        unset($error['type']);
+        return $error;
     }
 
     /**
@@ -1017,6 +1033,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
             $newGroup->getTaxClassId(),
             'The group tax class id does not match.'
         );
+
+        $this->groupRegistry->remove($groupId);
 
         return $groupId;
     }

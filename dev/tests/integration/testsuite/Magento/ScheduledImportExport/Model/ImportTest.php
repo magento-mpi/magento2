@@ -26,16 +26,16 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             'Magento\ScheduledImportExport\Model\Import',
             array('reindexAll'),
             array(
-                $objectManager->get('Magento\Logger'),
-                $objectManager->get('Magento\App\Filesystem'),
-                $objectManager->get('Magento\Logger\AdapterFactory'),
+                $objectManager->get('Magento\Framework\Logger'),
+                $objectManager->get('Magento\Framework\App\Filesystem'),
+                $objectManager->get('Magento\Framework\Logger\AdapterFactory'),
                 $objectManager->get('Magento\ImportExport\Helper\Data'),
-                $objectManager->get('Magento\App\ConfigInterface'),
+                $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
                 $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
                 $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
-                $objectManager->get('Magento\HTTP\Adapter\FileTransferFactory'),
+                $objectManager->get('Magento\Framework\HTTP\Adapter\FileTransferFactory'),
                 $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
                 $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
                 $objectManager->get('Magento\Index\Model\Indexer'),
@@ -45,18 +45,29 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->once())->method('reindexAll')->will($this->returnSelf());
 
         $directoryList = $objectManager->create(
-            'Magento\App\Filesystem\DirectoryList',
+            'Magento\Framework\App\Filesystem\DirectoryList',
             array(
-                'directories' => array(\Magento\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')),
+                'directories' => array(
+                    \Magento\Framework\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                ),
                 'root' => BP
             )
         );
-        $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
+        $filesystem = $objectManager->create(
+            'Magento\Framework\App\Filesystem',
+            array('directoryList' => $directoryList)
+        );
         $operation = $objectManager->create(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             array('filesystem' => $filesystem)
         );
-        $operation->setFileInfo(array('file_name' => __DIR__ . '/../_files/product.csv', 'server_type' => 'file'));
+        $operation->setFileInfo(
+            [
+                'file_name' => 'product.csv',
+                'server_type' => 'file',
+                'file_path' => '/../_files'
+            ]
+        );
         $model->runSchedule($operation);
 
         $product = $productModel->loadByAttribute('sku', 'product_100500');

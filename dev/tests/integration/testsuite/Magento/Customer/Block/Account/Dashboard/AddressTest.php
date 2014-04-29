@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -21,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\Module\Manager
+     * @var \Magento\Framework\Module\Manager
      */
     protected $objectManager;
 
@@ -29,13 +30,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
-        $this->_block = $this->objectManager->get('Magento\View\LayoutInterface')
+        $this->_block = $this->objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock(
                 'Magento\Customer\Block\Account\Dashboard\Address',
                 '',
                 array('customerSession' => $this->_customerSession)
             );
-        $this->objectManager->get('Magento\App\ViewInterface')->setIsLayoutLoaded(true);
+        $this->objectManager->get('Magento\Framework\App\ViewInterface')->setIsLayoutLoaded(true);
     }
 
     protected function tearDown()
@@ -49,7 +50,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
+        $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         $layout->setIsCacheable(false);
         /** @var CustomerAccountServiceInterface $customerAccountService */
         $customerAccountService = $objectManager
@@ -63,7 +64,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerMissingCustomer()
     {
-        $moduleManager = $this->objectManager->get('Magento\Module\Manager');
+        $moduleManager = $this->objectManager->get('Magento\Framework\Module\Manager');
         if ($moduleManager->isEnabled('Magento_PageCache')) {
             $customerDataBuilder = $this->objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
             $customerData = $customerDataBuilder->setGroupId($this->_customerSession->getCustomerGroupId())->create();
@@ -92,7 +93,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryShippingAddressHtmlDataProvider()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+        $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
             . "\nUnited States<br/>\nT: 3468676\n\n";
 
         return array(
@@ -119,7 +120,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryBillingAddressHtmlDataProvider()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+        $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
             . "\nUnited States<br/>\nT: 3468676\n\n";
         return [
             '0' => [0, 'You have not set a default billing address.'],

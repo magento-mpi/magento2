@@ -20,7 +20,7 @@
     <fieldset class="fieldset address" id="billing-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?>>
         <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
 
-        <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomerData())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
 
         <?php if (!$this->isCustomerLoggedIn()): ?>
                 <div class="field required email">
@@ -191,18 +191,14 @@
 </form>
 <script type="text/javascript">
     (function($) {
-        head.js(
-            "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
-            function() {
-                $('#billing\\:country_id').regionUpdater({
-                    optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
-                    regionListId: '#billing\\:region_id',
-                    regionInputId: '#billing\\:region',
-                    postcodeId: '#billing\\:postcode',
-                    regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
-                    defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
-                });
-            });
+        $('#billing\\:country_id').mage('regionUpdater', {
+            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all')? 'true' : 'false'); ?>,
+            regionListId: '#billing\\\:region_id',
+            regionInputId: '#billing\\\:region',
+            postcodeId: '#billing\\\:postcode',
+            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson() ?>,
+            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
+            countriesWithOptionalZip: <?php echo $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
+        });
     })(jQuery);
 </script>

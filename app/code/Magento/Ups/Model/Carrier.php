@@ -50,7 +50,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     /**
      * Raw rate request data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_rawRequest;
 
@@ -110,12 +110,12 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_customizableContainerTypes = array('CP', 'CSP');
 
     /**
-     * @var \Magento\Locale\FormatInterface
+     * @var \Magento\Framework\Locale\FormatInterface
      */
     protected $_localeFormat;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -125,9 +125,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $configHelper;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -138,17 +138,17 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Directory\Helper\Data $directoryData
-     * @param \Magento\Logger $logger
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param Config $configHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -159,8 +159,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Directory\Helper\Data $directoryData,
-        \Magento\Logger $logger,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         Config $configHelper,
         array $data = array()
     ) {
@@ -168,7 +168,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         $this->_localeFormat = $localeFormat;
         $this->configHelper = $configHelper;
         parent::__construct(
-            $coreStoreConfig,
+            $scopeConfig,
             $rateErrorFactory,
             $logAdapterFactory,
             $xmlElFactory,
@@ -215,7 +215,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     {
         $this->_request = $request;
 
-        $rowRequest = new \Magento\Object();
+        $rowRequest = new \Magento\Framework\Object();
 
         if ($request->getLimitMethod()) {
             $rowRequest->setAction($this->configHelper->getCode('action', 'single'));
@@ -249,8 +249,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = $this->_coreStoreConfig->getConfig(
+            $origCountry = $this->_scopeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -260,8 +261,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = $this->_coreStoreConfig->getConfig(
+            $origRegionCode = $this->_scopeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -274,8 +276,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
             $rowRequest->setOrigPostal(
-                $this->_coreStoreConfig->getConfig(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()
                 )
             );
@@ -285,8 +288,9 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
             $rowRequest->setOrigCity(
-                $this->_coreStoreConfig->getConfig(
+                $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $request->getStoreId()
                 )
             );
@@ -600,7 +604,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
         if ($params['10_action'] == '4') {
             $params['10_action'] = 'Shop';
-            $serviceCode = null; // Service code is not relevant when we're asking ALL possible services' rates
+            $serviceCode = null;
         } else {
             $params['10_action'] = 'Rate';
             $serviceCode = $rowRequest->getProduct() ? $rowRequest->getProduct() : '';
@@ -760,7 +764,7 @@ XMLRequest;
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($xmlResponse)) > 0) {
-            $xml = new \Magento\Simplexml\Config();
+            $xml = new \Magento\Framework\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//RatingServiceSelectionResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0];
@@ -988,7 +992,7 @@ XMLAuth;
         $packageProgress = array();
 
         if ($xmlResponse) {
-            $xml = new \Magento\Simplexml\Config();
+            $xml = new \Magento\Framework\Simplexml\Config();
             $xml->loadString($xmlResponse);
             $arr = $xml->getXpath("//TrackResponse/Response/ResponseStatusCode/text()");
             $success = (int)$arr[0][0];
@@ -1139,10 +1143,10 @@ XMLAuth;
     /**
      * Form XML for shipment request
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return string
      */
-    protected function _formShipmentRequest(\Magento\Object $request)
+    protected function _formShipmentRequest(\Magento\Framework\Object $request)
     {
         $packageParams = $request->getPackageParams();
         $height = $packageParams->getHeight();
@@ -1154,7 +1158,7 @@ XMLAuth;
         $itemsDesc = array();
         $itemsShipment = $request->getPackageItems();
         foreach ($itemsShipment as $itemShipment) {
-            $item = new \Magento\Object();
+            $item = new \Magento\Framework\Object();
             $item->setData($itemShipment);
             $itemsDesc[] = $item->getName();
         }
@@ -1341,8 +1345,8 @@ XMLAuth;
             'ULE'
         ) &&
             $request->getShipperAddressCountryCode() == self::USA_COUNTRY_ID &&
-            ($request->getRecipientAddressCountryCode() == 'CA' || //Canada
-            $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
+            ($request->getRecipientAddressCountryCode() == 'CA' ||
+            $request->getRecipientAddressCountryCode() == 'PR')
         ) {
             $invoiceLineTotalPart = $shipmentPart->addChild('InvoiceLineTotal');
             $invoiceLineTotalPart->addChild('CurrencyCode', $request->getBaseCurrencyCode());
@@ -1362,7 +1366,7 @@ XMLAuth;
      * Send and process shipment accept request
      *
      * @param Element $shipmentConfirmResponse
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _sendShipmentAcceptRequest(Element $shipmentConfirmResponse)
     {
@@ -1397,7 +1401,7 @@ XMLAuth;
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
         }
 
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         if (isset($response->Error)) {
             $result->setErrors((string)$response->Error->ErrorDescription);
         } else {
@@ -1430,14 +1434,14 @@ XMLAuth;
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      * @throws \Exception
      */
-    protected function _doShipmentRequest(\Magento\Object $request)
+    protected function _doShipmentRequest(\Magento\Framework\Object $request)
     {
         $this->_prepareShipmentRequest($request);
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $xmlRequest = $this->_formShipmentRequest($request);
         $xmlResponse = $this->_getCachedQuotes($xmlRequest);
 
@@ -1511,10 +1515,10 @@ XMLAuth;
     /**
      * Return container types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array|bool
      */
-    public function getContainerTypes(\Magento\Object $params = null)
+    public function getContainerTypes(\Magento\Framework\Object $params = null)
     {
         if ($params === null) {
             return $this->_getAllowedContainers($params);
@@ -1525,14 +1529,10 @@ XMLAuth;
 
         if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID ||
             $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID ||
-            $countryShipper == self::MEXICO_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID &&
-            $method == '11' // UPS Standard
+            $countryShipper == self::MEXICO_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID && $method == '11'
         ) {
             $containerTypes = array();
-            if ($method == '07' // Worldwide Express
-                || $method == '08' // Worldwide Expedited
-                || $method == '65' // Worldwide Saver
-            ) {
+            if ($method == '07' || $method == '08' || $method == '65') {
                 // Worldwide Expedited
                 if ($method != '08') {
                     $containerTypes = array(
@@ -1552,9 +1552,9 @@ XMLAuth;
             return array('00' => __('Customer Packaging')) + $containerTypes;
         } elseif ($countryShipper == self::USA_COUNTRY_ID &&
             $countryRecipient == self::PUERTORICO_COUNTRY_ID &&
-            ($method == '03' || // UPS Ground
-            $method == '02' || // UPS Second Day Air
-            $method == '01') // UPS Next Day Air
+            ($method == '03' ||
+            $method == '02' ||
+            $method == '01')
         ) {
             // Container types should be the same as for domestic
             $params->setCountryRecipient(self::USA_COUNTRY_ID);
@@ -1594,10 +1594,10 @@ XMLAuth;
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param \Magento\Framework\Object|null $params
      * @return array|bool
      */
-    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
+    public function getDeliveryConfirmationTypes(\Magento\Framework\Object $params = null)
     {
         $countryRecipient = $params != null ? $params->getCountryRecipient() : null;
         $deliveryConfirmationTypes = array();

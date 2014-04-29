@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
@@ -18,7 +18,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     const ACL_STORE_LEVEL = 'store';
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
@@ -38,12 +38,12 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -53,17 +53,17 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var \Magento\Acl\Builder
+     * @var \Magento\Framework\Acl\Builder
      */
     protected $_aclBuilder;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -73,37 +73,37 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_userRoles;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
     /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Acl\Builder $aclBuilder
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Framework\Acl\Builder $aclBuilder
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
-     * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Stdlib\String $string
-     * 
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\Stdlib\String $string
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Acl\Builder $aclBuilder,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Framework\Acl\Builder $aclBuilder,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
-        \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\RequestInterface $request,
-        \Magento\Stdlib\String $string
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\Stdlib\String $string
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_systemStore = $systemStore;
@@ -186,10 +186,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Assign websites/stores permissions data after loading admin role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
+    public function addDataAfterRoleLoad(\Magento\Framework\Event\Observer $observer)
     {
         $this->_assignRolePermissions($observer->getEvent()->getObject());
     }
@@ -210,7 +210,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Get all store groups
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     protected function _getAllStoreGroups()
     {
@@ -220,7 +220,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Transform array of website ids and array of store group ids into comma-separated strings
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      * @throws Exception
      */
@@ -294,7 +294,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Prepare role object permissions data before saving
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function prepareRoleSave($observer)
@@ -316,7 +316,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Copy permission scopes to new specified website
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function copyWebsiteCopyPermissions($observer)
@@ -342,7 +342,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminControllerPredispatch($observer)
@@ -375,7 +375,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Check access to massaction status block
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function catalogProductPrepareMassAction($observer)
@@ -387,7 +387,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $storeCode = $this->_request->getParam('store');
         $storeId = $storeCode ? $this->_storeManager->getStore(
             $storeCode
-        )->getId() : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        )->getId() : \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -416,7 +416,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit a collection
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function limitCollection($observer)
@@ -434,7 +434,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate / update a model before saving it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelSaveBefore($observer)
@@ -452,7 +452,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Initialize a model after loading it
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelLoadAfter($observer)
@@ -470,7 +470,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate a model before delete
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateModelDeleteBefore($observer)
@@ -489,7 +489,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Validate page by current request (module, controller, action)
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function validateControllerPredispatch($observer)
@@ -498,7 +498,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
-        /** @var \Magento\App\RequestInterface $request */
+        /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {
@@ -550,7 +550,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Apply restrictions to misc blocks before html
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictBlocks($observer)
@@ -660,7 +660,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Update store list which is available for role
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function updateRoleStores($observer)

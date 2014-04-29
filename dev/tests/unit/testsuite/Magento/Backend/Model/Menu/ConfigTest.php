@@ -59,7 +59,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheInstanceMock = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
+        $this->_cacheInstanceMock = $this->getMock(
+            'Magento\Framework\App\Cache\Type\Config',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_directorMock = $this->getMock(
             'Magento\Backend\Model\Menu\AbstractDirector',
@@ -86,7 +92,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
+            'Magento\Framework\Event\ManagerInterface',
             array(),
             array(),
             '',
@@ -95,7 +101,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_logger = $this->getMock(
-            'Magento\Logger',
+            'Magento\Framework\Logger',
             array('addStoreLog', 'log', 'logException'),
             array(),
             '',
@@ -108,15 +114,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-
-        $storeManagerMock->expects($this->atLeastOnce())->method('getStore')->will($this->returnValue($storeMock));
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
-        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
         $appState->expects(
             $this->any()
         )->method(
@@ -133,7 +135,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_cacheInstanceMock,
             $this->_eventManagerMock,
             $this->_logger,
-            $storeManagerMock,
+            $scopeConfig,
             $appState
         );
     }

@@ -8,49 +8,55 @@
  * @license     {license_link}
  */
 
+namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
+
 /**
- * Invintation create form
+ * Invitation create form
  *
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Magento Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
-     * Customer Group Factory
-     *
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupFactory;
+    protected $_customerGroupService;
+
+    /**
+     * @var \Magento\Framework\Convert\Object
+     */
+    protected $_objectConverter;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $store
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Store\Model\System\Store $store
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Framework\Convert\Object $objectConverter
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $store,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Store\Model\System\Store $store,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Framework\Convert\Object $objectConverter,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
-        $this->_groupFactory = $groupFactory;
+        $this->_customerGroupService = $customerGroupService;
+        $this->_objectConverter = $objectConverter;
     }
 
     /**
@@ -70,7 +76,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
             array('data' => array('id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post'))
         );
@@ -110,10 +116,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $field->setRenderer($renderer);
         }
 
-        $groups = $this->_groupFactory->create()->getCollection()->addFieldToFilter(
-            'customer_group_id',
-            array('gt' => 0)
-        )->load()->toOptionHash();
+        $groups = $this->_objectConverter->toOptionHash(
+            $this->_customerGroupService->getGroups(false),
+            'id',
+            'code'
+        );
 
         $fieldset->addField(
             'group_id',

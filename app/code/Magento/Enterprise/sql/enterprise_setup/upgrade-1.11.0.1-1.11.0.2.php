@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $tableName = $installer->getTable('admin_rule');
-/** @var \Magento\DB\Adapter\AdapterInterface $connection */
+/** @var \Magento\Framework\DB\Adapter\AdapterInterface $connection */
 $connection = $installer->getConnection();
 $condition = $connection->prepareSqlCondition(
     'resource_id',

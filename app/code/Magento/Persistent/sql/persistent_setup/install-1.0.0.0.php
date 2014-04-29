@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Core\Model\Resource\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -19,48 +19,48 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('persistent_session')
 )->addColumn(
     'persistent_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'primary' => true, 'nullable' => false, 'unsigned' => true),
     'Session id'
 )->addColumn(
     'key',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     \Magento\Persistent\Model\Session::KEY_LENGTH,
     array('nullable' => false),
     'Unique cookie key'
 )->addColumn(
     'customer_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true),
     'Customer id'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Website ID'
 )->addColumn(
     'info',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
     array(),
     'Session Data'
 )->addColumn(
     'updated_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Updated At'
 )->addIndex(
     $installer->getIdxName('persistent_session', array('key')),
     array('key'),
-    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('persistent_session', array('customer_id')),
     array('customer_id'),
-    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('persistent_session', array('updated_at')),
     array('updated_at')
@@ -69,13 +69,13 @@ $table = $installer->getConnection()->newTable(
     'customer_id',
     $installer->getTable('customer_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('persistent_session', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('persistent_session', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Persistent Session'
 );
@@ -90,7 +90,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('sales_flat_quote'),
     'is_persistent',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'default' => '0',
         'comment' => 'Is Quote Persistent'

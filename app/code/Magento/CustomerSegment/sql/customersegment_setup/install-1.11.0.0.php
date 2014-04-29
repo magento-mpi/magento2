@@ -20,43 +20,43 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customersegment_segment')
 )->addColumn(
     'segment_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Segment Id'
 )->addColumn(
     'name',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Name'
 )->addColumn(
     'description',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
     array(),
     'Description'
 )->addColumn(
     'is_active',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => '0'),
     'Is Active'
 )->addColumn(
     'conditions_serialized',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
     array(),
     'Conditions Serialized'
 )->addColumn(
     'processing_frequency',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('nullable' => false),
     'Processing Frequency'
 )->addColumn(
     'condition_sql',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
     array(),
     'Condition Sql'
@@ -72,13 +72,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customersegment_website')
 )->addColumn(
     'segment_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Segment Id'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Website Id'
@@ -95,15 +95,15 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     $installer->getTable('magento_customersegment_segment'),
     'segment_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
-    $installer->getFkName('magento_customersegment_website', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('magento_customersegment_website', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customersegment Website'
 );
@@ -116,31 +116,31 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customersegment_customer')
 )->addColumn(
     'segment_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Segment Id'
 )->addColumn(
     'customer_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Id'
 )->addColumn(
     'added_date',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array('nullable' => false),
     'Added Date'
 )->addColumn(
     'updated_date',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array('nullable' => false),
     'Updated Date'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Website Id'
@@ -148,10 +148,10 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName(
         'magento_customersegment_customer',
         array('segment_id', 'website_id', 'customer_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('segment_id', 'website_id', 'customer_id'),
-    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('magento_customersegment_customer', array('website_id')),
     array('website_id')
@@ -159,19 +159,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('magento_customersegment_customer', array('customer_id')),
     array('customer_id')
 )->addForeignKey(
-    $installer->getFkName('magento_customersegment_customer', 'website_id', 'core_website', 'website_id'),
+    $installer->getFkName('magento_customersegment_customer', 'website_id', 'store_website', 'website_id'),
     'website_id',
-    $installer->getTable('core_website'),
+    $installer->getTable('store_website'),
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_customersegment_customer', 'customer_id', 'customer_entity', 'entity_id'),
     'customer_id',
     $installer->getTable('customer_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName(
         'magento_customersegment_customer',
@@ -182,8 +182,8 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     $installer->getTable('magento_customersegment_segment'),
     'segment_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customersegment Customer'
 );
@@ -196,13 +196,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customersegment_event')
 )->addColumn(
     'segment_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Segment Id'
 )->addColumn(
     'event',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Event'
@@ -222,8 +222,8 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     $installer->getTable('magento_customersegment_segment'),
     'segment_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customersegment Event'
 );
@@ -234,7 +234,7 @@ $installer->getConnection()->addColumn(
     $installer->getTable('customer_eav_attribute'),
     'is_used_for_customer_segment',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => false,
         'default' => '0',

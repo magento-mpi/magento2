@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Cache context
@@ -20,9 +20,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var \Magento\CustomerSegment\Model\Resource\Segment\Collection
@@ -30,17 +30,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     private $_segmentCollection;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {
         parent::__construct($context);
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_segmentCollection = $segmentCollection;
     }
 
@@ -51,7 +51,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getConfig(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER);
+        return (bool)$this->_scopeConfig->getValue(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -90,14 +90,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Add customer segment fields to a form and its data
      *
-     * @param \Magento\Data\Form $form
-     * @param \Magento\Object $formData
+     * @param \Magento\Framework\Data\Form $form
+     * @param \Magento\Framework\Object $formData
      * @param \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
      * @return void
      */
     public function addSegmentFieldsToForm(
-        \Magento\Data\Form $form,
-        \Magento\Object $formData,
+        \Magento\Framework\Data\Form $form,
+        \Magento\Framework\Object $formData,
         \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies
     ) {
         if (!$this->isEnabled()) {
@@ -108,7 +108,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $htmlIdPrefix = $form->getHtmlIdPrefix();
 
-        /** @var \Magento\Data\Form\Element\Fieldset $fieldset */
+        /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
         $fieldset = $form->getElement('base_fieldset');
 
         $fieldset->addField(

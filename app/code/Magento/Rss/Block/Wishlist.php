@@ -47,25 +47,23 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_coreData = $coreData;
@@ -75,8 +73,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $context,
             $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -122,7 +119,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 array('code' => $this->_getWishlist()->getSharingCode())
             );
             $title = $this->_getTitle();
-            $lang = $this->_storeConfig->getConfig('general/locale/code');
+            $lang = $this->_scopeConfig->getValue(
+                'general/locale/code',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $rssObj->_addHeader(
                 array(
                     'title' => $title,
@@ -133,7 +133,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 )
             );
 
-            /** @var $wishlistItem \Magento\Wishlist\Model\Item*/
+            /** @var $wishlistItem \Magento\Wishlist\Model\Item */
             foreach ($this->getWishlistItems() as $wishlistItem) {
                 /* @var $product \Magento\Catalog\Model\Product */
                 $product = $wishlistItem->getProduct();
@@ -167,7 +167,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     ) . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
-                    $description .= $this->getPriceHtml($product, true);
+                    $description .= $this->getProductPrice($product);
                 }
                 $description .= '</p>';
 
@@ -214,20 +214,5 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     {
         $additional['_rss'] = true;
         return parent::getProductUrl($product, $additional);
-    }
-
-    /**
-     * Adding customized price template for product type, used as action in layouts
-     *
-     * @param string $type Catalog Product Type
-     * @param string $block Block Type
-     * @param string $template Template
-     * @return void
-     */
-    public function addPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_priceBlockTypes[$type] = array('block' => $block, 'template' => $template);
-        }
     }
 }

@@ -16,7 +16,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Image extends \Magento\Data\Form\Element\AbstractElement
+class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
 {
     /**
      * Adminhtml data
@@ -26,16 +26,16 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
     protected $_backendData = null;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $backendData,
         $data = array()
     ) {

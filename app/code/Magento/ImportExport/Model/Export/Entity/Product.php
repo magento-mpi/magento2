@@ -144,7 +144,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_exportConfig;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -164,7 +164,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_categoryColFactory;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resourceModel;
 
@@ -201,11 +201,11 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $rowCustomizer;
 
     /**
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactory
@@ -219,11 +219,11 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
      */
     public function __construct(
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Logger $logger,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactory,
@@ -303,7 +303,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize product type models.
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
     protected function _initTypeModels()
@@ -311,12 +311,13 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $productTypes = $this->_exportConfig->getProductTypes();
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             if (!($model = $this->_typeFactory->create($productTypeConfig['model']))) {
-                throw new \Magento\Model\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
+                throw new \Magento\Framework\Model\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
             }
             if (!$model instanceof \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __(
-                        'Entity type model must be an instance of \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
+                        'Entity type model must be an instance of'
+                        . ' \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
                     )
                 );
             }
@@ -330,7 +331,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             }
         }
         if (!$this->_productTypeModels) {
-            throw new \Magento\Model\Exception(__('There are no product types available for export'));
+            throw new \Magento\Framework\Model\Exception(__('There are no product types available for export'));
         }
         $this->_disabledAttrs = array_unique($this->_disabledAttrs);
 
@@ -344,7 +345,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initWebsites()
     {
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -373,7 +374,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $stmt = $this->_connection->query($select);
         while ($tierRow = $stmt->fetch()) {
             $rowTierPrices[$tierRow['entity_id']][] = array(
-                '_tier_price_customer_group' => $tierRow['all_groups'] ? self::VALUE_ALL : $tierRow['customer_group_id'],
+                '_tier_price_customer_group' => $tierRow['all_groups']
+                    ? self::VALUE_ALL
+                    : $tierRow['customer_group_id'],
                 '_tier_price_website' => 0 ==
                 $tierRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$tierRow['website_id']],
                 '_tier_price_qty' => $tierRow['qty'],
@@ -406,7 +409,9 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         $statement = $this->_connection->query($select);
         while ($groupRow = $statement->fetch()) {
             $rowGroupPrices[$groupRow['entity_id']][] = array(
-                '_group_price_customer_group' => $groupRow['all_groups'] ? self::VALUE_ALL : $groupRow['customer_group_id'],
+                '_group_price_customer_group' => $groupRow['all_groups']
+                    ? self::VALUE_ALL
+                    : $groupRow['customer_group_id'],
                 '_group_price_website' => 0 ==
                 $groupRow['website_id'] ? self::VALUE_ALL : $this->_websiteIdToCode[$groupRow['website_id']],
                 '_group_price_price' => $groupRow['value']
@@ -764,7 +769,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         try {
             $collection = $this->_getEntityCollection();
             $validAttrCodes = $this->_getExportAttrCodes();
-            $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
             $dataRows = array();
             $rowCategories = array();
             $rowWebsites = array();
@@ -805,10 +810,12 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                                     array_flip($attrValue)
                                 );
                                 $rowMultiselects[$itemId][$attrCode] = $attrValue;
-                            } else if (isset($this->_attributeValues[$attrCode][$attrValue])) {
-                                $attrValue = $this->_attributeValues[$attrCode][$attrValue];
                             } else {
-                                $attrValue = null;
+                                if (isset($this->_attributeValues[$attrCode][$attrValue])) {
+                                    $attrValue = $this->_attributeValues[$attrCode][$attrValue];
+                                } else {
+                                    $attrValue = null;
+                                }
                             }
                         }
                         // do not save value same as default or not existent
@@ -1154,10 +1161,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     {
         foreach ($this->getAttributeCollection() as $attribute) {
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
-            $this->_attributeTypes[$attribute
-                ->getAttributeCode()] = \Magento\ImportExport\Model\Import::getAttributeType(
-                    $attribute
-                );
+            $this->_attributeTypes[$attribute->getAttributeCode()] =
+                \Magento\ImportExport\Model\Import::getAttributeType($attribute);
         }
         return $this;
     }

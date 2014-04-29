@@ -1,0 +1,107 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Bundle\Pricing\Price;
+
+use Magento\Catalog\Pricing\Price as CatalogPrice;
+
+class BasePriceTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var BasePrice
+     */
+    protected $model;
+
+    /**
+     * @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $saleable;
+
+    /**
+     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceInfo;
+
+    /**
+     * @var float
+     */
+    protected $quantity;
+
+    public function setUp()
+    {
+        $this->quantity = 1.5;
+
+        $this->saleable = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfoInterface');
+
+        $this->saleable->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfo));
+
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\BasePrice', [
+            'saleableItem' => $this->saleable,
+            'quantity' => $this->quantity
+        ]);
+    }
+
+    /**
+     * @covers \Magento\Bundle\Pricing\Price\BasePrice::calculateBaseValue
+     * @covers \Magento\Bundle\Pricing\Price\BasePrice::getValue
+     */
+    public function testGetValue()
+    {
+        $priceValues = [115, 90, 75];
+        $tearPriceValue = 15;
+        $groupPriceValue = 10;
+        $specialPriceValue = 40;
+        $result = 45;
+
+        $pricesIncludedInBase = [];
+        foreach ($priceValues as $priceValue) {
+            $price = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
+            $price->expects($this->atLeastOnce())
+                ->method('getValue')
+                ->will($this->returnValue($priceValue));
+            $pricesIncludedInBase[] = $price;
+        }
+
+        $this->priceInfo->expects($this->once())
+            ->method('getPrices')
+            ->will($this->returnValue($pricesIncludedInBase));
+
+        $tearPrice = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
+        $tearPrice->expects($this->atLeastOnce())
+            ->method('getValue')
+            ->will($this->returnValue($tearPriceValue));
+
+        $groupPrice = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
+        $groupPrice->expects($this->atLeastOnce())
+            ->method('getValue')
+            ->will($this->returnValue($groupPriceValue));
+
+        $specialPrice = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
+        $specialPrice->expects($this->atLeastOnce())
+            ->method('getValue')
+            ->will($this->returnValue($specialPriceValue));
+
+        $this->priceInfo->expects($this->any())
+            ->method('getPrice')
+            ->will($this->returnValueMap([
+                [CatalogPrice\TierPrice::PRICE_CODE, $this->quantity, $tearPrice],
+                [CatalogPrice\GroupPrice::PRICE_CODE, $this->quantity, $groupPrice],
+                [CatalogPrice\SpecialPrice::PRICE_CODE, $this->quantity, $specialPrice],
+            ]));
+
+        $this->assertEquals($result, $this->model->getValue());
+        $this->assertEquals($result, $this->model->getValue());
+    }
+}

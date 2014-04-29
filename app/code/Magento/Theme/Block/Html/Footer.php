@@ -10,7 +10,7 @@ namespace Magento\Theme\Block\Html;
 /**
  * Html page footer block
  */
-class Footer extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Footer extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Copyright information
@@ -20,18 +20,18 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     protected $_copyright;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->httpContext = $httpContext;
@@ -48,7 +48,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
         $this->addData(
             array(
                 'cache_lifetime' => false,
-                'cache_tags' => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
+                'cache_tags' => array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             )
         );
     }
@@ -77,7 +77,10 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = $this->_storeConfig->getConfig('design/footer/copyright');
+            $this->_copyright = $this->_scopeConfig->getValue(
+                'design/footer/copyright',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_copyright;
     }
@@ -89,6 +92,6 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
      */
     public function getIdentities()
     {
-        return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+        return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
 }

@@ -9,23 +9,28 @@
  */
 namespace Magento\CatalogSearch\Helper;
 
-use Magento\App\Helper\AbstractHelper;
-use Magento\App\Helper\Context;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\CatalogSearch\Model\Fulltext;
 use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
-use Magento\Core\Model\Store\ConfigInterface;
-use Magento\Escaper;
-use Magento\Filter\FilterManager;
-use Magento\Stdlib\String;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Escaper;
+use Magento\Framework\Filter\FilterManager;
+use Magento\Framework\Stdlib\String;
 
 /**
  * Catalog search helper
  */
 class Data extends AbstractHelper
 {
+    /**
+     * @var array
+     */
+    protected $_suggestData = null;
+
     /**
      * Query variable
      */
@@ -81,9 +86,9 @@ class Data extends AbstractHelper
     /**
      * Core store config
      *
-     * @var ConfigInterface
+     * @var ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Query factory
@@ -107,7 +112,7 @@ class Data extends AbstractHelper
      *
      * @param Context $context
      * @param String $string
-     * @param ConfigInterface $coreStoreConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param QueryFactory $queryFactory
      * @param Escaper $escaper
      * @param FilterManager $filter
@@ -115,13 +120,13 @@ class Data extends AbstractHelper
     public function __construct(
         Context $context,
         String $string,
-        ConfigInterface $coreStoreConfig,
+        ScopeConfigInterface $scopeConfig,
         QueryFactory $queryFactory,
         Escaper $escaper,
         FilterManager $filter
     ) {
         $this->string = $string;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
         $this->filter = $filter;
@@ -267,7 +272,11 @@ class Data extends AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MIN_QUERY_LENGTH, $store);
+        return $this->_scopeConfig->getValue(
+            Query::XML_PATH_MIN_QUERY_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -278,7 +287,11 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MAX_QUERY_LENGTH, $store);
+        return $this->_scopeConfig->getValue(
+            Query::XML_PATH_MAX_QUERY_LENGTH,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -289,7 +302,11 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MAX_QUERY_WORDS, $store);
+        return $this->_scopeConfig->getValue(
+            Query::XML_PATH_MAX_QUERY_WORDS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -343,7 +360,10 @@ class Data extends AbstractHelper
             );
         }
 
-        $searchType = $this->_coreStoreConfig->getConfig(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        $searchType = $this->_scopeConfig->getValue(
+            Fulltext::XML_PATH_CATALOG_SEARCH_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if ($searchType == Fulltext::SEARCH_TYPE_COMBINE || $searchType == Fulltext::SEARCH_TYPE_LIKE) {
             $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
             $wordsLike = $this->filter->splitWords(
@@ -383,5 +403,33 @@ class Data extends AbstractHelper
             }
         }
         return join($separator, $_index);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestData()
+    {
+        if (!$this->_suggestData) {
+            $collection = $this->getSuggestCollection();
+            $query = $this->getQueryText();
+            $counter = 0;
+            $data = array();
+            foreach ($collection as $item) {
+                $_data = array(
+                    'title' => $item->getQueryText(),
+                    'row_class' => ++$counter % 2 ? 'odd' : 'even',
+                    'num_of_results' => $item->getNumResults()
+                );
+
+                if ($item->getQueryText() == $query) {
+                    array_unshift($data, $_data);
+                } else {
+                    $data[] = $_data;
+                }
+            }
+            $this->_suggestData = $data;
+        }
+        return $this->_suggestData;
     }
 }

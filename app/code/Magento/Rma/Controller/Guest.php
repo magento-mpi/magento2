@@ -9,20 +9,20 @@
  */
 namespace Magento\Rma\Controller;
 
-class Guest extends \Magento\App\Action\Action
+class Guest extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -152,12 +152,12 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
+        /** @var \Magento\Framework\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         if ($post && !empty($post['items'])) {
             try {
-                /** @var $urlModel \Magento\UrlInterface */
-                $urlModel = $this->_objectManager->get('Magento\UrlInterface');
+                /** @var $urlModel \Magento\Framework\UrlInterface */
+                $urlModel = $this->_objectManager->get('Magento\Framework\UrlInterface');
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
@@ -201,7 +201,7 @@ class Guest extends \Magento\App\Action\Action
                 $this->messageManager->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_view->loadLayout();
@@ -257,14 +257,14 @@ class Guest extends \Magento\App\Action\Action
                     )->setStatus(
                         $this->_coreRegistry->registry('current_rma')->getStatus()
                     )->setCreatedAt(
-                        $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                        $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->gmtDate()
                     )->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
-                    throw new \Magento\Model\Exception(__('Please enter a valid message.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please enter a valid message.'));
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot add a message.'));
@@ -290,7 +290,7 @@ class Guest extends \Magento\App\Action\Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
+                    throw new \Magento\Framework\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response = false;
@@ -304,11 +304,11 @@ class Guest extends \Magento\App\Action\Action
                 );
 
                 if (!isset($carriers[$carrier])) {
-                    throw new \Magento\Model\Exception(__('Please select a valid carrier.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please select a valid carrier.'));
                 }
 
                 if (empty($number)) {
-                    throw new \Magento\Model\Exception(__('Please enter a valid tracking number.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please enter a valid tracking number.'));
                 }
                 /** @var $rmaShipping \Magento\Rma\Model\Shipping */
                 $rmaShipping = $this->_objectManager->create('Magento\Rma\Model\Shipping');
@@ -321,7 +321,7 @@ class Guest extends \Magento\App\Action\Action
                 )->setCarrierTitle(
                     $carriers[$carrier]
                 )->save();
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot add a label.'));
@@ -330,7 +330,7 @@ class Guest extends \Magento\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();
@@ -351,22 +351,22 @@ class Guest extends \Magento\App\Action\Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
+                    throw new \Magento\Framework\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response = false;
                 $number = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
-                    throw new \Magento\Model\Exception(__('Please enter a valid tracking number.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please enter a valid tracking number.'));
                 }
                 /** @var $trackingNumber \Magento\Rma\Model\Shipping */
                 $trackingNumber = $this->_objectManager->create('Magento\Rma\Model\Shipping')->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
-                    throw new \Magento\Model\Exception(__('The wrong RMA was selected.'));
+                    throw new \Magento\Framework\Model\Exception(__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot delete the label.'));
@@ -375,7 +375,7 @@ class Guest extends \Magento\App\Action\Action
             $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
-            $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
+            $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();

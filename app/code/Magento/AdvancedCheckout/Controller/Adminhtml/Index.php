@@ -11,7 +11,7 @@ namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
 use Magento\AdvancedCheckout\Exception as AdvancedCheckoutException;
 use Magento\Backend\App\Action;
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Admin Checkout index controller
@@ -32,15 +32,15 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $registry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $registry)
     {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -81,8 +81,10 @@ class Index extends \Magento\Backend\App\Action
             throw new AdvancedCheckoutException(__('Customer not found'));
         }
 
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() == $customer->getWebsiteId()
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
+        if ($storeManager->getStore(
+            \Magento\Store\Model\Store::ADMIN_CODE
+        )->getWebsiteId() == $customer->getWebsiteId()
         ) {
             if ($useRedirects) {
                 $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
@@ -99,7 +101,7 @@ class Index extends \Magento\Backend\App\Action
 
         $storeId = $this->getRequest()->getParam('store');
 
-        if ($storeId === null || $storeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if ($storeId === null || $storeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $storeId = $cart->getPreferredStoreId();
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
@@ -212,7 +214,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
@@ -441,7 +443,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
@@ -518,13 +520,13 @@ class Index extends \Magento\Backend\App\Action
         $customer = $this->_registry->registry('checkout_current_customer');
         $store = $this->_registry->registry('checkout_current_store');
 
-        $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+        $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
         $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
 
         // Prepare data
         $productId = (int)$this->getRequest()->getParam('id');
 
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         $configureResult->setOk(
             true
         )->setProductId(
@@ -549,14 +551,14 @@ class Index extends \Magento\Backend\App\Action
     public function configureWishlistItemAction()
     {
         // Prepare data
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
             $customer = $this->_registry->registry('checkout_current_customer');
             $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
             $store = $this->_registry->registry('checkout_current_store');
-            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+            $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
@@ -603,14 +605,14 @@ class Index extends \Magento\Backend\App\Action
     public function configureOrderedItemAction()
     {
         // Prepare data
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $this->_initData();
 
             $customer = $this->_registry->registry('checkout_current_customer');
             $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
             $store = $this->_registry->registry('checkout_current_store');
-            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+            $storeId = $store instanceof \Magento\Store\Model\Store ? $store->getId() : (int)$store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
@@ -655,7 +657,7 @@ class Index extends \Magento\Backend\App\Action
         if ($e instanceof Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $result = array('error' => __('An error has occurred. See error log for details.'));
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
@@ -699,7 +701,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_initData();
 
         // Prepare data
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $quoteItemId = (int)$this->getRequest()->getParam('id');
 
@@ -809,16 +811,16 @@ class Index extends \Magento\Backend\App\Action
      * Returns item info by list and list item id
      * Returns object on success or false on error. Returned object has following keys:
      *  - product_id - null if no item found
-     *  - buy_request - \Magento\Object, empty if not buy request stored for this item
+     *  - buy_request - \Magento\Framework\Object, empty if not buy request stored for this item
      *
      * @param string $listType
      * @param int    $itemId
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getListItemInfo($listType, $itemId)
     {
         $productId = null;
-        $buyRequest = new \Magento\Object();
+        $buyRequest = new \Magento\Framework\Object();
         switch ($listType) {
             case 'wishlist':
                 $item = $this->_objectManager->create(
@@ -844,7 +846,7 @@ class Index extends \Magento\Backend\App\Action
                 break;
         }
 
-        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Framework\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -854,14 +856,14 @@ class Index extends \Magento\Backend\App\Action
      * @param string $listType
      * @param int    $itemId
      * @param array  $info
-     * @return \Magento\Object|false
+     * @return \Magento\Framework\Object|false
      *
      * @see _getListItemInfo() for return format
      */
     protected function _getInfoForListItem($listType, $itemId, $info)
     {
         $productId = null;
-        $buyRequest = new \Magento\Object();
+        $buyRequest = new \Magento\Framework\Object();
         switch ($listType) {
             case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE:
                 $info['sku'] = $itemId;
@@ -881,7 +883,7 @@ class Index extends \Magento\Backend\App\Action
             default:
                 return $this->_getListItemInfo($listType, $itemId);
         }
-        return new \Magento\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Framework\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
     }
 
     /**
@@ -904,7 +906,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error \Magento\Message\Error */
+                        /* @var $error \Magento\Framework\Message\Error */
                         $this->messageManager->addError($error->getText());
                     }
                 }
@@ -989,7 +991,7 @@ class Index extends \Magento\Backend\App\Action
                         } catch (Exception $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {
-                            $this->_objectManager->get('Magento\Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         }
                     }
                 }
@@ -1037,7 +1039,7 @@ class Index extends \Magento\Backend\App\Action
         /* @var $productHelper \Magento\Catalog\Helper\Product */
         $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new \Magento\Object($item);
+            $buyRequest = new \Magento\Framework\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
@@ -1075,7 +1077,7 @@ class Index extends \Magento\Backend\App\Action
         try {
             $this->_initData();
         } catch (Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('customer/index');
             $this->_redirectFlag = true;
         }

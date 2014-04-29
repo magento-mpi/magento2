@@ -35,7 +35,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface');
+        $this->_requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
         /** Initialize SUT. */
         $message = "Soap fault reason.";
         $details = array('param1' => 'value1', 'param2' => 2);
@@ -52,7 +52,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
         $this->_soapServerMock->expects($this->any())->method('generateUri')->will($this->returnValue(self::WSDL_URL));
 
         $this->_localeResolverMock = $this->getMockBuilder(
-            'Magento\Locale\Resolver'
+            'Magento\Framework\Locale\Resolver'
         )->disableOriginalConstructor()->getMock();
         $this->_localeResolverMock->expects(
             $this->any()
@@ -62,7 +62,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(new \Zend_Locale('en_US'))
         );
 
-        $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
 
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_requestMock,

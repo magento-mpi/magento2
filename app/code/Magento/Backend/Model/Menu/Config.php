@@ -16,12 +16,12 @@ class Config
     const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
@@ -38,7 +38,7 @@ class Config
     protected $_menu;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -48,9 +48,9 @@ class Config
     protected $_configReader;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_storeManager;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\Backend\Model\Menu\AbstractDirector
@@ -58,7 +58,7 @@ class Config
     protected $_director;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Framework\App\State
      */
     protected $_appState;
 
@@ -67,22 +67,22 @@ class Config
      * @param \Magento\Backend\Model\Menu\AbstractDirector $menuDirector
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
-     * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\State $appState
      */
     public function __construct(
         \Magento\Backend\Model\Menu\Builder $menuBuilder,
         \Magento\Backend\Model\Menu\AbstractDirector $menuDirector,
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\Menu\Config\Reader $configReader,
-        \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\State $appState
     ) {
         $this->_menuBuilder = $menuBuilder;
         $this->_director = $menuDirector;
@@ -91,7 +91,7 @@ class Config
         $this->_logger = $logger;
         $this->_menuFactory = $menuFactory;
         $this->_configReader = $configReader;
-        $this->_storeManager = $storeManager;
+        $this->_scopeConfig = $scopeConfig;
         $this->_appState = $appState;
     }
 
@@ -106,7 +106,7 @@ class Config
      */
     public function getMenu()
     {
-        if ($this->_storeManager->getStore()->getConfig('dev/log/active')) {
+        if ($this->_scopeConfig->getValue('dev/log/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->_logger->addStreamLog(\Magento\Backend\Model\Menu::LOGGER_KEY);
         }
 

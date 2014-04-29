@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@ class Group extends AbstractPlugin
     /**
      * Validate changes for invalidating indexer
      *
-     * @param \Magento\Model\AbstractModel $group
+     * @param \Magento\Framework\Model\AbstractModel $group
      * @return bool
      */
-    protected function validate(\Magento\Model\AbstractModel $group)
+    protected function validate(\Magento\Framework\Model\AbstractModel $group)
     {
         return ($group->dataHasChangedFor(
             'website_id'
@@ -27,17 +27,17 @@ class Group extends AbstractPlugin
     /**
      * Invalidate indexer on store group save
      *
-     * @param \Magento\Core\Model\Resource\Store\Group $subject
+     * @param \Magento\Store\Model\Resource\Group $subject
      * @param callable $proceed
-     * @param \Magento\Model\AbstractModel $store
+     * @param \Magento\Framework\Model\AbstractModel $store
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
-        \Magento\Core\Model\Resource\Store\Group $subject,
+        \Magento\Store\Model\Resource\Group $subject,
         \Closure $proceed,
-        \Magento\Model\AbstractModel $store
+        \Magento\Framework\Model\AbstractModel $store
     ) {
         $needInvalidating = $this->validate($store);
         $objectResource = $proceed($store);

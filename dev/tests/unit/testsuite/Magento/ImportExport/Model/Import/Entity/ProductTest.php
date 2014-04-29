@@ -40,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_optionModel;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -80,9 +80,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_product;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupColFactory;
+    protected $_customerGroupService;
 
     /**
      * @return void
@@ -132,7 +132,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_storeManager = $this->getMock(
-            '\Magento\Core\Model\StoreManager',
+            '\Magento\Store\Model\StoreManager',
             array('getWebsites', 'getStores'),
             array(),
             '',
@@ -251,14 +251,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_product)
         );
 
-        $this->_groupColFactory = $this->getMock(
-            '\Magento\Customer\Model\Resource\Group\CollectionFactory',
-            array('create'),
+        $this->_customerGroupService = $this->getMock(
+            'Magento\Customer\Service\V1\CustomerGroupService',
+            array('getGroups'),
             array(),
             '',
             false
         );
-        $this->_groupColFactory->expects($this->atLeastOnce())->method('create')->will($this->returnValue(array()));
+        $this->_customerGroupService->expects($this->atLeastOnce())
+            ->method('getGroups')
+            ->will($this->returnValue(array()));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
@@ -272,7 +274,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'importConfig' => $this->_importConfig,
                 'categoryColFactory' => $this->_categoryColFactory,
                 'productFactory' => $this->_productFactory,
-                'groupColFactory' => $this->_groupColFactory
+                'customerGroupService' => $this->_customerGroupService
             )
         );
     }

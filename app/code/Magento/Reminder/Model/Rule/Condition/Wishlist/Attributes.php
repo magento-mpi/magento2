@@ -36,7 +36,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         array $data = array()
     ) {
@@ -199,7 +199,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                array('store' => $this->getResource()->getTable('core_store')),
+                array('store' => $this->getResource()->getTable('store')),
                 'main.store_id=store.store_id',
                 array()
             )->where(

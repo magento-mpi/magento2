@@ -51,7 +51,7 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->setCurrentStore(
             0
         );
@@ -105,7 +105,7 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertSessionMessages(
             $this->equalTo(array('Incorrect CAPTCHA')),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
 }

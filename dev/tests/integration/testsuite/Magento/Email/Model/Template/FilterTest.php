@@ -32,17 +32,14 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     public function testViewDirective()
     {
         $url = $this->_model->viewDirective(
-            array(
-            '{{view url="Magento_Theme::favicon.ico"}}',
-            'view',
-            ' url="Magento_Theme::favicon.ico"', // note leading space
-            )
+            array('{{view url="Magento_Theme::favicon.ico"}}', 'view', ' url="Magento_Theme::favicon.ico"')
         );
         $this->assertStringEndsWith('favicon.ico', $url);
     }
 
     /**
      * @magentoConfigFixture current_store web/unsecure/base_link_url http://example.com/
+     * @magentoConfigFixture admin_store web/unsecure/base_link_url http://example.com/
      */
     public function testStoreDirective()
     {
@@ -51,12 +48,16 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertStringMatchesFormat('http://example.com/%sarbitrary_url/', $url);
 
-        $url = $this->_model->storeDirective(array(
-            '{{store url="translation/ajax/index"}}',
-            'store',
-            ' url="translation/ajax/index"',
-        ));
+        $url = $this->_model->storeDirective(
+            array('{{store url="translation/ajax/index"}}', 'store', ' url="translation/ajax/index"')
+        );
         $this->assertStringMatchesFormat('http://example.com/%stranslation/ajax/index/', $url);
+
+        $this->_model->setStoreId(0);
+        $url = $this->_model->storeDirective(
+            array('{{store url="translation/ajax/index"}}', 'store', ' url="translation/ajax/index"')
+        );
+        $this->assertStringMatchesFormat('http://example.com/index.php/backend/translation/ajax/index/%A', $url);
     }
 
     public function testEscapehtmlDirective()
@@ -97,8 +98,10 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(
-                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                    \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                \Magento\Framework\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\Framework\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(__DIR__) . '/_files/design'
+                    )
                 )
             )
         );
@@ -117,23 +120,17 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         $objectManager->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore()->setConfig(
-            \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-            $themeId
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
+        )->setValue(
+            \Magento\Framework\View\DesignInterface::XML_PATH_THEME_ID,
+            $themeId,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-
-
-        /** @var $layout \Magento\View\LayoutInterface */
-        $layout = $objectManager->create('Magento\Core\Model\Layout');
-        $objectManager->addSharedInstance($layout, 'Magento\Core\Model\Layout');
-        $this->assertEquals($area, $layout->getArea());
-        $this->assertEquals(
-            $area,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')->getArea()
-        );
-        $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
+        /** @var $layout \Magento\Framework\View\LayoutInterface */
+        $layout = $objectManager->create('Magento\Framework\View\Layout');
+        $objectManager->addSharedInstance($layout, 'Magento\Framework\View\Layout');
+        $objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(
             array('{{layout ' . $directiveParams . '}}', 'layout', ' ' . $directiveParams)

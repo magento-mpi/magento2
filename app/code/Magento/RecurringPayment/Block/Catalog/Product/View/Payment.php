@@ -11,7 +11,9 @@
  */
 namespace Magento\RecurringPayment\Block\Catalog\Product\View;
 
-class Payment extends \Magento\View\Element\Template
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+
+class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
      * Recurring payment instance
@@ -23,7 +25,7 @@ class Payment extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
@@ -35,14 +37,14 @@ class Payment extends \Magento\View\Element\Template
     protected $_paymentFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\RecurringPayment\Model\RecurringPaymentFactory $paymentFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Model\RecurringPaymentFactory $paymentFactory,
         array $data = array()
     ) {
@@ -78,7 +80,7 @@ class Payment extends \Magento\View\Element\Template
         if ($this->_payment->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()->createBlock(
-                'Magento\View\Element\Html\Date'
+                'Magento\Framework\View\Element\Html\Date'
             )->setId(
                 'recurring_start_date'
             )->setName(
@@ -88,9 +90,9 @@ class Payment extends \Magento\View\Element\Template
             )->setImage(
                 $this->getViewFileUrl('Magento_Core::calendar.gif')
             )->setDateFormat(
-                $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT)
             )->setTimeFormat(
-                $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+                $this->_localeDate->getTimeFormat(TimezoneInterface::FORMAT_TYPE_SHORT)
             );
             return $calendar->getHtml();
         }

@@ -26,14 +26,14 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Currency objects cache
      *
-     * @var \Magento\Object[]
+     * @var \Magento\Framework\Object[]
      */
     protected static $_currencies = array();
 
     /**
      * Application object
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -48,43 +48,44 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     protected $_baseCurrency;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\App\ConfigInterface $config,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
         $this->_currencyLocator = $currencyLocator;
         $this->_localeCurrency = $localeCurrency;
-        $baseCurrencyCode = $config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
+        $baseCurrencyCode = $this->_scopeConfig->getValue(
+            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+            'default'
+        );
         $this->_baseCurrency = $currencyFactory->create()->load($baseCurrencyCode);
     }
 
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($data = (string)$row->getData($this->getColumn()->getIndex())) {
             $currency_code = $this->_getCurrencyCode($row);
@@ -100,7 +101,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Returns currency code, false on error
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     protected function _getCurrencyCode($row)
@@ -118,7 +119,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     /**
      * Get rate for current row, 1 by default
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return float|int
      */
     protected function _getRate($row)

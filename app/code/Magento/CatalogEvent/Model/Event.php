@@ -7,20 +7,20 @@
  */
 namespace Magento\CatalogEvent\Model;
 
-use Magento\App\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
-use Magento\Model\Exception;
-use Magento\Model\AbstractModel;
-use Magento\Model\Context;
-use Magento\Stdlib\DateTime\TimezoneInterface;
-use Magento\Registry;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Registry;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;
-use Magento\Data\Collection\Db;
-use Magento\Stdlib\DateTime;
-use Magento\UrlInterface;
+use Magento\Framework\Data\Collection\Db;
+use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\UrlInterface;
 
 /**
  * Catalog Event model
@@ -37,7 +37,7 @@ use Magento\UrlInterface;
  * @method int getSortOrder()
  * @method Event setSortOrder(int $value)
  */
-class Event extends AbstractModel implements \Magento\Object\IdentityInterface
+class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
 
@@ -80,7 +80,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     protected $_isReadonly = false;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -211,7 +211,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function setImage($value)
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
-        if ($value instanceof \Magento\File\Uploader) {
+        if ($value instanceof \Magento\Framework\File\Uploader) {
             $value->save(
                 $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
             );
@@ -349,7 +349,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
             $date = $this->getData($dateType);
             if (empty($date)) {
                 // Date fields is required.
-                throw new Exception(__('%1 is required.', $fieldTitles[$dateType]));
+                throw new \Magento\Framework\Model\Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;

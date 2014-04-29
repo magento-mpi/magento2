@@ -18,15 +18,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $giftWrappingData->expects(
-            $this->once()
-        )->method(
-            'isGiftWrappingAvailableForItems'
-        )->with(
-            $this->equalTo(1)
-        )->will(
-            $this->returnValue(true)
-        );
+        $giftWrappingData->expects($this->once())
+            ->method('isGiftWrappingAvailableForItems')
+            ->with($this->equalTo(1))
+            ->will($this->returnValue(true));
 
         $typeInstance = $this->getMock('Magento\Catalog\Model\Product\Type\Simple', array(), array(), '', false);
 
@@ -59,25 +54,21 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         );
         $block1->expects($this->any())->method('getItem')->will($this->returnValue($orderItem));
 
-        $layout = $this->getMock('Magento\Core\Model\Layout', array('getParentName', 'getBlock'), array(), '', false);
-        $layout->expects(
-            $this->any()
-        )->method(
-            'getParentName'
-        )->with(
-            $this->equalTo('nameInLayout')
-        )->will(
-            $this->returnValue('parentName')
+        $layout = $this->getMock(
+            'Magento\Framework\View\Layout',
+            array('getParentName', 'getBlock'),
+            array(),
+            '',
+            false
         );
-        $layout->expects(
-            $this->any()
-        )->method(
-            'getBlock'
-        )->with(
-            $this->equalTo('parentName')
-        )->will(
-            $this->returnValue($block1)
-        );
+        $layout->expects($this->any())
+            ->method('getParentName')
+            ->with($this->equalTo('nameInLayout'))
+            ->will($this->returnValue('parentName'));
+        $layout->expects($this->any())
+            ->method('getBlock')
+            ->with($this->equalTo('parentName'))
+            ->will($this->returnValue($block1));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectManager->getObject('Magento\Backend\Block\Template\Context', array('layout' => $layout));

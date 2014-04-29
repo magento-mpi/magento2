@@ -10,6 +10,7 @@
 namespace Magento\Checkout\Block\Cart\Item;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 
 /**
  * Shopping cart item render block
@@ -21,7 +22,7 @@ use Magento\Sales\Model\Quote\Item;
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setDeleteUrl(string)
  */
-class Renderer extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
+class Renderer extends \Magento\Framework\View\Element\Template implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -65,7 +66,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     protected $_urlHelper;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -75,21 +76,21 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     protected $_imageHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -324,7 +325,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
         $encodedUrl = $this->_urlHelper->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
+            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
         );
     }
 
@@ -373,12 +374,12 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
             }
         }
 
-        /* @var $collection \Magento\Message\Collection */
+        /* @var $collection \Magento\Framework\Message\Collection */
         $collection = $this->messageManager->getMessages('quote_item' . $quoteItem->getId());
         if ($collection) {
             $additionalMessages = $collection->getItems();
             foreach ($additionalMessages as $message) {
-                /* @var $message \Magento\Message\MessageInterface */
+                /* @var $message \Magento\Framework\Message\MessageInterface */
                 $messages[] = array('text' => $message->getText(), 'type' => $message->getType());
             }
         }
@@ -413,7 +414,7 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
         $helper = $this->_productConfig;
         $params = array(
             'max_length' => 55,
-            'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'
+            'cut_replacer' => ' <a href="#" class="dots tooltip toggle" onclick="return false">...</a>'
         );
         return $helper->getFormattedOptionValue($optionValue, $params);
     }
@@ -431,28 +432,11 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
     /**
      * Return product additional information block
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {
         return $this->getLayout()->getBlock('additional.product.info');
-    }
-
-    /**
-     * Get html for MAP product enabled
-     *
-     * @param Item $item
-     * @return string
-     */
-    public function getMsrpHtml($item)
-    {
-        return $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Product\Price'
-        )->setTemplate(
-            'product/price_msrp_item.phtml'
-        )->setProduct(
-            $item->getProduct()
-        )->toHtml();
     }
 
     /**
@@ -490,5 +474,40 @@ class Renderer extends \Magento\View\Element\Template implements \Magento\View\B
             return $this->getProduct()->getIdentities();
         }
         return array();
+    }
+
+    /**
+     * Get product price formatted with html (final price, special price, mrp price)
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getProductPriceHtml(\Magento\Catalog\Model\Product $product)
+    {
+        $priceRender = $this->getPriceRender();
+        $priceRender->setItem($this->getItem());
+
+        $price = '';
+        if ($priceRender) {
+            $price = $priceRender->render(
+                ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+                $product,
+                [
+                    'include_container' => true,
+                    'display_minimal_price' => true,
+                    'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
+                ]
+            );
+        }
+
+        return $price;
+    }
+
+    /**
+     * @return \Magento\Framework\Pricing\Render
+     */
+    protected function getPriceRender()
+    {
+        return $this->getLayout()->getBlock('product.price.render.default');
     }
 }

@@ -12,7 +12,8 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressConverter;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Customer account form block
@@ -34,7 +35,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -74,7 +75,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     protected $_logFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -86,9 +87,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Log\Model\CustomerFactory $logFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -101,9 +102,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Log\Model\CustomerFactory $logFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -147,7 +148,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         try {
             $group = $this->_groupService->getGroup($groupId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $group = null;
         }
         return $group;
@@ -191,7 +192,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         return $this->formatDate(
             $this->getCustomer()->getCreatedAt(),
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+            TimezoneInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
@@ -206,7 +207,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
             $this->getCustomer()->getCreatedAt(),
             true
         );
-        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     /**
@@ -214,8 +215,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreCreateDateTimezone()
     {
-        return $this->_storeConfig->getConfig(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
         );
     }
@@ -229,7 +231,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -242,7 +244,7 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
             $date = $this->_localeDate->scopeDate($this->getCustomer()->getStoreId(), $date, true);
-            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
@@ -252,8 +254,9 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
      */
     public function getStoreLastLoginDateTimezone()
     {
-        return $this->_storeConfig->getConfig(
+        return $this->_scopeConfig->getValue(
             $this->_localeDate->getDefaultTimezonePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getCustomer()->getStoreId()
         );
     }
@@ -265,11 +268,12 @@ class View extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     {
         $log = $this->getCustomerLog();
         $interval = $this->_modelVisitor->getOnlineMinutesInterval();
-        if ($log->getLogoutAt() || strtotime(
-            $this->dateTime->now()
-        ) - strtotime(
-            $log->getLastVisitAt()
-        ) > $interval * 60
+        if ($log->getLogoutAt()
+            || strtotime(
+                $this->dateTime->now()
+            ) - strtotime(
+                $log->getLastVisitAt()
+            ) > $interval * 60
         ) {
             return __('Offline');
         }

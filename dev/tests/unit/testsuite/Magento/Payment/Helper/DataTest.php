@@ -14,28 +14,26 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**  @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**  @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_methodFactory;
 
     protected function setUp()
     {
-        $context                = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
-        $this->_coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
-        $layout                 = $this->getMock('Magento\View\LayoutInterface', [], [], '', false);
-        $this->_methodFactory   = $this->getMock('Magento\Payment\Model\Method\Factory', [], [], '', false);
-        $config                 = $this->getMock('Magento\App\ConfigInterface', [], [], '', false);
-        $appEmulation           = $this->getMock('Magento\Core\Model\App\Emulation', [], [], '', false);
-        $paymentConfig          = $this->getMock('Magento\Payment\Model\Config', [], [], '', false);
-        $initialConfig          = $this->getMock('Magento\App\Config\Initial', [], [], '', false);
+        $context              = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
+        $this->_scopeConfig   = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface', [], [], '', false);
+        $layout               = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
+        $this->_methodFactory = $this->getMock('Magento\Payment\Model\Method\Factory', [], [], '', false);
+        $appEmulation         = $this->getMock('Magento\Core\Model\App\Emulation', [], [], '', false);
+        $paymentConfig        = $this->getMock('Magento\Payment\Model\Config', [], [], '', false);
+        $initialConfig        = $this->getMock('Magento\Framework\App\Config\Initial', [], [], '', false);
 
         $this->_helper = new \Magento\Payment\Helper\Data(
             $context,
-            $this->_coreStoreConfig,
+            $this->_scopeConfig,
             $layout,
             $this->_methodFactory,
-            $config,
             $appEmulation,
             $paymentConfig,
             $initialConfig
@@ -50,10 +48,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodInstance($code, $class, $methodInstance)
     {
-        $this->_coreStoreConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->will(
             $this->returnValue(
                 $class

@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Shipping Model
  */
-class Shipping extends \Magento\Model\AbstractModel
+class Shipping extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Store address
@@ -64,9 +64,9 @@ class Shipping extends \Magento\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Sales order factory
@@ -78,7 +78,7 @@ class Shipping extends \Magento\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -113,44 +113,44 @@ class Shipping extends \Magento\Model\AbstractModel
     /**
      * Application filesystem
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $filesystem;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->_regionFactory = $regionFactory;
@@ -187,14 +187,14 @@ class Shipping extends \Magento\Model\AbstractModel
     /**
      * Prepare and do return of shipment
      *
-     * @return \Magento\Object
-     * @throws \Magento\Model\Exception
+     * @return \Magento\Framework\Object
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment()
     {
         $shipmentStoreId = $this->getRma()->getStoreId();
-        $storeInfo = new \Magento\Object(
-            $this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId)
+        $storeInfo = new \Magento\Framework\Object(
+            $this->_scopeConfig->getValue('general/store_information', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $shipmentStoreId)
         );
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());
@@ -206,7 +206,7 @@ class Shipping extends \Magento\Model\AbstractModel
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            throw new \Magento\Model\Exception(__('Invalid carrier: %1', $carrierCode));
+            throw new \Magento\Framework\Model\Exception(__('Invalid carrier: %1', $carrierCode));
         }
         $shipperRegionCode = $this->_regionFactory->create()->load($shipperAddress->getRegionId())->getCode();
         $recipientRegionCode = $recipientAddress->getRegionId();
@@ -222,7 +222,7 @@ class Shipping extends \Magento\Model\AbstractModel
             !$recipientAddress->getPostcode() ||
             !$recipientAddress->getCountryId()
         ) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __(
                     'We need more information to create your shipping label(s). Please verify your store information and shipping settings.'
                 )
@@ -321,7 +321,7 @@ class Shipping extends \Magento\Model\AbstractModel
      * Retrieves shipping label for current rma
      *
      * @param Rma|int $rma
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getShippingLabelByRma($rma)
     {
@@ -363,7 +363,7 @@ class Shipping extends \Magento\Model\AbstractModel
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);

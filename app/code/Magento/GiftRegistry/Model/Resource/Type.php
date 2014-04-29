@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Model\Resource\Db\AbstractDb
+class Type extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Info table name
@@ -48,15 +48,15 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Add store date to registry type data
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
 
         $scopeCheckExpr = $adapter->getCheckSql('store_id = 0', $adapter->quote('default'), $adapter->quote('store'));
-        $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $storeIds = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }

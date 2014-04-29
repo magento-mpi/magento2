@@ -9,27 +9,27 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Store\Model\System\Store $store,
         array $data = array()
     ) {
         $this->_store = $store;

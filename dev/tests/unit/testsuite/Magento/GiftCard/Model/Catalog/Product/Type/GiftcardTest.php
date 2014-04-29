@@ -38,12 +38,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected $_product;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
@@ -58,14 +58,14 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_store = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array('getCurrentCurrencyRate', '__sleep', '__wakeup'),
             array(),
             '',
             false
         );
         $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Core\Model\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             array('getStore')
         )->getMockForAbstractClass();
@@ -80,17 +80,18 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _mockModel($mockedMethods)
     {
-        $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
-        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem =
+            $this->getMockBuilder('Magento\Framework\App\Filesystem')->disableOriginalConstructor()->getMock();
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();
-        $locale = $this->getMock('Magento\Locale\Format', array('getNumber'), array(), '', false);
+        $locale = $this->getMock('Magento\Framework\Locale\Format', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
@@ -112,7 +113,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false)
+                $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface')
             )
         );
     }
@@ -186,7 +187,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 'categoryFactory' => $categoryFactoryMock,
                 'resource' => $this->_productResource,
                 'resourceCollection' => $productCollection,
-                'collectionFactory' => $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false)
+                'collectionFactory' => $this->getMock(
+                        'Magento\Framework\Data\CollectionFactory',
+                        array(),
+                        array(),
+                        '',
+                        false
+                    )
             )
         );
         $this->_product = $this->getMock(
@@ -215,7 +222,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX .
-            $i] = new \Magento\Object(
+                $i] = new \Magento\Framework\Object(
                 array('value' => 'value')
             );
             $this->_product->addOption($option);
@@ -244,7 +251,10 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('Magento\Model\Exception', 'Please specify all the required information.');
+        $this->setExpectedException(
+            'Magento\Framework\Model\Exception',
+            'Please specify all the required information.'
+        );
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -552,7 +562,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('Magento\Model\Exception', $exceptionMessage);
+        $this->setExpectedException('Magento\Framework\Model\Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

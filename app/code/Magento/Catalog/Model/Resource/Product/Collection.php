@@ -10,7 +10,7 @@
 namespace Magento\Catalog\Model\Resource\Product;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
@@ -181,7 +181,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @var \Magento\DB\Select
+     * @var \Magento\Framework\DB\Select
      */
     protected $_catalogPreparePriceSelect = null;
 
@@ -202,9 +202,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * Customer session
@@ -214,7 +214,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_customerSession;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -240,57 +240,57 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
-     * @param Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Zend_Db_Adapter_Abstract $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $connection = null
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlatState = $catalogProductFlatState;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_productOptionFactory = $productOptionFactory;
         $this->_catalogUrl = $catalogUrl;
         $this->_localeDate = $localeDate;
@@ -315,7 +315,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get cloned Select after dispatching 'catalog_prepare_price_select' event
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getCatalogPreparedSelect()
     {
@@ -325,13 +325,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Prepare additional price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return $this
      */
     protected function _preparePriceExpressionParameters($select)
     {
         // prepare response object for event
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setAdditionalCalculations(array());
         $tableAliases = array_keys($select->getPart(\Zend_Db_Select::FROM));
         if (in_array(self::INDEX_TABLE_ALIAS, $tableAliases)) {
@@ -361,7 +361,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return string
      */
     public function getPriceExpression($select)
@@ -375,7 +375,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get additional price expression sql part
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @return string
      */
     public function getAdditionalPriceExpression($select)
@@ -479,7 +479,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Retrieve collection empty item
      * Redeclared for specifying id field name without getting resource model inside model
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getNewEmptyItem()
     {
@@ -498,7 +498,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && $entity instanceof \Magento\Model\Resource\Db\AbstractDb) {
+        if ($this->isEnabledFlat() && $entity instanceof \Magento\Framework\Model\Resource\Db\AbstractDb) {
             $this->_entity = $entity;
             return $this;
         }
@@ -566,7 +566,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * Add attribute to entities in collection
      * If $attribute=='*' select all attributes
      *
-     * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
+     * @param array|string|integer|\Magento\Framework\App\Config\Element $attribute
      * @param bool|string $joinType
      * @return $this
      */
@@ -642,7 +642,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $objects = $this->_catalogUrl->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
                 if (isset($objects[$item->getEntityId()])) {
-                    $object = new \Magento\Object($objects[$item->getEntityId()]);
+                    $object = new \Magento\Framework\Object($objects[$item->getEntityId()]);
                     $item->setUrlDataObject($object);
                 }
             }
@@ -702,7 +702,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $select = $this->getConnection()->select()->from(
                 array('product_website' => $this->_productWebsiteTable)
             )->join(
-                array('website' => $this->getResource()->getTable('core_website')),
+                array('website' => $this->getResource()->getTable('store_website')),
                 'website.website_id = product_website.website_id',
                 array('name')
             )->where(
@@ -826,8 +826,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_max_value';
         $fieldAlias = 'max_' . $attributeCode;
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -859,8 +861,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attributeCode = $attribute->getAttributeCode();
         $tableAlias = $attributeCode . '_range_count_value';
 
-        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
+        $condition = 'e.entity_id = ' . $tableAlias . '.entity_id AND ' . $this->_getConditionSql(
+            $tableAlias . '.attribute_id',
+            $attribute->getId()
+        );
 
         $select->reset(\Zend_Db_Select::GROUP);
         $select->join(
@@ -939,7 +943,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getAllAttributeValues($attribute)
     {
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select = clone $this->getSelect();
         $attribute = $this->getEntity()->getAttribute($attribute);
 
@@ -964,7 +968,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Get SQL for get record count without left JOINs
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {
@@ -976,7 +980,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      *
      * @param null $select
      * @param bool $resetLeftJoins
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelectCountSql($select = null, $resetLeftJoins = true)
     {
@@ -1020,7 +1024,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Retrieve clear select
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getClearSelect()
     {
@@ -1030,8 +1034,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Build clear select
      *
-     * @param \Magento\DB\Select $select
-     * @return \Magento\DB\Select
+     * @param \Magento\Framework\DB\Select $select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _buildClearSelect($select = null)
     {
@@ -1066,7 +1070,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Retrieve product count select for categories
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getProductCountSelect()
     {
@@ -1175,7 +1179,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function getSetIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('attribute_set_id');
@@ -1190,7 +1194,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function getProductTypeIds()
     {
         $select = clone $this->getSelect();
-        /** @var $select \Magento\DB\Select */
+        /** @var $select \Magento\Framework\DB\Select */
         $select->reset(\Zend_Db_Select::COLUMNS);
         $select->distinct(true);
         $select->columns('type_id');
@@ -1225,8 +1229,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
+        $useCategoryUrl = $this->_scopeConfig->getValue(
             \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()
         );
         if ($useCategoryUrl) {
@@ -1727,14 +1732,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_index' => $this->getTable('core_store')),
+                array('store_index' => $this->getTable('store')),
                 'store_index.store_id = ' . $filters['store_table'] . '.store_id',
                 array()
             );
         }
         if (!isset($fromPart['store_group_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_group_index' => $this->getTable('core_store_group')),
+                array('store_group_index' => $this->getTable('store_group')),
                 'store_index.group_id = store_group_index.group_id',
                 array()
             );
@@ -1847,7 +1852,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
         //Clean duplicated fields
         $this->_resourceHelper->prepareColumnsList($select);
-
 
         return $this;
     }
@@ -1988,7 +1992,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             }
         }
 
-
         foreach ($this->getItems() as $item) {
             $productId = $item->getId();
             if (isset($categoryIds[$productId])) {
@@ -2027,8 +2030,10 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $attribute = $this->getAttribute('tier_price');
         if ($attribute->isScopeGlobal()) {
             $websiteId = 0;
-        } else if ($this->getStoreId()) {
-            $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+        } else {
+            if ($this->getStoreId()) {
+                $websiteId = $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
+            }
         }
 
         $adapter = $this->getConnection();
@@ -2063,8 +2068,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
                 'cust_group' => $row['all_groups'] ? CustomerGroupServiceInterface::CUST_GROUP_ALL : $row['cust_group'],
                 'price_qty' => $row['price_qty'],
                 'price' => $row['price'],
-                'website_price' => $row['price'],
-
+                'website_price' => $row['price']
             );
         }
 

@@ -19,7 +19,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 class Items extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -36,14 +36,14 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Tax\Model\Config $taxConfig
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Tax\Model\Config $taxConfig,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
@@ -190,7 +190,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

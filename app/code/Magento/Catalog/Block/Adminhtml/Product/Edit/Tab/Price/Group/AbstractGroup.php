@@ -9,7 +9,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
 
 use Magento\Backend\Block\Widget;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Adminhtml group price item abstract renderer
@@ -19,7 +19,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Form element instance
      *
-     * @var \Magento\Data\Form\Element\AbstractElement
+     * @var \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected $_element;
 
@@ -47,7 +47,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -66,7 +66,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -74,7 +74,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         CustomerGroupServiceInterface $groupService,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_groupService = $groupService;
@@ -97,10 +97,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Render HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         return $this->toHtml();
@@ -109,10 +109,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Set form element instance
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
      */
-    public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
+    public function setElement(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->_element = $element;
         return $this;
@@ -121,7 +121,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     /**
      * Retrieve form element instance
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getElement()
     {
@@ -235,7 +235,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         );
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             $website = $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsite();
 
             $this->_websites[$website->getId()] = array(
@@ -246,7 +246,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
             $websites = $this->_storeManager->getWebsites(false);
             $productWebsiteIds = $this->getProduct()->getWebsiteIds();
             foreach ($websites as $website) {
-                /** @var $website \Magento\Core\Model\Website */
+                /** @var $website \Magento\Store\Model\Website */
                 if (!in_array($website->getId(), $productWebsiteIds)) {
                     continue;
                 }

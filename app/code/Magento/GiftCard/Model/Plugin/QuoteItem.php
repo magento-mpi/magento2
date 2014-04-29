@@ -12,16 +12,16 @@ class QuoteItem
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -63,8 +63,9 @@ class QuoteItem
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {
-            $lifetime = $this->_coreStoreConfig->getConfig(
+            $lifetime = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -74,8 +75,9 @@ class QuoteItem
 
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = $this->_coreStoreConfig->getConfigFlag(
+            $isRedeemable = $this->_scopeConfig->isSetFlag(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -85,8 +87,9 @@ class QuoteItem
 
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = $this->_coreStoreConfig->getConfig(
+            $emailTemplate = $this->_scopeConfig->getValue(
                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $orderItem->getStore()
             );
         } else {

@@ -1,25 +1,27 @@
 <?php
 /**
- * Unit test for \Magento\Customer\Model\Resource\Group\Grid\ServiceCollection
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Customer\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 
+/**
+ * Unit test for \Magento\Customer\Model\Resource\Group\Grid\ServiceCollection
+ */
 class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\TestFramework\Helper\ObjectManager */
     protected $objectManager;
 
-    /** @var \Magento\Service\V1\Data\FilterBuilder */
+    /** @var \Magento\Framework\Service\V1\Data\FilterBuilder */
     protected $filterBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder */
+    /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
     protected $searchCriteriaBuilder;
 
     /** @var \Magento\Customer\Service\V1\Data\SearchResults */
@@ -34,9 +36,14 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->filterBuilder = new \Magento\Service\V1\Data\FilterBuilder();
-        $this->searchCriteriaBuilder = $this->objectManager
-            ->getObject('\Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
+        $this->filterBuilder = new \Magento\Framework\Service\V1\Data\FilterBuilder();
+        $filterGroupBuilder = $this->objectManager
+            ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
+        /** @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchBuilder */
+        $this->searchCriteriaBuilder = $this->objectManager->getObject(
+            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            ['filterGroupBuilder' => $filterGroupBuilder]
+        );
         $this->groupServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerGroupServiceInterface')
             ->getMock();
         $this->searchResults = (new \Magento\Customer\Service\V1\Data\SearchResultsBuilder())->create();
@@ -59,7 +66,8 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->setCurrentPage(1)
             ->setPageSize(0)
             ->addSortOrder('name', SearchCriteria::SORT_ASC)
-            ->addFilter($this->filterBuilder->setField('name')->setConditionType('eq')->setValue('Magento')->create())
+            ->addFilter([$this->filterBuilder->setField('name')->setConditionType('eq')
+                    ->setValue('Magento')->create()])
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
@@ -81,13 +89,12 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
         $value = '35';
 
         /** @var SearchCriteria $expectedSearchCriteria */
+        $filter = $this->filterBuilder->setField($field)->setConditionType($conditionType)->setValue($value)->create();
         $expectedSearchCriteria = $this->searchCriteriaBuilder
             ->setCurrentPage(1)
             ->setPageSize(0)
             ->addSortOrder('name', SearchCriteria::SORT_ASC)
-            ->addFilter(
-                $this->filterBuilder->setField($field)->setConditionType($conditionType)->setValue($value)->create()
-            )
+            ->addFilter([$filter])
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
@@ -114,7 +121,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->setCurrentPage(1)
             ->setPageSize(0)
             ->addSortOrder('name', SearchCriteria::SORT_ASC)
-            ->addOrGroup(
+            ->addFilter(
                 [
                     $this->filterBuilder->setField($fieldA)->setConditionType('eq')->setValue($value)->create(),
                     $this->filterBuilder->setField($fieldB)->setConditionType('eq')->setValue($value)->create(),
@@ -146,8 +153,10 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->setCurrentPage(1)
             ->setPageSize(0)
             ->addSortOrder('name', SearchCriteria::SORT_ASC)
-            ->addFilter($this->filterBuilder->setField($fieldA)->setConditionType('gt')->setValue($value)->create())
-            ->addFilter($this->filterBuilder->setField($fieldB)->setConditionType('gt')->setValue($value)->create())
+            ->addFilter([$this->filterBuilder->setField($fieldA)->setConditionType('gt')
+                    ->setValue($value)->create()])
+            ->addFilter([$this->filterBuilder->setField($fieldB)->setConditionType('gt')
+                    ->setValue($value)->create()])
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
@@ -167,7 +176,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      * @param string[] $fields
      * @param array $conditions
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage When passing in a field array there must be a matching condition array
      * @dataProvider addFieldToFilterInconsistentArraysDataProvider
      */

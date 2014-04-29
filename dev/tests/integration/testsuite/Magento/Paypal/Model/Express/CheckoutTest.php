@@ -15,7 +15,7 @@ use Magento\Sales\Model\Quote;
 
 class CheckoutTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     protected function setUp()
@@ -50,7 +50,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $checkout->place('token');
 
         $this->assertEquals(1, $quote->getCustomerId());
-        $addressService->getAddresses($quote->getCustomerId());
         $this->assertEquals(2, count($addressService->getAddresses($quote->getCustomerId())));
 
         $this->assertEquals(1, $quote->getBillingAddress()->getCustomerAddressId());
@@ -95,6 +94,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
+     * @magentoConfigFixture current_store customer/create_account/confirm true
      */
     public function testPrepareNewCustomerQuoteConfirmationRequired()
     {
@@ -110,10 +110,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerLastname('Lastname');
         $quote->setCustomerIsGuest(false);
 
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('\Magento\Core\Model\StoreManagerInterface');
-        $storeManager->getStore()->setConfig(Customer::XML_PATH_IS_CONFIRM, true);
-
         $checkout = $this->_getCheckout($quote);
         $checkout->place('token');
         $customer = $customerService->getCustomer($quote->getCustomerId());
@@ -121,14 +117,17 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('user@example.com', $customer->getEmail());
         $this->assertEquals('11111111', $customerDetails->getAddresses()[0]->getTelephone());
 
-        /** @var \Magento\Message\ManagerInterface $messageManager */
-        $messageManager = $this->_objectManager->get('\Magento\Message\ManagerInterface');
+        /** @var \Magento\Framework\Message\ManagerInterface $messageManager */
+        $messageManager = $this->_objectManager->get('\Magento\Framework\Message\ManagerInterface');
         $confirmationText = sprintf(
             'customer/account/confirmation/email/%s/key/',
             $customerDetails->getCustomer()->getEmail()
         );
+        /** @var \Magento\Framework\Message\MessageInterface $message */
+        $message = $messageManager->getMessages()->getLastAddedMessage();
+        $this->assertInstanceOf('\Magento\Framework\Message\MessageInterface', $message);
         $this->assertTrue(
-            strpos($messageManager->getMessages()->getLastAddedMessage()->getText(), $confirmationText) !== false
+            strpos($message->getText(), $confirmationText) !== false
         );
 
     }
@@ -152,7 +151,10 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($quote->getCustomerId());
         $this->assertTrue($quote->getCustomerIsGuest());
-        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $quote->getCustomerGroupId());
+        $this->assertEquals(
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            $quote->getCustomerGroupId()
+        );
 
         $this->assertNotEmpty($quote->getBillingAddress());
         $this->assertNotEmpty($quote->getShippingAddress());

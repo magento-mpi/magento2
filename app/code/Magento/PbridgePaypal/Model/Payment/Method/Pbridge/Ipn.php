@@ -79,7 +79,7 @@ class Ipn
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -102,13 +102,13 @@ class Ipn
      *
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      */
     public function __construct(
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData
     ) {
         $this->_paypalInfo = $paypalInfo;
@@ -179,7 +179,7 @@ class Ipn
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $http->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
         } catch (\Exception $e) {
@@ -225,7 +225,7 @@ class Ipn
      * Validate incoming request data, as PayPal recommends
      *
      * @param Order $order
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return void
      */
     protected function _verifyOrder(Order $order)
@@ -238,7 +238,7 @@ class Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     __('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail)
                 );
             }
@@ -314,7 +314,7 @@ class Ipn
                         $this->_registerPaymentVoid(__('The merchant voided the authorization.'));
                         break;
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))->save();
                 $this->_notifyAdmin($history->getComment(), $e);
             }
@@ -334,7 +334,7 @@ class Ipn
      * Everything after saving order is not critical, thus done outside the transaction.
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _registerPaymentCapture()
     {
@@ -419,7 +419,7 @@ class Ipn
      * Register payment pending
      *
      * @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      *
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      */
@@ -447,7 +447,7 @@ class Ipn
                 );
                 break;
             case 'order':
-                throw new \Magento\Model\Exception(
+                throw new \Magento\Framework\Model\Exception(
                     '"Order" authorizations are not implemented. Please use "simple" authorization.'
                 );
             case 'authorization':

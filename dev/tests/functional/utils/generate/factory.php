@@ -27,6 +27,6 @@ $path .= PATH_SEPARATOR . MTF_BP . '/tests/app';
 $path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf';
 set_include_path($path);
 
-$entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $_SERVER);
+$entryPoint = new \Magento\Framework\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Mtf\Util\Generate\Factory');
 \Mtf\Util\Generate\GenerateResult::displayResults();

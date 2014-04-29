@@ -12,7 +12,7 @@ use Magento\Newsletter\Model\Subscriber;
 /**
  * Dashboard newsletter info
  */
-class Newsletter extends \Magento\View\Element\Template
+class Newsletter extends \Magento\Framework\View\Element\Template
 {
     /**
      * The subscriber.
@@ -38,13 +38,13 @@ class Newsletter extends \Magento\View\Element\Template
     /**
      * Initialize the Dashboard\Newsletter instance.
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()

@@ -31,7 +31,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -40,11 +40,10 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -52,8 +51,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
         \Magento\Catalog\Helper\Output $outputHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_customerViewHelper = $customerViewHelper;
         $this->_customerAccountService = $customerAccountService;
@@ -66,8 +64,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
             $wishlistFactory,
             $rssFactory,
             $outputHelper,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

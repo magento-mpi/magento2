@@ -25,33 +25,33 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_widgetFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
      * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         $moduleName = 'Magento_Banner',
-        $connectionName = ''
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
@@ -73,14 +73,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getBannerInstance()
     {
         return $this->_bannerFactory->create();
-    }
-
-    /**
-     * @return \Magento\Core\Model\Resource\Theme\Collection
-     */
-    public function getThemeCollection()
-    {
-        return $this->_themeResourceFactory->create();
     }
 
     /**

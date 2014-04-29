@@ -20,14 +20,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_product',
             $objectManager->create('Magento\Catalog\Model\Product')
         );
         /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
         $block = $objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
         );
@@ -43,12 +43,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get(
-            'Magento\Registry'
+            'Magento\Framework\Registry'
         )->register(
             'current_product',
             $objectManager->create('Magento\Catalog\Model\Product')->load(1)
         );
-        $objectManager->get('Magento\View\LayoutInterface')->createBlock('Magento\View\Element\Text', 'head');
+        $objectManager->get('Magento\Framework\View\LayoutInterface')
+            ->createBlock('Magento\Framework\View\Element\Text', 'head');
         $usedAttribute = $objectManager->get(
             'Magento\Catalog\Model\Entity\Attribute'
         )->loadByCode(
@@ -61,7 +62,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
         $block = $objectManager->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
         );

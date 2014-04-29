@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer address edit block
@@ -23,11 +23,6 @@ class Edit extends \Magento\Directory\Block\Data
      * @var Address|null
      */
     protected $_address = null;
-
-    /**
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_config;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -52,13 +47,12 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
@@ -68,20 +62,18 @@ class Edit extends \Magento\Directory\Block\Data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\App\ConfigInterface $config,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         array $data = array()
     ) {
-        $this->_config = $config;
         $this->_customerSession = $customerSession;
         $this->_addressService = $addressService;
         $this->_addressBuilder = $addressBuilder;
@@ -112,7 +104,6 @@ class Edit extends \Magento\Directory\Block\Data
             try {
                 $this->_address = $this->_addressService->getAddress($addressId);
             } catch (NoSuchEntityException $e) {
-                // something went wrong, but we are ignore it for now
             }
         }
 
@@ -357,6 +348,6 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

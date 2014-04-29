@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Module/etc/module.xsd">
     <module name="Magento_Reminder" version="1.11.0.2" active="false">
         <sequence>
             <module name="Magento_Customer"/>
@@ -17,6 +17,7 @@
             <module name="Magento_Rule"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
             <module name="Magento_SalesRule"/>
@@ -24,7 +25,6 @@
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Eav"/>
-            <module name="Magento_Enterprise"/>
             <module name="Magento_Theme"/>
             <module name="Magento_CatalogRule"/>
         </depends>

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1\Data;
 
 /**
@@ -12,7 +13,7 @@ namespace Magento\Customer\Service\V1\Data;
  *
  * @method CustomerGroup create()
  */
-class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class CustomerGroupBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set id
@@ -22,7 +23,7 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
      */
     public function setId($id)
     {
-        return $this->_set('id', $id);
+        return $this->_set(CustomerGroup::ID, $id);
     }
 
     /**
@@ -33,7 +34,7 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
      */
     public function setCode($code)
     {
-        return $this->_set('code', $code);
+        return $this->_set(CustomerGroup::CODE, $code);
     }
 
     /**
@@ -44,6 +45,17 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
      */
     public function setTaxClassId($taxClassId)
     {
-        return $this->_set('tax_class_id', $taxClassId);
+        return $this->_set(CustomerGroup::TAX_CLASS_ID, $taxClassId);
+    }
+
+    /**
+     * Set tax class name
+     *
+     * @param string $taxClassName
+     * @return $this
+     */
+    public function setTaxClassName($taxClassName)
+    {
+        return $this->_set('tax_class_name', $taxClassName);
     }
 }

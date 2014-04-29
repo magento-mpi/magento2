@@ -41,7 +41,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->commonPriceMock = $this->getMock(
             'Magento\Catalog\Model\Product\CatalogPrice',
             array(),
@@ -49,7 +49,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->coreRegistryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->coreRegistryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $methods = array('getStoreId', 'getWebsiteId', 'getCustomerGroupId', 'getPriceModel', '__wakeup');
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
         $this->priceModelMock = $this->getMock(
@@ -98,7 +98,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCatalogPriceWithCustomStore()
     {
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->coreRegistryMock->expects($this->once())->method('unregister')->with('rule_data');
         $this->productMock->expects($this->once())->method('getStoreId')->will($this->returnValue('store_id'));
         $this->productMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue('website_id'));

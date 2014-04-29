@@ -17,7 +17,7 @@ namespace Magento\Core\Model;
 class Observer
 {
     /**
-     * @var \Magento\App\Cache\Frontend\Pool
+     * @var \Magento\Framework\App\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
@@ -27,12 +27,17 @@ class Observer
     private $_currentTheme;
 
     /**
-     * @var \Magento\View\Asset\GroupedCollection
+     * @var \Magento\Framework\View\Asset\GroupedCollection
      */
     private $_pageAssets;
 
     /**
-     * @var \Magento\View\Asset\PublicFileFactory
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Framework\View\Asset\PublicFileFactory
      */
     protected $_assetFileFactory;
 
@@ -42,25 +47,27 @@ class Observer
     protected $_registration;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\App\Cache\Frontend\Pool $cacheFrontendPool
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\View\Asset\GroupedCollection $assets
-     * @param \Magento\View\Asset\PublicFileFactory $assetFileFactory
+     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Framework\View\DesignInterface $design
+     * @param \Magento\Framework\View\Asset\GroupedCollection $assets
+     * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
+     * @param \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory
      * @param Theme\Registration $registration
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
-        \Magento\App\Cache\Frontend\Pool $cacheFrontendPool,
-        \Magento\View\DesignInterface $design,
-        \Magento\View\Asset\GroupedCollection $assets,
-        \Magento\View\Asset\PublicFileFactory $assetFileFactory,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Framework\View\DesignInterface $design,
+        \Magento\Framework\View\Asset\GroupedCollection $assets,
+        \Magento\Framework\App\Config\ReinitableConfigInterface $config,
+        \Magento\Framework\View\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
@@ -79,7 +86,7 @@ class Observer
      */
     public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
     {
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
             $cacheFrontend->getBackend()->clean(\Zend_Cache::CLEANING_MODE_OLD);
@@ -89,15 +96,15 @@ class Observer
     /**
      * Theme registration
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function themeRegistration(\Magento\Event\Observer $observer)
+    public function themeRegistration(\Magento\Framework\Event\Observer $observer)
     {
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
             $this->_registration->register($pathPattern);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -106,17 +113,17 @@ class Observer
     /**
      * Apply customized static files to frontend
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function applyThemeCustomization(\Magento\Event\Observer $observer)
+    public function applyThemeCustomization(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\Framework\View\Design\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(
                         array('file' => $themeFile->getFullPath(), 'contentType' => $service->getContentType())
                     );

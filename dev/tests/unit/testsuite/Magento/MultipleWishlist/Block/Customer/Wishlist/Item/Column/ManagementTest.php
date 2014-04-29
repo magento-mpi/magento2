@@ -34,14 +34,14 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $customerMock = $this->getMock(
-            'Magento\Customer\Model\Customer',
-            array('getCustomerId', '__wakeup'),
+            '\Magento\Customer\Service\V1\Data\Customer',
+            array('getId', '__wakeup'),
             array(),
             '',
             false
         );
         $customerMock->expects($this->once())
-            ->method('getCustomerId')
+            ->method('getId')
             ->will($this->returnValue(true));
         $wishlistHelperMock->expects($this->once())
             ->method('getCustomer')

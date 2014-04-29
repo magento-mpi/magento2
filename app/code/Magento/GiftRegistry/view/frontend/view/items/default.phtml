@@ -25,9 +25,10 @@
             <?php foreach ($_options as $_option) : ?>
             <?php $_formatedOptionValue = $this->getFormatedOptionValue($_option) ?>
             <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="truncated" data-mage-init='{"truncateOptions":[]}'<?php endif; ?>><?php echo $_formatedOptionValue['value'] ?>
+            <dd<?php if (isset($_formatedOptionValue['full_view'])): ?> class="tooltip box"<?php endif; ?>>
+                <?php echo $_formatedOptionValue['value'] ?>
                 <?php if (isset($_formatedOptionValue['full_view'])): ?>
-                <div class="truncated_full_value">
+                <div class="tooltip content">
                     <dl class="product options list">
                         <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
                         <dd><?php echo $this->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
@@ -55,11 +56,7 @@
     </td>
     <td class="col price">
         <span class="cart-price">
-            <?php if ($_item->getCanApplyMsrp()): ?>
-                <?php echo $this->getMsrpHtml($_item); ?>
-            <?php else: ?>
-                <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_item->getGiftRegistryPrice()) ?>
-            <?php endif; ?>
+            <?php echo $this->getProductPriceHtml($_item->getProduct());?>
         </span>
     </td>
     <td class="col qty">

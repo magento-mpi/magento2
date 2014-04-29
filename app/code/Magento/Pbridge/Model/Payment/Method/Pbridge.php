@@ -9,7 +9,7 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Sales\Model\Order\Payment;
 
@@ -82,7 +82,7 @@ class Pbridge extends AbstractMethod
     /**
      * Request http
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_requestHttp;
 
@@ -103,7 +103,7 @@ class Pbridge extends AbstractMethod
     /**
      * Url
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -117,29 +117,29 @@ class Pbridge extends AbstractMethod
     /**
      * Construct
      *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory
-     * @param \Magento\App\RequestInterface $requestHttp
+     * @param \Magento\Framework\App\RequestInterface $requestHttp
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
-        \Magento\App\RequestInterface $requestHttp,
+        \Magento\Framework\App\RequestInterface $requestHttp,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -148,7 +148,7 @@ class Pbridge extends AbstractMethod
         $this->_regionFactory = $regionFactory;
         $this->_pbridgeApiFactory = $pbridgeApiFactory;
         $this->_requestHttp = $requestHttp;
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $data);
+        parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
     }
 
     /**
@@ -314,7 +314,7 @@ class Pbridge extends AbstractMethod
      * Validate response
      *
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function validate()
     {
@@ -328,11 +328,11 @@ class Pbridge extends AbstractMethod
     /**
      * Authorize
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         //        parent::authorize($payment, $amount);
         $order = $payment->getOrder();
@@ -404,10 +404,10 @@ class Pbridge extends AbstractMethod
     /**
      * Cancel payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         parent::cancel($payment);
         return $this;
@@ -416,11 +416,11 @@ class Pbridge extends AbstractMethod
     /**
      * Capture payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         //parent::capture($payment, $amount);
 
@@ -466,12 +466,12 @@ class Pbridge extends AbstractMethod
     /**
      * Refund money
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return array
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         //parent::refund($payment, $amount);
 
@@ -520,11 +520,11 @@ class Pbridge extends AbstractMethod
     /**
      * Void payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return array
      * @throws Exception
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         //parent::void($payment);
 
@@ -606,12 +606,12 @@ class Pbridge extends AbstractMethod
     /**
      * Return Api request object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getApiRequest()
     {
-        $request = new \Magento\Object();
-        $request->setCountryCode($this->_coreStoreConfig->getConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
+        $request = new \Magento\Framework\Object();
+        $request->setCountryCode($this->_scopeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;

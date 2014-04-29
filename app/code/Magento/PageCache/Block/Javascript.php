@@ -13,7 +13,7 @@ namespace Magento\PageCache\Block;
  * Class Form
  * @package Magento\PageCache\Block
  */
-class Javascript extends \Magento\View\Element\Template
+class Javascript extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\PageCache\Helper\Data
@@ -23,12 +23,12 @@ class Javascript extends \Magento\View\Element\Template
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\PageCache\Helper\Data         $helper
      * @param array                                  $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\PageCache\Helper\Data $helper,
         array $data = array()
     ) {
@@ -46,7 +46,7 @@ class Javascript extends \Magento\View\Element\Template
         $params = array(
             'url' => $this->getUrl('page_cache/block/render/'),
             'handles' => $this->helper->getActualHandles(),
-            'versionCookieName' => \Magento\App\PageCache\Version::COOKIE_NAME
+            'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
         );
         return json_encode($params);
     }

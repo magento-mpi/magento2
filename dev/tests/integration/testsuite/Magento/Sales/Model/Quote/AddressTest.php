@@ -52,6 +52,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_address->setQuote($this->_quote);
     }
 
+    protected function tearDown()
+    {
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
+    }
+
     /**
      * same_as_billing must be equal 0 if billing address is being saved
      *
@@ -195,7 +204,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         )->setCity(
             $city
         )->setStreet(
-            $street
+            [$street]
         )->create();
         $this->_address->setQuote($this->_quote);
         $this->_address->importCustomerAddressData($addressData);

@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Controller;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product as CatalogProduct;
 use Magento\Review\Model\Review;
 
@@ -18,12 +18,12 @@ use Magento\Review\Model\Review;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Product extends \Magento\App\Action\Action
+class Product extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -37,7 +37,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Generic session
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_reviewSession;
 
@@ -51,7 +51,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -77,13 +77,6 @@ class Product extends \Magento\App\Action\Action
     protected $_ratingFactory;
 
     /**
-     * Core session model
-     *
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_session;
-
-    /**
      * Catalog design model
      *
      * @var \Magento\Catalog\Model\Design
@@ -93,7 +86,7 @@ class Product extends \Magento\App\Action\Action
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -105,33 +98,31 @@ class Product extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Session\Generic $reviewSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Session\Generic $reviewSession
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Core\Model\Session $session,
         \Magento\Catalog\Model\Design $catalogDesign,
-        \Magento\Session\Generic $reviewSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Session\Generic $reviewSession,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_storeManager = $storeManager;
@@ -143,7 +134,6 @@ class Product extends \Magento\App\Action\Action
         $this->_productFactory = $productFactory;
         $this->_reviewFactory = $reviewFactory;
         $this->_ratingFactory = $ratingFactory;
-        $this->_session = $session;
         $this->_catalogDesign = $catalogDesign;
         $this->_formKeyValidator = $formKeyValidator;
 
@@ -154,7 +144,7 @@ class Product extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -208,7 +198,7 @@ class Product extends \Magento\App\Action\Action
                 'review_controller_product_init_after',
                 array('product' => $product, 'controller_action' => $this)
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }
@@ -296,8 +286,6 @@ class Product extends \Magento\App\Action\Action
         }
 
         if (($product = $this->_initProduct()) && !empty($data)) {
-            $session = $this->_session;
-            /* @var $session \Magento\Core\Model\Session */
             $review = $this->_reviewFactory->create()->setData($data);
             /* @var $review Review */
 
@@ -334,11 +322,11 @@ class Product extends \Magento\App\Action\Action
                     $review->aggregate();
                     $this->messageManager->addSuccess(__('Your review has been accepted for moderation.'));
                 } catch (\Exception $e) {
-                    $session->setFormData($data);
+                    $this->_reviewSession->setFormData($data);
                     $this->messageManager->addError(__('We cannot post the review.'));
                 }
             } else {
-                $session->setFormData($data);
+                $this->_reviewSession->setFormData($data);
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
                         $this->messageManager->addError($errorMessage);

@@ -10,7 +10,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio;
-use Magento\View\LayoutInterface;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -26,9 +26,9 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
         $this->block = Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             '\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio'
         );
@@ -73,8 +73,8 @@ class RadioTest extends \PHPUnit_Framework_TestCase
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = Bootstrap::getObjectManager();
 
-            $objectManager->get('Magento\Registry')->unregister('current_widget_instance');
-            $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);
+            $objectManager->get('Magento\Framework\Registry')->unregister('current_widget_instance');
+            $objectManager->get('Magento\Framework\Registry')->register('current_widget_instance', $widgetInstance);
         }
 
         $this->block->setLayout($this->layoutMock);

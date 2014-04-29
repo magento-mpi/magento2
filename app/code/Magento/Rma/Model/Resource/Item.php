@@ -64,12 +64,12 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $adminOrderItem;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -78,12 +78,12 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -135,13 +135,13 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getDefaultStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 
     /**
      * Check whether the attribute is Applicable to the object
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return boolean
      */
@@ -163,7 +163,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         if ($instance instanceof AbstractBackend && ($method == 'beforeSave' || ($method = 'afterSave'))) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false
+            if (isset($args[0]) && $args[0] instanceof \Magento\Framework\Object && $args[0]->getData($attributeCode) === false
             ) {
                 return false;
             }
@@ -175,7 +175,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Reset firstly loaded attributes
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @param integer $entityId
      * @param array|null $attributes
      * @return AbstractResource

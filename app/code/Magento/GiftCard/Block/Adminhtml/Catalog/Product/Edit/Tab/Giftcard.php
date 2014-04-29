@@ -19,7 +19,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -33,13 +33,13 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateOptions,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_templateOptions = $templateOptions;
@@ -122,7 +122,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
             return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -161,7 +161,7 @@ class Giftcard extends \Magento\Backend\Block\Widget implements \Magento\Backend
      */
     public function getConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
+        return $this->_scopeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

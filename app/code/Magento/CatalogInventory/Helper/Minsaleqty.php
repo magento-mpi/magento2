@@ -13,7 +13,7 @@
  */
 namespace Magento\CatalogInventory\Helper;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as CustomerGroupService;
 
 class Minsaleqty
@@ -21,22 +21,24 @@ class Minsaleqty
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Math\Random $mathRandom
      */
-    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig, \Magento\Math\Random $mathRandom)
-    {
-        $this->_coreStoreConfig = $coreStoreConfig;
+    public function __construct(
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Math\Random $mathRandom
+    ) {
+        $this->_scopeConfig = $scopeConfig;
         $this->mathRandom = $mathRandom;
     }
 
@@ -179,8 +181,9 @@ class Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_coreStoreConfig->getConfig(
+        $value = $this->_scopeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
         $value = $this->_unserializeValue($value);

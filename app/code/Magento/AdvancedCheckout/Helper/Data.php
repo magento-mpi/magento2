@@ -10,6 +10,7 @@
 namespace Magento\AdvancedCheckout\Helper;
 
 use Magento\Sales\Model\Quote\Item;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Enterprise Checkout Helper
@@ -18,7 +19,7 @@ use Magento\Sales\Model\Quote\Item;
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -89,7 +90,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Contains session object to which data is saved
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -125,9 +126,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_scopeConfig;
 
     /**
      * @var \Magento\AdvancedCheckout\Model\Cart
@@ -140,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_products;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -188,52 +189,52 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_importFactory = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -244,7 +245,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
         $this->_stockItemFactory = $stockItemFactory;
@@ -257,7 +258,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return session for affected items
      *
-     * @return \Magento\Session\SessionManagerInterface
+     * @return \Magento\Framework\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -267,10 +268,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Sets session instance to use for saving data
      *
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @return void
      */
-    public function setSession(\Magento\Session\SessionManagerInterface $session)
+    public function setSession(\Magento\Framework\Session\SessionManagerInterface $session)
     {
         $this->_session = $session;
     }
@@ -278,10 +279,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve error message for the item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    public function getMessageByItem(\Magento\Object $item)
+    public function getMessageByItem(\Magento\Framework\Object $item)
     {
         $message = $this->getMessage($item->getCode());
         return $message ? $message : $item->getError();
@@ -338,7 +339,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSkuEnabled()
     {
-        $storeData = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
+        $storeData = $this->_scopeConfig->getValue(
+            self::XML_PATH_SKU_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
@@ -350,7 +354,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isSkuApplied()
     {
         $result = false;
-        $data = $this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ENABLED);
+        $data = $this->_scopeConfig->getValue(
+            self::XML_PATH_SKU_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         switch ($data) {
             case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_VALUE:
                 $result = true;
@@ -359,7 +366,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID || in_array(
+                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
                         $groupId,
                         $this->getSkuCustomerGroups()
                     );
@@ -379,7 +386,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($this->_allowedGroups === null) {
             $this->_allowedGroups = explode(
                 ',',
-                trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
+                trim(
+                    $this->_scopeConfig->getValue(
+                        self::XML_PATH_SKU_ALLOWED_GROUPS,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                    )
+                )
             );
         }
         return $this->_allowedGroups;
@@ -511,10 +523,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                throw new \Magento\Model\Exception(__('The file is empty.'));
+                throw new \Magento\Framework\Model\Exception(__('The file is empty.'));
             }
             return $rows;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, $this->getFileGeneralErrorText());
@@ -524,10 +536,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether SKU file was uploaded
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return bool
      */
-    public function isSkuFileUploaded(\Magento\App\RequestInterface $request)
+    public function isSkuFileUploaded(\Magento\Framework\App\RequestInterface $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }

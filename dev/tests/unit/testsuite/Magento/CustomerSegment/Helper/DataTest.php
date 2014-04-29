@@ -17,7 +17,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -31,14 +31,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
-        $this->_storeConfig = $this->getMock(
-            'Magento\Core\Model\Store\Config',
-            array('getConfig'),
-            array(),
-            '',
-            false
-        );
+        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection',
             array('toOptionArray'),
@@ -46,10 +40,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $helperContext = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
-            $this->_storeConfig,
+            $this->_scopeConfig,
             $this->_segmentCollection
         );
     }
@@ -57,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_helper = null;
-        $this->_storeConfig = null;
+        $this->_scopeConfig = null;
         $this->_segmentCollection = null;
     }
 
@@ -70,10 +64,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddSegmentFieldsToForm(array $fixtureFormData)
     {
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             \Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER
         )->will(
@@ -88,7 +82,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array(10 => 'Devs', 20 => 'QAs'))
         );
 
-        $fieldset = $this->getMock('Magento\Data\Form\Element\Fieldset', array('addField'), array(), '', false);
+        $fieldset = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Fieldset',
+            array('addField'),
+            array(),
+            '',
+            false
+        );
         $fieldset->expects(
             $this->at(0)
         )->method(
@@ -104,7 +104,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->logicalOr($this->equalTo('customer_segment_ids'), $this->equalTo('multiselect'))
         );
 
-        $form = $this->getMock('Magento\Data\Form', array('getElement', 'getHtmlIdPrefix'), array(), '', false);
+        $form = $this->getMock(
+            'Magento\Framework\Data\Form',
+            array('getElement', 'getHtmlIdPrefix'),
+            array(),
+            '',
+            false
+        );
         $form->expects(
             $this->once()
         )->method(
@@ -116,7 +122,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $form->expects($this->once())->method('getHtmlIdPrefix')->will($this->returnValue('pfx_'));
 
-        $data = new \Magento\Object($fixtureFormData);
+        $data = new \Magento\Framework\Object($fixtureFormData);
 
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
@@ -170,10 +176,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSegmentFieldsToFormDisabled()
     {
-        $this->_storeConfig->expects(
+        $this->_scopeConfig->expects(
             $this->once()
         )->method(
-            'getConfig'
+            'getValue'
         )->with(
             \Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER
         )->will(
@@ -182,21 +188,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
-        $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock(
-            'Magento\Data\Form\Element\CollectionFactory',
+            'Magento\Framework\Data\Form\Element\CollectionFactory',
             array('create'),
             array(),
             '',
             false
         );
-        $form = new \Magento\Data\Form(
+        $form = new \Magento\Framework\Data\Form(
             $factory,
             $collectionFactory,
             $this->_formKeyMock,
             array('html_id_prefix' => 'pfx_')
         );
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),

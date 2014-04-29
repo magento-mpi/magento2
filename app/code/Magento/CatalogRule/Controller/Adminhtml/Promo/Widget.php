@@ -12,7 +12,7 @@ namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\Category;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Widget extends Action
 {
@@ -136,7 +136,7 @@ class Widget extends Action
             $category->load($categoryId);
             if ($storeId) {
                 $rootId = $this->_objectManager->get(
-                    'Magento\Core\Model\StoreManager'
+                    'Magento\Store\Model\StoreManager'
                 )->getStore(
                     $storeId
                 )->getRootCategoryId();

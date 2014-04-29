@@ -15,14 +15,14 @@ class Observer
     /**
      * Locale model
      *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Framework\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -39,14 +39,14 @@ class Observer
     protected $_fields;
 
     /**
-     * @param \Magento\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\LocaleInterface $locale
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\RecurringPayment\Model\RecurringPaymentFactory  $recurringPaymentFactory
      * @param \Magento\RecurringPayment\Block\Fields $fields
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\LocaleInterface $locale,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\RecurringPayment\Model\RecurringPaymentFactory $recurringPaymentFactory,
         \Magento\RecurringPayment\Block\Fields $fields
     ) {
@@ -61,7 +61,7 @@ class Observer
      *
      * Also sets the collected information and schedule as informational static options
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function prepareProductRecurringPaymentOptions($observer)
@@ -103,7 +103,7 @@ class Observer
     /**
      * Unserialize product recurring payment
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function unserializeProductRecurringPayment($observer)
@@ -120,7 +120,7 @@ class Observer
     /**
      * Set recurring data to quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setIsRecurringToQuote($observer)
@@ -134,7 +134,7 @@ class Observer
     /**
      * Add recurring payment field to excluded list
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addFormExcludedAttribute($observer)
@@ -147,7 +147,7 @@ class Observer
     /**
      * Set recurring payment renderer
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function setFormRecurringElementRenderer($observer)
