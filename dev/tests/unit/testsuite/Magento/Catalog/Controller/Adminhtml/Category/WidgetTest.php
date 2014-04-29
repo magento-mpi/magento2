@@ -20,12 +20,12 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
     protected $registryMock;
 
     /**
-     * @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
 
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
 
@@ -51,10 +51,10 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->viewMock = $this->getMock('Magento\Backend\Model\View', array('getLayout'), array(), '', false);
-        $this->objectManagerMock = $this->getMock('Magento\ObjectManager\ObjectManager', array(), array(), '', false);
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', array(), array(), '', false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $context = $this->getMock(
@@ -72,7 +72,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         );
         $context->expects($this->once())->method('getRequest')->will($this->returnValue($this->requestMock));
         $context->expects($this->once())->method('getResponse')->will($this->returnValue($this->responseMock));
-        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->controller = new \Magento\Catalog\Controller\Adminhtml\Category\Widget($context, $this->registryMock);
     }
 
