@@ -11,7 +11,7 @@ namespace Magento\Newsletter\Test\Block\Adminhtml;
 use Magento\Backend\Test\Block\GridPageActions;
 
 /**
- * Class NewsletterTemplateAction
+ * Class NewsletterTemplateActions
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml
  */

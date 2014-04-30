@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>pageMainForm</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForms</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

@@ -11,7 +11,7 @@ namespace Magento\Newsletter\Test\Block\Adminhtml;
 use Magento\Backend\Test\Block\FormPageActions;
 
 /**
- * Class NewsletterTemplateFormAction
+ * Class NewsletterTemplateFormActions
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml
  */

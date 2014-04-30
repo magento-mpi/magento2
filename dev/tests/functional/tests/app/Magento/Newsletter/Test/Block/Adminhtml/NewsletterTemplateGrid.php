@@ -18,7 +18,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class NewsletterTemplateGrid extends Grid
 {
     /**
-     * Filters
+     * Filters array mapping
      *
      * @var array $filters
      */
