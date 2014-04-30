@@ -113,11 +113,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $messageFactory;
 
     /**
-     * @var \Magento\Backend\Model\Session\Quote
-     */
-    protected $_sessionQuote;
-
-    /**
      * Sales quote factory
      *
      * @var \Magento\Sales\Model\QuoteFactory
@@ -189,7 +184,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
     /**
      * @param \Magento\Checkout\Model\Cart $cart
-     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
@@ -209,7 +203,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
-        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
@@ -228,7 +221,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_sessionQuote = $sessionQuote;
         $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;

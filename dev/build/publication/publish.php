@@ -14,7 +14,9 @@ define('GIT_USERNAME', 'mage2-team');
 define('GIT_EMAIL', 'mage2-team@magento.com');
 
 // get CLI options, define variables
-define('SYNOPSIS', <<<SYNOPSIS
+define(
+    'SYNOPSIS',
+<<<SYNOPSIS
 php -f publish.php --
     --source="<repository>" --source-point="<branch name or commit ID>"
     --target="<repository>" [--target-branch="<branch>"] [--target-dir="<directory>"]
