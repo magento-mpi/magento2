@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Shipping\Model\Carrier;
+namespace Magento\Ups\Model;
 
-class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
+class CarrierTest extends \PHPUnit_Framework_TestCase
 {
-    const CODE = 'abstract';
-
     const FREE_METHOD_NAME = 'free_method';
 
     const PAID_METHOD_NAME = 'paid_method';
@@ -18,79 +16,25 @@ class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var \Magento\App\Config\ScopeConfigInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $config;
 
     /**
      * Model under test
      *
-     * @var \Magento\Shipping\Model\Carrier\AbstractCarrierOnline|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Ups\Model\Carrier
      */
     protected $model;
 
     protected function setUp()
     {
-        $this->config = $this->getMock('\Magento\App\Config\ScopeConfigInterface'/*, array(), array(), '', false*/);
-        $rateErrorFactory = $this->getMock(
-            '\Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory',
-            array(),
-            array(),
-            '',
-            false
+        $this->config = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $helper->getObject(
+            '\Magento\Ups\Model\Carrier',
+            array('scopeConfig'=>$this->config)
         );
-        $logFactory = $this->getMock('\Magento\Logger\AdapterFactory', array(), array(), '', false);
-        $xmlElFactory = $this->getMock('\Magento\Shipping\Model\Simplexml\ElementFactory', array(), array(), '', false);
-        $rateFactory = $this->getMock('\Magento\Shipping\Model\Rate\ResultFactory', array(), array(), '', false);
-        $rateMethodFactory = $this->getMock(
-            '\Magento\Sales\Model\Quote\Address\RateResult\MethodFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $trackFactory = $this->getMock('\Magento\Shipping\Model\Tracking\ResultFactory', array(), array(), '', false);
-        $trackErrorFactory = $this->getMock(
-            '\Magento\Shipping\Model\Tracking\Result\ErrorFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $trackStatusFactory = $this->getMock(
-            '\Magento\Shipping\Model\Tracking\Result\StatusFactory',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $regionFactory = $this->getMock('\Magento\Directory\Model\RegionFactory', array(), array(), '', false);
-        $countryFactory = $this->getMock('\Magento\Directory\Model\CountryFactory', array(), array(), '', false);
-        $currencyFactory = $this->getMock('\Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
-        $directoryData = $this->getMock('\Magento\Directory\Helper\Data', array(), array(), '', false);
-        $arguments = array(
-            'scopeConfig'       => $this->config,
-            'rateErrorFactory'  => $rateErrorFactory,
-            'logAdapterFactory' => $logFactory,
-            'xmlElFactory' => $xmlElFactory,
-            'rateFactory' => $rateFactory,
-            'rateMethodFactory' => $rateMethodFactory,
-            'trackFactory' => $trackFactory,
-            'trackErrorFactory' => $trackErrorFactory,
-            'trackStatusFactory' => $trackStatusFactory,
-            'regionFactory' => $regionFactory,
-            'countryFactory' => $countryFactory,
-            'currencyFactory' => $currencyFactory,
-            'directoryData' => $directoryData
-        );
-        $this->model = $this->getMockForAbstractClass(
-            'Magento\Shipping\Model\Carrier\AbstractCarrierOnline',
-            $arguments
-        );
-
-        $property = new \ReflectionProperty('Magento\Shipping\Model\Carrier\AbstractCarrierOnline', '_code');
-        $property->setAccessible(true);
-        $property->setValue($this->model, self::CODE);
     }
 
     /**
@@ -101,6 +45,7 @@ class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
      * @param int $freeShippingSubtotal
      * @param int $requestSubtotal
      * @param int $expectedPrice
+     * @covers Magento\Shipping\Model\Carrier\AbstractCarrierOnline::getMethodPrice
      */
     public function testGetMethodPrice(
         $cost,
@@ -110,7 +55,7 @@ class AbstractCarrierOnlineTest extends \PHPUnit_Framework_TestCase
         $requestSubtotal,
         $expectedPrice
     ) {
-        $path = 'carriers/' . self::CODE . '/';
+        $path = 'carriers/' . $this->model->getCarrierCode() . '/';
         $this->config->expects($this->any())->method('isSetFlag')->with($path . 'free_shipping_enable')->will(
             $this->returnValue($freeShippingEnabled)
         );
