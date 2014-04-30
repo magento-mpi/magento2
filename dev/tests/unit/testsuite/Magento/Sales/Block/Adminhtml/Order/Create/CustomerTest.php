@@ -12,7 +12,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testGetButtonsHtml()
     {
         $contextMock = $this->getMock('Magento\Backend\Block\Template\Context', ['getAuthorization'], [], '', false);
-        $authorizationMock = $this->getMock('Magento\AuthorizationInterface', [], [], '', false);
+        $authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
         $contextMock->expects($this->any())->method('getAuthorization')->will($this->returnValue($authorizationMock));
         $arguments = ['context' => $contextMock];
 
