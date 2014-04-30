@@ -32,7 +32,7 @@ class AdvancedPricingTab extends Tab
         $root = $element;
         $this->_rootElement->waitUntil(
             function () use ($root) {
-                return $root->find('#product_info_tabs_advanced-pricing_content')->isVisible();
+                return $root->find('[data-tab-panel=advanced-pricing]')->isVisible();
             }
         );
         if (isset($fields['special_price']['value'])) {
