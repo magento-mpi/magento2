@@ -15,12 +15,6 @@
             <configurable class="Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable" />
         </require>
     </assertConfigurableInGrid>
-    <assertConfigurableSaveMessage module="Magento_ConfigurableProduct">
-        <severeness>low</severeness>
-        <require>
-            <productPage class="Magento\Catalog\Test\Page\Product\CatalogProductEdit" />
-        </require>
-    </assertConfigurableSaveMessage>
     <assertConfigurableInCategory module="Magento_ConfigurableProduct">
         <severeness>low</severeness>
         <require>
@@ -45,10 +39,4 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertConfigurableInCart>
-    <assertProductSaveMessage module="Magento_ConfigurableProduct">
-        <severeness>low</severeness>
-        <require>
-            <productPage class="Magento\Catalog\Test\Page\Product\CatalogProductEdit" />
-        </require>
-    </assertProductSaveMessage>
 </constraint>

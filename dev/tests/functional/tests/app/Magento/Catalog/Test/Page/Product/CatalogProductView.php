@@ -69,7 +69,7 @@ class CatalogProductView extends Page
      *
      * @var string
      */
-    protected $optionsBlock = '.product.options.wrapper';
+    protected $optionsBlock = '#product-options-wrapper';
 
     /**
      * Related product selector
