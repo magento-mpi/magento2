@@ -25,7 +25,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->with('Magento_Sales::actions_edit')
             ->will($this->returnValue(false));
 
-        $address = new \Magento\Object();
+        $address = new \Magento\Framework\Object();
         $this->assertEmpty($block->getAddressEditLink($address));
     }
 }
