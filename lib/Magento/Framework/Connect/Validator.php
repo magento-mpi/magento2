@@ -377,23 +377,4 @@ class Validator
     {
         return extension_loaded($name);
     }
-
-    /**
-     * @param string|bool $min
-     * @param string|bool $max
-     * @param string $ver
-     * @return bool
-     */
-    public function validatePHPVersion($min, $max, $ver = PHP_VERSION)
-    {
-        $minAccepted = true;
-        if ($min) {
-            $minAccepted = version_compare($ver, $min, ">=");
-        }
-        $maxAccepted = true;
-        if ($max) {
-            $maxAccepted = version_compate($ver, $max, "<=");
-        }
-        return (bool)$minAccepted && $maxAccepted;
-    }
 }
