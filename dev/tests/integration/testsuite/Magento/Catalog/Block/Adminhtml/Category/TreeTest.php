@@ -24,6 +24,14 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Block\Adminhtml\Category\Tree'
         );
+
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Adminhtml\Category\Tree',
+            '',
+            []
+        );
     }
 
     public function testGetSuggestedCategoriesJson()
@@ -33,10 +41,5 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             $this->_block->getSuggestedCategoriesJson('Default')
         );
         $this->assertEquals('[]', $this->_block->getSuggestedCategoriesJson(strrev('Default')));
-    }
-
-    public function testGetLoadTreeUrl()
-    {
-        $this->assertContains('categoriesJson', $this->_block->getLoadTreeUrl());
     }
 }

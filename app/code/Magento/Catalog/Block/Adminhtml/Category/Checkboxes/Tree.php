@@ -69,7 +69,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return $this
      */
     protected function setExpandedPath($path)
