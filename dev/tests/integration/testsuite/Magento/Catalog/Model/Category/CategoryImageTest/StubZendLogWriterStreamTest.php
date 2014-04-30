@@ -12,7 +12,7 @@ namespace Magento\Catalog\Model\Category\CategoryImageTest;
 
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\App\Config\MutableScopeConfigInterface'
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
 )->setValue(
     'dev/log/active',
     1,
@@ -20,7 +20,7 @@ namespace Magento\Catalog\Model\Category\CategoryImageTest;
 );
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\App\Config\MutableScopeConfigInterface'
+    'Magento\Framework\App\Config\MutableScopeConfigInterface'
 )->setValue(
     'dev/log/exception_file',
     'save_category_without_image.log',

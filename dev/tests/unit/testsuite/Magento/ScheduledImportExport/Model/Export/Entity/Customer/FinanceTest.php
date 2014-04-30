@@ -55,7 +55,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(),
@@ -66,7 +66,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         );
 
         $eavCustomerFactory = $this->getMock(
-            'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory',
+            'Magento\Customer\Model\ImportExport\Export\CustomerFactory',
             array(),
             array(),
             '',
@@ -118,9 +118,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $translator = $this->getMock('stdClass');
 
-        /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
+        /** @var $attributeCollection \Magento\Framework\Data\Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock(
-            'Magento\Data\Collection',
+            'Magento\Framework\Data\Collection',
             array('getEntityTypeCode'),
             array($this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false))
         );
@@ -170,7 +170,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;
@@ -204,7 +204,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->_model->setWriter($writer);
 
         $item = $this->getMockForAbstractClass(
-            'Magento\Model\AbstractModel',
+            'Magento\Framework\Model\AbstractModel',
             array(),
             '',
             false,
@@ -212,7 +212,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             true,
             array('__wakeup')
         );
-        /** @var $item \Magento\Model\AbstractModel */
+        /** @var $item \Magento\Framework\Model\AbstractModel */
         $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);

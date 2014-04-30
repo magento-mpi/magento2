@@ -54,7 +54,7 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
      */
     public function testRetrieveException()
     {

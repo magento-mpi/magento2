@@ -21,7 +21,7 @@ class TableBuilder
     protected $_productIndexerHelper;
 
     /**
-     * @var \Magento\DB\Adapter\AdapterInterface
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected $_connection;
 
@@ -34,11 +34,11 @@ class TableBuilder
 
     /**
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productIndexerHelper
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Flat\Indexer $productIndexerHelper,
-        \Magento\App\Resource $resource
+        \Magento\Framework\App\Resource $resource
     ) {
         $this->_productIndexerHelper = $productIndexerHelper;
         $this->_connection = $resource->getConnection('write');
@@ -119,13 +119,13 @@ class TableBuilder
             $valueTemporaryTable = $this->_connection->newTable($valueTableName);
             $flatColumns = $this->_productIndexerHelper->getFlatColumns();
 
-            $temporaryTable->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
+            $temporaryTable->addColumn('entity_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
 
-            $temporaryTable->addColumn('type_id', \Magento\DB\Ddl\Table::TYPE_TEXT);
+            $temporaryTable->addColumn('type_id', \Magento\Framework\DB\Ddl\Table::TYPE_TEXT);
 
-            $temporaryTable->addColumn('attribute_set_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
+            $temporaryTable->addColumn('attribute_set_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
 
-            $valueTemporaryTable->addColumn('entity_id', \Magento\DB\Ddl\Table::TYPE_INTEGER);
+            $valueTemporaryTable->addColumn('entity_id', \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
 
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             foreach ($columns as $columnName => $attribute) {
@@ -217,7 +217,7 @@ class TableBuilder
             $tableName,
             'entity_id',
             array($columnName),
-            \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
         );
     }
 
@@ -242,7 +242,7 @@ class TableBuilder
 
             $columnsChunks = array_chunk(
                 $tableColumns,
-                \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction::ATTRIBUTES_CHUNK_SIZE,
+                Action\Indexer::ATTRIBUTES_CHUNK_SIZE,
                 true
             );
             foreach ($columnsChunks as $columnsList) {
@@ -278,7 +278,7 @@ class TableBuilder
                         array($columnName => 'value')
                     );
 
-                    if ($attribute->getFlatUpdateSelect($storeId) instanceof \Magento\DB\Select) {
+                    if ($attribute->getFlatUpdateSelect($storeId) instanceof \Magento\Framework\DB\Select) {
                         $attributeCode = $attribute->getAttributeCode();
                         $columnValueName = $attributeCode . $valueFieldSuffix;
                         if (isset($flatColumns[$columnValueName])) {

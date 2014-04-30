@@ -15,22 +15,25 @@ use Magento\Eav\Exception;
  * EAV Entity attribute model
  *
  * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements
-    \Magento\Object\IdentityInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements \Magento\Framework\Object\IdentityInterface
 {
+    /**
+     * Attribute code max length
+     */
+    const ATTRIBUTE_CODE_MAX_LENGTH = 30;
+
+    /**
+     * Cache tag
+     */
+    const CACHE_TAG = 'EAV_ATTRIBUTE';
+
     /**
      * Prefix of model events names
      *
      * @var string
      */
     protected $_eventPrefix = 'eav_entity_attribute';
-
-    const ATTRIBUTE_CODE_MAX_LENGTH = 30;
 
     /**
      * Parameter name in event
@@ -41,15 +44,13 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      */
     protected $_eventObject = 'attribute';
 
-    const CACHE_TAG = 'EAV_ATTRIBUTE';
-
     /**
      * @var string
      */
     protected $_cacheTag = 'EAV_ATTRIBUTE';
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -59,40 +60,40 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     protected $reservedAttributeList;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct(
@@ -132,6 +133,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
 
             case 'increment_id':
                 return 'Magento\Eav\Model\Entity\Attribute\Backend\Increment';
+
+            default:
+                break;
         }
 
         return parent::_getDefaultBackendModel();
@@ -259,7 +263,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             // save default date value as timestamp
             if ($hasDefaultValue) {
                 $format = $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 );
                 try {
                     $defaultValue = $this->_localeDate->date($defaultValue, $format, null, false)->toValue();
@@ -325,6 +329,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             case 'weight':
                 $field = 'decimal';
                 break;
+
+            default:
+                break;
         }
 
         return $field;
@@ -365,6 +372,9 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
 
             case 'boolean':
                 $field = 'default_value_yesno';
+                break;
+
+            default:
                 break;
         }
 
@@ -424,12 +434,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      */
     public function getSortWeight($setId)
     {
-        $groupSortWeight = isset(
-            $this->_data['attribute_set_info'][$setId]['group_sort']
-        ) ? (double)$this->_data['attribute_set_info'][$setId]['group_sort'] * 1000 : 0.0;
-        $sortWeight = isset(
-            $this->_data['attribute_set_info'][$setId]['sort']
-        ) ? (double)$this->_data['attribute_set_info'][$setId]['sort'] * 0.0001 : 0.0;
+        $groupSortWeight = isset($this->_data['attribute_set_info'][$setId]['group_sort'])
+            ? (float) $this->_data['attribute_set_info'][$setId]['group_sort'] * 1000
+            : 0.0;
+        $sortWeight = isset($this->_data['attribute_set_info'][$setId]['sort'])
+            ? (float) $this->_data['attribute_set_info'][$setId]['sort'] * 0.0001
+            : 0.0;
         return $groupSortWeight + $sortWeight;
     }
 

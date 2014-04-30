@@ -25,15 +25,15 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
         array $data = array()

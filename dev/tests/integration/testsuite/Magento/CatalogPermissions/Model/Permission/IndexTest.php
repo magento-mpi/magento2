@@ -280,8 +280,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
         $category->load(6);
 
-        /** @var \Magento\Registry $registry */
-        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Registry');
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
         $registry->register('current_category', $category);
 
         /** @var \Magento\Catalog\Model\Product $product */

@@ -85,13 +85,13 @@ class Price implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23066' => [
-                'price_from' => '$145.00',
-                'price_to' => '$150.00',
+                'price_from' => '$115.00',
+                'price_to' => '$120.00',
                 'cart_price' => '$145.00'
             ],
             'MAGETWO-23069' => [
-                'price_from' => '$126.00',
-                'price_to' => '$131.00',
+                'price_from' => '$115.00',
+                'price_to' => '$120.00',
                 'cart_price' => '$126.00'
             ],
             'MAGETWO-23070' => [

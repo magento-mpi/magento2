@@ -25,7 +25,7 @@
     <script type="text/javascript" src="<?php echo $this->getViewFileUrl('jquery/jquery.js') ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getViewFileUrl('jquery/jquery-migrate.js') ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getViewFileUrl('jquery/jquery-ui.js') ?>"></script>
-    <script type="text/javascript" src="<?php echo $this->getViewFileUrl('headjs/head.load.min.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->getViewFileUrl('headjs/head.min.js') ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/mage.js') ?>"></script>
     <script type="text/javascript" src="<?php echo $this->getViewFileUrl('mage/translate.js') ?>"></script>
 
@@ -93,7 +93,7 @@
         <p class="legality">
             <?php echo __('Help Us to Keep Magento Healthy') ?> - <a
             href="https://support.varien.com/"
-            target="varien_external"><strong><?php echo __('Report All Bugs') ?></strong></a> <?php echo __('(ver. %1)', \Magento\AppInterface::VERSION) ?>
+            target="varien_external"><strong><?php echo __('Report All Bugs') ?></strong></a> <?php echo __('(ver. %1)', \Magento\Framework\AppInterface::VERSION) ?>
             <br/>
             <?php echo $this->getChildHtml('copyright');?>
         </p>

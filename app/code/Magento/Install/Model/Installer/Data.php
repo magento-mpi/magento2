@@ -14,7 +14,7 @@
  */
 namespace Magento\Install\Model\Installer;
 
-class Data extends \Magento\Object
+class Data extends \Magento\Framework\Object
 {
     /**
      * Errors array

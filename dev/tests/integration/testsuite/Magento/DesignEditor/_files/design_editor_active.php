@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Config\ScopeInterface'
+    'Magento\Framework\Config\ScopeInterface'
 )->setCurrentScope(
     \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
 );
@@ -20,8 +20,10 @@ $auth->setAuthStorage($session);
 $auth->login(\Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
 $session->activateDesignEditor();
 
-/** @var $theme \Magento\View\Design\ThemeInterface */
-$theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Design\ThemeInterface');
+/** @var $theme \Magento\Framework\View\Design\ThemeInterface */
+$theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Framework\View\Design\ThemeInterface'
+);
 $theme->setData(
     array(
         'theme_code' => 'blank',

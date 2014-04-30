@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Returns;
 
-class Returns extends \Magento\View\Element\Template
+class Returns extends \Magento\Framework\View\Element\Template
 {
     /**
      * Rma data
@@ -21,7 +21,7 @@ class Returns extends \Magento\View\Element\Template
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -40,26 +40,26 @@ class Returns extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
@@ -132,7 +132,7 @@ class Returns extends \Magento\View\Element\Template
     /**
      * Get rma returns view url
      *
-     * @param \Magento\Object $return
+     * @param \Magento\Framework\Object $return
      * @return string
      */
     public function getViewUrl($return)
@@ -153,7 +153,7 @@ class Returns extends \Magento\View\Element\Template
     /**
      * Get sales order reorder url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getReorderUrl($order)
@@ -164,7 +164,7 @@ class Returns extends \Magento\View\Element\Template
     /**
      * Get sales guest print url
      *
-     * @param \Magento\Object $order
+     * @param \Magento\Framework\Object $order
      * @return string
      */
     public function getPrintUrl($order)

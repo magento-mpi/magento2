@@ -22,7 +22,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractVie
     /**
      * Prepare and return order items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
@@ -45,7 +45,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractVie
             $temp['design'] = $item->getGwId();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

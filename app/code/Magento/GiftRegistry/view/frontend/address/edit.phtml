@@ -102,16 +102,14 @@
 </fieldset>
 
 <script type="text/javascript">
-    head.js(
-        "<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>",
-        function() {
-            jQuery('#address\\:country_id').regionUpdater({
-                optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
-                regionListId: '#address\\:region_id',
-                regionInputId: '#address\\:region',
-                postcodeId: '#address\\:postcode',
-                regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,
-                defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
-            });
+    (function($) {
+        $('#address\\:country_id').mage('regionUpdater', {
+            optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+            regionListId: '#address\\\:region_id',
+            regionInputId: '#address\\\:region',
+            postcodeId: '#address\\\:postcode',
+            regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>,
+            defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>"
         });
+    })(jQuery);
 </script>

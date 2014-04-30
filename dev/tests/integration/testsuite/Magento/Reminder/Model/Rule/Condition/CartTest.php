@@ -22,7 +22,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testDaysDiffCondition($operator, $value, $expectedResult)
     {
-        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('gmtDate'), array(), '', false);
+        $dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array('gmtDate'),
+            array(),
+            '',
+            false
+        );
         $dateModelMock->expects($this->atLeastOnce())->method('gmtDate')->will($this->returnValue('2013-12-24'));
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -50,7 +56,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      */
     public function testDaysDiffConditionException()
     {

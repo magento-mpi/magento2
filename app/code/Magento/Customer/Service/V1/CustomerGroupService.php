@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer service is responsible for customer business workflow encapsulation
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,22 +7,24 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Service\V1\Data\Search\FilterGroup;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-use Magento\Exception\StateException;
-use Magento\Service\V1\Data\Filter;
-use Magento\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\State\InvalidTransitionException;
+use Magento\Framework\Service\V1\Data\SearchCriteria;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
 /**
- * Class CustomerGroupService
+ * Customer service is responsible for customer business workflow encapsulation
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -36,9 +36,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_groupFactory;
 
     /**
-     * @var Scope Config
+     * @var ScopeConfigInterface
      */
     private $_scopeConfig;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $_storeManager;
 
     /**
      * @var Data\SearchResultsBuilder
@@ -67,7 +72,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
     /**
      * @param GroupFactory $groupFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassModelFactory $taxClassModelFactory
@@ -75,7 +81,8 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function __construct(
         GroupFactory $groupFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        ScopeConfigInterface $scopeConfig,
+        StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
         TaxClassModelFactory $taxClassModelFactory,
@@ -83,6 +90,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_scopeConfig = $scopeConfig;
+        $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
         $this->_taxClassModelFactory = $taxClassModelFactory;
@@ -122,7 +130,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         $groups = array();
         /** @var Collection $collection */
-        $collection = $this->_groupFactory->create()->getCollection();
+        $collection = $this->_groupFactory->create()->getCollection()->addTaxClass();
         //Add filters from root filter group to the collection
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
@@ -140,13 +148,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
 
         /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
-            $this->_customerGroupBuilder->setId(
-                $group->getId()
-            )->setCode(
-                $group->getCode()
-            )->setTaxClassId(
-                $group->getTaxClassId()
-            );
+            $this->_customerGroupBuilder
+                ->setId($group->getId())
+                ->setCode($group->getCode())
+                ->setTaxClassId($group->getTaxClassId())
+                ->setTaxClassName($group->getClassName());
             $groups[] = $this->_customerGroupBuilder->create();
         }
         $this->_searchResultsBuilder->setItems($groups);
@@ -159,7 +165,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * @param FilterGroup $filterGroup
      * @param Collection $collection
      * @return void
-     * @throws \Magento\Exception\InputException
+     * @throws \Magento\Framework\Exception\InputException
      */
     protected function addFilterGroupToCollection(FilterGroup $filterGroup, Collection $collection)
     {
@@ -208,22 +214,24 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getDefaultGroup($storeId)
+    public function getDefaultGroup($storeId = null)
     {
+        if (is_null($storeId)) {
+            $storeId = $this->_storeManager->getStore()->getCode();
+        }
         try {
             $groupId = $this->_scopeConfig->getValue(
                 CustomerGroupModel::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
-        } catch (\Magento\Model\Exception $e) {
-            throw new NoSuchEntityException('storeId', $storeId);
+        } catch (\Magento\Framework\Model\Exception $e) {
+            throw NoSuchEntityException::singleField('storeId', $storeId);
         }
         try {
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {
-            $e->addField('storeId', $storeId);
-            throw $e;
+            throw NoSuchEntityException::doubleField('groupId', $groupId, 'storeId', $storeId);
         }
     }
 
@@ -242,7 +250,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function saveGroup(Data\CustomerGroup $group)
     {
         if (!$group->getCode()) {
-            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
+            throw InputException::invalidFieldValue('code', $group->getCode());
         }
 
         $customerGroup = null;
@@ -251,7 +259,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             try {
                 $customerGroup = $this->_groupRegistry->retrieve($group->getId());
             } catch (NoSuchEntityException $e) {
-                throw new NoSuchEntityException('id', $group->getId());
+                throw NoSuchEntityException::singleField('id', $group->getId());
             }
         }
 
@@ -270,14 +278,13 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->setTaxClassId($taxClassId);
         try {
             $customerGroup->save();
-        } catch (\Magento\Model\Exception $e) {
-            /* Would like a better way to determine this error condition but
-               difficult to do without imposing more database calls
-            */
+        } catch (\Magento\Framework\Model\Exception $e) {
+            /**
+             * Would like a better way to determine this error condition but
+             *  difficult to do without imposing more database calls
+             */
             if ($e->getMessage() === __('Customer Group already exists.')) {
-                $e = new InputException($e->getMessage());
-                $e->addError(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
-                throw $e;
+                throw new InvalidTransitionException('Customer Group already exists.');
             }
             throw $e;
         }
@@ -301,7 +308,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         if (is_null($taxClassModel->getId())
             || $taxClassModel->getClassType() !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
             ) {
-            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'taxClassId', $group->getTaxClassId());
+            throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
 
@@ -311,7 +318,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function deleteGroup($groupId)
     {
         if (!$this->canDelete($groupId)) {
-            throw new StateException(__("Cannot delete group."));
+            throw new StateException('Cannot delete group.');
         }
 
         // Get group so we can throw an exception if it doesn't exist

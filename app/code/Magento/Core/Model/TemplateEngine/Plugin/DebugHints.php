@@ -21,12 +21,12 @@ class DebugHints
     /**#@-*/
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     private $_objectManager;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     private $_scopeConfig;
 
@@ -36,13 +36,13 @@ class DebugHints
     private $_coreData;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_objectManager = $objectManager;
@@ -53,15 +53,15 @@ class DebugHints
     /**
      * Wrap template engine instance with the debugging hints decorator, depending of the store configuration
      *
-     * @param \Magento\View\TemplateEngineFactory $subject
-     * @param \Magento\View\TemplateEngineInterface $invocationResult
+     * @param \Magento\Framework\View\TemplateEngineFactory $subject
+     * @param \Magento\Framework\View\TemplateEngineInterface $invocationResult
      *
-     * @return \Magento\View\TemplateEngineInterface
+     * @return \Magento\Framework\View\TemplateEngineInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterCreate(
-        \Magento\View\TemplateEngineFactory $subject,
-        \Magento\View\TemplateEngineInterface $invocationResult
+        \Magento\Framework\View\TemplateEngineFactory $subject,
+        \Magento\Framework\View\TemplateEngineInterface $invocationResult
     ) {
         if ($this->_scopeConfig->getValue(self::XML_PATH_DEBUG_TEMPLATE_HINTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) && $this->_coreData->isDevAllowed()) {
             $showBlockHints = $this->_scopeConfig->getValue(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);

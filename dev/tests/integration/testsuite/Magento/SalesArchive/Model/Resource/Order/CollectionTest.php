@@ -17,6 +17,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $countSql = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\SalesArchive\Model\Resource\Order\Collection'
         )->getSelectCountSql();
-        $this->assertInstanceOf('Magento\DB\Select', $countSql);
+        $this->assertInstanceOf('Magento\Framework\DB\Select', $countSql);
     }
 }

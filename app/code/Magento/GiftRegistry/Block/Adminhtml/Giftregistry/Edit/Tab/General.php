@@ -18,15 +18,15 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         array $data = array()
     ) {
@@ -56,7 +56,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         if ($this->getLayout()->hasElement($this->getNameInLayout() . '_element')) {
             $this->getLayout()->unsetElement($this->getNameInLayout() . '_element');
         }
-        \Magento\Data\Form::setFieldsetElementRenderer(
+        \Magento\Framework\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
@@ -71,7 +71,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setFieldNameSuffix('type');
 

@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -19,7 +19,7 @@ use Magento\Model\Exception;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * TargetRule Index instance
@@ -65,7 +65,6 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -74,8 +73,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
@@ -84,8 +82,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
             $context,
             $index,
             $targetRuleData,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 
@@ -104,7 +101,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      * without last underscore
      *
      * @return string
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getTypePrefix()
     {

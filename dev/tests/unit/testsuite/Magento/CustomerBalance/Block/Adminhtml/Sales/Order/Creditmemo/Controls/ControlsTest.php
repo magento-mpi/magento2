@@ -45,14 +45,14 @@ class ControlsTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $contextClass = 'Magento\View\Element\Template\Context';
+    protected $contextClass = 'Magento\Framework\View\Element\Template\Context';
 
     /**
      * Class name for the registry class
      *
      * @var string
      */
-    protected $registryClass = 'Magento\Registry';
+    protected $registryClass = 'Magento\Framework\Registry';
 
     /**
      * Name of mocked method

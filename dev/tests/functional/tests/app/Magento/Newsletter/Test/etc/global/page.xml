@@ -18,4 +18,9 @@
         <area>adminhtml</area>
         <class>Magento\Newsletter\Test\Page\Adminhtml\NewsletterTemplateNewIndex</class>
     </newsletterTemplateNewIndex>
+    <subscriberIndex>
+        <mca>newsletter/subscriber/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Newsletter\Test\Page\Adminhtml\SubscriberIndex</class>
+    </subscriberIndex>
 </page>

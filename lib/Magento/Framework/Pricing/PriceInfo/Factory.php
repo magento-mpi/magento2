@@ -1,0 +1,90 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Price Info factory
+ */
+namespace Magento\Framework\Pricing\PriceInfo;
+
+use Magento\Framework\ObjectManager;
+use Magento\Framework\Pricing\Object\SaleableInterface;
+
+/**
+ * Price info model factory
+ */
+class Factory
+{
+    /**
+     * List of Price Info classes by product types
+     *
+     * @var array
+     */
+    protected $types = [];
+
+    /**
+     * Object Manager
+     *
+     * @var ObjectManager
+     */
+    protected $objectManager;
+
+    /**
+     * Construct
+     *
+     * @param array $types
+     * @param \Magento\Framework\ObjectManager $objectManager
+     */
+    public function __construct(
+        array $types,
+        ObjectManager $objectManager
+    ) {
+        $this->types = $types;
+        $this->objectManager = $objectManager;
+    }
+
+    /**
+     * Create Price Info object for particular product
+     *
+     * @param SaleableInterface $saleableItem
+     * @param array $arguments
+     * @return \Magento\Framework\Pricing\PriceInfoInterface
+     * @throws \InvalidArgumentException
+     */
+    public function create(SaleableInterface $saleableItem, array $arguments = [])
+    {
+        $type = $saleableItem->getTypeId();
+
+        if (isset($this->types[$type]['infoClass'])) {
+            $priceInfo = $this->types[$type]['infoClass'];
+        } else {
+            $priceInfo = $this->types['default']['infoClass'];
+        }
+
+        if (isset($this->types[$type]['prices'])) {
+            $priceCollection = $this->types[$type]['prices'];
+        } else {
+            $priceCollection = $this->types['default']['prices'];
+        }
+
+        $arguments['saleableItem'] = $saleableItem;
+        $quantity = $saleableItem->getQty();
+        if ($quantity) {
+            $arguments['quantity'] = $quantity;
+        }
+
+        $arguments['prices'] = $this->objectManager->create(
+            $priceCollection,
+            [
+                'saleableItem' => $arguments['saleableItem'],
+                'quantity' => $quantity
+            ]
+        );
+
+        return $this->objectManager->create($priceInfo, $arguments);
+    }
+}

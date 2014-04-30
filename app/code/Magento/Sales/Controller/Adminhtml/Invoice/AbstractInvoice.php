@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
@@ -19,17 +19,17 @@ use Magento\App\ResponseInterface;
 class AbstractInvoice extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
@@ -62,10 +62,8 @@ class AbstractInvoice extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_view->loadLayout();
-        $this->getResponse()->setBody(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice\Grid')->toHtml()
-        );
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -77,9 +75,7 @@ class AbstractInvoice extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invoices'));
 
-        $this->_initAction()->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Invoice')
-        );
+        $this->_initAction();
         $this->_view->renderLayout();
     }
 
@@ -136,11 +132,11 @@ class AbstractInvoice extends \Magento\Backend\App\Action
             $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             if ($invoice) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf(array($invoice));
-                $date = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
+                $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(
                     'invoice' . $date . '.pdf',
                     $pdf->render(),
-                    \Magento\App\Filesystem::VAR_DIR,
+                    \Magento\Framework\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
@@ -170,12 +166,12 @@ class AbstractInvoice extends \Magento\Backend\App\Action
                 $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);
                 $pdf->pages = array_merge($pdf->pages, $pages->pages);
             }
-            $date = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
+            $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
 
             return $this->_fileFactory->create(
                 'invoice' . $date . '.pdf',
                 $pdf->render(),
-                \Magento\App\Filesystem::VAR_DIR,
+                \Magento\Framework\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }

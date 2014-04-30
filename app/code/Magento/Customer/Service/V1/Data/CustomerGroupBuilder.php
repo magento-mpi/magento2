@@ -13,7 +13,7 @@ namespace Magento\Customer\Service\V1\Data;
  *
  * @method CustomerGroup create()
  */
-class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
+class CustomerGroupBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
 {
     /**
      * Set id
@@ -46,5 +46,16 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     public function setTaxClassId($taxClassId)
     {
         return $this->_set(CustomerGroup::TAX_CLASS_ID, $taxClassId);
+    }
+
+    /**
+     * Set tax class name
+     *
+     * @param string $taxClassName
+     * @return $this
+     */
+    public function setTaxClassName($taxClassName)
+    {
+        return $this->_set('tax_class_name', $taxClassName);
     }
 }

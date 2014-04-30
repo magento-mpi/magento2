@@ -195,7 +195,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve value element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getValueElement()
     {
@@ -229,7 +229,7 @@ class Attributes extends AbstractCondition
     /**
      * Retrieve attribute element
      *
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getAttributeElement()
     {
@@ -295,7 +295,7 @@ class Attributes extends AbstractCondition
         if ($this->getOperator() == '==') {
             $dateObj = $this->_localeDate->date(
                 $this->getValue(),
-                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 null,
                 false
             )->setHour(
@@ -306,8 +306,8 @@ class Attributes extends AbstractCondition
                 0
             );
             $value = array(
-                'start' => $dateObj->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
-                'end' => $dateObj->addDay(1)->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                'start' => $dateObj->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
             return $value;
         }
@@ -332,7 +332,7 @@ class Attributes extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {

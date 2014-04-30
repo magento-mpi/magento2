@@ -51,7 +51,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
                 $post,
                 array(
                     'form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                        'Magento\Data\Form\FormKey'
+                        'Magento\Framework\Data\Form\FormKey'
                     )->getFormKey()
                 )
             )

@@ -14,4 +14,11 @@
     <assertNewsletterInGrid module="Magento_Newsletter">
         <severeness>low</severeness>
     </assertNewsletterInGrid>
+    <assertCustomerIsSubscribedToNewsletter module="Magento_Newsletter">
+        <severeness>low</severeness>
+        <require>
+            <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
+            <pageSubscriberIndex class="Magento\Newsletter\Test\Page\Adminhtml\SubscriberIndex" />
+        </require>
+    </assertCustomerIsSubscribedToNewsletter>
 </constraint>

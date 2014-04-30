@@ -10,9 +10,11 @@
  */
 
 require __DIR__ . '/../../app/autoload.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../lib');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib');
 
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
 $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]
     additional parameters:
     -w dir  directory with working copy to edit with the extruder
@@ -80,7 +82,7 @@ try {
     $verbose = isset($options['v']);
 
     // perform "extrusion"
-    $shell = new \Magento\Shell(new \Magento\Shell\CommandRenderer(), $verbose ? $logger : null);
+    $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $verbose ? $logger : null);
     foreach ($list as $item) {
         if (!file_exists($item)) {
             throw new Exception("The file or directory '{$item} is marked for deletion, but it doesn't exist.");

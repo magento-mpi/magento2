@@ -30,7 +30,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     /**
      * Subquery for filter
      *
-     * @var \Magento\DB\Select
+     * @var \Magento\Framework\DB\Select
      */
     protected $_subQuery = null;
 
@@ -85,7 +85,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * Rerieve union sub-query
      *
      * @param array|int $segment
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getUnionQuery($segment)
     {
@@ -107,7 +107,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * Rerieve intersect sub-query
      *
      * @param array $segment
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getIntersectQuery($segment)
     {

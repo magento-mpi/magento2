@@ -16,9 +16,9 @@ namespace Magento\Tools\Migration\Acl\Db\Adapter;
 class Factory
 {
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -33,7 +33,7 @@ class Factory
      */
     public function getAdapter(array $config, $type = null)
     {
-        $dbAdapterClassName = 'Magento\Db\Adapter\Pdo\Mysql';
+        $dbAdapterClassName = 'Magento\Framework\DB\Adapter\Pdo\Mysql';
 
         if (false == empty($type)) {
             $dbAdapterClassName = $type;

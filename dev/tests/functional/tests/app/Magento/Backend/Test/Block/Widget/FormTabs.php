@@ -179,18 +179,20 @@ class FormTabs extends Form
      *
      * @param FixtureInterface $fixture
      * @param Element $element
-     * @throws \Exception
-     * @return FormTabs
+     * @return bool
      */
     public function verify(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
+
         foreach ($tabs as $tab => $tabFields) {
-            if (!$this->openTab($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
-                throw new \Exception('Invalid form data.');
+            $this->openTab($tab);
+            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
+                return false;
             }
         }
-        return $this;
+
+        return true;
     }
 
     /**

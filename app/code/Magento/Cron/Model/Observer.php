@@ -57,17 +57,17 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\App\ObjectManager
+     * @var \Magento\Framework\App\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\CacheInterface
+     * @var \Magento\Framework\App\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -77,32 +77,32 @@ class Observer
     protected $_scheduleFactory;
 
     /**
-     * @var \Magento\App\Console\Request
+     * @var \Magento\Framework\App\Console\Request
      */
     protected $_request;
 
     /**
-     * @var \Magento\ShellInterface
+     * @var \Magento\Framework\ShellInterface
      */
     protected $_shell;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param ScheduleFactory $scheduleFactory
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param ConfigInterface $config
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Console\Request $request
-     * @param \Magento\ShellInterface $shell
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Console\Request $request
+     * @param \Magento\Framework\ShellInterface $shell
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Cron\Model\ConfigInterface $config,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Console\Request $request,
-        \Magento\ShellInterface $shell
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Console\Request $request,
+        \Magento\Framework\ShellInterface $shell
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;
@@ -118,7 +118,7 @@ class Observer
      * Generate tasks schedule
      * Cleanup tasks schedule
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function dispatch($observer)
@@ -139,7 +139,7 @@ class Observer
                     '%s -f %s -- --group=%s',
                     array(
                         PHP_BINARY,
-                        BP . DIRECTORY_SEPARATOR . \Magento\App\Filesystem::PUB_DIR .  DIRECTORY_SEPARATOR . 'cron.php',
+                        BP . '/' . \Magento\Framework\App\Filesystem::PUB_DIR . '/cron.php',
                         $groupId
                     )
                 );
@@ -305,11 +305,9 @@ class Observer
                     $jobConfig['config_path'],
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
-            } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
+            } elseif (isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
-            }
-
-            if (!$cronExpr) {
+            } else {
                 continue;
             }
 

@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Widget;
 
-class Search extends \Magento\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+class Search extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Search form select options
@@ -30,20 +30,20 @@ class Search extends \Magento\View\Element\Template implements \Magento\Widget\B
     protected $_configSourceSearch;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch
-     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Framework\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
-        \Magento\Math\Random $mathRandom,
+        \Magento\Framework\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_configSourceSearch = $configSourceSearch;
@@ -129,7 +129,7 @@ class Search extends \Magento\View\Element\Template implements \Magento\Widget\B
         );
 
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'search_by'
         )->setId(

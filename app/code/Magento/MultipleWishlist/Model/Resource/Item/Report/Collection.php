@@ -13,7 +13,7 @@ namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Catalog data
@@ -30,7 +30,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_wishlistData = null;
 
     /**
-     * @var \Magento\Object\Copy\Config
+     * @var \Magento\Framework\Object\Copy\Config
      */
     protected $_fieldsetConfig;
 
@@ -43,31 +43,31 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\MultipleWishlist\Model\Resource\Item $itemResource
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\MultipleWishlist\Model\Resource\Item $itemResource,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;

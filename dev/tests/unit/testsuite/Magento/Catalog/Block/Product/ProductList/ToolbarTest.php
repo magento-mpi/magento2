@@ -21,7 +21,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Url | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlBuilder;
 
@@ -31,7 +31,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     protected $helper;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfig;
     /**
@@ -59,8 +59,8 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->urlBuilder = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
-        $this->scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
+        $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $scopeConfig = array(
             array(\Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY, null, 'name'),
@@ -86,7 +86,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('name' => array(), 'price' => array())));
 
         $context = $this->getMock(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             array('getUrlBuilder', 'getStoreConfig'),
             array(),
             '',

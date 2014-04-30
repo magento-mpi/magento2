@@ -23,15 +23,15 @@ class Giftwrapping extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry|null
+     * @var \Magento\Framework\Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -56,7 +56,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftWrapping\Model\Wrapping
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initModel($requestParam = 'id')
     {
@@ -71,7 +71,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
         if ($wrappingId) {
             $model->load($wrappingId);
             if (!$model->getId()) {
-                throw new \Magento\Model\Exception(__('Please request the correct gift wrapping.'));
+                throw new \Magento\Framework\Model\Exception(__('Please request the correct gift wrapping.'));
             }
         }
         $this->_coreRegistry->register('current_giftwrapping_model', $model);
@@ -133,7 +133,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 $model = $this->_initModel();
                 $model->addData($wrappingRawData);
 
-                $data = new \Magento\Object($wrappingRawData);
+                $data = new \Magento\Framework\Object($wrappingRawData);
                 if ($data->getData('image_name/delete')) {
                     $model->setImage('');
                     // Delete temporary image if exists
@@ -142,7 +142,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     try {
                         $model->attachUploadedImage('image_name');
                     } catch (\Exception $e) {
-                        throw new \Magento\Model\Exception(__('You have not uploaded the image.'));
+                        throw new \Magento\Framework\Model\Exception(__('You have not uploaded the image.'));
                     }
                 }
 
@@ -157,13 +157,13 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     );
                     return;
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save the gift wrapping."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -184,16 +184,16 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 try {
                     $model->attachUploadedImage('image_name', true);
                 } catch (\Exception $e) {
-                    throw new \Magento\Model\Exception(__('You have not updated the image.'));
+                    throw new \Magento\Framework\Model\Exception(__('You have not updated the image.'));
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save the gift wrapping."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
 
@@ -223,7 +223,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
             }
             $wrappingCollection->save();
             $this->messageManager->addSuccess(__('You updated a total of %1 records.', count($wrappingIds)));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong while updating the wrapping(s) status.'));

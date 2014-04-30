@@ -34,19 +34,19 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
-            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\App\Config\ScopeConfigInterface'),
+            $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
             $this->_importConfigMock,
             $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Adapter\CsvFactory', array(), array(), '', false),
-            $this->getMock('\Magento\HTTP\Adapter\FileTransferFactory', array(), array(), '', false),
+            $this->getMock('\Magento\Framework\HTTP\Adapter\FileTransferFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
             $indexer

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -18,7 +18,7 @@ $installer->getConnection()->addColumn(
     $nodeTableName,
     'scope',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => '8',
         'comment' => 'Scope: default|website|store',
         'nullable' => false,
@@ -29,7 +29,7 @@ $installer->getConnection()->addColumn(
     $nodeTableName,
     'scope_id',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'comment' => 'Scope Id',
         'nullable' => false,
         'default' => '0',
