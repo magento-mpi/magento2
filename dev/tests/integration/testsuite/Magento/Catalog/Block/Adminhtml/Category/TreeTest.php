@@ -34,4 +34,9 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals('[]', $this->_block->getSuggestedCategoriesJson(strrev('Default')));
     }
+
+    public function testGetLoadTreeUrl()
+    {
+        $this->assertContains('categoriesJson', $this->_block->getLoadTreeUrl());
+    }
 }
