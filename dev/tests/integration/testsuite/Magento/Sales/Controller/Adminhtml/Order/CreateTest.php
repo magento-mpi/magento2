@@ -196,7 +196,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     }
 }
 
-class AuthorizationMock extends \Magento\Authorization
+class AuthorizationMock extends \Magento\Framework\Authorization
 {
     /**
      * Check current user permission on resource and privilege
