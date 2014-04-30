@@ -25,6 +25,7 @@
         </div>
 
         <dl class="block items" id="allow-gift-options-container">
+            <?php if ($this->isMessagesAvailable()): ?>
             <dt id="add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>" class="order">
                 <div class="title"><span><?php echo __('Gift Options for the Entire Order'); ?></span></div>
                 <div class="field choice">
@@ -36,7 +37,6 @@
             <dd id="allow-gift-options-for-order-container" class="options order">
                 <div class="options-order-container" id="options-order-container-<?php echo $this->getEntity()->getId() ?>"></div>
                 <input type="hidden" name="giftoptions[<?php echo $this->getEntity()->getId() ?>][type]" value="quote" />
-                <?php if ($this->isMessagesAvailable()): ?>
                     <a href="#" class="action activate message" data-mage-init='{"toggleAdvanced": {"selectorsToggleClass":"hidden", "toggleContainers":"#allow-gift-messages-for-order-container"}}'><?php echo __('Gift Message') ?></a>
                     <div id="allow-gift-messages-for-order-container" class="hidden">
                         <fieldset class="fieldset">
@@ -66,8 +66,8 @@
                                 .add('#add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>').removeClass('hidden');
                         </script>
                     </div>
-               <?php endif ?>
             </dd>
+            <?php endif ?>
             <?php if ($this->isItemsAvailable()): ?>
             <dt id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="individual">
                 <div class="title"><span><?php echo __('Gift Options for Individual Items'); ?></span></div>
