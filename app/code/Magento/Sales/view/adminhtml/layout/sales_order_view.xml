@@ -19,6 +19,11 @@
                 <argument name="file" xsi:type="string">Magento_Sales::order/giftoptions_tooltip.js</argument>
             </arguments>
         </block>
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-sales-order-edit-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Sales::order/edit/message.js</argument>
+            </arguments>
+        </block>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Adminhtml\Order\View" name="sales_order_edit"/>
