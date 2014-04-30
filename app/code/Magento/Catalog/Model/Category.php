@@ -19,7 +19,7 @@ namespace Magento\Catalog\Model;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Entity code.
@@ -64,7 +64,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * URL Model instance
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_url;
 
@@ -106,7 +106,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Core data
      *
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filter;
 
@@ -174,18 +174,18 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
-     * @param \Magento\UrlInterface $url
+     * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
-     * @param \Magento\Filter\FilterManager $filter
+     * @param \Magento\Framework\Filter\FilterManager $filter
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
@@ -195,18 +195,18 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\UrlRewrite\Model\UrlRewriteFactory $urlRewriteFactory,
         \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-        \Magento\UrlInterface $url,
+        \Magento\Framework\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
-        \Magento\Filter\FilterManager $filter,
+        \Magento\Framework\Filter\FilterManager $filter,
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
@@ -275,7 +275,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Retrieve URL instance
      *
-     * @return \Magento\UrlInterface
+     * @return \Magento\Framework\UrlInterface
      */
     public function getUrlInstance()
     {
@@ -544,11 +544,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     {
         $url = $this->_getData('url');
         if (is_null($url)) {
-            \Magento\Profiler::start('REWRITE: ' . __METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
+            \Magento\Framework\Profiler::start('REWRITE: ' . __METHOD__, array('group' => 'REWRITE', 'method' => __METHOD__));
 
             if ($this->hasData('request_path') && $this->getRequestPath() != '') {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($this->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
@@ -561,11 +561,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
 
             if ($rewrite->getId()) {
                 $this->setData('url', $this->getUrlInstance()->getDirectUrl($rewrite->getRequestPath()));
-                \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+                \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
                 return $this->getData('url');
             }
 
-            \Magento\Profiler::stop('REWRITE: ' . __METHOD__);
+            \Magento\Framework\Profiler::stop('REWRITE: ' . __METHOD__);
 
             $this->setData('url', $this->getCategoryIdUrl());
             return $this->getData('url');
@@ -580,10 +580,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     public function getCategoryIdUrl()
     {
-        \Magento\Profiler::start('REGULAR: ' . __METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('REGULAR: ' . __METHOD__, array('group' => 'REGULAR', 'method' => __METHOD__));
         $urlKey = $this->getUrlKey() ? $this->getUrlKey() : $this->formatUrlKey($this->getName());
         $url = $this->getUrlInstance()->getUrl('catalog/category/view', array('s' => $urlKey, 'id' => $this->getId()));
-        \Magento\Profiler::stop('REGULAR: ' . __METHOD__);
+        \Magento\Framework\Profiler::stop('REGULAR: ' . __METHOD__);
         return $url;
     }
 
@@ -609,7 +609,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         $image = $this->getImage();
         if ($image) {
             $url = $this->_storeManager->getStore()->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_MEDIA
+                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
             ) . 'catalog/category/' . $image;
         }
         return $url;
@@ -921,7 +921,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Return parent categories of current category
      *
-     * @return \Magento\Object[]|\Magento\Catalog\Model\Category[]
+     * @return \Magento\Framework\Object[]|\Magento\Catalog\Model\Category[]
      */
     public function getParentCategories()
     {

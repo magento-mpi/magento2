@@ -60,7 +60,7 @@ class Design implements \Magento\Framework\View\DesignInterface
     private $_scopeConfig;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_locale;
 
@@ -74,7 +74,7 @@ class Design implements \Magento\Framework\View\DesignInterface
      * @param \Magento\Framework\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
-     * @param \Magento\Locale\ResolverInterface $locale
+     * @param \Magento\Framework\Locale\ResolverInterface $locale
      * @param \Magento\Framework\App\State $appState
      * @param array $themes
      */
@@ -83,7 +83,7 @@ class Design implements \Magento\Framework\View\DesignInterface
         \Magento\Framework\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
-        \Magento\Locale\ResolverInterface $locale,
+        \Magento\Framework\Locale\ResolverInterface $locale,
         \Magento\Framework\App\State $appState,
         array $themes
     ) {

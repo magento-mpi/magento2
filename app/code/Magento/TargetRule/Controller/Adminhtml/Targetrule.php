@@ -16,24 +16,24 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -172,7 +172,7 @@ class Targetrule extends \Magento\Backend\App\Action
                     }
                 }
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);

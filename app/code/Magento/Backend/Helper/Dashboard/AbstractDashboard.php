@@ -78,7 +78,7 @@ abstract class AbstractDashboard extends HelperData
                 } else {
                     $result[] = null;
                 }
-            } elseif ($item instanceof \Magento\Object) {
+            } elseif ($item instanceof \Magento\Framework\Object) {
                 $result[] = $item->getData($index);
             } else {
                 $result[] = null;

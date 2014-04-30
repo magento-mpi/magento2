@@ -25,7 +25,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
     protected $_dataFactory;
 
     /**
-     * @var \Magento\Cache\FrontendInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Cache\FrontendInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cache;
 
@@ -42,7 +42,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
         $this->_dataFactory = $this->getMockBuilder(
             '\Magento\Framework\App\Config\DataFactory'
         )->disableOriginalConstructor()->getMock();
-        $this->_cache = $this->getMock('\Magento\Cache\FrontendInterface');
+        $this->_cache = $this->getMock('\Magento\Framework\Cache\FrontendInterface');
         $this->_object = $helper->getObject(
             '\Magento\Framework\App\Config\ScopePool',
             array(

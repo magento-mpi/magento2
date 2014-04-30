@@ -74,16 +74,13 @@
 </script>
 
 <script type="text/javascript">
-    head.js("<?php echo $this->getViewFileUrl('Magento_GiftWrapping::gift-wrapping.js') ?>",
-        function() {
-            jQuery('#checkoutSteps, #shipping_method_form').giftWrapping({
-                designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
-                itemsInfo: <?php echo $this->getItemsInfo()->toJson() ?>,
-                cardInfo: <?php echo $this->getCardInfo()->toJson() ?>,
-                allowForOrder: <?php echo (int)$this->getAllowForOrder() ?>,
-                allowGiftReceipt: <?php echo (int)$this->getAllowGiftReceipt() ?>,
-                allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>
-            });
-        });
+    jQuery('#checkoutSteps, #shipping_method_form').mage('giftWrapping', {
+        designsInfo: <?php echo $this->getDesignsInfo()->toJson() ?>,
+        itemsInfo: <?php echo $this->getItemsInfo()->toJson() ?>,
+        cardInfo: <?php echo $this->getCardInfo()->toJson() ?>,
+        allowForOrder: <?php echo (int)$this->getAllowForOrder() ?>,
+        allowGiftReceipt: <?php echo (int)$this->getAllowGiftReceipt() ?>,
+        allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>
+    });
 </script>
 <?php endif; ?>

@@ -45,7 +45,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
-     * @param \Magento\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Rule\Block\Editable $editable
      * @param \Magento\Catalog\Model\Product\Type $type
      * @param array $data
@@ -57,7 +57,7 @@ class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attrib
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
-        \Magento\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Rule\Block\Editable $editable,
         \Magento\Catalog\Model\Product\Type $type,
         array $data = array()

@@ -126,15 +126,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_iterator;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Model\Resource\Iterator $iterator
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
@@ -145,9 +145,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\Iterator $iterator,
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
@@ -376,11 +376,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Validate rule data
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return string[]|bool - Return true if validation passed successfully. Array with errors description otherwise
      * @throws Exception
      */
-    public function validateData(\Magento\Object $object)
+    public function validateData(\Magento\Framework\Object $object)
     {
         $result = parent::validateData($object);
 

@@ -17,12 +17,12 @@ class CacheIdentifierPlugin
     /**
      * Constructor
      *
-     * @param \Magento\View\DesignExceptions $designExceptions
+     * @param \Magento\Framework\View\DesignExceptions $designExceptions
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
-        \Magento\View\DesignExceptions $designExceptions,
+        \Magento\Framework\View\DesignExceptions $designExceptions,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\PageCache\Model\Config $config
     ) {

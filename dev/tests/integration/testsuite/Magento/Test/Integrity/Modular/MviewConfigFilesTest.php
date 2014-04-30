@@ -32,7 +32,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Filesystem'
         )->getPath(
             \Magento\Framework\App\Filesystem::LIB_DIR
-        ) . '/Magento/Mview/etc/mview.xsd';
+        ) . '/Magento/Framework/Mview/etc/mview.xsd';
     }
 
     /**

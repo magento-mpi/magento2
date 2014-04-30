@@ -123,11 +123,11 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Prepare existing row data object
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _prepareArrayRow(\Magento\Object $row)
+    protected function _prepareArrayRow(\Magento\Framework\Object $row)
     {
         // override in descendants
     }
@@ -135,7 +135,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Obtain existing data from form element
      *
-     * Each row will be instance of \Magento\Object
+     * Each row will be instance of \Magento\Framework\Object
      *
      * @return array
      */
@@ -156,7 +156,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
                 }
                 $row['_id'] = $rowId;
                 $row['column_values'] = $rowColumnValues;
-                $result[$rowId] = new \Magento\Object($row);
+                $result[$rowId] = new \Magento\Framework\Object($row);
                 $this->_prepareArrayRow($result[$rowId]);
             }
         }

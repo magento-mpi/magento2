@@ -17,7 +17,7 @@ namespace Magento\Backend\Block;
 class AbstractBlock extends \Magento\Framework\View\Element\AbstractBlock
 {
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 

@@ -31,7 +31,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -41,30 +41,30 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
     protected $_nodeCollectionFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Json\DecoderInterface
+     * @var \Magento\Framework\Json\DecoderInterface
      */
     protected $_jsonDecoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Json\DecoderInterface $jsonDecoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Json\DecoderInterface $jsonDecoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
         array $data = array()
     ) {

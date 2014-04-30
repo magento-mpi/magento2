@@ -18,7 +18,7 @@
  */
 namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid;
 
-class Status implements \Magento\Option\ArrayInterface
+class Status implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\GiftCardAccount\Model\Giftcardaccount

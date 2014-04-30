@@ -7,7 +7,7 @@
  */
 namespace Magento\Logging\Model\Resource\Grid;
 
-class Statuses implements \Magento\Option\ArrayInterface
+class Statuses implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options as array

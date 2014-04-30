@@ -15,28 +15,35 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Session\Config\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Session\Config\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_configMock;
 
     /**
-     * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cookieMock;
 
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_configMock = $this->getMock('Magento\Session\Config\ConfigInterface');
-        $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Framework\Session\Config\ConfigInterface');
+        $this->_cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
         $resourceMock = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
             array(), '', false, false, true,
             array('__wakeup', 'getIdFieldName', 'getConnection', 'beginTransaction', 'delete', 'commit', 'rollBack'));
 
         $appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $eventDispatcherMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
+        $eventDispatcherMock = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $cacheManagerMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
-        $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );

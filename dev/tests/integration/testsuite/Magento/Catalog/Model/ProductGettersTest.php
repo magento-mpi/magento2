@@ -170,7 +170,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
         $images = $this->_model->getMediaGalleryImages();
         $this->assertInstanceOf('Magento\Framework\Data\Collection', $images);
         foreach ($images as $image) {
-            $this->assertInstanceOf('Magento\Object', $image);
+            $this->assertInstanceOf('Magento\Framework\Object', $image);
             $image = $image->getData();
             $this->assertArrayHasKey('file', $image);
             $this->assertArrayHasKey('url', $image);
@@ -244,7 +244,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPreconfiguredValues()
     {
-        $this->assertInstanceOf('Magento\Object', $this->_model->getPreconfiguredValues());
+        $this->assertInstanceOf('Magento\Framework\Object', $this->_model->getPreconfiguredValues());
         $this->_model->setPreconfiguredValues('test');
         $this->assertEquals('test', $this->_model->getPreconfiguredValues());
     }

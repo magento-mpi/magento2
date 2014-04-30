@@ -109,7 +109,7 @@ class Process extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Index\Model\Resource\Event $resourceEvent
      * @param \Magento\Index\Model\Indexer\Factory $indexerFactory
      * @param \Magento\Index\Model\Indexer $indexer
@@ -122,7 +122,7 @@ class Process extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Index\Model\Resource\Event $resourceEvent,
         \Magento\Index\Model\Indexer\Factory $indexerFactory,
         \Magento\Index\Model\Indexer $indexer,

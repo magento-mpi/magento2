@@ -56,7 +56,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

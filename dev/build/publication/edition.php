@@ -16,14 +16,14 @@ try {
 
     $basePath = realpath($options['dir']);
     require $basePath . '/app/autoload.php';
-    \Magento\Autoload\IncludePath::addIncludePath(
+    (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
         array(
             realpath($basePath . '/dev/build/publication/edition/'),
             realpath($basePath . '/lib/'),
         )
     );
 
-    /** @var $configurator ConfiguratorInterface */
+    /** @var $configurator \Magento\Tools\Publication\Edition\ConfiguratorInterface */
     $configurator = null;
 
     $lists = array('common.txt');
@@ -36,10 +36,10 @@ try {
     switch ($options['edition']) {
         case 'ce':
             $lists[] = 'ee.txt';
-            $configurator = new CommunityConfigurator();
+            $configurator = new \Magento\Tools\Publication\Edition\CommunityConfigurator();
             break;
         case 'ee':
-            $configurator = new EnterpriseConfigurator(
+            $configurator = new \Magento\Tools\Publication\Edition\EnterpriseConfigurator(
                 $basePath,
                 new Magento\Framework\Filesystem\Driver\File()
             );
@@ -52,7 +52,7 @@ try {
     $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$basePath/.git"), escapeshellarg($basePath));
     $moveCommand = "$gitCmd mv $basePath/CHANGELOG_CE.md $basePath/CHANGELOG.md";
     exec($moveCommand, $output, $gitMoveExitCode);
-    if($gitMoveExitCode) {
+    if ($gitMoveExitCode) {
         throw new Exception('Failed to rename CHANGELOG_CE.md to CHANGELOG.md');
     }
 

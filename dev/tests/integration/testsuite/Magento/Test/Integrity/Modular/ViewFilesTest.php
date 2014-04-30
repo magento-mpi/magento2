@@ -21,8 +21,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
          * @param string $file
          */
             function ($application, $file) {
-                \Magento\TestFramework\Helper\Bootstrap::getInstance()
-                    ->loadArea($application);
+                if ($application != 'base') {
+                    \Magento\TestFramework\Helper\Bootstrap::getInstance()
+                        ->loadArea($application);
+                }
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Framework\View\DesignInterface')
                     ->setDefaultDesignTheme();
@@ -54,9 +56,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     public function viewFilesFromModulesViewDataProvider()
     {
         $files = array();
-        /** @var $configModelReader \Magento\Module\Dir\Reader */
+        /** @var $configModelReader \Magento\Framework\Module\Dir\Reader */
         $configModelReader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Module\Dir\Reader'
+            'Magento\Framework\Module\Dir\Reader'
         );
         foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = $configModelReader->getModuleDir('view', $moduleName);

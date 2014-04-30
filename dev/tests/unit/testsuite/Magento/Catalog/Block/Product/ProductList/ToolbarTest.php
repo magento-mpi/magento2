@@ -21,7 +21,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Url | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Url | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $urlBuilder;
 
@@ -59,7 +59,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->urlBuilder = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
+        $this->urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $scopeConfig = array(

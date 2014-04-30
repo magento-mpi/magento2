@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,15 +13,15 @@ namespace Magento\Integration\Model\Resource\Oauth;
 class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime $dateTime)
     {
         $this->_dateTime = $dateTime;
         parent::__construct($resource);

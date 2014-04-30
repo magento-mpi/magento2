@@ -54,7 +54,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
         $this->assertInstanceOf('Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {
-            $this->assertInstanceOf('Magento\Object', $item);
+            $this->assertInstanceOf('Magento\Framework\Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
             $this->assertStringMatchesFormat(
                 'http://%s/static/adminhtml/%s/%s/Magento_Cms/images/placeholder_thumbnail.jpg',
@@ -73,7 +73,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $filesystem = $objectManager->get('Magento\Framework\App\Filesystem');
         $session = $objectManager->get('Magento\Backend\Model\Session');
         $backendUrl = $objectManager->get('Magento\Backend\Model\UrlInterface');
-        $imageFactory = $objectManager->get('Magento\Image\AdapterFactory');
+        $imageFactory = $objectManager->get('Magento\Framework\Image\AdapterFactory');
         $viewUrl = $objectManager->get('Magento\Framework\View\Url');
         $imageHelper = $objectManager->get('Magento\Cms\Helper\Wysiwyg\Images');
         $coreFileStorageDb = $objectManager->get('Magento\Core\Helper\File\Storage\Database');

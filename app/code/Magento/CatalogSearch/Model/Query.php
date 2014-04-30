@@ -15,7 +15,7 @@ use Magento\CatalogSearch\Model\Resource\Search\Collection;
 use Magento\CatalogSearch\Model\Resource\Search\CollectionFactory;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
-use Magento\Registry;
+use Magento\Framework\Registry;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;

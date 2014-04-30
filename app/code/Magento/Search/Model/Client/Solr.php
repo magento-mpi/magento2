@@ -146,12 +146,12 @@ class Solr extends \Apache_Solr_Service
     protected function _sendRawGet($url, $timeout = false)
     {
         $this->_setAuthHeader($this->_getContext);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'solr_send_raw_get',
             array('group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost())
         );
         $response = parent::_sendRawGet($url, $timeout);
-        \Magento\Profiler::stop('solr_send_raw_get');
+        \Magento\Framework\Profiler::stop('solr_send_raw_get');
         return $response;
     }
 
@@ -167,12 +167,12 @@ class Solr extends \Apache_Solr_Service
     protected function _sendRawPost($url, $rawPost, $timeout = false, $contentType = 'text/xml; charset=UTF-8')
     {
         $this->_setAuthHeader($this->_postContext);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'solr_send_raw_post',
             array('group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost())
         );
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
-        \Magento\Profiler::stop('solr_send_raw_post');
+        \Magento\Framework\Profiler::stop('solr_send_raw_post');
         return $response;
     }
 

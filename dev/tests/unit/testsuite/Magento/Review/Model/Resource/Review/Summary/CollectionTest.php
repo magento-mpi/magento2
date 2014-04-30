@@ -26,7 +26,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $entityFactoryMock;
 
     /**
-     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Logger|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $loggerMock;
 
@@ -53,7 +53,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->entityFactoryMock = $this->getMock(
             'Magento\Core\Model\EntityFactory', array('create'), array(), '', false
         );
-        $this->loggerMock = $this->getMock('Magento\Logger', array('log'), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array('log'), array(), '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\App\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
@@ -94,7 +94,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->with($this->selectMock, $this->anything())
             ->will($this->returnValue($statementMock));
 
-        $objectMock = $this->getMock('Magento\Object', array('setData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('setData'), array());
         $objectMock->expects($this->once())
             ->method('setData')
             ->with($data);
@@ -116,7 +116,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->with($this->selectMock, array())
             ->will($this->returnValue(array($data)));
 
-        $objectMock = $this->getMock('Magento\Object', array('addData'), array());
+        $objectMock = $this->getMock('Magento\Framework\Object', array('addData'), array());
         $objectMock->expects($this->once())
             ->method('addData')
             ->with($data);

@@ -21,8 +21,14 @@ $reportObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
 );
 foreach (array(1, 2, 1, 21, 1, 21) as $productId) {
     $reportObserver->catalogProductView(
-        new \Magento\Event\Observer(
-            array('event' => new \Magento\Object(array('product' => new \Magento\Object(array('id' => $productId)))))
+        new \Magento\Framework\Event\Observer(
+            array(
+                'event' => new \Magento\Framework\Object(
+                        array(
+                            'product' => new \Magento\Framework\Object(array('id' => $productId))
+                        )
+                    )
+            )
         )
     );
 }

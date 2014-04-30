@@ -10,7 +10,7 @@ namespace Magento\Framework\View\Layout\Argument\Interpreter;
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\UrlInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlResolver;
 
@@ -26,7 +26,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_urlResolver = $this->getMock('Magento\UrlInterface');
+        $this->_urlResolver = $this->getMock('Magento\Framework\UrlInterface');
         $this->_interpreter = $this->getMock(
             'Magento\Framework\View\Layout\Argument\Interpreter\NamedParams',
             array(),

@@ -120,7 +120,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Filter')));
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array('name' => 'store_ids'));
 
@@ -224,7 +224,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             // apply field options
             foreach ($this->_fieldOptions as $fieldId => $fieldOptions) {
                 $field = $fieldset->getElements()->searchById($fieldId);
-                /** @var \Magento\Object $field */
+                /** @var \Magento\Framework\Object $field */
                 if ($field) {
                     foreach ($fieldOptions as $k => $v) {
                         $field->setDataUsingMethod($k, $v);

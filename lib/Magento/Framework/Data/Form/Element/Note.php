@@ -17,7 +17,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 class Note extends AbstractElement
 {
@@ -42,8 +42,13 @@ class Note extends AbstractElement
      */
     public function getElementHtml()
     {
-        $html = '<div id="' . $this->getHtmlId() . '" class="control-value">' . $this->getText() . '</div>';
-        $html .= $this->getAfterElementHtml();
+        $html = $this->getBeforeElementHtml()
+            . '<div id="'
+            . $this->getHtmlId()
+            . '" class="control-value">'
+            . $this->getText()
+            . '</div>'
+            . $this->getAfterElementHtml();
         return $html;
     }
 }

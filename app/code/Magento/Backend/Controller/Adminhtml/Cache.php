@@ -69,7 +69,7 @@ class Cache extends Action
     public function flushAllAction()
     {
         $this->_eventManager->dispatch('adminhtml_cache_flush_all');
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
         }
@@ -84,7 +84,7 @@ class Cache extends Action
      */
     public function flushSystemAction()
     {
-        /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
+        /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->clean();
         }

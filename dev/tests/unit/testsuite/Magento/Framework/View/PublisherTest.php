@@ -136,7 +136,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage Unable to locate theme file 'some/file/path'.
      */
     public function testGetPublicFilePathException()

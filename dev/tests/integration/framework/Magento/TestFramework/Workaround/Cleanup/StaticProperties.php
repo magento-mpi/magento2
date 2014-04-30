@@ -35,7 +35,7 @@ class StaticProperties
         'Magento\TestFramework\Event\Magento',
         'Magento\TestFramework\Event\PhpUnit',
         'Magento\TestFramework\Annotation\AppIsolation',
-        'Magento\Phrase'
+        'Magento\Framework\Phrase'
     );
 
     /**

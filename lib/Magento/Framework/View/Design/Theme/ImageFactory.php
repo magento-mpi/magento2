@@ -15,7 +15,7 @@ class ImageFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
@@ -29,11 +29,11 @@ class ImageFactory
     /**
      * Constructor
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         $instanceName = 'Magento\Framework\View\Design\Theme\Image'
     ) {
         $this->_objectManager = $objectManager;

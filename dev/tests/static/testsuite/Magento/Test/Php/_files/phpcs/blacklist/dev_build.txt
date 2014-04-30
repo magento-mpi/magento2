@@ -1,8 +1,8 @@
 # special case for dev/build: it is not published, but distinguished into a separate list
 # because it is used in infrastructure for running tests
-dev/build
 # Pretty printer overrides methods that do not comply with standard
 dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
 dev/tools/PHP-Parser
+dev/tests/static/framework/PHP
 dev/tests/functional
 dev/tests/functional-old

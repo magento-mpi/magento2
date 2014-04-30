@@ -35,7 +35,7 @@ class Region implements \Magento\Framework\Data\Form\Element\Renderer\RendererIn
     /**
      * Adminhtml data
      *
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper = null;
 
@@ -47,12 +47,12 @@ class Region implements \Magento\Framework\Data\Form\Element\Renderer\RendererIn
     /**
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      */
     public function __construct(
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\Escaper $escaper
+        \Magento\Framework\Escaper $escaper
     ) {
         $this->_countryFactory = $countryFactory;
         $this->_directoryHelper = $directoryHelper;

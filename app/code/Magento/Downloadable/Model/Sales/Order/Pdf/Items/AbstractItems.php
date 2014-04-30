@@ -40,10 +40,10 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Framework\App\Filesystem $filesystem
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
@@ -53,10 +53,10 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Framework\App\Filesystem $filesystem,
-        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,

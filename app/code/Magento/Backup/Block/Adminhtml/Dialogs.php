@@ -28,7 +28,7 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
-     * @return AbstractBlock|void
+     * @return void
      * @see AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()

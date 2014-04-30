@@ -25,7 +25,7 @@ class Minsaleqty extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -34,7 +34,7 @@ class Minsaleqty extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

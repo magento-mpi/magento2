@@ -61,7 +61,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_routeParamsMock = $this->getMock(
-            'Magento\Url\RouteParamsResolverFactory',
+            'Magento\Framework\Url\RouteParamsResolverFactory',
             array(),
             array(),
             '',

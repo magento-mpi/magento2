@@ -17,7 +17,7 @@ use Magento\Framework\App\Cache\State;
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 

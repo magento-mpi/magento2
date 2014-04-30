@@ -27,7 +27,7 @@ class Delete
     /**
      * Delete Product scripts after deleting product
      *
-     * @param \Magento\Object $observer
+     * @param \Magento\Framework\Object $observer
      * @return $this
      */
     public function deleteProductGoogleExperimentScript($observer)

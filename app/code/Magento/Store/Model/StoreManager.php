@@ -34,7 +34,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Event manager
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 

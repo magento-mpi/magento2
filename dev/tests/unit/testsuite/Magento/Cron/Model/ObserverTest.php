@@ -51,7 +51,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_request;
 
     /**
-     * @var \Magento\ShellInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ShellInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
@@ -92,7 +92,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Console\Request'
         )->disableOriginalConstructor()->getMock();
         $this->_shell = $this->getMockBuilder(
-            'Magento\ShellInterface'
+            'Magento\Framework\ShellInterface'
         )->disableOriginalConstructor()->setMethods(
             array('execute')
         )->getMock();
@@ -473,7 +473,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $schedule->expects($this->any())->method('getJobCode')->will($this->returnValue('job_code1'));
         $schedule->expects($this->once())->method('getScheduledAt')->will($this->returnValue('* * * * *'));
 
-        $this->_collection->addItem(new \Magento\Object());
+        $this->_collection->addItem(new \Magento\Framework\Object());
         $this->_collection->addItem($schedule);
 
         $this->_cache->expects($this->any())->method('save');
@@ -493,15 +493,24 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testDispatchGenerate()
     {
         $jobConfig = array(
-            'test_group' => array('test_job1' => array('instance' => 'CronJob', 'method' => 'execute'))
+            'test_group' => array(
+                'default' => array(
+                    'test_job1' => array(
+                        'instance' => 'CronJob',
+                        'method' => 'execute'
+                    )
+                )
+            )
         );
 
         $this->_config->expects($this->at(0))->method('getJobs')->will($this->returnValue($jobConfig));
         $jobs = array(
             'test_group' => array(
-                'job1' => array('config_path' => 'test/path'),
-                'job2' => array('schedule' => ''),
-                'job3' => array('schedule' => '* * * * *')
+                'default' => array(
+                    'job1' => array('config_path' => 'test/path'),
+                    'job2' => array('schedule' => ''),
+                    'job3' => array('schedule' => '* * * * *')
+                )
             )
         );
         $this->_config->expects($this->at(1))->method('getJobs')->will($this->returnValue($jobs));
@@ -538,7 +547,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $schedule->expects($this->any())->method('unsScheduleId')->will($this->returnSelf());
         $schedule->expects($this->any())->method('trySchedule')->will($this->returnSelf());
 
-        $this->_collection->addItem(new \Magento\Object());
+        $this->_collection->addItem(new \Magento\Framework\Object());
         $this->_collection->addItem($schedule);
 
         $this->_cache->expects($this->any())->method('save');

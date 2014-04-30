@@ -15,15 +15,15 @@ namespace Magento\ProductAlert\Model\Resource;
 class Price extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
     /**
-     * @var \Magento\Stdlib\DateTime\DateTimeFactory
+     * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      */
-    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory)
     {
         $this->_dateFactory = $dateFactory;
         parent::__construct($resource);

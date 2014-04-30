@@ -126,7 +126,7 @@ class Book extends \Magento\Framework\View\Element\Template
     {
         try {
             $addresses = $this->_addressService->getAddresses($this->currentCustomer->getCustomerId());
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return false;
         }
         $primaryAddressIds = array($this->getDefaultBilling(), $this->getDefaultShipping());
@@ -163,7 +163,7 @@ class Book extends \Magento\Framework\View\Element\Template
         if (is_null($customer)) {
             try {
                 $customer = $this->_customerAccountService->getCustomer($this->currentCustomer->getCustomerId());
-            } catch (\Magento\Exception\NoSuchEntityException $e) {
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                 return null;
             }
             $this->setData('customer', $customer);
@@ -192,7 +192,7 @@ class Book extends \Magento\Framework\View\Element\Template
     {
         try {
             return $this->_addressService->getAddress($addressId);
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;
         }
     }

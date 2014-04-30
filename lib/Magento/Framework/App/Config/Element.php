@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\App\Config;
 
-class Element extends \Magento\Simplexml\Element
+class Element extends \Magento\Framework\Simplexml\Element
 {
     /**
      * Enter description here...

@@ -22,20 +22,22 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $arrayUtils, $data, $priceBlockTypes);
+        parent::__construct(
+            $context,
+            $arrayUtils,
+            $data
+        );
         $this->_isScopePrivate = true;
     }
 

@@ -49,7 +49,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
      * @param \Magento\Eav\Model\Form\ElementFactory $elementFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -58,7 +58,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
         \Magento\Eav\Model\Form\ElementFactory $elementFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

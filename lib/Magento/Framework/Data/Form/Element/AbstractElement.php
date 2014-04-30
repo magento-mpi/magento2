@@ -12,7 +12,7 @@ namespace Magento\Framework\Data\Form\Element;
 use Magento\Framework\Data\Form;
 use Magento\Framework\Data\Form\AbstractForm;
 use Magento\Framework\Data\Form\Element\Renderer\RendererInterface;
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 /**
  * Data form abstract class
