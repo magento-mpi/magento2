@@ -177,4 +177,32 @@ class Cc extends \Magento\Payment\Block\Form
         );
         return $cancelButton->toHtml();
     }
+
+    /**
+     * Escape single and double quotes
+     *
+     * @param string $message
+     * @return string
+     */
+    public function escapeMessage($message)
+    {
+        return htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+    }
+
+    /**
+     * Return init data for authorizenetAuthenticate widget as json
+     *
+     * @return string
+     */
+    public function getWidgetInitData()
+    {
+        $initData = [
+            'authorizenetAuthenticate' => [
+                'partialAuthorizationConfirmationMessage' => $this->getPartialAuthorizationConfirmationMessage(),
+                'cancelConfirmationMessage' => $this->getCancelConfirmationMessage(),
+                'cancelUrl' => $this->getCancelUrl()
+            ]
+        ];
+        return \Zend_Json::encode($initData);
+    }
 }
