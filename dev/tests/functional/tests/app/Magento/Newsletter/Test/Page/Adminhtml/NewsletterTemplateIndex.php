@@ -28,7 +28,7 @@ class NewsletterTemplateIndex extends BackendPage
         ],
         'gridPageActions' => [
             'name' => 'gridPageActions',
-            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateAction',
+            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -49,7 +49,7 @@ class NewsletterTemplateIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateAction
+     * @return \Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions
      */
     public function getGridPageActions()
     {

@@ -15,7 +15,7 @@ use Magento\Backend\Test\Block\FormPageActions;
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml
  */
-class NewsletterTemplateFormAction extends FormPageActions
+class NewsletterTemplateFormActions extends FormPageActions
 {
     /**
      * "Save" button

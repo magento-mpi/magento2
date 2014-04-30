@@ -10,13 +10,13 @@
 <page mca="newsletter/template/new/index">
     <block>
         <name>pageMainActions</name>
-        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateFormActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>pageMainForm</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForm</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForms</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

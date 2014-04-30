@@ -22,7 +22,7 @@ class NewsletterTemplateNewIndex extends BackendPage
     protected $_blocks = [
         'pageMainActions' => [
             'name' => 'pageMainActions',
-            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateFormAction',
+            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateFormActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -41,7 +41,7 @@ class NewsletterTemplateNewIndex extends BackendPage
     ];
 
     /**
-     * @return \Magento\Backend\Test\Block\FormPageActions
+     * @return \Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateFormActions
      */
     public function getPageMainActions()
     {

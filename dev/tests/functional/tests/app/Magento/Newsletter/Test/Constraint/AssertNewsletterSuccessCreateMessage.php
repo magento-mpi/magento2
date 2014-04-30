@@ -19,6 +19,7 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertNewsletterSuccessCreateMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The newsletter template has been saved.';
+
     /**
      * Constraint severeness
      *

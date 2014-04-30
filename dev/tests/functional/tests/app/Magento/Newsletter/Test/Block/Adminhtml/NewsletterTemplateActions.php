@@ -15,7 +15,7 @@ use Magento\Backend\Test\Block\GridPageActions;
  *
  * @package Magento\Newsletter\Test\Block\Adminhtml
  */
-class NewsletterTemplateAction extends GridPageActions
+class NewsletterTemplateActions extends GridPageActions
 {
     /**
      * "Add New" button

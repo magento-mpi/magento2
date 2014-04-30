@@ -17,6 +17,11 @@ use Magento\Backend\Test\Block\Widget\Grid;
  */
 class NewsletterTemplateGrid extends Grid
 {
+    /**
+     * Filters
+     *
+     * @var array $filters
+     */
     protected $filters = [
         'code' => [
             'selector' => '[data-ui-id="widget-grid-column-filter-text-1-filter-code"]'

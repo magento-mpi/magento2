@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>gridPageActions</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateAction</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
