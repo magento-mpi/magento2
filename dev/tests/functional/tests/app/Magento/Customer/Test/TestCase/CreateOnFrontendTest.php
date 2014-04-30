@@ -44,7 +44,7 @@ class CreateOnFrontendTest extends Functional
         $topLinks = $homePage->getLinksBlock();
         $topLinks->openLink('Register');
 
-        $createPage->getCreateForm()->create($customer);
+        $createPage->getRegisterForm()->registerCustomer($customer);
 
         //Verifying
         $this->assertContains('Thank you for registering', $accountIndexPage->getMessages()->getSuccessMessages());
