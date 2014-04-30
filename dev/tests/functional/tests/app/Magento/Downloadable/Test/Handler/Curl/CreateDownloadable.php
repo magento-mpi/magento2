@@ -62,6 +62,8 @@ class CreateDownloadable extends Curl
     }
 
     /**
+     * Prepare downloadable data
+     *
      * @param string $key
      * @param string|array $value
      * @return array

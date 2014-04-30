@@ -22,11 +22,8 @@ use Mtf\Fixture\FixtureInterface;
 class DownloadableSamples implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
+     * Construct for class
+     *
      * @param array $params
      * @param array $data
      */
@@ -73,7 +70,7 @@ class DownloadableSamples implements FixtureInterface
      * Preset array for downloadable samples
      *
      * @param string $name
-     * @return array|bool
+     * @return array|null
      */
     protected function getPreset($name)
     {

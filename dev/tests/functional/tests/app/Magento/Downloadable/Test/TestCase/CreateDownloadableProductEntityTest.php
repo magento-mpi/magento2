@@ -32,21 +32,29 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 class CreateDownloadableProductEntityTest extends Injectable
 {
     /**
+     * Fixture category
+     *
      * @var Category
      */
     protected $category;
 
     /**
+     * Page product on backend
+     *
      * @var CatalogProductIndexPage
      */
     protected $catalogProductIndex;
 
     /**
+     * New page on backend
+     *
      * @var CatalogProductNew
      */
     protected $catalogProductNew;
 
     /**
+     * Persist category
+     *
      * @param Category $category
      * @return array
      */
@@ -60,9 +68,13 @@ class CreateDownloadableProductEntityTest extends Injectable
     }
 
     /**
+     * Filling objects of the class
+     *
      * @param Category $category
-     * @param CatalogProductIndexPage $catalogProductIndex
-     * @param CatalogProductNew $catalogProductNew
+     * @param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex $catalogProductIndexNewPage
+     * @param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew $catalogProductNewPage
+     * @internal param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex $catalogProductIndex
+     * @internal param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew $catalogProductNew
      */
     public function __inject(
         Category $category,
@@ -75,6 +87,8 @@ class CreateDownloadableProductEntityTest extends Injectable
     }
 
     /**
+     * Test create downloadable product
+     *
      * @param CatalogProductDownloadable $product
      * @param Category $category
      */

@@ -48,7 +48,7 @@ class LinkRow extends Form
     }
 
     /**
-     * Fill item sample
+     * Verify item sample
      *
      * @param array $fields
      * @return void

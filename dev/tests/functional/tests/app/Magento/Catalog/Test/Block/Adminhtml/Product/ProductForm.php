@@ -82,6 +82,8 @@ class ProductForm extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
+     * Fixture category
+     *
      * @var Category
      */
     protected $category;
@@ -99,6 +101,8 @@ class ProductForm extends FormTabs
     }
 
     /**
+     * Set category
+     *
      * @param Category $category
      */
     public function setCategory(Category $category)
@@ -166,6 +170,8 @@ class ProductForm extends FormTabs
 
     /**
      * Open new category dialog
+     *
+     * @return void
      */
     protected function openNewCategoryDialog()
     {
@@ -194,6 +200,8 @@ class ProductForm extends FormTabs
 
     /**
      * Clear category field
+     *
+     * @return void
      */
     public function clearCategorySelect()
     {
@@ -205,6 +213,8 @@ class ProductForm extends FormTabs
 
     /**
      * Select parent category for new one
+     *
+     * @return void
      */
     protected function selectParentCategory()
     {

@@ -22,11 +22,8 @@ use Mtf\Fixture\FixtureInterface;
 class DownloadableLinks implements FixtureInterface
 {
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
+     * Construct for class
+     *
      * @param array $params
      * @param array $data
      */

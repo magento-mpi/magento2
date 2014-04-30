@@ -934,6 +934,8 @@ class CatalogProductDownloadable extends InjectableFixture
     }
 
     /*
+     * Get fixture downloadable links
+     *
      * @param string $name
      * @return array
      */

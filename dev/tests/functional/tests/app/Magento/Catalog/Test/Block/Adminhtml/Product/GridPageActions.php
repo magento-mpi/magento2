@@ -33,6 +33,12 @@ class GridPageActions extends AbstractGridPageActions
      */
     protected $typeProducts;
 
+    /**
+     * Set product type
+     *
+     * @param $typeProducts
+     * @return void
+     */
     public function setTypeProduct($typeProducts)
     {
         $this->typeProducts = $typeProducts;
@@ -40,6 +46,8 @@ class GridPageActions extends AbstractGridPageActions
 
     /**
      * Click on "Add New" button
+     *
+     * @return void
      */
     public function addNew()
     {
