@@ -44,11 +44,6 @@ class Repository
     private $assetSource;
 
     /**
-     * @var string
-     */
-    private $appMode;
-
-    /**
      * @var \Magento\Framework\View\Asset\ContextInterface[]
      */
     private $fallbackContext;
@@ -63,20 +58,17 @@ class Repository
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
      * @param \Magento\Framework\View\Asset\Source $assetSource
-     * @param string $appMode
      */
     public function __construct(
         \Magento\UrlInterface $baseUrl,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\View\Design\Theme\Provider $themeProvider,
-        \Magento\Framework\View\Asset\Source $assetSource,
-        $appMode = \Magento\Framework\App\State::MODE_DEFAULT
+        \Magento\Framework\View\Asset\Source $assetSource
     ) {
         $this->baseUrl = $baseUrl;
         $this->design = $design;
         $this->themeProvider = $themeProvider;
         $this->assetSource = $assetSource;
-        $this->appMode = $appMode;
     }
 
     /**
@@ -199,9 +191,6 @@ class Repository
         $baseDirType = \Magento\Framework\App\Filesystem::STATIC_VIEW_DIR;
         $id = implode('|', array($baseDirType, $urlType, $secureKey, $area, $themePath, $locale));
         if (!isset($this->fallbackContext[$id])) {
-            if ($this->appMode == \Magento\Framework\App\State::MODE_PRODUCTION) {
-                $locale = ''; // a workaround while support for locale is not implemented in production mode
-            }
             $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
             $this->fallbackContext[$id] = new \Magento\Framework\View\Asset\File\FallbackContext(
                 $url,

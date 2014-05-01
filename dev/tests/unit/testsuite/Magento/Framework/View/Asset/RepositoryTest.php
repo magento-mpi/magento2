@@ -110,17 +110,6 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($context, $asset->getContext()); // and once again to ensure in-memory caching for real
     }
 
-    public function testProductionModeWorkaround()
-    {
-        $this->mockDesign();
-        $context = $this->object->getStaticViewFileContext();
-        $this->assertEquals('area/theme/locale', $context->getPath());
-        $mode = \Magento\Framework\App\State::MODE_PRODUCTION;
-        $object = new Repository($this->baseUrl, $this->design, $this->themeProvider, $this->source, $mode);
-        $productionContext = $object->getStaticViewFileContext();
-        $this->assertEquals('area/theme', $productionContext->getPath());
-    }
-
     /**
      * @param string $fileId
      * @param string $similarToModule

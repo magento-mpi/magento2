@@ -36,6 +36,11 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     private $assetRepo;
 
     /**
+     * @var \Magento\Framework\View\Design\Theme\Provider|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $themeProvider;
+
+    /**
      * @var \Magento\Less\PreProcessor\Instruction\Import
      */
     private $object;
@@ -45,14 +50,16 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->fileSource = $this->getMockForAbstractClass('\Magento\Framework\View\File\CollectorInterface');
         $this->errorHandler = $this->getMockForAbstractClass('\Magento\Less\PreProcessor\ErrorHandlerInterface');
-        $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $this->asset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $this->asset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
-        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', [], [], '', false);
+        $this->themeProvider = $this->getMock('\Magento\Framework\View\Design\Theme\Provider', [], [], '', false);
         $this->object = new \Magento\Less\PreProcessor\Instruction\MagentoImport(
             $this->design,
             $this->fileSource,
             $this->errorHandler,
-            $this->assetRepo
+            $this->assetRepo,
+            $this->themeProvider
         );
     }
 
@@ -68,21 +75,21 @@ class MagentoImportTest extends \PHPUnit_Framework_TestCase
     public function testProcess($originalContent, $foundPath, $resolvedPath, $foundFiles, $expectedContent)
     {
         $chain = new \Magento\Framework\View\Asset\PreProcessor\Chain($this->asset, $originalContent, 'css');
-        $relatedAsset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $relatedAsset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $relatedAsset->expects($this->once())
             ->method('getFilePath')
             ->will($this->returnValue($resolvedPath));
+        $context = $this->getMock('\Magento\Framework\View\Asset\File\FallbackContext', [], [], '', false);
         $this->assetRepo->expects($this->once())
             ->method('createRelated')
             ->with($foundPath, $this->asset)
             ->will($this->returnValue($relatedAsset));
+        $relatedAsset->expects($this->once())->method('getContext')->will($this->returnValue($context));
         $theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');
-        $this->design->expects($this->once())
-            ->method('getDesignTheme')
-            ->will($this->returnValue($theme));
+        $this->themeProvider->expects($this->once())->method('getThemeModel')->will($this->returnValue($theme));
         $files = [];
         foreach ($foundFiles as $file) {
-            $fileObject = $this->getMock('Magento\Framework\View\File', array(), array(), '', false);
+            $fileObject = $this->getMock('Magento\Framework\View\File', [], [], '', false);
             $fileObject->expects($this->any())
                 ->method('getModule')
                 ->will($this->returnValue($file['module']));

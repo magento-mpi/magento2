@@ -79,6 +79,7 @@ class Simple implements Fallback\ResolverInterface
      *
      * @param string $filePath
      * @throws \InvalidArgumentException
+     * @return void
      */
     public static function assertFilePathFormat($filePath)
     {

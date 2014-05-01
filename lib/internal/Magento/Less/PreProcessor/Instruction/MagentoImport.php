@@ -12,6 +12,7 @@ use Magento\Framework\View\Asset\PreProcessorInterface;
 use Magento\Framework\View\Asset\LocalInterface;
 use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\File\CollectorInterface;
+use Magento\Framework\View\Asset\File\FallbackContext;
 
 /**
  * LESS @magento_import instruction preprocessor
@@ -44,21 +45,29 @@ class MagentoImport implements PreProcessorInterface
     protected $assetRepo;
 
     /**
+     * @var \Magento\Framework\View\Design\Theme\Provider
+     */
+    protected $themeProvider;
+
+    /**
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
+     * @param \Magento\Framework\View\Design\Theme\Provider $themeProvider
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler,
-        \Magento\Framework\View\Asset\Repository $assetRepo
+        \Magento\Framework\View\Asset\Repository $assetRepo,
+        \Magento\Framework\View\Design\Theme\Provider $themeProvider
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
         $this->assetRepo = $assetRepo;
+        $this->themeProvider = $themeProvider;
     }
 
     /**
@@ -87,7 +96,7 @@ class MagentoImport implements PreProcessorInterface
             $matchedFileId = $matchedContent['path'];
             $relatedAsset = $this->assetRepo->createRelated($matchedFileId, $asset);
             $resolvedPath = $relatedAsset->getFilePath();
-            $importFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), $resolvedPath);
+            $importFiles = $this->fileSource->getFiles($this->getTheme($relatedAsset), $resolvedPath);
             /** @var $importFile \Magento\Framework\View\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .= $importFile->getModule()
@@ -98,5 +107,20 @@ class MagentoImport implements PreProcessorInterface
             $this->errorHandler->processException($e);
         }
         return $importsContent;
+    }
+
+    /**
+     * Get theme model based on the information from asset
+     *
+     * @param LocalInterface $asset
+     * @return \Magento\Framework\View\Design\ThemeInterface
+     */
+    protected function getTheme(LocalInterface $asset)
+    {
+        $context = $asset->getContext();
+        if ($context instanceof FallbackContext) {
+            return $this->themeProvider->getThemeModel($context->getThemePath(), $context->getAreaCode());
+        }
+        return $this->design->getDesignTheme();
     }
 }

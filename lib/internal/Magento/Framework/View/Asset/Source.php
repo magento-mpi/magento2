@@ -12,6 +12,8 @@ use Magento\Framework\View\Design\FileResolution\Fallback\Resolver\Simple;
 
 /**
  * A service for preprocessing content of assets
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Source
 {

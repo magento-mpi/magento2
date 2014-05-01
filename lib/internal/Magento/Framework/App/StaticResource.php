@@ -59,11 +59,6 @@ class StaticResource implements \Magento\Framework\AppInterface
     private $configLoader;
 
     /**
-     * @var \Magento\Framework\View\DesignInterface
-     */
-    private $design;
-
-    /**
      * @param State $state
      * @param Response\FileInterface $response
      * @param Request\Http $request
@@ -72,7 +67,6 @@ class StaticResource implements \Magento\Framework\AppInterface
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\ObjectManager $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
-     * @param \Magento\Framework\View\DesignInterface $design
      */
     public function __construct(
         State $state,
@@ -82,8 +76,7 @@ class StaticResource implements \Magento\Framework\AppInterface
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Module\ModuleList $moduleList,
         \Magento\ObjectManager $objectManager,
-        ObjectManager\ConfigLoader $configLoader,
-        \Magento\Framework\View\DesignInterface $design
+        ObjectManager\ConfigLoader $configLoader
     ) {
         $this->state = $state;
         $this->response = $response;
@@ -93,7 +86,6 @@ class StaticResource implements \Magento\Framework\AppInterface
         $this->moduleList = $moduleList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
-        $this->design = $design;
     }
 
     /**
@@ -113,7 +105,6 @@ class StaticResource implements \Magento\Framework\AppInterface
                 $params = $this->parsePath($path);
                 $this->state->setAreaCode($params['area']);
                 $this->objectManager->configure($this->configLoader->load($params['area']));
-                $this->design->setDesignTheme($params['theme']);
                 $file = $params['file'];
                 unset($params['file']);
                 $asset = $this->assetRepo->createAsset($file, $params);

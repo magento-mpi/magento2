@@ -1,7 +1,5 @@
 <?php
 /**
- * A helper to gather specific kind of files in Magento application
- *
  * {license_notice}
  *
  * @category    tests
@@ -9,8 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestFramework\Utility;
 
+/**
+ * A helper to gather specific kind of files in Magento application
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.NPathComplexity)
+ */
 class Files
 {
     /**
@@ -105,7 +110,8 @@ class Files
     {
         $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$otherCode}/{$templates}";
         if (!isset(self::$_cache[$key])) {
-            $namespace = $module = $area = '*';
+            $namespace = '*';
+            $module = '*';
             $files = array();
             if ($appCode) {
                 $files = array_merge(
@@ -352,7 +358,7 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseModuleLayout($file, $path)
+    protected function _parseModuleLayout($file, $path)
     {
         preg_match(
             '/^' . preg_quote("{$path}/app/code/", '/') . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/layout\/(.+)$/i',
@@ -370,10 +376,10 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseThemeLayout($file, $path)
+    protected function _parseThemeLayout($file, $path)
     {
-        $invariant = '/^' . preg_quote("{$path}/app/design/", '/')
-            . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/layout\/';
+        $appDesign = preg_quote("{$path}/app/design/", '/');
+        $invariant = '/^' . $appDesign . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/layout\/';
         if (preg_match($invariant . 'override\/base\/(.+)$/i', $file, $matches)) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
             return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
@@ -510,6 +516,31 @@ class Files
     }
 
     /**
+     * Get all files from static library directory
+     *
+     * @return array
+     */
+    public function getStaticLibraryFiles()
+    {
+        $result = array();
+        $this->_accumulateFilesByPatterns(array("{$this->_path}/lib/web"), '*', $result, '_parseLibStatic');
+        return $result;
+    }
+
+    /**
+     * Parse file path from the absolute path of static library
+     *
+     * @param string $file
+     * @param string $path
+     * @return string
+     */
+    protected function _parseLibStatic($file, $path)
+    {
+        preg_match('/^' . preg_quote("{$path}/lib/web/", '/') . '(.+)$/i', $file, $matches);
+        return $matches[1];
+    }
+
+    /**
      * Search files by the specified patterns and accumulate them, applying a callback to each found row
      *
      * @param array $patterns
@@ -517,7 +548,7 @@ class Files
      * @param array $result
      * @param bool $subroutine
      */
-    private function _accumulateFilesByPatterns(array $patterns, $filePattern, array &$result, $subroutine = false)
+    protected function _accumulateFilesByPatterns(array $patterns, $filePattern, array &$result, $subroutine = false)
     {
         $path = str_replace(DIRECTORY_SEPARATOR, '/', $this->_path);
         foreach (self::getFiles($patterns, $filePattern) as $file) {
@@ -537,7 +568,7 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseModuleStatic($file, $path)
+    protected function _parseModuleStatic($file, $path)
     {
         preg_match(
             '/^' . preg_quote("{$path}/app/code/", '/') . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/web\/(.+)$/i',
@@ -555,11 +586,11 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseModuleLocaleStatic($file, $path)
+    protected function _parseModuleLocaleStatic($file, $path)
     {
+        $appCode = preg_quote("{$path}/app/code/", '/');
         preg_match(
-            '/^' . preg_quote("{$path}/app/code/", '/')
-                . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
+            '/^' . $appCode . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
             $file,
             $matches
         );
@@ -574,11 +605,11 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseThemeStatic($file, $path)
+    protected function _parseThemeStatic($file, $path)
     {
+        $appDesign = preg_quote("{$path}/app/design/", '/');
         if (preg_match(
-            '/^' . preg_quote("{$path}/app/design/", '/')
-                . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/(.+)$/i',
+            '/^' . $appDesign . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/(.+)$/i',
             $file,
             $matches
         )) {
@@ -587,7 +618,7 @@ class Files
         }
 
         preg_match(
-            '/^' . preg_quote("{$path}/app/design/", '/') . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/web\/(.+)$/i',
+            '/^' . $appDesign . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/web\/(.+)$/i',
             $file,
             $matches
         );
@@ -602,11 +633,11 @@ class Files
      * @param string $path
      * @return array
      */
-    private function _parseThemeLocaleStatic($file, $path)
+    protected function _parseThemeLocaleStatic($file, $path)
     {
+        $design = preg_quote("{$path}/app/design/", '/');
         if (preg_match(
-            '/^' . preg_quote("{$path}/app/design/", '/')
-                . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
+            '/^' . $design. '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
             $file,
             $matches
         )) {
@@ -615,8 +646,7 @@ class Files
         }
 
         preg_match(
-            '/^' . preg_quote("{$path}/app/design/", '/')
-            . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
+            '/^' . $design . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
             $file,
             $matches
         );
@@ -692,11 +722,17 @@ class Files
         return $result;
     }
 
-    private function _parseModuleTemplate($file, $path)
+    /**
+     * Parse meta-information from a modular template file
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
+    protected function _parseModuleTemplate($file, $path)
     {
         preg_match(
-            '/^' . preg_quote("{$path}/app/code/", '/')
-                . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/templates\/(.+)$/i',
+            '/^' . preg_quote("{$path}/app/code/", '/') . '([a-z\d]+)\/([a-z\d]+)\/view\/([a-z]+)\/templates\/(.+)$/i',
             $file,
             $matches
         );
@@ -704,11 +740,18 @@ class Files
         return array($area, '', $namespace . '_' . $module, $filePath);
     }
 
-    private function _parseThemeTemplate($file, $path)
+    /**
+     * Parse meta-information from a theme template file
+     *
+     * @param string $file
+     * @param string $path
+     * @return array
+     */
+    protected function _parseThemeTemplate($file, $path)
     {
+        $appDesign = preg_quote("{$path}/app/design/", '/');
         preg_match(
-            '/^' . preg_quote("{$path}/app/design/", '/')
-                . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/templates\/(.+)$/i',
+            '/^' . $appDesign . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/templates\/(.+)$/i',
             $file,
             $matches
         );
