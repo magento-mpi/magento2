@@ -119,6 +119,42 @@ class User extends \Magento\Backend\App\AbstractAction
     }
 
     /**
+     * AJAX customer validation action
+     *
+     * @return void
+     */
+    public function validateAction()
+    {
+        $response = new \Magento\Framework\Object();
+        $response->setError(0);
+        $errors = null;
+        $userId = (int)$this->getRequest()->getParam('user_id');
+        $data = $this->getRequest()->getPost();
+        try {
+            /** @var $model \Magento\User\Model\User */
+            $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
+            $model->setData($this->_getAdminUserData($data));
+            $errors = $model->validate();
+        } catch (\Magento\Framework\Model\Exception $exception) {
+            /* @var $error Error */
+            foreach ($exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $error) {
+                $errors[] = $error->getText();
+            }
+        }
+
+        if ($errors !== true && !empty($errors)) {
+            foreach ($errors as $error) {
+                $this->messageManager->addError($error);
+            }
+            $response->setError(1);
+            $this->_view->getLayout()->initMessages();
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+        }
+
+        $this->getResponse()->setBody($response->toJson());
+    }
+
+    /**
      * @return void
      */
     public function saveAction()
