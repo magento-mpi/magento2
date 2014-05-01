@@ -65,12 +65,13 @@ class DirectoryList
      *
      * @param string $code
      * @param array $directoryConfig
+     * @param bool $overrideConfig
      * @return void
      * @throws \Magento\Framework\Filesystem\FilesystemException
      */
-    public function addDirectory($code, array $directoryConfig)
+    public function addDirectory($code, array $directoryConfig, $overrideConfig = false)
     {
-        if (isset($this->directories[$code])) {
+        if (isset($this->directories[$code]) && !$overrideConfig) {
             throw new \Magento\Framework\Filesystem\FilesystemException("Configuration for '{$code}' already defined");
         }
         if (!isset($directoryConfig['path'])) {

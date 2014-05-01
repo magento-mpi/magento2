@@ -52,7 +52,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $directoryList = $this->getMockBuilder(
             'Magento\Framework\Filesystem\DirectoryList'
         )->disableOriginalConstructor()->setMethods(
-            array('addDirectory', 'isConfigured', 'addProtocol')
+            array('addDirectory', 'isConfigured', 'addProtocol', 'getConfig')
         )->getMock();
 
         $directoryList->expects(
@@ -75,16 +75,17 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
 
         if ($pubDirIsConfigured) {
-            $directoryList->expects($this->never())->method('addDirectory');
+            $directoryList->expects($this->once())
+                ->method('getConfig')
+                ->with(\Magento\Framework\App\Filesystem::PUB_DIR)
+                ->will($this->returnValue(['test_key' => 'test_value']));
+            $directoryList->expects($this->once())
+                ->method('addDirectory')
+                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, ['uri' => '', 'test_key' => 'test_value'], true);
         } else {
-            $directoryList->expects(
-                $this->once()
-            )->method(
-                'addDirectory'
-            )->with(
-                \Magento\Framework\App\Filesystem::PUB_DIR,
-                array('uri' => '')
-            );
+            $directoryList->expects($this->once())
+                ->method('addDirectory')
+                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, array('uri' => ''));
         }
 
         $this->dirListConfiguration = $objectManager->getObject(

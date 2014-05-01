@@ -62,9 +62,11 @@ class Configuration
     public function configure(DirectoryList $directoryList)
     {
         foreach ($this->directories as $code => $directoryConfiguration) {
-            if (!$directoryList->isConfigured($code)) {
-                $directoryList->addDirectory($code, $directoryConfiguration);
+            if ($directoryList->isConfigured($code)) {
+                $existingDirectoryConfiguration = $directoryList->getConfig($code);
+                $directoryConfiguration = array_merge($directoryConfiguration, $existingDirectoryConfiguration);
             }
+            $directoryList->addDirectory($code, $directoryConfiguration, true);
         }
 
         foreach ($this->protocols as $code => $protocolConfiguration) {
