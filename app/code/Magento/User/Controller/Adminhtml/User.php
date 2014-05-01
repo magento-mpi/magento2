@@ -132,7 +132,7 @@ class User extends \Magento\Backend\App\AbstractAction
         $data = $this->getRequest()->getPost();
         try {
             /** @var $model \Magento\User\Model\User */
-            $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
+            $model = $this->_userFactory->create()->load($userId);
             $model->setData($this->_getAdminUserData($data));
             $errors = $model->validate();
         } catch (\Magento\Framework\Model\Exception $exception) {
@@ -166,7 +166,7 @@ class User extends \Magento\Backend\App\AbstractAction
             return;
         }
         /** @var $model \Magento\User\Model\User */
-        $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
+        $model = $this->_userFactory->create()->load($userId);
         if ($userId && $model->isObjectNew()) {
             $this->messageManager->addError(__('This user no longer exists.'));
             $this->_redirect('adminhtml/*/');
