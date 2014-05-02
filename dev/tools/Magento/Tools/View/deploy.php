@@ -43,7 +43,15 @@ if (isset($options['verbose'])) {
 // run the deployment logic
 $filesUtil = new \Magento\TestFramework\Utility\Files(BP);
 $omFactory = new \Magento\Framework\App\ObjectManagerFactory();
+$objectManager = $omFactory->create(
+    BP,
+    [\Magento\Framework\App\State::PARAM_MODE => \Magento\Framework\App\State::MODE_DEFAULT]
+);
 $logger = new \Magento\Tools\View\Deployer\Log($verbosity);
-$deployer = new \Magento\Tools\View\Deployer($filesUtil, $logger, $isDryRun);
+/** @var \Magento\Tools\View\Deployer $deployer */
+$deployer = $objectManager->create(
+    'Magento\Tools\View\Deployer',
+    ['filesUtil' => $filesUtil, 'logger' => $logger, 'isDryRun' => $isDryRun]
+);
 $deployer->deploy(BP, $omFactory, $langs);
 exit(0);

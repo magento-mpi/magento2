@@ -10,6 +10,7 @@ namespace Magento\Tools\View;
 
 use Magento\TestFramework\Utility\Files;
 use Magento\Framework\App\ObjectManagerFactory;
+use Magento\Framework\App\View\Deployment\Version;
 
 /**
  * A service for deploying Magento static view files for production mode
@@ -24,6 +25,12 @@ class Deployer
 
     /** @var Deployer\Log */
     private $logger;
+
+    /** @var Version\StorageInterface */
+    private $versionStorage;
+
+    /** @var Version\GeneratorInterface */
+    private $versionGenerator;
 
     /** @var \Magento\Framework\View\Asset\Repository */
     private $assetRepo;
@@ -44,11 +51,20 @@ class Deployer
      * @param Files $filesUtil
      * @param Deployer\Log $logger
      * @param bool $isDryRun
+     * @param \Magento\Framework\App\View\Deployment\Version\StorageInterface $versionStorage
+     * @param \Magento\Framework\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      */
-    public function __construct(Files $filesUtil, Deployer\Log $logger, $isDryRun = false)
-    {
+    public function __construct(
+        Files $filesUtil,
+        Deployer\Log $logger,
+        Version\StorageInterface $versionStorage,
+        Version\GeneratorInterface $versionGenerator,
+        $isDryRun = false
+    ) {
         $this->filesUtil = $filesUtil;
         $this->logger = $logger;
+        $this->versionStorage = $versionStorage;
+        $this->versionGenerator = $versionGenerator;
         $this->isDryRun = $isDryRun;
     }
 
@@ -86,6 +102,11 @@ class Deployer
                     $this->logger->log("\nSuccessful: {$this->count} files; errors: {$this->errorCount}\n---\n");
                 }
             }
+        }
+        $version = $this->versionGenerator->generate();
+        $this->logger->log("New version of deployed files: {$version}");
+        if (!$this->isDryRun) {
+            $this->versionStorage->save($version);
         }
     }
 
