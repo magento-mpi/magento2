@@ -14,6 +14,8 @@ use Magento\Framework\App\View\Deployment\Version;
 
 /**
  * A service for deploying Magento static view files for production mode
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Deployer
 {
@@ -74,22 +76,23 @@ class Deployer
      * @param string $rootPath
      * @param ObjectManagerFactory $omFactory
      * @param array $locales
+     * @return void
      */
     public function deploy($rootPath, ObjectManagerFactory $omFactory, array $locales)
     {
         $this->omFactory = $omFactory;
         if ($this->isDryRun) {
-            $this->logger->log('Dry run. Nothing will be recorded to the target directory.');
+            $this->logger->logMessage('Dry run. Nothing will be recorded to the target directory.');
         }
         $langList = implode(', ', $locales);
-        $this->logger->log("Requested languages: {$langList}");
+        $this->logger->logMessage("Requested languages: {$langList}");
         $libFiles = $this->filesUtil->getStaticLibraryFiles();
         list($areas, $appFiles) = $this->collectAppFiles($locales);
         foreach ($areas as $area => $themes) {
             $this->emulateApplicationArea($rootPath, $area);
             foreach ($locales as $locale) {
                 foreach ($themes as $themePath) {
-                    $this->logger->log("=== {$area} -> {$themePath} -> {$locale} ===");
+                    $this->logger->logMessage("=== {$area} -> {$themePath} -> {$locale} ===");
                     $this->count = 0;
                     $this->errorCount = 0;
                     foreach ($appFiles as $info) {
@@ -99,12 +102,12 @@ class Deployer
                     foreach ($libFiles as $filePath) {
                         $this->deployFile($filePath, $area, $themePath, $locale, null);
                     }
-                    $this->logger->log("\nSuccessful: {$this->count} files; errors: {$this->errorCount}\n---\n");
+                    $this->logger->logMessage("\nSuccessful: {$this->count} files; errors: {$this->errorCount}\n---\n");
                 }
             }
         }
         $version = $this->versionGenerator->generate();
-        $this->logger->log("New version of deployed files: {$version}");
+        $this->logger->logMessage("New version of deployed files: {$version}");
         if (!$this->isDryRun) {
             $this->versionStorage->save($version);
         }
@@ -137,7 +140,7 @@ class Deployer
         }
         if (!empty($locales)) {
             $langList = implode(', ', $locales);
-            $this->logger->log(
+            $this->logger->logMessage(
                 "WARNING: there were files for the following languages detected in the file system: {$langList}."
                 . ' These languages were not requested, so the files will not be populated.'
             );
@@ -149,8 +152,9 @@ class Deployer
     /**
      * Emulate application area and various services that are necessary for populating files
      *
-     * @param $rootPath
-     * @param $areaCode
+     * @param string $rootPath
+     * @param string $areaCode
+     * @return void
      */
     private function emulateApplicationArea($rootPath, $areaCode)
     {
@@ -178,6 +182,7 @@ class Deployer
      * @param string $locale
      * @param string $module
      * @param string $filePath
+     * @return void
      */
     private function deployAppFile($area, $fileArea, $themePath, $fileThemePath, $locale, $module, $filePath)
     {
@@ -198,6 +203,7 @@ class Deployer
      * @param string $themePath
      * @param string $locale
      * @param string $module
+     * @return void
      */
     private function deployFile($filePath, $area, $themePath, $locale, $module)
     {

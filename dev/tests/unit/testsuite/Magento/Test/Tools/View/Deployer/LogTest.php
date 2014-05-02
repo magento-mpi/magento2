@@ -33,18 +33,18 @@ class LogTest extends \PHPUnit_Framework_TestCase
         $foo = "foo\n";
         $err = "ERROR: {$foo}";
         return [
-            ['log',      Log::SILENT, ''],
-            ['logError', Log::SILENT, ''],
-            ['logDebug', Log::SILENT, ''],
-            ['log',      Log::ERROR, $foo],
-            ['logError', Log::ERROR, $err],
-            ['logDebug', Log::ERROR, ''],
-            ['log',      Log::DEBUG, $foo],
-            ['logError', Log::DEBUG, ''],
-            ['logDebug', Log::DEBUG, $foo],
-            ['log',      Log::ERROR | Log::DEBUG, $foo],
-            ['logError', Log::ERROR | Log::DEBUG, $err],
-            ['logDebug', Log::ERROR | Log::DEBUG, $foo],
+            ['logMessage', Log::SILENT, ''],
+            ['logError',   Log::SILENT, ''],
+            ['logDebug',   Log::SILENT, ''],
+            ['logMessage', Log::ERROR, $foo],
+            ['logError',   Log::ERROR, $err],
+            ['logDebug',   Log::ERROR, ''],
+            ['logMessage', Log::DEBUG, $foo],
+            ['logError',   Log::DEBUG, ''],
+            ['logDebug',   Log::DEBUG, $foo],
+            ['logMessage', Log::ERROR | Log::DEBUG, $foo],
+            ['logError',   Log::ERROR | Log::DEBUG, $err],
+            ['logDebug',   Log::ERROR | Log::DEBUG, $foo],
         ];
     }
 }

@@ -38,8 +38,9 @@ class Log
      * Log anything
      *
      * @param string $msg
+     * @return void
      */
-    public function log($msg)
+    public function logMessage($msg)
     {
         if ($this->verbosity !== self::SILENT) {
             echo "{$msg}\n";
@@ -50,6 +51,7 @@ class Log
      * Log an error
      *
      * @param string $msg
+     * @return void
      */
     public function logError($msg)
     {
@@ -62,6 +64,7 @@ class Log
      * Log a debug message
      *
      * @param string $msg
+     * @return void
      */
     public function logDebug($msg)
     {
@@ -69,4 +72,4 @@ class Log
             echo "{$msg}\n";
         }
     }
-} 
+}
