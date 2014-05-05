@@ -8,22 +8,29 @@
  */
 -->
 <fixture>
-    <customer module="Magento_Customer">
+    <customerInjectable module="Magento_Customer">
         <type>eav</type>
         <entity_type>customer</entity_type>
         <collection>Magento\Customer\Model\Resource\Customer\Collection</collection>
         <identifier>email</identifier>
-        <fields />
-        <data_set />
-        <data_config />
-    </customer>
-    <address module="Magento_Customer">
+        <fields>
+            <is_subscribed>
+                <attribute_code>is_subscribed</attribute_code>
+                <backend_type>virtual</backend_type>
+            </is_subscribed>
+            <password>
+                <attribute_code>password</attribute_code>
+                <backend_type>virtual</backend_type>
+            </password>
+            <password_confirmation>
+                <attribute_code>password_confirmation</attribute_code>
+                <backend_type>virtual</backend_type>
+            </password_confirmation>
+        </fields>
+    </customerInjectable>
+    <addressInjectable module="Magento_Customer">
         <type>eav</type>
         <entity_type>customer_address</entity_type>
         <collection>Magento\Customer\Model\Resource\Address\Collection</collection>
-        <identifier>email</identifier>
-        <fields />
-        <data_set />
-        <data_config />
-    </address>
+    </addressInjectable>
 </fixture>
