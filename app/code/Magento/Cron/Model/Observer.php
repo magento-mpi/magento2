@@ -309,6 +309,8 @@ class Observer
 
             if (!$cronExpr && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
+            } elseif (isset($this->_config->getJobs()[$jobCode]['schedule'])) {
+                $cronExpr = $this->_config->getJobs()[$jobCode]['schedule'];
             } else {
                 continue;
             }
@@ -317,6 +319,7 @@ class Observer
             $timeAhead = $currentTime + $scheduleAheadFor;
             $schedule->setJobCode($jobCode)->setCronExpr($cronExpr)->setStatus(Schedule::STATUS_PENDING);
 
+            // Try all times on the minute, for the next 20 minutes
             for ($time = $currentTime; $time < $timeAhead; $time += self::SECONDS_IN_MINUTE) {
                 $ts = strftime('%Y-%m-%d %H:%M:00', $time);
                 if (!empty($exists[$jobCode . '/' . $ts])) {
