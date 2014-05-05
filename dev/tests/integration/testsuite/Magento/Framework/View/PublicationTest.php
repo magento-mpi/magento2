@@ -78,8 +78,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Locale\ResolverInterface'
         )->setLocale(
-            $locale
-        );
+                $locale
+            );
         $url = $this->viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
         $viewFile = $this->fileSystem->getViewFile($file);
@@ -266,10 +266,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->viewUrl->getViewFileUrl($file, $designParams);
         $this->assertFileExists($expectedFile);
 
-        $this->assertEquals(
-            trim(file_get_contents($this->fileSystem->getViewFile($contentFile, $designParams))),
-            trim(file_get_contents($expectedFile))
-        );
+        $expectedCss = file_get_contents($expectedFile);
+        $expectedCss = str_replace("\n", "\r\n", $expectedCss);
+        $actualCss = file_get_contents($this->fileSystem->getViewFile($contentFile, $designParams));
+
+        $this->assertEquals($expectedCss, $actualCss);
     }
 
     public function getPublicFilePathLessDataProvider()
@@ -685,16 +686,17 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $filePath = 'mage/mage.js';
         $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Filesystem'
-        )->getPath(
-            \Magento\Framework\App\Filesystem::PUB_LIB_DIR
-        ) . '/' . $filePath;
+                'Magento\Framework\App\Filesystem'
+            )->getPath(
+                    \Magento\Framework\App\Filesystem::PUB_LIB_DIR
+                ) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
 
         $actualFile = $this->viewUrl->getViewFilePublicPath($filePath);
         $this->assertFileEquals($expectedFile, $actualFile);
     }
 }
+
 class MockedFilesystem extends \Magento\Framework\App\Filesystem
 {
     /**

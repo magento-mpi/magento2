@@ -52,10 +52,12 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         $cssTargetFile = $lessPreProcessor->process($cssFile, $targetDirectory);
         /** @var $viewFilesystem \Magento\Framework\View\FileSystem */
         $viewFilesystem = $this->objectManager->get('Magento\Framework\View\FileSystem');
-        $this->assertFileEquals(
-            $viewFilesystem->getViewFile('source.css', $designParams),
-            $cssTargetFile->getSourcePath()
-        );
+
+        $expectedCss = file_get_contents($viewFilesystem->getViewFile('source.css', $designParams));
+        $actualCss = file_get_contents($cssTargetFile->getSourcePath());
+        $actualCss = str_replace("\n", "\r\n", $actualCss);
+
+        $this->assertEquals($expectedCss, $actualCss);
     }
 
     /**
