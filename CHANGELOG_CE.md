@@ -9,6 +9,7 @@
   * Removed head.js usages from adminhtml (MAGETWO-18053)
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
+  * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:  
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
@@ -26,6 +27,7 @@
   * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
   * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
   * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
+  * Fixed: Improve Blank theme UI (MAGETWO-23339)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)

@@ -6,7 +6,59 @@
 //  * @license     {license_link}
 //  */
 
+html.opened {
+    overflow: hidden;
+}
+
+body {
+    .css(background-color, @page-bg-color);
+    &.opened {
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        .navigation {
+            left: 0;
+            -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            .transition(left .3s ease-out 0);
+        }
+        .page.wrapper {
+            cursor: pointer;
+            float: right;
+            margin-right: -86%;
+            position: relative;
+            width: 100%;
+        }
+    }
+}
+
 .main-navigation();
+
+.nav > .parent > .submenu > .level0 > li > a {
+    font-weight: @font-weight-bold;
+}
+
+.header.links {
+    padding: 10px 20px;
+    li {
+        display: block;
+        margin: 0;
+        a {
+            display: block;
+            line-height: 35px;
+            color: #575757;
+            &:hover {
+                color: #333;
+                text-decoration: none;
+            }
+        }
+        &.welcome {
+            line-height: 35px;
+        }
+    }
+}
 
 .navigation {
     margin: 0 0 30px;
@@ -19,54 +71,35 @@
             text-decoration: none;
             text-transform: uppercase;
         }
-        /*&.active:after {
-            content: '';
-            bottom: 0;
-            width: 100%;
-            position: absolute;
-            border-bottom: 3px solid #ff5501;
-            left: 0;
-        }
-        .submenu .active > a > span {
-            border-left: 3px solid #ff5501;
-            position: relative;
-        }*/
     }
-
-
-
 }
 
 .main-navigation-responsive();
 
-.responsive(@break) when (@break = @mobile) {
-    .nav > .parent > .submenu > .level0 > li > a {
-        font-weight: @font-weight-bold;
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    html.opened {
+        overflow: inherit;
     }
-    .header.links {
-        padding: 10px 20px;
-        li {
-            display: block;
-            margin: 0;
-            a {
-                display: block;
-                line-height: 35px;
-                color: #575757;
-                &:hover {
-                    color: #333;
-                    text-decoration: none;
-                }
+    body {
+        &.opened {
+            overflow: inherit;
+            .navigation {
+                left: auto;
+                box-shadow: none;
             }
-            &.welcome {
-                line-height: 35px;
+            .page.wrapper {
+                margin: 0;
+                cursor: default;
+                float: none;
             }
         }
     }
-    /*.navigation {
-        > ul > .level-top.active:after {
-            border-bottom: 0;
-            border-left: 3px solid #ff5501;
-            top: 0;
-        }
-    }*/
+    .navigation {
+        margin-bottom: 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 }

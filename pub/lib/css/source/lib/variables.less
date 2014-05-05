@@ -214,7 +214,7 @@
 //    Tables variables
 //--------------------------------------
 @table-width: 100%;
-@table-margin-bottom: @indent-base;
+@table-margin-bottom: '';
 @table-bg: transparent;
 @table-head-bg: @table-bg;
 @table-foot-bg: @table-bg;
@@ -265,7 +265,7 @@
 //--------------------------------------
 
 // Layout widths variables
-@layout-min-width: 1000px;
+@layout-width: ''; // for the fixed width layout
 @layout-max-width: 1280px;
 @layout-indent: 20px;
 
@@ -291,9 +291,16 @@
 @layout-column-main-width-2-right: @layout-columns-width - @layout-column-right-width;
 @layout-column-main-width-3: @layout-columns-width - @layout-column-left-width - @layout-column-right-width;
 
+//
+//    Responsive
+//--------------------------------------
 // Settings variables (TO DO: should be global)
-@no-flex: true;
-@responsive: true;
+@use-flex: false; // Use flexbox [true|false]
+@responsive: true; // Theme is responsive [true|false]
+
+@break-point-0: 600px; // catalog products in a row: (width <= 599) - 2 columns, (600 <= width <= 768) - 3 columns, (768 < width ) - 4 columns
+@break-point-1: 768px; // main breakpoint
+@break-point-2: 800px; // checkout and catalog 3 columns layout breakpoint
 
 //
 //    Navigation variables
@@ -349,8 +356,6 @@
 @navigation-level0-item-border-active: '';
 @navigation-level0-item-color-active: @navigation-level0-item-color-hover;
 @navigation-level0-item-text-decoration-active: @navigation-level0-item-text-decoration;
-
-
 
 @nav-responsive-bg: @color-secondary-light;
 
@@ -445,7 +450,7 @@
 @accordion-content-bg: @tab-control-bg-active;
 @accordion-content-border: @tab-content-border;
 
-@accordion-content-margin: 0;
+@accordion-content-margin: 0 0 5px;
 
 @accordion-content-padding: @tab-content-padding-top @tab-content-padding-right @tab-content-padding-bottom @tab-content-padding-left;
 
@@ -541,12 +546,6 @@
 @button-s-font-size: 11px;
 @button-s-padding: 0 8px;
 @button-s-height: 22px;
-
-//
-//    Responsive
-//--------------------------------------
-@mobile: 768px;
-@break-point-1: 768px;
 
 //
 //    Icons variables
@@ -935,18 +934,19 @@
 @form-fieldset-legend-font-weight: @font-weight-base;
 @form-fieldset-legend-font-style: normal;
 @form-fieldset-legend-line-height: 1.2;
-@form-fieldset-legend-margin: 0 0 25px @form-field-type-inline-label-width; //-30px 30px 50px -30px
+@form-fieldset-legend-margin: 0 0 25px 0; //0 0 25px @form-field-type-inline-label-width
 @form-fieldset-legend-padding: 0;
-@form-fieldset-legend-width: @form-field-type-inline-control-width; //100%
+@form-fieldset-legend-width: ''; //@form-field-type-inline-control-width
 
 // Field
-@form-field-type: inline; //block
+@form-field-type: block; //inline
+@form-field-type-revert: inline; // block, false
 @form-field-border: none;
 @form-field-column: false;
 @form-field-column-padding: 0 20px 0 0;
 @form-field-column-width: 50%;
-@form-field-type-block-margin: 0 0 20px;
 @form-field-type-inline-vertical-margin: 29px;
+@form-field-type-block-margin: 0 0 @form-field-type-inline-vertical-margin;
 @form-field-type-inline-margin: 0 0 @form-field-type-inline-vertical-margin;
 // form field label
 @form-field-label-color: '';

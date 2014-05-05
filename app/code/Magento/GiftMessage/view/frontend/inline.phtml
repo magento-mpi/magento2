@@ -25,7 +25,7 @@
         </div>
 
         <dl class="block items" id="allow-gift-options-container">
-            <dt id="add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>" class="order">
+            <dt id="add-gift-options-for-order-<?php echo $this->getEntity()->getId() ?>" class="title order">
                 <div class="title"><span><?php echo __('Gift Options for the Entire Order'); ?></span></div>
                 <div class="field choice">
                     <input type="checkbox" name="allow_gift_messages_for_order" id="allow_gift_options_for_order" data-mage-init='{"giftOptions":{}}' value="1" data-selector='{"id":"#allow-gift-options-for-order-container"}'<?php if($this->getEntityHasMessage()): ?> checked="checked"<?php endif; ?> class="checkbox" />
@@ -69,7 +69,7 @@
                <?php endif ?>
             </dd>
             <?php if ($this->isItemsAvailable()): ?>
-            <dt id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="individual">
+            <dt id="add-gift-options-for-items-<?php echo $this->getEntity()->getId() ?>" class="title individual">
                 <div class="title"><span><?php echo __('Gift Options for Individual Items'); ?></span></div>
                 <div class="field choice">
                     <input type="checkbox" name="allow_gift_options_for_items" id="allow_gift_options_for_items" data-mage-init='{"giftOptions":{}}' value="1" data-selector='{"id":"#allow-gift-options-for-items-container"}'<?php if($this->getItemsHasMesssages()): ?> checked="checked"<?php endif; ?> class="checkbox" />

@@ -69,11 +69,11 @@
 //
 // Internal use mixins
 //--------------------------------------
-._actions-toolbar-actions-links-margin-top(@_actions-toolbar-actions-links-margin) when not (@_actions-toolbar-actions-links-margin = '') {
+._actions-toolbar-actions-links-margin-top(@_actions-toolbar-actions-links-margin) when not (@_actions-toolbar-actions-links-margin = '') and not (@_actions-toolbar-actions-links-margin = 0) {
     margin-top: @_actions-toolbar-actions-links-margin;
 }
 
-._actions-toolbar-align(@_actions-toolbar-actions-position) when not (@_actions-toolbar-actions-position = justify){
+._actions-toolbar-align(@_actions-toolbar-actions-position) when not (@_actions-toolbar-actions-position = justify) {
     text-align: @_actions-toolbar-actions-position;
 }
 
@@ -122,7 +122,7 @@
 ._actions-toolbar-floats(
     @_actions-toolbar-actions-position,
     @_actions-toolbar-actions-reverse
-) when (@_actions-toolbar-actions-position = right) and (@_actions-toolbar-actions-reverse = false)  {
+) when (@_actions-toolbar-actions-position = right) and (@_actions-toolbar-actions-reverse = false) {
     .secondary {
         float: right;
     }
@@ -131,7 +131,7 @@
 ._actions-toolbar-floats(
     @_actions-toolbar-actions-position,
     @_actions-toolbar-actions-reverse
-) when (@_actions-toolbar-actions-position = right) and (@_actions-toolbar-actions-reverse = true)  {
+) when (@_actions-toolbar-actions-position = right) and (@_actions-toolbar-actions-reverse = true) {
     .primary {
         float: right;
     }
