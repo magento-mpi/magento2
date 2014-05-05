@@ -27,8 +27,9 @@ class OyejorgeTest extends \PHPUnit_Framework_TestCase
     {
         $sourceFilePath = realpath(__DIR__ . '/../_files/oyejorge.less');
         $expectedCss = file_get_contents(__DIR__ . '/../_files/oyejorge.css');
+        $expectedCss = str_replace("\r\n", "\n", $expectedCss);
         $actualCss = $this->model->process($sourceFilePath);
-        $actualCss = str_replace("\n", "\r\n", $actualCss);
+        $actualCss = str_replace("\r\n", "\n", $actualCss);
         $this->assertEquals($expectedCss, $actualCss);
     }
 }

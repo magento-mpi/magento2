@@ -267,9 +267,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($expectedFile);
 
         $expectedCss = file_get_contents($expectedFile);
-        $expectedCss = str_replace("\n", "\r\n", $expectedCss);
+        $expectedCss = str_replace("\r\n", "\n", $expectedCss);
         $actualCss = file_get_contents($this->fileSystem->getViewFile($contentFile, $designParams));
-
+        $actualCss = str_replace("\r\n", "\n", $actualCss);
         $this->assertEquals($expectedCss, $actualCss);
     }
 
