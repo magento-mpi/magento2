@@ -109,9 +109,10 @@ class CurrentCustomer
      */
     public function getCustomer()
     {
-        if ($this->moduleManager->isEnabled(
-                'Magento_PageCache'
-            ) && !$this->request->isAjax() && $this->view->isLayoutLoaded() && $this->layout->isCacheable()
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $this->view->isLayoutLoaded()
+            && $this->layout->isCacheable()
         ) {
             return $this->getDepersonalizedCustomer();
         } else {

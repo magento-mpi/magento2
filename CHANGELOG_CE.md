@@ -7,6 +7,8 @@
 * JavaScript improvements:
   * Removed head.js usages from frontend (MAGETWO-18032)
   * Removed head.js usages from adminhtml (MAGETWO-18053)
+* Service layer updates:
+  * CurrentCustomer services were moved to helpers
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
 * Fixed bugs:
