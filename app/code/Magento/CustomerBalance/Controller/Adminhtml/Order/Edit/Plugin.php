@@ -39,14 +39,12 @@ class Plugin
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        array $data = array()
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
     ) {
         $this->messageManager = $messageManager;
         $this->customerBalanceData = $customerBalanceData;
