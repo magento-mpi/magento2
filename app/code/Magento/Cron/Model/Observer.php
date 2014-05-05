@@ -309,8 +309,6 @@ class Observer
 
             if (!$cronExpr && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
-            } elseif (isset($this->_config->getJobs()[$jobCode]['schedule'])) {
-                $cronExpr = $this->_config->getJobs()[$jobCode]['schedule'];
             } else {
                 continue;
             }
