@@ -2479,4 +2479,5 @@ return array(
     ['Magento\Registry', 'Magento\Framework\Registry'],
     ['Magento\Util', 'Magento\Framework\Util'],
     ['Magento\BootstrapException', 'Magento\Framework\BootstrapException'],
+    ['Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid\Massaction'],
 );

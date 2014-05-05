@@ -41,10 +41,10 @@ class ItemsUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInt
      */
     public function update($argument)
     {
-        if ($this->_salesArchiveConfig->isArchiveActive()) {
-            if ($this->_authorizationModel->isAllowed('Magento_SalesArchive::add') === false) {
-                unset($argument['add_order_to_archive']);
-            }
+        if ($this->_salesArchiveConfig->isArchiveActive() === false
+            || $this->_authorizationModel->isAllowed('Magento_SalesArchive::add') === false
+        ) {
+            unset($argument['add_order_to_archive']);
         }
 
         return $argument;

@@ -51,11 +51,18 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testConfigActive()
+    {
+        $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(true));
+
+        $this->assertEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
+    }
+
     public function testConfigNotActive()
     {
         $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(false));
 
-        $this->assertEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
+        $this->assertNotEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
     }
 
     public function testAuthAllowed()
