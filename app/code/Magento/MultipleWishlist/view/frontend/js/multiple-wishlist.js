@@ -403,7 +403,7 @@
                     $(this.options.splitBtnTmpl).tmpl(tmplData).prependTo(element.parent());
                     element.remove();
                 }, this));
-                $(this.options.splitBtnTmpl+' [data-toggle="dropdown"]').dropdown();
+                $(this.options.wishlistLink+' [data-toggle="dropdown"]').dropdown();
             }
         }
     });
