@@ -266,11 +266,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->viewUrl->getViewFileUrl($file, $designParams);
         $this->assertFileExists($expectedFile);
 
-        $expectedCss = file_get_contents($expectedFile);
-        $expectedCss = str_replace("\r\n", "\n", $expectedCss);
-        $actualCss = file_get_contents($this->fileSystem->getViewFile($contentFile, $designParams));
-        $actualCss = str_replace("\r\n", "\n", $actualCss);
-        $this->assertEquals($expectedCss, $actualCss);
+        $this->assertFileEquals($this->fileSystem->getViewFile($contentFile, $designParams), $expectedFile);
     }
 
     public function getPublicFilePathLessDataProvider()
