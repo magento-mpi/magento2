@@ -10,6 +10,10 @@
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
 * Fixed bugs:
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
   * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
