@@ -135,7 +135,7 @@ class Observer
             return;
         }
         foreach ($addBySkuItems as $id => $params) {
-            $sku = isset($params['sku']) ? $params['sku'] : (string)$id;
+            $sku = (string) (isset($params['sku']) ? $params['sku'] : $id);
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
         /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */

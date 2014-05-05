@@ -1159,7 +1159,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _getValidatedItem($sku, $qty)
     {
         $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS;
-        if ($sku == '') {
+        if ($sku === '') {
             $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
             if (!\Zend_Validate::is($qty, 'Float')) {
@@ -1251,7 +1251,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function setAffectedItemConfig($sku, $config)
     {
-        if (!empty($sku) && !empty($config) && is_array($config)) {
+        if ($sku !== "" && !empty($config) && is_array($config)) {
             $this->_affectedItemsConfig[$sku] = $config;
         }
         return $this;
