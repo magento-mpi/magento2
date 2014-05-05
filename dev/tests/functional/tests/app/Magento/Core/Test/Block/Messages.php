@@ -76,6 +76,39 @@ class Messages extends Block
     }
 
     /**
+     * Click on part messages which are present on the page
+     *
+     * @param $messageType
+     * @param $text
+     * @internal param $selector
+     * @return string
+     */
+    public function clickLinkInMessages($messageType, $text)
+    {
+        if ($this->isVisibleMessage('error')) {
+            return $this->_rootElement
+                ->find($this->{$messageType . 'Message'}, Locator::SELECTOR_CSS)
+                ->find("//a[contains(.,'$text')]", Locator::SELECTOR_XPATH)
+                ->click();
+        }
+        return false;
+
+    }
+
+    /**
+     * Check is visible error messages
+     *
+     * @param string $messageType
+     * @return string
+     */
+    public function isVisibleMessage($messageType)
+    {
+        return $this->_rootElement
+            ->find($this->{$messageType . 'Message'}, Locator::SELECTOR_CSS)
+            ->isVisible();
+    }
+
+    /**
      * Check for error message
      *
      * @return bool

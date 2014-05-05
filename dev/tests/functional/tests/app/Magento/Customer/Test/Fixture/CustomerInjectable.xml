@@ -187,6 +187,5 @@
             <backend_type>virtual</backend_type>
         </password_confirmation>
     </fields>
-    <repository_class>Magento\Customer\Test\Repository\CustomerInjectable</repository_class>
     <handler_interface>Magento\Customer\Test\Handler\CustomerInjectable\CustomerInjectableInterface</handler_interface>
 </fixture>

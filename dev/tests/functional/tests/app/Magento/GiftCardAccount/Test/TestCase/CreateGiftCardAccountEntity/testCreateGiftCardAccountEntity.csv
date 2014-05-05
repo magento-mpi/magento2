@@ -1,0 +1,5 @@
+"giftCardAccount/data/status";"giftCardAccount/data/is_redeemable";"giftCardAccount/data/website_id";"giftCardAccount/data/balance";"giftCardAccount/data/date_expires";"constraint"
+"Yes";"Yes";"Main Website";"102";"01/01/2024";"assertGiftCardAccountSaveMessage, assertGiftCardAccountInGrid, assertGiftCardAccountForm, assertGiftCardAccountUsableInCartOnFrontend, assertGiftCardAccountRedeemableOnFrontend, assertGiftCardSuccessRedeemedMessage"
+"Yes";"Yes";"Main Website";"0";"-";"assertGiftCardAccountSaveMessage, assertGiftCardAccountInGrid, assertGiftCardAccountForm, assertGiftCardAccountIsNotUsableInCartOnFrontend"
+"Yes";"No";"Main Website";"103";"-";"assertGiftCardAccountSaveMessage, assertGiftCardAccountInGrid, assertGiftCardAccountForm, assertGiftCardAccountUsableInCartOnFrontend, assertGiftCardAccountNotRedeemableOnFrontend"
+"No";"Yes";"Main Website";"104";"-";"assertGiftCardAccountSaveMessage, assertGiftCardAccountInGrid, assertGiftCardAccountForm, assertGiftCardAccountIsNotUsableInCartOnFrontend, assertGiftCardAccountNotRedeemableOnFrontend"

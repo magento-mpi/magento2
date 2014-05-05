@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="checkout/cart">
+    <block>
+        <name>giftCardAccount</name>
+        <class>Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount</class>
+        <locator>.giftcard</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messages</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

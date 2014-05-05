@@ -20,17 +20,13 @@ class CustomerInjectable extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerInjectable';
-
-    /**
-     * @var string
-     */
     protected $handlerInterface = 'Magento\Customer\Test\Handler\CustomerInjectable\CustomerInjectableInterface';
 
     protected $defaultDataSet = [
         'firstname' => 'John',
         'lastname' => 'Doe',
         'email' => 'John.Doe%isolation%@example.com',
+        'password' => '123123q',
     ];
 
     protected $confirmation = [

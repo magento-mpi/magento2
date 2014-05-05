@@ -40,7 +40,7 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['100_dollar_product'] = [
-            'sku' => '100_dollar_product',
+            'sku' => '100_dollar_product%isolation%',
             'name' => '100_dollar_product',
             'type_id' => 'simple',
             'attribute_set_id' => '4',

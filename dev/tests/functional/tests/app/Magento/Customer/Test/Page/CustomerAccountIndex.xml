@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="customer/account/index">
+    <block>
+        <name>messages</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>dashboardAddress</name>
+        <class>Magento\Customer\Block\Account\Dashboard\Address</class>
+        <locator>.block.dashboard.addresses</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>titleBlock</name>
+        <class>Magento\Theme\Block\Html\Title</class>
+        <locator>.page.title</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>accountMenuBlock</name>
+        <class>Magento\Customer\Test\Block\Account\Links</class>
+        <locator>.nav.items</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>redeemBlock</name>
+        <class>Magento\GiftCardAccount\Test\Block\Account\Redeem</class>
+        <locator>#giftcard-form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertGiftCardAccountSaveMessage module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountSaveMessage>
+    <assertGiftCardAccountInGrid module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountInGrid>
+    <assertGiftCardAccountForm module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountForm>
+    <assertGiftCardAccountUsableInCartOnFrontend module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountUsableInCartOnFrontend>
+    <assertGiftCardAccountRedeemableOnFrontend module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountRedeemableOnFrontend>
+    <assertGiftCardSuccessRedeemedMessage module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardSuccessRedeemedMessage>
+    <assertGiftCardAccountIsNotUsableInCartOnFrontend module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountIsNotUsableInCartOnFrontend>
+    <assertGiftCardAccountNotRedeemableOnFrontend module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountNotRedeemableOnFrontend>
+</constraint>
