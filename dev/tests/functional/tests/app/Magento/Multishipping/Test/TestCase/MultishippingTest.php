@@ -57,7 +57,8 @@ class MultishippingTest extends Functional
         //Register new customer
         Factory::getPageFactory()->getMultishippingCheckoutLogin()->getLoginBlock()->registerCustomer();
         $multishippingRegisterPage = Factory::getPageFactory()->getMultishippingCheckoutRegister();
-        $multishippingRegisterPage->getRegisterBlock()->registerCustomer($fixture->getCustomer());
+        $multishippingRegisterPage->getRegisterBlock()
+            ->registerCustomer($fixture->getCustomer(), $fixture->getCustomer()->getDefaultBillingAddress());
 
         //Mapping products and shipping addresses
         if ($fixture->getNewShippingAddresses()) {
