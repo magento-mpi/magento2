@@ -11,9 +11,11 @@
 
 namespace Magento\Tax\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
+use Mtf\Fixture\FixtureFactory;
 use Magento\Tax\Test\Fixture\TaxRule;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class TaxRuleTest
@@ -21,53 +23,86 @@ use Magento\Tax\Test\Fixture\TaxRule;
  *
  * @package Magento\Tax\Test\TestCase
  */
-class TaxRuleTest extends Functional
+class TaxRuleTest extends Injectable
 {
+    /**
+     * @var TaxRuleIndex
+     */
+    protected $taxRuleIndexPage;
+
+    /**
+     * @var TaxRuleNew
+     */
+    protected $taxRuleNewPage;
+
+    /**
+     * @param FixtureFactory $fixtureFactory
+     * @return array
+     */
+    public function __prepare(FixtureFactory $fixtureFactory)
+    {
+        $taxRule = $fixtureFactory->createByCode('taxRule', ['dataSet' => 'default']);
+
+        return [
+            'taxRule' => $taxRule,
+        ];
+    }
+
+    /**
+     * @param TaxRuleIndex $taxRuleIndexPage
+     * @param TaxRuleNew $taxRuleNewPage
+     */
+    public function __inject(
+        TaxRuleIndex $taxRuleIndexPage,
+        TaxRuleNew $taxRuleNewPage
+    ) {
+        $this->taxRuleIndexPage = $taxRuleIndexPage;
+        $this->taxRuleNewPage = $taxRuleNewPage;
+    }
+
     /**
      * Create Tax Rule with new and existing Tax Rate, Customer Tax Class, Product Tax Class
      *
      * @ZephyrId MAGETWO-12438
+     *
+     * @param TaxRule $taxRule
      */
-    public function testCreateTaxRule()
+    public function testCreateTaxRule(TaxRule $taxRule)
     {
-        //Data
-        $fixture = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $fixture->switchData('us_ca_ny_rule');
-        //Pages
-        $taxGridPage = Factory::getPageFactory()->getTaxRule();
-        $newTaxRulePage = Factory::getPageFactory()->getTaxRuleNew();
         //Steps
-        Factory::getApp()->magentoBackendLoginUser();
-        $taxGridPage->open();
-        $taxGridPage->getActionsBlock()->addNew();
-        $newTaxRulePage->getEditBlock()->fill($fixture);
-        $newTaxRulePage->getPageActionsBlock()->saveAndContinue();
+        $this->taxRuleIndexPage->open();
+        $this->taxRuleIndexPage->getGridPageActions()->addNew();
+        $this->taxRuleNewPage->getTaxRuleForm()->fill($taxRule);
+        $this->taxRuleNewPage->getFormPageActions()->saveAndContinue();
         //Verifying
-        $newTaxRulePage->getMessagesBlock()->assertSuccessMessage();
-        $this->_assertOnGrid($fixture);
+        $this->taxRuleNewPage->getMessageBlock()->assertSuccessMessage();
+        $this->_assertOnGrid($taxRule);
     }
 
     /**
      * Assert existing tax rule on manage tax rule grid
      *
-     * @param TaxRule $fixture
+     * @param TaxRule $taxRule
      */
-    protected function _assertOnGrid(TaxRule $fixture)
+    protected function _assertOnGrid(TaxRule $taxRule)
     {
         //Data
-        $taxRates = array();
-        foreach ($fixture->getTaxRate() as $rate) {
-            $taxRates[] = $rate['code']['value'];
+        $filter = [
+            'code' => $taxRule->getCode(),
+            'tax_rate' => implode(', ', $taxRule->getTaxRate())
+        ];
+        if ($taxRule->getTaxCustomerClass() !== null) {
+            $filter['customer_tax_class'] = implode(', ', $taxRule->getTaxCustomerClass());
         }
-        $filter = array(
-            'name' => $fixture->getTaxRuleName(),
-            'customer_tax_class' => implode(', ', $fixture->getTaxClass('customer')),
-            'product_tax_class' => implode(', ', $fixture->getTaxClass('product')),
-            'tax_rate' => implode(', ', $taxRates)
-        );
+        if ($taxRule->getTaxProductClass() !== null) {
+            $filter['product_tax_class'] = implode(', ', $taxRule->getTaxProductClass());
+        }
+
         //Verification
-        $taxGridPage = Factory::getPageFactory()->getTaxRule();
-        $taxGridPage->open();
-        $this->assertTrue($taxGridPage->getRuleGrid()->isRowVisible($filter), 'New tax rule was not found.');
+        $this->taxRuleIndexPage->open();
+        $this->assertTrue(
+            $this->taxRuleIndexPage->getTaxRuleGrid()->isRowVisible($filter),
+            'New tax rule was not found.'
+        );
     }
 }

@@ -11,12 +11,14 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rule\Edit;
 
+use Magento\Tax\Test\Fixture\TaxRule;
+use Mtf\Block\BlockFactory;
+use Mtf\Block\Form as FormInterface;
+use Mtf\Block\Mapper;
+use Mtf\Client\Browser;
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Block\Form as FormInterface;
-use Magento\Tax\Test\Fixture\TaxRule;
 
 /**
  * Class Form
@@ -26,6 +28,16 @@ use Magento\Tax\Test\Fixture\TaxRule;
  */
 class Form extends FormInterface
 {
+    /**
+     * @var BlockFactory
+     */
+    protected $blockFactory;
+
+    /**
+     * @var Browser
+     */
+    protected $browser;
+
     /**
      * Tax rule name
      *
@@ -55,13 +67,6 @@ class Form extends FormInterface
     protected $additionalSettings = '#details-summarybase_fieldset';
 
     /**
-     * 'Save and Continue Edit' button
-     *
-     * @var string
-     */
-    protected $saveAndContinue = '#save_and_continue';
-
-    /**
      * Tax rate block
      *
      * @var string
@@ -69,31 +74,67 @@ class Form extends FormInterface
     protected $taxRateBlock = '[class*=tax_rate]';
 
     /**
-     * Get tax rate block
+     * Tax rate form
      *
-     * @return \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate
+     * @var string
      */
-    protected function getTaxRateBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditTaxRate(
-            $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS)
-        );
-    }
+    protected $taxRateForm = '//*[contains(@class, "tax-rate-popup")]';
 
     /**
-     * Get Customer/Product Tax Classes bloc
+     * Customer Tax Class block
      *
-     * @param string $taxClass (e.g. customer|product)
-     *
-     * @return \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxClass
+     * @var string
      */
-    protected function getTaxClassBlock($taxClass)
-    {
-        $taxClassBlock = Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditTaxClass(
-            $this->_rootElement->find('[class*=tax_' . $taxClass . ']', Locator::SELECTOR_CSS)
-        );
+    protected $taxCustomerBlock = '[class*=tax_customer_class]';
 
-        return $taxClassBlock;
+    /**
+     * Product Tax Class block
+     *
+     * @var string
+     */
+    protected $taxProductBlock = '[class*=tax_product_class]';
+
+    /**
+     * XPath selector for finding needed option by its value
+     *
+     * @var string
+     */
+    protected $optionMaskElement = './/*[contains(@class, "mselect-list-item")]//label/span[text()="%s"]';
+
+    /**
+     * Css selector for Add New button
+     *
+     * @var string
+     */
+    protected $addNewButton = '.mselect-button-add';
+
+    /**
+     * Css selector for Add New tax class input
+     *
+     * @var string
+     */
+    protected $addNewInput = '.mselect-input';
+
+    /**
+     * Css selector for Add New save button
+     *
+     * @var string
+     */
+    protected $saveButton = '.mselect-save';
+
+    /**
+     * @constructor
+     * @param Element $element
+     * @param Mapper $mapper
+     * @param BlockFactory $blockFactory
+     * @param Browser $browser
+     */
+    public function __construct(Element $element, Mapper $mapper, BlockFactory $blockFactory, Browser $browser)
+    {
+        $this->mapper = $mapper;
+        parent::__construct($element, $mapper);
+        $this->blockFactory = $blockFactory;
+        $this->browser = $browser;
     }
 
     /**
@@ -101,30 +142,131 @@ class Form extends FormInterface
      *
      * @param FixtureInterface $fixture
      * @param Element $element
-     * @return $this
+     * @return $this|void
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
         /** @var TaxRule $fixture */
-        $data = $fixture->getData('fields');
-        $this->_rootElement->find($this->name, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRuleName());
-        $this->getTaxRateBlock()->selectTaxRate($fixture->getTaxRate());
-        $this->_rootElement->find($this->additionalSettings, Locator::SELECTOR_CSS)->click();
-        $this->getTaxClassBlock('customer')->selectTaxClass($fixture->getTaxClass('customer'));
-        $this->getTaxClassBlock('product')->selectTaxClass($fixture->getTaxClass('product'));
-        if (!empty($data['priority'])) {
-            $this->_rootElement->find($this->priority, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRulePriority());
+        $this->_rootElement->find($this->name)->setValue($fixture->getCode());
+        $taxRateBlock = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
+        $this->setTaxRates($fixture, $taxRateBlock);
+
+        $this->additionalSettings();
+        $taxCustomerBlock = $this->_rootElement->find(
+            $this->taxCustomerBlock,
+            Locator::SELECTOR_CSS,
+            'multiselectlist'
+        );
+        $this->setTaxClass($fixture->getTaxCustomerClass(), $taxCustomerBlock);
+        $taxProductBlock = $this->_rootElement->find($this->taxProductBlock, Locator::SELECTOR_CSS, 'multiselectlist');
+        $this->setTaxClass($fixture->getTaxProductClass(), $taxProductBlock);
+
+        if ($fixture->getPriority() !== null) {
+            $this->_rootElement->find($this->priority, Locator::SELECTOR_CSS)->setValue($fixture->getPriority());
         }
-        if (!empty($data['position'])) {
-            $this->_rootElement->find($this->position, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRulePosition());
+        if ($fixture->getPosition() !== null) {
+            $this->_rootElement->find($this->position, Locator::SELECTOR_CSS)->setValue($fixture->getPosition());
         }
     }
 
     /**
-     * Click Save And Continue Button on Form
+     * Method to set tax rate
+     *
+     * @param TaxRule $taxRule
+     * @param Element $element
      */
-    public function clickSaveAndContinue()
+    protected function setTaxRates($taxRule, $element)
     {
-        $this->_rootElement->find($this->saveAndContinue, Locator::SELECTOR_CSS)->click();
+        /** @var \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate $taxRateForm */
+        $taxRateForm = $this->blockFactory->create(
+            'Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate',
+            ['element' => $this->browser->find($this->taxRateForm, Locator::SELECTOR_XPATH)]
+        );
+
+        /** @var \Magento\Tax\Test\Fixture\TaxRule\TaxRate $taxRatesFixture */
+        $taxRatesFixture = $taxRule->getDataFieldConfig('tax_rate')['fixture'];
+        $taxRatesFixture = $taxRatesFixture->getTaxRate();
+        $taxRatesData = $taxRule->getTaxRate();
+        $issetValues = [];
+        $absentValues = [];
+        foreach ($taxRatesData as $key => $taxRate) {
+            $option = $element->find(sprintf($this->optionMaskElement, $taxRate), Locator::SELECTOR_XPATH);
+            if ($option->isVisible()) {
+                $issetValues[] = $taxRate;
+            } else {
+                $absentValues[] = $taxRatesFixture[$key];
+            }
+        }
+        $element->setValue($issetValues);
+
+        if (count($absentValues) > 0) {
+            foreach ($absentValues as $value) {
+                /** @var \Magento\Tax\Test\Fixture\TaxRate $value */
+                $element->find($this->addNewButton)->click();
+                $taxRateForm->fill($value);
+                $taxRateForm->saveTaxRate();
+                $code = $value->getCode();
+                $this->waitUntilOptionIsVisible($element, $code);
+            }
+        }
+    }
+
+    /**
+     * Waiting until option in list is visible
+     *
+     * @param Element $element
+     * @param $value
+     */
+    protected function waitUntilOptionIsVisible($element, $value)
+    {
+        $element->waitUntil(
+            function () use ($element, $value) {
+                $productSavedMessage = $element->find(
+                    sprintf($this->optionMaskElement, $value),
+                    Locator::SELECTOR_XPATH
+                );
+                return $productSavedMessage->isVisible() ? true : null;
+            }
+        );
+    }
+
+    /**
+     * Click Additional Settings on Form
+     */
+    public function additionalSettings()
+    {
+        $this->_rootElement->find($this->additionalSettings)->click();
+    }
+
+    /**
+     * Method to set tax classes
+     *
+     * @param array $values
+     * @param Element $element
+     */
+    protected function setTaxClass($values, $element)
+    {
+        if ($values !== null) {
+            $issetValues = [];
+            $absentValues = [];
+            foreach ($values as $value) {
+                $option = $element->find(sprintf($this->optionMaskElement, $value), Locator::SELECTOR_XPATH);
+                if ($option->isVisible()) {
+                    $issetValues[] = $value;
+                } else {
+                    $absentValues[] = $value;
+                }
+            }
+            $element->setValue($issetValues);
+
+            if (count($absentValues) > 0) {
+                foreach ($absentValues as $value) {
+                    $element->find($this->addNewButton)->click();
+                    $element->find($this->addNewInput)->setValue($value);
+                    $element->find($this->saveButton)->click();
+                    $this->waitUntilOptionIsVisible($element, $value);
+                }
+            }
+        }
     }
 }

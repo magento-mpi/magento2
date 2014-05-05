@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <code>
+            <selector>[id='code']</selector>
+        </code>
+        <priority>
+            <selector>[id='priority']</selector>
+        </priority>
+        <position>
+            <selector>[id='position']</selector>
+        </position>
+        <tax_rate>
+            <selector>[class*=tax_rate]</selector>
+            <input>multiselectlist</input>
+        </tax_rate>
+        <tax_customer_class>
+            <selector>[class*=tax_customer_class]</selector>
+            <input>multiselectlist</input>
+        </tax_customer_class>
+        <tax_product_class>
+            <selector>[class*=tax_product_class]</selector>
+            <input>multiselectlist</input>
+        </tax_product_class>
+    </fields>
+</mapping>

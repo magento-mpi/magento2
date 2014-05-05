@@ -2,83 +2,148 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Tax\Test\Fixture;
 
-use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TaxRate
  *
  * @package Magento\Tax\Test\Fixture
  */
-class TaxRate extends DataFixture
+class TaxRate extends InjectableFixture
 {
     /**
-     * Get tax rate name
-     *
-     * @return string
+     * @var string
      */
-    public function getTaxRateName()
-    {
-        return $this->getData('code/value');
-    }
+    protected $repositoryClass = 'Magento\Tax\Test\Repository\TaxRate';
 
     /**
-     * Get tax rate id
-     *
-     * @return string
+     * @var string
      */
-    public function getTaxRateId()
+    protected $handlerInterface = 'Magento\Tax\Test\Handler\TaxRate\TaxRateInterface';
+
+    protected $defaultDataSet = [
+        'class_type' => null,
+        'code' => 'Tax Rate %isolation%',
+        'rate' => '10',
+        'tax_country_id' => 'United States',
+        'tax_postcode' => '*',
+        'tax_region_id' => '0',
+    ];
+
+    protected $class_id = [
+        'attribute_code' => 'class_id',
+        'backend_type' => 'smallint',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $class_name = [
+        'attribute_code' => 'class_name',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $class_type = [
+        'attribute_code' => 'class_type',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => 'CUSTOMER',
+        'input' => '',
+    ];
+
+    protected $code = [
+        'attribute_code' => 'code',
+    ];
+
+    protected $zip_is_range = [
+        'attribute_code' => 'zip_is_range',
+    ];
+
+    protected $tax_postcode = [
+        'attribute_code' => 'tax_postcode',
+    ];
+
+    protected $zip_from = [
+        'attribute_code' => 'zip_from',
+    ];
+
+    protected $zip_to = [
+        'attribute_code' => 'zip_to',
+    ];
+
+    protected $tax_country_id = [
+        'attribute_code' => 'tax_country_id',
+    ];
+
+    protected $rate = [
+        'attribute_code' => 'rate',
+    ];
+
+    protected $id = [
+        'attribute_code' => 'id',
+    ];
+
+    public function getClassId()
     {
-        return $this->getData('fields/id');
+        return $this->getData('class_id');
     }
 
-    /**
-     * Create tax rate
-     *
-     * @return TaxRate
-     */
-    public function persist()
+    public function getClassName()
     {
-        $id = Factory::getApp()->magentoTaxCreateTaxRate($this);
-        $this->_data['fields']['id'] = $id;
-        return $this;
+        return $this->getData('class_name');
     }
 
-    /**
-     * Init data
-     */
-    protected function _initData()
+    public function getClassType()
     {
-        $this->_data = array(
-            'fields' => array(
-                'code' => array(
-                    'value' => 'Tax Rate %isolation%'
-                ),
-                'rate' => array(
-                    'value' => '10'
-                ),
-                'tax_country_id' => array(
-                    'value' => 'US',
-                ),
-                'tax_postcode' => array(
-                    'value' => '*'
-                ),
-                'tax_region_id' => array(
-                    'value' => '0'
-                )
-            )
-        );
+        return $this->getData('class_type');
+    }
 
-        $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoTaxTaxRate($this->_dataConfig, $this->_data);
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+
+    public function getZipIsRange()
+    {
+        return $this->getData('zip_is_range');
+    }
+
+    public function getTaxPostcode()
+    {
+        return $this->getData('tax_postcode');
+    }
+
+    public function getZipFrom()
+    {
+        return $this->getData('zip_from');
+    }
+
+    public function getZipTo()
+    {
+        return $this->getData('zip_to');
+    }
+
+    public function getTaxCountryId()
+    {
+        return $this->getData('tax_country_id');
+    }
+
+    public function getRate()
+    {
+        return $this->getData('rate');
+    }
+
+    public function getId()
+    {
+        return $this->getData('id');
     }
 }

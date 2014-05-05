@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Tax\Test\Fixture\TaxRate">
+    <module>Magento_Tax</module>
+    <type>flat</type>
+    <entity_type>tax_class</entity_type>
+    <collection>Magento\Tax\Model\Resource\Calculation\Rate\Collection</collection>
+    <identifier>code</identifier>
+    <fields>
+        <class_id>
+            <attribute_code>class_id</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required>1</is_required>
+            <default_value />
+            <input />
+        </class_id>
+        <class_name>
+            <attribute_code>class_name</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required />
+            <default_value />
+            <input />
+        </class_name>
+        <class_type>
+            <attribute_code>class_type</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required />
+            <default_value>CUSTOMER</default_value>
+            <input />
+        </class_type>
+        <code>
+            <attribute_code>code</attribute_code>
+        </code>
+        <zip_is_range>
+            <attribute_code>zip_is_range</attribute_code>
+        </zip_is_range>
+        <tax_postcode>
+            <attribute_code>tax_postcode</attribute_code>
+        </tax_postcode>
+        <zip_from>
+            <attribute_code>zip_from</attribute_code>
+        </zip_from>
+        <zip_to>
+            <attribute_code>zip_to</attribute_code>
+        </zip_to>
+        <tax_country_id>
+            <attribute_code>tax_country_id</attribute_code>
+        </tax_country_id>
+        <rate>
+            <attribute_code>rate</attribute_code>
+        </rate>
+        <id>
+            <attribute_code>id</attribute_code>
+        </id>
+    </fields>
+    <data_set />
+    <data_config />
+    <repository_class>Magento\Tax\Test\Repository\TaxRate</repository_class>
+    <handler_interface>Magento\Tax\Test\Handler\TaxRate\TaxRateInterface</handler_interface>
+</fixture>

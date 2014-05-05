@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<repository class="Magento\Tax\Test\Repository\TaxRule">
+    <item>
+        <tax_calculation_rule_id>1</tax_calculation_rule_id>
+        <code><![CDATA[test]]></code>
+        <priority>1</priority>
+        <position>0</position>
+        <id>1</id>
+        <mtf_dataset_name><![CDATA[test]]></mtf_dataset_name>
+    </item>
+    <item>
+        <tax_calculation_rule_id>2</tax_calculation_rule_id>
+        <code><![CDATA[Tax Rule 1911384433]]></code>
+        <priority>0</priority>
+        <position>0</position>
+        <id>2</id>
+        <mtf_dataset_name><![CDATA[Tax Rule 1911384433]]></mtf_dataset_name>
+    </item>
+    <item>
+        <tax_calculation_rule_id>3</tax_calculation_rule_id>
+        <code><![CDATA[Tax Rule 1721303678]]></code>
+        <priority>0</priority>
+        <position>0</position>
+        <id>3</id>
+        <mtf_dataset_name><![CDATA[Tax Rule 1721303678]]></mtf_dataset_name>
+    </item>
+    <item>
+        <tax_calculation_rule_id>4</tax_calculation_rule_id>
+        <code><![CDATA[Tax Rule 6361749, test]]></code>
+        <priority>0</priority>
+        <position>0</position>
+        <id>4</id>
+        <mtf_dataset_name><![CDATA[Tax Rule 6361749, test]]></mtf_dataset_name>
+    </item>
+</repository>
