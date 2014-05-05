@@ -50,6 +50,9 @@ class ObjectManagerFactory
         if (!defined('MTF_TESTS_PATH')) {
             define('MTF_TESTS_PATH', MTF_BP . '/tests/app/');
         }
+        if (!defined('MTF_STATES_PATH')) {
+            define('MTF_STATES_PATH', MTF_BP . '/lib/Mtf/App/State/');
+        }
 
         $diConfig = new $this->configClassName();
         $systemConfig = new SystemConfig();
@@ -60,7 +63,7 @@ class ObjectManagerFactory
             ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
             : array();
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(realpath(MTF_BP . '../../../../'), $directories);
-        \Magento\Framework\Autoload\IncludePath::addIncludePath(
+        (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
             array($directoryList->getDir(\Magento\Framework\App\Filesystem::GENERATION_DIR))
         );
 

@@ -12,10 +12,8 @@
 !defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && define('SELENIUM_TESTS_INSTALLATION_CLEANUP', 'enabled');
 
 define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__ . '/..'));
-define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(
-    SELENIUM_TESTS_BASEDIR . '/var/screenshots'));
-define('SELENIUM_TESTS_LOGS', realpath(
-    SELENIUM_TESTS_BASEDIR . '/var/logs'));
+define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(SELENIUM_TESTS_BASEDIR . '/var/screenshots'));
+define('SELENIUM_TESTS_LOGS', realpath(SELENIUM_TESTS_BASEDIR . '/var/logs'));
 
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(SELENIUM_TESTS_BASEDIR . '/framework'),
@@ -27,39 +25,39 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
 
 //if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
-    $installCmd = sprintf(
-        'php -f %s --',
-        escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../dev/shell/install.php'))
-    );
-    if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
-        passthru("$installCmd --uninstall", $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
+$installCmd = sprintf(
+    'php -f %s --',
+    escapeshellarg(realpath(SELENIUM_TESTS_BASEDIR . '/../../../dev/shell/install.php'))
+);
+if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATION_CLEANUP === 'enabled') {
+    passthru("$installCmd --uninstall", $exitCode);
+    if ($exitCode) {
+        exit($exitCode);
     }
-    $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
-    $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
-    $installConfig = require($installConfigFile);
-    $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+}
+$installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
+$installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
+$installConfig = require($installConfigFile);
+$installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
 
-    /* Install application */
-    if ($installOptions) {
-        foreach ($installOptions as $optionName => $optionValue) {
-            $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
-        }
-        passthru($installCmd, $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
-
-        /* Dump Database */
-        $dumpCommand = "mysqldump -u{$installOptions['db_user']} -p{$installOptions['db_pass']} "
-            . "{$installOptions['db_name']} > {$installOptions['db_name']}.sql";
-        passthru($dumpCommand, $exitCode);
-        if ($exitCode) {
-            exit($exitCode);
-        }
+/* Install application */
+if ($installOptions) {
+    foreach ($installOptions as $optionName => $optionValue) {
+        $installCmd .= sprintf(' --%s %s', $optionName, escapeshellarg($optionValue));
     }
+    passthru($installCmd, $exitCode);
+    if ($exitCode) {
+        exit($exitCode);
+    }
+
+    /* Dump Database */
+    $dumpCommand = "mysqldump -u{$installOptions['db_user']} -p{$installOptions['db_pass']} "
+        . "{$installOptions['db_name']} > {$installOptions['db_name']}.sql";
+    passthru($dumpCommand, $exitCode);
+    if ($exitCode) {
+        exit($exitCode);
+    }
+}
 //}
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */

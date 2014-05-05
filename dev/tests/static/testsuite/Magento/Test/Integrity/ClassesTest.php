@@ -447,6 +447,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                 '/downloader/lib/',
                 '/dev/tools/',
                 '/dev/tests/api-functional/framework/',
+                '/dev/tests/functional/',
                 '/dev/tests/integration/framework/',
                 '/dev/tests/integration/framework/tests/unit/testsuite/',
                 '/dev/tests/integration/testsuite/',
