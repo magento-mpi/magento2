@@ -35,14 +35,14 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
      * @param FixtureFactory $fixtureFactory
      * @param CustomerGroup $customerGroup
      * @param CustomerIndexNew $customerIndexNew
-     * @param CustomerIndex $pageCustomerIndex
+     * @param CustomerIndex $customerIndex
      * @return void
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
         CustomerGroup $customerGroup,
         CustomerIndexNew $customerIndexNew,
-        CustomerIndex $pageCustomerIndex
+        CustomerIndex $customerIndex
     ) {
         /** @var CustomerInjectable $customer */
         $customer = $fixtureFactory->createByCode(
@@ -52,20 +52,12 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
                 'data' => ['group_id' => $customerGroup->getCustomerGroupCode()]
             ]
         );
-        $name = ($customer->hasData('prefix') ? $customer->getPrefix() . ' ' : '')
-            . $customer->getFirstname()
-            . ($customer->hasData('middlename') ? ' ' . $customer->getMiddlename() : '')
-            . ' ' . $customer->getLastname()
-            . ($customer->hasData('suffix') ? ' ' . $customer->getSuffix() : '');
-        $filter = [
-            'name' => $name,
-            'email' => $customer->getEmail(),
-        ];
+        $filter = ['email' => $customer->getEmail()];
 
         $customerIndexNew->open();
         $customerIndexNew->getCustomerForm()->fillCustomer($customer);
         $customerIndexNew->getPageActionsBlock()->save();
-        $pageCustomerIndex->getCustomerGridBlock()->searchAndOpen($filter);
+        $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
 
         \PHPUnit_Framework_Assert::assertTrue(
             $customerIndexNew->getCustomerForm()->verify($customer),
