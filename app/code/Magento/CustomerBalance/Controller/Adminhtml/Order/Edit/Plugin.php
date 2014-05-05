@@ -35,7 +35,6 @@ class Plugin
     protected $giftCardAccountData;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
@@ -43,7 +42,6 @@ class Plugin
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
@@ -64,7 +62,7 @@ class Plugin
         $giftCards = $this->giftCardAccountData->getCards($this->sessionQuote->getOrder());
         if (!empty($giftCards)) {
             $this->messageManager->addNotice(
-                __('We will refund the gift card amount to your customer’s store credit.')
+                __('We will refund the gift card amount to your customer’s store credit')
             );
             if (!$this->customerBalanceData->isEnabled()) {
                 $this->messageManager->addError(
