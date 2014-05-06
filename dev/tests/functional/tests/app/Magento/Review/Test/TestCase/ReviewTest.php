@@ -11,6 +11,8 @@
 
 namespace Magento\Review\Test\TestCase;
 
+use Mtf\Fixture;
+use Mtf\Block\Form;
 use Magento\Review\Test\Block\Product\View\Summary;
 use Magento\Review\Test\Block\Product\View;
 use Magento\Review\Test\Fixture\Review;
@@ -72,7 +74,7 @@ class ReviewTest extends Functional
         $this->assertEquals('Guest', $reviewBackendForm->getPostedBy(), 'Review is not posted by Guest');
         $this->assertEquals('Pending', $reviewBackendForm->getStatus(), 'Review is not in Pending status');
         $this->assertTrue(
-            $reviewBackendForm->verify($reviewFixture),
+            $this->verifyReviewBackendForm($reviewFixture, $reviewBackendForm),
             'Review data is not corresponds to submitted one'
         );
 
@@ -148,5 +150,25 @@ class ReviewTest extends Functional
                 sprintf('Field "%s" is not equals submitted one.', $field)
             );
         }
+    }
+
+    /**
+     * Verify that review is equals data on form
+     *
+     * @param Review $review
+     * @param Form $form
+     * @return bool
+     */
+    protected function verifyReviewBackendForm(Review $review, Form $form)
+    {
+        $dataReview = $review->getData();
+        $preparedDataReview = [];
+
+        foreach ($dataReview['fields'] as $key => $field) {
+            $preparedDataReview[$key] = $field['value'];
+        }
+
+        $dataDiff = array_diff($preparedDataReview, $form->getData($review));
+        return 0 === count($dataDiff);
     }
 }

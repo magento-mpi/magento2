@@ -28,8 +28,9 @@ class Form extends FormTabs
      */
     public function fillCustomer(FixtureInterface $customer, $address = null)
     {
-        parent::fill($customer);
-
+        if ($customer->hasData()) {
+            parent::fill($customer);
+        }
         if (null !== $address) {
             $this->openTab('addresses');
             $this->getTabElement('addresses')->fillAddresses($address);
@@ -39,21 +40,47 @@ class Form extends FormTabs
     }
 
     /**
-     * Verify Customer information, addresses on tabs.
+     * Update Customer forms on tabs by customer, addresses data
      *
      * @param FixtureInterface $customer
      * @param FixtureInterface|FixtureInterface[]|null $address
-     * @return bool
+     * @return $this
      */
-    public function verifyCustomer(FixtureInterface $customer, $address = null)
+    public function updateCustomer(FixtureInterface $customer, $address = null)
     {
-        $isVerify = parent::verify($customer);
+        if ($customer->hasData()) {
+            parent::fill($customer);
+        }
+        if (null !== $address) {
+            $this->openTab('addresses');
+            $this->getTabElement('addresses')->updateAddresses($address);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get data of Customer information, addresses on tabs.
+     *
+     * @param FixtureInterface $customer
+     * @param FixtureInterface|FixtureInterface[]|null $address
+     * @return array
+     */
+    public function getDataCustomer(FixtureInterface $customer, $address = null)
+    {
+        $data = [];
+
+        if ($customer->hasData()) {
+            $data['customer'] = parent::getData($customer);
+        } else {
+            $data['customer'] = parent::getData();
+        }
 
         if (null !== $address) {
             $this->openTab('addresses');
-            $isVerify = $isVerify && $this->getTabElement('addresses')->verifyAddresses($address);
+            $data['addresses'] = $this->getTabElement('addresses')->getDataAddresses($address);
         }
 
-        return $isVerify;
+        return $data;
     }
 }

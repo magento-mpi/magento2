@@ -8,13 +8,13 @@
  */
 -->
 <mapping strict="0">
-    <wrapper>billing</wrapper>
+    <wrapper>shipping</wrapper>
     <fields>
         <firstname />
         <lastname />
         <company />
         <street_1>
-            <selector>[id='billing:street1']</selector>
+            <selector>[id='shipping:street1']</selector>
         </street_1>
         <city />
         <region_id>

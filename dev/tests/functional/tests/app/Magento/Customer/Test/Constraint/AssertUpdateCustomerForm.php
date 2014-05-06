@@ -15,11 +15,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 
 /**
- * Class AssertCustomerForm
+ * Class AssertUpdateCustomerForm
  *
  * @package Magento\Customer\Test\Constraint
  */
-class AssertCustomerForm extends AbstractConstraint
+class AssertUpdateCustomerForm extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -34,14 +34,15 @@ class AssertCustomerForm extends AbstractConstraint
      * @var array
      */
     protected $skippedFields = [
+        'id',
         'password',
         'password_confirmation',
-        'is_subscribed',
     ];
 
     /**
      * Assert that displayed customer data on edit page(backend) equals passed from fixture
      *
+     * @param CustomerInjectable $preconditionCustomer
      * @param CustomerInjectable $customer
      * @param CustomerIndex $pageCustomerIndex
      * @param CustomerIndexEdit $pageCustomerIndexEdit
@@ -49,17 +50,24 @@ class AssertCustomerForm extends AbstractConstraint
      * @return void
      */
     public function processAssert(
+        CustomerInjectable $preconditionCustomer,
         CustomerInjectable $customer,
         CustomerIndex $pageCustomerIndex,
         CustomerIndexEdit $pageCustomerIndexEdit,
         AddressInjectable $address = null
     ) {
-        $data = ['customer' => $customer->getData()];
-        $filter = ['email' => $customer->getEmail()];
+        $data = [];
+        $filter = [];
 
+        if ($customer->hasData()) {
+            $data['customer'] = array_merge($preconditionCustomer->getData(), $customer->getData());
+        } else {
+            $data['customer'] = $preconditionCustomer->getData();
+        }
         if ($address) {
             $data['addresses'][1] = $address->hasData() ? $address->getData() : [];
         }
+        $filter['email'] = $data['customer']['email'];
 
         $pageCustomerIndex->open();
         $pageCustomerIndex->getCustomerGridBlock()->searchAndOpen($filter);

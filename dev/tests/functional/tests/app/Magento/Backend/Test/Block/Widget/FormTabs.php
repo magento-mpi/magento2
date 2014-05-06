@@ -158,22 +158,25 @@ class FormTabs extends Form
     /**
      * Verify form with tabs
      *
-     * @param FixtureInterface $fixture
-     * @param Element $element
-     * @return bool
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
      */
-    public function verify(FixtureInterface $fixture, Element $element = null)
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
-        $tabs = $this->getFieldsByTabs($fixture);
+        $data = [];
+        $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
+        $tabsFields = ($fixture === null || !$isHasData) ? [] : $this->getFieldsByTabs($fixture);
 
-        foreach ($tabs as $tab => $tabFields) {
-            $this->openTab($tab);
-            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
-                return false;
-            }
+        foreach ($this->tabs as $tabName => $tab) {
+            $this->openTab($tabName);
+
+            $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : null;
+            $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
+            $data = array_merge($data, $tabData);
         }
 
-        return true;
+        return $data;
     }
 
     /**
