@@ -47,7 +47,7 @@
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products
-* Framework Improvements:
+* Framework improvements:
   * Covered Magento lib form elements with unit tests:
       * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
       * `lib/Magento/Framework/Data/Form/Element/Button.php`
@@ -90,7 +90,7 @@
   * Fixed an issue with incorrect reset password link for users on custom websites
   * Fixed an issue with invalid error message displayed when trying to save a customer group with existing group name
   * Fixed an issue with  menu layout non-responsive behavior  in the Blank theme
-* Framework improvements:
+* Framework Improvements:
   * Covered Magento library components with unit tests
     * `Magento\Framework\Error\*`
     * `Magento\Framework\Event\Observer\*`
