@@ -32,9 +32,9 @@ class CatalogPriceRule extends AbstractRepository
 
     const GROUP_ACTIONS = 'actions';
 
-    const CONDITION_TYPE = 'conditions__1__new_child';
+    const CONDITION_TYPE = 'condition_type';
 
-    const CONDITION_VALUE = 'conditions__1--1__value';
+    const CONDITION_VALUE = 'condition_value';
 
 
     public function __construct(array $defaultConfig = array(), array $defaultData = array())

@@ -21,6 +21,12 @@
             <input>text</input>
             <group>rule_information</group>
         </name>
+        <description>
+            <attribute_code>description</attribute_code>
+            <default_value></default_value>
+            <input>text</input>
+            <group>rule_information</group>
+        </description>
         <is_active>
             <attribute_code>is_active</attribute_code>
             <backend_type>smallint</backend_type>
@@ -70,14 +76,14 @@
             <group>actions</group>
         </discount_amount>
         <condition_type>
-            <attribute_code>conditions</attribute_code>
+            <attribute_code>condition_type</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>0</is_required>
             <group>conditions</group>
             <input>select</input>
         </condition_type>
         <condition_value>
-            <attribute_code>conditions</attribute_code>
+            <attribute_code>condition_value</attribute_code>
             <backend_type>virtual</backend_type>
             <is_required>0</is_required>
             <group>conditions</group>

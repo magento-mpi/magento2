@@ -39,13 +39,30 @@ class Catalog extends Grid
     protected $applyCatalogRules = "//*[@class='page-actions']//*[@id='apply_rules']";
 
     /**
-     * {@inheritdoc}
+     * An element locator which allows to select first entity in grid
+     *
+     * @var string
      */
-    protected $filters = array(
-        'name' => array(
-            'selector' => '#promo_catalog_grid_filter_name'
-        )
-    );
+    protected $editLink = '#promo_catalog_grid_table tbody tr:first-child td';
+
+    /**
+     * Filters array mapping
+     *
+     * @var array
+     */
+    protected $filters = [
+        'name' => [
+            'selector' => '#promo_catalog_grid_filter_name',
+        ],
+        'is_active' => [
+            'selector' => '#promo_catalog_grid_filter_is_active',
+            'input' => 'select',
+        ],
+        'rule_website' => [
+            'selector' => '#promo_catalog_grid_filter_rule_website',
+            'input' => 'select',
+        ],
+    ];
 
     /**
      * Add new catalog rule
