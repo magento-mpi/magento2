@@ -21,15 +21,26 @@ class Cookie extends Template
     protected $sessionConfig;
 
     /**
+     * @var \Zend\Validator\Ip
+     */
+    protected $ipValidator;
+
+    /**
      * Constructor
      *
      * @param Context $context
      * @param ConfigInterface $cookieConfig
+     * @param \Zend\Validator\Ip $ipValidator
      * @param array $data
      */
-    public function __construct(Context $context, ConfigInterface $cookieConfig, array $data = array())
-    {
+    public function __construct(
+        Context $context,
+        ConfigInterface $cookieConfig,
+        \Zend\Validator\Ip $ipValidator,
+        array $data = array()
+    ) {
         $this->sessionConfig = $cookieConfig;
+        $this->ipValidator = $ipValidator;
         parent::__construct($context, $data);
     }
 
@@ -41,6 +52,11 @@ class Cookie extends Template
     public function getDomain()
     {
         $domain = $this->sessionConfig->getCookieDomain();
+
+        if ($this->ipValidator->isValid($domain)) {
+            return $domain;
+        }
+
         if (!empty($domain[0]) && $domain[0] !== '.') {
             $domain = '.' . $domain;
         }

@@ -16,7 +16,9 @@
 require __DIR__ . '/Routine.php';
 require __DIR__ . '/LicenseAbstract.php';
 
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
 php -f license-tool.php -- -e <edition> [-w <dir>] [-v] [-d] [-0]
     -e <edition> name of product edition (see "conf" directory relatively to this script)
     -w <dir>     use specified working dir instead of current
@@ -35,12 +37,12 @@ if (!isset($options['e'])) {
 }
 
 if (isset($options['v'])) {
-    Routine::$isVerbose = true;
+    \Magento\Tools\License\Routine::$isVerbose = true;
 }
 
 $dryRun = false;
 if (isset($options['d'])) {
-    Routine::$dryRun = true;
+    \Magento\Tools\License\Routine::$dryRun = true;
 }
 
 $workingDir = '.';
@@ -48,7 +50,7 @@ if (isset($options['w'])) {
     $workingDir = rtrim($options['w'], '/');
 }
 if (!is_dir($workingDir)) {
-    Routine::printLog("Directory '{$workingDir}' does not exist.\n");
+    \Magento\Tools\License\Routine::printLog("Directory '{$workingDir}' does not exist.\n");
     exit(1);
 }
 
@@ -56,8 +58,8 @@ $config = require __DIR__ . "/conf/{$options['e']}.php";
 $blackList = require __DIR__ . '/../../../../dev/tools/Magento/Tools/license_placeholder/blacklist.php';
 
 try {
-    Routine::run($workingDir, $config, $blackList);
-} catch(Exception $e) {
-    Routine::printLog($e->getMessage());
+    \Magento\Tools\License\Routine::run($workingDir, $config, $blackList);
+} catch (Exception $e) {
+    \Magento\Tools\License\Routine::printLog($e->getMessage());
     exit(isset($options['0']) ? 0 : 1);
 }

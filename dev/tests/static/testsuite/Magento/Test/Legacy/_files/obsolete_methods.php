@@ -1649,6 +1649,8 @@ return array(
     ['setCustomer', 'Magento\Checkout\Model\Session', 'Magento\Checkout\Model\Session::setCustomerData'],
     ['getPersistentName', 'Magento\Persistent\Helper\Data'],
     ['getCustomerDataObject', 'Magento\Persistent\Helper\Session'],
+    ['getFlatTableName', 'Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction'],
+    ['deleteProductsFromStore', 'Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction'],
     ['getPriceHtml', 'Magento\Rss\Block\Catalog\AbstractCatalog'],
     ['_getPriceBlock', 'Magento\Rss\Block\Catalog\AbstractCatalog'],
     ['_construct', 'Magento\Catalog\Block\Product\Widget\NewWidget'],
