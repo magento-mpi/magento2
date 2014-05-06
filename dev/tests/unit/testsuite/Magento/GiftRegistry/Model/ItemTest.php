@@ -73,6 +73,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \Magento\GiftRegistry\Model\Item::__construct
      * @covers \Magento\GiftRegistry\Model\Item::addToCart
      */
     public function testAddToCartProductDisabled()
