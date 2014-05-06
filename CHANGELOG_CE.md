@@ -18,7 +18,11 @@
   * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
   * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
   * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
-  * Adding Customer Review: error in system.log (MAGETWO-3674)  
+  * Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: Incorrect messages if enter invalid email during admin user and customer creation (MAGETWO-21581)
+  * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
+  * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
+  * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
 
 2.0.0.0-dev76
 =============

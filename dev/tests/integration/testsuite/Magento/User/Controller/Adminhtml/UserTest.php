@@ -169,4 +169,44 @@ class UserTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('User Information', $response);
         $this->assertSelectCount('#user_base_fieldset', 1, $response);
     }
+
+    public function testValidateActionSuccess()
+    {
+        $data = [
+            'username' => 'admin2',
+            'firstname' => 'new firstname',
+            'lastname' => 'new lastname',
+            'email' => 'example@domain.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $this->getRequest()->setPost($data);
+        $this->dispatch('backend/admin/user/validate');
+        $body = $this->getResponse()->getBody();
+
+        $this->assertEquals('{"error":0}', $body);
+    }
+
+    public function testValidateActionError()
+    {
+        $data = [
+            'username' => 'admin2',
+            'firstname' => 'new firstname',
+            'lastname' => 'new lastname',
+            'email' => 'example@domain.cim',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        /**
+         * set customer data
+         */
+        $this->getRequest()->setPost($data);
+        $this->dispatch('backend/admin/user/validate');
+        $body = $this->getResponse()->getBody();
+
+        $this->assertContains('{"error":1,"html_message":', $body);
+        $this->assertContains('Please correct this email address: \"example@domain.cim\"', $body);
+    }
 }
