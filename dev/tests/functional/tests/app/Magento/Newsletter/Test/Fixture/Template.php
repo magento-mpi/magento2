@@ -18,11 +18,11 @@ use Mtf\Fixture\InjectableFixture;
 class Template extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'actual' => null,
         'code' => 'TemplateName%isolation%',
         'subject' => 'TemplateSubject%isolation%',
         'sender_name' => 'SenderName%isolation%',
-        'sender_email' => 'SenderName%isolation%@test.com',
+        'sender_email' => 'SenderName%isolation%@example.com',
+        'text' => 'Some text %isolation%',
     ];
 
     protected $id = [

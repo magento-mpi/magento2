@@ -32,14 +32,14 @@ class CreateNewsletterTemplateEntityTest extends Injectable
     /**
      * Page for create newsletter template
      *
-     * @var TemplateNewIndex $templateNewIndex
+     * @var TemplateNewIndex
      */
     protected $templateNewIndex;
 
     /**
      * Page with newsletter template grid
      *
-     * @var TemplateIndex $templateIndex
+     * @var TemplateIndex
      */
     protected $templateIndex;
 
