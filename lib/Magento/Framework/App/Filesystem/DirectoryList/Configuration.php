@@ -66,7 +66,7 @@ class Configuration
                 $existingDirectoryConfiguration = $directoryList->getConfig($code);
                 $directoryConfiguration = array_merge($directoryConfiguration, $existingDirectoryConfiguration);
             }
-            $directoryList->addDirectory($code, $directoryConfiguration, true);
+            $directoryList->setDirectory($code, $directoryConfiguration);
         }
 
         foreach ($this->protocols as $code => $protocolConfiguration) {

@@ -52,7 +52,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $directoryList = $this->getMockBuilder(
             'Magento\Framework\Filesystem\DirectoryList'
         )->disableOriginalConstructor()->setMethods(
-            array('addDirectory', 'isConfigured', 'addProtocol', 'getConfig')
+            array('setDirectory', 'isConfigured', 'addProtocol', 'getConfig')
         )->getMock();
 
         $directoryList->expects(
@@ -80,11 +80,11 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
                 ->with(\Magento\Framework\App\Filesystem::PUB_DIR)
                 ->will($this->returnValue(['test_key' => 'test_value']));
             $directoryList->expects($this->once())
-                ->method('addDirectory')
-                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, ['uri' => '', 'test_key' => 'test_value'], true);
+                ->method('setDirectory')
+                ->with(\Magento\Framework\App\Filesystem::PUB_DIR, ['uri' => '', 'test_key' => 'test_value']);
         } else {
             $directoryList->expects($this->once())
-                ->method('addDirectory')
+                ->method('setDirectory')
                 ->with(\Magento\Framework\App\Filesystem::PUB_DIR, array('uri' => ''));
         }
 

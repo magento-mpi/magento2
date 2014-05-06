@@ -26,11 +26,9 @@ class DirectoryList extends \Magento\Framework\App\Filesystem\DirectoryList
      *
      * @param string $code
      * @param array $directoryConfig
-     * @param bool $overrideConfig
      * @return void
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function addDirectory($code, array $directoryConfig, $overrideConfig = false)
+    public function addDirectory($code, array $directoryConfig)
     {
         if (!isset($directoryConfig['path'])) {
             $directoryConfig['path'] = null;
