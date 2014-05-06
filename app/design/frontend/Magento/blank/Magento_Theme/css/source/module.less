@@ -114,37 +114,6 @@ body {
     cursor: pointer;
 }
 
-.switcher {
-    .options {
-        .dropdown(
-            @_dropdown-actions-padding: 0,
-            @_dropdown-list-item-padding: 0,
-            @_dropdown-toggle-icon-content: @icon-down,
-            @_dropdown-toggle-active-icon-content: @icon-up,
-            @_icon-font-text-hide: true,
-            @_icon-font-size: 22px,
-            @_icon-font-line-height: 22px
-        );
-        ul.dropdown {
-            min-width: 160px;
-            a {
-                display: block;
-                padding: 8px;
-            }
-        }
-    }
-    li {
-        margin: 0;
-        font-size: @font-size-s;
-    }
-    .label {
-        .visually-hidden();
-    }
-    strong {
-        font-weight: 400;
-    }
-}
-
 //
 //  Global notice
 //--------------------------------------
@@ -220,8 +189,46 @@ body {
     }
 }
 
+.page.header,
+.page.footer {
+    .switcher {
+        margin-right: 10px;
+        .options {
+            .dropdown(
+                @_dropdown-actions-padding: 0,
+                @_dropdown-list-item-padding: 0,
+                @_dropdown-toggle-icon-content: @icon-down,
+                @_dropdown-toggle-active-icon-content: @icon-up,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 22px,
+                @_icon-font-line-height: 22px
+            );
+            ul.dropdown {
+                min-width: 160px;
+                a {
+                    display: block;
+                    padding: 8px;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+        li {
+            margin: 0;
+            font-size: @font-size-s;
+        }
+        .label {
+            .visually-hidden();
+        }
+        strong {
+            font-weight: @font-weight-base;
+        }
+    }
+}
+
 //
-//  Desktop
+//    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .page.header {
@@ -233,7 +240,10 @@ body {
         .header.panel {
             padding-top: 10px;
             padding-bottom: 10px;
-            .clearer();
+            &:extend(.add-clearfix-desktop all);
+        }
+        .switcher {
+            display: inline-block;
         }
     }
 
@@ -269,16 +279,13 @@ body {
             }
         }
         &.content {
-             padding: 30px 20px 0;
-             .clearer();
-         }
-        .switcher,
+            padding: 30px 20px 0;
+            &:extend(.add-clearfix-desktop all);
+        }
         .links,
+        .switcher,
         .panel {
             display: block;
-        }
-        .switcher {
-            float: left;
         }
     }
 
@@ -302,6 +309,11 @@ body {
             .block {
                 float: right;
             }
+            .switcher.store {
+                display: inline-block;
+                padding-right: 50px;
+                vertical-align: top;
+            }
         }
     }
 }
@@ -310,22 +322,7 @@ body {
     display: none;
 }
 
-//
-//  Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @break-point-0) {
-    .footer {
-        &.content {
-            .switcher.store {
-                padding-right: 50px;
-                display: inline-block;
-                vertical-align: top;
-            }
-        }
-    }
-}
-
 // Calendar
 .ui-datepicker td {
-  padding: 0;
+    padding: 0;
 }

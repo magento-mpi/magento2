@@ -301,3 +301,21 @@
         }
     }
 }
+
+//
+//    Settings icons
+//--------------------------------------
+.navigation-icon {
+    .icon-font(
+        @_icon-font-content: @icon-down,
+        @_icon-font-size: 34px,
+        @_icon-font-line-height: @icon-font-line-height,
+        @_icon-font-position: after,
+        @_icon-font-display: block
+    );
+    &:after {
+        position: absolute;
+        right: 5px;
+        top: 0;
+    }
+}
