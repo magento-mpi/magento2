@@ -7,12 +7,19 @@
  */
 namespace Magento\Framework\Less;
 
+use Magento\Framework\App\State;
+
 class PreProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
+
+    /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $state;
 
     protected function setUp()
     {
@@ -26,6 +33,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         );
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
+        $this->state = $this->objectManager->get('Magento\Framework\App\State');
     }
 
     /**
@@ -53,8 +61,9 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         /** @var $viewFilesystem \Magento\Framework\View\FileSystem */
         $viewFilesystem = $this->objectManager->get('Magento\Framework\View\FileSystem');
 
+        $expectedCssFileName = ($this->state->getMode() === State::MODE_DEVELOPER) ? 'source_dev.css' : 'source.css';
         $this->assertFileEquals(
-            $viewFilesystem->getViewFile('source.css', $designParams),
+            $viewFilesystem->getViewFile($expectedCssFileName, $designParams),
             $cssTargetFile->getSourcePath()
         );
     }
