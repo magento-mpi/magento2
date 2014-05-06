@@ -41,12 +41,10 @@ class CatalogProductSimple extends AbstractRepository
 
         $this->_data['100_dollar_product'] = [
             'sku' => '100_dollar_product%isolation%',
-            'name' => '100_dollar_product',
+            'name' => '100_dollar_product%isolation%',
             'type_id' => 'simple',
             'attribute_set_id' => '4',
             'price' => ['value' => 100, 'preset' => '-'],
-            'id' => '2',
-            'mtf_dataset_name' => '100_dollar_product'
         ];
 
         $this->_data['40_dollar_product'] = [

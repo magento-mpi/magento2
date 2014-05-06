@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -30,12 +30,12 @@ class AssertGiftCardAccountSaveMessage extends AbstractConstraint
     /**
      *  Assert that success message is displayed after gift card account save
      *
-     * @param GiftCardAccountIndex $giftCardAccountIndex
+     * @param Index $index
      * @return void
      */
-    public function processAssert(GiftCardAccountIndex $giftCardAccountIndex)
+    public function processAssert(Index $index)
     {
-        $actualMessage = $giftCardAccountIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $index->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

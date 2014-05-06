@@ -11,11 +11,11 @@ namespace Magento\GiftCardAccount\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class GiftCardAccountNewIndex
+ * Class NewIndex
  *
  * @package Magento\GiftCardAccount\Test\Page\Adminhtml
  */
-class GiftCardAccountNewIndex extends BackendPage
+class NewIndex extends BackendPage
 {
     const MCA = 'admin/giftcardaccount/new/index';
 

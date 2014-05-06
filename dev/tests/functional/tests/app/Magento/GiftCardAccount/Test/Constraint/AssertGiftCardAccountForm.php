@@ -8,10 +8,10 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountNewIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 
 /**
  * Class AssertGiftCardAccountForm
@@ -31,21 +31,21 @@ class AssertGiftCardAccountForm extends AbstractConstraint
      * Assert that gift card account equals to passed from fixture
      *
      * @param GiftCardAccount $giftCardAccount
-     * @param GiftCardAccountIndex $giftCardAccountIndex
-     * @param \Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountNewIndex $giftCardAccountNewIndex
+     * @param Index $index
+     * @param NewIndex $newIndex
      * @return void
      */
     public function processAssert(
         GiftCardAccount $giftCardAccount,
-        GiftCardAccountIndex $giftCardAccountIndex,
-        GiftCardAccountNewIndex $giftCardAccountNewIndex
+        Index $index,
+        NewIndex $newIndex
     ) {
-        $giftCardAccountIndex->open();
+        $index->open();
         $filter = ['balance' => $giftCardAccount->getBalance()];
-        $giftCardAccountIndex->getGiftCardAccount()->searchAndSelect($filter, false);
+        $index->getGiftCardAccount()->searchAndSelect($filter, false);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftCardAccountNewIndex->getPageMainForm()->verify($giftCardAccount),
+            $newIndex->getPageMainForm()->verify($giftCardAccount),
             'Gift card account not equals to passed from fixture.'
         );
     }

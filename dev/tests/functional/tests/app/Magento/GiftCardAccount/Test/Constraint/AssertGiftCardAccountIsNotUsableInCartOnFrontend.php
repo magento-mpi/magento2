@@ -8,11 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCartInjectable;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Fixture\FixtureFactory;
 
 /**
@@ -35,7 +36,8 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCartInjectable $checkoutCart
-     * @param GiftCardAccountIndex $giftCardAccountIndex
+     * @param Index $index
+     * @param CatalogProductSimple $catalogProductSimple
      * @param GiftCardAccount $giftCardAccount
      * @return void
      */
@@ -43,16 +45,16 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
         FixtureFactory $fixtureFactory,
         CatalogProductView $catalogProductView,
         CheckoutCartInjectable $checkoutCart,
-        GiftCardAccountIndex $giftCardAccountIndex,
+        Index $index,
+        CatalogProductSimple $catalogProductSimple,
         GiftCardAccount $giftCardAccount
     ) {
-        $giftCardAccountIndex->open();
+        $index->open();
         /** @var array $filter */
         $filter = ['balance' => $giftCardAccount->getBalance()];
         /** @var string $value */
-        $value = $giftCardAccountIndex->getGiftCardAccount()->searchCode($filter, false);
-        $catalogProductSimple = $fixtureFactory->
-            createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
+        $value = $index->getGiftCardAccount()->searchCode($filter, false);
+
         $catalogProductView->init($catalogProductSimple);
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->clickAddToCart();

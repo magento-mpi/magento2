@@ -9,7 +9,7 @@
 namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -30,17 +30,17 @@ class AssertGiftCardAccountInGrid extends AbstractConstraint
      * Assert that gift card account in grid
      *
      * @param GiftCardAccount $giftCardAccount
-     * @param GiftCardAccountIndex $giftCardAccountIndex
+     * @param Index $index
      * @return void
      */
     public function processAssert(
         GiftCardAccount $giftCardAccount,
-        GiftCardAccountIndex $giftCardAccountIndex
+        Index $index
     ) {
-        $giftCardAccountIndex->open();
+        $index->open();
         $filter = ['balance' => $giftCardAccount->getBalance()];
         \PHPUnit_Framework_Assert::assertTrue(
-            $giftCardAccountIndex->getGiftCardAccount()->isRowVisible($filter, false),
+            $index->getGiftCardAccount()->isRowVisible($filter, false),
             'Gift card is absent in customer groups grid.'
         );
     }

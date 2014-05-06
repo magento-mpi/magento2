@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 
@@ -17,7 +17,7 @@ use Mtf\Client\Element;
  *
  * @package Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount
  */
-class GiftCardAccountIndexGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Initialize block elements

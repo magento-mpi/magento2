@@ -22,7 +22,7 @@
     </block>
     <block>
         <name>giftCardAccount</name>
-        <class>Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\GiftCardAccountIndexGrid</class>
+        <class>Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Grid</class>
         <locator>#giftcardaccountGrid</locator>
         <strategy>css selector</strategy>
     </block>

@@ -11,7 +11,7 @@ namespace Magento\GiftCardAccount\Test\Constraint;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex;
+use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\Cms\Test\Page\CmsIndex;
 
 /**
@@ -31,7 +31,7 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
     /**
      * Assert that gift card is not redeemable on frontend
      *
-     * @param GiftCardAccountIndex $giftCardAccountIndex
+     * @param Index $index
      * @param CustomerAccountIndex $customerAccountIndex
      * @param CmsIndex $cmsIndex
      * @param GiftCardAccount $giftCardAccount
@@ -40,16 +40,16 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
      * @return void
      */
     public function processAssert(
-        GiftCardAccountIndex $giftCardAccountIndex,
+        Index $index,
         CustomerAccountIndex $customerAccountIndex,
         CmsIndex $cmsIndex,
         GiftCardAccount $giftCardAccount
     ) {
-        $giftCardAccountIndex->open();
+        $index->open();
         /** @var array $filter */
         $filter = ['balance' => $giftCardAccount->getBalance()];
         /** @var string $value */
-        $value = $giftCardAccountIndex->getGiftCardAccount()->searchCode($filter, false);
+        $value = $index->getGiftCardAccount()->searchCode($filter, false);
 
         $cmsIndex->open();
         $cmsIndex->getLinksBlock()->openLink('My Account');

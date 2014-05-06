@@ -8,14 +8,14 @@
  */
 -->
 <page>
-    <giftCardAccountIndex>
+    <index>
         <mca>admin/giftcardaccount/index</mca>
         <area>adminhtml</area>
-        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountIndex</class>
-    </giftCardAccountIndex>
-    <giftCardAccountNewIndex>
+        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\Index</class>
+    </index>
+    <newIndex>
         <mca>admin/giftcardaccount/new/index</mca>
         <area>adminhtml</area>
-        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\GiftCardAccountNewIndex</class>
-    </giftCardAccountNewIndex>
+        <class>Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex</class>
+    </newIndex>
 </page>

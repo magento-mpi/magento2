@@ -11,11 +11,11 @@ namespace Magento\GiftCardAccount\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class GiftCardAccountIndex
+ * Class Index
  *
  * @package Magento\GiftCardAccount\Test\Page\Adminhtml
  */
-class GiftCardAccountIndex extends BackendPage
+class Index extends BackendPage
 {
     const MCA = 'admin/giftcardaccount/index';
 
@@ -34,7 +34,7 @@ class GiftCardAccountIndex extends BackendPage
         ],
         'giftCardAccount' => [
             'name' => 'giftCardAccount',
-            'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\GiftCardAccountIndexGrid',
+            'class' => 'Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Grid',
             'locator' => '#giftcardaccountGrid',
             'strategy' => 'css selector',
         ],
@@ -57,7 +57,7 @@ class GiftCardAccountIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\GiftCardAccountIndexGrid
+     * @return \Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Grid
      */
     public function getGiftCardAccount()
     {
