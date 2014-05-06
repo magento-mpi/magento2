@@ -21,6 +21,8 @@ class Random
 
     const CHARS_DIGITS = '0123456789';
 
+    const INT_BYTE_SIZE = 4; // 32-bit integers
+
     /**#@-*/
 
     /**
@@ -37,11 +39,10 @@ class Random
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
 
-        $rand = 0;
         if (function_exists('openssl_random_pseudo_bytes')) {
             // use openssl lib if it is installed
             for ($i = 0, $lc = strlen($chars) - 1; $i < $length; $i++) {
-                $bytes = openssl_random_pseudo_bytes(4);
+                $bytes = openssl_random_pseudo_bytes(self::INT_BYTE_SIZE);
                 $hex = bin2hex($bytes); // hex() doubles the length of the string
                 $rand = hexdec($hex) % $lc; // random integer from 0 to $lc
                 $str .= $chars[$rand]; // random character in $chars
@@ -49,7 +50,7 @@ class Random
         } elseif ($fp = @fopen('/dev/urandom', 'rb')) {
             // attempt to use /dev/urandom if it exists but openssl isn't available
             for ($i = 0, $lc = strlen($chars) - 1; $i < $length; $i++) {
-                $bytes = @fread($fp, 4);
+                $bytes = @fread($fp, self::INT_BYTE_SIZE);
                 $hex = bin2hex($bytes); // hex() doubles the length of the string
                 $rand = hexdec($hex) % $lc; // random integer from 0 to $lc
                 $str .= $chars[$rand]; // random character in $chars
