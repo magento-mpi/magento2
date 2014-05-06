@@ -137,13 +137,13 @@ class Tax extends AbstractTotal
         }
 
         switch ($this->_config->getAlgorithm($this->_store)) {
-            case \Magento\Tax\Model\Calculation::CALC_UNIT_BASE:
+            case Calculation::CALC_UNIT_BASE:
                 $this->_unitBaseCalculation($address, $request);
                 break;
-            case \Magento\Tax\Model\Calculation::CALC_ROW_BASE:
+            case Calculation::CALC_ROW_BASE:
                 $this->_rowBaseCalculation($address, $request);
                 break;
-            case \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE:
+            case Calculation::CALC_TOTAL_BASE:
                 $this->_totalBaseCalculation($address, $request);
                 break;
             default:
@@ -202,10 +202,14 @@ class Tax extends AbstractTotal
      * @param float $rate
      * @param array $appliedRates
      * @param string $taxId
+     * @return $this
      */
     protected function _calculateShippingTaxByRate(
-        $address, $rate, $appliedRates, $taxId = null)
-    {
+        $address,
+        $rate,
+        $appliedRates,
+        $taxId = null
+    ) {
         $inclTax = $address->getIsShippingInclTax();
         $shipping = $address->getShippingTaxable();
         $baseShipping = $address->getBaseShippingTaxable();
@@ -264,10 +268,18 @@ class Tax extends AbstractTotal
                 false
             );
             if ($this->_config->getAlgorithm($this->_store) == Calculation::CALC_TOTAL_BASE) {
-                $taxBeforeDiscount =
-                    $this->_deltaRound($taxBeforeDiscount, $rateKey, $inclTax, 'tax_before_discount');
-                $baseTaxBeforeDiscount =
-                    $this->_deltaRound($baseTaxBeforeDiscount, $rateKey, $inclTax, 'tax_before_discount_base');
+                $taxBeforeDiscount = $this->_deltaRound(
+                    $taxBeforeDiscount,
+                    $rateKey,
+                    $inclTax,
+                    'tax_before_discount'
+                );
+                $baseTaxBeforeDiscount = $this->_deltaRound(
+                    $baseTaxBeforeDiscount,
+                    $rateKey,
+                    $inclTax,
+                    'tax_before_discount_base'
+                );
             } else {
                 $taxBeforeDiscount = $this->_calculator->round($taxBeforeDiscount);
                 $baseTaxBeforeDiscount = $this->_calculator->round($baseTaxBeforeDiscount);
@@ -285,10 +297,12 @@ class Tax extends AbstractTotal
         $address->setShippingTaxAmount($address->getShippingTaxAmount() + max(0, $tax));
         $address->setBaseShippingTaxAmount($address->getBaseShippingTaxAmount() + max(0, $baseTax));
         $this->_saveAppliedTaxes($address, $appliedRates, $tax, $baseTax, $rate);
+
+        return $this;
     }
 
     /**
-     * Tax caclulation for shipping price
+     * Tax calculation for shipping price
      *
      * @param   Address $address
      * @param   \Magento\Framework\Object $taxRateRequest
@@ -324,11 +338,15 @@ class Tax extends AbstractTotal
      * @param \Magento\Framework\Object $taxRateRequest
      * @param array $itemTaxGroups
      * @param boolean $catalogPriceInclTax
+     * @return $this
      */
     protected function _unitBaseProcessItemTax(
-        $address, $item, $taxRateRequest, &$itemTaxGroups, $catalogPriceInclTax
-    )
-    {
+        $address,
+        $item,
+        $taxRateRequest,
+        &$itemTaxGroups,
+        $catalogPriceInclTax
+    ) {
         $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
         $rate = $this->_calculator->getRate($taxRateRequest);
 
@@ -343,8 +361,7 @@ class Tax extends AbstractTotal
         if (!isset($rowTotalInclTax)) {
             $qty = $item->getTotalQty();
             $item->setRowTotalInclTax($this->_store->roundPrice($item->getTaxableAmount() * $qty));
-            $item->setBaseRowTotalInclTax(
-                $this->_store->roundPrice($item->getBaseTaxableAmount() * $qty));
+            $item->setBaseRowTotalInclTax($this->_store->roundPrice($item->getBaseTaxableAmount() * $qty));
             $recalculateRowTotalInclTax = true;
         }
 
@@ -362,7 +379,12 @@ class Tax extends AbstractTotal
                 $taxRate = $appliedTax['percent'];
                 $this->_calcUnitTaxAmount($item, $taxRate, $taxGroups, $taxId, $recalculateRowTotalInclTax);
                 $this->_saveAppliedTaxes(
-                    $address, array($appliedTax), $taxGroups[$taxId]['tax'], $taxGroups[$taxId]['base_tax'], $taxRate);
+                    $address,
+                    array($appliedTax),
+                    $taxGroups[$taxId]['tax'],
+                    $taxGroups[$taxId]['base_tax'],
+                    $taxRate
+                );
             }
         }
         if ($rate > 0) {
@@ -370,7 +392,7 @@ class Tax extends AbstractTotal
         }
         $this->_addAmount($item->getTaxAmount());
         $this->_addBaseAmount($item->getBaseTaxAmount());
-        return;
+        return $this;
     }
 
     /**
@@ -395,12 +417,22 @@ class Tax extends AbstractTotal
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
                     $this->_unitBaseProcessItemTax(
-                        $address, $child, $taxRateRequest, $itemTaxGroups, $catalogPriceInclTax);
+                        $address,
+                        $child,
+                        $taxRateRequest,
+                        $itemTaxGroups,
+                        $catalogPriceInclTax
+                    );
                 }
                 $this->_recalculateParent($item);
             } else {
                 $this->_unitBaseProcessItemTax(
-                    $address, $item, $taxRateRequest, $itemTaxGroups, $catalogPriceInclTax);
+                    $address,
+                    $item,
+                    $taxRateRequest,
+                    $itemTaxGroups,
+                    $catalogPriceInclTax
+                );
             }
         }
         if ($address->getQuote()->getTaxesForItems()) {
@@ -415,12 +447,18 @@ class Tax extends AbstractTotal
      *
      * @param   AbstractItem $item
      * @param   float $rate
+     * @param   array $taxGroups
+     * @param   string $taxId
+     * @param   boolean $recalculateRowTotalInclTax
      * @return  $this
      */
     protected function _calcUnitTaxAmount(
-        $item, $rate, &$taxGroups = null, $taxId = null, $recalculateRowTotalInclTax = false
-    )
-    {
+        $item,
+        $rate,
+        &$taxGroups = null,
+        $taxId = null,
+        $recalculateRowTotalInclTax = false
+    ) {
         $qty = $item->getTotalQty();
         $inclTax = $item->getIsPriceInclTax();
         $price = $item->getTaxableAmount() + $item->getExtraTaxableAmount();
@@ -484,8 +522,9 @@ class Tax extends AbstractTotal
                 // We need the discount compensation when dont calculate the hidden taxes
                 // (when product does not include taxes)
                 if (!$item->getNoDiscount() && $item->getWeeeTaxApplied()) {
-                    $item->setDiscountTaxCompensation($item->getDiscountTaxCompensation() +
-                        $unitTaxBeforeDiscount * $qty - max(0, $unitTax) * $qty);
+                    $item->setDiscountTaxCompensation(
+                        $item->getDiscountTaxCompensation() + $unitTaxBeforeDiscount * $qty - max(0, $unitTax) * $qty
+                    );
                 }
                 break;
         }
@@ -504,10 +543,8 @@ class Tax extends AbstractTotal
                 $item->setRowTotalInclTax($price * $qty);
                 $item->setBaseRowTotalInclTax($basePrice * $qty);
             } else {
-                $item->setRowTotalInclTax(
-                    $item->getRowTotalInclTax() + $unitTaxBeforeDiscount * $qty);
-                $item->setBaseRowTotalInclTax(
-                    $item->getBaseRowTotalInclTax() + $baseUnitTaxBeforeDiscount * $qty);
+                $item->setRowTotalInclTax($item->getRowTotalInclTax() + $unitTaxBeforeDiscount * $qty);
+                $item->setBaseRowTotalInclTax($item->getBaseRowTotalInclTax() + $baseUnitTaxBeforeDiscount * $qty);
             }
         }
 
@@ -521,6 +558,7 @@ class Tax extends AbstractTotal
      * @param \Magento\Framework\Object $taxRateRequest
      * @param array $itemTaxGroups
      * @param boolean $catalogPriceInclTax
+     * @return $this
      */
     protected function _rowBaseProcessItemTax($address, $item, $taxRateRequest, &$itemTaxGroups, $catalogPriceInclTax)
     {
@@ -545,8 +583,7 @@ class Tax extends AbstractTotal
         $item->setTaxRates($appliedRates);
         if ($catalogPriceInclTax) {
             $this->_calcRowTaxAmount($item, $rate);
-            $this->_saveAppliedTaxes(
-                $address, $appliedRates, $item->getTaxAmount(), $item->getBaseTaxAmount(), $rate);
+            $this->_saveAppliedTaxes($address, $appliedRates, $item->getTaxAmount(), $item->getBaseTaxAmount(), $rate);
         } else {
             //need to calculate each tax separately
             $taxGroups = array();
@@ -555,7 +592,12 @@ class Tax extends AbstractTotal
                 $taxRate = $appliedTax['percent'];
                 $this->_calcRowTaxAmount($item, $taxRate, $taxGroups, $taxId, $recalculateRowTotalInclTax);
                 $this->_saveAppliedTaxes(
-                    $address, array($appliedTax), $taxGroups[$taxId]['tax'], $taxGroups[$taxId]['base_tax'], $taxRate);
+                    $address,
+                    array($appliedTax),
+                    $taxGroups[$taxId]['tax'],
+                    $taxGroups[$taxId]['base_tax'],
+                    $taxRate
+                );
             }
 
         }
@@ -564,7 +606,7 @@ class Tax extends AbstractTotal
         }
         $this->_addAmount($item->getTaxAmount());
         $this->_addBaseAmount($item->getBaseTaxAmount());
-        return;
+        return $this;
     }
 
     /**
@@ -588,12 +630,22 @@ class Tax extends AbstractTotal
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
                     $this->_rowBaseProcessItemTax(
-                        $address, $child, $taxRateRequest, $itemTaxGroups, $catalogPriceInclTax);
+                        $address,
+                        $child,
+                        $taxRateRequest,
+                        $itemTaxGroups,
+                        $catalogPriceInclTax
+                    );
                 }
                 $this->_recalculateParent($item);
             } else {
                 $this->_rowBaseProcessItemTax(
-                    $address, $item, $taxRateRequest, $itemTaxGroups, $catalogPriceInclTax);
+                    $address,
+                    $item,
+                    $taxRateRequest,
+                    $itemTaxGroups,
+                    $catalogPriceInclTax
+                );
             }
         }
 
@@ -615,9 +667,12 @@ class Tax extends AbstractTotal
      * @return  $this
      */
     protected function _calcRowTaxAmount(
-        $item, $rate, &$taxGroups = null, $taxId = null, $recalculateRowTotalInclTax = false
-    )
-    {
+        $item,
+        $rate,
+        &$taxGroups = null,
+        $taxId = null,
+        $recalculateRowTotalInclTax = false
+    ) {
         $inclTax = $item->getIsPriceInclTax();
         $subtotal = $taxSubtotal = $item->getTaxableAmount() + $item->getExtraRowTaxableAmount();
         $baseSubtotal = $baseTaxSubtotal = $item->getBaseTaxableAmount() + $item->getBaseExtraRowTaxableAmount();
@@ -693,8 +748,9 @@ class Tax extends AbstractTotal
                 }
                 // calculate discount compensation
                 if (!$item->getNoDiscount() && $item->getWeeeTaxApplied()) {
-                    $item->setDiscountTaxCompensation($item->getDiscountTaxCompensation() +
-                        $rowTaxBeforeDiscount - max(0, $rowTax));
+                    $item->setDiscountTaxCompensation(
+                        $item->getDiscountTaxCompensation() + $rowTaxBeforeDiscount - max(0, $rowTax)
+                    );
                 }
                 break;
         }
@@ -711,8 +767,7 @@ class Tax extends AbstractTotal
                 $item->setRowTotalInclTax($subtotal);
                 $item->setBaseRowTotalInclTax($baseSubtotal);
             } else {
-                $item->setRowTotalInclTax(
-                    $item->getRowTotalInclTax() + $rowTaxBeforeDiscount);
+                $item->setRowTotalInclTax($item->getRowTotalInclTax() + $rowTaxBeforeDiscount);
                 $item->setBaseRowTotalInclTax($item->getBaseRowTotalInclTax() + $baseRowTaxBeforeDiscount);
             }
         }
@@ -742,13 +797,22 @@ class Tax extends AbstractTotal
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
                     $this->_totalBaseProcessItemTax(
-                        $child, $taxRateRequest, $taxGroups, $itemTaxGroups, $catalogPriceInclTax);
+                        $child,
+                        $taxRateRequest,
+                        $taxGroups,
+                        $itemTaxGroups,
+                        $catalogPriceInclTax
+                    );
                 }
                 $this->_recalculateParent($item);
             } else {
                 $this->_totalBaseProcessItemTax(
-                    $item, $taxRateRequest, $taxGroups, $itemTaxGroups, $catalogPriceInclTax);
-
+                    $item,
+                    $taxRateRequest,
+                    $taxGroups,
+                    $itemTaxGroups,
+                    $catalogPriceInclTax
+                );
             }
         }
 
@@ -783,11 +847,15 @@ class Tax extends AbstractTotal
      * @param array $taxGroups
      * @param array $itemTaxGroups
      * @param boolean $catalogPriceInclTax
+     * @return $this
      */
     protected function _totalBaseProcessItemTax(
-        $item, $taxRateRequest, &$taxGroups, &$itemTaxGroups, $catalogPriceInclTax
-    )
-    {
+        $item,
+        $taxRateRequest,
+        &$taxGroups,
+        &$itemTaxGroups,
+        $catalogPriceInclTax
+    ) {
         $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
         $rate = $this->_calculator->getRate($taxRateRequest);
 
@@ -823,7 +891,7 @@ class Tax extends AbstractTotal
         if ($rate > 0) {
             $itemTaxGroups[$item->getId()] = $appliedRates;
         }
-        return;
+        return $this;
     }
 
     /**
@@ -837,9 +905,12 @@ class Tax extends AbstractTotal
      * @return  $this
      */
     protected function _aggregateTaxPerRate(
-        $item, $rate, &$taxGroups, $taxId = null, $recalculateRowTotalInclTax = false
-    )
-    {
+        $item,
+        $rate,
+        &$taxGroups,
+        $taxId = null,
+        $recalculateRowTotalInclTax = false
+    ) {
         $inclTax = $item->getIsPriceInclTax();
         $rateKey = ($taxId == null) ? (string)$rate : $taxId;
         $taxSubtotal = $subtotal = $item->getTaxableAmount() + $item->getExtraRowTaxableAmount();
