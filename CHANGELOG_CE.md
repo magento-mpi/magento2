@@ -11,6 +11,9 @@
   * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
+  * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
+  * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
+  * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
 
 2.0.0.0-dev76
 =============
