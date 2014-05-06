@@ -71,8 +71,10 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Framework\Profiler::start("email_template_proccessing");
         $vars = array();
 
+        $store = $this->getAnyStoreView();
+        $storeId = $store ? $store->getId() : null;
         $template->setDesignConfig(
-            array('area' => $this->_design->getArea(), 'store' => $this->getAnyStoreView()->getId())
+            array('area' => $this->_design->getArea(), 'store' => $storeId)
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 
