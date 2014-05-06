@@ -34,11 +34,11 @@
             </qty>
         </fields>
         <data_set>
-            <sku />
-            <name />
-            <short_description />
-            <description />
-            <tax_class_id />
+            <sku/>
+            <name/>
+            <short_description/>
+            <description/>
+            <tax_class_id/>
         </data_set>
         <data_config>
             <create_url_params>
@@ -69,11 +69,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku />
-            <name />
-            <short_description />
-            <description />
-            <tax_class_id />
+            <sku/>
+            <name/>
+            <short_description/>
+            <description/>
+            <tax_class_id/>
         </data_set>
         <data_config>
             <create_url_params>
@@ -104,11 +104,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku />
-            <name />
-            <short_description />
-            <description />
-            <tax_class_id />
+            <sku/>
+            <name/>
+            <short_description/>
+            <description/>
+            <tax_class_id/>
         </data_set>
         <data_config>
             <create_url_params>
@@ -139,11 +139,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku />
-            <name />
-            <short_description />
-            <description />
-            <tax_class_id />
+            <sku/>
+            <name/>
+            <short_description/>
+            <description/>
+            <tax_class_id/>
         </data_set>
         <data_config>
             <create_url_params>
@@ -153,44 +153,9 @@
             <input_prefix>product</input_prefix>
         </data_config>
     </catalogProductGrouped>
-
-    <catalogEventEntity module="Magento_CatalogEvent">
-        <type>eav</type>
-        <entity_type>catalog_product</entity_type>
-        <product_type>grouped</product_type>
-        <collection>Magento\Catalog\Model\Resource\Product\Collection</collection>
-        <identifier>sku</identifier>
-    </catalogEventEntity>
-
-
     <catalogCategoryEntity module="Magento_Catalog">
         <type>flat</type>
         <entity_type>catalog_category_entity</entity_type>
         <collection>Magento\Catalog\Model\Resource\Category\Collection</collection>
-        <fields>
-            <id>
-                <attribute_code>id</attribute_code>
-                <backend_type>virtual</backend_type>
-            </id>
-            <name>
-                <attribute_code>name</attribute_code>
-                <backend_type>virtual</backend_type>
-            </name>
-            <is_active>
-                <attribute_code>is_active</attribute_code>
-                <backend_type>virtual</backend_type>
-            </is_active>
-            <url_key>
-                <attribute_code>url_key</attribute_code>
-                <backend_type>virtual</backend_type>
-            </url_key>
-            <include_in_menu>
-                <attribute_code>include_in_menu</attribute_code>
-                <backend_type>virtual</backend_type>
-            </include_in_menu>
-        </fields>
     </catalogCategoryEntity>
-
-
-
 </fixture>

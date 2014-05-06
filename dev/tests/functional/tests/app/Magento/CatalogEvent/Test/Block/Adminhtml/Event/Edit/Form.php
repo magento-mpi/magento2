@@ -8,10 +8,13 @@
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Client\Element;
 use Mtf\Block\Form as AbstractForm;
 
+/**
+ * Class Form
+ *
+ * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit
+ */
 class Form extends AbstractForm
 {
     //

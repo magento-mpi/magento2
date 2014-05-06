@@ -29,8 +29,12 @@ class CatalogEventEntity extends InjectableFixture
 
     protected $defaultDataSet = [
         'date_start' => ['pattern' => 'm-d-Y 12:00 a-3 days'],
-        'date_end' => ['pattern' =>'m-d-Y 12:00 a+2 days'],
-        'sort_order' => '-1',
+        'date_end' => ['pattern' => 'm-d-Y 12:00 a+2 days'],
+        'sort_order' => '1',
+        'display_state' => [
+            'category_page' => 'Yes',
+            'product_page' => 'Yes'
+        ],
     ];
 
     protected $event_id = [

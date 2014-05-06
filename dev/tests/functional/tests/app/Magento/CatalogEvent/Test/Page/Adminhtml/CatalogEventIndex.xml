@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/catalog_event/index" >
+<page mca="admin/catalog_event/index">
     <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>blockEventGrid</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\EventGrid\BlockEventGrid</class>
+        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid</class>
         <locator>#catalogEventGrid</locator>
         <strategy>css selector</strategy>
     </block>

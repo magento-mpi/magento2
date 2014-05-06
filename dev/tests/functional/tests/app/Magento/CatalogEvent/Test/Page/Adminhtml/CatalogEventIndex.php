@@ -15,7 +15,7 @@ use Mtf\Page\BackendPage;
  *
  * @package Magento\CatalogEvent\Test\Page\Adminhtml
  */
-class AdminCatalogEventIndex extends BackendPage
+class CatalogEventIndex extends BackendPage
 {
     const MCA = 'admin/catalog_event/index';
 
@@ -28,7 +28,7 @@ class AdminCatalogEventIndex extends BackendPage
         ],
         'blockEventGrid' => [
             'name' => 'blockEventGrid',
-            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\EventGrid\BlockEventGrid',
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid',
             'locator' => '#catalogEventGrid',
             'strategy' => 'css selector',
         ],
@@ -43,7 +43,7 @@ class AdminCatalogEventIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\EventGrid\BlockEventGrid
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid
      */
     public function getBlockEventGrid()
     {

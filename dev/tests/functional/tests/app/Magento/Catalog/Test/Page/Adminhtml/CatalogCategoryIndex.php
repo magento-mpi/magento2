@@ -28,7 +28,7 @@ class CatalogCategoryIndex extends BackendPage
         ],
         'pageActionsEvent' => [
             'name' => 'pageActionsEvent',
-            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\AddEvent\AddEvent',
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions',
             'locator' => '.page-actions',
             'strategy' => 'css selector',
         ],
@@ -43,7 +43,7 @@ class CatalogCategoryIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\AddEvent\AddEvent
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions
      */
     public function getPageActionsEvent()
     {

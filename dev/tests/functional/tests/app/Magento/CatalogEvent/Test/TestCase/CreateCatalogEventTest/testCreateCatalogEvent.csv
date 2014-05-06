@@ -1,0 +1,2 @@
+"catalogEvent/data/date_start/pattern";"catalogEvent/data/date_end/pattern";"catalogEvent/data/sort_order";"catalogEvent/data/display_state/category_page"; "catalogEvent/data/display_state/product_page";"constraint"
+"m/d/Y 12:00 a-3 days";"m/d/Y 12:00 a-2 days";-1;"Yes";"No";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid"

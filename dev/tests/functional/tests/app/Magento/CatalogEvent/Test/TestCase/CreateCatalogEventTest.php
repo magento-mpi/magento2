@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
-use Magento\CatalogEvent\Test\Page\Adminhtml\AdminCatalogEventNew;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
 
 /**
  * Test Creation for Create CatalogEventEntity from Category page
@@ -28,60 +28,52 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\AdminCatalogEventNew;
  * 7. Perform all assertions.
  *
  * @group Catalog_Events_(MX)
- * @ZephyrId MTA-69
+ * @ZephyrId MAGETWO-23423
  */
-class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
+class CreateCatalogEventTest extends Injectable
 {
     /**
+     * Category Page
+     *
      * @var CatalogCategoryIndex
      */
     protected $catalogCategoryIndex;
 
     /**
-     * @var AdminCatalogEventNew
+     * New Catalog Event Page
+     *
+     * @var CatalogEventNew
      */
     protected $adminCatalogEventNew;
 
     /**
+     * Product Page
+     *
      * @var CatalogProductSimple
      */
     protected $catalogProductSimple;
 
     /**
-     * Category Id
-     */
-    protected $categoryId;
-
-    /**
-     * Category Name
-     */
-    protected $categoryName;
-
-    /**
-     * Product Name
-     */
-    protected $productName;
-
-    /**
      * @param CatalogCategoryIndex $catalogCategoryIndex
-     * @param AdminCatalogEventNew $adminCatalogEventNew
+     * @param CatalogEventNew $adminCatalogEventNew
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
     public function __inject(
         CatalogCategoryIndex $catalogCategoryIndex,
-        AdminCatalogEventNew $adminCatalogEventNew,
+        CatalogEventNew $adminCatalogEventNew,
         FixtureFactory $fixtureFactory
     ) {
         $this->catalogCategoryIndex = $catalogCategoryIndex;
         $this->adminCatalogEventNew = $adminCatalogEventNew;
 
-        /**@var CatalogProductSimple $catalogProductSimple*/
+        /**@var CatalogProductSimple $catalogProductSimple */
         $catalogProductSimple = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
         $catalogProductSimple->persist();
+
         return [
             'catalogProductSimple' => $catalogProductSimple
         ];
@@ -93,17 +85,19 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
      */
-    public function testCreateCatalogEventEntityDataSet(
-        CatalogEventEntity $catalogEvent,
+    public function testCreateCatalogEvent(
+    CatalogEventEntity $catalogEvent,
         CatalogProductSimple $catalogProductSimple
     ) {
-        $this->categoryName = $catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory()[0]->getName();
+        $categoryName = $catalogProductSimple->getDataFieldConfig('category_ids')['fixture']
+            ->getCategory()[0]->getName();
 
         //Steps
         $this->catalogCategoryIndex->open();
-        $this->catalogCategoryIndex->getTreeCategories()->selectCategory("Default Category/$this->categoryName");
+        $this->catalogCategoryIndex->getTreeCategories()->selectCategory("Default Category/$categoryName");
         $this->catalogCategoryIndex->getPageActionsEvent()->addEventNew();
         $this->adminCatalogEventNew->getEventForm()->fill($catalogEvent);
+
         $this->adminCatalogEventNew->getPageActions()->save();
     }
 }

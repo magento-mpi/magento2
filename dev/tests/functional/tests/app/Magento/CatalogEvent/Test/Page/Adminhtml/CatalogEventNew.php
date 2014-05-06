@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Page\Adminhtml; 
+namespace Magento\CatalogEvent\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class AdminCatalogEventNew
  *
  * @package Magento\CatalogEvent\Test\Page\Adminhtml
  */
-class AdminCatalogEventNew extends BackendPage
+class CatalogEventNew extends BackendPage
 {
     const MCA = 'admin/catalog_event/new';
 

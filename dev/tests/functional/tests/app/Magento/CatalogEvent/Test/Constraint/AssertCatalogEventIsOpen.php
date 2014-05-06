@@ -8,129 +8,20 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-
 /**
  * Class AssertCatalogEventIsOpen
  *
  * @package Magento\CatalogEvent\Test\Constraint
  */
-class AssertCatalogEventIsOpen extends AbstractConstraint
+class AssertCatalogEventIsOpen extends AssertCatalogEventStatus
 {
-    const EVENT_STATUS = 'Sale Ends In';
+    protected $eventStatus = 'Sale Ends In';
     /**
      * Constraint severeness
      *
      * @var string
      */
     protected $severeness = 'low';
-
-    /**
-     * Constraint severeness
-     *
-     * @var CatalogCategoryView $catalogCategoryView
-     */
-    protected  $catalogCategoryView;
-
-    /**
-     * Constraint severeness
-     *
-     * @var CmsIndex $cmsIndex
-     */
-    protected  $cmsIndex;
-
-    /**
-     * Constraint severeness
-     *
-     * @var CatalogProductSimple $catalogProductSimple
-     */
-    protected  $catalogProductSimple;
-
-    /**
-     * Constraint severeness
-     *
-     * @var CatalogProductView $catalogProductView
-     */
-    protected $catalogProductView;
-
-    /**
-     * Assert that Event block has open status
-     *
-     * @param CatalogCategoryView $catalogCategoryView
-     * @param CmsIndex $cmsIndex
-     * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
-     * @param CatalogProductView $catalogProductView
-     * @return void
-     */
-    public function processAssert(
-        CatalogCategoryView $catalogCategoryView,
-        CmsIndex $cmsIndex,
-        CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple,
-        CatalogProductView $catalogProductView
-    ){
-        $this->catalogCategoryView = $catalogCategoryView;
-        $this->cmsIndex = $cmsIndex;
-        $this->catalogProductSimple = $catalogProductSimple;
-        $this->catalogProductView = $catalogProductView;
-
-        $pageEvent = $catalogEvent->getDisplayState();
-        if($pageEvent['category_page'] == "Yes") {
-            $this->blockEventOnCategoryPage();
-        }
-        if($pageEvent['product_page'] == "Yes") {
-            $this->blockEventOnProductPage();
-        }
-    }
-
-    /**
-     * Event block has open status on Category Page
-     */
-    protected function blockEventOnCategoryPage()
-    {
-        $categoryName = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory()[0]->getName();
-
-        $this->cmsIndex->open();
-        $this->catalogProductSimple->getDataFieldConfig('category_ids');
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($categoryName);
-        $actualMessage = $this->catalogCategoryView->getEventBlock()->getEventMessage();
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::EVENT_STATUS,
-            $actualMessage,
-            'Wrong event status message is displayed.'
-            . "\nExpected: " . self::EVENT_STATUS
-            . "\nActual: " . $actualMessage
-        );
-    }
-
-    /**
-     * Event block has open status on Product Page
-     */
-    protected function blockEventOnProductPage()
-    {
-        $categoryName = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory()[0]->getName();
-
-        $this->cmsIndex->open();
-        $this->catalogProductSimple->getDataFieldConfig('category_ids');
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($categoryName);
-
-        $productName = $this->catalogProductSimple->getData('name');
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $actualMessage = $this->catalogProductView->getEventBlock()->getEventMessage();
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::EVENT_STATUS,
-            $actualMessage,
-            'Wrong event status message is displayed.'
-            . "\nExpected: " . self::EVENT_STATUS
-            . "\nActual: " . $actualMessage
-        );
-    }
 
     /**
      * Text success present 'Sale Ends In' message

@@ -9,7 +9,7 @@
 namespace Magento\CatalogEvent\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogEvent\Test\Page\Adminhtml\AdminCatalogEventIndex;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 
 /**
  * Class AssertCatalogEventSuccessCreateMessage
@@ -30,12 +30,12 @@ class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
     /**
      * Assert that message "You saved the event." is presented on Events page
      *
-     * @param AdminCatalogEventIndex $adminCatalogEventIndex
+     * @param CatalogEventIndex $CatalogEventIndex
      * @return void
      */
-    public function processAssert(AdminCatalogEventIndex $adminCatalogEventIndex)
+    public function processAssert(CatalogEventIndex $CatalogEventIndex)
     {
-        $actualMessage = $adminCatalogEventIndex->getMessageBlock()->getSuccessMessages();
+        $actualMessage = $CatalogEventIndex->getMessageBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

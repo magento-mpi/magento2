@@ -117,13 +117,6 @@ class View extends Block
     protected $customizeButton = '.action.primary.customize';
 
     /**
-     * Event block on the Frontend
-     *
-     * @var string
-     */
-    protected $eventStatus = '.subtitle';
-
-    /**
      * This member holds the class name of the tier price block.
      *
      * @var string
@@ -174,16 +167,6 @@ class View extends Block
     public function addToCartIsVisible()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
-    }
-
-    /**
-     * Find button 'Add to cart'
-     *
-     * @return boolean
-     */
-    public function getEventMessage()
-    {
-        return $this->_rootElement->find($this->eventStatus, Locator::SELECTOR_CSS)->isVisible();
     }
 
     /**
@@ -351,7 +334,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

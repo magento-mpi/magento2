@@ -53,7 +53,13 @@ class CatalogProductSimple extends InjectableFixture
         $persist = false
     ) {
         parent::__construct(
-            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+            $configuration,
+            $repositoryFactory,
+            $fixtureFactory,
+            $handlerFactory,
+            $data,
+            $dataSet,
+            $persist
         );
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
@@ -71,10 +77,9 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
-        'price' => ['value' => 90.00],
+        'price' => ['value' => 100.00],
         'weight' => 12.0000,
-        'qty' => 10,
-        'category_ids' => ['presets' => 'default']
+        'qty' => 10
     ];
 
     protected $category_ids = [

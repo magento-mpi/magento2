@@ -27,13 +27,7 @@ class CatalogCategoryEntity extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface';
 
-    protected $defaultDataSet = [
-        'name' => 'Category%isolation%',
-        'path' => '2',
-        'url_key' => 'category%isolation%',
-        'is_active' => '1',
-        'include_in_menu' => '1',
-    ];
+    protected $defaultDataSet = [];
 
     protected $entity_id = [
         'attribute_code' => 'entity_id',
@@ -213,15 +207,5 @@ class CatalogCategoryEntity extends InjectableFixture
     public function getIncludeInMenu()
     {
         return $this->getData('include_in_menu');
-    }
-
-    /**
-     * Get product name
-     *
-     * @return string
-     */
-    public function getCategoryName()
-    {
-        return $this->getData('fields/name/value');
     }
 }

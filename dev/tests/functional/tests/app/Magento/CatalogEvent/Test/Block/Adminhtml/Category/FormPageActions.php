@@ -6,11 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event\AddEvent;
+namespace Magento\CatalogEvent\Test\Block\Adminhtml\Category;
 
-use Magento\Backend\Test\Block\FormPageActions;
+use Magento\Backend\Test\Block\FormPageActions as AbstractFormPageActions;
 
-class AddEvent extends FormPageActions
+/**
+ * Class FormPageActions
+ *
+ * @package Magento\CatalogEvent\Test\Block\Adminhtml\Category
+ */
+class FormPageActions extends AbstractFormPageActions
 {
     /**
      * "Add Event..." button

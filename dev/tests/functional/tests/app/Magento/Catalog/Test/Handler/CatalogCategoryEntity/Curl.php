@@ -22,26 +22,37 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  */
 class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
 {
-   public function persist(FixtureInterface $fixture = null)
-    {
-        $data = [];
-        foreach($fixture->getData() as $key => $value){
-            $data['general'][$key] = $value;
-        }
-        $data['use_config'][] = 'available_sort_by';
-        $data['use_config'][] = 'default_sort_by';
-        $data['use_config'][] = 'filter_price_range';
+    /**
+     * Data use config for category
+     * @var array
+     */
+    protected $dataUseConfig = [
+        'available_sort_by',
+        'default_sort_by',
+        'filter_price_range'
+    ];
 
-        $url = $_ENV['app_backend_url'] . 'catalog/category/save/store/0/parent/2/?isAjax=true';
+    /**
+     * Post request for creating Subcategory
+     *
+     * @param FixtureInterface $fixture [optional]
+     * @return mixed|string
+     */
+    public function persist(FixtureInterface $fixture = null)
+    {
+        $data['general'] = $fixture->getData();
+        $data['general']['is_active'] = 1;
+        $data['general']['include_in_menu'] = 1;
+        $data['use_config'] = $this->dataUseConfig;
+
+        $url = $_ENV['app_backend_url'] . 'catalog/category/save/store/0/parent/2';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
-        preg_match('#http://.+/id/(\d+).+isAjax=true#m', $response, $matches);
+        preg_match('#http://.+/id/(\d+).+parent/2/#m', $response, $matches);
         $id = isset($matches[1]) ? $matches[1] : null;
         return ['id' => $id];
-
     }
 }

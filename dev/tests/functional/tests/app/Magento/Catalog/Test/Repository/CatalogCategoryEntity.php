@@ -21,9 +21,9 @@ class CatalogCategoryEntity extends AbstractRepository
     {
         $this->_data['default_subcategory'] = [
             'name' => 'Subcategory%isolation%',
-            'path' => '1/2',
-            'is_active' => '1',
-            'include_in_menu' => '1'
+            'path' => 'Default Category/Subcategory%isolation%',
+            'is_active' => 'Yes',
+            'include_in_menu' => 'Yes',
         ];
     }
 }

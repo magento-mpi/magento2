@@ -71,7 +71,7 @@ class CatalogProductView extends FrontendPage
         ],
         'EventBlock' => [
             'name' => 'EventBlock',
-            'class' => 'Magento\CatalogEvent\Test\Block\Event',
+            'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
             'locator' => '.top-container',
             'strategy' => 'css selector',
         ],
@@ -163,7 +163,7 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
-     * @return \Magento\CatalogEvent\Test\Block\Event
+     * @return \Magento\CatalogEvent\Test\Block\Catalog\Event
      */
     public function getEventBlock()
     {

@@ -10,17 +10,9 @@
 <mapping strict="0">
     <wrapper>catalogevent</wrapper>
     <fields>
-        <date_start />
-        <date_end />
-        <sort_order />
-        <category_page>
-            <selector>#event_edit_display_state_array_1</selector>
-            <input>checkbox</input>
-        </category_page>
-        <product_page>
-            <selector>#event_edit_display_state_array_2</selector>
-            <input>checkbox</input>
-        </product_page>
+        <date_start/>
+        <date_end/>
+        <sort_order/>
         <display_state>
             <category_page>
                 <selector>#event_edit_display_state_array_1</selector>

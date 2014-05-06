@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category; 
+namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
@@ -38,15 +38,9 @@ class CatalogCategoryView extends FrontendPage
             'locator' => '.block.filter',
             'strategy' => 'css selector',
         ],
-        'productPagination' => [
-            'name' => 'productPagination',
-            'class' => 'Magento\Catalog\Test\Block\Category\ProductPagination',
-            'locator' => '.pages .items',
-            'strategy' => 'css selector',
-        ],
         'eventBlock' => [
             'name' => 'eventBlock',
-            'class' => 'Magento\CatalogEvent\Test\Block\Event',
+            'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
             'locator' => '.top-container',
             'strategy' => 'css selector',
         ],
@@ -77,15 +71,7 @@ class CatalogCategoryView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Category\ProductPagination
-     */
-    public function getProductPagination()
-    {
-        return $this->getBlockInstance('productPagination');
-    }
-    
-    /**
-     * @return \Magento\CatalogEvent\Test\Block\Event
+     * @return \Magento\CatalogEvent\Test\Block\Catalog\Event
      */
     public function getEventBlock()
     {

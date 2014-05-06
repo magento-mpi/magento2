@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
@@ -30,50 +29,44 @@ class AssertAddToCartButtonPresent extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    public $pageDisplayState;
-
-    /**
-     * Constraint severeness
+     * Category Page on Frontend
      *
      * @var CatalogCategoryView $catalogCategoryView
      */
-    protected  $catalogCategoryView;
+    protected $catalogCategoryView;
 
     /**
-     * Constraint severeness
+     * Index Page
      *
      * @var CmsIndex $cmsIndex
      */
-    protected  $cmsIndex;
+    protected $cmsIndex;
 
     /**
-     * Constraint severeness
+     * Product Page
      *
      * @var CatalogProductSimple $catalogProductSimple
      */
-    protected  $catalogProductSimple;
+    protected $catalogProductSimple;
 
     /**
-     * Constraint severeness
+     * Product Page on Frontend
      *
      * @var CatalogProductView $catalogProductView
      */
     protected $catalogProductView;
 
     /**
+     * Assert that "Add to cart" button is presented on page.
+     *
      * @param CmsIndex $cmsIndex
-     * @param CatalogEventEntity $catalogEvent
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogProductView $catalogProductView
+     * @return void
      */
     public function processAssert(
         CmsIndex $cmsIndex,
-        CatalogEventEntity $catalogEvent,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $catalogProductSimple,
         CatalogProductView $catalogProductView
@@ -83,16 +76,16 @@ class AssertAddToCartButtonPresent extends AbstractConstraint
         $this->catalogProductSimple = $catalogProductSimple;
         $this->catalogProductView = $catalogProductView;
 
-        $pageEvent = $catalogEvent->getDisplayState();
-        if($pageEvent['category_page'] == "Yes") {
-            $this->blockEventOnCategoryPage();
-        }
-        if($pageEvent['product_page'] == "Yes") {
-            $this->blockEventOnProductPage();
-        }
+        $this->addToCardPresentOnCategory();
+        $this->addToCardPresentOnProduct();
     }
 
-    protected function blockEventOnCategoryPage()
+    /**
+     * "Add to cart" button is displayed on Category page
+     *
+     * @return void
+     */
+    protected function addToCardPresentOnCategory()
     {
         $category = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory();
         $categoryName = $category[0]->getName();
@@ -103,10 +96,14 @@ class AssertAddToCartButtonPresent extends AbstractConstraint
             $findOnCategoryPage,
             "Button 'Add to Card' is absent on Category page"
         );
-
     }
 
-    protected function blockEventOnProductPage()
+    /**
+     * "Add to cart" button is displayed on Product page
+     *
+     * @return void
+     */
+    protected function addToCardPresentOnProduct()
     {
         $category = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory();
         $categoryName = $category[0]->getName();

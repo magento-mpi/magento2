@@ -6,15 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event\EventGrid;
+namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class EventGrid
- * Events' grid of Catalog Products
+ * Events' grid of Catalog Events
  *
- * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event\EventGrid
+ * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event
  */
 class BlockEventGrid extends Grid
 {
@@ -25,24 +25,24 @@ class BlockEventGrid extends Grid
      */
     protected $filters = [
         'category_name' => [
-            'selector' => '#catalogEventGrid_filter_category'
+            'selector' => '[name="category"]'
         ],
         'start_on' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-datetime-filter-date-start-from"]'
+            'selector' => '[name="date_start[from]"]'
         ],
         'end_on' => [
-            'selector' => '[data-ui-id="widget-grid-column-filter-datetime-1-filter-date-end-from"]'
+            'selector' => '[name="date_end[from]"]'
         ],
         'status' => [
-            'selector' => '#catalogEventGrid_filter_status',
+            'selector' => '[name="status"]',
             'input' => 'select'
         ],
         'countdown_ticker' => [
-            'selector' => '#catalogEventGrid_filter_display_state',
+            'selector' => '[name="display_state"]',
             'input' => 'select'
         ],
         'sort_order' => [
-            'selector' => '#catalogEventGrid_filter_sort_order'
+            'selector' => '[name="sort_order"]'
         ],
     ];
 

@@ -10,7 +10,7 @@ namespace Magento\CatalogEvent\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
-
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -28,48 +28,82 @@ class AssertCatalogEventInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
+     * CatalogEventEntity $catalogEvent
+     * @var
+     */
+    protected $catalogEvent;
+
+    /**
+     * Pages where event presented
+     * @var string
+     */
+    protected $catalogEventPages = '';
+
+    /**
+     * Assert that catalog event is presented in the "Events" grid
+     *
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
+     * @param CatalogEventIndex $catalogEventIndex
      * @return bool
      */
     public function processAssert(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple
+        CatalogProductSimple $catalogProductSimple,
+        CatalogEventIndex $catalogEventIndex
     ) {
         //todo BUG MAGETWO-23857
         return true;
 
-        $categoryName = $catalogProductSimple->getDataFieldConfig('category_ids')['fixture']->getCategory()[0]->getName();
-
-        $dateStartElements = explode(' ',$catalogEvent->getDateStart());
-        $dateStartElement = explode('/',$dateStartElements[0]);
-        $dateStart = mktime(0, 0, 0, $dateStartElement[0],$dateStartElement[1], $dateStartElement[2]);
-        $dateEndElements = explode(' ',$catalogEvent->getDateEnd());
-        $dateEndElement = explode('/',$dateEndElements[0]);
-        $dateEnd = mktime(0, 0, 0, $dateEndElement[0],$dateEndElement[1], $dateEndElement[2]);
+        $this->catalogEvent = $catalogEvent;
+        $categoryName = $catalogProductSimple->getDataFieldConfig('category_ids')['fixture']
+            ->getCategory()[0]->getName();
+        $dateStart = strtotime($catalogEvent->getDateStart());
+        $dateEnd = strtotime($catalogEvent->getDateEnd());
         $currentDay = strtotime('now');
 
-        if($currentDay < $dateStart){
+        if ($currentDay < $dateStart) {
             $status = 'Upcoming';
-        }elseif($currentDay > $dateEnd){
+        } elseif ($currentDay > $dateEnd) {
             $status = 'Close';
-        }else{
+        } else {
             $status = 'Open';
         }
+
+        $displayState = $this->prepare();
 
         $filter = [
             'category_name' => $categoryName,
             'start_on' => $catalogEvent->getDateStart(),
             'end_on' => $catalogEvent->getDateEnd(),
             'status' => $status,
-            'countdown_ticker' => $catalogEvent->getDisplayState(),
+            'countdown_ticker' => $displayState,
             'sort_order' => $catalogEvent->getSortOrder()
         ];
-        $adminCatalogEventIndex->open();
+        $catalogEventIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $adminCatalogEventIndex->getBlockEventGrid()->isRowVisible($filter),
+            $catalogEventIndex->getBlockEventGrid()->isRowVisible($filter),
             'Event with Category Name \'' . $categoryName . '\' is absent in Events grid.'
         );
+    }
+
+    /**
+     * Method prepare string display state for filter
+     *
+     * @return string
+     */
+    protected function prepare()
+    {
+        $pageEvent = $this->catalogEvent->getDisplayState();
+
+        if ($pageEvent['category_page'] == "Yes") {
+            $this->catalogEventPages = 'Category Page';
+        }
+        if ($pageEvent['product_page'] == "Yes") {
+            $this->catalogEventPages = 'Product Page';
+        }
+
+        return $this->catalogEventPages;
     }
 
     /**
