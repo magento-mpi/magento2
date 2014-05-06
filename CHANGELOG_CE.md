@@ -9,7 +9,7 @@
   * Removed head.js usages from adminhtml (MAGETWO-18053)
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
-* Fixed bugs:  
+* Fixed bugs:
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
   * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
@@ -26,6 +26,10 @@
   * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
   * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
   * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
+  * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
+  * Error messages are not correct during customer registration (MAGETWO-23976)
+  * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
+  * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
@@ -53,7 +57,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-  
+
 2.0.0.0-dev75
 =============
 * Modularity improvements:
