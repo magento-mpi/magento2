@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\User\Test\Fixture\AdminUserInjectable">
+<fixture class="Magento\User\Test\Fixture\AdminUser">
     <module>Magento_User</module>
     <type>flat</type>
     <entity_type>admin_user</entity_type>
@@ -125,11 +125,28 @@
             <default_value>en_US</default_value>
             <input></input>
         </interface_locale>
-        <role_id>
-            <attribute_code>role_id</attribute_code>
-            <backend_type>virtual</backend_type>
-        </role_id>
+        <failures_num>
+            <attribute_code>failures_num</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </failures_num>
+        <first_failure>
+            <attribute_code>first_failure</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </first_failure>
+        <lock_expires>
+            <attribute_code>lock_expires</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </lock_expires>
     </fields>
-    <repository_class>Magento\User\Test\Repository\AdminUserInjectable</repository_class>
+    <repository_class>Magento\User\Test\Repository\AdminUser</repository_class>
     <handler_interface>Magento\User\Test\Handler\AdminUser\AdminUserInterface</handler_interface>
 </fixture>

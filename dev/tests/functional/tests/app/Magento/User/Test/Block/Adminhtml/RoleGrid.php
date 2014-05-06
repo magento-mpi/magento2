@@ -31,4 +31,11 @@ class RoleGrid extends Grid
             'selector' => '#roleGrid_filter_role_name'
         ]
     ];
-} 
+
+    /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = 'td';
+}

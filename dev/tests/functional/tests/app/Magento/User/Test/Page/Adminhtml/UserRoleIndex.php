@@ -35,7 +35,7 @@ class UserRoleIndex extends BackendPage
         'messagesBlock' => [
             'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
-            'locator' => '.messages',
+            'locator' => '#messages',
             'strategy' => 'css selector',
         ],
     ];

@@ -24,4 +24,11 @@ class PageActions extends FormPageActions
      * @var string
      */
     protected $saveButton = '.save-role';
+
+    /**
+     * "Delete" button
+     *
+     * @var string
+     */
+    protected $deleteButton = '.delete';
 }

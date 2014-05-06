@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/auth/login" >
+    <block>
+        <name>loginForm</name>
+        <class>Magento\Backend\Test\Block\Admin\LoginForm</class>
+        <locator>#login-form</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

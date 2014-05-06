@@ -1,0 +1,57 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\User\Test\Constraint;
+
+use Mtf\Constraint\AbstractConstraint;
+use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
+
+/**
+ * Class AssertRoleSuccessSaveMessage
+ *
+ * @package Magento\User\Test\Constraint
+ */
+class AssertImpossibleDeleteYourOwnRole extends AbstractConstraint
+{
+
+    const ERROR_MESSAGE = 'You cannot delete self-assigned roles.';
+
+    /**
+     * Constraint severeness
+     *
+     * @var string
+     */
+    protected $severeness = 'low';
+
+    /**
+     * Asserts that error message equals to expected message.
+     *
+     * @return void
+     */
+    public function processAssert(UserRoleEditRole $rolePage)
+    {
+        $successMessage = $rolePage->getMessagesBlock()->getErrorMessages();
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::ERROR_MESSAGE,
+            $successMessage,
+            'Wrong success message is displayed.'
+            . "\nExpected: " . self::ERROR_MESSAGE
+            . "\nActual: " . $successMessage
+        );
+    }
+
+    /**
+     * Returns success message if equals to expected message.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return '"You cannot delete self-assigned roles." message on EditRole page is correct.';
+    }
+}
