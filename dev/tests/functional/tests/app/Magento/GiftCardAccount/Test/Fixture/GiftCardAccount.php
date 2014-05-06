@@ -18,8 +18,8 @@ use Mtf\Fixture\InjectableFixture;
 class GiftCardAccount extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'balance' => null,
-        'is_redeemable' => null,
+        'balance' => 0,
+        'website_id' => 'Main Website',
     ];
 
     protected $giftcardaccount_id = [

@@ -85,7 +85,7 @@ class Messages extends Block
      */
     public function clickLinkInMessages($messageType, $text)
     {
-        if ($this->isVisibleMessage('error')) {
+        if ($this->isVisibleMessage($messageType)) {
             return $this->_rootElement
                 ->find($this->{$messageType . 'Message'}, Locator::SELECTOR_CSS)
                 ->find("//a[contains(.,'$text')]", Locator::SELECTOR_XPATH)
