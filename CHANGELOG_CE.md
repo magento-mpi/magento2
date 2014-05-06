@@ -90,7 +90,7 @@
   * Fixed an issue with incorrect reset password link for users on custom websites
   * Fixed an issue with invalid error message displayed when trying to save a customer group with existing group name
   * Fixed an issue with  menu layout non-responsive behavior  in the Blank theme
-* Framework Improvements:
+* Framework improvements:
   * Covered Magento library components with unit tests
     * `Magento\Framework\Error\*`
     * `Magento\Framework\Event\Observer\*`
