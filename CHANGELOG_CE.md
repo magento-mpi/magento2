@@ -10,6 +10,10 @@
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
 * Fixed bugs:
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
   * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
@@ -27,6 +31,11 @@
   * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
   * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
   * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
+  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
+  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
+  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
+  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
+  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
