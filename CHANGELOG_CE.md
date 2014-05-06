@@ -9,7 +9,12 @@
   * Removed head.js usages from adminhtml (MAGETWO-18053)
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
-* Fixed bugs:  
+* Fixed bugs:
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
+  * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
   * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
@@ -31,6 +36,7 @@
   * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
   * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
+  * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
