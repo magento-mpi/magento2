@@ -145,7 +145,11 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $taxId = $appliedRate['id'];
                 $taxes[] = $this->_round($calc->calcTaxAmount($shipping, $taxRate, false, false), $taxId, false);
                 $baseTaxes[] = $this->_round(
-                    $calc->calcTaxAmount($baseShipping, $taxRate, false, false), $taxId, false, 'base');
+                    $calc->calcTaxAmount($baseShipping, $taxRate, false, false),
+                    $taxId,
+                    false,
+                    'base'
+                );
             }
             $tax            = array_sum($taxes);
             $baseTax        = array_sum($baseTaxes);
