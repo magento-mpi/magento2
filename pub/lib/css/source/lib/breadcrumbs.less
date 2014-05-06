@@ -60,7 +60,7 @@
     ._breadcrumbs-hide-label(@_breadcrumbs-hide-label);
     .items {
         .font-size(@_breadcrumbs-font-size);
-        color: @_breadcrumbs-current-color;
+        .css(color, @_breadcrumbs-current-color);
         .list-inline();
     }
     .item {
@@ -77,8 +77,8 @@
         .css(border, @_breadcrumbs-link-border);
         .css(display, @_breadcrumbs-display);
         .css(padding, @_breadcrumbs-padding);
-        color: @_breadcrumbs-link-color;
-        text-decoration: @_breadcrumbs-link-text-decoration;
+        .css(color, @_breadcrumbs-link-color);
+        .css(text-decoration, @_breadcrumbs-link-text-decoration);
         &:visited {
             .css(background, @_breadcrumbs-link-background-visited);
             .background-gradient(
@@ -88,8 +88,8 @@
                 @_breadcrumbs-link-gradient
             );
             .css(border, @_breadcrumbs-link-border-visited);
-            color: @_breadcrumbs-link-color-visited;
-            text-decoration: @_breadcrumbs-link-text-decoration-visited;
+            .css(color, @_breadcrumbs-link-color-visited);
+            .css(text-decoration, @_breadcrumbs-link-text-decoration-visited);
         }
         &:hover {
             .css(background, @_breadcrumbs-link-background-hover);
@@ -100,8 +100,8 @@
                 @_breadcrumbs-link-gradient
             );
             .css(border, @_breadcrumbs-link-border-hover);
-            color: @_breadcrumbs-link-color-hover;
-            text-decoration: @_breadcrumbs-link-text-decoration-hover;
+            .css(color, @_breadcrumbs-link-color-hover);
+            .css(text-decoration, @_breadcrumbs-link-text-decoration-hover);
         }
         &:active {
             .css(background, @_breadcrumbs-link-background-active);
@@ -113,8 +113,8 @@
                 @_breadcrumbs-link-gradient
             );
             .css(border, @_breadcrumbs-link-border-active);
-            color: @_breadcrumbs-link-color-active;
-            text-decoration: @_breadcrumbs-link-text-decoration-active;
+            .css(color, @_breadcrumbs-link-color-active);
+            .css(text-decoration, @_breadcrumbs-link-text-decoration-active);
         }
     }
     strong {
@@ -128,19 +128,19 @@
         .css(border, @_breadcrumbs-current-border);
         .css(display, @_breadcrumbs-display);
         .css(padding, @_breadcrumbs-padding);
-        font-weight: @_breadcrumbs-current-font-weight;
+        .css(font-weight, @_breadcrumbs-current-font-weight);
     }
     .mixin-breadcrumbs-separator(@_breadcrumbs-separator-symbol: @_breadcrumbs-separator-symbol);
 }
 
 .mixin-breadcrumbs-separator(
-    @_breadcrumbs-separator-symbol: @_breadcrumbs-separator-symbol,
-    @_breadcrumbs-separator-color: @_breadcrumbs-separator-color
-) when not (@breadcrumbs-separator-symbol = '') {
+    @_breadcrumbs-separator-symbol: @breadcrumbs-separator-symbol,
+    @_breadcrumbs-separator-color: @breadcrumbs-separator-color
+) when not (@_breadcrumbs-separator-symbol = '') {
     .item:not(:last-child) {
         &:after {
-            color: @_breadcrumbs-separator-color;
-            content: @_breadcrumbs-separator-symbol;
+            .css(color, @_breadcrumbs-separator-color);
+            .css(content, @_breadcrumbs-separator-symbol);
         }
     }
 }

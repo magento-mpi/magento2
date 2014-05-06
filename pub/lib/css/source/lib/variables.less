@@ -102,11 +102,11 @@
 @p-margin-bottom: @indent-s-base;
 
 //Headings
-@heading-font-family-base: ''; //@font-family-base
+@heading-font-family-base: false; //@font-family-base
 @heading-font-weight-base: @font-weight-light;
 @heading-line-height-base: 1.1;
-@heading-color-base: ''; //@text-color
-@heading-font-style-base: ''; //@font-style-base
+@heading-color-base: false; //@text-color
+@heading-font-style-base: false; //@font-style-base
 @heading-margin-top-base: @indent-base;
 @heading-margin-bottom-base: @indent-base;
 
@@ -214,7 +214,7 @@
 //    Tables variables
 //--------------------------------------
 @table-width: 100%;
-@table-margin-bottom: '';
+@table-margin-bottom: false;
 @table-bg: transparent;
 @table-head-bg: @table-bg;
 @table-foot-bg: @table-bg;
@@ -459,7 +459,7 @@
 //--------------------------------------
 
 // Button font style
-@button-font-family: @font-family-base;
+@button-font-family: '';
 @button-font-size: @font-size-base;
 @button-font-weight: @font-weight-bold;
 @button-height: 30px;
@@ -571,8 +571,8 @@
 @icon-font-size: inherit; // Also used in: @icon-font-line-height
 @icon-font-line-height: @icon-font-size;
 @icon-font-color: inherit;
-@icon-font-color-hover: '';
-@icon-font-color-active: '';
+@icon-font-color-hover: false;
+@icon-font-color-active: false;
 @icon-font-vertical-align: @icon-vertical-align;
 
 // Variables for icons-blank-theme
@@ -624,9 +624,9 @@
 
 @message-color: false; // Each message type has its own message color
 @message-font-size: 13px;
-@message-font-family: @font-family-base;
-@message-font-style: @font-style-base;
-@message-font-weight: @font-weight-base;
+@message-font-family: false;
+@message-font-style: false;
+@message-font-weight: false;
 @message-line-height: 1.2em;
 
 @message-icon-font-size: ceil(@message-font-size * 2 + 2);
@@ -635,10 +635,10 @@
 @message-icon-lateral-width: 30px;
 @message-icon-lateral-arrow-size: 5px;
 
-@message-border-width: 0;
-@message-border-color: transparent;
-@message-border-style: none;
-@message-border-radius: 0;
+@message-border-width: false;
+@message-border-color: false;
+@message-border-style: false;
+@message-border-radius: false;
 
 // Information message
 @message-info-color: #6f4400;
@@ -646,7 +646,7 @@
 @message-info-link-color: @link-color;
 @message-info-link-color-hover: @link-color-hover;
 @message-info-link-color-active: @link-color-hover;
-@message-info-border-color: none;
+@message-info-border-color: @message-border-color;
 @message-info-icon: @icon-warning;
 @message-info-icon-color-inner: #c07600;
 @message-info-icon-color-lateral: #fff;
@@ -670,7 +670,7 @@
 @message-error-link-color: @link-color;
 @message-error-link-color-hover: @link-color-hover;
 @message-error-link-color-active: @link-color-hover;
-@message-error-border-color: none;
+@message-error-border-color: @message-border-color;
 @message-error-icon: @icon-warning;
 @message-error-icon-color-inner: #b30000;
 @message-error-icon-color-lateral: #fff;
@@ -682,7 +682,7 @@
 @message-success-link-color: @link-color;
 @message-success-link-color-hover: @link-color-hover;
 @message-success-link-color-active: @link-color-hover;
-@message-success-border-color: none;
+@message-success-border-color: @message-border-color;
 @message-success-icon: @icon-checkmark;
 @message-success-icon-color-inner: #006400;
 @message-success-icon-color-lateral: #fff;
@@ -707,16 +707,16 @@
 @tooltip-border-width: 1px;
 @tooltip-background: #fff;
 @tooltip-cursor: help;
-@tooltip-border-radius: '';
+@tooltip-border-radius: false;
 @tooltip-arrow-size: 5px;
 @tooltip-arrow-offset: 10px;
 @tooltip-color: #333;
-@tooltip-font-size: 14px;
-@tooltip-font-family: @font-family-base;
-@tooltip-font-weight: @font-weight-base;
+@tooltip-font-size: false;
+@tooltip-font-family: false;
+@tooltip-font-weight: false;
 @tooltip-line-height: 1.4;
-@tooltip-font-style: @font-style-base;
-@tooltip-margin: '';
+@tooltip-font-style: false;
+@tooltip-margin: false;
 @tooltip-padding: 12px 16px;
 @tooltip-min-width: 210px;
 @tooltip-max-width: 360px;
@@ -761,11 +761,11 @@
 @form-element-input-background-clip: padding-box; // border-box, content-box
 @form-element-input-outline: true; // false
 @form-element-input-font-size: @font-size-base;
-@form-element-input-color: @text-color;
+@form-element-input-color: false;
 @form-element-input-font-family: @font-family-base;
-@form-element-input-font-weight: @font-weight-base;
+@form-element-input-font-weight: false;
 @form-element-input-line-height: @line-height-base;
-@form-element-input-font-style: @font-style-base;
+@form-element-input-font-style: false;
 // Placeholder
 @form-element-input-placeholder-color: #c2c2c2;
 @form-element-input-placeholder-font-style: @form-element-input-font-style;
@@ -897,12 +897,12 @@
 // Validation variables
 @form-validation-note-font-size: @font-size-s;
 @form-validation-note-color-error: @color-error;
-@form-validation-note-font-family: '';
-@form-validation-note-font-weight: '';
-@form-validation-note-line-height: '';
-@form-validation-note-font-style: '';
+@form-validation-note-font-family: false;
+@form-validation-note-font-weight: false;
+@form-validation-note-line-height: false;
+@form-validation-note-font-style: false;
 @form-validation-note-margin: 3px 0 0;
-@form-validation-note-padding: '';
+@form-validation-note-padding: false;
 
 @form-validation-note-icon-use: false;
 @form-validation-note-icon-font-content: @icon-pointer-up;
@@ -910,33 +910,33 @@
 @form-validation-note-icon-font-size: @form-validation-note-font-size * 2;
 @form-validation-note-icon-font-line-height: @form-validation-note-font-size;
 @form-validation-note-icon-font-color: @form-validation-note-color-error;
-@form-validation-note-icon-font-color-hover: '';
-@form-validation-note-icon-font-color-active: '';
-@form-validation-note-icon-font-margin: '';
+@form-validation-note-icon-font-color-hover: false;
+@form-validation-note-icon-font-color-active: false;
+@form-validation-note-icon-font-margin: false;
 @form-validation-note-icon-font-vertical-align: @icon-font-vertical-align;
 @form-validation-note-icon-font-position: @icon-font-position;
 @form-validation-note-icon-font-text-hide: @icon-font-text-hide;
 
-@form-element-validation-color-error: '';
-@form-element-validation-color-valid: '';
+@form-element-validation-color-error: false;
+@form-element-validation-color-valid: false;
 @form-element-validation-border-error: lighten(@form-validation-note-color-error, 20%); //darken(@form-element-validation-color-error, 5%)
-@form-element-validation-border-valid: ''; //darken(@form-element-validation-color-valid, 5%)
-@form-element-validation-background-error: ''; //lighten(@form-element-validation-color-error, 50%)
-@form-element-validation-background-valid: ''; //lighten(@form-element-validation-color-valid, 50%)
+@form-element-validation-border-valid: false; //darken(@form-element-validation-color-valid, 5%)
+@form-element-validation-background-error: false; //lighten(@form-element-validation-color-error, 50%)
+@form-element-validation-background-valid: false; //lighten(@form-element-validation-color-valid, 50%)
 
 // Fieldset
 @form-fieldset-border: 0;
 @form-fieldset-margin: 0 0 40px; //30px 10px 30px 30px
 @form-fieldset-padding: 0;
-@form-fieldset-legend-color: inherit;
+@form-fieldset-legend-color: false;
 @form-fieldset-legend-font-size: 20px;
-@form-fieldset-legend-font-family: @font-family-base;
-@form-fieldset-legend-font-weight: @font-weight-base;
-@form-fieldset-legend-font-style: normal;
+@form-fieldset-legend-font-family: false;
+@form-fieldset-legend-font-weight: false;
+@form-fieldset-legend-font-style: false;
 @form-fieldset-legend-line-height: 1.2;
 @form-fieldset-legend-margin: 0 0 25px 0; //0 0 25px @form-field-type-inline-label-width
 @form-fieldset-legend-padding: 0;
-@form-fieldset-legend-width: ''; //@form-field-type-inline-control-width
+@form-fieldset-legend-width: false; //@form-field-type-inline-control-width
 
 // Field
 @form-field-type: block; //inline
@@ -949,12 +949,12 @@
 @form-field-type-block-margin: 0 0 @form-field-type-inline-vertical-margin;
 @form-field-type-inline-margin: 0 0 @form-field-type-inline-vertical-margin;
 // form field label
-@form-field-label-color: '';
-@form-field-label-font-size: @font-size-base;
-@form-field-label-font-family: '';
+@form-field-label-color: false;
+@form-field-label-font-size: false;
+@form-field-label-font-family: false;
 @form-field-label-font-weight: @font-weight-bold;
-@form-field-label-font-style: '';
-@form-field-label-line-height: '';
+@form-field-label-font-style: false;
+@form-field-label-line-height: false;
 @form-field-type-block-label-margin: 0 0 5px;
 @form-field-type-inline-label-padding: 6px 15px 0 0;
 @form-field-type-inline-label-width: 25.8%;
@@ -963,18 +963,18 @@
 // form field label asterisk
 @form-field-label-asterisk-color: #e02b27; // also used in: @form-hasrequired-color
 @form-field-label-asterisk-font-size: @font-size-s;
-@form-field-label-asterisk-font-family: '';
-@form-field-label-asterisk-font-weight: '';
-@form-field-label-asterisk-font-style: '';
-@form-field-label-asterisk-line-height: '';
+@form-field-label-asterisk-font-family: false;
+@form-field-label-asterisk-font-weight: false;
+@form-field-label-asterisk-font-style: false;
+@form-field-label-asterisk-line-height: false;
 @form-field-label-asterisk-margin: 0 0 0 5px;
 // form field note
-@form-field-note-color: '';
+@form-field-note-color: false;
 @form-field-note-font-size: @font-size-s;
-@form-field-note-font-family: '';
-@form-field-note-font-weight: '';
-@form-field-note-line-height: '';
-@form-field-note-font-style: '';
+@form-field-note-font-family: false;
+@form-field-note-font-weight: false;
+@form-field-note-line-height: false;
+@form-field-note-font-style: false;
 @form-field-note-margin: 3px 0 0;
 @form-field-note-padding: 0;
 // form field note icon
@@ -983,9 +983,9 @@
 @form-field-note-icon-font-size: @form-field-note-font-size * 2;
 @form-field-note-icon-font-line-height: @form-field-note-font-size;
 @form-field-note-icon-font-color: @form-field-note-color;
-@form-field-note-icon-font-color-hover: '';
-@form-field-note-icon-font-color-active: '';
-@form-field-note-icon-font-margin: '';
+@form-field-note-icon-font-color-hover: false;
+@form-field-note-icon-font-color-active: false;
+@form-field-note-icon-font-margin: false;
 @form-field-note-icon-font-vertical-align: @icon-font-vertical-align;
 @form-field-note-icon-font-position: @icon-font-position;
 @form-field-note-icon-font-text-hide: @icon-font-text-hide;
@@ -994,13 +994,13 @@
 @form-hasrequired-position: top; // top | bottom
 @form-hasrequired-color: @form-field-label-asterisk-color;
 @form-hasrequired-font-size: @font-size-s;
-@form-hasrequired-font-family: '';
-@form-hasrequired-font-weight: '';
-@form-hasrequired-font-style: '';
-@form-hasrequired-line-height: '';
-@form-hasrequired-border: '';
+@form-hasrequired-font-family: false;
+@form-hasrequired-font-weight: false;
+@form-hasrequired-font-style: false;
+@form-hasrequired-line-height: false;
+@form-hasrequired-border: false;
 @form-hasrequired-margin: 10px 0 0;
-@form-hasrequired-padding: '';
+@form-hasrequired-padding: false;
 
 //
 //    Pager variables
@@ -1019,48 +1019,48 @@
 // Pager current page
 @pager-current-font-weight: @font-weight-bold;
 @pager-current-color: @color-primary;
-@pager-current-border: '';
-@pager-current-background: '';
+@pager-current-border: false;
+@pager-current-background: false;
 
 @pager-current-gradient: false;
-@pager-current-gradient-direction: '';
+@pager-current-gradient-direction: false;
 
-@pager-current-gradient-start-color: '';
-@pager-current-gradient-end-color: '';
+@pager-current-gradient-start-color: false;
+@pager-current-gradient-end-color: false;
 
 // Pager link page
 @pager-gradient: false;
-@pager-gradient-direction: '';
+@pager-gradient-direction: false;
 
 // Pager link default
 @pager-color: @link-color;
-@pager-border: '';
+@pager-border: false;
 @pager-text-decoration: none;
-@pager-background: '';
-@pager-gradient-start-color: '';
-@pager-gradient-end-color: '';
+@pager-background: false;
+@pager-gradient-start-color: false;
+@pager-gradient-end-color: false;
 
 // Pager link visited
 @pager-color-visited: @link-color-visited;
-@pager-border-visited: '';
-@pager-background-visited: '';
-@pager-gradient-start-color-visited: '';
-@pager-gradient-end-color-visited: '';
+@pager-border-visited: false;
+@pager-background-visited: false;
+@pager-gradient-start-color-visited: false;
+@pager-gradient-end-color-visited: false;
 
 // Pager link hover
 @pager-color-hover: @link-color-hover;
-@pager-border-hover: '';
+@pager-border-hover: false;
 @pager-text-decoration-hover: none;
-@pager-background-hover: '';
-@pager-gradient-start-color-hover: '';
-@pager-gradient-end-color-hover: '';
+@pager-background-hover: false;
+@pager-gradient-start-color-hover: false;
+@pager-gradient-end-color-hover: false;
 
 // Pager link active
 @pager-color-active: @link-color-active;
-@pager-border-active: '';
-@pager-background-active: '';
-@pager-gradient-start-color-active: '';
-@pager-gradient-end-color-active: '';
+@pager-border-active: false;
+@pager-background-active: false;
+@pager-gradient-start-color-active: false;
+@pager-gradient-end-color-active: false;
 
 // Pager link.action
 @pager-icon-use: true;
@@ -1076,36 +1076,37 @@
 
 // Pager link.action gradient: does element have gradient background
 @pager-action-gradient: false;
-@pager-action-gradient-direction: '';
+@pager-action-gradient-direction: false;
 
 // Pager link.action default
 @pager-action-color: @text-color-muted;
 @pager-action-border: @border-width-base solid @border-color-base;
 @pager-action-text-decoration: @pager-text-decoration;
 @pager-action-background: @pager-background;
-@pager-action-gradient-start-color: '';
-@pager-action-gradient-end-color: '';
+@pager-action-gradient-start-color: false;
+@pager-action-gradient-end-color: false;
 
 // Pager link.action visited
 @pager-action-color-visited: @text-color-muted;
-@pager-action-border-visited: '';
-@pager-action-background-visited: '';@pager-action-gradient-start-color-visited: '';
-@pager-action-gradient-end-color-visited: '';
+@pager-action-border-visited: false;
+@pager-action-background-visited: false;
+@pager-action-gradient-start-color-visited: false;
+@pager-action-gradient-end-color-visited: false;
 
 // Pager link.action hover
 @pager-action-color-hover: @text-color-muted;
-@pager-action-border-hover: '';
-@pager-action-background-hover: '';
+@pager-action-border-hover: false;
+@pager-action-background-hover: false;
 @pager-action-text-decoration-hover: @pager-text-decoration-hover;
-@pager-action-gradient-start-color-hover: '';
-@pager-action-gradient-end-color-hover: '';
+@pager-action-gradient-start-color-hover: false;
+@pager-action-gradient-end-color-hover: false;
 
 // Pager link.action active
 @pager-action-color-active: @text-color-muted;
-@pager-action-border-active: '';
-@pager-action-background-active: '';
-@pager-action-gradient-start-color-active: '';
-@pager-action-gradient-end-color-active: '';
+@pager-action-border-active: false;
+@pager-action-background-active: false;
+@pager-action-gradient-start-color-active: false;
+@pager-action-gradient-end-color-active: false;
 
 //
 //    Ratings variables
@@ -1123,11 +1124,11 @@
 //    Dropdowns variables
 //--------------------------------------
 // Variables simple dropdown
-@dropdown-actions-padding: '';
-@dropdown-list-position-top: '';
-@dropdown-list-position-bottom: '';
-@dropdown-list-position-left: '';
-@dropdown-list-position-right: '';
+@dropdown-actions-padding: false;
+@dropdown-list-position-top: false;
+@dropdown-list-position-bottom: false;
+@dropdown-list-position-left: false;
+@dropdown-list-position-right: false;
 @dropdown-list-pointer: true; // true | false
 @dropdown-list-background: #fff;
 @dropdown-list-border: 1px solid #bbb;
@@ -1154,8 +1155,8 @@
 
 // Variables split dropdown
 @dropdown-split-actions-padding: 0 5px;
-@dropdown-split-toggle-actions-padding: '';
-@dropdown-split-button-actions-padding: '';
+@dropdown-split-toggle-actions-padding: false;
+@dropdown-split-button-actions-padding: false;
 @dropdown-split-toggle-position: right;
 @dropdown-split-list-position-top: @dropdown-list-position-top;
 @dropdown-split-list-position-bottom: @dropdown-list-position-bottom;
@@ -1193,13 +1194,13 @@
 // Also used in: @popup-actions-toolbar-actions-position
 @actions-toolbar-actions-reverse: false; // true
 // Also used in: @popup-actions-toolbar-actions-position-reverse
-@actions-toolbar-margin: ''; // Also used in: @popup-actions-toolbar-margins
-@actions-toolbar-padding: ''; // Also used in: @popup-actions-toolbar-padding
-@actions-toolbar-actions-margin: ''; // Also used in: @popup-actions-toolbar-actions-margin
+@actions-toolbar-margin: false; // Also used in: @popup-actions-toolbar-margins
+@actions-toolbar-padding: false; // Also used in: @popup-actions-toolbar-padding
+@actions-toolbar-actions-margin: false; // Also used in: @popup-actions-toolbar-actions-margin
 @actions-toolbar-primary-actions-margin: 0 5px 0 0; // Also used in: @popup-actions-toolbar-primary-actions-margin
-@actions-toolbar-secondary-actions-margin: ''; // Also used in: @popup-actions-toolbar-secondary-actions-margin
-@actions-toolbar-actions-links-margin-top: ''; // Also used in: @popup-actions-toolbar-actions-links-margin-top
-@actions-toolbar-primary-actions-links-margin-top: ''; // Also used in: @popup-actions-primary-toolbar-actions-links-margin-top
+@actions-toolbar-secondary-actions-margin: false; // Also used in: @popup-actions-toolbar-secondary-actions-margin
+@actions-toolbar-actions-links-margin-top: false; // Also used in: @popup-actions-toolbar-actions-links-margin-top
+@actions-toolbar-primary-actions-links-margin-top: false; // Also used in: @popup-actions-primary-toolbar-actions-links-margin-top
 @actions-toolbar-secondary-actions-links-margin-top: 6px; // Also used in: @popup-actions-secondary-toolbar-actions-links-margin-top
 
 //
@@ -1210,57 +1211,57 @@
 @breadcrumbs-separator-symbol: '>';
 @breadcrumbs-separator-color: @breadcrumbs-current-color;
 
-@breadcrumbs-display: '';
-@breadcrumbs-padding: '';
+@breadcrumbs-display: false;
+@breadcrumbs-padding: false;
 @breadcrumbs-hide-label: true;
 
 // Breadcrumbs - current page
 @breadcrumbs-current-color: #a3a3a3;
 @breadcrumbs-current-font-weight: @font-weight-base;
-@breadcrumbs-current-background: '';
-@breadcrumbs-current-border: '';
+@breadcrumbs-current-background: false;
+@breadcrumbs-current-border: false;
 
 // Breadcrumbs - current page - gradient background
 @breadcrumbs-current-gradient: false;
 @breadcrumbs-current-gradient-direction: vertical;
-@breadcrumbs-current-gradient-start-color: '';
-@breadcrumbs-current-gradient-end-color: '';
+@breadcrumbs-current-gradient-start-color: false;
+@breadcrumbs-current-gradient-end-color: false;
 
 // Breadcrumbs - link
 // Breadcrumbs link - gradient
 @breadcrumbs-link-gradient: false;
-@breadcrumbs-link-gradient-direction: '';
+@breadcrumbs-link-gradient-direction: false;
 
 @breadcrumbs-link-color: @color-primary;
-@breadcrumbs-link-background: '';
-@breadcrumbs-link-border: '';
+@breadcrumbs-link-background: false;
+@breadcrumbs-link-border: false;
 @breadcrumbs-link-text-decoration: none;
-@breadcrumbs-link-gradient-start-color: '';
-@breadcrumbs-link-gradient-end-color: '';
+@breadcrumbs-link-gradient-start-color: false;
+@breadcrumbs-link-gradient-end-color: false;
 
 // Breadcrumbs link - visited
 @breadcrumbs-link-color-visited: @color-primary;
 @breadcrumbs-link-background-visited: @breadcrumbs-link-background;
 @breadcrumbs-link-border-visited: @breadcrumbs-link-border;
 @breadcrumbs-link-text-decoration-visited: none;
-@breadcrumbs-link-gradient-start-color-visited: '';
-@breadcrumbs-link-gradient-end-color-visited: '';
+@breadcrumbs-link-gradient-start-color-visited: false;
+@breadcrumbs-link-gradient-end-color-visited: false;
 
 // Breadcrumbs link - hover
 @breadcrumbs-link-color-hover: @color-primary;
-@breadcrumbs-link-background-hover: '';
+@breadcrumbs-link-background-hover: false;
 @breadcrumbs-link-border-hover: @breadcrumbs-link-border;
 @breadcrumbs-link-text-decoration-hover: underline;
-@breadcrumbs-link-gradient-start-color-hover: '';
-@breadcrumbs-link-gradient-end-color-hover: '';
+@breadcrumbs-link-gradient-start-color-hover: false;
+@breadcrumbs-link-gradient-end-color-hover: false;
 
 // Breadcrumbs link - active
 @breadcrumbs-link-color-active: @color-primary;
 @breadcrumbs-link-background-active: @breadcrumbs-link-background;
 @breadcrumbs-link-border-active: @breadcrumbs-link-border;
 @breadcrumbs-link-text-decoration-active: none;
-@breadcrumbs-link-gradient-start-color-active: '';
-@breadcrumbs-link-gradient-end-color-active: '';
+@breadcrumbs-link-gradient-start-color-active: false;
+@breadcrumbs-link-gradient-end-color-active: false;
 
 //
 // Popups variables

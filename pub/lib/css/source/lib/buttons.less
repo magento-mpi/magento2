@@ -51,26 +51,26 @@
     @_button-icon-font-text-hide: @button-icon-font-text-hide
 ) {
     background-image: none; // Reset unusual Firefox-on-Android default style
-    .add-background(@_button-background);
+    .css(background, @_button-background);
     .background-gradient(
         @_button-gradient-start-color,
         @_button-gradient-end-color,
         @_button-gradient-direction,
         @_button-gradient
     );
-    .add-padding(@_button-padding);
-    .add-width(@_button-width);
+    .css(padding, @_button-padding);
+    .css(width, @_button-width);
     .css(color, @_button-color);
-    .add-border(@_button-border);
-    cursor: @_button-cursor;
-    display: @_button-display;
-    font-family: @_button-font-family;
-    font-size: @_button-font-size;
-    font-weight: @_button-font-weight;
-    line-height: @_button-height;
+    .css(border, @_button-border);
+    .css(cursor, @_button-cursor);
+    .css(display, @_button-display);
+    .css(font-family, @_button-font-family);
+    .css(font-size, @_button-font-size);
+    .css(font-weight, @_button-font-weight);
+    .css(line-height, @_button-height);
     //-moz-box-sizing: content-box; // fix Firefox button line-height problem
     .box-sizing();
-    .add-margin(@_button-margin);
+    .css(margin, @_button-margin);
     vertical-align: middle;
     ._button-icon (
         @_button-icon-use: @_button-icon-use,
@@ -88,26 +88,26 @@
     );
     &:focus,
     &:active {
-        .add-background(@_button-background-active);
+        .css(background, @_button-background-active);
         .background-gradient(
             @_button-gradient-start-color-active,
             @_button-gradient-end-color-active,
             @_button-gradient-direction,
             @_button-gradient
         );
-        .add-border(@_button-border-active);
+        .css(border, @_button-border-active);
         .tab-focus();
         .css(color, @_button-color-active);
     }
     &:hover {
-        .add-background(@_button-background-hover);
+        .css(background, @_button-background-hover);
         .background-gradient(
             @_button-gradient-start-color-hover,
             @_button-gradient-end-color-hover,
             @_button-gradient-direction,
             @_button-gradient
         );
-        .add-border(@_button-border-hover);
+        .css(border, @_button-border-hover);
         .css(color, @_button-color-hover);
     }
     &.disabled,
@@ -115,7 +115,7 @@
     fieldset[disabled] & {
         cursor: default;
         pointer-events: none; // Disabling of clicks
-        opacity: @_button-disabled-opacity;
+        .css(opacity, @_button-disabled-opacity);
     }
 }
 
@@ -126,8 +126,8 @@
     @_button-height: @button-height,
     @_button-padding: @button-padding
 ){
-    line-height: @_button-height;
-    padding: @_button-padding;
+    .css(line-height, @_button-height);
+    .css(padding, @_button-padding);
 }
 
 //
@@ -164,7 +164,7 @@
 //    Link as button
 //-------------------------------------- */
 .link-as-button() {
-    display: @button-display;
+    .css(display, @button-display);
     text-decoration: none;
     &:hover,
     &:active,
@@ -180,7 +180,7 @@
     background: none;
     border: 0;
     display: inline;
-    line-height: @line-height-base;
+    .css(line-height, @line-height-base);
     margin: 0;
     padding: 0;
     .link();
@@ -194,11 +194,11 @@
     &.disabled,
     &[disabled],
     fieldset[disabled] & {
-        color: @link-color;
+        .css(color, @link-color);
         text-decoration: underline;
         cursor: default;
         pointer-events: none; // Disabling of clicks
-        opacity: @button-disabled-opacity;
+        .css(opacity, @button-disabled-opacity);
     }
 }
 
@@ -223,7 +223,7 @@
     text-shadow: none;
     text-decoration: none;
     line-height: inherit;
-    font-weight: @font-weight-base;
+    .css(font-weight, @font-weight-base);
     &:focus,
     &:active {
         .tab-focus();
@@ -239,7 +239,7 @@
     fieldset[disabled] & {
         cursor: not-allowed;
         pointer-events: none; // Disabling of clicks
-        opacity: @button-disabled-opacity;
+        .css(opacity, @button-disabled-opacity);
     }
 }
 

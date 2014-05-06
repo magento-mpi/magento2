@@ -46,12 +46,12 @@ when (@_icon-font-position = before) {
     }
     &:hover {
         &:before {
-            ._add-color(@_icon-font-color-hover);
+            .css(color, @_icon-font-color-hover);
         }
     }
     &:active {
         &:before {
-            ._add-color(@_icon-font-color-active);
+            .css(color, @_icon-font-color-active);
         }
     }
 }
@@ -86,12 +86,12 @@ when (@_icon-font-position = after) {
     }
     &:hover {
         &:after {
-            ._add-color(@_icon-font-color-hover);
+            .css(color, @_icon-font-color-hover);
         }
     }
     &:active {
         &:after {
-            ._add-color(@_icon-font-color-active);
+            .css(color, @_icon-font-color-active);
         }
     }
 }
@@ -124,7 +124,7 @@ when (@_icon-font-position = after) {
     @_icon-font-position: @icon-font-position
 ) when (@_icon-font-position = before) {
     &:before {
-        content: @_icon-font-content;
+        .css(content, @_icon-font-content);
     }
 }
 
@@ -133,7 +133,7 @@ when (@_icon-font-position = after) {
     @_icon-font-position: @icon-font-position
 ) when (@_icon-font-position = after) {
     &:after {
-        content: @_icon-font-content;
+        .css(content, @_icon-font-content);
     }
 }
 
@@ -164,7 +164,7 @@ when (@_icon-image-position = before) {
             @_icon-image-position-x,
             @_icon-image-position-y
         );
-        margin: @_icon-image-margin;
+        .css(margin, @_icon-image-margin);
     }
 }
 
@@ -192,7 +192,7 @@ when (@_icon-image-position = after) {
             @_icon-image-position-x,
             @_icon-image-position-y
         );
-        margin: @_icon-image-margin;
+        .css(margin, @_icon-image-margin);
     }
 }
 
@@ -285,10 +285,6 @@ when (@_icon-image-position = before) {
 //
 // Internal use mixins
 //--------------------------------------
-._add-color(@_add-color) when not (@_add-color = '') {
-    color: @_add-color;
-}
-
 ._icon-text-hide(@_icon-text-hide) when (@_icon-text-hide = true) {
     .icon-text-hide();
 }
@@ -308,12 +304,12 @@ when (@_icon-image-position = before) {
         @_icon-image-width,
         @_icon-image-height
     );
-    line-height: @_icon-image-height;
-    vertical-align: @_icon-image-vertical-align;
+    .css(line-height, @_icon-image-height);
+    .css(vertical-align, @_icon-image-vertical-align);
     background-image: url(@_icon-image);
     background-position: @_icon-image-position-x @_icon-image-position-y;
     background-repeat: no-repeat;
-    margin: @_icon-image-margin;
+    .css(margin, @_icon-image-margin);
 }
 
 ._icon-image-position(
@@ -327,8 +323,8 @@ when (@_icon-image-position = before) {
     @icon-width,
     @icon-height
 ) {
-    width: @icon-width;
-    height: @icon-height;
+    .css(width, @icon-width);
+    .css(height, @icon-height);
 }
 
 ._icon-sprite-position(
@@ -348,21 +344,21 @@ when (@_icon-image-position = before) {
     @_icon-font-margin,
     @_icon-font-vertical-align
 ) {
-    font-family: @_icon-font;
-    content: @_icon-font-content;
+    .css(font-family, @_icon-font);
+    .css(content, @_icon-font-content);
     ._icon-font-size(@_icon-font-size, @_icon-font-line-height);
-    ._add-color(@_icon-font-color);
+    .css(color, @_icon-font-color);
     overflow: hidden;
     speak: none;
     font-weight: normal;
     -webkit-font-smoothing: antialiased;
     display: inline-block;
-    vertical-align: @_icon-font-vertical-align;
+    .css(vertical-align, @_icon-font-vertical-align);
     text-align: center;
     .css(margin, @_icon-font-margin);
 }
 
 ._icon-font-size(@_icon-font-size, @_icon-font-line-height) {
-    font-size: @_icon-font-size;
-    line-height: @_icon-font-line-height;
+    .css(font-size, @_icon-font-size);
+    .css(line-height, @_icon-font-line-height);
 }
