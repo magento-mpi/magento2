@@ -85,7 +85,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->rateRequestMock = $this->getMock(
-            'Magento\Object',
+            'Magento\Framework\Object',
             ['setProductClassId', '__wakeup'],
             [],
             '',
