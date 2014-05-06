@@ -29,7 +29,7 @@ class Edit extends Form
      *
      * @var string
      */
-    protected $saveAddress = '.action.submit';
+    protected $saveAddress = '[data-action=save-address]';
 
     /**
      * VAT field selector
