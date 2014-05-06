@@ -10,5 +10,5 @@
 ?>
 
 <select id="<?php echo $this->getSelectRegionId() ?>" name="<?php echo $this->getSelectRegionName() ?>" title="<?php echo __('State/Province') ?>" class="<?php echo $this->getSelectRegionClass(); ?>" <?php echo  $this->getSelectRegionParams() ?>>
-    <option value=""><?php $this->getSelectRegionDefault() ?></option>
+    <option value=""><?php echo $this->getSelectRegionDefault() ?></option>
 </select>
