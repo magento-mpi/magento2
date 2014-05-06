@@ -213,7 +213,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        try{
+        try {
             $this->_view->loadLayout('systemPreview');
             $this->_view->renderLayout();
         } catch (\Exception $e) {
