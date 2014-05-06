@@ -11,6 +11,14 @@
   * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
+  * Customer addresses are not editable and removed on backend (MAGETWO-22599)
+  * Fatal error when previewing newsletter template with restricted user (MAGETWO-19343)
+  * Cannot save tax rate if Zip was in range and Zip/Post Code field was left empty before (MAGETWO-9486)
+  * Puerto Rico is listed both as a State & a country in country list (MAGETWO-8790)
+  * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
+  * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
+  * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
+  * Adding Customer Review: error in system.log (MAGETWO-3674)  
 
 2.0.0.0-dev76
 =============

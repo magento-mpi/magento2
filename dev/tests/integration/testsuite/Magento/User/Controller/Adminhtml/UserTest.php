@@ -84,6 +84,59 @@ class UserTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/user/save');
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     * @dataProvider resetPasswordDataProvider
+     */
+    public function testSaveActionPasswordChange($postData, $isPasswordCorrect)
+    {
+        $this->getRequest()->setPost($postData);
+        $this->dispatch('backend/admin/user/save');
+
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $user \Magento\User\Model\User */
+        $user = $objectManager->create('Magento\User\Model\User');
+        $user->loadByUsername($postData['username']);
+        if ($isPasswordCorrect) {
+            $this->assertRedirect($this->stringContains('backend/admin/user/index'));
+            $this->assertEquals($postData['username'], $user->getUsername());
+            $this->assertEquals($postData['email'], $user->getEmail());
+            $this->assertEquals($postData['firstname'], $user->getFirstname());
+            $this->assertEquals($postData['lastname'], $user->getLastname());
+            $encryptor = $objectManager->get('Magento\Framework\Encryption\EncryptorInterface');
+            $this->assertTrue($encryptor->validateHash($postData['password'], $user->getPassword()));
+        } else {
+            $this->assertRedirect($this->stringContains('backend/admin/user/edit'));
+            $this->assertEmpty($user->getData());
+        }
+    }
+
+    public function resetPasswordDataProvider()
+    {
+        $password = uniqid('123q');
+        $passwordPairs = array(
+            array('password' => $password, 'password_confirmation' => $password, 'is_correct' => true),
+            array('password' => $password, 'password_confirmation' => '', 'is_correct' => false),
+            array('password' => $password, 'password_confirmation' => $password . '123', 'is_correct' => false),
+            array('password' => '', 'password_confirmation' => '', 'is_correct' => false),
+            array('password' => '', 'password_confirmation' => $password, 'is_correct' => false)
+        );
+        $data = array();
+        foreach ($passwordPairs as $passwordPair) {
+            $fixture = uniqid();
+            $postData = array(
+                'username' => $fixture,
+                'email' => "{$fixture}@example.com",
+                'firstname' => 'First',
+                'lastname' => 'Last',
+                'password' => $passwordPair['password'],
+                'password_confirmation' => $passwordPair['password_confirmation']
+            );
+            $data[] = array($postData, $passwordPair['is_correct']);
+        }
+        return $data;
+    }
+
     public function testRoleGridAction()
     {
         $this->getRequest()->setParam('ajax', true)->setParam('isAjax', true);
