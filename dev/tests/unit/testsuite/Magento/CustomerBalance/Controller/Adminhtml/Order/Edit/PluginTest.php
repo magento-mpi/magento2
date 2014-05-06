@@ -7,6 +7,9 @@
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml\Order\Edit;
 
+/**
+ * Class PluginTest
+ */
 class PluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -94,8 +97,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
                 ->with('Please enable Store Credit to refund the gift card amount to your customer');
         }
 
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->plugin->beforeIndexAction();
+        $this->plugin->beforeIndexAction($controllerOrderEdit);
     }
 
     /**

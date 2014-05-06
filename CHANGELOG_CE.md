@@ -11,7 +11,8 @@
   * Removed head.js usages from adminhtml (MAGETWO-18053)
 * Themes update:
   * Plushe theme is now based on blank (MAGETWO-23528)
-* Fixed bugs:  
+* Fixed bugs:
+  * Gift card amount does not refund back when editing an order (MAGETWO-21159)
   * Unable to place order with product with custom option 'file'(MAGETWO-23679)
   * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
   * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)

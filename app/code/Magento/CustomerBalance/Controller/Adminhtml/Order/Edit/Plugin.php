@@ -9,6 +9,8 @@
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml\Order\Edit;
 
+use Magento\Sales\Controller\Adminhtml\Order\Edit as ControllerOrderEdit;
+
 /**
  * Plugin for order editing
  */
@@ -54,8 +56,11 @@ class Plugin
 
     /**
      * Add messages when order paid with gift card
+     *
+     * @param \Magento\Sales\Controller\Adminhtml\Order\Edit $subject
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeIndexAction()
+    public function beforeIndexAction(ControllerOrderEdit $subject)
     {
         $giftCards = $this->giftCardAccountData->getCards($this->sessionQuote->getOrder());
         if (!empty($giftCards)) {
