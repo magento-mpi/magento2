@@ -184,7 +184,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR => $this->_getFixtureAppBaseDir(),
             'arg1' => 'value 1',
             'arg2' => 'overridden value 2',
-            'arg3' => 'custom value 3'
+            'arg3' => 'custom value 3',
+            'jmeter.save.saveservice.output_format' => 'xml'
         );
         $this->assertEquals($expectedArguments, $scenario->getArguments());
 
