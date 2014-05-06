@@ -32,14 +32,31 @@ class Random
      */
     public function getRandomString($length, $chars = null)
     {
+        $str = '';
         if (is_null($chars)) {
             $chars = self::CHARS_LOWERS . self::CHARS_UPPERS . self::CHARS_DIGITS;
         }
-        mt_srand(10000000 * (double)microtime());
-        for ($i = 0,$string = '',$lc = strlen($chars) - 1; $i < $length; $i++) {
-            $string .= $chars[mt_rand(0, $lc)];
+        $bytes = '';
+        $fp = null;
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            // use openssl lib if it is installed
+            $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
+            $hex = bin2hex($bytes); // hex() doubles the length of the string
+            $str = substr($hex, 0, $length); // we truncate at most 1 char if length parameter is an odd number
+        } elseif ($fp = @fopen('/dev/urandom', 'rb')) {
+            // attempt to use /dev/urandom if it exists but openssl isn't available
+            $bytes .= @fread($fp, $length);
+            fclose($fp);
+            $hex = bin2hex($bytes); // hex() doubles the length of the string
+            $str = substr($hex, 0, $length); // we truncate at most 1 char if length parameter is an odd number
+        } else {
+            // fallback to mt_rand() if all else fails
+            for ($i = 0, $str = '', $lc = strlen($chars) - 1; $i < $length; $i++) {
+                $str .= $chars[mt_rand(0, $lc)];
+            }
+            // log error here to warn merchant of insecure randomness
         }
-        return $string;
+        return $str;
     }
 
     /**
