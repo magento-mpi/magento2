@@ -345,7 +345,7 @@ class Inline extends \Magento\Framework\View\Element\Template
     protected function _toHtml()
     {
         // render HTML when messages are allowed for order or for items only
-        if($this->isItemsAvailable() || $this->isMessagesAvailable()) {
+        if ($this->isItemsAvailable() || $this->isMessagesAvailable()) {
             return parent::_toHtml();
         }
         return '';

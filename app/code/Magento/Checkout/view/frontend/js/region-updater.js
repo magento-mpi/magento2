@@ -13,10 +13,12 @@
             regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>',
             isRegionRequired: true,
             isZipRequired: true,
-            isCountryRequired: true
+            isCountryRequired: true,
+            currentRegion: null
         },
 
         _create: function() {
+            this.currentRegionOption = this.options.currentRegion;
             this._updateRegion(this.element.find('option:selected').val());
             this.element.on('change', $.proxy(function(e) {
                 this._updateRegion($(e.target).val());
