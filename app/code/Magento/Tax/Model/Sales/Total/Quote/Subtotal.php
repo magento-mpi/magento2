@@ -34,29 +34,11 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_config = null;
 
     /**
+     * Tax helper
+     *
      * @var \Magento\Tax\Helper\Data|null
      */
     protected $_helper = null;
-
-    /**
-     * @var int
-     */
-    protected $_subtotalInclTax = 0;
-
-    /**
-     * @var int
-     */
-    protected $_baseSubtotalInclTax = 0;
-
-    /**
-     * @var int
-     */
-    protected $_subtotal = 0;
-
-    /**
-     * @var int
-     */
-    protected $_baseSubtotal = 0;
 
     /**
      * Flag which is initialized when collect method is started and catalog prices include tax.
@@ -118,10 +100,6 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         $this->_store = $address->getQuote()->getStore();
         $this->_address = $address;
 
-        $this->_subtotalInclTax = 0;
-        $this->_baseSubtotalInclTax = 0;
-        $this->_subtotal = 0;
-        $this->_baseSubtotal = 0;
         $this->_roundingDeltas = array();
 
         $address->setSubtotalInclTax(0);
@@ -593,7 +571,11 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $taxRate = $appliedRate['percent'];
                 $rowTaxes[] = $this->_deltaRound($calc->calcTaxAmount($taxable, $taxRate, false, false), $taxId, false);
                 $baseRowTaxes[] = $this->_deltaRound(
-                    $calc->calcTaxAmount($baseTaxable, $taxRate, false, false), $taxId, false, 'base');
+                    $calc->calcTaxAmount($baseTaxable, $taxRate, false, false),
+                    $taxId,
+                    false,
+                    'base'
+                );
 
             }
 
@@ -789,7 +771,8 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $address->getTotalAmount('subtotal') + $item->getRowTotal()
             );
             $address->setBaseTotalAmount('subtotal',
-                $address->getBaseTotalAmount('subtotal') + $item->getBaseRowTotal());
+                $address->getBaseTotalAmount('subtotal') + $item->getBaseRowTotal()
+            );
         }
         $address->setSubtotalInclTax($address->getSubtotalInclTax() + $item->getRowTotalInclTax());
         $address->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax() + $item->getBaseRowTotalInclTax());
