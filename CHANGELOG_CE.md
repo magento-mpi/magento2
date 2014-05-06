@@ -31,6 +31,11 @@
   * Fixed: Impossible chose value for "State/Province" during customer registration from Multiple address checkout (MAGETWO-23965)
   * Fixed: Manage Stock option is not editable through mass action (MAGETWO-9310)
   * Fixed: Category does not displays in layered navigation block when Flat Catalog enabled (MAGETWO-3846)
+  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
+  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
+  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
+  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
+  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
