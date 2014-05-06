@@ -178,7 +178,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 1,
             \Magento\TestFramework\Performance\Scenario::ARG_HOST => '127.0.0.1',
             \Magento\TestFramework\Performance\Scenario::ARG_PATH => '/',
-            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_FRONTNAME => 'backend',
+            \Magento\TestFramework\Performance\Scenario::ARG_BACKEND_FRONTNAME => 'backend',
             \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME => 'admin',
             \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD => 'password1',
             \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR => $this->_getFixtureAppBaseDir(),
