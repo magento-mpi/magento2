@@ -379,15 +379,18 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->getDirectoryWrite(AppFilesystem::VAR_DIR)->changePermissions('', 0777);
+            $this->_filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR)->changePermissions(
+                '',
+                0777
+            );
 
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Framework\Model\Exception) {
-                $errorMessages = $e->getMessages(MessageInterface::TYPE_ERROR);
+                $errorMessages = $e->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR);
                 if (!empty($errorMessages)) {
                     foreach ($errorMessages as $errorMessage) {
-                        $this->addError($errorMessage->getText());
+                        $this->addError($errorMessage);
                     }
                 } else {
                     $this->addError($e->getMessage());
