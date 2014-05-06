@@ -617,6 +617,10 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      */
     public function getAppliedRates($request)
     {
+        if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
+            return array();
+        }
+
         $cacheKey = $this->_getRequestCacheKey($request);
         if (!isset($this->_rateCalculationProcess[$cacheKey])) {
             $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
