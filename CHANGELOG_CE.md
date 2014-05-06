@@ -1,3 +1,17 @@
+* Fixed bugs:
+  * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
+  * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
+  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
+  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
+  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
+  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
+  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
+  * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
+
 2.0.0.0-dev76
 =============
 * Pricing improvements:

@@ -144,7 +144,7 @@ class Reports extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
-        $this->_redirect('adminhtml/*/index');
+        $this->_redirect('*/*/index');
     }
 
     /**
