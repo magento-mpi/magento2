@@ -145,7 +145,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
 
         if ($this->getQty() < $qty + $this->getQtyFulfilled()) {
             $qty = $this->getQty() - $this->getQtyFulfilled();
-            $this->messageManager->addNotice(__('The quantity of "%s" product added to cart exceeds the quantity desired by the Gift Registry owner. The quantity added has been adjusted to meet remaining quantity %s.', $product->getName(), $qty));
+            $this->messageManager->addNotice(__('The quantity of "%1" product added to cart exceeds the quantity desired by the Gift Registry owner. The quantity added has been adjusted to meet remaining quantity %2.', $product->getName(), $qty));
         }
 
         $productIdsInCart = $cart->getProductIds();
@@ -155,7 +155,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
                     && ($item->getGiftregistryItemId() == $this->getId())
                     && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
                         $cart->removeItem($item->getId());
-                        $this->messageManager->addNotice(__('Existing quantity of "%s" product in the cart has been replaced with quantity %s just requested.', $product->getName(), $qty));
+                        $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
                 }
             }
         }
