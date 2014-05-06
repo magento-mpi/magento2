@@ -72,6 +72,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                         isRegionRequired: false,
                         isZipRequired: false,
                         isCountryRequired: true,
+                        currentRegion: <?php echo $this->getEntity()->getFieldValue($data['id'] . '_region'); ?>,
                         regionJson: <?php echo $this->helper('Magento\Directory\Helper\Data')->getRegionJson(); ?>
                     });
                 })(jQuery);
