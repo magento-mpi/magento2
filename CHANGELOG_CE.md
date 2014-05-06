@@ -12,6 +12,7 @@
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
   * Gift card amount does not refund back when editing an order (MAGETWO-21159)
+  * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
 
 2.0.0.0-dev76
 =============
