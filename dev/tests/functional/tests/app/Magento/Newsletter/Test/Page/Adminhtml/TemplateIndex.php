@@ -11,11 +11,11 @@ namespace Magento\Newsletter\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class NewsletterTemplateIndex
+ * Class TemplateIndex
  *
  * @package Magento\Newsletter\Test\Page\Adminhtml
  */
-class NewsletterTemplateIndex extends BackendPage
+class TemplateIndex extends BackendPage
 {
     const MCA = 'newsletter/template/index';
 
@@ -28,13 +28,13 @@ class NewsletterTemplateIndex extends BackendPage
         ],
         'gridPageActions' => [
             'name' => 'gridPageActions',
-            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions',
+            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\Template\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
         'newsletterTemplateGrid' => [
             'name' => 'newsletterTemplateGrid',
-            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateGrid',
+            'class' => 'Magento\Newsletter\Test\Block\Adminhtml\Template\Grid',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
@@ -49,7 +49,7 @@ class NewsletterTemplateIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions
+     * @return \Magento\Newsletter\Test\Block\Adminhtml\Template\GridPageActions
      */
     public function getGridPageActions()
     {
@@ -57,7 +57,7 @@ class NewsletterTemplateIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateGrid
+     * @return \Magento\Newsletter\Test\Block\Adminhtml\Template\Grid
      */
     public function getNewsletterTemplateGrid()
     {

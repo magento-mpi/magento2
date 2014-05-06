@@ -6,16 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Newsletter\Test\Block\Adminhtml;
+namespace Magento\Newsletter\Test\Block\Adminhtml\Template;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
- * Class NewsletterTemplateGrid
+ * Class Grid
+ * Newsletter templates grid block
  *
- * @package Magento\Newsletter\Test\Block\Aminhtml
+ * @package Magento\Newsletter\Test\Block\Aminhtml\Template
  */
-class NewsletterTemplateGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Filters array mapping

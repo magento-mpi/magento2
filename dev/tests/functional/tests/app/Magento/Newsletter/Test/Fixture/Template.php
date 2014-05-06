@@ -11,14 +11,18 @@ namespace Magento\Newsletter\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class NewsletterTemplate
+ * Class Template
  *
  * @package Magento\Newsletter\Test\Fixture
  */
-class NewsletterTemplate extends InjectableFixture
+class Template extends InjectableFixture
 {
     protected $defaultDataSet = [
         'actual' => null,
+        'code' => 'TemplateName%isolation%',
+        'subject' => 'TemplateSubject%isolation%',
+        'sender_name' => 'SenderName%isolation%',
+        'sender_email' => 'SenderName%isolation%@test.com',
     ];
 
     protected $id = [

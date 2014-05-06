@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<fixture class="Magento\Newsletter\Test\Fixture\NewsletterTemplate">
+<fixture class="Magento\Newsletter\Test\Fixture\Template">
     <module>Magento_Newsletter</module>
     <type>flat</type>
     <entity_type>newsletter_template</entity_type>

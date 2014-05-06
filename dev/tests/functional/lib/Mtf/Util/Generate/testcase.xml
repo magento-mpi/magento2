@@ -8,47 +8,22 @@
  */
 -->
 <testcases>
-  <testcase module="Magento\Tax">
-    <id>MTA-3</id>
-    <inject>
-      <page>
-        <class>\Magento\Tax\Test\Page\TaxRule</class>
-      </page>
-    </inject>
-    <invoke>
-      <tax_rule>
-        <class>\Magento\Tax\Test\Fixture\TaxRule</class>
-      </tax_rule>
-    </invoke>
-    <name>CreateTaxRuleEntityTest</name>
-    <description>Test Creation for Create TaxRuleEntity with fucntional test designed for automation</description>
-    <module>Sales</module>
-    <components>
-      <component>Tax (CS)</component>
-    </components>
-    <testId>MAGETWO-20913</testId>
-    <ticketId>MTA-3</ticketId>
-    <steps/>
-  </testcase>
-  <testcase>
-    <id>MTA-46</id>
-  </testcase>
     <testcase>
         <id>MTA-164</id>
         <ticketId>MTA-164</ticketId>
-        <name>CreateNewsletterTemplate</name>
-        <description>Test Creation for Create Newsletter Template</description>
+        <name>CreateNewsletterTemplateEntityTest</name>
+        <description>Test Creation for Create Newsletter Template Entity</description>
         <module>Newsletter</module>
         <components>
             <component>Newsletters (MX)</component>
         </components>
         <steps>
-            <step>Login to backend</step>
-            <step>Navigate to MARKETING-&gt; Newsletter Template</step>
-            <step>Add New Template</step>
-            <step>Fill in all data according to data set</step>
-            <step>Save</step>
-            <step>Perform asserts</step>
+            <step>Login to backend.</step>
+            <step>Navigate to MARKETING -> Newsletter Template.</step>
+            <step>Add New Template.</step>
+            <step>Fill in all data according to data set.</step>
+            <step>Save.</step>
+            <step>Perform asserts.</step>
         </steps>
     </testcase>
 </testcases>

@@ -16,13 +16,13 @@
     </block>
     <block>
         <name>gridPageActions</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateActions</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\Template\GridPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
         <name>newsletterTemplateGrid</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateGrid</class>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\Template\Grid</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>

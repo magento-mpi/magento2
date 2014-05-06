@@ -8,7 +8,7 @@
 
 namespace Magento\Newsletter\Test\Constraint;
 
-use Magento\Newsletter\Test\Page\Adminhtml\NewsletterTemplateIndex;
+use Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -28,13 +28,13 @@ class AssertNewsletterSuccessCreateMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     *  Assert that success message is displayed after newsletter template save
+     * Assert that success message is displayed after newsletter template save
      *
-     * @param NewsletterTemplateIndex $newsletterTemplateIndex
+     * @param TemplateIndex $templateIndex
      */
-    public function processAssert(NewsletterTemplateIndex $newsletterTemplateIndex)
+    public function processAssert(TemplateIndex $templateIndex)
     {
-        $actualMessage = $newsletterTemplateIndex->getMessagesBlock()->getSuccessMessages();
+        $actualMessage = $templateIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

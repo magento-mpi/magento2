@@ -8,10 +8,10 @@
  */
 -->
 <fixture>
-    <newsletterTemplate module="Magento_Newsletter">
+    <template module="Magento_Newsletter">
         <type>flat</type>
         <entity_type>newsletter_template</entity_type>
         <collection>Magento\Newsletter\Model\Resource\Template\Collection</collection>
         <identifier>template_id</identifier>
-    </newsletterTemplate>
+    </template>
 </fixture>

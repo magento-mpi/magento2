@@ -9,19 +9,19 @@
 -->
 <page mca="newsletter/template/new/index">
     <block>
-        <name>pageMainActions</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateFormActions</class>
+        <name>formPageActions</name>
+        <class>Magento\Newsletter\Test\Block\Adminhtml\Template\FormPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>pageMainForm</name>
-        <class>Magento\Newsletter\Test\Block\Adminhtml\NewsletterTemplateForm</class>
+        <name>editForm</name>
+        <class>Magento\Backend\Test\Block\Widget\Form</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>

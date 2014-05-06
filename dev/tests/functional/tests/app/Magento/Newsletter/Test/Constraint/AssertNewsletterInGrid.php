@@ -8,8 +8,8 @@
 
 namespace Magento\Newsletter\Test\Constraint;
 
-use Magento\Newsletter\Test\Fixture\NewsletterTemplate;
-use Magento\Newsletter\Test\Page\Adminhtml\NewsletterTemplateIndex;
+use Magento\Newsletter\Test\Fixture\Template;
+use Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -27,21 +27,21 @@ class AssertNewsletterInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that newsletter template in grid
+     *  Assert that newsletter template is present in grid
      *
-     * @param NewsletterTemplateIndex $newsletterTemplateIndex
-     * @param NewsletterTemplate $newsletterTemplate
+     * @param TemplateIndex $templateIndex
+     * @param Template $template
      * @return void
      */
     public function processAssert(
-        NewsletterTemplateIndex $newsletterTemplateIndex,
-        NewsletterTemplate $newsletterTemplate
+        TemplateIndex $templateIndex,
+        Template $template
     ) {
-        $newsletterTemplateIndex->open();
-        $filter = ['code' => $newsletterTemplate->getCode()];
+        $templateIndex->open();
+        $filter = ['code' => $template->getCode()];
         \PHPUnit_Framework_Assert::assertTrue(
-            $newsletterTemplateIndex->getNewsletterTemplateGrid()->isRowVisible($filter),
-            'Newsletter \'' . $newsletterTemplate->getCode() . '\'is absent in newsletter template grid.'
+            $templateIndex->getNewsletterTemplateGrid()->isRowVisible($filter),
+            'Newsletter \'' . $template->getCode() . '\'is absent in newsletter template grid.'
         );
     }
 
@@ -52,6 +52,6 @@ class AssertNewsletterInGrid extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Newsletter template in grid.';
+        return 'Newsletter template is present in grid.';
     }
 }
