@@ -12,7 +12,8 @@
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
 * Service layer updates:
-  * CurrentCustomer services were moved to helpers
+  * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
+
 2.0.0.0-dev76
 =============
 * Pricing improvements:
@@ -44,10 +45,10 @@
   * Manage Stock option is not editable when using mass action on several products in the admin panel
   * Category is not displayed in layered navigation block when Flat Catalog is enabled in config
 * GitHub requests:
-  * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
-  * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
+  * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products
 * Framework Improvements:
-  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
+  * Covered Magento lib form elements with unit tests:
       * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
       * `lib/Magento/Framework/Data/Form/Element/Button.php`
       * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
