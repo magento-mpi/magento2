@@ -14,35 +14,101 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\App\RouterList
      */
-    protected $_model;
+    protected $model;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectManagerMock;
+    protected $objectManagerMock;
 
     /**
      * @var array
      */
-    protected $_routerList;
+    protected $routerList;
 
     protected function setUp()
     {
-        $this->_routerList = array(
+        $this->routerList = array(
             'adminRouter' => array('class' => 'AdminClass', 'disable' => true, 'sortOrder' => 10),
             'frontendRouter' => array('class' => 'FrontClass', 'disable' => false, 'sortOrder' => 10),
             'default' => array('class' => 'DefaultClass', 'disable' => false, 'sortOrder' => 5)
         );
 
-        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
-        $this->_model = new \Magento\Framework\App\RouterList($this->_objectManagerMock, $this->_routerList);
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->model = new \Magento\Framework\App\RouterList($this->objectManagerMock, $this->routerList);
     }
 
-    public function testGetRoutes()
+    /**
+     * @covers \Magento\Framework\App\RouterList::key
+     * @covers \Magento\Framework\App\RouterList::current
+     */
+    public function testCurrent()
+    {
+        $expectedClass = new DefaultClass();
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('DefaultClass')
+            ->will($this->returnValue($expectedClass));
+
+        $this->assertEquals($expectedClass, $this->model->current());
+    }
+
+    /**
+     * @covers \Magento\Framework\App\RouterList::key
+     * @covers \Magento\Framework\App\RouterList::current
+     * @covers \Magento\Framework\App\RouterList::next
+     */
+    public function testNext()
     {
         $expectedClass = new FrontClass();
-        $this->_objectManagerMock->expects($this->at(0))->method('create')->will($this->returnValue($expectedClass));
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('FrontClass')
+            ->will($this->returnValue($expectedClass));
 
-        $this->assertEquals($expectedClass, $this->_model->current('frontendRouter'));
+        $this->model->next();
+        $this->assertEquals($expectedClass, $this->model->current());
     }
+
+    /**
+     * @covers \Magento\Framework\App\RouterList::next
+     * @covers \Magento\Framework\App\RouterList::valid
+     */
+    public function testValid()
+    {
+        $this->assertTrue($this->model->valid());
+        $this->model->next();
+        $this->assertTrue($this->model->valid());
+        $this->model->next();
+        $this->assertFalse($this->model->valid());
+    }
+
+    /**
+     * @covers \Magento\Framework\App\RouterList::key
+     * @covers \Magento\Framework\App\RouterList::current
+     * @covers \Magento\Framework\App\RouterList::next
+     * @covers \Magento\Framework\App\RouterList::rewind
+     */
+    public function testRewind()
+    {
+        $frontClass = new FrontClass();
+        $defaultClass = new DefaultClass();
+
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('DefaultClass')
+            ->will($this->returnValue($defaultClass));
+
+        $this->objectManagerMock->expects($this->at(1))
+            ->method('create')
+            ->with('FrontClass')
+            ->will($this->returnValue($frontClass));
+
+        $this->assertEquals($defaultClass, $this->model->current());
+        $this->model->next();
+        $this->assertEquals($frontClass, $this->model->current());
+        $this->model->rewind();
+        $this->assertEquals($defaultClass, $this->model->current());
+    }
+
 }

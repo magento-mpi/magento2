@@ -15,14 +15,14 @@ class RouterList implements RouterListInterface
     /**
      * @var \Magento\Framework\ObjectManager
      */
-    protected $_objectManager;
+    protected $objectManager;
 
     /**
      * List of routers
      *
      * @var array
      */
-    protected $_routerList;
+    protected $routerList;
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -30,15 +30,15 @@ class RouterList implements RouterListInterface
      */
     public function __construct(\Magento\Framework\ObjectManager $objectManager, array $routerList)
     {
-        $this->_objectManager = $objectManager;
-        $this->_routerList = $routerList;
-        $this->_routerList = array_filter(
+        $this->objectManager = $objectManager;
+        $this->routerList = $routerList;
+        $this->routerList = array_filter(
             $routerList,
             function ($item) {
                 return (!isset($item['disable']) || !$item['disable']) && $item['class'];
             }
         );
-        uasort($this->_routerList, array($this, '_compareRoutersSortOrder'));
+        uasort($this->routerList, array($this, 'compareRoutersSortOrder'));
     }
 
     /**
@@ -47,14 +47,14 @@ class RouterList implements RouterListInterface
      * @param string $routerId
      * @return RouterInterface
      */
-    protected function _getRouterInstance($routerId)
+    protected function getRouterInstance($routerId)
     {
-        if (!isset($this->_routerList[$routerId]['object'])) {
-            $this->_routerList[$routerId]['object'] = $this->_objectManager->create(
-                $this->_routerList[$routerId]['class']
+        if (!isset($this->routerList[$routerId]['object'])) {
+            $this->routerList[$routerId]['object'] = $this->objectManager->create(
+                $this->routerList[$routerId]['class']
             );
         }
-        return $this->_routerList[$routerId]['object'];
+        return $this->routerList[$routerId]['object'];
     }
 
     /**
@@ -65,7 +65,7 @@ class RouterList implements RouterListInterface
      */
     public function current()
     {
-        return $this->_getRouterInstance(key($this->_routerList));
+        return $this->getRouterInstance($this->key());
     }
 
     /**
@@ -76,18 +76,18 @@ class RouterList implements RouterListInterface
      */
     public function next()
     {
-        next($this->_routerList);
+        next($this->routerList);
     }
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
-     * @return void
+     * @return string|int|null
      */
     public function key()
     {
-        return key($this->_routerList);
+        return key($this->routerList);
     }
 
     /**
@@ -99,7 +99,7 @@ class RouterList implements RouterListInterface
      */
     public function valid()
     {
-        return !!current($this->_routerList);
+        return !!current($this->routerList);
     }
 
     /**
@@ -110,7 +110,7 @@ class RouterList implements RouterListInterface
      */
     public function rewind()
     {
-        reset($this->_routerList);
+        reset($this->routerList);
     }
 
     /**
@@ -120,7 +120,7 @@ class RouterList implements RouterListInterface
      * @param array $routerDataSecond
      * @return int
      */
-    protected function _compareRoutersSortOrder($routerDataFirst, $routerDataSecond)
+    protected function compareRoutersSortOrder($routerDataFirst, $routerDataSecond)
     {
         if ((int)$routerDataFirst['sortOrder'] == (int)$routerDataSecond['sortOrder']) {
             return 0;
