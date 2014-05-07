@@ -77,7 +77,7 @@ class Random
      */
     public static function getRandomNumber($min = 0, $max = null)
     {
-        if (null == $max) {
+        if (is_null($max)) {
             $max = mt_getrandmax();
         }
         $range = $max - $min + 1;
@@ -102,7 +102,7 @@ class Random
 
         return $min + $offset; // random integer from $min to $max
     }
-    
+
     /**
      * Generate a hash from unique ID
      *
