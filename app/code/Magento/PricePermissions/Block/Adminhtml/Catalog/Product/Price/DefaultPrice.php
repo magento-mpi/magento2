@@ -2,17 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PricePermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
 * Default Product Price field renderer
-*
-* @category    Magento
-* @package     Magento_PricePermissions
+** @package     Magento_PricePermissions
 * @author      Magento Core Team <core@magentocommerce.com>
 */
 namespace Magento\PricePermissions\Block\Adminhtml\Catalog\Product\Price;

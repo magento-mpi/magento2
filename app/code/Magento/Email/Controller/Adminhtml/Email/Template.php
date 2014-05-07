@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Email\Controller\Adminhtml\Email;
 /**
  * System Template admin controller
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Template extends \Magento\Backend\App\Action

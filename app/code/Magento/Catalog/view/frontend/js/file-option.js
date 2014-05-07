@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    mage file change/delete
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

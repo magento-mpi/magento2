@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftWrapping\Model\Resource;
 /**
  * Gift Wrapping Resource Model
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  */
 class Wrapping extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {

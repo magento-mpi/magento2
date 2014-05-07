@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 /**
  * Directory tree renderer for Cms Wysiwyg Images
  *
- * @category   Magento
- * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Tree extends \Magento\Backend\Block\Template

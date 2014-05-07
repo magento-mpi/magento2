@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,8 +36,6 @@ use Magento\Framework\Model\AbstractModel;
  * @method int getSortOrder()
  * @method \Magento\Catalog\Model\Product\Option setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends AbstractModel

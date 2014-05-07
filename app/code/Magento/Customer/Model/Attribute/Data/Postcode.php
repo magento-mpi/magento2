@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Customer\Model\Attribute\Data;
  * Customer Address Postal/Zip Code Attribute Data Model
  * This Data Model Has to Be Set Up in additional EAV attribute table
  *
- * @category    Magento
- * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Postcode extends \Magento\Eav\Model\Attribute\Data\Text

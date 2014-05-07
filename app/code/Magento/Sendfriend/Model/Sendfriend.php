@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@ use Magento\Framework\Model\Exception as CoreException;
  * @method int getTime()
  * @method \Magento\Sendfriend\Model\Sendfriend setTime(int $value)
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Sendfriend extends \Magento\Framework\Model\AbstractModel

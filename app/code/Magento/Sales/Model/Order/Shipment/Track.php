@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,8 +29,6 @@ namespace Magento\Sales\Model\Order\Shipment;
  * @method string getUpdatedAt()
  * @method \Magento\Sales\Model\Order\Shipment\Track setUpdatedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Track extends \Magento\Sales\Model\AbstractModel

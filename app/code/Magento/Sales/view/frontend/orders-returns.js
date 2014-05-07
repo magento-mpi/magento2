@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Sales Orders and Returns
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

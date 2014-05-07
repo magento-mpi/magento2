@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 /**
  * Create New Form Type Block
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,6 @@ namespace Magento\Review\Model;
  * @method \Magento\Review\Model\Rating setStores(array $value)
  * @method string getRatingCode()
  *
- * @category   Magento
- * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rating extends \Magento\Framework\Model\AbstractModel

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@ use Magento\Framework\Registry;
 /**
  * Adminhtml catalog product composite helper
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Composite extends \Magento\Framework\App\Helper\AbstractHelper

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Banner\Block\Widget;
 /**
  * Banner Widget Block
  *
- * @category   Magento
- * @package    Magento_Banner
  */
 class Banner extends \Magento\Framework\View\Element\Template implements
     \Magento\Widget\Block\BlockInterface,

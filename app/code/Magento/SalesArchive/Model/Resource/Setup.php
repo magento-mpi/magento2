@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesArchive\Model\Resource;
 /**
  * Module setup
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Setup extends \Magento\Framework\Module\Setup

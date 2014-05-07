@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesRule\Model\Resource\Rule\Customer;
 /**
  * SalesRule Model Resource Rule Customer_Collection
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection

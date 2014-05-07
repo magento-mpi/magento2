@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer;
 /**
  * Catalog Product Indexer Abstract Resource Model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractResource

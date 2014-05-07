@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,6 @@ namespace Magento\GiftMessage\Model;
  * @method string getMessage()
  * @method \Magento\GiftMessage\Model\Message setMessage(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Message extends \Magento\Framework\Model\AbstractModel

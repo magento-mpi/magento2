@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PromotionPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Promotion Permissions Data Helper
  *
- * @category    Magento
- * @package     Magento_PromotionPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\PromotionPermissions\Helper;

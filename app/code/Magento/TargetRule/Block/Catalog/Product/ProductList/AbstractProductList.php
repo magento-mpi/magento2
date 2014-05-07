@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Model\Exception;
 /**
  * TargetRule Catalog Product List Abstract Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements

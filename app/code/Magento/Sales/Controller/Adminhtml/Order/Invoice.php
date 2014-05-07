@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Framework\App\ResponseInterface;
 /**
  * Adminhtml sales order invoice edit controller
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice

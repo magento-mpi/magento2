@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Payment\Block\Info;
 /**
  * Payment information container block
  *
- * @category   Magento
- * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractContainer extends \Magento\Framework\View\Element\Template

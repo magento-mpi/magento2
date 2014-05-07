@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Order\Item;
 /**
  * Adminhtml sales order item renderer
  *
- * @category   Magento
- * @package    Magento_Sales
  */
 class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {

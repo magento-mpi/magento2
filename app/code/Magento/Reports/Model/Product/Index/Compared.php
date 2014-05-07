@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,8 +20,6 @@ namespace Magento\Reports\Model\Product\Index;
  * @method string getAddedAt()
  * @method \Magento\Reports\Model\Product\Index\Compared setAddedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex

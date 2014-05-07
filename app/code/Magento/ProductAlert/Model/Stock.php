@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,8 +29,6 @@ use Magento\ProductAlert\Model\Resource\Stock\Customer\Collection;
  * @method int getStatus()
  * @method \Magento\ProductAlert\Model\Stock setStatus(int $value)
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Stock extends \Magento\Framework\Model\AbstractModel

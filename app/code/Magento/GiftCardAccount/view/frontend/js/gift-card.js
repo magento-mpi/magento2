@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    checkout gift card
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

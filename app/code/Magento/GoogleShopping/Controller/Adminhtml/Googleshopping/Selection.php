@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 /**
  * GoogleShopping Products selection grid controller
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Selection extends \Magento\Backend\App\Action
