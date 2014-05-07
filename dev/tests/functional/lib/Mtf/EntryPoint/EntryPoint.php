@@ -68,6 +68,7 @@ class EntryPoint
             }
             return $this->_locator->create($applicationName, $arguments)->launch();
         } catch (\Exception $exception) {
+            echo $exception->getTraceAsString();
             $message = "Error happened during application run.\n";
             $message .= $exception->getMessage();
             throw new \DomainException($message);
