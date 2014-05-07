@@ -58,10 +58,11 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
         $origArguments = $this->getData();
         $this->setData(array_replace($origArguments, $arguments));
 
-        $this->apply();
+        $html = $this->apply();
 
         // restore original block arguments
         $this->setData($origArguments);
+        return $html;
     }
 
     /**
