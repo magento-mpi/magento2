@@ -41,17 +41,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -60,18 +60,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -137,7 +137,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Get sales item (quote item, order item etc) price including tax based on row total and tax amount
      *
-     * @param   \Magento\Object $item
+     * @param   \Magento\Framework\Object $item
      * @return  float
      */
     public function getPriceInclTax($item)
@@ -154,7 +154,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Get sales item (quote item, order item etc) row total price including tax
      *
-     * @param   \Magento\Object $item
+     * @param   \Magento\Framework\Object $item
      * @return  float
      */
     public function getSubtotalInclTax($item)
@@ -344,7 +344,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
 
         if ($guestCheckout == true) {
-            $result = new \Magento\Object();
+            $result = new \Magento\Framework\Object();
             $result->setIsAllowed($guestCheckout);
             $this->_eventManager->dispatch(
                 'checkout_allow_guest',

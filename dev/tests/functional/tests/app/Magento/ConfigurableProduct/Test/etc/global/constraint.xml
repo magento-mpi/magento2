@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertConfigurableInGrid module="Magento_ConfigurableProduct">
+        <severeness>high</severeness>
+        <require>
+            <manageProductsPage class="Magento\Catalog\Test\Page\Product\CatalogProductIndex" />
+            <configurable class="Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable" />
+        </require>
+    </assertConfigurableInGrid>
+    <assertConfigurableInCategory module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+        <require>
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <configurable class="Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable" />
+            <category class="Magento\Catalog\Test\Fixture\Category" />
+        </require>
+    </assertConfigurableInCategory>
+    <assertConfigurableView module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <configurable class="Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable" />
+        </require>
+    </assertConfigurableView>
+    <assertConfigurableInCart module="Magento_ConfigurableProduct">
+        <severeness>low</severeness>
+        <require>
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <configurable class="Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertConfigurableInCart>
+</constraint>

@@ -31,7 +31,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -44,7 +44,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,

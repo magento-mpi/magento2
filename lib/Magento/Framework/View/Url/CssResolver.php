@@ -99,7 +99,7 @@ class CssResolver
      * @param string $file Normalized absolute path to the file, which references $referencedFile
      * @param string $referencedFile Normalized absolute  path to the referenced file
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function _getFileRelativePath($file, $referencedFile)
     {
@@ -111,7 +111,7 @@ class CssResolver
          */
         $topDir = $this->filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR);
         if (strpos($file, $topDir) !== 0 || strpos($referencedFile, $topDir) !== 0) {
-            throw new \Magento\Exception('Offset can be calculated for internal resources only.');
+            throw new \Magento\Framework\Exception('Offset can be calculated for internal resources only.');
         }
 
         $offset = '';

@@ -23,7 +23,7 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -37,7 +37,7 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Generic session
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_reviewSession;
 
@@ -51,7 +51,7 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Logger
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -99,29 +99,29 @@ class Product extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Session\Generic $reviewSession
+     * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Design $catalogDesign,
-        \Magento\Session\Generic $reviewSession,
+        \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {

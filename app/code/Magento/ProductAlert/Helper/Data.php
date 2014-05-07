@@ -30,7 +30,7 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,14 +49,14 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {

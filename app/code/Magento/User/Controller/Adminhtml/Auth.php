@@ -70,7 +70,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
                 $this->messageManager->addSuccess(
                     __(
                         'If there is an account associated with %1 you will receive an email with a link to reset your password.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($email)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($email)
                     )
                 );
                 // @codingStandardsIgnoreEnd
@@ -143,12 +143,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
         /** @var $user \Magento\User\Model\User */
         $user = $this->_userFactory->create()->load($userId);
-        if ($password !== '') {
-            $user->setPassword($password);
-        }
-        if ($passwordConfirmation !== '') {
-            $user->setPasswordConfirmation($passwordConfirmation);
-        }
+        $user->setPassword($password);
+        $user->setPasswordConfirmation($passwordConfirmation);
         // Empty current reset password token i.e. invalidate it
         $user->setRpToken(null);
         $user->setRpTokenCreatedAt(null);

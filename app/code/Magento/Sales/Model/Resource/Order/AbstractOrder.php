@@ -73,7 +73,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -84,14 +84,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
     ) {
         $this->_eventManager = $eventManager;
@@ -169,7 +169,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             }
 
             if ($this->_eventPrefix && $this->_eventObject) {
-                $proxy = new \Magento\Object();
+                $proxy = new \Magento\Framework\Object();
                 $proxy->setIds($ids)->setData($this->_eventObject, $this);
 
                 $this->_eventManager->dispatch($this->_eventPrefix . '_update_grid_records', array('proxy' => $proxy));
@@ -343,7 +343,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
             $this->beginTransaction();
             try {
                 $this->_beforeSaveAttribute($object, $attribute);
-                $data = new \Magento\Object();
+                $data = new \Magento\Framework\Object();
                 foreach ($attribute as $code) {
                     $data->setData($code, $object->getData($code));
                 }
@@ -370,7 +370,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Framework\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
      * @return $this
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)

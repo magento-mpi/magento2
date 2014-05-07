@@ -30,7 +30,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -63,7 +63,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_storeManager = $storeManager;
@@ -210,22 +210,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Store                          $store
      * @return bool|int
      */
-    public function typeOfDisplay($compareTo = null, $zone = \Magento\Pricing\Render::ZONE_DEFAULT, $store = null)
+    public function typeOfDisplay($compareTo = null, $zone = \Magento\Framework\Pricing\Render::ZONE_DEFAULT, $store = null)
     {
         if (!$this->isEnabled($store)) {
             return false;
         }
         switch ($zone) {
-            case \Magento\Pricing\Render::ZONE_ITEM_VIEW:
+            case \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW:
                 $type = $this->getPriceDisplayType($store);
                 break;
-            case \Magento\Pricing\Render::ZONE_ITEM_LIST:
+            case \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST:
                 $type = $this->getListPriceDisplayType($store);
                 break;
-            case \Magento\Pricing\Render::ZONE_SALES:
+            case \Magento\Framework\Pricing\Render::ZONE_SALES:
                 $type = $this->getSalesPriceDisplayType($store);
                 break;
-            case \Magento\Pricing\Render::ZONE_EMAIL:
+            case \Magento\Framework\Pricing\Render::ZONE_EMAIL:
                 $type = $this->getEmailPriceDisplayType($store);
                 break;
             default:
@@ -252,11 +252,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Proxy for \Magento\Weee\Model\Tax::getProductWeeeAttributes()
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|false|\Magento\Object     $shipping
-     * @param null|false|\Magento\Object     $billing
+     * @param null|false|\Magento\Framework\Object     $shipping
+     * @param null|false|\Magento\Framework\Object     $billing
      * @param Website                        $website
      * @param bool                           $calculateTaxes
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributes(
         $product,
@@ -323,7 +323,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Returns array of weee attributes allowed for display
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributesForDisplay($product)
     {
@@ -337,11 +337,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get Product Weee attributes for price renderer
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @param null|false|\Magento\Object $shipping Shipping Address
-     * @param null|false|\Magento\Object $billing Billing Address
+     * @param null|false|\Magento\Framework\Object $shipping Shipping Address
+     * @param null|false|\Magento\Framework\Object $billing Billing Address
      * @param null|Website $website
      * @param bool $calculateTaxes
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributesForRenderer(
         $product,
@@ -391,33 +391,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Adds HTML containers and formats tier prices accordingly to the currency used
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param array                          &$tierPrices
-     * @return $this
-     */
-    public function processTierPrices($product, &$tierPrices)
-    {
-        $weeeAmount = $this->getAmountForDisplay($product);
-        $store = $this->_storeManager->getStore();
-        foreach ($tierPrices as $index => &$tier) {
-            $html = $store->formatPrice(
-                $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price'], true) + $weeeAmount),
-                false
-            );
-            $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
-            $html = $store->formatPrice(
-                $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price']) + $weeeAmount),
-                false
-            );
-            $tier['formated_price_incl_weee_only'] = '<span class="price tier-' . $index . '">' . $html . '</span>';
-            $tier['formated_weee'] = $store->formatPrice($store->convertPrice($weeeAmount));
-        }
-        return $this;
-    }
-
-    /**
      * Check if fixed taxes are used in system
      *
      * @param Store $store
@@ -435,19 +408,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Returns all summed WEEE taxes with all local taxes applied
      *
-     * @param \Magento\Object[] $attributes Array of \Magento\Object, result from getProductWeeeAttributes()
+     * @param \Magento\Framework\Object[] $attributes Array of \Magento\Framework\Object, result from getProductWeeeAttributes()
      * @return float
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     public function getAmountInclTaxes($attributes)
     {
         if (!is_array($attributes)) {
-            throw new \Magento\Exception('$attributes must be an array');
+            throw new \Magento\Framework\Exception('$attributes must be an array');
         }
 
         $amount = 0;
         foreach ($attributes as $attribute) {
-            /* @var $attribute \Magento\Object */
+            /* @var $attribute \Magento\Framework\Object */
             $amount += $attribute->getAmount() + $attribute->getTaxAmount();
         }
 

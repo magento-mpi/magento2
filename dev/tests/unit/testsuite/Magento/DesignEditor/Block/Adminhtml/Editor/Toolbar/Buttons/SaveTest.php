@@ -26,16 +26,16 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $escaper \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
+        /** @var $escaper \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject */
         $escaper = $this->getMockBuilder(
-            'Magento\Escaper'
+            'Magento\Framework\Escaper'
         )->disableOriginalConstructor()->setMethods(
             array('escapeHtml')
         )->getMock();
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
         /** @var $urlBuilder \Magento\Core\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
-        $urlBuilder = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue($this->_url));
 
         $context = $this->getMockBuilder(

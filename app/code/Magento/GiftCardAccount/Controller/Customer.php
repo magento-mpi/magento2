@@ -52,7 +52,7 @@ class Customer extends \Magento\Framework\App\Action\Action
                 $this->messageManager->addSuccess(
                     __(
                         'Gift Card "%1" was redeemed.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($code)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code)
                     )
                 );
             } catch (\Magento\Framework\Model\Exception $e) {

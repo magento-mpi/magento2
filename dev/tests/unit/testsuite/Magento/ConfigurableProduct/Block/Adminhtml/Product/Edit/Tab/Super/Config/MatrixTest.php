@@ -19,7 +19,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appConfig;
 
-    /** @var \Magento\Locale\CurrencyInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Locale\CurrencyInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_locale;
 
     protected function setUp()
@@ -30,7 +30,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\Block\Template\Context',
             array('scopeConfig' => $this->_appConfig)
         );
-        $this->_locale = $this->getMock('Magento\Locale\CurrencyInterface', array(), array(), '', false);
+        $this->_locale = $this->getMock('Magento\Framework\Locale\CurrencyInterface', array(), array(), '', false);
         $data = array(
             'context' => $context,
             'localeCurrency' => $this->_locale,

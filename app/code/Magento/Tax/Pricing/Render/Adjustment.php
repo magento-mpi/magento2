@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,8 @@
 namespace Magento\Tax\Pricing\Render;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Pricing\Render\AbstractAdjustment;
-use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * @method string getIdSuffix()
@@ -42,15 +40,15 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
-     * @return null
+     * @return string
      */
     protected function apply()
     {
-        $html = $this->toHtml();
         if ($this->displayBothPrices()) {
-            if ($this->getZone() !== \Magento\Pricing\Render::ZONE_ITEM_OPTION) {
-                $this->amountRender->setPriceDisplayLabel(__('Excl. Tax:'));
+            if ($this->getZone() !== \Magento\Framework\Pricing\Render::ZONE_ITEM_OPTION) {
+                $this->amountRender->setPriceDisplayLabel(__('Excl. Tax'));
             }
+            $this->amountRender->setPriceWrapperCss('price-excluding-tax');
             $this->amountRender->setPriceId(
                 $this->buildIdWithPrefix('price-excluding-tax-')
             );
@@ -59,15 +57,12 @@ class Adjustment extends AbstractAdjustment
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         } elseif ($this->displayPriceExcludingTax()) {
-
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         }
-        if (trim($html)) {
-            $this->amountRender->addAdjustmentHtml($this->getAdjustmentCode(), $html);
-        }
+        return $this->toHtml();
     }
 
     /**
@@ -78,7 +73,7 @@ class Adjustment extends AbstractAdjustment
     public function getAdjustmentCode()
     {
         //@TODO We can build two model using DI, not code. What about passing it in constructor?
-        return \Magento\Tax\Pricing\Adjustment::CODE;
+        return \Magento\Tax\Pricing\Adjustment::ADJUSTMENT_CODE;
     }
 
     /**

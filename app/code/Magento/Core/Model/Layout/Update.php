@@ -27,22 +27,22 @@ namespace Magento\Core\Model\Layout;
 class Update extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

@@ -12,7 +12,7 @@
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
-\Magento\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../../');
 
 /**
  * Command line usage help
@@ -50,7 +50,7 @@ $logger->log('Deploying...', \Zend_Log::INFO);
 try {
 
     $objectManagerFactory = new \Magento\Framework\App\ObjectManagerFactory();
-    $objectManager = $objectManagerFactory->create(BP, $_SERVER);
+    $objectManager = $objectManagerFactory->create(BP, $_SERVER, false);
 
     $config = $objectManager->create(
         'Magento\Tools\View\Generator\Config',

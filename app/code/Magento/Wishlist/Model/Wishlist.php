@@ -26,7 +26,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -81,7 +81,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -101,12 +101,12 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
     protected $_productFactory;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
@@ -117,35 +117,35 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param ResourceWishlist $resource
      * @param Collection $resourceCollection
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param ItemFactory $wishlistItemFactory
      * @param CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param bool $useCurrentWebsite
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,
         ResourceWishlist $resource,
         Collection $resourceCollection,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         ItemFactory $wishlistItemFactory,
         CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $useCurrentWebsite = true,
         array $data = array()
     ) {
@@ -364,7 +364,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      * Returns new item or string on error.
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @param \Magento\Object|array|string|null $buyRequest
+     * @param \Magento\Framework\Object|array|string|null $buyRequest
      * @param bool $forciblySetQty
      * @return Item|string
      */
@@ -391,14 +391,14 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create()->setStoreId($storeId)->load($productId);
 
-        if ($buyRequest instanceof \Magento\Object) {
+        if ($buyRequest instanceof \Magento\Framework\Object) {
             $_buyRequest = $buyRequest;
         } elseif (is_string($buyRequest)) {
-            $_buyRequest = new \Magento\Object(unserialize($buyRequest));
+            $_buyRequest = new \Magento\Framework\Object(unserialize($buyRequest));
         } elseif (is_array($buyRequest)) {
-            $_buyRequest = new \Magento\Object($buyRequest);
+            $_buyRequest = new \Magento\Framework\Object($buyRequest);
         } else {
-            $_buyRequest = new \Magento\Object();
+            $_buyRequest = new \Magento\Framework\Object();
         }
 
         $cartCandidates = $product->getTypeInstance()->processConfiguration($_buyRequest, $product);
@@ -579,7 +579,7 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      * It's passed to \Magento\Catalog\Helper\Product->addParamsToBuyRequest() to compose resulting buyRequest.
      *
      * Basically it can hold
-     * - 'current_config', \Magento\Object or array - current buyRequest that configures product in this item,
+     * - 'current_config', \Magento\Framework\Object or array - current buyRequest that configures product in this item,
      *   used to restore currently attached files
      * - 'files_prefix': string[a-z0-9_] - prefix that was added at frontend to names of file options (file inputs),
      * so they won't intersect with other submitted options
@@ -587,8 +587,8 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      * For more options see \Magento\Catalog\Helper\Product->addParamsToBuyRequest()
      *
      * @param int|Item $itemId
-     * @param \Magento\Object $buyRequest
-     * @param null|array|\Magento\Object $params
+     * @param \Magento\Framework\Object $buyRequest
+     * @param null|array|\Magento\Framework\Object $params
      * @return $this
      * @throws Exception
      *
@@ -610,9 +610,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
         $productId = $product->getId();
         if ($productId) {
             if (!$params) {
-                $params = new \Magento\Object();
+                $params = new \Magento\Framework\Object();
             } else if (is_array($params)) {
-                $params = new \Magento\Object($params);
+                $params = new \Magento\Framework\Object($params);
             }
             $params->setCurrentConfig($item->getBuyRequest());
             $buyRequest = $this->_catalogProduct->addParamsToBuyRequest($buyRequest, $params);

@@ -741,19 +741,19 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
     /**
      * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Logger $logger
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Logger $logger,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         array $data = array()
     ) {
@@ -1077,12 +1077,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * Import callback request array into $this public data
      *
      * @param array $request
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function prepareShippingOptionsCallbackAddress(array $request)
     {
-        $address = new \Magento\Object();
-        \Magento\Object\Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
+        $address = new \Magento\Framework\Object();
+        \Magento\Framework\Object\Mapper::accumulateByMap($request, $address, $this->_callbackRequestMap);
         $address->setExportedKeys(array_values($this->_callbackRequestMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         return $address;
@@ -1159,7 +1159,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $debugData = array('url' => $this->getApiEndpoint(), $methodName => $request);
 
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $config = array('timeout' => 60, 'verifypeer' => $this->_config->verifyPeer);
             if ($this->getUseProxy()) {
                 $config['proxy'] = $this->getProxyHost() . ':' . $this->getProxyPort();
@@ -1378,15 +1378,15 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      */
     protected function _exportAddressses($data)
     {
-        $address = new \Magento\Object();
-        \Magento\Object\Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
+        $address = new \Magento\Framework\Object();
+        \Magento\Framework\Object\Mapper::accumulateByMap($data, $address, $this->_billingAddressMap);
         $address->setExportedKeys(array_values($this->_billingAddressMap));
         $this->_applyStreetAndRegionWorkarounds($address);
         $this->setExportedBillingAddress($address);
         // assume there is shipping address if there is at least one field specific to shipping
         if (isset($data['SHIPTONAME'])) {
             $shippingAddress = clone $address;
-            \Magento\Object\Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
+            \Magento\Framework\Object\Mapper::accumulateByMap($data, $shippingAddress, $this->_shippingAddressMap);
             $this->_applyStreetAndRegionWorkarounds($shippingAddress);
             // PayPal doesn't provide detailed shipping name fields, so the name will be overwritten
             $firstName = $data['SHIPTONAME'];
@@ -1411,10 +1411,10 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     /**
      * Adopt specified address object to be compatible with Magento
      *
-     * @param \Magento\Object $address
+     * @param \Magento\Framework\Object $address
      * @return void
      */
-    protected function _applyStreetAndRegionWorkarounds(\Magento\Object $address)
+    protected function _applyStreetAndRegionWorkarounds(\Magento\Framework\Object $address)
     {
         // merge street addresses into 1
         if ($address->hasStreet2()) {
@@ -1439,21 +1439,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     }
 
     /**
-     * Adopt specified request array to be compatible with Paypal
-     * Puerto Rico should be as state of USA and not as a country
-     *
-     * @param array &$request
-     * @return void
-     */
-    protected function _applyCountryWorkarounds(&$request)
-    {
-        if (isset($request['SHIPTOCOUNTRYCODE']) && $request['SHIPTOCOUNTRYCODE'] == 'PR') {
-            $request['SHIPTOCOUNTRYCODE'] = 'US';
-            $request['SHIPTOSTATE'] = 'PR';
-        }
-    }
-
-    /**
      * Prepare request data basing on provided addresses
      *
      * @param array $to
@@ -1464,7 +1449,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $billingAddress = $this->getBillingAddress() ? $this->getBillingAddress() : $this->getAddress();
         $shippingAddress = $this->getAddress();
 
-        $to = \Magento\Object\Mapper::accumulateByMap(
+        $to = \Magento\Framework\Object\Mapper::accumulateByMap(
             $billingAddress,
             $to,
             array_merge(array_flip($this->_billingAddressMap), $this->_billingAddressMapRequest)
@@ -1474,7 +1459,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $to['STATE'] = $regionCode;
         }
         if (!$this->getSuppressShipping()) {
-            $to = \Magento\Object\Mapper::accumulateByMap(
+            $to = \Magento\Framework\Object\Mapper::accumulateByMap(
                 $shippingAddress,
                 $to,
                 array_flip($this->_shippingAddressMap)
@@ -1487,7 +1472,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $this->_importStreetFromAddress($billingAddress, $to, 'STREET', 'STREET2');
             $to['SHIPTONAME'] = $shippingAddress->getName();
         }
-        $this->_applyCountryWorkarounds($to);
         return $to;
     }
 

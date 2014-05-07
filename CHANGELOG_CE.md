@@ -1,84 +1,212 @@
+* Fixed bugs:
+  * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
+  * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
+  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
+  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
+  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
+  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
+  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
+  * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
+  * Customer addresses are not editable and removed on backend (MAGETWO-22599)
+  * Fatal error when previewing newsletter template with restricted user (MAGETWO-19343)
+  * Cannot save tax rate if Zip was in range and Zip/Post Code field was left empty before (MAGETWO-9486)
+  * Puerto Rico is listed both as a State & a country in country list (MAGETWO-8790)
+  * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
+  * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
+  * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
+  * Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: Incorrect messages if enter invalid email during admin user and customer creation (MAGETWO-21581)
+  * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
+  * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
+  * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+* Functional tests:
+  * Functional end-to-end tests publication (MQM-60)
+     * Bundle product
+     * Category
+     * Customer
+     * Configurable product
+     * Downloadable product
+     * Newsletter
+     * Review
+     * Simple product
+     * Sitemap
+     * Store
+     * Tax Rule
+     * User
+     * Virtual product
+
+2.0.0.0-dev76
+=============
+* Pricing improvements:
+  * Eliminated code duplication from templates and implemented new calculation models for the following modules:
+     * ConfigurableProduct
+     * Wishlist
+     * Rss
+     * ProductAlert
+* JavaScript improvements:
+  * Removed head.js usages from frontend
+  * Removed head.js usages from adminhtml
+* Themes update:
+  * Plushe styles are removed, Plushe theme is now based on blank
+* Fixed bugs:  
+  * Unable to place order with product that contains custom option 'file'
+  * OnePageCheckout is not working if PayPal method is enabled to work via Payment Bridge
+  * Impossible to reset password for admin user (incorrect reset password link in email)
+  * Errors when deleting customer group specified as default one in the config
+  * A number of essential buttons do not work and block other functionality in Internet Explorer 10
+  * "Insert Widget" button is missing in Insert Widget popup while creating CMS page
+  * Impossible to change status for rating in admin
+  * System email templates are not loaded when user creates new email template
+  * Billing Agreements tab displays during New Customer creation in admin panel
+  * Images are not displayed in WYSIWYG when editing default pages
+  * Error message "Asymmetric transaction rollback" when creating simple product with flat catalog product option enabled in config
+  * Fatal error when trying to preview sample(type=link) or view link for download(type="link") for downloadable product
+  * Customer is redirected to Home Page after adding new address during multiple address checkout if secure URLs are enabled for frontend in config
+  * Impossible to select value in the State/Province field in the customer registration form when customer uses multiple address checkout
+  * Manage Stock option is not editable when using mass action on several products in the admin panel
+  * Category is not displayed in layered navigation block when Flat Catalog is enabled in config
+* GitHub requests:
+  * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products
+* Framework improvements:
+  * Covered Magento lib form elements with unit tests:
+      * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
+      * `lib/Magento/Framework/Data/Form/Element/Button.php`
+      * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
+      * `lib/Magento/Framework/Data/Form/Element/CollectionFactory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Column.php`
+      * `lib/Magento/Framework/Data/Form/Element/File.php`
+      * `lib/Magento/Framework/Data/Form/Element/Hidden.php`
+      * `lib/Magento/Framework/Data/Form/Element/Editablemultiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Factory.php`
+      * `lib/Magento/Framework/Data/Form/Element/Image.php`
+      * `lib/Magento/Framework/Data/Form/Element/Imagefile.php`
+      * `lib/Magento/Framework/Data/Form/Element/Label.php`
+      * `lib/Magento/Framework/Data/Form/Element/Link.php`
+      * `lib/Magento/Framework/Data/Form/Element/Multiselect.php`
+      * `lib/Magento/Framework/Data/Form/Element/Note.php`
+      * `lib/Magento/Framework/Data/Form/Element/Obscure.php`
+      * `lib/Magento/Framework/Data/Form/Element/Password.php`
+      * `lib/Magento/Framework/Data/Form/Element/Radio.php`
+      * `lib/Magento/Framework/Data/Form/Element/Reset.php`
+      * `lib/Magento/Framework/Data/Form/Element/Submit.php`
+      * `lib/Magento/Framework/Data/Form/Element/Text.php`
+      * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
+  
+2.0.0.0-dev75
+=============
 * Modularity improvements:
   * Introduced a new CheckoutAgreements module. Moved all "Terms and Conditions" related logic from Magento_Checkout to Magento_CheckoutAgreements
-  * Moved library related logic from “Magento\Core\Model\App”
-* Pricing Improvements:
-  * Added price calculation component to library (MAGETWO-18226)
-  * Eliminated price calculation from blocks and templates and implemented new calculation models for the next product types
-    * Bundle (MAGETWO-20420)
-    * Simple/Virtual (MAGETWO-22747, MAGETWO-21847)
-    * Grouped (MAGETWO-20409)
-    * Downloadable (MAGETWO-20404)
-  * Resolved dependencies of price calculation from Tax module (MAGETWO-20457)
-  * Resolved dependencies of price calculation from Weee tax module (MAGETWO-20458)
-* Themes update:
-  * Updated the look&feel of the Admin theme (MAGETWO-21912, MAGETWO-21913)
+  * Moved library related logic from `Magento\Core\Model\App`
 * Fixed bugs:
-  * Fixed Magento breaks down after delete Main Web Site (MAGETWO-23537)
-  * An issue with the inability to save product with grouped price when Price Scope = Website was fixed (MAGETWO-21709)
-  * An issue with fatal error on attempt to edit product from wishlist if more than one store view available was fixed (MAGETWO-20859)
-  * An issue product with custom quantity is not able to add to Wish List was fixed (MAGETWO-15355)
-  * An issue with JS validation is skipped while creating CMS Page was fixed (MAGETWO-15743)
-  * An issue with the same title of "New Customer Address Attribute" and "New Customer Attribute" pages was fixed (MAGETWO-18731)
-  * An issue with a form is submitted twice while creating CMS page was fixed (MAGETWO-20210)
-  * An issue with a fatal error in Wish List trying to edit product if more than one store view available was fixed (MAGETWO-20859)
-  * An issue with page layout for categories is not able to change was fixed (MAGETWO-21365)
-  * An issue with create product with grouped price is possible when Price Scope = Website was fixed (MAGETWO-21709)
-  * An issue with quantity_and_stock_status dropdown is disabled for bundle product was fixed (MAGETWO-22346)
-  * An issue with 'Related Products Rule' with inactive status still shows on frontend (Related Products, Up-sell) was fixed (MAGETWO-22672)
-  * An issue with clickjacking vulnerability was fixed (MAGETWO-22696)
-  * Fixed: Blank theme - fixed bugs and added improvements
-  * Fixed Flat Rate shipping method to be enabled by default (MAGETWO-21702)
-  * Fixed an issue with uncorrect order of products in Add Product split button (MAGETWO-13160)
-  * Fixed an issue with tier price attribute save (MAGETWO-19371)
-  * Fixed possibility creating integration from config file (MAGETWO-22311)
-  * Fixed: [IE9, Chrome, FF] Allow Cookies on Frontend is not applied (MAGETWO-22856)
-  * Fixed: [IE9] It's impossible to perform ajax actions from backend grids (MAGETWO-23475)
-  * Fixed: Improper usage of DIRECTORY_SEPARATOR (MAGETWO-13237)
-  * Fixed: Nothing happens after clicking on "Add New Address" button if default address is already set (MAGETWO-23292)
-  * An issue with setting memory_limit to -1 causes install failure (MAGETWO-23201)
-  * Fixed: Admin Session expires unexpectedly (MAGETWO-21736)
-  * Fixed: Scheduled Export for 'Remote FTP' does not work (MAGETWO-18584)
-  * Fixed: [TD] Wrong default value for PHP memory_limit (MAGETWO-21340)
-  * Fixed Messages absence on Frontend with FPC turned off (MAGETWO-23535)
-  * Fixed potential security risk with orders protect_code (MAGETWO-21266)
-  * Fixed error on place order with cache turned on (MAGETWO-23523)
-  * Fixed: Position of page actions buttons on "Categories" backend page (MAGETWO-22969)
-  * Fixed: Improve backend grids UI (MAGETWO-23338)
+  * Fixed an issue where Currency Options were not displayed on the Currency Setup tab
+  * Fixed an issue where a fatal error appeared during customer registration if mail server was off
+  * Fixed an issue where customer with middle name did not appear in the Customers grid in the backend
+  * Fixed an issue where related products were not displayed on the product page in the backend
+  * Fixed the broken View Files Population tool
+  * Fixed an issue where Magento broke down if the Main Web Site was deleted
+  * Fixed potential security issue with orders protect_code
+  * Fixed an issue where an error appeared when placing an order if cache was turned on
+  * Fixed an issue where a warning appeared when running system_config.php tool
+  * Fixed an issue with incorrect reset password link for users on custom websites
+  * Fixed an issue with invalid error message displayed when trying to save a customer group with existing group name
+  * Fixed an issue with  menu layout non-responsive behavior  in the Blank theme
 * Framework Improvements:
-  * Simplify Search related Data Objects (MAGETWO-22613)
-  * Moved lib/Magento/* to lib/Magento/Framework/*: (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App (MAGETWO-23476)
-  * Covered Magento Store components with unit tests:
-     * Magento\Store\Model\*
-  * Updated obsolete_classes with changes, introduced by Offline Payment Methods Module implementation (MAGETWO-23619)
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 1): (MAGETWO-20866)
-    * Moved lib/Magento/App to lib/Magento/Framework/App
-  * Moved lib/Magento/* to lib/Magento/Framework/* (Part 2): (MAGETWO-23646)
-    * Moved lib/Magento/Data to lib/Magento/Framework/Data
-    * Moved lib/Magento/Filesystem to lib/Magento/Framework/Filesystem
-    * Moved lib/Magento/Config to lib/Magento/Framework/Config
-    * Moved lib/Magento/Model to lib/Magento/Framework/Model
-    * Moved lib/Magento/DB to lib/Magento/Framework/DB
-    * Moved lib/Magento/View to lib/Magento/Framework/View
-
-* Refactored the following modules to use Customer Service
-  * Implement Caching strategy for the Customer services (MAGETWO-22429)
-  * Refactor Paypal recurring payment module to use customer service (MAGETWO-22520)
-  * Refactor RecurringPayment module to use customer service (MAGETWO-22521)
-  * Refactor Multishipping module to use Customer Services (MAGETWO-20874)
-  * Refactor PayPal module to use Customer Service (MAGETWO-20477)
-* JavaScript improvements:
-  * Fixed possibility creating integration from config file (MAGETWO-22311)
+  * Covered Magento library components with unit tests
+    * `Magento\Framework\Error\*`
+    * `Magento\Framework\Event\Observer\*`
+    * `Magento\Framework\Filesystem\*`
+    * `Magento\Framework\Filesystem\File\*`
+  * Updated the obsolete_classes list with changes, introduced by Offline Payment Methods Module implementation
+  * Moved `lib/Magento/*` to `lib/Magento/Framework/*`
+  * Covered Magento application components with unit tests:
+     * `Store\Model\*`
+     * `Sales/Helper/Guest.php`
+     * `Sales/Helper/Admin.php`
+     * `Sales/Model/Observer.php`
+     * `Sales/Model/Payment/Method/Converter.php`
+     * `Sales/Model/Email/Template.php`
+     * `Sales/Model/Observer/Backend/CustomerQuote.php`
+     * `Sales/Model/Status/ListStatus.php`
+* Refactored the following modules to use Customer Service:
+  * Magento_Persistent
+  * Magento_GoogleShopping
+  * Magento_ProductAlert
+  * Magento_SendFriend
+  * Moved customer-specific logic from the Magento_ImportExport module to the Customer module
+  * Refactored the rest of Customer Group usages
+  * Refactored customerAccountService::createAccount to not expose the hashed password input from webapi
+  * Implemented a delimiter usage for Cache key in Customer Registry
 * Customer Service usage:
-  * Implement Service Context Provider (MAGETWO-11084)
-  * Restructure webapi.xml (MAGETWO-22665)
-  * Renamed createAccount to createCustomer in CustomerAccountService (MAGETWO-22830)
-  * Refactored Persistent Module (MAGETWO-20877)
-  * Refactored GoogleShopping module (MAGETWO-20474)
-  * Refactored ProductAlert module (MAGETWO-20481)
-  * Refactored SendFriend module (MAGETWO-20497)
+  * Updated exception hierarchy with a new localized exception class
+  * Updated CRUD APIs to support email and base URL instead of IDs
+* JavaScript improvements:
+  * Implemented the validation widget
+  * Implemented the tooltip widget
+  * Implemented the popup/modal window widget
+  * Implemented the calendar widget
+  * Implemented the suggest widget
+* Added configuration for Travis CI
+
+2.0.0.0-dev74
+=============
+* Pricing Improvements:
+  * Added price calculation component to library
+  * Eliminated price calculation from blocks and templates and implemented new calculation models for the following product types:
+     * Bundle
+     * Simple/Virtual
+     * Grouped
+     * Downloadable
+  * Resolved price calculation dependencies on the Tax and Weee modules
+* Themes update:
+  * Updated the look&feel of the Admin theme
+* Fixed bugs:
+  * Fixed an issue with the inability to save product with grouped price when Price Scope = Website
+  * Fixed an issue with fatal error on attempt to edit product from wishlist in stores with multiple store views
+  * Fixed an issue where it was impossible to add to a wishlist a product with custom quantity
+  * Fixed an issue where JS validation was skipped during CMS page creation
+  * Fixed an issue with the New Customer Address Attribute page and the New Customer Attribute page having the same title
+  * Fixed an issue where a form was submitted two times during CMS page creation
+  * Fixed an issue where a fatal error appeared when trying to edit product in a wishlist in stores with multiple store views
+  * Fixed an issue with inability to change page layout for categories
+  * Fixed an issue where the Quantity drop-down list box was disabled for bundle products
+  * Fixed an issue where inactive Related Products rules were applied
+  * Fixed a clickjacking vulnerability
+  * Fixed bugs and added improvements in the Blank theme
+  * Fixed an issue where the Flat Rate shipping method was not enabled by default
+  * Fixed an issue with incorrect order of products on the Add Product split button
+  * Fixed an issue with saving the tier price attribute value
+  * Fixed an issue with creating integration from config file
+  * Fixed an issue where the Cookie Restriction Mode = Yes configuration was not applied
+  * Fixed an issue where it was impossible to perform ajax actions from backend grids in Internet Explorer
+  * Fixed the improper usage of DIRECTORY_SEPARATOR
+  * Fixed an issue where it was impossible to add new address on customer's account page if default address had been already set
+  * Fixed an issue where setting memory_limit to -1 caused installation failure
+  * Fixed an issue where the configuration of Admin Session Lifetime was not applied correctly
+  * Fixed an issue where Scheduled Export was not performed if exporting to remote FTP server
+  * Fixed the wrong default value for PHP memory_limit
+  * Fixed an issue where frontend messages were not displayed when FPC was turned off
+  * Fixed the position of page action buttons on the Categories page in the backend
+  * Improved backend grids UI
+* Framework Improvements:
+  * Simplified Search related Data Objects
+  * Moved lib/Magento/* to lib/Magento/Framework/*
+    * Moved lib/Magento/App to lib/Magento/Framework/App
+* Refactored the following modules to use Customer service:
+  * PayPalRecurringPayment
+  * RecurringPayment
+  * Multishipping
+  * Paypal
+* Customer Service usage:
+  * Implemented Service Context Provider
+  * Restructured webapi.xml
+  * Renamed createAccount to createCustomer in CustomerAccountService
+  * Implemented Caching strategy for the Customer service
 * GitHub requests:
-  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
   * [#488] (https://github.com/magento/magento2/issues/488) -- Converted several grids from Magento\Sales module to new layout XML config format
 
 2.0.0.0-dev73
@@ -136,6 +264,7 @@
   * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed an issue during creating or editing product template
   * [#535] (https://github.com/magento/magento2/issues/535) -- Fixed Typo in the module name
   * [#538] (https://github.com/magento/magento2/issues/538) -- Fixed missing tax amount in the invoice
+  * [#518] (https://github.com/magento/magento2/issues/518) -- Change to Magento\Customer\Block\Widget\Dob new version
 * Fixed bugs:
   * Fixed implementation issues with Cron task group threading
   * Fixed inability to place order during customer registration flow

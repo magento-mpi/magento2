@@ -94,7 +94,7 @@ class Observer
     protected $_productFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\DateTimeFactory
+     * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
@@ -104,7 +104,7 @@ class Observer
     protected $_stockColFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -114,7 +114,7 @@ class Observer
     protected $_emailFactory;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -125,11 +125,11 @@ class Observer
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\ProductAlert\Model\EmailFactory $emailFactory
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -138,11 +138,11 @@ class Observer
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
+        \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\ProductAlert\Model\EmailFactory $emailFactory,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_taxData = $taxData;
         $this->_scopeConfig = $scopeConfig;
@@ -225,6 +225,7 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
+                    /** @var \Magento\Catalog\Model\Product $product */
                     $product = $this->_productFactory->create()->setStoreId(
                         $website->getDefaultStore()->getId()
                     )->load(

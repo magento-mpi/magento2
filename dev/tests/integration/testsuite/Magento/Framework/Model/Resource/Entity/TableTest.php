@@ -20,7 +20,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // @codingStandardsIgnoreStart
-        $config = new \Magento\Simplexml\Config();
+        $config = new \Magento\Framework\Simplexml\Config();
         $config->table = 'test_table';
         $config->test_key = 'test';
         // @codingStandardsIgnoreEnd
@@ -36,7 +36,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $this->assertInstanceOf('Magento\Simplexml\Config', $this->_model->getConfig());
+        $this->assertInstanceOf('Magento\Framework\Simplexml\Config', $this->_model->getConfig());
         $this->assertEquals('test', $this->_model->getConfig('test_key'));
         $this->assertFalse($this->_model->getConfig('some_key'));
     }

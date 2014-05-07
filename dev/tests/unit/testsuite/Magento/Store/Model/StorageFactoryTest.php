@@ -47,7 +47,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -110,13 +110,25 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_arguments = array('test' => 'argument', 'scopeCode' => '', 'scopeType' => '');
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $this->_sidResolverMock = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->_eventManagerMock = $this->getMock(
+            'Magento\Framework\Event\ManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->_logMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $this->_sidResolverMock = $this->getMock(
+            '\Magento\Framework\Session\SidResolverInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
+        $this->_cookie = $this->getMock('Magento\Framework\Stdlib\Cookie', array(), array(), '', false);
         $this->_httpContext = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
@@ -207,7 +219,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isSetFlag'
         )->with(
-            \Magento\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+            \Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )->will(
             $this->returnValue(true)

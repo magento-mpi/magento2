@@ -17,9 +17,9 @@
  */
 namespace Magento\Core\Model\App;
 
-use Magento\Translate\Inline\ConfigInterface;
+use Magento\Framework\Translate\Inline\ConfigInterface;
 
-class Emulation extends \Magento\Object
+class Emulation extends \Magento\Framework\Object
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -27,7 +27,7 @@ class Emulation extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Framework\TranslateInterface
      */
     protected $_translate;
 
@@ -39,7 +39,7 @@ class Emulation extends \Magento\Object
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -54,7 +54,7 @@ class Emulation extends \Magento\Object
     protected $inlineConfig;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -62,22 +62,22 @@ class Emulation extends \Magento\Object
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $viewDesign
      * @param \Magento\Framework\App\DesignInterface $design
-     * @param \Magento\TranslateInterface $translate
+     * @param \Magento\Framework\TranslateInterface $translate
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param ConfigInterface $inlineConfig
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $viewDesign,
         \Magento\Framework\App\DesignInterface $design,
-        \Magento\TranslateInterface $translate,
+        \Magento\Framework\TranslateInterface $translate,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         ConfigInterface $inlineConfig,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_localeResolver = $localeResolver;
@@ -99,7 +99,7 @@ class Emulation extends \Magento\Object
      * @param integer $storeId
      * @param string $area
      * @param bool $emulateStoreInlineTranslation emulate inline translation of the specified store or just disable it
-     * @return \Magento\Object information about environment of the initial store
+     * @return \Magento\Framework\Object information about environment of the initial store
      */
     public function startEnvironmentEmulation(
         $storeId,
@@ -117,7 +117,7 @@ class Emulation extends \Magento\Object
         $this->_storeManager->setCurrentStore($storeId);
         $initialLocaleCode = $this->_emulateLocale($storeId, $area);
 
-        $initialEnvironmentInfo = new \Magento\Object();
+        $initialEnvironmentInfo = new \Magento\Framework\Object();
         $initialEnvironmentInfo->setInitialTranslateInline(
             $initialTranslateInline
         )->setInitialDesign(
@@ -134,10 +134,10 @@ class Emulation extends \Magento\Object
      *
      * Function restores initial store environment
      *
-     * @param \Magento\Object $initialEnvironmentInfo information about environment of the initial store
+     * @param \Magento\Framework\Object $initialEnvironmentInfo information about environment of the initial store
      * @return \Magento\Core\Model\App\Emulation
      */
-    public function stopEnvironmentEmulation(\Magento\Object $initialEnvironmentInfo)
+    public function stopEnvironmentEmulation(\Magento\Framework\Object $initialEnvironmentInfo)
     {
         $this->_restoreInitialInlineTranslation($initialEnvironmentInfo->getInitialTranslateInline());
         $initialDesign = $initialEnvironmentInfo->getInitialDesign();

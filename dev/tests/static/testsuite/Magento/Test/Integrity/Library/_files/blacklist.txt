@@ -37,15 +37,14 @@ lib/Magento/Framework/Data/Collection.php
 lib/Magento/Framework/Data/Form.php
 lib/Magento/Framework/Data/Form/FormKey.php
 
-lib/Magento/Exception/AuthenticationException.php
-lib/Magento/Exception/AuthorizationException.php
-lib/Magento/Exception/Exception.php
-lib/Magento/Exception/InputException.php
-lib/Magento/Exception/NoSuchEntityException.php
-lib/Magento/Exception/StateException.php
+lib/Magento/Framework/Exception/AuthenticationException.php
+lib/Magento/Framework/Exception/AuthorizationException.php
+lib/Magento/Framework/Exception/Exception.php
+lib/Magento/Framework/Exception/InputException.php
+lib/Magento/Framework/Exception/NoSuchEntityException.php
 
-lib/Magento/Filter/Object/Grid.php
-lib/Magento/Filter/Object.php
+lib/Magento/Framework/Filter/Object/Grid.php
+lib/Magento/Framework/Filter/Object.php
 
 lib/Magento/Framework/View/Context.php
 lib/Magento/Framework/View/Element/Js/Cookie.php
@@ -59,16 +58,16 @@ lib/Magento/Framework/View/Element/Template/Context.php
 lib/Magento/Framework/View/Element/Redirect.php
 
 lib/Magento/Framework/App/Module/ResourceResolver.php
-lib/Magento/Event/Invoker/InvokerDefault.php
-lib/Magento/Phrase/Renderer/Translate.php
-lib/Magento/Backup/Snapshot.php
-lib/Magento/Oauth/Exception.php
+lib/Magento/Framework/Event/Invoker/InvokerDefault.php
+lib/Magento/Framework/Phrase/Renderer/Translate.php
+lib/Magento/Framework/Backup/Snapshot.php
+lib/Magento/Framework/Oauth/Exception.php
 
 lib/Magento/Framework/App/Helper/AbstractHelper.php
 lib/Magento/Framework/App/Helper/Context.php
 
 lib/Magento/Framework/View/DesignLoader.php
-lib/Magento/Session/SidResolverInterface.php
+lib/Magento/Framework/Session/SidResolverInterface.php
 
 lib/Magento/Framework/App/Filesystem/DirectoryList/Configuration.php
 lib/Magento/Framework/Filesystem/Driver/Http.php

@@ -276,7 +276,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $msg = 'Html tag "span" is forbidden for usage in containers. ' .
             'Consider to use one of the allowed: dd, div, dl, fieldset, header, ' .
             'footer, hgroup, ol, p, section, table, tfoot, ul.';
-        $this->setExpectedException('Magento\Exception', $msg);
+        $this->setExpectedException('Magento\Framework\Exception', $msg);
         $this->_layout->addContainer('container', 'Container', array('htmlTag' => 'span'));
     }
 
@@ -301,7 +301,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->_layout->addContainer('two', 'Two');
         $this->_layout->addContainer('three', 'Three');
         $this->assertSame($this->_layout, $this->_layout->setChild('one', 'two', ''));
-        $this->_layout->setChild('one', 'three', '');
+        $this->_layout->setChild('one', 'three', 'three_alias');
         $this->assertSame(array('two', 'three'), $this->_layout->getChildNames('one'));
         return $this->_layout;
     }
@@ -337,6 +337,10 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         // before everyone
         $layout->reorderChild('one', 'two', '-', false);
         $this->assertSame(array('two', 'four', 'three'), $layout->getChildNames('one'));
+
+        //reorder by sibling alias
+        $layout->reorderChild('one', 'two', 'three_alias', true);
+        $this->assertSame(array('four', 'three', 'two'), $layout->getChildNames('one'));
     }
 
     /**

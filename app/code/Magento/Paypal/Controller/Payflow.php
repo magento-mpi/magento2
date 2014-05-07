@@ -23,7 +23,7 @@ class Payflow extends \Magento\Framework\App\Action\Action
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -49,7 +49,7 @@ class Payflow extends \Magento\Framework\App\Action\Action
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\PayflowlinkFactory $payflowModelFactory
      * @param \Magento\Paypal\Helper\Checkout $checkoutHelper
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -57,7 +57,7 @@ class Payflow extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\PayflowlinkFactory $payflowModelFactory,
         \Magento\Paypal\Helper\Checkout $checkoutHelper,
-        \Magento\Logger $logger
+        \Magento\Framework\Logger $logger
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
@@ -120,6 +120,7 @@ class Payflow extends \Magento\Framework\App\Action\Action
      */
     public function formAction()
     {
+        $this->getResponse()->setHeader('P3P', 'CP="CAO PSA OUR"');
         $this->_view->loadLayout(false)->renderLayout();
         $layout = $this->_view->getLayout();
     }

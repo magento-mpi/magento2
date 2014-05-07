@@ -35,7 +35,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canAuthorize = false;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
@@ -45,17 +45,17 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canCapturePartial = false;
+    protected $_canCapturePartial = true;
 
     /**
      * @var bool
      */
-    protected $_canRefund = false;
+    protected $_canRefund = true;
 
     /**
      * @var bool
      */
-    protected $_canVoid = false;
+    protected $_canVoid = true;
 
     /**
      * @var bool
@@ -75,11 +75,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {

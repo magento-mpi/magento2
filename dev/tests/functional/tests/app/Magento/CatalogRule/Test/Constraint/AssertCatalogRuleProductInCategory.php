@@ -91,6 +91,7 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
                 'Product price on category page is not correct.'
             );
         }
+        $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
     }
 
     /**

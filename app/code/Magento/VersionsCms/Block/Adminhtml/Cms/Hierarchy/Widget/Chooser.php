@@ -28,20 +28,20 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_widgetRadio;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param Radio $widgetRadio
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         Radio $widgetRadio,
         array $data = array()

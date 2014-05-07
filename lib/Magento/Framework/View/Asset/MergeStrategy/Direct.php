@@ -65,7 +65,7 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
      * @param string $targetFile
      * @param string $contentType
      * @return string
-     * @throws \Magento\Exception
+     * @throws \Magento\Framework\Exception
      */
     protected function composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
@@ -75,7 +75,7 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
 
         foreach ($publicFiles as $file) {
             if (!$this->_directory->isExist($this->_directory->getRelativePath($file))) {
-                throw new \Magento\Exception("Unable to locate file '{$file}' for merging.");
+                throw new \Magento\Framework\Exception("Unable to locate file '{$file}' for merging.");
             }
             $content = $this->_directory->readFile($this->_directory->getRelativePath($file));
             if ($isCss) {

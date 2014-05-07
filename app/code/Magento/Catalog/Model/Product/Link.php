@@ -57,7 +57,7 @@ class Link extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -66,7 +66,7 @@ class Link extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

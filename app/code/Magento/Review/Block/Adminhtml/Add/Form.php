@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Review\Helper\Data $reviewData
@@ -42,7 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Review\Helper\Data $reviewData,

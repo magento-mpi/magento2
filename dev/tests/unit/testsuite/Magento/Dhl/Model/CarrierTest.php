@@ -101,14 +101,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $httpClient = $this->getMockBuilder(
-            '\Magento\HTTP\ZendClient'
+            '\Magento\Framework\HTTP\ZendClient'
         )->disableOriginalConstructor()->setMethods(
             array('request')
         )->getMock();
         $httpClient->expects($this->any())->method('request')->will($this->returnValue($this->_httpResponse));
 
         $httpClientFactory = $this->getMockBuilder(
-            '\Magento\HTTP\ZendClientFactory'
+            '\Magento\Framework\HTTP\ZendClientFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
@@ -211,10 +211,10 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             $filesPath . 'response_shipping_label.xml'
         );
         unset(
-            $empty->AirwayBillNumber,
-            $empty->LabelImage,
-            $billingNumberOnly->LabelImage,
-            $outputImageOnly->AirwayBillNumber
+            $empty->{'AirwayBillNumber'},
+            $empty->{'LabelImage'},
+            $billingNumberOnly->{'LabelImage'},
+            $outputImageOnly->{'AirwayBillNumber'}
         );
 
         return array(array($empty), array($billingNumberOnly), array($outputImageOnly));
@@ -222,7 +222,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param \SimpleXMLElement $xml
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _invokePrepareShippingLabelContent(\SimpleXMLElement $xml)
     {
@@ -242,8 +242,10 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(file_get_contents(__DIR__ . '/_files/success_dhl_response_rates.xml'))
         );
         // for setRequest
-        $request_params = include __DIR__ . '/_files/rates_request_data_dhl.php';
-        $request = $this->_helper->getObject('Magento\Sales\Model\Quote\Address\RateRequest', $request_params);
+        $request = $this->_helper->getObject(
+            'Magento\Sales\Model\Quote\Address\RateRequest',
+            require __DIR__ . '/_files/rates_request_data_dhl.php'
+        );
         $this->assertNotEmpty($this->_model->collectRates($request)->getAllRates());
     }
 }

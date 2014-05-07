@@ -14,7 +14,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\ObjectManager */
+    /** @var \Magento\Framework\ObjectManager */
     protected $_objectManager;
 
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address */
@@ -153,7 +153,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\Data\Form\Element\Select $countryIdField */
         $countryIdField = $fieldset->getElements()->searchById('country_id');
-        $this->assertSelectCount('option', 247, $countryIdField->getElementHtml());
+        $this->assertSelectCount('option', 246, $countryIdField->getElementHtml());
     }
 
     /**
@@ -164,11 +164,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $addressBuilder->populateWithArray(
-            array('id' => 1, 'street' => 'Street1', 'firstname' => 'FirstName1', 'lastname' => 'LastName1')
+            array('id' => 1, 'street' => ['Street1'], 'firstname' => 'FirstName1', 'lastname' => 'LastName1')
         );
         $addressData[] = $addressBuilder->create();
         $addressBuilder->populateWithArray(
-            array('id' => 2, 'street' => 'Street2', 'firstname' => 'FirstName2', 'lastname' => 'LastName2')
+            array('id' => 2, 'street' => ['Street2'], 'firstname' => 'FirstName2', 'lastname' => 'LastName2')
         );
         $addressData[] = $addressBuilder->create();
         return $addressData;

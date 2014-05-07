@@ -30,26 +30,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Filter\FilterManager $filterManager
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_localeDate = $localeDate;
@@ -331,7 +331,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($inputType === 'date') {
                 foreach (array('date_range_min', 'date_range_max') as $dateRangeBorder) {
                     if (isset($rules[$dateRangeBorder])) {
-                        $date = new \Magento\Stdlib\DateTime\Date($rules[$dateRangeBorder], $this->getDateFormat());
+                        $date = new \Magento\Framework\Stdlib\DateTime\Date($rules[$dateRangeBorder], $this->getDateFormat());
                         $rules[$dateRangeBorder] = $date->getTimestamp();
                     }
                 }
@@ -430,7 +430,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

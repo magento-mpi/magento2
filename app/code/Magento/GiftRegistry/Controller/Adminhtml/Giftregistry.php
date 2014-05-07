@@ -17,15 +17,15 @@ class Giftregistry extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -164,8 +164,8 @@ class Giftregistry extends \Magento\Backend\App\Action
      */
     protected function _filterPostData($data)
     {
-        /* @var $filterManager \Magento\Filter\FilterManager */
-        $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+        /* @var $filterManager \Magento\Framework\Filter\FilterManager */
+        $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
         if (!empty($data['type']['label'])) {
             $data['type']['label'] = $filterManager->stripTags($data['type']['label']);
         }
@@ -215,7 +215,7 @@ class Giftregistry extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save this gift registry type."));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -238,7 +238,7 @@ class Giftregistry extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't delete this gift registry type."));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }

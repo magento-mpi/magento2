@@ -37,6 +37,15 @@ use Magento\Sales\Model\Quote\Item;
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setBaseDiscountCalculationPrice($price)
  * @method int[] getAppliedRuleIds()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
+ * @method float getBaseTaxAmount()
+ * @method float getBaseDiscountTaxCompensation()
+ * @method float getBaseRowTotal()
+ * @method float getQtyOrdered()
+ * @method float getRowTotalInclTax()
+ * @method float getTaxAmount()
+ * @method float getDiscountTaxCompensation()
+ * @method float getRowTotal()
+ * @method float getPriceInclTax()
  */
 abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
@@ -70,7 +79,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -78,7 +87,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -134,7 +143,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
      * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Return null, as quote item needs no additional configuration.
      *
-     * @return null|\Magento\Object
+     * @return null|\Magento\Framework\Object
      */
     public function getFileDownloadParams()
     {

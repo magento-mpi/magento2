@@ -21,24 +21,24 @@ namespace Magento\Backend\Model\Config\Backend\Image;
 class Adapter extends \Magento\Framework\App\Config\Value
 {
     /**
-     * @var \Magento\Image\AdapterFactory
+     * @var \Magento\Framework\Image\AdapterFactory
      */
     protected $_imageFactory;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Image\AdapterFactory $imageFactory
+     * @param \Magento\Framework\Image\AdapterFactory $imageFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Image\AdapterFactory $imageFactory,
+        \Magento\Framework\Image\AdapterFactory $imageFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

@@ -59,7 +59,7 @@ class Results extends \Magento\Framework\View\Element\Template
         if ($item->getEventDate()) {
             return $this->formatDate(
                 $item->getEventDate(),
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
             );
         }
     }

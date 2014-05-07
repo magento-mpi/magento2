@@ -21,24 +21,24 @@ class Page extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_dateFilter = $dateFilter;

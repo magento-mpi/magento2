@@ -88,13 +88,13 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Review\Model\Rating\Option\VoteFactory $ratingOptionVoteF
-     * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Review\Model\Rating\Option\VoteFactory $ratingOptionVoteF,
-        \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+        \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_customerSession = $customerSession;
         $this->_ratingOptionVoteF = $ratingOptionVoteF;

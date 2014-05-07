@@ -26,7 +26,7 @@ class AddTest extends \PHPUnit_Framework_TestCase
         $block->setArea('adminhtml')->unsetChild('setForm');
 
         $childBlock = $layout->addBlock('Magento\Framework\View\Element\Template', 'setForm', 'block');
-        $form = new \Magento\Object();
+        $form = new \Magento\Framework\Object();
         $childBlock->setForm($form);
 
         $expectedId = '12121212';

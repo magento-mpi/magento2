@@ -27,7 +27,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $viewHelperMock->expects($this->any())->method('getCustomerName')->will($this->returnValue($customerName));
 
-        $escaperMock = $this->getMockBuilder('Magento\Escaper')->disableOriginalConstructor()->getMock();
+        $escaperMock = $this->getMockBuilder('Magento\Framework\Escaper')->disableOriginalConstructor()->getMock();
         $escaperMock->expects(
             $this->any()
         )->method(

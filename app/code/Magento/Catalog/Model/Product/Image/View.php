@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model\Product\Image;
 
-class View extends \Magento\Object
+class View extends \Magento\Framework\Object
 {
     /**
      * Separator between location and suffix

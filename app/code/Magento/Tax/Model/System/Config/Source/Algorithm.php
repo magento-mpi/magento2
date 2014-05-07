@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Model\System\Config\Source;
 
-class Algorithm implements \Magento\Option\ArrayInterface
+class Algorithm implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

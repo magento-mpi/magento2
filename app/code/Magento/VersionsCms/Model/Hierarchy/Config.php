@@ -55,7 +55,7 @@ class Config extends Scoped implements ConfigInterface
      * Return Context Menu layout by its name
      *
      * @param string $layoutName
-     * @return \Magento\Object|bool
+     * @return \Magento\Framework\Object|bool
      */
     public function getContextMenuLayout($layoutName)
     {

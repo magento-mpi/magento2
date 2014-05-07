@@ -86,7 +86,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -102,10 +102,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
@@ -116,10 +116,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
@@ -262,10 +262,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Set Product data object
      *
-     * @param \Magento\Object $product
+     * @param \Magento\Framework\Object $product
      * @return $this
      */
-    public function setProduct(\Magento\Object $product)
+    public function setProduct(\Magento\Framework\Object $product)
     {
         return $this->setData('product', $product);
     }
@@ -273,13 +273,13 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve Product data object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      * @throws \Magento\Framework\Model\Exception
      */
     public function getProduct()
     {
         $product = $this->getData('product');
-        if (!$product instanceof \Magento\Object) {
+        if (!$product instanceof \Magento\Framework\Object) {
             throw new \Magento\Framework\Model\Exception(__('Please define a product data object.'));
         }
         return $product;
@@ -370,7 +370,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
             $date = $this->_localeDate->scopeDate($store);
             if ($date->equals(0, \Zend_Date::HOUR)) {
                 $this->_indexer->logEvent(
-                    new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
+                    new \Magento\Framework\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
                     self::EVENT_TYPE_CLEAN_TARGETRULES
                 );
@@ -451,7 +451,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Reindex targetrules
      *
-     * @param \Magento\Object $product
+     * @param \Magento\Framework\Object $product
      * @return $this
      */
     protected function _reindex($product)

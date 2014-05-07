@@ -27,9 +27,9 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
     protected $_perFileSchema = null;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader)
+    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Webapi') . '/integration/api.xsd';
     }

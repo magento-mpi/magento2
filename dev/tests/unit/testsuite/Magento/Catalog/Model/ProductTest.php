@@ -43,7 +43,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $productTypeMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_priceInfoMock;
 
@@ -65,7 +65,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->_priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $this->productPriceProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
@@ -80,7 +80,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getAreaCode')
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
-        $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
+        $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction', 
             [], 
@@ -236,5 +236,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_priceInfoMock));
         $this->assertEquals($this->_priceInfoMock, $this->model->getPriceInfo());
         $this->assertEquals($this->_priceInfoMock, $this->model->reloadPriceInfo());
+    }
+
+    /**
+     * Test for get qty
+     */
+    public function testGetQty()
+    {
+        $this->model->setQty(1);
+        $this->assertEquals(1, $this->model->getQty());
     }
 }

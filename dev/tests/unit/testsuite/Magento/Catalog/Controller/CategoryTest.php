@@ -35,12 +35,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $categoryHelper;
 
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
     /**
-     * @var \Magento\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Event\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventManager;
 
@@ -105,8 +105,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->response = $this->getMock('Magento\Framework\App\ResponseInterface');
 
         $this->categoryHelper = $this->getMock('Magento\Catalog\Helper\Category', [], [], '', false);
-        $this->objectManager = $this->getMock('Magento\ObjectManager', [], [], '', false);
-        $this->eventManager = $this->getMock('Magento\Event\ManagerInterface');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
@@ -161,7 +161,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $this->categoryHelper->expects($this->any())->method('canShow')->will($this->returnValue(true));
 
-        $settings = $this->getMock('Magento\Object', ['getPageLayout'], [], '', false);
+        $settings = $this->getMock('Magento\Framework\Object', ['getPageLayout'], [], '', false);
         $settings->expects($this->atLeastOnce())->method('getPageLayout')->will($this->returnValue($pageLayout));
 
         $this->catalogDesign->expects($this->any())->method('getDesignSettings')->will($this->returnValue($settings));
