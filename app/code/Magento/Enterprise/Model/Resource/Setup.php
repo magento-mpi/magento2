@@ -11,7 +11,7 @@
  */
 namespace Magento\Enterprise\Model\Resource;
 
-class Setup extends \Magento\Module\Setup
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
      * Block model factory
@@ -21,18 +21,18 @@ class Setup extends \Magento\Module\Setup
     protected $_modelBlockFactory;
 
     /**
-     * @param \Magento\Module\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Module\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $moduleName = 'Magento_Enterprise',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_modelBlockFactory = $modelBlockFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

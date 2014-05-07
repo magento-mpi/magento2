@@ -24,7 +24,7 @@ class FormKeyTest extends \PHPUnit_Framework_TestCase
     /**
      * Cookie mock
      *
-     * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieMock;
 
@@ -33,7 +33,7 @@ class FormKeyTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('get'), array(), '', false);
+        $this->cookieMock = $this->getMock('Magento\Framework\Stdlib\Cookie', array('get'), array(), '', false);
         $this->formKey =  new \Magento\Framework\App\PageCache\FormKey($this->cookieMock);
     }
 

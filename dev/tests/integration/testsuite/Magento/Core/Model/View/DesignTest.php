@@ -182,7 +182,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $file
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider extractScopeExceptionDataProvider
      */
     public function testExtractScopeException($file)

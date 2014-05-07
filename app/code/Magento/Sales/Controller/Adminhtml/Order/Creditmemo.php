@@ -160,7 +160,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
             array('creditmemo' => $creditmemo, 'request' => $this->getRequest())
         );
 
-        $this->_objectManager->get('Magento\Registry')->register('current_creditmemo', $creditmemo);
+        $this->_objectManager->get('Magento\Framework\Registry')->register('current_creditmemo', $creditmemo);
         return $creditmemo;
     }
 
@@ -339,7 +339,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Cannot save the credit memo.'));
         }
         $this->_redirect('sales/*/new', array('_current' => true));

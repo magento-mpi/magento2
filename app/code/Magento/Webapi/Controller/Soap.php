@@ -51,12 +51,12 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
     protected $_layout;
 
     /**
-     * @var \Magento\Oauth\OauthInterface
+     * @var \Magento\Framework\Oauth\OauthInterface
      */
     protected $_oauthService;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -78,8 +78,8 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
      * @param ErrorProcessor $errorProcessor
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Oauth\OauthInterface $oauthService
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Oauth\OauthInterface $oauthService
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param PathProcessor $pathProcessor
      * @param \Magento\Framework\App\AreaList $areaList
      *
@@ -93,8 +93,8 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         ErrorProcessor $errorProcessor,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Oauth\OauthInterface $oauthService,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Oauth\OauthInterface $oauthService,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         PathProcessor $pathProcessor,
         \Magento\Framework\App\AreaList $areaList
     ) {
@@ -122,7 +122,7 @@ class Soap implements \Magento\Framework\App\FrontControllerInterface
         $path = $this->_pathProcessor->process($request->getPathInfo());
         $this->_request->setPathInfo($path);
         $this->areaList->getArea($this->_appState->getAreaCode())
-            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
+            ->load(\Magento\Framework\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new WebapiException(__('Magento is not yet installed'));

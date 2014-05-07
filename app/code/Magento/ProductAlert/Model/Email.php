@@ -41,7 +41,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
     /**
      * Customer model
      *
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
@@ -93,9 +93,9 @@ class Email extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerFactory;
+    protected $_customerAccountService;
 
     /**
      * @var \Magento\Core\Model\App\Emulation
@@ -103,32 +103,39 @@ class Email extends \Magento\Framework\Model\AbstractModel
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerHelper;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Helper\View $customerHelper
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Helper\View $customerHelper,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -136,9 +143,10 @@ class Email extends \Magento\Framework\Model\AbstractModel
         $this->_productAlertData = $productAlertData;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
-        $this->_customerFactory = $customerFactory;
+        $this->_customerAccountService = $customerAccountService;
         $this->_appEmulation = $appEmulation;
         $this->_transportBuilder = $transportBuilder;
+        $this->_customerHelper = $customerHelper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -195,17 +203,17 @@ class Email extends \Magento\Framework\Model\AbstractModel
      */
     public function setCustomerId($customerId)
     {
-        $this->_customer = $this->_customerFactory->create()->load($customerId);
+        $this->_customer = $this->_customerAccountService->getCustomer($customerId);
         return $this;
     }
 
     /**
      * Set customer model
      *
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return $this
      */
-    public function setCustomer(\Magento\Customer\Model\Customer $customer)
+    public function setCustomerData($customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -328,7 +336,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getPriceBlock()->addProduct($product);
             }
-            $block = $this->_getPriceBlock()->toHtml();
+            $block = $this->_getPriceBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_PRICE_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -340,7 +348,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
                 $product->setCustomerGroupId($this->_customer->getGroupId());
                 $this->_getStockBlock()->addProduct($product);
             }
-            $block = $this->_getStockBlock()->toHtml();
+            $block = $this->_getStockBlock();
             $templateId = $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_STOCK_TEMPLATE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -348,14 +356,21 @@ class Email extends \Magento\Framework\Model\AbstractModel
             );
         }
 
+        $alertGrid = $this->_appState->emulateAreaCode(
+            \Magento\Framework\App\Area::AREA_FRONTEND,
+            array($block, 'toHtml')
+        );
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $templateId
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            array('customerName' => $this->_customer->getName(), 'alertGrid' => $block)
+            array(
+                'customerName' => $this->_customerHelper->getCustomerName($this->_customer),
+                'alertGrid' => $alertGrid
+            )
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_EMAIL_IDENTITY,
@@ -364,7 +379,7 @@ class Email extends \Magento\Framework\Model\AbstractModel
             )
         )->addTo(
             $this->_customer->getEmail(),
-            $this->_customer->getName()
+            $this->_customerHelper->getCustomerName($this->_customer)
         )->getTransport();
 
         $transport->sendMessage();

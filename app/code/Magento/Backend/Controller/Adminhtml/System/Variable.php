@@ -23,15 +23,15 @@ class Variable extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -127,7 +127,7 @@ class Variable extends Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(array('error' => false));
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();
@@ -135,7 +135,7 @@ class Variable extends Action
             $this->messageManager->addError($result);
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->getResponse()->setBody($response->toJson());
     }

@@ -85,7 +85,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     protected $_checkoutFactory;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_paypalSession;
 
@@ -96,7 +96,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
-     * @param \Magento\Session\Generic $paypalSession
+     * @param \Magento\Framework\Session\Generic $paypalSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -105,7 +105,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
-        \Magento\Session\Generic $paypalSession
+        \Magento\Framework\Session\Generic $paypalSession
     ) {
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
@@ -186,7 +186,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t start Express Checkout.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -206,7 +206,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $response = $this->_checkout->getShippingOptionsCallbackResponse($this->getRequest()->getParams());
             $this->getResponse()->setBody($response);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 
@@ -238,7 +238,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Unable to cancel Express Checkout'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('checkout/cart');
@@ -260,7 +260,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t process Express Checkout approval.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -291,7 +291,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
     }
@@ -333,7 +333,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update shipping method.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody(
@@ -370,7 +370,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->setBody(
             '<script type="text/javascript">window.location.href = ' . $this->_url->getUrl('*/*/review') . ';</script>'
@@ -399,7 +399,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($isAjax) {
             $this->getResponse()->setBody(
@@ -421,14 +421,11 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     public function placeOrderAction()
     {
         try {
-            $requiredAgreements = $this->_objectManager->get('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
-            if ($requiredAgreements) {
-                $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-                if (array_diff($requiredAgreements, $postedAgreements)) {
-                    throw new \Magento\Framework\Model\Exception(
-                        __('Please agree to all the terms and conditions before placing the order.')
-                    );
-                }
+            $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
+            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', [])))) {
+                throw new \Magento\Framework\Model\Exception(
+                    __('Please agree to all the terms and conditions before placing the order.')
+                );
             }
 
             $this->_initCheckout();
@@ -469,7 +466,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t place the order.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*/review');
     }
@@ -536,7 +533,7 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     /**
      * PayPal session instance getter
      *
-     * @return \Magento\Session\Generic
+     * @return \Magento\Framework\Session\Generic
      */
     private function _getSession()
     {

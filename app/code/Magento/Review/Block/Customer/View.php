@@ -58,7 +58,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_ratingFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -68,9 +68,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -78,9 +77,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
+        array $data = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_reviewFactory = $reviewFactory;
@@ -90,8 +88,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
 
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -210,7 +207,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG);
+        return $this->formatDate($date, \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG);
     }
 
     /**

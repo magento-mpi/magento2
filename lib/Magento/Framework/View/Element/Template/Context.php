@@ -19,7 +19,7 @@ class Context extends \Magento\Framework\View\Element\Context
     /**
      * Logger instance
      *
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
@@ -61,22 +61,22 @@ class Context extends \Magento\Framework\View\Element\Context
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\UrlInterface $urlBuilder
+     * @param \Magento\Framework\TranslateInterface $translator
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\Url $viewUrl
      * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
-     * @param \Magento\Logger $logger
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param \Magento\Framework\View\TemplateEnginePool $enginePool
@@ -88,22 +88,22 @@ class Context extends \Magento\Framework\View\Element\Context
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\UrlInterface $urlBuilder,
-        \Magento\TranslateInterface $translator,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\UrlInterface $urlBuilder,
+        \Magento\Framework\TranslateInterface $translator,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Session\SessionManagerInterface $session,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\View\Url $viewUrl,
         \Magento\Framework\View\ConfigInterface $viewConfig,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
-        \Magento\Logger $logger,
-        \Magento\Escaper $escaper,
-        \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Filter\FilterManager $filterManager,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         \Magento\Framework\View\TemplateEnginePool $enginePool,
@@ -152,7 +152,7 @@ class Context extends \Magento\Framework\View\Element\Context
     /**
      * Get logger instance
      *
-     * @return \Magento\Logger
+     * @return \Magento\Framework\Logger
      */
     public function getLogger()
     {

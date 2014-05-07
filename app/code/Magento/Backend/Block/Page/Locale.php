@@ -19,12 +19,12 @@ class Locale extends \Magento\Backend\Block\Template
     protected $_template = 'page/locale.phtml';
 
     /**
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -35,15 +35,15 @@ class Locale extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Helper\Url $urlHelper,
         array $data = array()
     ) {

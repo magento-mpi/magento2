@@ -10,9 +10,9 @@
 namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
-use Magento\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Indexer\Model\CacheContext;
-use Magento\Module\Manager as ModuleManager;
+use Magento\Framework\Module\Manager as ModuleManager;
 
 /**
  * TargetRule Rule Resource Model
@@ -180,7 +180,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         );
 
         $this->_indexer->processEntityAction(
-            new \Magento\Object(array('type_id' => $typeId)),
+            new \Magento\Framework\Object(array('type_id' => $typeId)),
             \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
@@ -203,7 +203,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         $this->_indexer->processEntityAction(
-            new \Magento\Object(array('type_id' => $object->getData('apply_to'))),
+            new \Magento\Framework\Object(array('type_id' => $object->getData('apply_to'))),
             \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );

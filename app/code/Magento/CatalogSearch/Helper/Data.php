@@ -17,15 +17,21 @@ use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Escaper;
-use Magento\Filter\FilterManager;
-use Magento\Stdlib\String;
+use Magento\Framework\Escaper;
+use Magento\Framework\Filter\FilterManager;
+use Magento\Framework\Stdlib\String;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Catalog search helper
  */
 class Data extends AbstractHelper
 {
+    /**
+     * @var array
+     */
+    protected $_suggestData = null;
+
     /**
      * Query variable
      */
@@ -103,6 +109,11 @@ class Data extends AbstractHelper
     protected $filter;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Construct
      *
      * @param Context $context
@@ -111,6 +122,7 @@ class Data extends AbstractHelper
      * @param QueryFactory $queryFactory
      * @param Escaper $escaper
      * @param FilterManager $filter
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
@@ -118,13 +130,15 @@ class Data extends AbstractHelper
         ScopeConfigInterface $scopeConfig,
         QueryFactory $queryFactory,
         Escaper $escaper,
-        FilterManager $filter
+        FilterManager $filter,
+        StoreManagerInterface $storeManager
     ) {
         $this->string = $string;
         $this->_scopeConfig = $scopeConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
         $this->filter = $filter;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -236,7 +250,10 @@ class Data extends AbstractHelper
      */
     public function getSuggestUrl()
     {
-        return $this->_getUrl('catalogsearch/ajax/suggest', array('_secure' => $this->_request->isSecure()));
+        return $this->_getUrl(
+            'catalogsearch/ajax/suggest',
+            array('_secure' => $this->_storeManager->getStore()->isCurrentlySecure())
+        );
     }
 
     /**
@@ -398,5 +415,33 @@ class Data extends AbstractHelper
             }
         }
         return join($separator, $_index);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestData()
+    {
+        if (!$this->_suggestData) {
+            $collection = $this->getSuggestCollection();
+            $query = $this->getQueryText();
+            $counter = 0;
+            $data = array();
+            foreach ($collection as $item) {
+                $_data = array(
+                    'title' => $item->getQueryText(),
+                    'row_class' => ++$counter % 2 ? 'odd' : 'even',
+                    'num_of_results' => $item->getNumResults()
+                );
+
+                if ($item->getQueryText() == $query) {
+                    array_unshift($data, $_data);
+                } else {
+                    $data[] = $_data;
+                }
+            }
+            $this->_suggestData = $data;
+        }
+        return $this->_suggestData;
     }
 }

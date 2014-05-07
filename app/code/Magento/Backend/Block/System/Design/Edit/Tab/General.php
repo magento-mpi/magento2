@@ -23,7 +23,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -31,7 +31,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Store\Model\System\Store $systemStore,
@@ -93,7 +93,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'date_from',
             'date',

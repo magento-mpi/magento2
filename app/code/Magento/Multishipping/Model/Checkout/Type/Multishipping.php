@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 /**
  * Multishipping checkout model
  */
-class Multishipping extends \Magento\Object
+class Multishipping extends \Magento\Framework\Object
 {
     /**
      * Quote shipping addresses items cache
@@ -24,7 +24,7 @@ class Multishipping extends \Magento\Object
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -36,7 +36,7 @@ class Multishipping extends \Magento\Object
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
@@ -92,9 +92,9 @@ class Multishipping extends \Magento\Object
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param CustomerAddressServiceInterface $customerAddressService
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Session\Generic $session
+     * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -107,9 +107,9 @@ class Multishipping extends \Magento\Object
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CustomerAddressServiceInterface $customerAddressService,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Session\Generic $session,
+        \Magento\Framework\Session\Generic $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

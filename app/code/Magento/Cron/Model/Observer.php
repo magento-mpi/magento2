@@ -82,27 +82,27 @@ class Observer
     protected $_request;
 
     /**
-     * @var \Magento\ShellInterface
+     * @var \Magento\Framework\ShellInterface
      */
     protected $_shell;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param ConfigInterface $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Console\Request $request
-     * @param \Magento\ShellInterface $shell
+     * @param \Magento\Framework\ShellInterface $shell
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager $objectManager,
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Console\Request $request,
-        \Magento\ShellInterface $shell
+        \Magento\Framework\ShellInterface $shell
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;
@@ -118,7 +118,7 @@ class Observer
      * Generate tasks schedule
      * Cleanup tasks schedule
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function dispatch($observer)
@@ -305,11 +305,11 @@ class Observer
                     $jobConfig['config_path'],
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
-            } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
-                $cronExpr = $jobConfig['schedule'];
             }
 
-            if (!$cronExpr) {
+            if (!$cronExpr && isset($jobConfig['schedule'])) {
+                $cronExpr = $jobConfig['schedule'];
+            } else {
                 continue;
             }
 

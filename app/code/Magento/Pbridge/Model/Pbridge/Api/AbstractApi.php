@@ -9,14 +9,14 @@
  */
 namespace Magento\Pbridge\Model\Pbridge\Api;
 
-use Magento\Logger;
+use Magento\Framework\Logger;
 
 /**
  * Abstract Pbridge API model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class AbstractApi extends \Magento\Object
+class AbstractApi extends \Magento\Framework\Object
 {
     /**
      * Api response
@@ -56,7 +56,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Log adapter factory
      *
-     * @var \Magento\Logger\AdapterFactory
+     * @var \Magento\Framework\Logger\AdapterFactory
      */
     protected $_logAdapterFactory;
 
@@ -67,7 +67,7 @@ class AbstractApi extends \Magento\Object
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
@@ -75,7 +75,7 @@ class AbstractApi extends \Magento\Object
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -99,7 +99,7 @@ class AbstractApi extends \Magento\Object
         $response = null;
         $debugData = array('request' => $request);
         try {
-            $http = new \Magento\HTTP\Adapter\Curl();
+            $http = new \Magento\Framework\HTTP\Adapter\Curl();
             $config = array('timeout' => 60);
             $http->setConfig($config);
             $http->write(

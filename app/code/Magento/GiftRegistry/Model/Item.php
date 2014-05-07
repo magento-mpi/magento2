@@ -45,6 +45,11 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     protected $optionFactory;
 
     /**
+     * @var \Magento\Framework\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * List of options related to item
      *
      * @var array
@@ -66,20 +71,22 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
-     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -89,6 +96,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         $this->optionFactory = $optionFactory;
         $this->optionFactory = $optionFactory;
         $this->resourceUrl = $resourceUrl;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -137,6 +145,19 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
 
         if ($this->getQty() < $qty + $this->getQtyFulfilled()) {
             $qty = $this->getQty() - $this->getQtyFulfilled();
+            $this->messageManager->addNotice(__('The quantity of "%1" product added to cart exceeds the quantity desired by the Gift Registry owner. The quantity added has been adjusted to meet remaining quantity %2.', $product->getName(), $qty));
+        }
+
+        $productIdsInCart = $cart->getProductIds();
+        if (in_array($product->getId(), $productIdsInCart)) {
+            foreach ($cart->getQuote()->getAllItems() as $item) {
+                if (($item->getProduct()->getId() == $product->getId())
+                    && ($item->getGiftregistryItemId() == $this->getId())
+                    && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
+                        $cart->removeItem($item->getId());
+                        $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
+                }
+            }
         }
 
         if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
@@ -151,7 +172,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
             if (!isset($urlData[$product->getId()])) {
                 return false;
             }
-            $product->setUrlDataObject(new \Magento\Object($urlData));
+            $product->setUrlDataObject(new \Magento\Framework\Object($urlData));
             $visibility = $product->getUrlDataObject()->getVisibility();
             if (!in_array($visibility, $product->getVisibleInSiteVisibilities())) {
                 return false;
@@ -415,7 +436,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
             )->setItem(
                 $this
             );
-        } elseif ($option instanceof \Magento\Object && !$option instanceof \Magento\GiftRegistry\Model\Item\Option) {
+        } elseif ($option instanceof \Magento\Framework\Object && !$option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option = $this->optionFactory->create()->setData(
                 $option->getData()
             )->setProduct(
@@ -474,12 +495,12 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      * Returns formatted buy request - object, holding request received from
      * product view page with keys and options for configured product
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getBuyRequest()
     {
         $option = $this->getOptionByCode('info_buyRequest');
-        $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
+        $buyRequest = new \Magento\Framework\Object($option ? unserialize($option->getValue()) : null);
         $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
         // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
@@ -506,7 +527,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\Interface.
      * Currently returns null, as far as we don't show file options and don't need controllers to give file.
      *
-     * @return null|\Magento\Object
+     * @return null|\Magento\Framework\Object
      */
     public function getFileDownloadParams()
     {

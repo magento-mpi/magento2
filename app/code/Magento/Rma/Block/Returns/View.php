@@ -43,7 +43,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -91,7 +91,7 @@ class View extends \Magento\Rma\Block\Form
     protected $customerData;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
     
@@ -111,12 +111,12 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param Item\FormFactory $itemFormFactory
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -130,12 +130,12 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -413,7 +413,7 @@ class View extends \Magento\Rma\Block\Form
 
     /**
      * @return \Magento\Customer\Service\V1\Data\Customer|null
-     * @throws \Magento\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()
     {

@@ -31,7 +31,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected $iteratorFactory;
 
     /**
-     * @var \Magento\Module\Dir\Reader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Dir\Reader|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $moduleReader;
 
@@ -52,7 +52,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->moduleReader = $this->getMock(
-            'Magento\Module\Dir\Reader',
+            'Magento\Framework\Module\Dir\Reader',
             array(),
             array('getConfigurationFiles'),
             '',

@@ -45,7 +45,7 @@ class File extends \Magento\Framework\App\Config\Value
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData
@@ -56,7 +56,7 @@ class File extends \Magento\Framework\App\Config\Value
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
@@ -161,7 +161,7 @@ class File extends \Magento\Framework\App\Config\Value
     protected function _getUploadDir()
     {
         $fieldConfig = $this->getFieldConfig();
-        /* @var $fieldConfig \Magento\Simplexml\Element */
+        /* @var $fieldConfig \Magento\Framework\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
             throw new \Magento\Framework\Model\Exception(__('The base directory to upload file is not specified.'));

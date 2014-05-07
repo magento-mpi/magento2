@@ -56,7 +56,7 @@ abstract class AbstractPool extends \Magento\Framework\Model\AbstractModel
     /**
      * Load code pool usage info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getPoolUsageInfo()
     {
@@ -70,7 +70,7 @@ abstract class AbstractPool extends \Magento\Framework\Model\AbstractModel
             }
         }
 
-        $result = new \Magento\Object();
+        $result = new \Magento\Framework\Object();
         $result->setTotal($this->_pool_size)->setFree($this->_pool_free_size)->setPercent($this->_pool_percent_used);
         return $result;
     }

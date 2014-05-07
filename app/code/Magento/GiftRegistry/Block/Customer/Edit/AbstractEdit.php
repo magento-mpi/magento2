@@ -58,18 +58,18 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
@@ -77,11 +77,11 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
@@ -220,7 +220,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
         if ($formatType === false) {
-            $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
+            $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()->createBlock(
@@ -286,6 +286,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
                         $regionCode = $field . '_region';
                         $regionAttribute['label'] = __('State/Province');
+                        $regionAttribute['default'] = __('Please select a region, state or province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
                         $regionAttribute['id'] = $this->_getElementId($regionCode);
@@ -385,7 +386,15 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     break;
 
                 case 'region':
-                    $element = $this->getRegionHtmlSelectEmpty($name, $id, $value, $class);
+                    $default = isset($data['default']) ? $data['default'] : '';
+                    $element = $this->getRegionHtmlSelectEmpty(
+                        $name,
+                        $id,
+                        $value,
+                        $class,
+                        '',
+                        $default
+                    );
                     $id = $this->_getElementId($id . '_text');
                     $name = $this->_getElementName($id);
                     $value = $this->getEntity()->getFieldValue($id);

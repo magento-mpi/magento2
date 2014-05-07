@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Reminder grid and edit controller
@@ -39,7 +39,7 @@ class Reminder extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
@@ -48,14 +48,14 @@ class Reminder extends \Magento\Backend\App\Action
      * @param Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -224,7 +224,7 @@ class Reminder extends \Magento\Backend\App\Action
                 );
                 $data = $inputFilter->getUnescaped();
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);
@@ -257,7 +257,7 @@ class Reminder extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not save the reminder rule.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -280,7 +280,7 @@ class Reminder extends \Magento\Backend\App\Action
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not delete the reminder rule.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -300,7 +300,7 @@ class Reminder extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Reminder rule matching error.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }

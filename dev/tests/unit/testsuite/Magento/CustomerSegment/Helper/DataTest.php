@@ -122,7 +122,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
         $form->expects($this->once())->method('getHtmlIdPrefix')->will($this->returnValue('pfx_'));
 
-        $data = new \Magento\Object($fixtureFormData);
+        $data = new \Magento\Framework\Object($fixtureFormData);
 
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
@@ -202,7 +202,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->_formKeyMock,
             array('html_id_prefix' => 'pfx_')
         );
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),

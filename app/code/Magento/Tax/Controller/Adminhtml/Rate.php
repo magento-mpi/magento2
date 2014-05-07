@@ -411,7 +411,7 @@ class Rate extends \Magento\Backend\App\Action
     public function exportPostAction()
     {
         /** start csv content and set template */
-        $headers = new \Magento\Object(
+        $headers = new \Magento\Framework\Object(
             array(
                 'code' => __('Code'),
                 'country_name' => __('Country'),

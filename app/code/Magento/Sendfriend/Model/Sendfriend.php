@@ -44,7 +44,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     /**
      * Sender data array
      *
-     * @var \Magento\Object|array
+     * @var \Magento\Framework\Object|array
      */
     protected $_sender = array();
 
@@ -84,7 +84,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     protected $_catalogImage = null;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -94,37 +94,37 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
-     * @param \Magento\Escaper $escaper
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
-        \Magento\Escaper $escaper,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Escaper $escaper,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -174,7 +174,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
                 $this->_sendfriendData->getEmailTemplate()
             )->setTemplateOptions(
                 array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
                 )
             )->setFrom(
@@ -256,7 +256,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     /**
      * Set cookie instance
      *
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @return $this
      */
     public function setCookie($cookie)
@@ -268,12 +268,12 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
      * Retrieve Cookie instance
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Stdlib\Cookie
+     * @return \Magento\Framework\Stdlib\Cookie
      */
     public function getCookie()
     {
         $cookie = $this->_getData('_cookie');
-        if (!$cookie instanceof \Magento\Stdlib\Cookie) {
+        if (!$cookie instanceof \Magento\Framework\Stdlib\Cookie) {
             throw new \Magento\Framework\Model\Exception(__('Please define a correct Cookie instance.'));
         }
         return $cookie;
@@ -360,19 +360,19 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             $emails = array_keys($emails);
         }
 
-        return $this->setData('_recipients', new \Magento\Object(array('emails' => $emails, 'names' => $names)));
+        return $this->setData('_recipients', new \Magento\Framework\Object(array('emails' => $emails, 'names' => $names)));
     }
 
     /**
      * Retrieve Recipients object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getRecipients()
     {
         $recipients = $this->_getData('_recipients');
-        if (!$recipients instanceof \Magento\Object) {
-            $recipients = new \Magento\Object(array('emails' => array(), 'names' => array()));
+        if (!$recipients instanceof \Magento\Framework\Object) {
+            $recipients = new \Magento\Framework\Object(array('emails' => array(), 'names' => array()));
             $this->setData('_recipients', $recipients);
         }
         return $recipients;
@@ -416,19 +416,19 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             __('Invalid Sender Information');
         }
 
-        return $this->setData('_sender', new \Magento\Object($sender));
+        return $this->setData('_sender', new \Magento\Framework\Object($sender));
     }
 
     /**
      * Retrieve Sender Information Object
      *
      * @throws \Magento\Framework\Model\Exception
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getSender()
     {
         $sender = $this->_getData('_sender');
-        if (!$sender instanceof \Magento\Object) {
+        if (!$sender instanceof \Magento\Framework\Object) {
             throw new \Magento\Framework\Model\Exception(__('Please define the correct Sender information.'));
         }
         return $sender;

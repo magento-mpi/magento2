@@ -1,0 +1,4 @@
+"orderStatus/data/status";"orderStatus/data/label";"constraint"
+"order_status%isolation%";"orderLabel%isolation%";"assertOrderStatusSuccessCreateMessage,assertOrderStatusInGrid"
+"pending";"orderLabel%isolation%";"assertOrderStatusDuplicateStatus"
+"order_status%isolation%";"Processing";"assertOrderStatusSuccessCreateMessage, assertOrderStatusInGrid"

@@ -27,7 +27,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     protected $_filesystemMock;
 
     /**
-     * @var \Magento\Image|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Image|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageMock;
 
@@ -73,11 +73,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_directoryMock)
         );
-        $imageFactory = $this->getMock('Magento\Image\Factory', array(), array(), '', false, false);
-        $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
+        $imageFactory = $this->getMock('Magento\Framework\Image\Factory', array(), array(), '', false, false);
+        $this->_imageMock = $this->getMock('Magento\Framework\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false, false);
         $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false, false);
         $this->_uploaderMock = $this->getMock(
             'Magento\Framework\View\Design\Theme\Image\Uploader',
@@ -158,7 +158,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'theme_id' => 1,
             'theme_title' => 'Sample theme',
             'preview_image' => 'images/preview.png',
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
             'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL
         );
     }

@@ -61,7 +61,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->varDirectory)
         );
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\Install\Controller\Index', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->plugin = new \Magento\Install\App\Action\Plugin\Dir($this->appStateMock, $filesystem, $logger);

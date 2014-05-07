@@ -54,8 +54,8 @@ class Category extends \Magento\Backend\App\Action
         if ($activeTabId) {
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setActiveTabId($activeTabId);
         }
-        $this->_objectManager->get('Magento\Registry')->register('category', $category);
-        $this->_objectManager->get('Magento\Registry')->register('current_category', $category);
+        $this->_objectManager->get('Magento\Framework\Registry')->register('category', $category);
+        $this->_objectManager->get('Magento\Framework\Registry')->register('current_category', $category);
         $this->_objectManager->get(
             'Magento\Cms\Model\Wysiwyg\Config'
         )->setStoreId(
@@ -92,38 +92,13 @@ class Category extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $params['_current'] = true;
-        $redirect = false;
-
         $storeId = (int)$this->getRequest()->getParam('store');
         $parentId = (int)$this->getRequest()->getParam('parent');
-        $prevStoreId = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getLastViewedStore(true);
-
-        if (!is_null($prevStoreId) && !$this->getRequest()->getQuery('isAjax')) {
-            $params['store'] = $prevStoreId;
-            $redirect = true;
-        }
-
         $categoryId = (int)$this->getRequest()->getParam('id');
-        $_prevCategoryId = $this->_objectManager->get(
-            'Magento\Backend\Model\Auth\Session'
-        )->getLastEditedCategory(
-            true
-        );
-
-        if ($_prevCategoryId && !$this->getRequest()->getQuery('isAjax') && !$this->getRequest()->getParam('clear')) {
-            $this->getRequest()->setParam('id', $_prevCategoryId);
-        }
-
-        if ($redirect) {
-            $this->_redirect('catalog/*/edit', $params);
-            return;
-        }
 
         if ($storeId && !$categoryId && !$parentId) {
             $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($storeId);
-            $_prevCategoryId = (int)$store->getRootCategoryId();
-            $this->getRequest()->setParam('id', $_prevCategoryId);
+            $this->getRequest()->setParam('id', (int)$store->getRootCategoryId());
         }
 
         $category = $this->_initCategory(true);
@@ -166,19 +141,9 @@ class Category extends \Magento\Backend\App\Action
                 }
             }
 
-            $this->_objectManager->get(
-                'Magento\Backend\Model\Auth\Session'
-            )->setLastViewedStore(
-                $this->getRequest()->getParam('store')
-            );
-            $this->_objectManager->get(
-                'Magento\Backend\Model\Auth\Session'
-            )->setLastEditedCategory(
-                $category->getId()
-            );
             $this->_view->loadLayout();
 
-            $eventResponse = new \Magento\Object(
+            $eventResponse = new \Magento\Framework\Object(
                 array(
                     'content' => $this->_view->getLayout()->getBlock(
                         'category.edit'
@@ -230,7 +195,7 @@ class Category extends \Magento\Backend\App\Action
         )->getStore(
             $storeId
         )->getBaseUrl(
-            \Magento\UrlInterface::URL_TYPE_MEDIA
+            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
         );
 
         $content = $this->_view->getLayout()->createBlock(
@@ -456,7 +421,7 @@ class Category extends \Magento\Backend\App\Action
             $this->getResponse()->setBody($e->getMessage());
         } catch (\Exception $e) {
             $this->getResponse()->setBody(__('There was a category move error %1', $e));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
     }
 

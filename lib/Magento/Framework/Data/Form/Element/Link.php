@@ -17,7 +17,7 @@
  */
 namespace Magento\Framework\Data\Form\Element;
 
-use Magento\Escaper;
+use Magento\Framework\Escaper;
 
 class Link extends AbstractElement
 {

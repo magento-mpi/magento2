@@ -45,7 +45,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
     protected $_catalogCategory;
 
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registry;
 
@@ -82,7 +82,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Category $catalogCategory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState
      * @param array $data
      */
@@ -93,7 +93,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState,
         array $data = array()
     ) {
@@ -206,7 +206,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
     /**
      * Checkin activity of category
      *
-     * @param   \Magento\Object $category
+     * @param   \Magento\Framework\Object $category
      * @return  bool
      */
     public function isCategoryActive($category)

@@ -137,7 +137,7 @@ class Options extends \Magento\Framework\View\Element\Template
     /**
      * Calculate including tax price
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $basePrice
      * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param bool $includeTax
@@ -156,7 +156,7 @@ class Options extends \Magento\Framework\View\Element\Template
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -185,13 +185,13 @@ class Options extends \Magento\Framework\View\Element\Template
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return quote items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
@@ -203,7 +203,7 @@ class Options extends \Magento\Framework\View\Element\Template
         } else {
             $this->_processItems($this->getQuote()->getAllItems(), $this->getQuote()->getShippingAddress(), $data);
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
@@ -226,19 +226,19 @@ class Options extends \Magento\Framework\View\Element\Template
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress,
                             true
                         );
                         $temp['price_excl_tax'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress
                         );
                     } else {
                         $temp['price'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress,
                             $this->getDisplayWrappingIncludeTaxPrice()
@@ -254,7 +254,7 @@ class Options extends \Magento\Framework\View\Element\Template
     /**
      * Prepare and return printed card info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -266,19 +266,19 @@ class Options extends \Magento\Framework\View\Element\Template
 
                 if ($this->getDisplayCardBothPrices()) {
                     $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address,
                         true
                     );
                     $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address
                     );
                 } else {
                     $data[$entityId]['price'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address,
                         $this->getDisplayCardIncludeTaxPrice()
@@ -286,7 +286,7 @@ class Options extends \Magento\Framework\View\Element\Template
                 }
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

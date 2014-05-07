@@ -283,7 +283,7 @@ class Create extends \Magento\Backend\App\Action
                 $this->messageManager->addError(
                     __(
                         '"%1" coupon code is not valid.',
-                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                        $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($couponCode)
                     )
                 );
             } else {
@@ -305,7 +305,7 @@ class Create extends \Magento\Backend\App\Action
         /* @var $productHelper \Magento\Catalog\Helper\Product */
         $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
         foreach ($items as $id => $item) {
-            $buyRequest = new \Magento\Object($item);
+            $buyRequest = new \Magento\Framework\Object($item);
             $params = array('files_prefix' => 'item_' . $id . '_');
             $buyRequest = $productHelper->addParamsToBuyRequest($buyRequest, $params);
             if ($buyRequest->hasData()) {
@@ -432,7 +432,7 @@ class Create extends \Magento\Backend\App\Action
         }
 
         // Form result for client javascript
-        $updateResult = new \Magento\Object();
+        $updateResult = new \Magento\Framework\Object();
         if ($errorMessage) {
             $updateResult->setError(true);
             $updateResult->setMessage($errorMessage);
@@ -480,6 +480,14 @@ class Create extends \Magento\Backend\App\Action
     public function saveAction()
     {
         try {
+            // check if the creation of a new customer is allowed
+            if (!$this->_authorization->isAllowed('Magento_Customer::manage')
+                && !$this->_getSession()->getCustomerId()
+                && !$this->_getSession()->getQuote()->getCustomerIsGuest()
+            ) {
+                $this->_forward('denied');
+                return;
+            }
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {
@@ -575,7 +583,7 @@ class Create extends \Magento\Backend\App\Action
         // Prepare data
         $productId = (int)$this->getRequest()->getParam('id');
 
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
         $sessionQuote = $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
@@ -598,7 +606,7 @@ class Create extends \Magento\Backend\App\Action
     public function configureQuoteItemsAction()
     {
         // Prepare data
-        $configureResult = new \Magento\Object();
+        $configureResult = new \Magento\Framework\Object();
         try {
             $quoteItemId = (int)$this->getRequest()->getParam('id');
             if (!$quoteItemId) {

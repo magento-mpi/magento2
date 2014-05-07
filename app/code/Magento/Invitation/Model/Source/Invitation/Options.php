@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class Options implements \Magento\Option\ArrayInterface
+class Options implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Invitation Status

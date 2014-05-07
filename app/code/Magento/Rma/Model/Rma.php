@@ -70,21 +70,21 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected $_rmaData;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
      * Core session model
      *
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
     /**
      * Mail transport builder
      *
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -217,28 +217,28 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Escaper
      *
-     * @var \Magento\Escaper
+     * @var \Magento\Framework\Escaper
      */
     protected $_escaper;
 
     /**
      * Message manager
      *
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
     /**
      * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Config $rmaConfig
@@ -257,11 +257,11 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
@@ -269,10 +269,10 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Session\Generic $session,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,
@@ -291,11 +291,11 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -589,7 +589,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $template
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
             )->setTemplateVars(
                 array(
                     'rma' => $this,

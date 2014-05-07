@@ -159,7 +159,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
 
     /**
     * @param \Magento\Framework\Model\Context $context
-    * @param \Magento\Registry $registry
+    * @param \Magento\Framework\Registry $registry
     * @param \Magento\Framework\App\Filesystem $filesystem
     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -169,7 +169,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
     */
     public function __construct(
         \Magento\Framework\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -214,11 +214,11 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      * Goes to specified host/path and fetches reports from there.
      * Save reports to database.
      *
-     * @param \Magento\Io\Sftp $connection
+     * @param \Magento\Framework\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
      * @throws \Magento\Framework\Model\Exception
      */
-    public function fetchAndSave(\Magento\Io\Sftp $connection)
+    public function fetchAndSave(\Magento\Framework\Io\Sftp $connection)
     {
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
@@ -240,9 +240,9 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
 
                 // Set last modified date, this value will be overwritten during parsing
                 if (isset($attributes['mtime'])) {
-                    $lastModified = new \Magento\Stdlib\DateTime\Date($attributes['mtime']);
+                    $lastModified = new \Magento\Framework\Stdlib\DateTime\Date($attributes['mtime']);
                     $this->setReportLastModified(
-                        $lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                        $lastModified->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
                     );
                 }
 
@@ -274,7 +274,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      * Connect to an SFTP server using specified configuration
      *
      * @param array $config
-     * @return \Magento\Io\Sftp
+     * @return \Magento\Framework\Io\Sftp
      * @throws \InvalidArgumentException
      */
     public static function createConnection(array $config)
@@ -291,7 +291,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         ) {
             throw new \InvalidArgumentException('Required config elements: hostname, username, password, path');
         }
-        $connection = new \Magento\Io\Sftp();
+        $connection = new \Magento\Framework\Io\Sftp();
         $connection->open(
             array('host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password'])
         );
@@ -324,9 +324,9 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
             switch ($lineType) {
                 case 'RH':
                     // Report header.
-                    $lastModified = new \Magento\Stdlib\DateTime\Date($line[1]);
+                    $lastModified = new \Magento\Framework\Stdlib\DateTime\Date($line[1]);
                     $this->setReportLastModified(
-                        $lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                        $lastModified->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
                     );
                     //$this->setAccountId($columns[2]); -- probably we'll just take that from the section header...
                     break;

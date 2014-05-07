@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 /**
@@ -195,7 +195,6 @@ $data = array(
     array('PL', 'PL', 'POL'),
     array('PM', 'PM', 'SPM'),
     array('PN', 'PN', 'PCN'),
-    array('PR', 'PR', 'PRI'),
     array('PS', 'PS', 'PSE'),
     array('PT', 'PT', 'PRT'),
     array('PW', 'PW', 'PLW'),

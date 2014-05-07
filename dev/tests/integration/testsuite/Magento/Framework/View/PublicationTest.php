@@ -76,7 +76,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->_initTestTheme($allowDuplication);
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Locale\ResolverInterface'
+            'Magento\Framework\Locale\ResolverInterface'
         )->setLocale(
             $locale
         );
@@ -135,7 +135,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @dataProvider getViewUrlExceptionDataProvider
      */
     public function testGetViewUrlException($file)
@@ -157,7 +157,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test on vulnerability for protected files
      *
-     * @expectedException \Magento\Exception
+     * @expectedException \Magento\Framework\Exception
      * @expectedExceptionMessage because it does not reside in a public directory
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @magentoAppIsolation enabled
@@ -343,7 +343,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+            ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
 
         $this->viewUrl->getViewFileUrl($cssViewFile, $designParams);
 
@@ -632,7 +632,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\AreaList')
             ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+            ->load(\Magento\Framework\App\Area::PART_CONFIG);
 
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

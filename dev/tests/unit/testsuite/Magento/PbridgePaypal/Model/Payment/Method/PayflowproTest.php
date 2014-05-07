@@ -50,7 +50,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
         $infoInstance->setAmountPaid($amountPaid);
         $infoInstance->setAmountAuthorized($amountAuthorized);
         $this->_model->setData('info_instance', $infoInstance);
-        $payment = new \Magento\Object();
+        $payment = new \Magento\Framework\Object();
         $this->_model->capture($payment, $amount);
         // check fix for partial refunds in Payflow Pro
         $this->assertEquals(!isset($amountPaid), $payment->getFirstCaptureFlag());
@@ -76,7 +76,9 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             false
         );
         $invoice->expects($this->once())->method('canRefund')->will($this->returnValue($canRefund));
-        $payment = new \Magento\Object(array('creditmemo' => new \Magento\Object(array('invoice' => $invoice))));
+        $payment = new \Magento\Framework\Object(
+            array('creditmemo' => new \Magento\Framework\Object(array('invoice' => $invoice)))
+        );
         $this->_model->refund($payment, 'any');
         // check fix for partial refunds in Payflow Pro
         $this->assertEquals(!$canRefund, $payment->getShouldCloseParentTransaction());

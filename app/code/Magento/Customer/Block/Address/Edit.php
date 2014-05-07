@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer address edit block
@@ -40,23 +40,23 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_addressBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
-    protected $customerCurrentService;
+    protected $currentCustomer;
 
     /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,20 +64,20 @@ class Edit extends \Magento\Directory\Block\Data
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_addressService = $addressService;
         $this->_addressBuilder = $addressBuilder;
-        $this->customerCurrentService = $customerCurrentService;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct(
             $context,
             $coreData,
@@ -323,7 +323,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getCustomer()
     {
-        return $this->customerCurrentService->getCustomer();
+        return $this->currentCustomer->getCustomer();
     }
 
     /**

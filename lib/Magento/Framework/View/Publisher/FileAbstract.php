@@ -25,7 +25,7 @@ abstract class FileAbstract implements FileInterface
     protected $viewService;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $modulesReader;
 
@@ -88,7 +88,7 @@ abstract class FileAbstract implements FileInterface
     /**
      * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Framework\View\Service $viewService
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
      * @param string $filePath
      * @param bool $allowDuplication
@@ -98,7 +98,7 @@ abstract class FileAbstract implements FileInterface
     public function __construct(
         \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Framework\View\Service $viewService,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Framework\View\FileSystem $viewFileSystem,
         $filePath,
         $allowDuplication,
@@ -323,7 +323,7 @@ abstract class FileAbstract implements FileInterface
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->filesystem = $objectManager->get('\Magento\Framework\App\Filesystem');
         $this->viewService = $objectManager->get('\Magento\Framework\View\Service');
-        $this->modulesReader = $objectManager->get('\Magento\Module\Dir\Reader');
+        $this->modulesReader = $objectManager->get('\Magento\Framework\Module\Dir\Reader');
         $this->viewFileSystem = $objectManager->get('\Magento\Framework\View\FileSystem');
 
         $this->viewService->updateDesignParams($this->viewParams);
