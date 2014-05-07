@@ -142,7 +142,6 @@ class CreateTest extends \Magento\Backend\Utility\Controller
         );
     }
 
-
     /**
      * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      * @magentoAppArea adminhtml
@@ -170,7 +169,44 @@ class CreateTest extends \Magento\Backend\Utility\Controller
             '"inclTaxPrice":"5","exclTaxPrice":"5","products":[',
             $body
         );
-        $this->assertContains('"basePrice":"100","oldPrice":"100","productId":"1","chooseText":"Choose an Option..."',
-            $body);
+        $this->assertContains(
+            '"basePrice":"100","oldPrice":"100","productId":"1","chooseText":"Choose an Option..."',
+            $body
+        );
+    }
+
+    public function testDeniedSaveAction()
+    {
+        $this->_objectManager->configure(
+            [
+                'Magento\Backend\App\Action\Context' => [
+                    'arguments' => [
+                        'authorization' => [
+                            'instance' => 'Magento\Sales\Controller\Adminhtml\Order\AuthorizationMock'
+                        ]
+                    ]
+                ]
+            ]
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
+            ->loadArea('adminhtml');
+
+        $this->dispatch('backend/sales/order_create/save');
+        $this->assertEquals('denied', $this->getRequest()->getActionName());
+    }
+}
+
+class AuthorizationMock extends \Magento\Framework\Authorization
+{
+    /**
+     * Check current user permission on resource and privilege
+     *
+     * @param   string $resource
+     * @param   string $privilege
+     * @return  boolean
+     */
+    public function isAllowed($resource, $privilege = null)
+    {
+        return $resource == 'Magento_Customer::manage' ? false : parent::isAllowed($resource, $privilege);
     }
 }

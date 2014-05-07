@@ -71,8 +71,10 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Framework\Profiler::start("email_template_proccessing");
         $vars = array();
 
+        $store = $this->getAnyStoreView();
+        $storeId = $store ? $store->getId() : null;
         $template->setDesignConfig(
-            array('area' => $this->_design->getArea(), 'store' => $this->_storeManager->getDefaultStoreView()->getId())
+            array('area' => $this->_design->getArea(), 'store' => $storeId)
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 
@@ -83,5 +85,22 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Framework\Profiler::stop("email_template_proccessing");
 
         return $templateProcessed;
+    }
+
+    /**
+     * Get either default or any store view
+     *
+     * @return \Magento\Store\Model\Store|null
+     */
+    protected function getAnyStoreView()
+    {
+        $store = $this->_storeManager->getDefaultStoreView();
+        if ($store) {
+            return $store;
+        }
+        foreach ($this->_storeManager->getStores() as $store) {
+            return $store;
+        }
+        return null;
     }
 }
