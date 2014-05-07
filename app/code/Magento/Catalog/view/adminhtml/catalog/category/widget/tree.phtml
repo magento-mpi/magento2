@@ -148,6 +148,7 @@ Ext.onReady(function()
     };
 
     categoryLoader.on("beforeload", function(treeLoader, node) {
+        $('<?php echo $_divId; ?>').fire('category:beforeLoad', {treeLoader:treeLoader});
         treeLoader.baseParams.id = node.attributes.id;
     });
 

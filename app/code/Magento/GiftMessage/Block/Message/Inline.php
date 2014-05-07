@@ -234,7 +234,7 @@ class Inline extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Check if items are available
+     * Check if gift messages for separate items are allowed
      *
      * @return bool
      */
@@ -291,7 +291,7 @@ class Inline extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Check availability of giftmessages for specified entity
+     * Check availability of giftmessages on order level
      *
      * @return bool
      */
@@ -331,5 +331,19 @@ class Inline extends \Magento\Framework\View\Element\Template
     public function getThumbnailSize()
     {
         return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
+    }
+
+    /**
+     * Render HTML code referring to config settings
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        // render HTML when messages are allowed for order or for items only
+        if ($this->isItemsAvailable() || $this->isMessagesAvailable()) {
+            return parent::_toHtml();
+        }
+        return '';
     }
 }

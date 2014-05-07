@@ -53,16 +53,12 @@ class Account extends Action
         )->setEmail(
             strtolower($this->getRequest()->getParam('email', false))
         );
-
         if ($password !== '') {
             $user->setPassword($password);
-        }
-        if ($passwordConfirmation !== '') {
             $user->setPasswordConfirmation($passwordConfirmation);
         }
 
         if ($this->_objectManager->get('Magento\Framework\Locale\Validator')->isValid($interfaceLocale)) {
-
             $user->setInterfaceLocale($interfaceLocale);
             $this->_objectManager->get(
                 'Magento\Backend\Model\Locale\Manager'

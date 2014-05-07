@@ -52,13 +52,14 @@ class Widget extends \Magento\Backend\App\Action
     {
         $categoryId = (int)$this->getRequest()->getPost('id');
         if ($categoryId) {
-
+            $selected = $this->getRequest()->getPost('selected', '');
             $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 $this->_coreRegistry->register('category', $category);
                 $this->_coreRegistry->register('current_category', $category);
             }
-            $this->getResponse()->setBody($this->_getCategoryTreeBlock()->getTreeJson($category));
+            $categoryTreeBlock = $this->_getCategoryTreeBlock()->setSelectedCategories(explode(',', $selected));
+            $this->getResponse()->setBody($categoryTreeBlock->getTreeJson($category));
         }
     }
 

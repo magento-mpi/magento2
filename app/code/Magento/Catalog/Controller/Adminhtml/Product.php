@@ -498,7 +498,7 @@ class Product extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

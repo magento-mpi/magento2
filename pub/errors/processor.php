@@ -5,11 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Framework\Error;
 
 /**
  * Error processor
  */
-class Error_Processor
+class Processor
 {
     const MAGE_ERRORS_LOCAL_XML = 'local.xml';
     const MAGE_ERRORS_DESIGN_XML = 'design.xml';
@@ -115,7 +116,7 @@ class Error_Processor
     /**
      * Internal config object
      *
-     * @var stdClass
+     * @var \stdClass
     */
     protected $_config;
 
@@ -262,6 +263,7 @@ class Error_Processor
     /**
      * Retrieve base URL
      *
+     * @param bool $param
      * @return string
      */
     public function getBaseUrl($param = false)
@@ -302,6 +304,8 @@ class Error_Processor
 
     /**
      * Prepare config data
+     *
+     * @return void
      */
     protected function _prepareConfig()
     {
@@ -309,7 +313,7 @@ class Error_Processor
         $design = $this->_loadXml(self::MAGE_ERRORS_DESIGN_XML);
 
         //initial settings
-        $config = new stdClass();
+        $config = new \stdClass();
         $config->action         = '';
         $config->subject        = 'Store Debug Information';
         $config->email_address  = '';
@@ -430,6 +434,7 @@ class Error_Processor
      * Set report data
      *
      * @param array $reportData
+     * @return void
      */
     protected function _setReportData($reportData)
     {
@@ -450,6 +455,7 @@ class Error_Processor
      * Create report
      *
      * @param array $reportData
+     * @return void
      */
     public function saveReport($reportData)
     {
@@ -482,6 +488,7 @@ class Error_Processor
      * Get report
      *
      * @param int $reportId
+     * @return void
      */
     public function loadReport($reportId)
     {
@@ -498,6 +505,7 @@ class Error_Processor
     /**
      * Send report
      *
+     * @return void
      */
     public function sendReport()
     {
@@ -557,8 +565,10 @@ class Error_Processor
      */
     protected function _validate()
     {
-        $email = preg_match('/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',
-            $this->postData['email']);
+        $email = preg_match(
+            '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',
+            $this->postData['email']
+        );
         return ($this->postData['firstName'] && $this->postData['lastName'] && $email);
     }
 
@@ -566,9 +576,10 @@ class Error_Processor
      * Skin setter
      *
      * @param string $value
-     * @param stdClass $config
+     * @param \stdClass $config
+     * @return void
      */
-    protected function _setSkin($value, stdClass $config = null)
+    protected function _setSkin($value, \stdClass $config = null)
     {
         if (preg_match('/^[a-z0-9_]+$/i', $value) && is_dir($this->_indexDir . self::ERROR_DIR . '/' . $value)) {
             if (!$config) {
@@ -584,6 +595,8 @@ class Error_Processor
 
     /**
      * Set current report URL from current params
+     *
+     * @return void
      */
     protected function _setReportUrl()
     {

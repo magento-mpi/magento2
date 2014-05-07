@@ -18,6 +18,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Stdlib\String;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Catalog search helper
@@ -106,6 +107,11 @@ class Data extends AbstractHelper
     protected $filter;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Construct
      *
      * @param Context $context
@@ -114,6 +120,7 @@ class Data extends AbstractHelper
      * @param QueryFactory $queryFactory
      * @param Escaper $escaper
      * @param FilterManager $filter
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
@@ -121,13 +128,15 @@ class Data extends AbstractHelper
         ScopeConfigInterface $scopeConfig,
         QueryFactory $queryFactory,
         Escaper $escaper,
-        FilterManager $filter
+        FilterManager $filter,
+        StoreManagerInterface $storeManager
     ) {
         $this->string = $string;
         $this->_scopeConfig = $scopeConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
         $this->filter = $filter;
+        $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -239,7 +248,10 @@ class Data extends AbstractHelper
      */
     public function getSuggestUrl()
     {
-        return $this->_getUrl('catalogsearch/ajax/suggest', array('_secure' => $this->_request->isSecure()));
+        return $this->_getUrl(
+            'catalogsearch/ajax/suggest',
+            array('_secure' => $this->_storeManager->getStore()->isCurrentlySecure())
+        );
     }
 
     /**

@@ -106,12 +106,13 @@ class Widget extends Action
             if (!($category = $this->_initCategory())) {
                 return;
             }
+            $block = $this->_view->getLayout()->createBlock(
+                'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree'
+            )->setCategoryIds(
+                array($categoryId)
+            );
             $this->getResponse()->setBody(
-                $this->_view->getLayout()->createBlock(
-                    'Magento\Catalog\Block\Adminhtml\Category\Tree'
-                )->getTreeJson(
-                    $category
-                )
+                $block->getTreeJson($category)
             );
         }
     }

@@ -1437,21 +1437,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
     }
 
     /**
-     * Adopt specified request array to be compatible with Paypal
-     * Puerto Rico should be as state of USA and not as a country
-     *
-     * @param array &$request
-     * @return void
-     */
-    protected function _applyCountryWorkarounds(&$request)
-    {
-        if (isset($request['SHIPTOCOUNTRYCODE']) && $request['SHIPTOCOUNTRYCODE'] == 'PR') {
-            $request['SHIPTOCOUNTRYCODE'] = 'US';
-            $request['SHIPTOSTATE'] = 'PR';
-        }
-    }
-
-    /**
      * Prepare request data basing on provided addresses
      *
      * @param array $to
@@ -1485,7 +1470,6 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             $this->_importStreetFromAddress($billingAddress, $to, 'STREET', 'STREET2');
             $to['SHIPTONAME'] = $shippingAddress->getName();
         }
-        $this->_applyCountryWorkarounds($to);
         return $to;
     }
 

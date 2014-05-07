@@ -425,7 +425,8 @@ $installer->addAttribute(
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
-        'is_hidden' => 1
+        'is_hidden' => 1,
+        'label' => 'Reward update notification'
     )
 );
 
@@ -439,7 +440,8 @@ $installer->addAttribute(
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
-        'is_hidden' => 1
+        'is_hidden' => 1,
+        'label' => 'Reward warning notification'
     )
 );
 

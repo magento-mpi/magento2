@@ -282,6 +282,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     if ($fdata['type'] == 'country' && !empty($fdata['show_region'])) {
                         $regionCode = $field . '_region';
                         $regionAttribute['label'] = __('State/Province');
+                        $regionAttribute['default'] = __('Please select a region, state or province');
                         $regionAttribute['group'] = $fdata['group'];
                         $regionAttribute['type'] = 'region';
                         $regionAttribute['id'] = $this->_getElementId($regionCode);
@@ -381,7 +382,15 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                     break;
 
                 case 'region':
-                    $element = $this->getRegionHtmlSelectEmpty($name, $id, $value, $class);
+                    $default = isset($data['default']) ? $data['default'] : '';
+                    $element = $this->getRegionHtmlSelectEmpty(
+                        $name,
+                        $id,
+                        $value,
+                        $class,
+                        '',
+                        $default
+                    );
                     $id = $this->_getElementId($id . '_text');
                     $name = $this->_getElementName($id);
                     $value = $this->getEntity()->getFieldValue($id);

@@ -159,9 +159,7 @@
 <script type="text/javascript">
     (function($) {
         var dataForm = $('#form-validate');
-        <?php if ($_dob->isEnabled()): ?>
-            ignore = 'input[id$="full"]';
-        <?php endif ?>
+        var ignore = <?php echo $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null'; ?>;
         dataForm.mage('validation', {
         <?php if ($_dob->isEnabled()): ?>
             errorPlacement: function(error, element) {

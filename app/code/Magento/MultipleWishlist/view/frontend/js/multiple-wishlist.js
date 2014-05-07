@@ -402,6 +402,7 @@
                     $(this.options.splitBtnTmpl).tmpl(tmplData).prependTo(element.parent());
                     element.remove();
                 }, this));
+                $('button[data-toggle="dropdown"]').dropdown();
             }
         }
     });

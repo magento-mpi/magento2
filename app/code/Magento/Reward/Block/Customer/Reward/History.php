@@ -30,7 +30,7 @@ class History extends \Magento\Framework\View\Element\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -48,7 +48,7 @@ class History extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory
      * @param array $data
      */
@@ -56,7 +56,7 @@ class History extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {

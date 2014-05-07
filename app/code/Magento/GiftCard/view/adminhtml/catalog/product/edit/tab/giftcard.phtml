@@ -225,7 +225,7 @@ jQuery(function($){
     /**
      * Adding event on card type select box of product to set weight to required or not
      */
-    $('#product_info_tabs_product-details_content').on('move.tabs', function () {
+    $('[data-tab-panel=product-details]').on('move.tabs', function () {
         $('#giftcard_type').on('change', function () {
             var $weight = $('#weight');
             var isVirtual = $(this).val() == '0';

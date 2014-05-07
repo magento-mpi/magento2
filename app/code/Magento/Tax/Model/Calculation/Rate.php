@@ -98,7 +98,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
         $isEmptyValues = $this->getCode() === '' ||
             $this->getTaxCountryId() === '' ||
             $this->getRate() === '' ||
-            $this->getTaxPostcode() === '';
+            ($this->getTaxPostcode() === '' && !$this->getZipIsRange());
 
         if ($isEmptyValues || $isWrongRange) {
             throw new \Magento\Framework\Model\Exception(__('Please fill all required fields with valid information.'));

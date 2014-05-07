@@ -168,9 +168,7 @@
 <script type="text/javascript">
     (function($) {
         var dataForm = $('#form-validate');
-        <?php if ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes()): ?>
-            ignore = 'input[id$="full"]';
-        <?php endif ?>
+        var ignore = <?php echo ($_dob->isEnabled() || $customerAttributes->hasUserDefinedAttributes() ) ? '\'input[id$="full"]\'' : 'null'; ?>;
         <?php if ($customerAttributes->hasUserDefinedAttributes()): ?>
             dataForm = dataForm.mage('fileElement', {});
             ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';

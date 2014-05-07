@@ -83,9 +83,7 @@
         });
 
         var dataForm = $('#form-validate');
-        <?php if ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()): ?>
-        ignore = 'input[id$="full"]';
-        <?php endif ?>
+        var ignore = <?php echo ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()) ? '\'input[id$="full"]\'' : 'null'; ?>;
         <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
         dataForm = dataForm.mage('fileElement',{});
         ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';

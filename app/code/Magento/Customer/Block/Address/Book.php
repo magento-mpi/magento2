@@ -18,7 +18,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 class Book extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -41,7 +41,7 @@ class Book extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
@@ -49,7 +49,7 @@ class Book extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {

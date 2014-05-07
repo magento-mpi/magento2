@@ -257,26 +257,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\Framework\Profiler::start('WISHLIST:' . __METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
-        $isBackendArea = $this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
-
-        $storeIds = array();
-        foreach ($this as $item) {
-            $productIds[$item->getProductId()] = 1;
-            if ($isBackendArea && !in_array($item->getStoreId(), $storeIds)) {
-                $storeIds[] = $item->getStoreId();
-            }
-        }
-        if (!$isBackendArea) {
-            $storeIds = $this->_storeIds;
-        }
-
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = $this->_wishlistConfig->getProductAttributes();
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $productCollection */
         $productCollection = $this->_productCollectionFactory->create();
-        foreach ($storeIds as $id) {
-            $productCollection->addStoreFilter($id);
-        }
 
         if ($this->_productVisible) {
             $productCollection->setVisibility($this->_productVisibility->getVisibleInSiteIds());

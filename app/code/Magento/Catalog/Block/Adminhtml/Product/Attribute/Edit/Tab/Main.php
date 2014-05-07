@@ -25,6 +25,7 @@ class Main extends AbstractMain
     protected function _prepareForm()
     {
         parent::_prepareForm();
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attributeObject */
         $attributeObject = $this->getAttributeObject();
         /* @var $form \Magento\Framework\Data\Form */
         $form = $this->getForm();
@@ -43,8 +44,11 @@ class Main extends AbstractMain
         }
 
         $frontendInputElm = $form->getElement('frontend_input');
-        $additionalTypes = array(array('value' => 'price', 'label' => __('Price')));
-        $additionalReadOnlyTypes = array('media_image' => __('Media Image'), 'gallery' => __('Gallery'));
+        $additionalTypes = array(
+            array('value' => 'price', 'label' => __('Price')),
+            array('value' => 'media_image', 'label' => __('Media Image')),
+        );
+        $additionalReadOnlyTypes = array('gallery' => __('Gallery'));
         if (isset($additionalReadOnlyTypes[$attributeObject->getFrontendInput()])) {
             $additionalTypes[] = array(
                 'value' => $attributeObject->getFrontendInput(),

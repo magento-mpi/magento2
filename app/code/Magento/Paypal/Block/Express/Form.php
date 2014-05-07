@@ -27,7 +27,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     protected $_paypalData;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -36,7 +36,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Paypal\Helper\Data $paypalData
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Helper\Data $paypalData,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_paypalData = $paypalData;

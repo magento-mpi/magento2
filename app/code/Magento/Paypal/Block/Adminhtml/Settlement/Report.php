@@ -34,7 +34,7 @@ class Report extends \Magento\Backend\Block\Widget\Grid\Container
                 'fetch',
                 array(
                     'label' => __('Fetch Updates'),
-                    'onclick' => "confirmSetLocation('{$message}', '{$this->getUrl('adminhtml/*/fetch')}')",
+                    'onclick' => "confirmSetLocation('{$message}', '{$this->getUrl('*/*/fetch')}')",
                     'class' => 'task'
                 )
             );

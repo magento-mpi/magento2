@@ -31,7 +31,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canAuthorize = false;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
@@ -41,17 +41,17 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canCapturePartial = false;
+    protected $_canCapturePartial = true;
 
     /**
      * @var bool
      */
-    protected $_canRefund = false;
+    protected $_canRefund = true;
 
     /**
      * @var bool
      */
-    protected $_canVoid = false;
+    protected $_canVoid = true;
 
     /**
      * @var bool

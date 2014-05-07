@@ -89,7 +89,7 @@ class Generator
 
         // check if file already exists
         $autoloader = $this->_autoloader;
-        if ($autoloader::getFile($className)) {
+        if ($autoloader->getFile($className)) {
             return self::GENERATION_SKIP;
         }
 
