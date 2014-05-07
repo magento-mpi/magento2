@@ -69,6 +69,41 @@ class Random
     }
 
     /**
+     * Return a random number in the specified range
+     *
+     * @param $min [optional]
+     * @param $max [optional]
+     * @return int A random integer value between min (or 0) and max
+     */
+    public static function getRandomNumber($min = 0, $max = null)
+    {
+        if (null == $max) {
+            $max = mt_getrandmax();
+        }
+        $range = $max - $min + 1;
+        $offset = 0;
+
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            // use openssl lib if it is installed
+            $bytes = openssl_random_pseudo_bytes(self::INT_BYTE_SIZE);
+            $hex = bin2hex($bytes); // hex() doubles the length of the string
+            $offset = hexdec($hex) % $range; // random integer from 0 to $range
+        } elseif ($fp = @fopen('/dev/urandom', 'rb')) {
+            // attempt to use /dev/urandom if it exists but openssl isn't available
+            $bytes = @fread($fp, self::INT_BYTE_SIZE);
+            $hex = bin2hex($bytes); // hex() doubles the length of the string
+            $offset = hexdec($hex) % $range; // random integer from 0 to $range
+            fclose($fp);
+        } else {
+            // fallback to mt_rand() if all else fails
+            mt_srand(10000000 * (double)microtime());
+            return mt_rand($min, $max); // random integer from $min to $max
+        }
+
+        return $min + $offset; // random integer from $min to $max
+    }
+    
+    /**
      * Generate a hash from unique ID
      *
      * @param string $prefix
@@ -76,6 +111,6 @@ class Random
      */
     public function getUniqueHash($prefix = '')
     {
-        return $prefix . md5(uniqid(microtime() . mt_rand(), true));
+        return $prefix . md5(uniqid(microtime() . self::getRandomNumber(), true));
     }
 }
