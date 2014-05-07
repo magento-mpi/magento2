@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -129,14 +126,22 @@ class Form extends FormInterface
         $taxRateBlock = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
         $this->addNewTaxRates($fixture, $taxRateBlock);
         $this->openAdditionalSettings();
-        $taxCustomerBlock = $this->_rootElement->find(
-            $this->taxCustomerBlock,
-            Locator::SELECTOR_CSS,
-            'multiselectlist'
-        );
-        $this->addNewTaxClass($fixture->getTaxCustomerClass(), $taxCustomerBlock);
-        $taxProductBlock = $this->_rootElement->find($this->taxProductBlock, Locator::SELECTOR_CSS, 'multiselectlist');
-        $this->addNewTaxClass($fixture->getTaxProductClass(), $taxProductBlock);
+        if ($fixture->getTaxCustomerClass() !== null) {
+            $taxCustomerBlock = $this->_rootElement->find(
+                $this->taxCustomerBlock,
+                Locator::SELECTOR_CSS,
+                'multiselectlist'
+            );
+            $this->addNewTaxClass($fixture->getTaxCustomerClass(), $taxCustomerBlock);
+        }
+        if ($fixture->getTaxProductClass() !== null) {
+            $taxProductBlock = $this->_rootElement->find(
+                $this->taxProductBlock,
+                Locator::SELECTOR_CSS,
+                'multiselectlist'
+            );
+            $this->addNewTaxClass($fixture->getTaxProductClass(), $taxProductBlock);
+        }
 
         parent::fill($fixture);
     }
@@ -181,11 +186,8 @@ class Form extends FormInterface
      * @param array $values
      * @param Element $element
      */
-    protected function addNewTaxClass($values, $element)
+    protected function addNewTaxClass(array $values, Element $element)
     {
-        if ($values === null) {
-            return;
-        }
         foreach ($values as $value) {
             $option = $element->find(sprintf($this->optionMaskElement, $value), Locator::SELECTOR_XPATH);
             if (!$option->isVisible()) {
@@ -217,7 +219,7 @@ class Form extends FormInterface
     }
 
     /**
-     * Click Additional Settings on Form
+     * Open Additional Settings on Form
      */
     public function openAdditionalSettings()
     {
