@@ -12,9 +12,6 @@ namespace Magento\GiftCardAccount\Controller\Adminhtml;
  */
 class GiftcardaccountTest extends \Magento\Backend\Utility\Controller
 {
-    /**
-     *
-     */
     public function testIndexAction()
     {
         $this->dispatch('backend/admin/giftcardaccount/index');
