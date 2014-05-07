@@ -370,7 +370,12 @@ class Tax extends AbstractTotal
         if ($catalogPriceInclTax) {
             $this->_calcUnitTaxAmount($item, $rate);
             $this->_saveAppliedTaxes(
-                $address, $appliedRates, $item->getTaxAmount(), $item->getBaseTaxAmount(), $rate);
+                $address,
+                $appliedRates,
+                $item->getTaxAmount(),
+                $item->getBaseTaxAmount(),
+                $rate
+            );
         } else {
             //need to calculate each tax separately
             $taxGroups = array();
@@ -934,8 +939,12 @@ class Tax extends AbstractTotal
                 $baseRowTaxBeforeDiscount = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, $inclTax, false);
 
                 $taxBeforeDiscountRounded = $rowTax = $this->_deltaRound($rowTaxBeforeDiscount, $rateKey, $inclTax);
-                $baseTaxBeforeDiscountRounded = $baseRowTax = $this->_deltaRound($baseRowTaxBeforeDiscount,
-                    $rateKey, $inclTax, 'base');
+                $baseTaxBeforeDiscountRounded = $baseRowTax = $this->_deltaRound(
+                    $baseRowTaxBeforeDiscount,
+                    $rateKey,
+                    $inclTax,
+                    'base'
+                );
                 $item->setTaxAmount($item->getTaxAmount() + max(0, $rowTax));
                 $item->setBaseTaxAmount($item->getBaseTaxAmount() + max(0, $baseRowTax));
                 break;
@@ -986,8 +995,9 @@ class Tax extends AbstractTotal
 
                 if (!$item->getNoDiscount()) {
                     if ($item->getWeeeTaxApplied()) {
-                        $item->setDiscountTaxCompensation($item->getDiscountTaxCompensation() +
-                            $taxBeforeDiscountRounded - max(0, $rowTax));
+                        $item->setDiscountTaxCompensation(
+                            $item->getDiscountTaxCompensation() + $taxBeforeDiscountRounded - max(0, $rowTax)
+                        );
                     }
                 }
 
