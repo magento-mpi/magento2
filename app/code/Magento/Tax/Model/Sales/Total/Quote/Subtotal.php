@@ -767,10 +767,12 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             $address->setTotalAmount('subtotal', $address->getTotalAmount('subtotal') + $subTotal);
             $address->setBaseTotalAmount('subtotal', $address->getBaseTotalAmount('subtotal') + $baseSubTotal);
         } else {
-            $address->setTotalAmount('subtotal',
+            $address->setTotalAmount(
+                'subtotal',
                 $address->getTotalAmount('subtotal') + $item->getRowTotal()
             );
-            $address->setBaseTotalAmount('subtotal',
+            $address->setBaseTotalAmount(
+                'subtotal',
                 $address->getBaseTotalAmount('subtotal') + $item->getBaseRowTotal()
             );
         }
