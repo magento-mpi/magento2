@@ -213,8 +213,13 @@ class Template extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        $this->_view->loadLayout('systemPreview');
-        $this->_view->renderLayout();
+        try {
+            $this->_view->loadLayout('systemPreview');
+            $this->_view->renderLayout();
+        } catch (\Exception $e) {
+            $this->messageManager->addError(__('An error occurred. The email template can not be opened for preview.'));
+            $this->_redirect('adminhtml/*/');
+        }
     }
 
     /**
