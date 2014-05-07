@@ -54,6 +54,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Tax\Model\Config $taxConfig
+     * @param \Magento\Tax\Helper\Data $taxHelper
      */
     public function __construct(
         \Magento\Tax\Model\Calculation $calculation,
