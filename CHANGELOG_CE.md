@@ -23,6 +23,7 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+  * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
 
 2.0.0.0-dev76
 =============
