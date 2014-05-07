@@ -125,6 +125,8 @@ class Date extends AbstractElement
         }
         if (null === $format) {
             $format = $this->getDateFormat();
+            $format .= ($format && $this->getTimeFormat()) ? ' ' : '';
+            $format .= $this->getTimeFormat() ? $this->getTimeFormat() : '';
         }
         return $this->_value->toString($format);
     }
