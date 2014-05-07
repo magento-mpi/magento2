@@ -10,9 +10,9 @@ namespace Magento\ConfigurableProduct\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\Category;
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
-use Magento\Catalog\Test\Page\Product\CatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Test Coverage for CreateConfigurableProductEntity
@@ -73,19 +73,21 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
+     * Run test
+     *
      * @param CatalogProductConfigurable $configurable
      * @param Category $category
+     * @return void
      */
     public function testCreate(CatalogProductConfigurable $configurable, Category $category)
     {
         // Steps
         $this->productPageGrid->open();
         $this->productPageGrid->getProductBlock()->addProduct('configurable');
-
-        $productBlockForm = $this->newProductPage->getConfigurableBlockForm();
-
+        // Fill form
+        $productBlockForm = $this->newProductPage->getConfigurableProductForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($configurable);
-        $productBlockForm->save($configurable);
+        $this->newProductPage->getProductPageAction()->saveProduct($this->newProductPage, $configurable);
     }
 }

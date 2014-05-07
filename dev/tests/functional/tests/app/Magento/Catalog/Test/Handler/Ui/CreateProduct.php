@@ -2,19 +2,15 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Handler\Ui;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CreateProduct
@@ -38,9 +34,9 @@ class CreateProduct extends Ui
         $createProductPage->init($fixture);
         $createProductPage->open();
 
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        $productBlockForm->fill($fixture);
-        $productBlockForm->save($fixture);
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $productForm = $createProductPage->getProductForm();
+        $productForm->fill($fixture);
+        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
     }
 }

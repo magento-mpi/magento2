@@ -102,16 +102,16 @@
         <strategy>css selector</strategy>
         <fields>
             <title>
-                <selector>#product_option_%row%_title</selector>
+                <selector>.field [id$='_title']</selector>
                 <strategy>css selector</strategy>
             </title>
             <is_require>
-                <selector>#product_option_%row%_required</selector>
+                <selector>.field input[id$='_required']</selector>
                 <strategy>css selector</strategy>
                 <input>checkbox</input>
             </is_require>
             <type>
-                <selector>#product_option_%row%_type</selector>
+                <selector>.field [id$='_type']</selector>
                 <strategy>css selector</strategy>
                 <input>select</input>
             </type>

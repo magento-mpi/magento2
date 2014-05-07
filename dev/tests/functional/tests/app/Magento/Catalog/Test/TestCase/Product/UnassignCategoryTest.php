@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,6 +13,7 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
+ * Class UnassignCategoryTest
  * Unassign product from category on Product page
  *
  * @package Magento\Catalog\Test\TestCase\Product
@@ -24,6 +22,8 @@ class UnassignCategoryTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -34,6 +34,7 @@ class UnassignCategoryTest extends Functional
      * Unassigning products from the category on Product Information page
      *
      * @ZephyrId MAGETWO-12417
+     * @return void
      */
     public function testUnassignOnProductPage()
     {
@@ -44,10 +45,11 @@ class UnassignCategoryTest extends Functional
         //Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         $editProductPage->open(array('id' => $simple->getProductId()));
-        $editProductPage->getProductBlockForm()->clearCategorySelect();
-        $editProductPage->getProductBlockForm()->save($simple);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->clearCategorySelect();
+        $editProductPage->getProductPageAction()->save();
         //Verifying
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -61,8 +63,9 @@ class UnassignCategoryTest extends Functional
      * Assert absence product on category page (frontend)
      *
      * @param Product $product
+     * @return void
      */
-    protected function assertAbsenceOnCategory($product)
+    protected function assertAbsenceOnCategory(Product $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();

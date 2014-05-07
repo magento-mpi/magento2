@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,10 +12,18 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
+/**
+ * Class BundleFixedTest
+ * Bundle product fixed test
+ *
+ * @package Magento\Bundle\Test\TestCase
+ */
 class BundleFixedTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -29,6 +34,7 @@ class BundleFixedTest extends Functional
      * Creating bundle (fixed) product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12622
+     * @return void
      */
     public function testCreate()
     {
@@ -38,14 +44,14 @@ class BundleFixedTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $productBlockForm->fill($bundle);
-        $productBlockForm->save($bundle);
+        $productForm = $createProductPage->getProductForm();
+        $productForm->fill($bundle);
+        $createProductPage->getProductPageAction()->save();
         //Verification
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -60,6 +66,7 @@ class BundleFixedTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -70,7 +77,10 @@ class BundleFixedTest extends Functional
     }
 
     /**
+     * Checking the product on the category page
+     *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnCategory($product)
     {
@@ -91,7 +101,7 @@ class BundleFixedTest extends Functional
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getOptionsBlock();
+        $productOptionsBlock = $productPage->getCustomOptionsBlock();
         $actualOptions = $productOptionsBlock->getBundleOptions();
         $expectedOptions = $product->getBundleOptions();
         foreach ($actualOptions as $optionType => $actualOption) {

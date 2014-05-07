@@ -2,19 +2,15 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
+use Mtf\Factory\Factory;
 use Mtf\Handler\Ui as AbstractUi;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Factory\Factory;
 
 /**
  * Class CreateProduct
@@ -38,9 +34,9 @@ class Ui extends AbstractUi implements CatalogProductSimpleInterface
         $createProductPage->init($fixture);
         $createProductPage->open();
 
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        $productBlockForm->fill($fixture);
-        $productBlockForm->save($fixture);
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $productForm = $createProductPage->getProductForm();
+        $productForm->fill($fixture);
+        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
     }
 }

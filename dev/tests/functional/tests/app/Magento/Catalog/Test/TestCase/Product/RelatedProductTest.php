@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
@@ -27,6 +23,8 @@ class RelatedProductTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -37,6 +35,7 @@ class RelatedProductTest extends Functional
      * Promoting products as related
      *
      * @ZephyrId MAGETWO-12392
+     * @return void
      */
     public function testRelatedProduct()
     {
@@ -53,18 +52,20 @@ class RelatedProductTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getMessageBlock()->assertSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
             array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
         );
         $assignToSimple1->switchData('add_related_product');
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getMessageBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }
@@ -74,8 +75,9 @@ class RelatedProductTest extends Functional
      *
      * @param Product $product
      * @param Product[] $assigned
+     * @return void
      */
-    protected function assertOnTheFrontEnd(Product $product, $assigned)
+    protected function assertOnTheFrontEnd(Product $product, array $assigned)
     {
         /** @var Product $simple2 */
         /** @var Product $configurable */

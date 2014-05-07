@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,6 +22,8 @@ class CreateConfigurableTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class CreateConfigurableTest extends Functional
      * Creating configurable product and assigning it to category
      *
      * @ZephyrId MAGETWO-12620
+     * @return void
      */
     public function testCreateConfigurableProduct()
     {
@@ -44,14 +44,14 @@ class CreateConfigurableTest extends Functional
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm = $createProductPage->getProductForm();
+        $productForm->fill($product);
+        $createProductPage->getProductPageAction()->saveProduct($createProductPage, $product);
         //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -66,6 +66,7 @@ class CreateConfigurableTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param ConfigurableProduct $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -78,7 +79,7 @@ class CreateConfigurableTest extends Functional
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        /** @var \Magento\Catalog\Test\Block\Backend\ProductGrid */
+        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid */
         $gridBlock = $productGridPage->getProductGrid();
         //Assertion
         $this->assertTrue($gridBlock->isRowVisible($configurableSearch), 'Configurable product was not found.');
@@ -94,6 +95,7 @@ class CreateConfigurableTest extends Functional
      * Assert configurable product on Frontend
      *
      * @param ConfigurableProduct $product
+     * @return void
      */
     protected function assertOnFrontend(ConfigurableProduct $product)
     {
@@ -113,7 +115,11 @@ class CreateConfigurableTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
             'Product name does not correspond to specified.');
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice(),
+        $price = $product->getProductPrice();
+        $blockPrice = $productViewBlock->getProductPrice();
+        $this->assertEquals(
+            number_format($price, 2),
+            number_format($blockPrice['price_regular_price'], 2),
             'Product price does not correspond to specified.');
         $this->assertTrue($productViewBlock->verifyProductOptions($product), 'Added configurable options are absent');
     }

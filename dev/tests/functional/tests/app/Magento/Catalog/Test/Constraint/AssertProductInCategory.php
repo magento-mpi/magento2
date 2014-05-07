@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\Category;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
@@ -29,15 +29,17 @@ class AssertProductInCategory extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Checking the product in the page of its price
+     *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param Category $category
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        CatalogProductSimple $product,
+        FixtureInterface $product,
         Category $category
     ) {
         //Open category view page and check visible product
@@ -64,11 +66,11 @@ class AssertProductInCategory extends AbstractConstraint
     /**
      * Verify product price on category view page
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogCategoryView $catalogCategoryView
      * @return void
      */
-    protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
+    protected function assertPrice(FixtureInterface $product, CatalogCategoryView $catalogCategoryView)
     {
         $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
             $product->getName()
@@ -83,12 +85,12 @@ class AssertProductInCategory extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in category assert
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product price on category page is not correct.';
+        return 'Product price on category page correct.';
     }
 }

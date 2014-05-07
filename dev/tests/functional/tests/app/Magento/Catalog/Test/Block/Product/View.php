@@ -12,10 +12,8 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
@@ -122,6 +120,41 @@ class View extends Block
      * @var string
      */
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
+
+    /**
+     * Gift Card Amount field
+     *
+     * @var string
+     */
+    protected $openAmount = '#giftcard-amount-input';
+
+    /**
+     * Gift Card Sender Name field
+     *
+     * @var string
+     */
+    protected $senderName = '#giftcard_sender_name';
+
+    /**
+     * Gift Card Sender Email field
+     *
+     * @var string
+     */
+    protected $senderEmail = '#giftcard_sender_email';
+
+    /**
+     * Gift Card Recipient Name field
+     *
+     * @var string
+     */
+    protected $recipientName = '#giftcard_recipient_name';
+
+    /**
+     * Gift Card Recipient Email field
+     *
+     * @var string
+     */
+    protected $recipientEmail = '#giftcard_recipient_email';
 
     /**
      * Get bundle options block
@@ -285,10 +318,10 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param BundleFixture|Product $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function fillOptions($product)
+    public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
         $configureSection = $this->_rootElement->find('.product.options.wrapper');
@@ -387,5 +420,29 @@ class View extends Block
     public function stockAvailability()
     {
         return $this->_rootElement->find($this->stockAvailability)->getText();
+    }
+
+    /**
+     * Verify that text field for Gift Card amount is present
+     *
+     * @return bool
+     */
+    public function isOpenAmount()
+    {
+        return $this->_rootElement->find($this->openAmount)->isVisible();
+    }
+
+    /**
+     * Verifying that Gift Card fields on fronted correspond to Gift Card type:
+     * Virtual and Combined - Sender Name, Sender Email, Recipient Name, Recipient Email
+     *
+     * @return bool
+     */
+    public function isGiftCardNotPhysical()
+    {
+        return $this->_rootElement->find($this->senderName)->isVisible()
+        && $this->_rootElement->find($this->senderEmail)->isVisible()
+        && $this->_rootElement->find($this->recipientName)->isVisible()
+        && $this->_rootElement->find($this->recipientEmail)->isVisible();
     }
 }

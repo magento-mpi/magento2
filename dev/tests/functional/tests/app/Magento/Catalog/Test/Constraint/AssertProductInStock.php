@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductInStock
@@ -35,10 +35,10 @@ class AssertProductInStock extends AbstractConstraint
      * Assert that In Stock status is displayed on product page
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductSimple $product)
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
     {
         // TODO fix initialization url for frontend page
         $catalogProductView->init($product);
@@ -51,7 +51,7 @@ class AssertProductInStock extends AbstractConstraint
     }
 
     /**
-     * Text of In Stock assertion
+     * Returns a string representation of the object.
      *
      * @return string
      */

@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint; 
+namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductForm
@@ -30,13 +30,13 @@ class AssertProductForm extends AbstractConstraint
     /**
      * Assert form data equals fixture data
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductEdit $productPage
      * @return void
      */
     public function processAssert(
-        CatalogProductSimple $product,
+        FixtureInterface $product,
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productPage
     ) {
@@ -50,6 +50,8 @@ class AssertProductForm extends AbstractConstraint
     }
 
     /**
+     * Returns a string representation of the object.
+     *
      * @return string
      */
     public function toString()

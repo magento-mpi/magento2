@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
@@ -27,13 +27,13 @@ class AssertProductInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert product availability in Products Grid
+     * Assert product availability in products grid
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogProductIndex $productGrid
      * @return void
      */
-    public function processAssert(CatalogProductSimple $product, CatalogProductIndex $productGrid)
+    public function processAssert(FixtureInterface $product, CatalogProductIndex $productGrid)
     {
         $filter = ['sku' => $product->getSku()];
         $productGrid->open();
@@ -44,10 +44,12 @@ class AssertProductInGrid extends AbstractConstraint
     }
 
     /**
-     * @inheritdoc
+     * Returns a string representation of the object.
+     *
+     * @return string
      */
     public function toString()
     {
-        return 'Product is present in Products grid.';
+        return 'Product is present in products grid.';
     }
 }

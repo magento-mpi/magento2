@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,6 +22,8 @@ class CreateSimpleWithCategoryTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class CreateSimpleWithCategoryTest extends Functional
      * Test product create
      *
      * @ZephyrId MAGETWO-13345
+     * @return void
      */
     public function testCreateProduct()
     {
@@ -46,17 +46,17 @@ class CreateSimpleWithCategoryTest extends Functional
         $productListPage = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $addProductBlock = $productListPage->getProductBlock();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
 
         //Steps
         $productListPage->open();
         $addProductBlock->addProduct();
-        $productBlockForm->addNewCategory($product);
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm->addNewCategory($product);
+        $productForm->fill($product);
+        $createProductPage->getProductPageAction()->save();
 
         //Verifying
-        $this->assertSuccessMessage("You saved the product.");
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -67,25 +67,10 @@ class CreateSimpleWithCategoryTest extends Functional
     }
 
     /**
-     * Assert success message
-     *
-     * @param string $messageText
-     */
-    protected function assertSuccessMessage($messageText)
-    {
-        $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $messageBlock = $productEditPage->getMessagesBlock();
-        $this->assertContains(
-            $messageText,
-            $messageBlock->getSuccessMessages(),
-            sprintf('Message "%s" is not appear.', $messageText)
-        );
-    }
-
-    /**
      * Assert simple product on Frontend
      *
      * @param SimpleProduct $product
+     * @return void
      */
     protected function assertProductOnFrontend(SimpleProduct $product)
     {
@@ -106,6 +91,7 @@ class CreateSimpleWithCategoryTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $price = $productViewBlock->getProductPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
     }
 }

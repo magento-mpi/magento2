@@ -18,6 +18,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertProductSaveMessage extends AbstractConstraint
 {
+    /**
+     * Text value to be checked
+     */
     const SUCCESS_MESSAGE = 'You saved the product.';
 
     /**
@@ -35,7 +38,7 @@ class AssertProductSaveMessage extends AbstractConstraint
      */
     public function processAssert(CatalogProductEdit $productPage)
     {
-        $actualMessage = $productPage->getMessage()->getSuccessMessages();
+        $actualMessage = $productPage->getMessageBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,
@@ -46,7 +49,9 @@ class AssertProductSaveMessage extends AbstractConstraint
     }
 
     /**
-     * @inheritdoc
+     * Returns a string representation of the object.
+     *
+     * @return string
      */
     public function toString()
     {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,6 +22,8 @@ class CreateGroupedTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class CreateGroupedTest extends Functional
      * Creating Grouped product and assigning it to category
      *
      * @ZephyrId MAGETWO-13610
+     * @return void
      */
     public function testCreateGroupedProduct()
     {
@@ -44,14 +44,14 @@ class CreateGroupedTest extends Functional
         //Page & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('grouped');
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm->fill($product);
+        $createProductPage->getProductPageAction()->save();
         //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -65,6 +65,7 @@ class CreateGroupedTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param GroupedProduct $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -76,7 +77,7 @@ class CreateGroupedTest extends Functional
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        /** @var \Magento\Catalog\Test\Block\Backend\ProductGrid */
+        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
         //Assertion
         $this->assertTrue($gridBlock->isRowVisible($search), 'Grouped product was not found.');
@@ -86,6 +87,7 @@ class CreateGroupedTest extends Functional
      * Assert Grouped product on Frontend
      *
      * @param GroupedProduct $product
+     * @return void
      */
     protected function assertOnFrontend(GroupedProduct $product)
     {

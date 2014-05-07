@@ -31,7 +31,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class CreateSimpleProductEntityTest extends Injectable
 {
     /**
-     * Fixture category
+     * Category fixture
      *
      * @var Category
      */
@@ -45,6 +45,8 @@ class CreateSimpleProductEntityTest extends Injectable
     protected $productGrid;
 
     /**
+     * Page to create a product
+     *
      * @var CatalogProductNew
      */
     protected $newProductPage;
@@ -94,7 +96,7 @@ class CreateSimpleProductEntityTest extends Injectable
         // Steps
         $this->productGrid->open();
         $this->productGrid->getProductBlock()->addProduct('simple');
-        $productBlockForm = $this->newProductPage->getProductForm();
+        $productBlockForm = $this->newProductPage->getForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($product);
         $this->newProductPage->getProductPageAction()->save();

@@ -9,33 +9,34 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab;
 
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
  * Class OptionField
+ * Form 'Tier prices' on the tab 'Extended price'
  *
  * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab
  */
 class OptionTier extends Options
 {
     /**
-     * Add button selector
+     * 'Add Tier' button selector
      *
      * @var string
      */
-    private $buttonFormLocator = "button[title='Add Tier']";
+    protected $buttonFormLocator = "//*[@id='tier_price_container']/following-sibling::tfoot//button";
 
     /**
-     * Fill the form
+     * Fill product form 'Tier price'
      *
      * @param array $fields
-     * @param array $locatorPlaceholder
      * @param Element $element
      * @return $this
      */
-    public function fillAnArray(array $fields, array $locatorPlaceholder = [], Element $element = null)
+    public function fillOptions(array $fields, Element $element = null)
     {
-        $this->_rootElement->find($this->buttonFormLocator)->click();
-        return parent::fillAnArray($fields);
+        $this->_rootElement->find($this->buttonFormLocator, Locator::SELECTOR_XPATH)->click();
+        return parent::fillOptions($fields, $element);
     }
-} 
+}

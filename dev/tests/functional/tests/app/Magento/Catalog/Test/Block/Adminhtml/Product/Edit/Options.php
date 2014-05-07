@@ -8,38 +8,29 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
-use Mtf\Block\Form;
 use Mtf\Client\Element;
+use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Abstract class Options
+ * Parent class for all forms of product options
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab
+ * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit
  */
-abstract class Options extends Form
+abstract class Options extends Tab
 {
     /**
-     * Fill the form
+     * Fills in the form of an array of input data
      *
      * @param array $fields
-     * @param array $locatorPlaceholder
      * @param Element $element
      * @return $this
      */
-    public function fillAnArray(array $fields, array $locatorPlaceholder = [], Element $element = null)
+    public function fillOptions(array $fields, Element $element = null)
     {
+        $element = $element === null ? $this->_rootElement : $element;
         $mapping = $this->dataMapping($fields);
         $this->_fill($mapping, $element);
         return $this;
     }
-
-    /**
-     * Return mapping data
-     *
-     * @return array $mapping
-     */
-    public function getMapping()
-    {
-        return $this->mapping;
-    }
-} 
+}

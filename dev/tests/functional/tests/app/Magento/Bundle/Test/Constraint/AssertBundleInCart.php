@@ -8,14 +8,15 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductInCart
+ *
  * @package Magento\Catalog\Test\Constraint
  */
 class AssertBundleInCart extends AbstractConstraint
@@ -31,6 +32,7 @@ class AssertBundleInCart extends AbstractConstraint
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $bundle
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
@@ -43,7 +45,7 @@ class AssertBundleInCart extends AbstractConstraint
 
         $catalogProductView->getViewBlock()->clickCustomize();
 
-        $optionsBlock = $catalogProductView->getOptionsBlock();
+        $optionsBlock = $catalogProductView->getCustomOptionsBlock();
         /** @var \Magento\Bundle\Test\Fixture\Bundle\Selections $selectionsFixture */
         $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['fixture'];
         $bundleOptions = $selectionsFixture->getSelectionForCheckout();
@@ -66,6 +68,7 @@ class AssertBundleInCart extends AbstractConstraint
      *
      * @param CatalogProductBundle $bundle
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     protected function assertOnShoppingCart(CatalogProductBundle $bundle, CheckoutCart $checkoutCart)
     {

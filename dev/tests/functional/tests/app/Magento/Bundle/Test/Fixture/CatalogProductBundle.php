@@ -69,14 +69,11 @@ class CatalogProductBundle extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'enable_googlecheckout' => null,
-        'msrp_display_actual_price_type' => null,
-        'msrp_enabled' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'tax_class_id' => null,
-        'visibility' => null,
+        'name' => 'Test simple product %isolation%',
+        'sku' => 'test_simple_sku_%isolation%',
+        'price' => ['value' => 90.00],
+        'weight' => 12.0000,
+        'qty' => 10
     ];
 
     protected $category_ids = [
@@ -825,5 +822,4 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('custom_options');
     }
-
 }

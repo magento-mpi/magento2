@@ -22,7 +22,7 @@ class CatalogProductIndex extends BackendPage
     protected $_blocks = [
         'productGrid' => [
             'name' => 'productGrid',
-            'class' => 'Magento\Catalog\Test\Block\Backend\ProductGrid',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Grid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
@@ -53,7 +53,7 @@ class CatalogProductIndex extends BackendPage
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\ProductGrid
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Grid
      */
     public function getProductGrid()
     {

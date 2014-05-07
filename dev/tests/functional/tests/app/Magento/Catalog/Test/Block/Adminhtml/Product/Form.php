@@ -9,20 +9,22 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Mtf\Client\Element;
+use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class ProductForm
- * Simple product form
+ * Product form
  *
  * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
-class ProductForm extends FormTabs
+class Form extends FormTabs
 {
     /**
      * Variations tab selector
@@ -74,6 +76,8 @@ class ProductForm extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
+     * Category fixture
+     *
      * @var Category
      */
     protected $category;
@@ -97,6 +101,22 @@ class ProductForm extends FormTabs
     {
         $this->fillCategory($fixture);
         return parent::fill($fixture);
+    }
+
+    /**
+     * Fill product variations
+     *
+     * @param ConfigurableProduct $variations
+     * @return void
+     */
+    public function fillVariations(ConfigurableProduct $variations)
+    {
+        $variationsBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperConfig(
+            $this->_rootElement->find($this->variationsWrapper)
+        );
+        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
+        $variationsBlock->generateVariations();
+        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
     }
 
     /**
@@ -137,11 +157,14 @@ class ProductForm extends FormTabs
     {
         // TODO should be removed after suggest widget implementation as typified element
         $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
-        //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
-        $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
-        $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
-        $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';
-        $this->_rootElement->find($categoryLocation, Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementVisible(
+            $parentLocation . '//div[@class="mage-suggest-dropdown"]',
+            Locator::SELECTOR_XPATH
+        );
+        $this->_rootElement->find(
+            $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a',
+            Locator::SELECTOR_XPATH
+        )->click();
     }
 
     /**
@@ -161,6 +184,45 @@ class ProductForm extends FormTabs
 
         $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+    }
+
+    /**
+     * Select parent category for new one
+     *
+     * @return void
+     */
+    protected function selectParentCategory()
+    {
+        // TODO should be removed after suggest widget implementation as typified element
+        $this->fillCategoryField(
+            'Default Category',
+            'new_category_parent-suggest',
+            '//*[@id="new_category_form_fieldset"]'
+        );
+    }
+
+    /**
+     * Clear category field
+     *
+     * @return void
+     */
+    public function clearCategorySelect()
+    {
+        $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
+        if ($this->_rootElement->find($selectedCategory)->isVisible()) {
+            $this->_rootElement->find($selectedCategory)->click();
+        }
+    }
+
+    /**
+     * Open new category dialog
+     *
+     * @return void
+     */
+    protected function openNewCategoryDialog()
+    {
+        $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible('input#new_category_name');
     }
 
     /**
@@ -211,4 +273,15 @@ class ProductForm extends FormTabs
 
         return $this;
     }
-} 
+
+    /**
+     * Save the form
+     *
+     * @param FixtureInterface $fixture
+     * @return Form
+     */
+    public function save(FixtureInterface $fixture = null)
+    {
+        return $this;
+    }
+}

@@ -49,7 +49,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $loader = '[data-role=loader]';
+    protected $loader = './ancestor::body//*[contains(@data-role,"loader")]';
 
     /**
      * Attribute Opened
@@ -104,7 +104,7 @@ class Config extends Tab
         $loaderSelector = $this->loader;
         $browser->waitUntil(
             function () use ($browser, $loaderSelector) {
-                $loaderElement = $browser->find($loaderSelector);
+                $loaderElement = $browser->find($loaderSelector, Locator::SELECTOR_XPATH);
                 return $loaderElement->isVisible() == false ? true : null;
             }
         );

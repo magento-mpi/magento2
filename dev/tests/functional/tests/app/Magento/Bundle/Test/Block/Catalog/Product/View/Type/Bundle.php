@@ -2,18 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type;
 
-use Mtf\Factory\Factory;
 use Mtf\Client\Element;
-use Magento\Catalog\Test\Block\Product\View\Options;
+use Mtf\Factory\Factory;
+use Magento\Catalog\Test\Block\Product\View\CustomOptions;
 
 /**
  * Class Bundle
@@ -21,12 +18,13 @@ use Magento\Catalog\Test\Block\Product\View\Options;
  *
  * @package Magento\Bundle\Test\Block\Catalog\Product\View\Type
  */
-class Bundle extends Options
+class Bundle extends CustomOptions
 {
     /**
      * Fill bundle options
      *
      * @param array $bundleOptions
+     * @return void
      */
     public function fillBundleOptions($bundleOptions)
     {

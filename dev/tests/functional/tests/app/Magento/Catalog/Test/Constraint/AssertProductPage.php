@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
@@ -27,15 +27,15 @@ class AssertProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Process assert
+     * Assertion that the product page is displayed correctly
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CatalogProductSimple $product
+        FixtureInterface $product
     ) {
         // TODO fix initialization url for frontend page
         //Open product view page
@@ -49,11 +49,11 @@ class AssertProductPage extends AbstractConstraint
     /**
      * Assert prices on the product view page
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogProductView $catalogProductView
      * @return void
      */
-    protected function assertOnProductView(CatalogProductSimple $product, CatalogProductView $catalogProductView)
+    protected function assertOnProductView(FixtureInterface $product, CatalogProductView $catalogProductView)
     {
         $viewBlock = $catalogProductView->getViewBlock();
         $price = $viewBlock->getProductPriceBlock()->getPrice();
@@ -90,6 +90,8 @@ class AssertProductPage extends AbstractConstraint
     }
 
     /**
+     * Returns a string representation of the object.
+     *
      * @return string
      */
     public function toString()

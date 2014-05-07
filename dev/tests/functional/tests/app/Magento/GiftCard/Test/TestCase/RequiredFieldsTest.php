@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,6 +21,8 @@ class RequiredFieldsTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class RequiredFieldsTest extends Functional
      * Virtual type, open amount without min and max restrictions
      *
      * @ZephyrId MAGETWO-13618
+     * @return void
      */
     public function testCreate()
     {
@@ -44,14 +44,14 @@ class RequiredFieldsTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('giftcard');
-        $productBlockForm->fill($giftcard);
-        $productBlockForm->save($giftcard);
+        $productForm->fill($giftcard);
+        $createProductPage->getProductPageAction()->save();
         //Verification
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -66,8 +66,9 @@ class RequiredFieldsTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param GiftCard $product
+     * @return void
      */
-    protected function assertOnGrid($product)
+    protected function assertOnGrid(GiftCard $product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
@@ -80,7 +81,7 @@ class RequiredFieldsTest extends Functional
      *
      * @param GiftCard $product
      */
-    protected function assertOnCategory($product)
+    protected function assertOnCategory(GiftCard $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -97,9 +98,7 @@ class RequiredFieldsTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $giftCardAmountBlock = $productPage->getGiftCardAmountBlock();
-        $this->assertTrue($giftCardAmountBlock->isOpenAmount(), 'Open Amount field is absent');
-        $giftCardBlock = $productPage->getGiftCardBlock();
-        $this->assertTrue($giftCardBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
+        $this->assertTrue($productViewBlock->isOpenAmount(), 'Open Amount field is absent');
+        $this->assertTrue($productViewBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
     }
 }

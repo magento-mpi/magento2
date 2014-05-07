@@ -8,14 +8,14 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertProductInCart
+ *
  * @package Magento\ConfigurableProduct\Test\Constraint
  */
 class AssertConfigurableInCart extends AbstractConstraint
@@ -28,9 +28,12 @@ class AssertConfigurableInCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assert configurable product, corresponds to the product in the cart
+     *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductConfigurable $configurable
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
@@ -42,10 +45,10 @@ class AssertConfigurableInCart extends AbstractConstraint
         $catalogProductView->open();
         $productOptions = $configurable->getConfigurableOptions();
         if ($productOptions) {
-            $configurableOption = $catalogProductView->getOptionsBlock();
-            $options = $configurableOption->getProductCustomOptions();
+            $configurableOption = $catalogProductView->getCustomOptionsBlock();
+            $options = $configurableOption->getOptions();
             $key = $productOptions['value']['label']['value'];
-            $configurableOption->selectProductCustomOption($options[$key][1]);
+            $configurableOption->selectProductCustomOption(reset($options[$key]['value']));
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 
@@ -57,6 +60,7 @@ class AssertConfigurableInCart extends AbstractConstraint
      *
      * @param CatalogProductConfigurable $configurable
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     protected function assertOnShoppingCart(CatalogProductConfigurable $configurable, CheckoutCart $checkoutCart)
     {

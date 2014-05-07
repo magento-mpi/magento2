@@ -10,18 +10,18 @@
 <mapping strict="0">
     <fields>
         <price>
-            <selector>#tier_price_row_%row%_price</selector>
+            <selector>[id$="_price"]</selector>
         </price>
         <website>
-            <selector>#tier_price_row_%row%_website</selector>
+            <selector>[id$="_website"]</selector>
             <input>select</input>
         </website>
         <customer_group>
-            <selector>#tier_price_row_%row%_cust_group</selector>
+            <selector>[id$="_cust_group"]</selector>
             <input>select</input>
         </customer_group>
         <price_qty>
-            <selector>#tier_price_row_%row%_qty</selector>
+            <selector>[id$="_qty"]</selector>
         </price_qty>
     </fields>
 </mapping>

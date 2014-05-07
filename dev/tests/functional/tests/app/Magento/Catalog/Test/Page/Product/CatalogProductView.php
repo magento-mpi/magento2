@@ -27,48 +27,36 @@ class CatalogProductView extends FrontendPage
             'locator' => '#maincontent',
             'strategy' => 'css selector',
         ],
-        'optionsBlock' => [
-            'name' => 'optionsBlock',
-            'class' => 'Magento\Catalog\Test\Block\Product\View\Options',
-            'locator' => '#product-options-wrapper',
-            'strategy' => 'css selector',
-        ],
-        'relatedProductSelector' => [
-            'name' => 'relatedProductSelector',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Related',
-            'locator' => '.block.related',
-            'strategy' => 'css selector',
-        ],
-        'upsellSelector' => [
-            'name' => 'upsellSelector',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Upsell',
-            'locator' => '.block.upsell',
-            'strategy' => 'css selector',
-        ],
-        'giftCardBlockSelector' => [
-            'name' => 'giftCardBlockSelector',
-            'class' => 'Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard',
-            'locator' => '[data-container-for=giftcard_info]',
-            'strategy' => 'css selector',
-        ],
-        'crosssellSelector' => [
-            'name' => 'crosssellSelector',
-            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Crosssell',
-            'locator' => '.block.crosssell',
-            'strategy' => 'css selector',
-        ],
-        'downloadableLinksSelector' => [
-            'name' => 'downloadableLinksSelector',
-            'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\Links',
-            'locator' => '[data-container-for=downloadable-links]',
-            'strategy' => 'css selector',
-        ],
-        'customOptions' => [
-            'name' => 'customOptions',
+        'customOptionsBlock' => [
+            'name' => 'customOptionsBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\View\CustomOptions',
             'locator' => '#product-options-wrapper',
             'strategy' => 'css selector',
         ],
+        'relatedProductBlock' => [
+            'name' => 'relatedProductBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Related',
+            'locator' => '.block.related',
+            'strategy' => 'css selector',
+        ],
+        'upsellBlock' => [
+            'name' => 'upsellBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Upsell',
+            'locator' => '.block.upsell',
+            'strategy' => 'css selector',
+        ],
+        'crosssellBlock' => [
+            'name' => 'crosssellBlock',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Crosssell',
+            'locator' => '.block.crosssell',
+            'strategy' => 'css selector',
+        ],
+        'downloadableLinksBlock' => [
+            'name' => 'downloadableLinksBlock',
+            'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\Links',
+            'locator' => '[data-container-for=downloadable-links]',
+            'strategy' => 'css selector',
+        ]
     ];
 
     /**
@@ -101,58 +89,42 @@ class CatalogProductView extends FrontendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\View\Options
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
      */
-    public function getOptionsBlock()
+    public function getCustomOptionsBlock()
     {
-        return $this->getBlockInstance('optionsBlock');
+        return $this->getBlockInstance('customOptionsBlock');
     }
 
     /**
      * @return \Magento\Catalog\Test\Block\Product\ProductList\Related
      */
-    public function getRelatedProductSelector()
+    public function getRelatedProductBlock()
     {
-        return $this->getBlockInstance('relatedProductSelector');
+        return $this->getBlockInstance('relatedProductBlock');
     }
 
     /**
      * @return \Magento\Catalog\Test\Block\Product\ProductList\Upsell
      */
-    public function getUpsellSelector()
+    public function getUpsellBlock()
     {
-        return $this->getBlockInstance('upsellSelector');
-    }
-
-    /**
-     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
-     */
-    public function getGiftCardBlockSelector()
-    {
-        return $this->getBlockInstance('giftCardBlockSelector');
+        return $this->getBlockInstance('upsellBlock');
     }
 
     /**
      * @return \Magento\Catalog\Test\Block\Product\ProductList\Crosssell
      */
-    public function getCrosssellSelector()
+    public function getCrosssellBlock()
     {
-        return $this->getBlockInstance('crosssellSelector');
+        return $this->getBlockInstance('crosssellBlock');
     }
 
     /**
      * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
      */
-    public function getDownloadableLinksSelector()
+    public function getDownloadableLinksBlock()
     {
-        return $this->getBlockInstance('downloadableLinksSelector');
-    }
-
-    /**
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
-     */
-    public function getCustomOptions()
-    {
-        return $this->getBlockInstance('customOptions');
+        return $this->getBlockInstance('downloadableLinksBlock');
     }
 }

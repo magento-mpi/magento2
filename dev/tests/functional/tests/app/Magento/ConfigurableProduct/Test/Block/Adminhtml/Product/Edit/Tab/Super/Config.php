@@ -46,7 +46,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $loader = '[data-role=loader]';
+    protected $loader = './ancestor::body//*[contains(@data-role,"loader")]';
 
     /**
      * Attribute Opened
@@ -60,7 +60,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $attributeTab = '//*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
+    protected $attributeTab = './/*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
 
     /**
      * Get attribute block
@@ -96,9 +96,8 @@ class Config extends Tab
      */
     public function generateVariations()
     {
-        $browser = $this->_rootElement;
-        $browser->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible($this->matrixBlock);
+        $this->_rootElement->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible($this->matrixBlock, Locator::SELECTOR_CSS);
     }
 
     /**

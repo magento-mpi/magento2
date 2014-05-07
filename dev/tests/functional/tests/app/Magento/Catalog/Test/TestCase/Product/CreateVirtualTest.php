@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,6 +22,8 @@ class CreateVirtualTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +34,7 @@ class CreateVirtualTest extends Functional
      * Creating Virtual product with required fields only and assign it to the category
      *
      * @ZephyrId MAGETWO-13593
+     * @return void
      */
     public function testCreateProduct()
     {
@@ -43,13 +43,13 @@ class CreateVirtualTest extends Functional
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $createProductPage->open();
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm->fill($product);
+        $createProductPage->getProductPageAction()->save();
         //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -64,12 +64,13 @@ class CreateVirtualTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param VirtualProduct $product
+     * @return void
      */
-    protected function assertOnGrid($product)
+    protected function assertOnGrid(VirtualProduct $product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -78,8 +79,9 @@ class CreateVirtualTest extends Functional
      * Assert product data on category and product pages
      *
      * @param VirtualProduct $product
+     * @return void
      */
-    protected function assertOnCategory($product)
+    protected function assertOnCategory(VirtualProduct $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -95,6 +97,7 @@ class CreateVirtualTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $price = $productViewBlock->getProductPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
     }
 }

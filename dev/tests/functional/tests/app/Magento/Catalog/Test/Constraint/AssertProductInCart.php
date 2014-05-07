@@ -8,13 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductInCart
+ *
  * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInCart extends AbstractConstraint
@@ -27,14 +28,16 @@ class AssertProductInCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Assertion that the product is correctly displayed in cart
+     *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CheckoutCart $checkoutCart
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CatalogProductSimple $product,
+        FixtureInterface $product,
         CheckoutCart $checkoutCart
     ) {
         //Add product to cart
@@ -42,24 +45,25 @@ class AssertProductInCart extends AbstractConstraint
         $catalogProductView->open();
         $productOptions = $product->getCustomOptions();
         if ($productOptions) {
-            $customOption = $catalogProductView->getOptionsBlock();
-            $options = $customOption->getProductCustomOptions();
+            $customOption = $catalogProductView->getCustomOptionsBlock();
+            $options = $customOption->getOptions();
             $key = $productOptions[0]['title'];
-            $customOption->selectProductCustomOption($options[$key][1]);
+            $customOption->selectProductCustomOption(reset($options[$key]['value']));
         }
         $catalogProductView->getViewBlock()->clickAddToCart();
 
+        // Check price
         $this->assertOnShoppingCart($product, $checkoutCart);
     }
 
     /**
-     * Assert prices on the shopping Cart
+     * Assert prices on the shopping cart
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CheckoutCart $checkoutCart
      * @return void
      */
-    protected function assertOnShoppingCart(CatalogProductSimple $product, CheckoutCart $checkoutCart)
+    protected function assertOnShoppingCart(FixtureInterface $product, CheckoutCart $checkoutCart)
     {
         $cartBlock = $checkoutCart->getCartBlock();
         $productName = $product->getName();
@@ -103,12 +107,12 @@ class AssertProductInCart extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in category assert
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product price in shopping cart is not correct.';
+        return 'Product is correctly displayed in cart.';
     }
 }

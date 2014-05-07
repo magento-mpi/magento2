@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,6 +12,12 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
+/**
+ * Class BundleDynamicTest
+ * Bundle product dynamic test
+ *
+ * @package Magento\Bundle\Test\TestCase
+ */
 class BundleDynamicTest extends Functional
 {
     /**
@@ -29,6 +32,7 @@ class BundleDynamicTest extends Functional
      * Creating bundle (dynamic) product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12702
+     * @return void
      */
     public function testCreate()
     {
@@ -38,14 +42,14 @@ class BundleDynamicTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $productBlockForm->fill($bundle);
-        $productBlockForm->save($bundle);
+        $productForm->fill($bundle);
+        $createProductPage->getProductPageAction()->save();
         //Verification
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
+        $createProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -60,6 +64,7 @@ class BundleDynamicTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -70,7 +75,10 @@ class BundleDynamicTest extends Functional
     }
 
     /**
+     * Checking the product on the category page
+     *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnCategory($product)
     {
@@ -91,7 +99,7 @@ class BundleDynamicTest extends Functional
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getOptionsBlock();
+        $productOptionsBlock = $productPage->getCustomOptionsBlock();
         $actualOptions = $productOptionsBlock->getBundleOptions();
         $expectedOptions = $product->getBundleOptions();
         foreach ($actualOptions as $optionType => $actualOption) {

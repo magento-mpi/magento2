@@ -9,8 +9,20 @@
 -->
 <page mca="catalog/product/edit" >
     <block>
+        <name>form</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Form</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
         <name>productForm</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm</class>
+        <class>Magento\Catalog\Test\Block\Backend\ProductForm</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>configurableProductForm</name>
+        <class>Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm</class>
         <locator>[id="page:main-container"]</locator>
         <strategy>css selector</strategy>
     </block>
@@ -21,15 +33,9 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>message</name>
+        <name>messageBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages .messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>productAttributeForm</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeForm</class>
-        <locator>#create_new_attribute_container</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

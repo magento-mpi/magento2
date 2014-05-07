@@ -10,14 +10,14 @@
 <mapping strict="0">
     <fields>
         <price>
-            <selector>#group_price_row_%row%_price</selector>
+            <selector>[id$="_price"]</selector>
         </price>
         <website>
-            <selector>#group_price_row_%row%_website</selector>
+            <selector>[id$="_website"]</selector>
             <input>select</input>
         </website>
         <customer_group>
-            <selector>#group_price_row_%row%_cust_group</selector>
+            <selector>[id$="_cust_group"]</selector>
             <input>select</input>
         </customer_group>
     </fields>

@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
@@ -27,15 +27,15 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Process assert
+     * Assertion that tier prices are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
-        CatalogProductSimple $product
+        FixtureInterface $product
     ) {
         // TODO fix initialization url for frontend page
         //Open product view page
@@ -49,11 +49,11 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     /**
      * Verify product tier price on product view page
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogProductView $catalogProductView
      * @return void
      */
-    protected function assertTierPrice(CatalogProductSimple $product, CatalogProductView $catalogProductView)
+    protected function assertTierPrice(FixtureInterface $product, CatalogProductView $catalogProductView)
     {
         $noError = true;
         $match = [];
@@ -80,7 +80,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     }
 
     /**
-     * Text of visible in tier price product assert
+     * Returns a string representation of the object.
      *
      * @return string
      */

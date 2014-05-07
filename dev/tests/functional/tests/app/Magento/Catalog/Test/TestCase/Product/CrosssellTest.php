@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,6 +17,8 @@ class CrosssellTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -30,6 +29,7 @@ class CrosssellTest extends Functional
      * Product Cross-selling. Assign cross-selling to products and see them related on the front-end.
      *
      * @ZephyrId MAGETWO-12390
+     * @return void
      */
     public function testCreateCrosssell()
     {
@@ -113,8 +113,9 @@ class CrosssellTest extends Functional
      *
      * @param Product $product
      * @param array $crosssellProducts
+     * @return void
      */
-    private function addCrosssellProducts($product, $crosssellProducts)
+    private function addCrosssellProducts(Product $product, array $crosssellProducts)
     {
         $crosssellFixture = Factory::getFixtureFactory()->getMagentoCatalogCrosssellProducts();
         $crosssellFixture->setProducts($crosssellProducts);
@@ -125,8 +126,9 @@ class CrosssellTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $product->getProductSku()));
-        $editProductPage->getProductBlockForm()->fill($crosssellFixture);
-        $editProductPage->getProductBlockForm()->save($crosssellFixture);
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($crosssellFixture);
+        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getMessageBlock()->assertSuccessMessage();
     }
 }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +12,18 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
+/**
+ * Class EditBundleTest
+ * Edit bundle product test
+ *
+ * @package Magento\Bundle\Test\TestCase
+ */
 class EditBundleTest extends Functional
 {
+    /**
+     * Login user to backend
+     * @return void
+     */
     protected function setUp()
     {
         Factory::getApp()->magentoBackendLoginUser();
@@ -28,6 +35,9 @@ class EditBundleTest extends Functional
      * @dataProvider createDataProvider
      * @ZephyrId MAGETWO-12842
      * @ZephyrId MAGETWO-12841
+     *
+     * @param $fixture
+     * @return void
      */
     public function testEditBundle($fixture)
     {
@@ -43,7 +53,7 @@ class EditBundleTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productBlockForm = $editProductPage->getProductBlockForm();
+        $productForm = $editProductPage->getProductForm();
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
@@ -51,10 +61,10 @@ class EditBundleTest extends Functional
             'sku' => $product->getProductSku(),
             'type' => 'Bundle Product'
         ));
-        $productBlockForm->fill($editProduct);
-        $productBlockForm->save($editProduct);
+        $productForm->fill($editProduct);
+        $editProductPage->getProductPageAction()->save();
         //Verifying
-        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        $editProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
@@ -63,6 +73,11 @@ class EditBundleTest extends Functional
         $this->assertOnCategory($editProduct, $product->getCategoryName());
     }
 
+    /**
+     * Create data provider
+     *
+     * @return array
+     */
     public function createDataProvider()
     {
         return array(
@@ -75,6 +90,7 @@ class EditBundleTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param Bundle $product
+     * @return void
      */
     protected function assertOnGrid($product)
     {
@@ -85,8 +101,11 @@ class EditBundleTest extends Functional
     }
 
     /**
+     * Check the product on the category page
+     *
      * @param Bundle $product
      * @param string $categoryName
+     * @return void
      */
     protected function assertOnCategory($product, $categoryName)
     {

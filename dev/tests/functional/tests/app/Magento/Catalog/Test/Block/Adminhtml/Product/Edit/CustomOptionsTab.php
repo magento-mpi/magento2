@@ -10,23 +10,23 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Element;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Custom Options Tab
+ * Class CustomOptionsTab
+ * Product custom options tab
  *
- * @package Magento\Catalog\Test\Block\Product
+ * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit
  */
-class CustomOptionsTab extends Tab
+class CustomOptionsTab extends Options
 {
     /**
-     * Subform of the main tab form
+     * Class name 'Subform' of the main tab form
      *
      * @var array
      */
     protected $childrenForm = [
-        'Field' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab\OptionField',
-        'Drop-down' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab\OptionDropDown'
+        'Field' => 'CustomOptionsTab\OptionField',
+        'Drop-down' => 'CustomOptionsTab\OptionDropDown'
     ];
 
     /**
@@ -37,7 +37,7 @@ class CustomOptionsTab extends Tab
     protected $buttonFormLocator = '[data-ui-id="admin-product-options-add-button"]';
 
     /**
-     * Fill custom options
+     * Fill custom options form on tab
      *
      * @param array $fields
      * @param Element $element
@@ -45,48 +45,42 @@ class CustomOptionsTab extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        $fields = reset($fields);
+        $fields = reset($fields );
         if (empty($fields['value'])) {
             return $this;
         }
 
-        $isolationMapping = $this->mapping;
-        foreach ($fields['value'] as $row => $field) {
-            $row += 1;
-            $this->mapping = $this->preparingSelectors(
-                ['%row%' => $row]
-            );
-
+        foreach ($fields['value'] as $keyRoot => $field) {
+            ++$keyRoot;
+            $options = null;
             $this->_rootElement->find($this->buttonFormLocator)->click();
+            if (!empty($field['options'])) {
+                $options = $field['options'];
+                unset($field['options']);
+            }
+
+            $rootElement = $this->_rootElement->find('#option_' . $keyRoot);
             $data = $this->dataMapping($field);
-            $this->_fill($data, $element);
+            $this->_fill($data, $rootElement);
 
             // Fill subform
             if (isset($field['type']) && isset($this->childrenForm[$field['type']])
-                && !empty($field['options'])
+                && !empty($options)
             ) {
-                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
                 $optionsForm = ObjectManager::getInstance()->create(
-                    $this->childrenForm[$field['type']],
-                    ['element' => $element]
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                    ['element' => $rootElement]
                 );
 
-                $optionIsolationMapping = $optionsForm->getMapping();
-                foreach ($field['options'] as $optionRow => $option) {
-                    $placeholder = [
-                        '%row-1%' => $row,
-                        '%row-2%' => $optionRow + 1
-                    ];
-                    $mapping = $this->preparingSelectors(
-                        $placeholder,
-                        $optionIsolationMapping
+                foreach ($options as $key => $option) {
+                    ++$key;
+                    $optionsForm->fillOptions(
+                        $option,
+                        $rootElement->find('.fieldset .data-table tbody tr:nth-child(' . $key . ')')
                     );
-
-                    $optionsForm->setMapping($mapping);
-                    $optionsForm->fillAnArray($option, $placeholder);
                 }
             }
-            $this->mapping = $isolationMapping;
         }
 
         return $this;
