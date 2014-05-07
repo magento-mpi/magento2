@@ -27,12 +27,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('isAllowed')
             ->will($this->returnValue($isAllowed));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        /** @var Category $element */
         $element = $objectManager->getObject(
             '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
             ['authorization' => $authorizationMock, 'data' => $data]
         );
 
-        $this->assertEquals($expected, $element->getNoDisPlay());
+        $this->assertEquals($expected, $element->getNoDisplay());
     }
 
     public function getNoDisplayDataProvider()
