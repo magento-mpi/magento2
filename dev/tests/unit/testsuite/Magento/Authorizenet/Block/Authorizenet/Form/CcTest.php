@@ -31,7 +31,10 @@ class CcTest extends \PHPUnit_Framework_TestCase
     {
         $widgetInitData = \Zend_Json::decode($this->_block->getWidgetInitData());
         $this->assertArrayHasKey('authorizenetAuthenticate', $widgetInitData);
-        $this->assertArrayHasKey('partialAuthorizationConfirmationMessage', $widgetInitData['authorizenetAuthenticate']);
+        $this->assertArrayHasKey(
+            'partialAuthorizationConfirmationMessage',
+            $widgetInitData['authorizenetAuthenticate']
+        );
         $this->assertArrayHasKey('cancelConfirmationMessage', $widgetInitData['authorizenetAuthenticate']);
         $this->assertArrayHasKey('cancelUrl', $widgetInitData['authorizenetAuthenticate']);
     }
