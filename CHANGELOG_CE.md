@@ -32,6 +32,7 @@
   * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
   * Fixed: Catalog Price Rule is not shown on the Catalog and Product pages (MAGETWO-24114)
   * Fixed: Recuring profiles(payments) are viewable(editable) by any registered user who knows the URL (MAGETWO-22339)
+  * Fixed: Credit card frame is absent while Onepage Checkout on Payment Information step if only one payment method is enabled (MAGETWO-23956)
 * Service layer updates:
   * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 
