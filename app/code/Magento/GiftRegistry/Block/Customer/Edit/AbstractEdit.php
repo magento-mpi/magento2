@@ -388,7 +388,12 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
                 case 'region':
                     $default = isset($data['default']) ? $data['default'] : '';
                     $element = $this->getRegionHtmlSelectEmpty(
-                        $name, $id, $value, $class, '', $default
+                        $name,
+                        $id,
+                        $value,
+                        $class,
+                        '',
+                        $default
                     );
                     $id = $this->_getElementId($id . '_text');
                     $name = $this->_getElementName($id);
