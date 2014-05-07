@@ -2479,5 +2479,21 @@ return array(
     ['Magento\Registry', 'Magento\Framework\Registry'],
     ['Magento\Util', 'Magento\Framework\Util'],
     ['Magento\BootstrapException', 'Magento\Framework\BootstrapException'],
-    ['Magento\Checkout\Helper\Url']
+    ['Magento\Checkout\Helper\Url'],
+    [
+        'Magento\Customer\Service\V1\CustomerCurrentService',
+        'Magento\Customer\Helper\Session\CurrentCustomer'
+    ],
+    [
+        'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
+        'Magento\Customer\Helper\Session\CurrentCustomer'
+    ],
+    [
+        'Magento\Customer\Service\V1\CustomerAddressCurrentService',
+        'Magento\Customer\Helper\Session\CurrentCustomerAddress'
+    ],
+    [
+        'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
+        'Magento\Customer\Helper\Session\CurrentCustomerAddress'
+    ]
 );
