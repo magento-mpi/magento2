@@ -85,4 +85,23 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         return $this->model->getAreaCode();
     }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Some error
+     */
+    public function testEmulateAreaCodeException()
+    {
+        $areaCode = 'original code';
+        $emulatedCode = 'emulated code';
+        $this->scopeMock->expects($this->once())->method('setCurrentScope')->with($areaCode);
+        $this->model->setAreaCode($areaCode);
+        $this->model->emulateAreaCode($emulatedCode, array($this, 'emulateAreaCodeCallbackException'));
+        $this->assertEquals($this->model->getAreaCode(), $areaCode);
+    }
+
+    public function emulateAreaCodeCallbackException()
+    {
+        throw new \Exception('Some error');
+    }
 }

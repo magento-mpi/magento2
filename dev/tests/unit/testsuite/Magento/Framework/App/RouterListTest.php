@@ -38,10 +38,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->model = new \Magento\Framework\App\RouterList($this->objectManagerMock, $this->routerList);
     }
 
-    /**
-     * @covers \Magento\Framework\App\RouterList::key
-     * @covers \Magento\Framework\App\RouterList::current
-     */
     public function testCurrent()
     {
         $expectedClass = new DefaultClass();
@@ -53,11 +49,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedClass, $this->model->current());
     }
 
-    /**
-     * @covers \Magento\Framework\App\RouterList::key
-     * @covers \Magento\Framework\App\RouterList::current
-     * @covers \Magento\Framework\App\RouterList::next
-     */
     public function testNext()
     {
         $expectedClass = new FrontClass();
@@ -70,10 +61,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedClass, $this->model->current());
     }
 
-    /**
-     * @covers \Magento\Framework\App\RouterList::next
-     * @covers \Magento\Framework\App\RouterList::valid
-     */
     public function testValid()
     {
         $this->assertTrue($this->model->valid());
@@ -83,12 +70,6 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->valid());
     }
 
-    /**
-     * @covers \Magento\Framework\App\RouterList::key
-     * @covers \Magento\Framework\App\RouterList::current
-     * @covers \Magento\Framework\App\RouterList::next
-     * @covers \Magento\Framework\App\RouterList::rewind
-     */
     public function testRewind()
     {
         $frontClass = new FrontClass();
