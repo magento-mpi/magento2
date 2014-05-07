@@ -96,6 +96,15 @@ class Config
     const DISPLAY_TYPE_BOTH = 3;
 
     /**
+     * Indexes for FPT Configuration Types
+     */
+    const FPT_NOT_TAXED = 0;
+
+    const FPT_TAXED = 1;
+
+    const FPT_LOADED_DISPLAY_WITH_TAX = 2;
+
+    /**
      * @var bool|null
      */
     protected $_priceIncludesTax = null;
