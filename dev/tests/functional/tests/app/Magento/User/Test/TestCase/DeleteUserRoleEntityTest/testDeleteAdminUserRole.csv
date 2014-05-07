@@ -1,0 +1,3 @@
+"role/dataSet";"user/dataSet";"isDefaultUser";"constraint"
+"default";"custom_admin";"0";"assertImpossibleDeleteYourOwnRole, assertRoleInGrid"
+"default";"default_admin";"1";"assertRoleSuccessDeleteMessage, assertRoleNotInGrid"
