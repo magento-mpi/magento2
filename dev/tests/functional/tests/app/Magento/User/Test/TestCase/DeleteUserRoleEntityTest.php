@@ -8,6 +8,8 @@
 
 namespace Magento\User\Test\TestCase;
 
+use Magento\Backend\Block\Page\Header;
+use Magento\Backend\Test\Page\Dashboard;
 use Magento\User\Test\Fixture\AdminUserInjectable;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Magento\Backend\Test\Page\AdminAuth;
@@ -50,11 +52,17 @@ class DeleteUserRoleEntityTest extends Injectable
     protected $adminAuth;
 
     /**
+     * @var Dashboard
+     */
+    protected $dashboard;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param UserRoleIndex $userRoleIndex
      * @param UserRoleEditRole $userRoleEditRole
-     * @param AdminUserRole $role
      * @param AdminAuth $adminAuth
+     * @param AdminUserRole $role
+     * @param Dashboard $dashboard
      * @return array
      */
     public function __inject(
@@ -62,11 +70,13 @@ class DeleteUserRoleEntityTest extends Injectable
         UserRoleIndex $userRoleIndex,
         UserRoleEditRole $userRoleEditRole,
         AdminAuth $adminAuth,
-        AdminUserRole $role
+        AdminUserRole $role,
+        Dashboard $dashboard
     ) {
         $this->userRoleIndex = $userRoleIndex;
         $this->userRoleEditRole = $userRoleEditRole;
         $this->adminAuth = $adminAuth;
+        $this->dashboard = $dashboard;
 
         $role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => 'default']);
         $role->persist();
@@ -112,5 +122,15 @@ class DeleteUserRoleEntityTest extends Injectable
         }
         $this->userRoleIndex->getRoleGrid()->searchAndOpen($filter);
         $this->userRoleEditRole->getPageActions()->delete();
+    }
+
+    /**
+     * Logout Admin User from account
+     *
+     * return void
+     */
+    public function tearDown()
+    {
+        $this->dashboard->getAdminPanelHeader()->logOut();
     }
 }
