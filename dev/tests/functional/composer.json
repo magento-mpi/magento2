@@ -6,7 +6,7 @@
         }
     ],
     "require": {
-        "magento/mtf": "dev-develop",
+        "magento/mtf": "MAGETWO-23543",
         "php": ">=5.4.0",
         "phpunit/phpunit": "3.7.*",
         "phpunit/phpunit-selenium": ">=1.2",
