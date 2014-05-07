@@ -183,7 +183,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     }
 
     /**
-     * Hook for operations before rendering filters
+     * Render additional filters and joins
+     *
      * @return void
      */
     protected function _renderFiltersBefore()
