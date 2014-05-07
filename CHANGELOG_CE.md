@@ -26,6 +26,15 @@
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
   * Fixed: Improve Blank theme UI (MAGETWO-23339)
+  * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
+  * Error messages are not correct during customer registration (MAGETWO-23976)
+  * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
+  * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
+  * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
+  * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
+  * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
+* Service layer updates:
+  * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 
 2.0.0.0-dev76
 =============
@@ -40,7 +49,7 @@
   * Removed head.js usages from adminhtml
 * Themes update:
   * Plushe styles are removed, Plushe theme is now based on blank
-* Fixed bugs:  
+* Fixed bugs:
   * Unable to place order with product that contains custom option 'file'
   * OnePageCheckout is not working if PayPal method is enabled to work via Payment Bridge
   * Impossible to reset password for admin user (incorrect reset password link in email)

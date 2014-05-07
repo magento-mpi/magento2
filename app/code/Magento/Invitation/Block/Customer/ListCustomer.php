@@ -30,7 +30,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_invitationStatus;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -42,7 +42,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -53,7 +53,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         CustomerAddressServiceInterface $addressService,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_invitationFactory = $invitationFactory;
