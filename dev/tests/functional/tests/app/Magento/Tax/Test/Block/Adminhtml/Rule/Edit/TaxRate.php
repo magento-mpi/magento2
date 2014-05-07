@@ -28,6 +28,9 @@ class TaxRate extends FormInterface
      */
     protected $saveTaxRate = '#tax-rule-edit-apply-button';
 
+    /**
+     * Clicking 'Save' button on dialog window for creating new tax rate
+     */
     public function saveTaxRate()
     {
         $this->_rootElement->find($this->saveTaxRate)->click();

@@ -19,25 +19,18 @@ use Mtf\Client\Element\Locator;
 class MultiselectlistElement extends MultiselectElement
 {
     /**
-     * XPath selector for finding needed option by its value
-     *
-     * @var string
-     */
-    protected $optionMaskElement = './/*[contains(@class, "mselect-list-item")]//label/span[text()="%s"]';
-
-    /**
      * XPath selector for finding option by its position number
      *
      * @var string
      */
-    protected $optionElement = './/*[contains(@class,"mselect-list-item")][%d]';
+    protected $optionElement = './/*[contains(@class,"mselect-list-item")][%d]/label';
 
     /**
-     * XPath selector for checking is option checked by value
+     * XPath selector for checking is option checked
      *
      * @var string
      */
-    protected $optionCheckedElement = './/*[contains(@class, "mselect-checked")]/following-sibling::span[text()="%s"]';
+    protected $optionCheckedElement = './/*[contains(@class, "mselect-checked")]/following-sibling::span';
 
     /**
      * @param bool $waitForElementPresent
@@ -56,28 +49,18 @@ class MultiselectlistElement extends MultiselectElement
      */
     public function setValue($values)
     {
-        $this->clearSelectedOptions();
-        if (is_array($values)) {
-            foreach ($values as $value) {
-                $this->selectOptionByValue($value);
-            }
-        } else {
-            $this->selectOptionByValue($values);
-        }
-    }
+        $options = $this->getOptions();
+        $values = is_array($values) ? $values : [$values];
 
-    /**
-     * Select option by value
-     *
-     * @param string $value the text appearing in the option
-     * @throws \Exception
-     */
-    protected function selectOptionByValue($value) {
-        $option = $this->_context->find(sprintf($this->optionMaskElement, $value), Locator::SELECTOR_XPATH);
-        if (!$option->isVisible()) {
-            throw new \Exception('[' . $value . '] option is not visible in select list.');
+        foreach ($options as $option) {
+            /** @var Element $option */
+            $optionText = $option->getText();
+            $isChecked = $option->find($this->optionCheckedElement, Locator::SELECTOR_XPATH)->isVisible();
+            $inArray = in_array($optionText, $values);
+            if (($isChecked && !$inArray) || (!$isChecked && $inArray)) {
+                $option->click();
+            }
         }
-        $option->click();
     }
 
     /**
@@ -87,20 +70,12 @@ class MultiselectlistElement extends MultiselectElement
      */
     public function getValue()
     {
-        $options = [];
         $checkedOptions = [];
-        $counter = 1;
+        $options = $this->getOptions();
 
-        $newOption = $this->find(sprintf($this->optionElement, $counter), Locator::SELECTOR_XPATH);
-        while ($newOption->isVisible()) {
-            $options[] = $newOption;
-            $counter++;
-            $newOption = $this->find(sprintf($this->optionElement, $counter), Locator::SELECTOR_XPATH);
-        }
-
-        foreach($options as $option) {
+        foreach ($options as $option) {
             /** @var Element $option */
-            $checkedOption =  $option->find('.//*[contains(@class, "mselect-checked")]/following-sibling::span', Locator::SELECTOR_XPATH);
+            $checkedOption = $option->find($this->optionCheckedElement, Locator::SELECTOR_XPATH);
             if ($checkedOption->isVisible()) {
                 $checkedOptions[] = $checkedOption->getText();
             }
@@ -110,13 +85,22 @@ class MultiselectlistElement extends MultiselectElement
     }
 
     /**
-     * Clear selected options in multiple select list
+     * Getting all options in multi select list
+     *
+     * @return array
      */
-    public function clearSelectedOptions()
+    protected function getOptions()
     {
-        $selectedOptions = $this->getValue();
-        foreach ($selectedOptions as $value) {
-            $this->_context->find(sprintf($this->optionMaskElement, $value), Locator::SELECTOR_XPATH)->click();
+        $options = [];
+        $counter = 1;
+
+        $newOption = $this->find(sprintf($this->optionElement, $counter), Locator::SELECTOR_XPATH);
+        while ($newOption->isVisible()) {
+            $options[] = $newOption;
+            $counter++;
+            $newOption = $this->find(sprintf($this->optionElement, $counter), Locator::SELECTOR_XPATH);
         }
+
+        return $options;
     }
 }

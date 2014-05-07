@@ -84,6 +84,10 @@ class TaxRate extends InjectableFixture
         'attribute_code' => 'tax_country_id',
     ];
 
+    protected $tax_region_id = [
+        'attribute_code' => 'tax_region_id',
+    ];
+
     protected $rate = [
         'attribute_code' => 'rate',
     ];
@@ -135,6 +139,11 @@ class TaxRate extends InjectableFixture
     public function getTaxCountryId()
     {
         return $this->getData('tax_country_id');
+    }
+
+    public function getTaxRegionId()
+    {
+        return $this->getData('tax_region_id');
     }
 
     public function getRate()

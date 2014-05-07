@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="tax/rule/new" >
+<page mca="tax/rule/new">
     <block>
         <name>formPageActions</name>
         <class>Magento\Backend\Test\Block\FormPageActions</class>
@@ -24,12 +24,6 @@
         <name>messageBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>taxRateForm</name>
-        <class>Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate</class>
-        <locator>#rate_form</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Test\Page\Adminhtml; 
+namespace Magento\Tax\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class TaxRuleNew
@@ -38,12 +38,6 @@ class TaxRuleNew extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'taxRateForm' => [
-            'name' => 'taxRateForm',
-            'class' => 'Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate',
-            'locator' => '#rate_form',
-            'strategy' => 'css selector',
-        ],
     ];
 
     /**
@@ -68,13 +62,5 @@ class TaxRuleNew extends BackendPage
     public function getMessageBlock()
     {
         return $this->getBlockInstance('messageBlock');
-    }
-
-    /**
-     * @return \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate
-     */
-    public function getTaxRateForm()
-    {
-        return $this->getBlockInstance('taxRateForm');
     }
 }

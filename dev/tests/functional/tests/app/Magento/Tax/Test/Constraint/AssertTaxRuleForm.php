@@ -44,7 +44,7 @@ class AssertTaxRuleForm extends AbstractConstraint
         ];
         $taxRuleIndex->open();
         $taxRuleIndex->getTaxRuleGrid()->searchAndOpen($filter);
-        $taxRuleNew->getTaxRuleForm()->additionalSettings();
+        $taxRuleNew->getTaxRuleForm()->openAdditionalSettings();
         $formData = $taxRuleNew->getTaxRuleForm()->getData($taxRule);
         $fixtureData = $taxRule->getData();
         \PHPUnit_Framework_Assert::assertTrue(
@@ -64,7 +64,7 @@ class AssertTaxRuleForm extends AbstractConstraint
     {
         foreach ($fixtureData as $key => $value) {
             if (is_array($value)) {
-                $diff = array_diff($formData[$key], $value);
+                $diff = array_diff($value, $formData[$key]);
                 if (!empty($diff)) {
                     return false;
                 }

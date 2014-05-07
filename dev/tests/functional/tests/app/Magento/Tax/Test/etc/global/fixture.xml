@@ -41,6 +41,9 @@
             <tax_country_id>
                 <attribute_code>tax_country_id</attribute_code>
             </tax_country_id>
+            <tax_region_id>
+                <attribute_code>tax_region_id</attribute_code>
+            </tax_region_id>
             <rate>
                 <attribute_code>rate</attribute_code>
             </rate>
@@ -58,7 +61,7 @@
         <identifier>code</identifier>
         <fields>
             <tax_rate>
-                    <attribute_code>tax_rate</attribute_code>
+                <attribute_code>tax_rate</attribute_code>
             </tax_rate>
             <tax_customer_class>
                 <attribute_code>tax_customer_class</attribute_code>

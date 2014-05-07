@@ -17,19 +17,15 @@ use Mtf\TestCase\Injectable;
  * Test Creation for CreateTaxRuleEntity
  *
  * Test Flow:
- * 1.*Preconditions:*
- * 2.TaxRate is created
- * 3.
- * 4.*Steps:*
- * 5. Log in as default admin user.
- * 6. Go to Stores > Tax Rules.
- * 7. Click 'Add New Tax Rule' button.
- * 8. Fill in data according to dataSet
- * 9. Save Tax Rule.
- * 10. Perform all assertions.
+ * 1. Log in as default admin user.
+ * 2. Go to Stores > Tax Rules.
+ * 3. Click 'Add New Tax Rule' button.
+ * 4. Fill in data according to dataSet
+ * 5. Save Tax Rule.
+ * 6. Perform all assertions.
  *
  * @group Tax_(CS)
- * @ZephyrId MTA-3
+ * @ZephyrId MAGETWO-20913
  */
 class CreateTaxRuleEntityTest extends Injectable
 {
