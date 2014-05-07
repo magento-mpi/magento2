@@ -48,21 +48,19 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     private $_block;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Session\CurrentCustomer
      */
-    protected $customerCurrentService;
+    protected $currentCustomer;
 
     public function setUp()
     {
 
-        $this->customerCurrentService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerCurrentServiceInterface',
+        $this->currentCustomer = $this->getMock(
+            'Magento\Customer\Helper\Session\CurrentCustomer',
+            [],
             [],
             '',
-            false,
-            true,
-            true,
-            []
+            false
         );
 
         $urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', [], '', false);
@@ -112,7 +110,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
         $this->_block = new Info(
             $this->_context,
-            $this->customerCurrentService,
+            $this->currentCustomer,
             $this->_subscriberFactory,
             $this->_helperView
         );
@@ -120,8 +118,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomer()
     {
-
-        $this->customerCurrentService->expects(
+        $this->currentCustomer->expects(
             $this->once()
         )->method(
                 'getCustomer'
@@ -135,7 +132,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerException()
     {
-        $this->customerCurrentService->expects(
+        $this->currentCustomer->expects(
             $this->once()
         )->method(
                 'getCustomer'
@@ -153,7 +150,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $expectedValue = 'John Q Doe Jr';
 
-        $this->customerCurrentService->expects(
+        $this->currentCustomer->expects(
             $this->once()
         )->method(
                 'getCustomer'
