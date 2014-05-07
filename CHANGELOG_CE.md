@@ -27,6 +27,9 @@
   * Error messages are not correct during customer registration (MAGETWO-23976)
   * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
   * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
+  * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
+  * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
+  * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
 * Service layer updates:
   * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 
