@@ -23,6 +23,8 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+* Service layer updates:
+  * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 
 2.0.0.0-dev76
 =============
