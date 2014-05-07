@@ -9,11 +9,11 @@
 .main-navigation(
     @_nav-bg: @navigation-background,
     @_nav-border: @navigation-border,
+    @_nav-level0-font-size: @navigation-level0-font-size,
+    @_nav-level0-font-weight: @navigation-level0-font-weight,
     @_nav-level0-item-line-height: @navigation-level0-item-line-height,
     @_nav-level0-item-margin: @navigation-level0-item-margin,
     @_nav-level0-item-padding: @navigation-level0-item-padding,
-    @_nav-level0-font-size: @navigation-font-size,
-    @_nav-level0-font-weight: @navigation-level0-font-weight,
     @_nav-level0-text-transform: @navigation-level0-text-transform,
 
     @_nav-level0-item-bg: @navigation-level0-item-background,
@@ -28,10 +28,10 @@
 
     @_submenu-bg: @submenu-background,
     @_submenu-border: @submenu-border,
-    @_submenu-font-weight: @submenu-font-weight,
-    @_submenu-font-size: @submenu-font-size,
-    @_submenu-item-padding: @submenu-item-padding,
     @_submenu-padding: @submenu-padding,
+    @_submenu-font-size: @submenu-font-size,
+    @_submenu-font-weight: @submenu-font-weight,
+    @_submenu-item-padding: @submenu-item-padding,
 
     @_submenu-item-bg: @submenu-item-background,
     @_submenu-item-border: @submenu-item-border,
@@ -132,6 +132,10 @@
     @_nav-font-size: @navigation-desktop-font-size,
     @_nav-font-weight: @navigation-desktop-font-weight,
 
+    @_nav-level0-item-line-height: @navigation-desktop-level0-item-line-height,
+    @_nav-level0-item-margin: @navigation-desktop-level0-item-margin,
+    @_nav-level0-item-padding: @navigation-desktop-level0-item-padding,
+
     @_nav-level0-item-bg: @navigation-desktop-level0-item-background,
     @_nav-level0-item-border: @navigation-desktop-level0-item-border,
     @_nav-level0-item-color: @navigation-desktop-level0-item-color,
@@ -147,26 +151,21 @@
     @_nav-level0-item-color-active: @navigation-desktop-level0-item-color-active,
     @_nav-level0-item-text-decoration-active: @navigation-desktop-level0-item-text-decoration-active,
 
-    @_nav-level0-item-line-height: @navigation-desktop-level0-item-line-height,
-    @_nav-level0-item-margin: @navigation-desktop-level0-item-margin,
-    @_nav-level0-item-padding: @navigation-desktop-level0-item-padding,
-
     @_submenu-bg: @submenu-desktop-background,
-    @_submenu-border-color: @submenu-desktop-border-color,
-    @_submenu-border-style: @submenu-desktop-border-style,
     @_submenu-border-width: @submenu-desktop-border-width,
+    @_submenu-border-style: @submenu-desktop-border-style,
+    @_submenu-border-color: @submenu-desktop-border-color,
     @_submenu-box-shadow: @submenu-desktop-box-shadow,
     @_submenu-font-size: @submenu-desktop-font-size,
     @_submenu-font-weight: @submenu-desktop-font-weight,
-
     @_submenu-min-width: @submenu-desktop-min-width,
     @_submenu-padding: @submenu-desktop-padding,
-    @_submenu-item-padding: @submenu-desktop-item-padding,
 
     @_submenu-arrow: @submenu-desktop-arrow,
     @_submenu-arrow-size: @submenu-desktop-arrow-size,
     @_submenu-arrow-left: @submenu-desktop-arrow-left,
 
+    @_submenu-item-padding: @submenu-desktop-item-padding,
     @_submenu-item-bg: @submenu-desktop-item-background,
     @_submenu-item-border: @submenu-desktop-item-border,
     @_submenu-item-color: @submenu-desktop-item-color,
@@ -198,7 +197,9 @@
                 display: none;
             }
             ul {
-                .list-reset-styles();
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: 0;
                 position: relative;
             }
             .level0 {
@@ -278,6 +279,9 @@
                         .css(border, @_submenu-item-border-active);
                         .css(color, @_submenu-item-color-active);
                         .css(text-decoration, @_submenu-item-text-decoration-active);
+                    }
+                    .submenu {
+                        display: block;
                     }
                 }
                 &.more {

@@ -49,12 +49,13 @@
 }
 
 .ui-widget-overlay {
-    position: fixed;
+    position: fixed !important;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     background: @gallery-overlay-bg;
+    z-index: @loader-overlay-z-index - 1;
 }
 
 .zoom.lense {
@@ -167,7 +168,7 @@
     }
 
     .product.photo.thumbs {
-        width: 100%;
+        width: 95%;
         padding: @gallery-thumbnails-padding;
         background: @page-bg-color;
         position: absolute;
