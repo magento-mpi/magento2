@@ -71,6 +71,6 @@ class CreateBundleEntityTest extends Injectable
         $productForm->setCategory($this->category);
         $productForm->fill($bundle);
         // Step 3
-        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getFormAction()->save();
     }
 }

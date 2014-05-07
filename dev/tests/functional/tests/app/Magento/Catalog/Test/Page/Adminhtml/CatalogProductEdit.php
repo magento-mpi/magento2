@@ -38,9 +38,9 @@ class CatalogProductEdit extends BackendPage
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'productPageAction' => [
-            'name' => 'productPageAction',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction',
+        'formAction' => [
+            'name' => 'formAction',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormAction',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -77,11 +77,11 @@ class CatalogProductEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormAction
      */
-    public function getProductPageAction()
+    public function getFormAction()
     {
-        return $this->getBlockInstance('productPageAction');
+        return $this->getBlockInstance('formAction');
     }
 
     /**

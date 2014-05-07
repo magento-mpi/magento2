@@ -128,7 +128,7 @@ class CrosssellTest extends Functional
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $product->getProductSku()));
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($crosssellFixture);
-        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessageBlock()->assertSuccessMessage();
     }
 }

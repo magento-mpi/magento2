@@ -27,8 +27,8 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>productPageAction</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction</class>
+        <name>formAction</name>
+        <class>Magento\Catalog\Test\Block\Adminhtml\Product\FormAction</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
     </block>

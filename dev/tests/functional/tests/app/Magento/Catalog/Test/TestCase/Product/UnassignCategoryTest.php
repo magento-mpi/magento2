@@ -47,7 +47,7 @@ class UnassignCategoryTest extends Functional
         $editProductPage->open(array('id' => $simple->getProductId()));
         $productForm = $editProductPage->getProductForm();
         $productForm->clearCategorySelect();
-        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getFormAction()->save();
         //Verifying
         $editProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache

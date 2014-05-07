@@ -49,7 +49,7 @@ class CreateConfigurableTest extends Functional
         $manageProductsGrid->getProductBlock()->addProduct('configurable');
         $productForm = $createProductPage->getProductForm();
         $productForm->fill($product);
-        $createProductPage->getProductPageAction()->saveProduct($createProductPage, $product);
+        $createProductPage->getFormAction()->saveProduct($createProductPage, $product);
         //Verifying
         $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache

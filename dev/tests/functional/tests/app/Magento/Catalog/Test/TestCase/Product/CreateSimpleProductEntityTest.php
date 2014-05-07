@@ -99,6 +99,6 @@ class CreateSimpleProductEntityTest extends Injectable
         $productBlockForm = $this->newProductPage->getForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($product);
-        $this->newProductPage->getProductPageAction()->save();
+        $this->newProductPage->getFormAction()->save();
     }
 }

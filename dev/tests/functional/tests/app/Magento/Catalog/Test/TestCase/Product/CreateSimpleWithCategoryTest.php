@@ -53,7 +53,7 @@ class CreateSimpleWithCategoryTest extends Functional
         $addProductBlock->addProduct();
         $productForm->addNewCategory($product);
         $productForm->fill($product);
-        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getFormAction()->save();
 
         //Verifying
         $createProductPage->getMessageBlock()->assertSuccessMessage();

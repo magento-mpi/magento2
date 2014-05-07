@@ -46,7 +46,7 @@ class EditConfigurableTest extends CreateConfigurableTest
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $productSku));
         //Editing product options
         $productForm->fill($editProduct);
-        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getFormAction()->save();
         //Verifying
         $createProductPage->getMessageBlock()->assertSuccessMessage();
         //Flush cache

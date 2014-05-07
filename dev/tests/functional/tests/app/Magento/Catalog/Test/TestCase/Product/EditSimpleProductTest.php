@@ -55,7 +55,7 @@ class EditSimpleProductTest extends Functional
             'type' => 'Simple Product'
         ));
         $productForm->fill($editProduct);
-        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getFormAction()->save();
         //Verifying
         $editProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache

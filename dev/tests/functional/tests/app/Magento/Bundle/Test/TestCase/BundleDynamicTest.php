@@ -47,7 +47,7 @@ class BundleDynamicTest extends Functional
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productForm->fill($bundle);
-        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getFormAction()->save();
         //Verification
         $createProductPage->getMessageBlock()->assertSuccessMessage();
         // Flush cache

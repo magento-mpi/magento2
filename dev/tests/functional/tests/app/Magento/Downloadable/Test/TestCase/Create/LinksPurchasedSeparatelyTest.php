@@ -43,7 +43,7 @@ class LinksPurchasedSeparatelyTest extends Functional
 
         $createProductPage->open();
         $productForm->fill($this->product);
-        $createProductPage->getProductPageAction()->save();
+        $createProductPage->getFormAction()->save();
 
         $createProductPage->getMessageBlock()->assertSuccessMessage();
 

@@ -13,12 +13,12 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\FormPageActions;
 
 /**
- * Class ProductPageAction
+ * Class FormAction
  * Form action
  *
  * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
-class ProductPageAction extends FormPageActions
+class FormAction extends FormPageActions
 {
     /**
      * "Save" button

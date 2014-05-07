@@ -117,7 +117,7 @@ class CreateWithAttributeTest extends Functional
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->getProductForm()
             ->fillVariations($variations);
-        $createProductPage->getProductPageAction()->saveProduct($createProductPage, $variations);
+        $createProductPage->getFormAction()->saveProduct($createProductPage, $variations);
     }
 
     /**

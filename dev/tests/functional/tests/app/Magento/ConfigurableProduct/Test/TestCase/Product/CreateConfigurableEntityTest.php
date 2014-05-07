@@ -88,6 +88,6 @@ class CreateConfigurableEntityTest extends Injectable
         $productBlockForm = $this->newProductPage->getConfigurableProductForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($configurable);
-        $this->newProductPage->getProductPageAction()->saveProduct($this->newProductPage, $configurable);
+        $this->newProductPage->getFormAction()->saveProduct($this->newProductPage, $configurable);
     }
 }

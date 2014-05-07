@@ -39,9 +39,9 @@ class CatalogProductNew extends BackendPage
             'locator' => 'body',
             'strategy' => 'css selector',
         ],
-        'productPageAction' => [
-            'name' => 'productPageAction',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction',
+        'formAction' => [
+            'name' => 'formAction',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormAction',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -106,11 +106,11 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormAction
      */
-    public function getProductPageAction()
+    public function getFormAction()
     {
-        return $this->getBlockInstance('productPageAction');
+        return $this->getBlockInstance('formAction');
     }
 
     /**

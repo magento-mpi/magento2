@@ -54,7 +54,7 @@ class UpsellTest extends Functional
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
-        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessageBlock()->assertSuccessMessage();
 
         $productGridPage->open();
@@ -64,7 +64,7 @@ class UpsellTest extends Functional
         $assignToSimple1->switchData('add_upsell_product');
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
-        $editProductPage->getProductPageAction()->save();
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessageBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
