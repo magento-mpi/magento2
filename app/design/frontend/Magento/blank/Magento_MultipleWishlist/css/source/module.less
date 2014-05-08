@@ -13,13 +13,17 @@
             @_options-selector : ~".items",
             @_dropdown-split-button-border-radius-fix: true
         );
-        .product.info.main & {
+        .product.info.main &,
+        .item.product & {
             .split,
             .toggle {
                 .button-s();
             }
+            .toggle {
+                padding: 0;
+            }
         }
-        vertical-align: top;
+        vertical-align: middle;
     }
     &.window.popup {
         .popup();
@@ -27,9 +31,9 @@
             display: block;
         }
         .field {
-            .form-field(
-                @_type: block
-            )
+        }
+        .actions.toolbar {
+            &:extend(.reset-left-margin all);
         }
     }
     &.overlay {
@@ -75,6 +79,19 @@
         .toolbar.wishlist {
             float: right;
             margin-top: 5px;
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @break-point-1) {
+    .wishlist {
+        &.window.popup {
+            .field {
+                .form-field-type-revert(@_type: block);
+            }
         }
     }
 }

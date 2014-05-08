@@ -1,3 +1,5 @@
+* Themes update:
+  * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
   * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
@@ -23,6 +25,9 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+  * Fixed: Improve Blank theme UI (MAGETWO-23339)
+  * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
+  * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
   * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
@@ -46,6 +51,9 @@
   * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
   * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
   * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
+  * Fixed: Catalog Price Rule is not shown on the Catalog and Product pages (MAGETWO-24114)
+  * Fixed: Recuring profiles(payments) are viewable(editable) by any registered user who knows the URL (MAGETWO-22339)
+  * Fixed: Credit card frame is absent while Onepage Checkout on Payment Information step if only one payment method is enabled (MAGETWO-23956)
   * Fixed: Impossible use inline translate for My Account and Register links on frontend (MAGETWO-24026)
   * Fixed: Unable to activate customer through REST (MAGETWO-23845)
   * Fixed: Undefined method version_compate called in \lib\Magento\Connect\Validator.php (MAGETWO-20347)

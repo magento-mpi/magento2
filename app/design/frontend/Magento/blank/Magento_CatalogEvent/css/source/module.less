@@ -14,12 +14,11 @@
 
 //
 //     Catalog Events
-// -------------------------------------- 
+// --------------------------------------
 .block.event {
     clear: both;
     &.category {
-        margin-top: @indent-s-base;
-        margin-bottom: (@catalog-event-pointer-size + @indent-s-base);
+        padding-bottom: (@catalog-event-pointer-size + @indent-s-base);
         .content {
             padding: 15px;
             text-align: center;
@@ -55,7 +54,7 @@
     }
 
     .content {
-        .box-sizing();
+        &:extend(.add-box-sizing all);
         position: relative;
         ._block-event-pointer();
         .subtitle {
@@ -150,7 +149,7 @@
                     }
                 }
                 .action.show {
-                    .box-sizing();
+                    &:extend(.add-box-sizing all);
                     display: block;
                     //height: 156px;
                     padding: 0;
@@ -237,8 +236,6 @@
     //     }
     // }
 }
-
-
 
 ._block-event-colors (
     @_color: @catalog-event-open,
