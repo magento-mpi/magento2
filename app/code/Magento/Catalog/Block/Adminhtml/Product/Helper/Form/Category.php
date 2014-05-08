@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
 use Magento\Catalog\Model\Resource\Category\Collection;
+use Magento\Framework\AuthorizationInterface;
 
 /**
  * Product form category field helper
@@ -39,6 +40,11 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     protected $_jsonEncoder;
 
     /**
+     * @var AuthorizationInterface
+     */
+    protected $authorization;
+
+    /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Framework\Escaper $escaper
@@ -46,6 +52,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param AuthorizationInterface $authorization
      * @param array $data
      */
     public function __construct(
@@ -56,13 +63,27 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        AuthorizationInterface $authorization,
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
+        $this->authorization = $authorization;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_layout = $layout;
+    }
+
+    /**
+     * Get no display
+     *
+     * @return bool
+     */
+    public function getNoDisplay()
+    {
+
+        $isNotAllowed = !$this->authorization->isAllowed('Magento_Catalog::categories');
+        return $this->getData('no_display') || $isNotAllowed;
     }
 
     /**
@@ -80,10 +101,10 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $collection->addAttributeToSelect('name');
         $collection->addIdFilter($values);
 
-        $options = array();
+        $options = [];
 
         foreach ($collection as $category) {
-            $options[] = array('label' => $category->getName(), 'value' => $category->getId());
+            $options[] = ['label' => $category->getName(), 'value' => $category->getId()];
         }
         return $options;
     }
@@ -113,14 +134,14 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $button = $this->_layout->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
-                'id' => 'add_category_button',
-                'label' => $newCategoryCaption,
-                'title' => $newCategoryCaption,
-                'onclick' => 'jQuery("#new-category").dialog("open")',
-                'disabled' => $this->getDisabled()
-            )
-        );
+                [
+                    'id' => 'add_category_button',
+                    'label' => $newCategoryCaption,
+                    'title' => $newCategoryCaption,
+                    'onclick' => 'jQuery("#new-category").dialog("open")',
+                    'disabled' => $this->getDisabled()
+                ]
+            );
         $return = <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>
@@ -137,12 +158,12 @@ HTML;
      */
     protected function _getSelectorOptions()
     {
-        return array(
+        return [
             'source' => $this->_backendData->getUrl('catalog/category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',
             'multiselect' => true,
             'showAll' => true
-        );
+        ];
     }
 }
