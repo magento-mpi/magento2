@@ -11,7 +11,7 @@
  * @license    {license_link}
  */
 
-define ('GITHUB_URL_CHANGES', 'https://github.scm.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
+define('GITHUB_URL_CHANGES', 'https://github.scm.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
 define('USAGE', <<<USAGE
     php -f get_github_changes.php --
     --team-repo="<team_repo>" --feature-branch="<feature_branch>"
@@ -62,12 +62,16 @@ function retrieveChangesAcrossForks($teamRepo, $featureBranch)
     $githubChangesUrl = str_replace('%FEATURE_BRANCH%', $featureBranch, str_replace('%TEAM_REPO%', $teamRepo, GITHUB_URL_CHANGES));
 
     $request = curl_init($githubChangesUrl);
-    curl_setopt($request , CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($request , CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, TRUE);
     $response = curl_exec($request);
+    $status = curl_getinfo($request);
     curl_close($request);
 
-    if ($response === FALSE) return;
+    $httpResponseCode = $status['http_code'];
+    if ($httpResponseCode != 200) {
+        throw new Exception("Github API call failed. The following HTTP response code was received: $httpResponseCode");
+    }
 
     $jsonResponse = json_decode($response, true);
     if (count($jsonResponse) > 0)
