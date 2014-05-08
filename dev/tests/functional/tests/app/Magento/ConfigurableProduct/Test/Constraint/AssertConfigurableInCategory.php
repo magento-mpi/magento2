@@ -58,7 +58,7 @@ class AssertConfigurableInCategory extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView
     ) {
         /** @var \Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\Price $priceFixture */
-        $priceFixture = $configurable->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $configurable->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification
