@@ -843,7 +843,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                         if ($defaultStoreId == $storeId) {
                             $rowWebsites[$itemId] = array_intersect(
                                 array_keys($this->_websiteIdToCode),
-                                $item->getWebsites());
+                                $item->getWebsites()
+                            );
                             $rowCategories[$itemId] = $item->getCategoryIds();
                         }
                     }
