@@ -30,6 +30,8 @@
   * Error messages are not correct during customer registration (MAGETWO-23976)
   * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
   * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
+  * While saving category two loaders are displayed (MAGETWO-8652)
+  * Cannot perform search for Newsletters on the Newsletter grid (MAGETWO-23960)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
