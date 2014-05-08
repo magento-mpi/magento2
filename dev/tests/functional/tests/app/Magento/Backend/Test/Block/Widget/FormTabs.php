@@ -126,7 +126,8 @@ class FormTabs extends Form
     protected function updateUnassignedFields(Tab $tabElement)
     {
         $this->unassignedFields = array_diff_key(
-            $this->unassignedFields, array_intersect_key($this->unassignedFields, $tabElement->setFields)
+            $this->unassignedFields,
+            array_intersect_key($this->unassignedFields, $tabElement->setFields)
         );
     }
 

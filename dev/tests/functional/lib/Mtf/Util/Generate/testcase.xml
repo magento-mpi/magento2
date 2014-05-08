@@ -51,4 +51,22 @@
       <step>Perform all assertions.</step>
     </steps>
   </testcase>
+  <testcase>
+    <id>MTA-164</id>
+    <ticketId>MTA-164</ticketId>
+    <name>CreateNewsletterTemplateEntityTest</name>
+    <description>Test Creation for Create Newsletter Template Entity</description>
+    <module>Newsletter</module>
+    <components>
+      <component>Newsletters (MX)</component>
+    </components>
+    <steps>
+      <step>Login to backend.</step>
+      <step>Navigate to MARKETING -> Newsletter Template.</step>
+      <step>Add New Template.</step>
+      <step>Fill in all data according to data set.</step>
+      <step>Save.</step>
+      <step>Perform asserts.</step>
+    </steps>
+  </testcase>
 </testcases>
