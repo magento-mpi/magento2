@@ -20,6 +20,7 @@
   * User have no possibility to create new email template (MAGETWO-18659)
   * Billing Agreements tab is displayed during New Customer creation from backend (MAGETWO-20534)
   * Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
+  * Fixed: 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility (MAGETWO-23333)
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products (MAGETWO-23169)
