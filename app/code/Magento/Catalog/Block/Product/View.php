@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+use Magento\Catalog\Model\Product;
+
 /**
  * Product View block
  */
@@ -371,6 +373,11 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      */
     public function getIdentities()
     {
-        return $this->getProduct()->getIdentities();
+        $identities = $this->getProduct()->getIdentities();
+        $category = $this->_coreRegistry->registry('current_category');
+        if ($category) {
+            $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $category->getId();
+        }
+        return $identities;
     }
 }

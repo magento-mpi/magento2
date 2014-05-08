@@ -379,7 +379,7 @@
          * @private
          */
         _buildWishlistDropdown: function() {
-            if (this.options.wishlists.length > 0) {
+            if (this.options.wishlists && this.options.wishlists.length > 0) {
                 $(this.options.wishlistLink).each($.proxy(function(index, e) {
                     var element = $(e),
                         buttonName = element.text().trim(),
