@@ -336,7 +336,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param string $priceType
      * @param string $renderZone
      * @param array $arguments
-     * @return string
+     * @return string|null
      */
     public function getItemPriceHtml(
         \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item,
