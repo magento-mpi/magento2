@@ -28,6 +28,7 @@
   * Fixed: Improve Blank theme UI (MAGETWO-23339)
   * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
+  * Partial cache invalidation does not work for built-in caching (MAGETWO-23268)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
