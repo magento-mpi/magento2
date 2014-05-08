@@ -76,8 +76,9 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
 
     public function getNoDisplay()
     {
+
         $isNotAllowed = !$this->authorization->isAllowed('Magento_Catalog::categories');
-        return $this->hasNoDisplay() ? ($this->_data['no_display'] || $isNotAllowed) : $isNotAllowed;
+        return $this->getData('no_display') || $isNotAllowed;
     }
 
     /**
