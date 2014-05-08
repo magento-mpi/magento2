@@ -78,6 +78,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
      * Get no display
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getNoDisplay()
     {
