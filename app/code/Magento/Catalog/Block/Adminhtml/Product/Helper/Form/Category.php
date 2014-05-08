@@ -77,7 +77,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     /**
      * Get no display
      *
-     * return bool
+     * @return bool
      */
     public function getNoDisplay()
     {
