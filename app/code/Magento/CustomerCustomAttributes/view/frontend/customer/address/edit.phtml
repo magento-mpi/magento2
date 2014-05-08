@@ -101,7 +101,9 @@
             <?php echo $userDefinedAttributes->setShowContainer(false)->toHtml(); ?>
         <?php endif;?>
         <?php if($this->isDefaultBilling()): ?>
-            <div class="field note default"><?php echo __('Default Billing Address') ?></div>
+            <div class="message info">
+                <span><?php echo __('Default Billing Address') ?></span>
+            </div>
         <?php elseif($this->canSetAsDefaultBilling()): ?>
         <div class="field choice set billing">
             <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox"/>
@@ -112,7 +114,9 @@
         <?php endif; ?>
 
         <?php if($this->isDefaultShipping()): ?>
-            <div class="field note default"><?php echo __('Default Shipping Address') ?></div>
+            <div class="message info">
+                <span><?php echo __('Default Shipping Address') ?></span>
+            </div>
         <?php elseif($this->canSetAsDefaultShipping()): ?>
             <div class="field choice set shipping">
                 <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox"/>
@@ -124,7 +128,7 @@
     </fieldset>
     <div class="actions toolbar">
         <div class="primary">
-            <button type="submit" class="action submit" title="<?php echo __('Save Address') ?>">
+            <button type="submit" class="action submit primary" data-action="save-address" title="<?php echo __('Save Address') ?>">
                 <span><?php echo __('Save Address') ?></span>
             </button>
         </div>
