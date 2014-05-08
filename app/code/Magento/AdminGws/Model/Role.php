@@ -364,8 +364,8 @@ class Role extends \Magento\Framework\Object
                     $result = false;
                 } else {
                     if (count(
-                            array_intersect($categoryPathArray, array_keys($this->getExclusiveRootCategories()))
-                        ) == 0
+                        array_intersect($categoryPathArray, array_keys($this->getExclusiveRootCategories()))
+                    ) == 0
                     ) {
                         $result = false;
                     }
