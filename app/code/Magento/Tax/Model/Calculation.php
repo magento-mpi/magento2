@@ -98,6 +98,13 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $_classesFactory;
 
     /**
+     * Tax data
+     *
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxData = null;
+
+    /**
      * @var GroupServiceInterface
      */
     protected $_groupService;
@@ -121,6 +128,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Tax\Model\Resource\Calculation $resource
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param CustomerAccountServiceInterface $customerAccount
@@ -138,6 +146,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Tax\Model\Resource\Calculation $resource,
+        \Magento\Tax\Helper\Data $taxData,
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
         CustomerAccountServiceInterface $customerAccount,
@@ -150,6 +159,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
         $this->_classesFactory = $classesFactory;
+        $this->_taxData = $taxData;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->customerAccountService = $customerAccount;
@@ -384,6 +394,22 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
             $store
         );
         return $request;
+    }
+
+    /**
+     * Return the default rate request. It can be either based on store address or customer address
+     *
+     * @param null|int|string|Store $store
+     * @return \Magento\Framework\Object
+     */
+    public function getDefaultRateRequest($store = null)
+    {
+        if ($this->_taxHelper->isCrossBorderTradeEnabled($store)) {
+            //If cross border trade is enabled, we will use customer tax rate as store tax rate
+            return $this->getRateRequest(null, null, null, $store);
+        } else {
+            return $this->getRateOriginRequest($store);
+        }
     }
 
     /**
