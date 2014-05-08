@@ -71,6 +71,8 @@
 * GitHub requests:
   * [#544] Performance tests not working (MAGETWO-23467)
   * [#554] Performance tests - Fix jmeter output format (MAGETWO-23743)
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message (MAGETWO-22574)
+  * [#563] (https://github.com/magento/magento2/issues/563) Admin Login not working #563 (MAGETWO-24023)
 
 2.0.0.0-dev76
 =============
