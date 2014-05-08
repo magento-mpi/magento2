@@ -23,7 +23,6 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
-  * Gift card amount does not refund back when editing an order (MAGETWO-21159)
   * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)

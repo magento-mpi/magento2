@@ -96,7 +96,14 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
             $this->_addButton(
                 'order_edit',
-                array('label' => __('Edit'), 'class' => 'edit primary', 'onclick' => $onclickJs)
+                array(
+                    'label' => __('Edit'),
+                    'class' => 'edit primary',
+                    'onclick' => $onclickJs,
+                    'data_attribute' => array(
+                        'mage-init' => '{"orderEditDialog":{}}'
+                    )
+                )
             );
         }
 

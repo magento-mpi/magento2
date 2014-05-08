@@ -62,10 +62,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider beforeIndexActionDataProvider
-     */
-    public function testBeforeIndexAction($giftCards, $storeCredit, $notice, $error)
+    protected function initMocksGiftCardAccountData($giftCards)
     {
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
@@ -78,24 +75,15 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->method('getCards')
             ->with($orderMock)
             ->will($this->returnValue($giftCards));
+    }
 
-        if ($giftCards) {
-            $this->customerBalanceData->expects($this->atLeastOnce())
-                ->method('isEnabled')
-                ->will($this->returnValue($storeCredit));
-        }
+    public function testBeforeIndexActionWithoutGiftCards()
+    {
+        $this->initMocksGiftCardAccountData([]);
 
-        if ($notice) {
-            $this->messageManager->expects($this->at(0))
-                ->method('addNotice')
-                ->with('We will refund the gift card amount to your customer’s store credit');
-        }
-
-        if ($error) {
-            $this->messageManager->expects($this->at(1))
-                ->method('addError')
-                ->with('Please enable Store Credit to refund the gift card amount to your customer');
-        }
+        $this->customerBalanceData->expects($this->never())->method('isEnabled');
+        $this->messageManager->expects($this->never())->method('addNotice');
+        $this->messageManager->expects($this->never())->method('addError');
 
         $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
             ->disableOriginalConstructor()
@@ -104,33 +92,41 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin->beforeIndexAction($controllerOrderEdit);
     }
 
-    /**
-     * @return array
-     */
-    public function beforeIndexActionDataProvider()
+    public function testBeforeIndexActionStoreCreditEnable()
     {
-        return [
-            [
-                'giftCards' => [],
-                'storeCredit' => false,
-                'notice' => false,
-                'error' => false
-            ], [
-                'giftCards' => [],
-                'storeCredit' => true,
-                'notice' => false,
-                'error' => false
-            ], [
-                'giftCards' => [['ba' => 50, 'a' => 50, 'c' => 'someCode']],
-                'storeCredit' => true,
-                'notice' => true,
-                'error' => false
-            ], [
-                'giftCards' => [['ba' => 50, 'a' => 50, 'c' => 'someCode']],
-                'storeCredit' => false,
-                'notice' => true,
-                'error' => true
-            ]
-        ];
+        $giftCards = ['ba' => 50, 'a' => 50, 'c' => 'someCode'];
+        $this->initMocksGiftCardAccountData($giftCards);
+
+        $this->customerBalanceData->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
+        $this->messageManager->expects($this->once())
+            ->method('addNotice')
+            ->with('We will refund the gift card amount to your customer’s store credit');
+        $this->messageManager->expects($this->never())->method('addError');
+
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->plugin->beforeIndexAction($controllerOrderEdit);
+    }
+
+    public function testBeforeIndexActionStoreCreditDisabled()
+    {
+        $giftCards = ['ba' => 50, 'a' => 50, 'c' => 'someCode'];
+        $this->initMocksGiftCardAccountData($giftCards);
+
+        $this->customerBalanceData->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
+        $this->messageManager->expects($this->once())
+            ->method('addNotice')
+            ->with('We will refund the gift card amount to your customer’s store credit');
+        $this->messageManager->expects($this->once())
+            ->method('addError')
+            ->with('Please enable Store Credit to refund the gift card amount to your customer');
+
+        $controllerOrderEdit = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\Edit')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->plugin->beforeIndexAction($controllerOrderEdit);
     }
 }
