@@ -74,6 +74,11 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $this->_layout = $layout;
     }
 
+    /**
+     * Get no display
+     *
+     * return bool
+     */
     public function getNoDisplay()
     {
         $isNotAllowed = !$this->authorization->isAllowed('Magento_Catalog::categories');
