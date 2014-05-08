@@ -1,6 +1,7 @@
 * Themes update:
   * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
+  * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
   * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
   * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
