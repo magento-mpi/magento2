@@ -12,6 +12,7 @@
     z-index: 1;
     > .item.title {
         float: left;
+        width: auto;
         > .switch {
             display: block;
             position: relative;
@@ -141,6 +142,7 @@
     @_tab-content-border-top-status,
     @_tab-content-border
 ) when (@_tab-content-border-top-status = true){
+    border: 0;
     border-top: @_tab-content-border;
 }
 

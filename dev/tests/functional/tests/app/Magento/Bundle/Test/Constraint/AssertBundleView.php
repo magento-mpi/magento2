@@ -51,7 +51,7 @@ class AssertBundleView extends AbstractConstraint
     protected function assertPrice(CatalogProductBundle $bundle, CatalogProductView $catalogProductView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $bundle->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $bundle->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         $priceBlock = $catalogProductView->getViewBlock()->getProductPriceBlock();

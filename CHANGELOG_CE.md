@@ -1,3 +1,5 @@
+* Themes update:
+  * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
   * Adding of products with custom option from wishlist to shoping cart shows error (MAGETWO-2828)
@@ -26,6 +28,9 @@
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
   * Fixed: Impossible add product from wishlist to shopping cart (MAGETWO-19635)
   * Fixed: An error appears after install Magento (MAGETWO-24246)
+  * Fixed: Improve Blank theme UI (MAGETWO-23339)
+  * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
+  * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
   * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
   * Error messages are not correct during customer registration (MAGETWO-23976)
   * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
