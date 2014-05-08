@@ -68,4 +68,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             return __('New User');
         }
     }
+
+    /**
+     * Return validation url for edit form
+     *
+     * @return string
+     */
+    public function getValidationUrl()
+    {
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
+    }
 }

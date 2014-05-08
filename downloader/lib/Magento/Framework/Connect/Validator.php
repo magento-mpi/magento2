@@ -420,27 +420,6 @@ class Validator
     }
 
     /**
-     * Validate PHP version
-     *
-     * @param string $min
-     * @param string $max
-     * @param string $ver
-     * @return bool
-     */
-    public function validatePHPVersion($min, $max, $ver = PHP_VERSION)
-    {
-        $minAccepted = true;
-        if ($min) {
-            $minAccepted = version_compare($ver, $min, ">=");
-        }
-        $maxAccepted = true;
-        if ($max) {
-            $maxAccepted = version_compare($ver, $max, "<=");
-        }
-        return (bool)$minAccepted && $maxAccepted;
-    }
-
-    /**
      * Validate contents of package
      *
      * @param array $contents
