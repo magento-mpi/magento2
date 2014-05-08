@@ -6,63 +6,17 @@
 //  * @license     {license_link}
 //  */
 
-
-.product.add.form {
-    .giftcard.form {
-      .field {
-        .form-field(@_type: block);
-      }
-    }
-}
-
 .cart {
     &.summary {
         .block {
             &.giftcard {
-                .fieldset {
-                    padding-bottom: 52px;
-                    position: relative;
-                }
                 .action.check {
                     .button-s();
-                    margin-top: 12px;
-                    bottom: 0;
-                    left: 0;
-                    position: absolute;
+                    .button-as-link();
+                    margin-top: @indent-base;
                 }
             }
-            &.giftcard {
-                .field  > .label {
-                    display: block;
-                    float: none;
-                    text-align: left;
-                    width: auto;
-                }
-            }
-        }
-        .giftcard .field {
-            display: table-cell;
-            position: relative;
-            vertical-align: bottom;
-            width: 99%;
-            z-index: 1;
-            div.mage-error {
-                position: absolute;
-            }
-        }
-        .giftcard {
-            .actions {
-                display: table-cell;
-                width: 1%;
-                white-space: nowrap;
-                vertical-align: bottom;
-            }
-        }
-        .action.add {
-            .box-sizing();
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            margin-left: -1px;
         }
     }
 }
+

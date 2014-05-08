@@ -6,7 +6,6 @@
 //  * @license     {license_link}
 //  */
 
-
 .block.addbysku {
     .column.main & {
         .title {
@@ -27,19 +26,10 @@
                 }
             }
             .action.remove {
-                .button-reset();
                 &:extend(.action-remove all);
-                line-height: normal;
-                position: absolute;
-                top: 4px;
-                margin-left: @form-field-type-inline-label-width + 50%;
             }
         }
-        .actions.toolbar {
-            .secondary {
-                float: left;
-            }
-        }
+
         .field {
             .note {
                 display: block;
@@ -47,26 +37,46 @@
                     display: inline-block;
                 }
             }
+            &.upload.skus {
+                margin-bottom: 0;
+            }
+        }
+    }
+    .form {
+        > .actions.toolbar {
+            position: relative;
+            padding-top: 50px;
+            .action.add {
+                .button-icon(
+                    @_icon-font-content: @icon-expand,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 31px
+                );
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0 3px;
+                width: auto;
+            }
         }
     }
 }
 
-
 //
-//    Responsive
+//    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @mobile) {
+.responsive(@break) when (@break = @break-point-1) {
     .widget.block.addbysku {
         .column.main & {
             .fields {
                 margin-top: @indent-m-base;
                 .action.remove {
-                    margin-left: 0;
-                    right: 0;
-                    top: -@indent-m-base;
-                    & + .field {
-                        clear: both;
-                    }
+                    &:extend(.action-remove-desktop all);
+                }
+            }
+            .actions.toolbar {
+                > .secondary {
+                    float: left;
                 }
             }
         }

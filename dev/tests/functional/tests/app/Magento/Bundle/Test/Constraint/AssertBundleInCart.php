@@ -45,7 +45,7 @@ class AssertBundleInCart extends AbstractConstraint
 
         $optionsBlock = $catalogProductView->getOptionsBlock();
         /** @var \Magento\Bundle\Test\Fixture\Bundle\Selections $selectionsFixture */
-        $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['fixture'];
+        $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['source'];
         $bundleOptions = $selectionsFixture->getSelectionForCheckout();
         if ($bundleOptions) {
             $catalogProductView->getViewBlock()->getBundleBlock()->fillBundleOptions($bundleOptions);
@@ -70,7 +70,7 @@ class AssertBundleInCart extends AbstractConstraint
     protected function assertOnShoppingCart(CatalogProductBundle $bundle, CheckoutCart $checkoutCart)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $bundle->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $bundle->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         $price = $checkoutCart->getCartBlock()->getProductPriceByName($bundle->getName());
