@@ -13,6 +13,8 @@
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
   * Gift card amount does not refund back when editing an order (MAGETWO-21159)
   * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
+* GitHub requests:
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message
 
 2.0.0.0-dev76
 =============
