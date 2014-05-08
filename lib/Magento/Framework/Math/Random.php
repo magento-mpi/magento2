@@ -42,7 +42,7 @@ class Random
             for ($i = 0, $lc = strlen($chars) - 1; $i < $length; $i++) {
                 $bytes = openssl_random_pseudo_bytes(PHP_INT_SIZE);
                 $hex = bin2hex($bytes); // hex() doubles the length of the string
-                $rand = hexdec($hex) % $lc; // random integer from 0 to $lc
+                $rand = abs(hexdec($hex)) % $lc; // random integer from 0 to $lc
                 $str .= $chars[$rand]; // random character in $chars
             }
         } elseif ($fp = @fopen('/dev/urandom', 'rb')) {
@@ -50,7 +50,7 @@ class Random
             for ($i = 0, $lc = strlen($chars) - 1; $i < $length; $i++) {
                 $bytes = @fread($fp, PHP_INT_SIZE);
                 $hex = bin2hex($bytes); // hex() doubles the length of the string
-                $rand = hexdec($hex) % $lc; // random integer from 0 to $lc
+                $rand = abs(hexdec($hex)) % $lc; // random integer from 0 to $lc
                 $str .= $chars[$rand]; // random character in $chars
             }
             fclose($fp);
@@ -85,12 +85,12 @@ class Random
             // use openssl lib if it is installed
             $bytes = openssl_random_pseudo_bytes(PHP_INT_SIZE);
             $hex = bin2hex($bytes); // hex() doubles the length of the string
-            $offset = hexdec($hex) % $range; // random integer from 0 to $range
+            $offset = abs(hexdec($hex)) % $range; // random integer from 0 to $range
         } elseif ($fp = @fopen('/dev/urandom', 'rb')) {
             // attempt to use /dev/urandom if it exists but openssl isn't available
             $bytes = @fread($fp, PHP_INT_SIZE);
             $hex = bin2hex($bytes); // hex() doubles the length of the string
-            $offset = hexdec($hex) % $range; // random integer from 0 to $range
+            $offset = abs(hexdec($hex)) % $range; // random integer from 0 to $range
             fclose($fp);
         } else {
             // fallback to mt_rand() if all else fails
