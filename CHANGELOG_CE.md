@@ -32,6 +32,7 @@
   * Fixed: Improve Blank theme UI (MAGETWO-23339)
   * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
+  * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
   * Partial cache invalidation does not work for built-in caching (MAGETWO-23268)
   * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
   * Error messages are not correct during customer registration (MAGETWO-23976)
