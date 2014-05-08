@@ -25,6 +25,7 @@
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
   * Fixed: Impossible add product from wishlist to shopping cart (MAGETWO-19635)
+  * Fixed: An error appears after install Magento (MAGETWO-24246)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
