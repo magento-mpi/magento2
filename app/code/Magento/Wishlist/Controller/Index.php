@@ -596,7 +596,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
 
             if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
                 $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-            }  else {
+            } else {
                 $refererUrl = $this->_redirect->getRefererUrl();
                 if ($refererUrl &&
                     ($refererUrl != $this->_objectManager->get('Magento\Framework\UrlInterface')
