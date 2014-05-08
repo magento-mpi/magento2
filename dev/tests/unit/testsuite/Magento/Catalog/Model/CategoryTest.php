@@ -44,9 +44,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities($expected, $origData, $data, $isDeleted = false)
     {
         if (is_array($origData)) {
-            foreach ($origData as $key => $value) {
-                $this->model->setOrigData($key, $value);
-            }
+            $this->model->setData($origData);
+            $this->model->setOrigData();
         }
         $this->model->setData($data);
         $this->model->isDeleted($isDeleted);
@@ -60,7 +59,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('catalog_category_1'),
+                array('catalog_category_1', 'catalog_category_product_1'),
                 array('id' => 1, 'name' => 'value'),
                 array('id' => 1, 'name' => 'value')
             ),
