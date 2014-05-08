@@ -15,6 +15,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Block\Product\AbstractProduct;
 use Magento\Framework\View\Block\IdentityInterface;
+
 /**
  * Product list
  */

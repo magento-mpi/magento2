@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Block\Product\Compare;
 
 use Magento\Catalog\Model\Product\Compare\Item as CompareItem;
+
 /**
  * Catalog Comapare Products Sidebar Block
  *
