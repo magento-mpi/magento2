@@ -49,6 +49,7 @@
   * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
   * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
   * Fixed exception on Transaction page when searching by payment method (MAGETWO-24159)
+  * Removed "Add to wishlist" link in catalog with disabled wishlist functionality (MAGETWO-22345)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
