@@ -12,17 +12,22 @@
         <type>
             <selector>[name='is_system']</selector>
         </type>
-        <id_path />
-        <store>
+        <id_path/>
+        <store_id>
             <selector>[name='store_id']</selector>
-            <input>select</input>
-        </store>
-        <request_path />
-        <target_path />
-        <redirect>
+            <input>selectObject</input>
+        </store_id>
+        <options>
             <selector>[name='options']</selector>
             <input>select</input>
-        </redirect>
-        <description />
+        </options>
+        <request_path>
+            <selector>[name='request_path']</selector>
+            <input>text</input>
+        </request_path>
+        <description>
+            <selector>[name='description']</selector>
+            <input>text</input>
+        </description>
     </fields>
 </mapping>

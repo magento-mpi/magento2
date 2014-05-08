@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/urlrewrite/edit/category">
+    <block>
+        <name>treeBlock</name>
+        <class>Magento\Backend\Test\Block\Urlrewrite\Catalog\Category\Tree</class>
+        <locator>[data-ui-id="category-selector"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>formBlock</name>
+        <class>Magento\Backend\Test\Block\Urlrewrite\Catalog\Edit\Form</class>
+        <locator>#edit_form</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>buttonBlock</name>
+        <class>Magento\Backend\Test\Block\Widget\Form</class>
+        <locator>#messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>pageMainActions</name>
+        <class>Magento\Backend\Test\Block\FormPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <urlRewriteIndex>
+        <mca>admin/urlrewrite/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\UrlRewriteIndex</class>
+    </urlRewriteIndex>
+    <urlRewriteEditCategory>
+        <mca>admin/urlrewrite/edit/category</mca>
+        <area>adminhtml</area>
+        <class>Magento\Backend\Test\Page\Adminhtml\UrlRewriteEditCategory</class>
+    </urlRewriteEditCategory>
+</page>

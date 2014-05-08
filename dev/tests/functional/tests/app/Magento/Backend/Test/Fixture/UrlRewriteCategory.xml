@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Backend\Test\Fixture\UrlRewriteCategory">
+    <module>Magento_Backend</module>
+    <type>virtual</type>
+    <entity_type>core_url_rewrite</entity_type>
+    <collection>Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection</collection>
+    <identifier>request_path</identifier>
+    <fields>
+        <id>
+            <attribute_code>id</attribute_code>
+            <backend_type>virtual</backend_type>
+        </id>
+        <store_id>
+            <attribute_code>store_id</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value>Default Store View</default_value>
+            <input>select</input>
+        </store_id>
+        <options>
+            <attribute_code>options</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <input>select</input>
+        </options>
+        <request_path>
+            <attribute_code>request_path</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>1</is_required>
+            <default_value>request_path%isolation%</default_value>
+            <input>text</input>
+        </request_path>
+        <description>
+            <attribute_code>description</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required>0</is_required>
+            <input>text</input>
+        </description>
+    </fields>
+</fixture>

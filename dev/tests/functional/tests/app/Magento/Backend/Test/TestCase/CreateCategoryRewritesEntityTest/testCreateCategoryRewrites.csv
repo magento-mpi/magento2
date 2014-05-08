@@ -1,0 +1,4 @@
+"urlRewriteCategory/data/store_id/group";"urlRewriteCategory/data/store_id/store";"urlRewriteCategory/data/request_path";"urlRewriteCategory/data/options";"user/data/description";"constraint"
+"Main Website";"Default Store View";"test_request%isolation%";"No";"test description";"assertUrlRewriteInGrid"
+"Main Website";"Default Store View";"request_path%isolation%";"Temporary (302)";"test description";"assertUrlRewriteInGrid"
+"Main Website";"Default Store View";"request_path%isolation%";"Permanent (301)";"test description";"assertUrlRewriteInGrid"
