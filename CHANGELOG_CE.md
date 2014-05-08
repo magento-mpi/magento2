@@ -29,6 +29,7 @@
   * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
+  * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
