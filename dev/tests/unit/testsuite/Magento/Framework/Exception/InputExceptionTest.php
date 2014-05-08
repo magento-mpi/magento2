@@ -29,8 +29,7 @@ namespace Magento\Framework\Exception {
 
     /**
      * Class InputExceptionTest
-     *
-         */
+     */
     class InputExceptionTest extends \PHPUnit_Framework_TestCase
     {
         const TRANSLATED_PREFIX = 'TRANSLATED: ';
