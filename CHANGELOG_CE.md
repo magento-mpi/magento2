@@ -11,10 +11,55 @@
   * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
   * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
   * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
+  * Customer addresses are not editable and removed on backend (MAGETWO-22599)
+  * Fatal error when previewing newsletter template with restricted user (MAGETWO-19343)
+  * Cannot save tax rate if Zip was in range and Zip/Post Code field was left empty before (MAGETWO-9486)
+  * Puerto Rico is listed both as a State & a country in country list (MAGETWO-8790)
+  * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
+  * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
+  * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
+  * Adding Customer Review: error in system.log (MAGETWO-3674)
+  * Fixed: Incorrect messages if enter invalid email during admin user and customer creation (MAGETWO-21581)
+  * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
+  * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
+  * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
   * Gift card amount does not refund back when editing an order (MAGETWO-21159)
   * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
+* Functional tests:
+  * Functional end-to-end tests publication (MQM-60)
+     * Bundle product
+     * Category
+     * Customer
+     * Configurable product
+     * Downloadable product
+     * Newsletter
+     * Review
+     * Simple product
+     * Sitemap
+     * Store
+     * Tax Rule
+     * User
+     * Virtual product
+  * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
+  * Error messages are not correct during customer registration (MAGETWO-23976)
+  * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
+  * Impossible to place order without CheckoutAgreements module (MAGETWO-23958)
+  * Fixed: There is no Media Image attribute type in select list when creating the product attribute (MAGETWO-15365)
+  * Fixed: Frontend Checkout One page - Incorrect label attribute for State/Province dropdown at shipping information tab (MAGETWO-8745)
+  * Fixed: Using only digits in SKU of configurable products leads to strange behavior (MAGETWO-21113)
+  * Fixed: Impossible use inline translate for My Account and Register links on frontend (MAGETWO-24026)
+  * Fixed: Unable to activate customer through REST (MAGETWO-23845)
+  * Fixed: Undefined method version_compate called in \lib\Magento\Connect\Validator.php (MAGETWO-20347)
+  * Fixed: Invalid XML Formatting of Boolean in REST Response (MAGETWO-24052)
+  * Fixed: Impossible perform installation if use index.php from pub folder(problem with js and css) (MAGETWO-23950)
+  * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
+  * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
+* Service layer updates:
+  * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 * GitHub requests:
-  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message
+  * [#544] Performance tests not working (MAGETWO-23467)
+  * [#554] Performance tests - Fix jmeter output format (MAGETWO-23743)
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message (MAGETWO-22574)
 
 2.0.0.0-dev76
 =============
@@ -29,7 +74,7 @@
   * Removed head.js usages from adminhtml
 * Themes update:
   * Plushe styles are removed, Plushe theme is now based on blank
-* Fixed bugs:  
+* Fixed bugs:
   * Unable to place order with product that contains custom option 'file'
   * OnePageCheckout is not working if PayPal method is enabled to work via Payment Bridge
   * Impossible to reset password for admin user (incorrect reset password link in email)

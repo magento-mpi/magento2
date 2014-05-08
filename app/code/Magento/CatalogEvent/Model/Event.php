@@ -251,19 +251,20 @@ class Event extends \Magento\Framework\Model\AbstractModel implements \Magento\F
     /**
      * Set display state of catalog event
      *
-     * @param int|int[] $state
+     * @param null|int|int[] $state
      * @return $this
      */
     public function setDisplayState($state)
     {
+        $value = 0;
         if (is_array($state)) {
-            $value = 0;
             foreach ($state as $_state) {
                 $value ^= $_state;
             }
             $this->setData('display_state', $value);
         } else {
-            $this->setData('display_state', $state);
+            $value = empty($state) ? $value : $state;
+            $this->setData('display_state', $value);
         }
         return $this;
     }
