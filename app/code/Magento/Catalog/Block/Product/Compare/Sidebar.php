@@ -9,6 +9,7 @@
  */
 namespace Magento\Catalog\Block\Product\Compare;
 
+use Magento\Catalog\Model\Product\Compare\Item as CompareItem;
 /**
  * Catalog Comapare Products Sidebar Block
  *
@@ -112,9 +113,9 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare imp
                 $identities = array_merge($identities, $product->getIdentities());
             }
         }
-        $identities[] = \Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG .
-            '_' .
-            $this->getCatalogCompareItemId();
+        if ($this->getCatalogCompareItemId()) {
+            $identities[] = CompareItem::CACHE_TAG . '_' . $this->getCatalogCompareItemId();
+        }
         return $identities;
     }
 }

@@ -11,8 +11,10 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Block\Product\AbstractProduct;
 use Magento\Framework\View\Block\IdentityInterface;
-
 /**
  * Product list
  */
@@ -310,7 +312,11 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         foreach ($this->_getProductCollection() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }
-        return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
+        $category = $this->getLayer()->getCurrentCategory();
+        if ($category) {
+            $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $category->getId();
+        }
+        return $identities;
     }
 
     /**
