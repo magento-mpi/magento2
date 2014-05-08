@@ -12,6 +12,7 @@ namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 use Magento\Framework\Model\Exception;
 use Magento\TargetRule\Block\Product\AbstractProduct;
 use Magento\Framework\View\Block\IdentityInterface;
+
 /**
  * TargetRule Catalog Product List Abstract Block
  *
