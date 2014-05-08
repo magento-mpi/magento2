@@ -82,6 +82,7 @@
     </div>
 </script>
 <script type="text/javascript">
+    <?php if (count($this->getWishlistShortList()) > 0): ?>
     (function($) {
         $('body').mage('multipleWishlist', {
             'canCreate': <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
@@ -89,6 +90,7 @@
             'wishlists': <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>,
             'wishlistLink': '.action.towishlist'
         });
+        console.log('HERE I AM');
         $('.products.list [data-toggle=dropdown]')
             .add('.cart.items.data [data-toggle=dropdown]')
             .add('.product.addto.links [data-toggle=dropdown]')
@@ -103,5 +105,6 @@
                     }
                 }]
             });
-    })(jQuery);
+    }(jQuery));
+    <?php endif; ?>
 </script>
