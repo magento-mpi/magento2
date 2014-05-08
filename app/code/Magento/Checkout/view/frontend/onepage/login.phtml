@@ -26,7 +26,7 @@
               data-mage-init='{"validation":{}}'>
             <?php echo $this->getBlockHtml('formkey'); ?>
             <fieldset class="fieldset login" data-hasrequired="<?php echo __('* Required Fields') ?>">
-                <p class="field note"><?php echo __('Already registered?') ?> <?php echo __('Please log in below:') ?></p>
+                <div class="field note"><?php echo __('Already registered?') ?> <?php echo __('Please log in below:') ?></div>
                 <div class="field email required">
                     <label class="label" for="login-email"><span><?php echo __('Email Address') ?></span></label>
                     <div class="control">
@@ -43,7 +43,7 @@
                 <div class="actions toolbar">
                     <input name="context" type="hidden" value="checkout" />
                     <div class="primary">
-                        <button type="submit" class="action login" data-action="checkout-method-login"><span><?php echo __('Login') ?></span></button>
+                        <button type="submit" class="action login primary" data-action="checkout-method-login"><span><?php echo __('Login') ?></span></button>
                     </div>
                     <div class="secondary">
                         <a class="action remind" href="<?php echo $this->helper('Magento\Customer\Helper\Data')->getForgotPasswordUrl()?>">
@@ -98,18 +98,20 @@
         <?php else: ?>
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
-        <div class="actions">
+        <div class="actions toolbar">
             <span class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Loading next step...') ?>">
                 <span><?php echo __('Loading next step...') ?></span>
             </span>
-            <?php if ($this->isAllowedGuestCheckout()): ?>
-                <button id="onepage-guest-register-button" type="button" class="action continue" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Continue') ?></span></button>
-            <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
-                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();?>"}'><span><?php echo __('Register') ?></span></button>
-            <?php else: ?>
-                <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
-                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Register') ?></span></button>
-            <?php endif; ?>
+            <div class="primary">
+                <?php if ($this->isAllowedGuestCheckout()): ?>
+                    <button id="onepage-guest-register-button" type="button" class="action continue primary" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Continue') ?></span></button>
+                <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
+                    <button id="onepage-guest-register-button" type="button" class="action register primary" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Customer\Helper\Data')->getRegisterUrl();?>"}'><span><?php echo __('Register') ?></span></button>
+                <?php else: ?>
+                    <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
+                    <button id="onepage-guest-register-button" type="button" class="action register primary" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Register') ?></span></button>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

@@ -17,29 +17,32 @@
     <?php echo $this->getChildHtml('list_before')?>
 
     <?php if (count($this->getInvitationCollection())): ?>
-        <table class="data table invitations" id="invitations-list-table">
-            <thead>
-                <tr>
-                    <th class="col email"><?php echo __('Email'); ?></th>
-                    <th class="col status"><?php echo __('Status'); ?></th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($this->getInvitationCollection() as $invitation): ?>
-                <tr>
-                    <td class="col email"><?php echo $this->escapeHtml($invitation->getEmail()); ?></td>
-                    <td class="col status"> <?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($invitation);?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="wrapper table invitations">
+            <table class="data table invitations" id="invitations-list-table">
+                <caption class="table caption"><?php echo __('My Invitations'); ?></caption>
+                <thead>
+                    <tr>
+                        <th class="col email"><?php echo __('Email'); ?></th>
+                        <th class="col status"><?php echo __('Status'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($this->getInvitationCollection() as $invitation): ?>
+                    <tr>
+                        <td class="col email"><?php echo $this->escapeHtml($invitation->getEmail()); ?></td>
+                        <td class="col status"> <?php echo $this->helper('Magento\Invitation\Helper\Data')->getInvitationStatusText($invitation);?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     <?php else: ?>
         <div class="message info empty"><span><?php echo __('There are no sent invitations.'); ?></span></div>
     <?php endif; ?>
 
     <div class="actions toolbar">
         <div class="primary">
-            <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationFormUrl(); ?>" class="action send"><span><?php echo __('Send Invitations') ?></span></a>
+            <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationFormUrl(); ?>" class="action send primary"><span><?php echo __('Send Invitations') ?></span></a>
         </div>
         <div class="secondary">
             <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>

@@ -22,9 +22,14 @@
         </div>
         <?php endif; ?>
         <div class="actions">
-            <button type="button" class="action primary tocart" title="<?php echo $buttonTitle ?>" id="product-updatecart-button"><span><?php echo $buttonTitle ?></span></button>
+            <button type="button"
+                    title="<?php echo $buttonTitle ?>"
+                    class="action primary tocart"
+                    id="product-updatecart-button">
+                <span><?php echo $buttonTitle ?></span>
+            </button>
+            <?php echo $this->getChildHtml('', true) ?>
         </div>
-        <?php echo $this->getChildHtml('', true) ?>
     </div>
 
     <script type="text/javascript">

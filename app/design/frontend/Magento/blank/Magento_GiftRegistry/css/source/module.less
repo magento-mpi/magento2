@@ -6,30 +6,17 @@
 //  * @license     {license_link}
 //  */
 
-.form.giftregistry.validation {
-    .fieldset.recipients {
-        .field {
-             .control {
-                width: 50%;
-            }
-        }
-    }
-    .fieldset.add-row {
-        margin-top: 45px;
-        position: relative;
-        .action.remove {
-            &:extend(.action-remove all);
-            line-height: normal;
-            position: absolute;
-            top: 4px;
-            margin-left: @form-field-type-inline-label-width + 50%;
-        }
+.form.giftregistry.share,
+.form.giftregistry.edit {
+    &:extend(.add-recipients all);
+    .actions.toolbar:not(:last-child) {
+        margin-bottom: @indent-xl-base;
     }
 }
 
 .form.giftregistry.items {
     .actions.toolbar {
-        &:extend(.action-toolbar-reset-margin all);
+        &:extend(.reset-left-margin all);
     }
 }
 
@@ -41,26 +28,27 @@
     &:extend(.input-qty all);
 }
 
-.form.giftregistry.edit {
-    .actions.toolbar:not(:last-child) {
-        margin-bottom: @indent-xl-base;
+.form.giftregistry .fieldset {
+    .cart.summary & {
+        margin: 15px 0 25px;
+
+        .field {
+            margin: 0 0 10px;
+
+            .control {
+                float: none;
+                width: auto;
+            }
+        }
     }
 }
 
 //
-//    Responsive
+//    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @mobile) {
-    .form.giftregistry.validation {
-        .fieldset.add-row {
-            .action.remove {
-                float: right;
-                position: static;
-                margin-left: 0;
-                & + .field {
-                    clear: both;
-                }
-            }
-        }
+.responsive(@break) when (@break = @break-point-1) {
+    .form.giftregistry.share,
+    .form.giftregistry.edit {
+        &:extend(.add-recipients-desktop all);
     }
 }

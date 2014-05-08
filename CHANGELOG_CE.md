@@ -1,3 +1,5 @@
+* Themes update:
+  * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
   * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
@@ -23,6 +25,9 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+  * Fixed: Improve Blank theme UI (MAGETWO-23339)
+  * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
+  * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
