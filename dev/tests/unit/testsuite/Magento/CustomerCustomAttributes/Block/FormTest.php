@@ -37,4 +37,40 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($renderer, $block->getRenderer('text'));
     }
+
+    public function testGetEntity()
+    {
+        $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $customerSessionMock = $this->getMock(
+            'Magento\Customer\Model\Session',
+            array('getCustomerId'),
+            array(),
+            '',
+            false
+        );
+        $customerSessionMock->expects($this->once())
+            ->method('getCustomerId')
+            ->will($this->returnValue(1));
+
+        $entityMock = $this->getMock('stdClass', array('load'));
+        $entityMock->expects($this->once())
+            ->method('load')
+            ->with(1);
+        $modelFactoryMock = $this->getMock('Magento\Core\Model\Factory', array('create'), array(), '', false);
+        $modelFactoryMock->expects($this->once())
+            ->method('create')
+            ->with('stdClass')
+            ->will($this->returnValue($entityMock));
+
+        /** @var \Magento\CustomerCustomAttributes\Block\Form $block */
+        $block = $objectHelper->getObject(
+            'Magento\CustomerCustomAttributes\Block\Form',
+            [
+                'modelFactory' => $modelFactoryMock,
+                'customerSession' => $customerSessionMock,
+            ]
+        );
+        $block->setEntityModelClass('stdClass');
+        $block->getEntity();
+    }
 }

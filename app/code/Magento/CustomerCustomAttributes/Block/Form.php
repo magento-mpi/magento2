@@ -95,4 +95,21 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
     {
         return $this->_customerSession->getChangePassword();
     }
+
+    /**
+     * Return Entity object
+     *
+     * @return \Magento\Framework\Model\AbstractModel
+     */
+    public function getEntity()
+    {
+        if (is_null($this->_entity) && $this->_entityModelClass) {
+            $this->_entity = $this->_modelFactory->create($this->_entityModelClass);
+            $entityId = $this->_customerSession->getCustomerId();
+            if ($entityId) {
+                $this->_entity->load($entityId);
+            }
+        }
+        return $this->_entity;
+    }
 }
