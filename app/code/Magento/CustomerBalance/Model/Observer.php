@@ -689,4 +689,30 @@ class Observer
 
         $expressionTransferObject->setArguments($arguments);
     }
+
+    /**
+     * Modify the amount of invoiced funds for which reward points should not be voided after refund.
+     * Prevent voiding of reward points for amount returned to store credit.
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return void
+     */
+    public function modifyRewardedAmountOnRefund(\Magento\Framework\Event\Observer $observer)
+    {
+        $creditMemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditMemo->getOrder();
+
+        $rewardedAmountAfterRefund = $creditMemo->getRewardedAmountAfterRefund();
+
+        $customerBalanceTotalRefunded = $order->getBaseCustomerBalanceTotalRefunded();
+        $rewardedAmountRefunded = $order->getBaseTotalRefunded() - $order->getBaseTaxRefunded()
+            - $order->getBaseShippingRefunded();
+        if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {
+            $rewardedAmountAfterRefund += $rewardedAmountRefunded;
+        } else {
+             $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
+        }
+
+        $creditMemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);
+    }
 }

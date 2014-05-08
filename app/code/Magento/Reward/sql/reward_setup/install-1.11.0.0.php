@@ -164,7 +164,7 @@ $table = $installer->getConnection()->newTable(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
     'Created At'
 )->addColumn(
     'expired_at_static',

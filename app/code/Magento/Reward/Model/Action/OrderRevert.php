@@ -38,8 +38,7 @@ class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
     public function getHistoryMessage($args = array())
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
-
-        return __('Reverted from order #%1', $incrementId);
+        return __('Reverted from incomplete order #%1', $incrementId);
     }
 
     /**

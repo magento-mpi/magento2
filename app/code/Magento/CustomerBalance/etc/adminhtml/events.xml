@@ -11,4 +11,7 @@
     <event name="sales_prepare_amount_expression">
         <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="extendSalesAmountExpression" />
     </event>
+    <event name="rewarded_amount_after_refund_calculation">
+        <observer name="magento_customerbalance" instance="Magento\CustomerBalance\Model\Observer" method="modifyRewardedAmountOnRefund" />
+    </event>
 </config>

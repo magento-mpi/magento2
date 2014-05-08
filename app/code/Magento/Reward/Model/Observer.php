@@ -83,18 +83,24 @@ class Observer
     protected $_customerConverter;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param RewardFactory $rewardFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
-     * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
-     * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
-     * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
+     * @param Resource\Reward\History\CollectionFactory $historyCollectionFactory
+     * @param Resource\Reward\HistoryFactory $historyItemFactory
+     * @param Resource\RewardFactory $rewardResourceFactory
+     * @param Reward\RateFactory $rateFactory
      * @param Converter $customerConverter
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -108,7 +114,8 @@ class Observer
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        Converter $customerConverter
+        Converter $customerConverter,
+        \Magento\Framework\Event\ManagerInterface $eventManager
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -122,6 +129,7 @@ class Observer
         $this->_rewardResourceFactory = $rewardResourceFactory;
         $this->_rateFactory = $rateFactory;
         $this->_customerConverter = $customerConverter;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -770,15 +778,16 @@ class Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
+        $allowRewardPointsRefund = true;
         if ($creditmemo->getAutomaticallyCreated()) {
             if ($this->_rewardData->isAutoRefundEnabled()) {
                 $creditmemo->setRewardPointsBalanceRefund($creditmemo->getRewardPointsBalance());
             } else {
-                return $this;
+                $allowRewardPointsRefund = false;
             }
         }
 
-        if ($creditmemo->getBaseRewardCurrencyAmount()) {
+        if ($creditmemo->getBaseRewardCurrencyAmount() && $allowRewardPointsRefund) {
             $order->setRewardPointsBalanceRefunded(
                 $order->getRewardPointsBalanceRefunded() + $creditmemo->getRewardPointsBalance()
             );
@@ -806,6 +815,108 @@ class Observer
                 )->save();
             }
         }
+
+        // Void reward points granted for refunded amount if there was any
+        $customerId = $order->getCustomerId();
+        $websiteId = $order->getStore()->getWebsiteId();
+
+        $rewardHistoryCollection = $this->_historyCollectionFactory->create()
+            ->addCustomerFilter($customerId)
+            ->addWebsiteFilter($websiteId)
+            // nothing to void if reward points are expired already
+            ->addFilter('main_table.is_expired', 0)
+            // void points acquired for purchase only
+            ->addFilter('main_table.action', \Magento\Reward\Model\Reward::REWARD_ACTION_ORDER_EXTRA);
+
+        $isOrderRewardedWithPoints = false;
+        foreach ($rewardHistoryCollection as $rewardHistoryRecord) {
+            $additionalData = $rewardHistoryRecord->getAdditionalData();
+            if (isset($additionalData['increment_id'])
+                && $additionalData['increment_id'] == $order->getIncrementId()
+                && isset($additionalData['rate']['direction'])
+                && $additionalData['rate']['direction'] ==
+                    \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS
+                && isset($additionalData['rate']['points'])
+                && isset($additionalData['rate']['currency_amount'])
+            ) {
+                $isOrderRewardedWithPoints = true;
+                break;
+            }
+        }
+        unset($rewardHistoryCollection);
+
+        if ($isOrderRewardedWithPoints) {
+            /* Calculating amount of funds from total refunded amount for which reward points were acquired */
+            $rewardedAmountForWholeOrder = $order->getBaseGrandTotal() - $order->getBaseTaxAmount()
+                - $order->getBaseShippingAmount();
+            $rewardedAmountRefunded = $order->getBaseTotalRefunded() - $order->getBaseTaxRefunded()
+                - $order->getBaseShippingRefunded();
+            $rewardedAmountAfterRefund = $rewardedAmountForWholeOrder - $rewardedAmountRefunded;
+
+            /* Modify amount for which reward points should not be voided at refund */
+            $creditmemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);
+            $this->eventManager->dispatch(
+                'rewarded_amount_after_refund_calculation',
+                array('creditmemo' => $creditmemo)
+            );
+            $rewardedAmountAfterRefund = $creditmemo->getRewardedAmountAfterRefund();
+
+            /* Calculating amount of points to void considering reward points exchange rate when they were granted */
+            $estimatedRewardPointsAfterRefund = (int)((string)$rewardedAmountAfterRefund /
+                    (string)$additionalData['rate']['currency_amount']) * $additionalData['rate']['points'];
+            $rewardPointsVoided = $rewardHistoryRecord->getPointsVoided();
+            $acquiredRewardPointsAvailableForVoid = $rewardHistoryRecord->getPointsDelta() - $rewardPointsVoided;
+
+            /*
+             * It's not allowed to void more points then were granted per this order.
+             * Used points at current history record are not taken into consideration -
+             * allowed to void from total amount if it's needed to void more then left at selected history record.
+             */
+            if ($acquiredRewardPointsAvailableForVoid > $estimatedRewardPointsAfterRefund) {
+                $rewardPointsAmountToVoid = $acquiredRewardPointsAvailableForVoid - $estimatedRewardPointsAfterRefund;
+            } else {
+                $rewardPointsAmountToVoid = 0;
+            }
+
+            if ($rewardPointsAmountToVoid > 0) {
+
+                $reward = $this->_getRewardModel()
+                    ->setWebsiteId($websiteId)
+                    ->setCustomerId($customerId)
+                    ->loadByCustomer();
+
+                $rewardPointsBalance = $reward->getPointsBalance();
+                if ($rewardPointsBalance > 0) {
+
+                    // It's not allowed to void more points then is available for current customer
+                    if ($rewardPointsAmountToVoid > $rewardPointsBalance) {
+                        $rewardPointsAmountToVoid = $rewardPointsBalance;
+                    }
+                    if ($this->_rewardData->getGeneralConfig('deduct_automatically')) {
+                        $reward->setPointsDelta(-$rewardPointsAmountToVoid)
+                            ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_CREDITMEMO_VOID)
+                            ->setActionEntity($order)
+                            ->updateRewardPoints();
+
+                        if ($reward->getRewardPointsUpdated()) {
+                            $order->addStatusHistoryComment(__(
+                                    '%s was deducted because of refund.',
+                                    $this->_rewardData->formatReward($rewardPointsAmountToVoid)
+                            ));
+                        }
+                    }
+
+                    /*
+                     * Config option deduct_automatically is not considered here because points for refunded amount that
+                     * were not been voided automatically need to be counted in possible future automatic deductions.
+                     */
+                    $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, array(
+                        'points_voided' => $rewardPointsVoided + $rewardPointsAmountToVoid
+                    ));
+                }
+            }
+        }
+
         return $this;
     }
 

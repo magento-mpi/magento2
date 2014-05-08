@@ -54,6 +54,10 @@
                     <label>Refund Reward Points Automatically</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="deduct_automatically" translate="label" type="select" sortOrder="67" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Deduct Reward Points from Refund Amount Automatically</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="landing_page" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Landing Page</label>
                     <source_model>Magento\Cms\Model\Config\Source\Page</source_model>

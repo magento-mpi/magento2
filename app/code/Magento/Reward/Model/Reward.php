@@ -58,6 +58,8 @@ class Reward extends \Magento\Framework\Model\AbstractModel
 
     const REWARD_ACTION_REVERT = 11;
 
+    const REWARD_ACTION_CREDITMEMO_VOID = 12;
+
     /**
      * Model is loaded by customer
      *
@@ -218,7 +220,8 @@ class Reward extends \Magento\Framework\Model\AbstractModel
             self::REWARD_ACTION_ORDER_EXTRA => 'Magento\Reward\Model\Action\OrderExtra',
             self::REWARD_ACTION_CREDITMEMO => 'Magento\Reward\Model\Action\Creditmemo',
             self::REWARD_ACTION_SALESRULE => 'Magento\Reward\Model\Action\Salesrule',
-            self::REWARD_ACTION_REVERT => 'Magento\Reward\Model\Action\OrderRevert'
+            self::REWARD_ACTION_REVERT => 'Magento\Reward\Model\Action\OrderRevert',
+            self::REWARD_ACTION_CREDITMEMO_VOID => 'Magento\Reward\Model\Action\Creditmemo\Void',
         );
     }
 
@@ -642,7 +645,6 @@ class Reward extends \Magento\Framework\Model\AbstractModel
         if ($this->hasPointsDelta()) {
             $points = $this->getPointsDelta();
         }
-        $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
         $maxPointsBalance = (int)$this->_rewardData->getGeneralConfig('max_points_balance', $this->getWebsiteId());
         if ($maxPointsBalance != 0 && $pointsBalance > $maxPointsBalance) {
