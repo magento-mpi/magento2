@@ -149,8 +149,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities($expected, $origData, $data, $isDeleted = false)
     {
         $this->model->setIdFieldName('id');
-        $typeMock = $this->getMock('Magento\Catalog\Model\Product\Type\AbstractType', array(), array(), '', false);
-
         if (is_array($origData)) {
             foreach ($origData as $key => $value) {
                 $this->model->setOrigData($key, $value);
