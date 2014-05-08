@@ -272,9 +272,10 @@ class Config
             \Magento\TestFramework\Performance\Scenario::ARG_HOST => $this->getApplicationUrlHost(),
             \Magento\TestFramework\Performance\Scenario::ARG_PATH => $this->getApplicationUrlPath(),
             \Magento\TestFramework\Performance\Scenario::ARG_BASEDIR => $this->getApplicationBaseDir(),
-            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_FRONTNAME => $adminOptions['frontname'],
+            \Magento\TestFramework\Performance\Scenario::ARG_BACKEND_FRONTNAME => $adminOptions['frontname'],
             \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_USERNAME => $adminOptions['username'],
-            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password']
+            \Magento\TestFramework\Performance\Scenario::ARG_ADMIN_PASSWORD => $adminOptions['password'],
+            'jmeter.save.saveservice.output_format' => 'xml',
         );
     }
 

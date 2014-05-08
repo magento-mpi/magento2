@@ -26,6 +26,7 @@ class DirectoryList extends \Magento\Framework\App\Filesystem\DirectoryList
      *
      * @param string $code
      * @param array $directoryConfig
+     * @return void
      */
     public function addDirectory($code, array $directoryConfig)
     {
