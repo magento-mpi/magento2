@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
+  * Adding of products with custom option from wishlist to shoping cart shows error (MAGETWO-2828)
   * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
   * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
   * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
