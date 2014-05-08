@@ -15,8 +15,6 @@ use Magento\Customer\Test\Page;
 
 /**
  * Enabling automatic assignment of customers to appropriate VAT group
- *
- * @package Magento\Customer\Test\TestCase;
  */
 class VatGroupAssignmentTest extends Functional
 {

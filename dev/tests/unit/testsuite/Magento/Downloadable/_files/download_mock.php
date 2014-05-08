@@ -2,8 +2,7 @@
 /**
  * {license_notice}
  *
- * @package Magento/Downloadable
- * @copyright   {copyright}
+ * @copyright   {copyright}e
  * @license     {license_link}
  */
 namespace Magento\Downloadable\Helper;

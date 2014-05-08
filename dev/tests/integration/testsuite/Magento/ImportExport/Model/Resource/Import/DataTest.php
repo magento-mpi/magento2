@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @package     <package-name>
- * @subpackage  <subpackage-name>
  * @copyright   {copyright}
  * @license     {license_link}
  */

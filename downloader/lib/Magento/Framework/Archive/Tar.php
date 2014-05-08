@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework\Archive;
 /**
  * Class to work with tar archives
  *
- * @category    Magento
- * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento\Framework\Archive\ArchiveInterface

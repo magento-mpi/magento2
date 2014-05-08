@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @package Magento/Framework/Filesystem
  * @copyright   {copyright}
  * @license     {license_link}
  */

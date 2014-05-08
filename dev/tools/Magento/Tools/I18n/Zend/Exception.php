@@ -17,10 +17,10 @@
  * @version    $Id: Exception.php 20978 2010-02-08 15:35:25Z matthew $
  */
 
-/*** @package    Zend
-* @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
-* @license    http://framework.zend.com/license/new-bsd     New BSD License
-*/
+/**
+ * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ */
 class Zend_Exception extends Exception
 {
     /**
