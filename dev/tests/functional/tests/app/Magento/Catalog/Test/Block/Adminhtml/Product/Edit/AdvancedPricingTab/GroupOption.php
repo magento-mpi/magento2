@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,6 +34,9 @@ class GroupOption extends Block
             $this->_rootElement
                 ->find('#' . $rowPrefix . '_cust_group', Locator::SELECTOR_CSS, 'select')
                 ->setValue($data['customer_group']);
+        }
+        if (isset($data['quantity'])) {
+            $this->_rootElement->find('#' . $rowPrefix . '_qty')->setValue($data['quantity']);
         }
         if (isset($data['price'])) {
             $this->_rootElement->find('#' . $rowPrefix . '_price')->setValue($data['price']);

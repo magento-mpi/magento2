@@ -2,4 +2,4 @@
 "m/d/Y 12:00 a-3 days";"m/d/Y 12:00 a-2 days";-1;"Yes";"No";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid, assertCatalogEventIsClosed, assertCatalogEventBlockVisible, assertAddToCartButtonAbsent"
 "m/d/Y 12:00 a+3 days";"m/d/Y 12:00 a+4 days";0;"No";"Yes";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid,  assertCatalogEventIsUpcoming, assertCatalogEventBlockVisible, assertAddToCartButtonAbsent"
 "m/d/Y 12:00 a-2 days";"m/d/Y 12:00 a+4 days";1;"Yes";"Yes";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid, assertCatalogEventBlockVisible,  assertCatalogEventIsOpen, assertAddToCartButtonPresent"
-"m/d/Y 12:00 a-2 days";"m/d/Y 12:00 a+4 days";"-";"No";"No";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid,  assertCatalogEventBlockVisible, assertAddToCartButtonPresent"
+"m/d/Y 12:00 a-2 days";"m/d/Y 12:00 a+4 days";"-";"-";"-";"assertCatalogEventSuccessCreateMessage, assertCatalogEventInGrid,  assertCatalogEventBlockVisible, assertAddToCartButtonPresent"

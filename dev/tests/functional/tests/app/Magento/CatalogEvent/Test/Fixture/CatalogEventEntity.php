@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogEventEntity
- *
- * @package Magento\CatalogEvent\Test\Fixture
  */
 class CatalogEventEntity extends InjectableFixture
 {

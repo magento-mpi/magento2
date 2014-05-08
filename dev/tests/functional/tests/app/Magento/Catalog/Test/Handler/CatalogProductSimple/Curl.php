@@ -22,6 +22,7 @@ use Mtf\System\Config;
 
 /**
  * Class CreateProduct
+ * Create new Product
  */
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 {

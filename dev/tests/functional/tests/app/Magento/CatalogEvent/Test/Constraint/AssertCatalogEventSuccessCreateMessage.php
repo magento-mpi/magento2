@@ -13,8 +13,7 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 
 /**
  * Class AssertCatalogEventSuccessCreateMessage
- *
- * @package Magento\CatalogEvent\Test\Constraint
+ * Check present success message on Event page
  */
 class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
 {
@@ -28,20 +27,19 @@ class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that message "You saved the event." is presented on Events page
+     * Assert that message "You saved the event." is present on Event page
      *
-     * @param CatalogEventIndex $CatalogEventIndex
+     * @param CatalogEventIndex $catalogEventIndex
      * @return void
      */
-    public function processAssert(CatalogEventIndex $CatalogEventIndex)
+    public function processAssert(CatalogEventIndex $catalogEventIndex)
     {
-        $actualMessage = $CatalogEventIndex->getMessageBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
-            $actualMessage,
+            $catalogEventIndex->getMessageBlock()->getSuccessMessages(),
             'Wrong success message is displayed.'
             . "\nExpected: " . self::SUCCESS_MESSAGE
-            . "\nActual: " . $actualMessage
+            . "\nActual: " . $catalogEventIndex->getMessageBlock()->getSuccessMessages()
         );
     }
 

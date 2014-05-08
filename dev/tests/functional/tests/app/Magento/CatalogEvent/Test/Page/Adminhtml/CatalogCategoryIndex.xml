@@ -14,4 +14,10 @@
         <locator>[id="page:left"]</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>pageActionsEvent</name>
+        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions</class>
+        <locator>.page-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

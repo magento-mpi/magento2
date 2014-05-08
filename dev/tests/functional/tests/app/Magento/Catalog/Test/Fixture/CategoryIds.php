@@ -12,13 +12,11 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class Price
+ * Class CategoryIds
  *
  * Data keys:
  *  - preset (Price verification preset name)
  *  - value (Price value)
- *
- * @package Magento\Bundle\Test\Fixture
  */
 class CategoryIds implements FixtureInterface
 {
@@ -40,13 +38,16 @@ class CategoryIds implements FixtureInterface
     /**
      * @param CatalogCategoryEntity $category
      * @param FixtureFactory $fixtureFactory
+     * @param array $params
      * @param array $data
      */
     public function __construct(
         CatalogCategoryEntity $category,
         FixtureFactory $fixtureFactory,
+        array $params,
         array $data = []
     ) {
+        $this->params = $params;
         if (isset($data['presets']) && $data['presets'] !== '-') {
             $presets = explode(',', $data['presets']);
             foreach ($presets as $preset) {
@@ -95,7 +96,7 @@ class CategoryIds implements FixtureInterface
     /**
      * Retrieve source category fixture
      *
-     * @return Category
+     * @return array
      */
     public function getCategory()
     {

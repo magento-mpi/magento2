@@ -56,10 +56,4 @@
         <locator>#product-options-wrapper</locator>
         <strategy>css selector</strategy>
     </block>
-    <block>
-        <name>eventBlock</name>
-        <class>Magento\CatalogEvent\Test\Block\Catalog\Event</class>
-        <locator>.top-container</locator>
-        <strategy>css selector</strategy>
-    </block>
 </page>

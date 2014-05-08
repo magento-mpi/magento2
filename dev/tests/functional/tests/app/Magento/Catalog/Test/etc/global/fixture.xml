@@ -34,11 +34,11 @@
             </qty>
         </fields>
         <data_set>
-            <sku/>
-            <name/>
-            <short_description/>
-            <description/>
-            <tax_class_id/>
+            <sku />
+            <name />
+            <short_description />
+            <description />
+            <tax_class_id />
         </data_set>
         <data_config>
             <create_url_params>
@@ -69,11 +69,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku/>
-            <name/>
-            <short_description/>
-            <description/>
-            <tax_class_id/>
+            <sku />
+            <name />
+            <short_description />
+            <description />
+            <tax_class_id />
         </data_set>
         <data_config>
             <create_url_params>
@@ -104,11 +104,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku/>
-            <name/>
-            <short_description/>
-            <description/>
-            <tax_class_id/>
+            <sku />
+            <name />
+            <short_description />
+            <description />
+            <tax_class_id />
         </data_set>
         <data_config>
             <create_url_params>
@@ -139,11 +139,11 @@
             </attribute_set_id>
         </fields>
         <data_set>
-            <sku/>
-            <name/>
-            <short_description/>
-            <description/>
-            <tax_class_id/>
+            <sku />
+            <name />
+            <short_description />
+            <description />
+            <tax_class_id />
         </data_set>
         <data_config>
             <create_url_params>

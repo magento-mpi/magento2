@@ -10,23 +10,17 @@ namespace Magento\CatalogEvent\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\CatalogEvent\Test\Page\Product\CatalogProductView;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\CatalogEvent\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertCatalogEventStatus
- *
- * @package Magento\CatalogEvent\Test\Constraint
+ * Check event status on category/product pages
  */
 abstract class AssertCatalogEventStatus extends AbstractConstraint
 {
-    /**
-     * Event Status
-     */
-    protected $eventStatus = '';
-
     /**
      * Constraint severeness
      *
@@ -35,9 +29,16 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Catalog Event status
+     *
+     * @var string
+     */
+    protected $eventStatus = '';
+
+    /**
      * Category Page on Frontend
      *
-     * @var CatalogCategoryView $catalogCategoryView
+     * @var CatalogCategoryView
      */
     protected $catalogCategoryView;
 
@@ -49,31 +50,31 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
     protected $cmsIndex;
 
     /**
-     * Product Page
+     * Product simple fixture
      *
-     * @var CatalogProductSimple $catalogProductSimple
+     * @var CatalogProductSimple
      */
     protected $catalogProductSimple;
 
     /**
      * Product Page on Frontend
      *
-     * @var CatalogProductView $catalogProductView
+     * @var CatalogProductView
      */
     protected $catalogProductView;
 
     /**
      * Assert that Event block has $eventStatus
      *
-     * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
+     * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogProductView $catalogProductView
      */
     public function processAssert(
-        CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
+        CatalogCategoryView $catalogCategoryView,
         CatalogEventEntity $catalogEvent,
         CatalogProductSimple $catalogProductSimple,
         CatalogProductView $catalogProductView
@@ -85,67 +86,59 @@ abstract class AssertCatalogEventStatus extends AbstractConstraint
 
         $pageEvent = $catalogEvent->getDisplayState();
         if ($pageEvent['category_page'] == "Yes") {
-            $this->blockEventOnCategoryPage();
+            $this->checkEventStatusOnCategoryPage();
         }
         if ($pageEvent['product_page'] == "Yes") {
-            $this->blockEventOnProductPage();
+            $this->checkEventStatusOnProductPage();
         }
     }
 
     /**
-     * Event block has $eventStatus on Category Page
+     * Event block has $this->eventStatus on Category Page
+     *
      * @return void
      */
-    public function blockEventOnCategoryPage()
+    protected function checkEventStatusOnCategoryPage()
     {
-        $categoryName = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']
-            ->getCategory()[0]->getName();
-
+        $categoryName = $this->catalogProductSimple->getCategoryIds()[1];
         $this->cmsIndex->open();
-        $this->catalogProductSimple->getDataFieldConfig('category_ids');
         $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($categoryName);
-        $actualMessage = $this->catalogCategoryView->getEventBlock()->getEventMessage();
         \PHPUnit_Framework_Assert::assertEquals(
             $this->eventStatus,
-            $actualMessage,
-            'Wrong event status message is displayed.'
+            $this->catalogCategoryView->getEventBlock()->getEventStatus(),
+            'Wrong event status is displayed.'
             . "\nExpected: " . $this->eventStatus
-            . "\nActual: " . $actualMessage
+            . "\nActual: " . $this->catalogCategoryView->getEventBlock()->getEventStatus()
         );
     }
 
     /**
-     * Event block has $eventStatus on Product Page
+     * Event block has $this->eventStatus on Product Page
+     *
      * @return void
      */
-    public function blockEventOnProductPage()
+    protected function checkEventStatusOnProductPage()
     {
-        $categoryName = $this->catalogProductSimple->getDataFieldConfig('category_ids')['fixture']
-            ->getCategory()[0]->getName();
-
+        $categoryName = $this->catalogProductSimple->getCategoryIds()[1];
         $this->cmsIndex->open();
-        $this->catalogProductSimple->getDataFieldConfig('category_ids');
         $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($categoryName);
-
-        $productName = $this->catalogProductSimple->getData('name');
-        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
-        $actualMessage = $this->catalogProductView->getEventBlock()->getEventMessage();
+        $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->catalogProductSimple->getName());
         \PHPUnit_Framework_Assert::assertEquals(
             $this->eventStatus,
-            $actualMessage,
-            'Wrong event status message is displayed.'
+            $this->catalogProductView->getEventBlock()->getEventStatus(),
+            'Wrong event status is displayed.'
             . "\nExpected: " . $this->eventStatus
-            . "\nActual: " . $actualMessage
+            . "\nActual: " . $this->catalogProductView->getEventBlock()->getEventStatus()
         );
     }
 
     /**
-     * Text success present '$eventStatus' message
+     * Text '$this->eventStatus' status present on the category/product pages
      *
      * @return string
      */
     public function toString()
     {
-        return "$this->eventStatus message is present.";
+        return "$this->eventStatus status is present.";
     }
 }

@@ -12,6 +12,7 @@ use Mtf\Block\Form as AbstractForm;
 
 /**
  * Class Form
+ * Catalog Event form
  *
  * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event\Edit
  */

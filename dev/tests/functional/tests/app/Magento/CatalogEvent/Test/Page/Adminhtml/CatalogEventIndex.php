@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Test\Page\Adminhtml; 
+namespace Magento\CatalogEvent\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class AdminCatalogEventIndex
- *
- * @package Magento\CatalogEvent\Test\Page\Adminhtml
+ * Catalog Event page
  */
 class CatalogEventIndex extends BackendPage
 {
@@ -26,9 +25,9 @@ class CatalogEventIndex extends BackendPage
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'blockEventGrid' => [
+        'Grid' => [
             'name' => 'blockEventGrid',
-            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid',
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid',
             'locator' => '#catalogEventGrid',
             'strategy' => 'css selector',
         ],
@@ -43,10 +42,10 @@ class CatalogEventIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid
      */
     public function getBlockEventGrid()
     {
-        return $this->getBlockInstance('blockEventGrid');
+        return $this->getBlockInstance('Grid');
     }
 }

@@ -12,30 +12,22 @@ use Mtf\Block\Block;
 /**
  * Class Event
  * Event block on the product/category pages
- *
- * @package Magento\CatalogEvent\Test\Block\Catalog
  */
 class Event extends Block
 {
-
     /**
-     * Event block on the Frontend
+     * Event status on the Frontend
      *
      * @var string
      */
     protected $eventStatus = '.subtitle';
 
     /**
-     * Event Block
+     * Get Event Status on the Frontend
      *
-     * @var string
+     * $return string
      */
-    protected $eventBlock = '.content';
-
-    /**
-     * Get Event Message
-     */
-    public function getEventMessage()
+    public function getEventStatus()
     {
         return $this->_rootElement->find($this->eventStatus)->getText();
     }

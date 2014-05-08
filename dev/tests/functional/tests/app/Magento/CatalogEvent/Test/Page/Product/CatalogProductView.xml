@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/category/index">
+<page mca="catalog/product/view">
     <block>
-        <name>treeCategories</name>
-        <class>Magento\Catalog\Test\Block\Adminhtml\Category\Tree</class>
-        <locator>[id="page:left"]</locator>
+        <name>eventBlock</name>
+        <class>Magento\CatalogEvent\Test\Block\Catalog\Event</class>
+        <locator>.top-container</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

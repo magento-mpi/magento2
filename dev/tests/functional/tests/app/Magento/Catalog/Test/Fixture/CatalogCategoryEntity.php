@@ -12,8 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogCategoryEntity
- *
- * @package Magento\Catalog\Test\Fixture
+ * Category Simple fixture
  */
 class CatalogCategoryEntity extends InjectableFixture
 {
@@ -27,7 +26,13 @@ class CatalogCategoryEntity extends InjectableFixture
      */
     protected $handlerInterface = 'Magento\Catalog\Test\Handler\CatalogCategoryEntity\CatalogCategoryEntityInterface';
 
-    protected $defaultDataSet = [];
+    protected $defaultDataSet = [
+        'name' => 'Category%isolation%',
+        'path' => 'Default Category',
+        'url_key' => 'category%isolation%',
+        'is_active' => 'Yes',
+        'include_in_menu' => 'Yes'
+    ];
 
     protected $entity_id = [
         'attribute_code' => 'entity_id',

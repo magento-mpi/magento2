@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class AdminCatalogEventNew
- *
- * @package Magento\CatalogEvent\Test\Page\Adminhtml
+ * Add new Catalog Event page
  */
 class CatalogEventNew extends BackendPage
 {

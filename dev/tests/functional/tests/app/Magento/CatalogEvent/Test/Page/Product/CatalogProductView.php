@@ -6,19 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Product;
+namespace Magento\CatalogEvent\Test\Page\Product;
 
-use Mtf\Page\FrontendPage;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Page\Product\CatalogProductView as AbstractCatalogProductView;
 
 /**
  * Class CatalogProductView
- * Catalog Product page
+ * Catalog Event on Product page
  */
-class CatalogProductView extends FrontendPage
+class CatalogProductView extends AbstractCatalogProductView
 {
-    const MCA = 'catalog/product/view';
-
     protected $_blocks = [
         'viewBlock' => [
             'name' => 'viewBlock',
@@ -66,6 +64,12 @@ class CatalogProductView extends FrontendPage
             'name' => 'customOptions',
             'class' => 'Magento\Catalog\Test\Block\Product\View\CustomOptions',
             'locator' => '#product-options-wrapper',
+            'strategy' => 'css selector',
+        ],
+        'EventBlock' => [
+            'name' => 'EventBlock',
+            'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
+            'locator' => '.top-container',
             'strategy' => 'css selector',
         ],
     ];
@@ -153,5 +157,13 @@ class CatalogProductView extends FrontendPage
     public function getCustomOptions()
     {
         return $this->getBlockInstance('customOptions');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Catalog\Event
+     */
+    public function getEventBlock()
+    {
+        return $this->getBlockInstance('EventBlock');
     }
 }

@@ -12,8 +12,7 @@ use Magento\Backend\Test\Block\FormPageActions as AbstractFormPageActions;
 
 /**
  * Class FormPageActions
- *
- * @package Magento\CatalogEvent\Test\Block\Adminhtml\Category
+ * Page Actions for Catalog Event
  */
 class FormPageActions extends AbstractFormPageActions
 {
@@ -26,8 +25,10 @@ class FormPageActions extends AbstractFormPageActions
 
     /**
      * Click on "Add Event..." button
+     *
+     * @return void
      */
-    public function addEventNew()
+    public function addCatalogEvent()
     {
         $this->_rootElement->find($this->addEvent)->click();
     }

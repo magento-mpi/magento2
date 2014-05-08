@@ -8,15 +8,15 @@
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class EventGrid
- * Events' grid of Catalog Events
+ * Events grid of Catalog Events
  *
  * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event
  */
-class BlockEventGrid extends Grid
+class Grid extends AbstractGrid
 {
     /**
      * Filters array mapping
@@ -25,7 +25,7 @@ class BlockEventGrid extends Grid
      */
     protected $filters = [
         'category_name' => [
-            'selector' => '[name="category"]'
+            'selector' => 'input[name="category"]'
         ],
         'start_on' => [
             'selector' => '[name="date_start[from]"]'
@@ -34,22 +34,15 @@ class BlockEventGrid extends Grid
             'selector' => '[name="date_end[from]"]'
         ],
         'status' => [
-            'selector' => '[name="status"]',
+            'selector' => 'select[name="status"]',
             'input' => 'select'
         ],
         'countdown_ticker' => [
-            'selector' => '[name="display_state"]',
+            'selector' => 'select[name="display_state"]',
             'input' => 'select'
         ],
         'sort_order' => [
-            'selector' => '[name="sort_order"]'
+            'selector' => 'input[name="sort_order"]'
         ],
     ];
-
-    /**
-     * An element locator which allows to select entities in grid
-     *
-     * @var string
-     */
-    protected $selectItem = 'tbody tr .even pointer';
 }

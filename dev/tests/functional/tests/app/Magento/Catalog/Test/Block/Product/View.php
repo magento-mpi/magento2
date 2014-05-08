@@ -20,8 +20,6 @@ use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
 /**
  * Class View
  * Product View block
- *
- * @package Magento\Catalog\Test\Block\Product\View
  */
 class View extends Block
 {
@@ -391,11 +389,11 @@ class View extends Block
     }
 
     /**
-     * Is 'ADD TO CART' button visible
+     * Is 'Add to card' button visible
      *
      * @return bool
      */
-    public function isAddToCartButtonVisible()
+    public function isAddToCardButtonVisible()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }

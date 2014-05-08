@@ -11,8 +11,6 @@ use Mtf\Handler\HandlerInterface;
 
 /**
  * Interface CatalogProductSimpleInterface
- *
- * @package Magento\Catalog\Test\Handler\CatalogProductSimple
  */
 interface CatalogProductSimpleInterface extends HandlerInterface
 {

@@ -17,8 +17,7 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class Curl
- *
- * @package Magento\Catalog\Test\Handler\CatalogCategoryEntity
+ * Create new Category
  */
 class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
 {
@@ -29,7 +28,7 @@ class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
     protected $dataUseConfig = [
         'available_sort_by',
         'default_sort_by',
-        'filter_price_range'
+        'filter_price_range',
     ];
 
     /**
@@ -43,7 +42,11 @@ class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
         $data['general'] = $fixture->getData();
         $data['general']['is_active'] = 1;
         $data['general']['include_in_menu'] = 1;
-        $data['use_config'] = $this->dataUseConfig;
+
+        $diff = array_diff($this->dataUseConfig, array_keys($data['general']));
+        if (!empty($diff)) {
+            $data['use_config'] = $diff;
+        }
 
         $url = $_ENV['app_backend_url'] . 'catalog/category/save/store/0/parent/2';
         $curl = new BackendDecorator(new CurlTransport(), new Config);

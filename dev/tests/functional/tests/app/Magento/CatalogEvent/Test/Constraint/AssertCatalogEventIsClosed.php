@@ -9,13 +9,11 @@
 namespace Magento\CatalogEvent\Test\Constraint;
 
 /**
- * Class AssertCatalogEventIsClosed
- *
- * @package Magento\CatalogEvent\Test\Constraint
+ * Class AssertCatalogEventIsUpcoming
+ * Check event status 'Closed' on category/product pages
  */
 class AssertCatalogEventIsClosed extends AssertCatalogEventStatus
 {
-    protected $eventStatus = 'Closed';
     /**
      * Constraint severeness
      *
@@ -24,12 +22,19 @@ class AssertCatalogEventIsClosed extends AssertCatalogEventStatus
     protected $severeness = 'low';
 
     /**
-     * Text success present 'Closed' message
+     * Event status 'Closed' on category/product pages
+     *
+     * @var string
+     */
+    protected $eventStatus = 'Closed';
+
+    /**
+     * Text status 'Closed' present
      *
      * @return string
      */
     public function toString()
     {
-        return 'Closed message is present.';
+        return 'Closed status is present.';
     }
 }

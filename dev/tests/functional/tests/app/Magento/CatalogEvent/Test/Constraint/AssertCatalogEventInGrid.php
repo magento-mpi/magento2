@@ -15,8 +15,8 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogEventInGrid
+ * Check catalog event is present in the "Events" grid
  *
- * @package Magento\CatalogEvent\Test\Constraint
  */
 class AssertCatalogEventInGrid extends AbstractConstraint
 {
@@ -28,13 +28,15 @@ class AssertCatalogEventInGrid extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * CatalogEventEntity $catalogEvent
-     * @var
+     * Catalog Event fixture
+     *
+     * @var CatalogEventEntity
      */
     protected $catalogEvent;
 
     /**
      * Pages where event presented
+     *
      * @var string
      */
     protected $catalogEventPages = '';
@@ -45,7 +47,8 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogEventIndex $catalogEventIndex
-     * @return bool
+     *
+     * @return void
      */
     public function processAssert(
         CatalogEventEntity $catalogEvent,
@@ -56,8 +59,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         return true;
 
         $this->catalogEvent = $catalogEvent;
-        $categoryName = $catalogProductSimple->getDataFieldConfig('category_ids')['fixture']
-            ->getCategory()[0]->getName();
+        $categoryName = $catalogProductSimple->getCategoryIds()[1];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
         $currentDay = strtotime('now');
@@ -70,20 +72,18 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $status = 'Open';
         }
 
-        $displayState = $this->prepare();
-
         $filter = [
             'category_name' => $categoryName,
             'start_on' => $catalogEvent->getDateStart(),
             'end_on' => $catalogEvent->getDateEnd(),
             'status' => $status,
-            'countdown_ticker' => $displayState,
+            'countdown_ticker' => $this->prepareDisplayStateForFilter(),
             'sort_order' => $catalogEvent->getSortOrder()
         ];
         $catalogEventIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $catalogEventIndex->getBlockEventGrid()->isRowVisible($filter),
-            'Event with Category Name \'' . $categoryName . '\' is absent in Events grid.'
+            'Event on Category Name \'' . $categoryName . '\' is absent in Events grid.'
         );
     }
 
@@ -92,27 +92,27 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      *
      * @return string
      */
-    protected function prepare()
+    protected function prepareDisplayStateForFilter()
     {
         $pageEvent = $this->catalogEvent->getDisplayState();
 
         if ($pageEvent['category_page'] == "Yes") {
-            $this->catalogEventPages = 'Category Page';
+            return 'Category Page';
         }
         if ($pageEvent['product_page'] == "Yes") {
-            $this->catalogEventPages = 'Product Page';
+            return 'Product Page';
         }
 
-        return $this->catalogEventPages;
+        return 'Lister Block';
     }
 
     /**
-     * Text success present Event in Event Grid
+     * Text present Catalog Event in Event Grid
      *
      * @return string
      */
     public function toString()
     {
-        return 'Event is present in Events grid.';
+        return 'Catalog Event is present in Event grid.';
     }
 }

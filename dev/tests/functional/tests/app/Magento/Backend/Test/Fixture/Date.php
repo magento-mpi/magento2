@@ -15,12 +15,12 @@ use Mtf\Fixture\FixtureInterface;
  *
  * Data keys:
  *  - pattern (Format a local time/date with delta, e.g. 'm-d-Y -3 days' = current day - 3 days)
- *
- * @package Magento\Catalog\Test\Fixture\CatalogProductSimple
  */
 class Date implements FixtureInterface
 {
     /**
+     * Date
+     *
      * @var array
      */
     protected $data;

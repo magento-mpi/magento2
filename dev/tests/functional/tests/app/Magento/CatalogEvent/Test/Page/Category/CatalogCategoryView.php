@@ -6,18 +6,16 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category;
+namespace Magento\CatalogEvent\Test\Page\Category;
 
-use Mtf\Page\FrontendPage;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView as AbstractCatalogCategoryView;
 
 /**
  * Class CatalogCategoryView
- * Catalog Category page
+ * Catalog Event on Product page
  */
-class CatalogCategoryView extends FrontendPage
+class CatalogCategoryView extends AbstractCatalogCategoryView
 {
-    const MCA = 'catalog/category/view';
-
     protected $_blocks = [
         'listProductBlock' => [
             'name' => 'listProductBlock',
@@ -36,7 +34,13 @@ class CatalogCategoryView extends FrontendPage
             'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
-        ]
+        ],
+        'eventBlock' => [
+            'name' => 'eventBlock',
+            'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
+            'locator' => '.top-container',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -61,5 +65,13 @@ class CatalogCategoryView extends FrontendPage
     public function getLayeredNavigationBlock()
     {
         return $this->getBlockInstance('layeredNavigationBlock');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Catalog\Event
+     */
+    public function getEventBlock()
+    {
+        return $this->getBlockInstance('eventBlock');
     }
 }

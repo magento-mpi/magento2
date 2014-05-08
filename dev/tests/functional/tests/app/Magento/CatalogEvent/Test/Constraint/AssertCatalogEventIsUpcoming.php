@@ -10,12 +10,10 @@ namespace Magento\CatalogEvent\Test\Constraint;
 
 /**
  * Class AssertCatalogEventIsUpcoming
- *
- * @package Magento\CatalogEvent\Test\Constraint
+ * Check event status 'Coming Soon' on category/product pages
  */
 class AssertCatalogEventIsUpcoming extends AssertCatalogEventStatus
 {
-    protected $eventStatus = 'Coming Soon';
     /**
      * Constraint severeness
      *
@@ -24,12 +22,19 @@ class AssertCatalogEventIsUpcoming extends AssertCatalogEventStatus
     protected $severeness = 'low';
 
     /**
-     * Text success present 'Coming Soon' message
+     * Event status 'Coming Soon' on category/product pages
+     *
+     * @var string
+     */
+    protected $eventStatus = 'Coming Soon';
+
+    /**
+     * Text status 'Coming Soon' present
      *
      * @return string
      */
     public function toString()
     {
-        return 'Coming Soon message is present.';
+        return 'Coming Soon status is present.';
     }
 }
