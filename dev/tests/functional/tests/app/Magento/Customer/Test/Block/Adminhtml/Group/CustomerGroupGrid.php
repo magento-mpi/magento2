@@ -14,7 +14,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class CustomerGroupGrid
  * Adminhtml customer group grid
  *
- * @package Magento\Catalog\Test\Block
+ * @package  Magento\Customer\Test\Block\Adminhtml\Group
  */
 class CustomerGroupGrid extends Grid
 {
@@ -24,18 +24,8 @@ class CustomerGroupGrid extends Grid
      * @var array $filters
      */
     protected $filters = [
-        'type' => [
+        'code' => [
             'selector' => '#customerGroupGrid_filter_type'
         ]
     ];
-
-    /**
-     * Update attributes for selected items
-     *
-     * @param array $items
-     */
-    public function updateAttributes(array $items = array())
-    {
-        $this->massaction('Update Attributes', $items);
-    }
 }

@@ -46,7 +46,7 @@ class AssertCustomerGroupSuccessCreateMessage extends AbstractConstraint
     }
 
     /**
-     * Text of created customer group success message assert.
+     * Success assert of created customer group success message.
      *
      * @return string
      */

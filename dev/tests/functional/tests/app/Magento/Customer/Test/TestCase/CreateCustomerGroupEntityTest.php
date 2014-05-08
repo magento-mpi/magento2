@@ -11,7 +11,6 @@ namespace Magento\Customer\Test\TestCase;
 use Magento\Customer\Test\Fixture\CustomerGroup;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew;
-use Magento\Tax\Test\Fixture\TaxClassInjectable;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -45,23 +44,13 @@ class CreateCustomerGroupEntityTest extends Injectable
     protected $customerGroupNew;
 
     /**
-     * Customer group grid
-     *
-     * @var CustomerGroup
-     */
-    protected $customerGroup;
-
-    /**
      * @param CustomerGroupIndex $customerGroupIndex
      * @param CustomerGroupNew $customerGroupNew
-     * @param CustomerGroup $customerGroup
      */
     public function __inject(
         CustomerGroupIndex $customerGroupIndex,
-        CustomerGroupNew $customerGroupNew,
-        CustomerGroup $customerGroup
+        CustomerGroupNew $customerGroupNew
     ) {
-        $this->customerGroup = $customerGroup;
         $this->customerGroupIndex = $customerGroupIndex;
         $this->customerGroupNew = $customerGroupNew;
     }
@@ -69,20 +58,15 @@ class CreateCustomerGroupEntityTest extends Injectable
     /**
      * Create customer group
      *
-     * @param CustomerGroupIndex $customerGroupIndex
-     * @param CustomerGroupNew $customerGroupNew
      * @param CustomerGroup $customerGroup
      */
     public function testCreateCustomerGroup(
-        CustomerGroupIndex $customerGroupIndex,
-        CustomerGroupNew $customerGroupNew,
         CustomerGroup $customerGroup
     ) {
-
         //Steps
-        $customerGroupIndex->open();
-        $customerGroupIndex->getGridPageActions()->addNew();
-        $customerGroupNew->getPageMainForm()->fill($customerGroup);
-        $customerGroupNew->getPageMainActions()->save();
+        $this->customerGroupIndex->open();
+        $this->customerGroupIndex->getGridPageActions()->addNew();
+        $this->customerGroupNew->getPageMainForm()->fill($customerGroup);
+        $this->customerGroupNew->getPageMainActions()->save();
     }
 }

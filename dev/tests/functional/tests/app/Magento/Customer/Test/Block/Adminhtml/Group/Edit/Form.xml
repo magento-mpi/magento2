@@ -10,8 +10,12 @@
 <mapping strict="0">
     <fields>
         <code />
-        <tax_class>
+        <tax_class_id>
+            <selector>#tax_class_id</selector>
             <input>select</input>
-        </tax_class>
+        </tax_class_id>
+        <customer_group_code>
+            <selector>#customer_group_code</selector>
+        </customer_group_code>
     </fields>
 </mapping>

@@ -12,23 +12,20 @@
     <type>flat</type>
     <entity_type>customer_group</entity_type>
     <collection>Magento\Customer\Model\Resource\Group\Collection</collection>
-    <identifier>name</identifier>
     <fields>
-        <code>
+        <customer_group_code>
             <attribute_code>code</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required>1</is_required>
             <default_value>customer_code_%isolation%</default_value>
             <input>text</input>
-        </code>
-        <tax_class>
+        </customer_group_code>
+        <tax_class_id>
             <attribute_code>tax_class</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required>1</is_required>
-            <default_value></default_value>
+            <default_value>Retail Customer</default_value>
             <input>select</input>
-        </tax_class>
+        </tax_class_id>
     </fields>
-    <data_set></data_set>
-    <data_config></data_config>
 </fixture>

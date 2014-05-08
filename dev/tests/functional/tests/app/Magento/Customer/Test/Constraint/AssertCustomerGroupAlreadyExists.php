@@ -44,7 +44,7 @@ class AssertCustomerGroupAlreadyExists extends AbstractConstraint
     }
 
     /**
-     * Text of customer group already exist
+     * Success assert of customer group already exist
      *
      * @return string
      */

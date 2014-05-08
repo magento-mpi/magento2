@@ -18,5 +18,5 @@ use Magento\Backend\Test\Block\Widget\Form as AbstractForm;
  */
 class Form extends AbstractForm
 {
-
+    //
 }

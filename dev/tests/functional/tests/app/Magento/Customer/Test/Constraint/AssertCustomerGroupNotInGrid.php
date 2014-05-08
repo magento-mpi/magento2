@@ -38,15 +38,15 @@ class AssertCustomerGroupNotInGrid extends AbstractConstraint
         CustomerGroupIndex $customerGroupIndex
     ) {
         $customerGroupIndex->open();
-        $filter = ['type' => $customerGroup->getCode()];
+        $filter = ['code' => $customerGroup->getCustomerGroupCode()];
         \PHPUnit_Framework_Assert::assertFalse(
             $customerGroupIndex->getCustomerGroupGrid()->isRowVisible($filter),
-            'Group with name \'' . $customerGroup->getCode() . '\' in customer groups grid.'
+            'Group with name \'' . $customerGroup->getCustomerGroupCode() . '\' in customer groups grid.'
         );
     }
 
     /**
-     * Text of customer group not in grid.
+     * Success assert of  customer group not in grid.
      *
      * @return string
      */
