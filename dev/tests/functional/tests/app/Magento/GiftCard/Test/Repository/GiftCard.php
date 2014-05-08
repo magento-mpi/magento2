@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\Catalog\Test\Repository;
 /**
  * Class GiftCard Repository
  *
- * @package Magento\GiftCard\Test\Repository
  */
 class GiftCard extends Repository\Product
 {

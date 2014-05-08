@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\Factory\Factory;
  * Class Grid
  * Adminhtml sales order create search products block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Create\Search
  */
 class Grid extends GridInterface
 {

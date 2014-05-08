@@ -2,19 +2,14 @@
     /**
      * {license_notice}
      *
-     * @category    Magento
-     * @package     Mage_DesignEditor
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
+                 * @copyright   {copyright}
      * @license     {license_link}
      */
 
     /**
      * <p>Theme selector tests</p>
      *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+             * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      */
 class Core_Mage_DesignEditor_ThemeLayoutTest extends Mage_Selenium_TestCase
 {

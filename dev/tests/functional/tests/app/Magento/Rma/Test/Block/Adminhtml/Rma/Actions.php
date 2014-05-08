@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Block;
  * Class Actions
  * Order actions block
  *
- * @package Magento\Rma\Test\Block\Adminhtml\Rma
  */
 class Actions extends Block
 {

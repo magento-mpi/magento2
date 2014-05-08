@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Test\ImportExport\Fixture\Complex;
 /**
  * Class PatternTest
  *
- * @package Magento\Test\ImportExport\Fixture\Complex
  */
 class PatternTest extends \PHPUnit_Framework_TestCase
 {

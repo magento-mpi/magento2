@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class ApplyConfig
  * Apply system configuration to application under test
  *
- * @package Magento\Catalog\Test\Handler\Direct
  */
 class ApplyConfig extends Direct
 {

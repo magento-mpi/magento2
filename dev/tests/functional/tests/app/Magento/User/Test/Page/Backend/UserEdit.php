@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class UserEdit
  *
- * @package Magento\User\Test\Page\Backend
  */
 class UserEdit extends Page
 {

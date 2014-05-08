@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
  * Class Overview
  * Multishipping checkout overview information
  *
- * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Overview extends Block
 {

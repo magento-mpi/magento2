@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category Magento
- * @package Magento_Catalog
- * @subpackage integration_tests
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -12,7 +9,6 @@ namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
 /**
  * Class RowTest
- * @package Magento\Catalog\Model\Indexer\Product\Price\Action
  */
 class RowTest extends \PHPUnit_Framework_TestCase
 {

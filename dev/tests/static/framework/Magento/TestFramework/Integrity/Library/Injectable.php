@@ -12,7 +12,6 @@ use Zend\Code\Reflection\FileReflection;
 use Zend\Code\Reflection\ParameterReflection;
 
 /**
- * @package Magento\TestFramework
  */
 class Injectable
 {

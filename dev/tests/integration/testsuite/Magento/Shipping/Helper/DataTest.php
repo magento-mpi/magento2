@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Success
  * One page checkout success block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Success extends Block
 {

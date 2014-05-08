@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Catalog layered navigation view block
  *
- * @package Magento\Search\Test\Block\Catalog\Layer
  */
 class View extends Block
 {

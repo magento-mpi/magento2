@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Grid
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Factory\Factory;
  * Class PaypalStandardOrder
  * Guest checkout using PayPal Payments Standard method
  *
- * @package Magento\Sales\Test\Fixture
  */
 class PaypalStandardOrder extends OrderCheckout
 {

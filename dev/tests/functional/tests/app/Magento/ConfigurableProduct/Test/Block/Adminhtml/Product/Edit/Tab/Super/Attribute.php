@@ -16,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class Attribute
  * Attribute block in Variation section
  *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Attribute extends Block
 {

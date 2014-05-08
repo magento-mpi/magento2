@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
  * Class AffectedAttributeSet
  * Choose affected attribute set dialog popup window
  *
- * @package Magento\Catalog\Test\Block\Product\Configurable
  */
 class AffectedAttributeSet extends Block
 {

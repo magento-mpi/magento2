@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Authentication
  * Card Verification frame on OnePageCheckout order review step
  *
- * @package Magento\Centinel
  */
 class Authentication extends Block
 {

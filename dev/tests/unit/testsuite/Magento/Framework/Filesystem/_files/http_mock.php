@@ -2,9 +2,7 @@
 /**
  * {license_notice}
  *
- * @category Magento
  * @package Magento/Framework/Filesystem
- * @subpackage unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

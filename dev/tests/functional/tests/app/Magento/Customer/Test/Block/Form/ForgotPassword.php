@@ -13,7 +13,6 @@ use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Fixture\Customer;
 
 /**
- * @package Magento\Customer\Test\Block\Form
  */
 class ForgotPassword extends Form
 {

@@ -14,7 +14,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class UserWithRestrictedRole
  *
- * @package Magento\User\Test\TestCase
  */
 class UserWithRestrictedRoleTest extends Functional
 {

@@ -18,7 +18,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for persisting Magento user
  *
- * @package Magento\Core\Test\Handler\Curl
  */
 class CreateUser extends Curl
 {

@@ -16,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class Matrix
  * Product variations matrix block
  *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config
  */
 class Matrix extends Form
 {

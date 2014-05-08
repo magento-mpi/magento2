@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class CustomerAccountLogin
  * Customer frontend login page.
  *
- * @package Magento\Customer\Test\Page
  */
 class CustomerAccountLogin extends Page
 {

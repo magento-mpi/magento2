@@ -10,7 +10,6 @@ namespace Magento\TestFramework\Helper;
 /**
  * Class Categories Helper
  *
- * @package Magento\TestFramework\Helper
  */
 class Categories
 {

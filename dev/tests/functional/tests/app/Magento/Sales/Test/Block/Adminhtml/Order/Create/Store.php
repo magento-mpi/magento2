@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Magento\Sales\Test\Fixture\Order;
  * Class Store
  * Adminhtml sales order create select store block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Create
  */
 class Store extends Block
 {

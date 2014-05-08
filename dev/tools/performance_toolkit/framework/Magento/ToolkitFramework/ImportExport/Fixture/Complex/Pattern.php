@@ -11,7 +11,6 @@ namespace Magento\ToolkitFramework\ImportExport\Fixture\Complex;
 /**
  * Complex pattern class for complex generator (used for creating configurable products)
  *
- * @package Magento\ToolkitFramework\ImportExport\Fixture\Complex
  *
  */
 class Pattern

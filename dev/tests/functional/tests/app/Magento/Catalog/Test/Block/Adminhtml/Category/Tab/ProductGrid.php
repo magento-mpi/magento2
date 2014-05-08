@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class ProductGrid
  * Products' grid of Category Products tab
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Category\Tab
  */
 class ProductGrid extends Grid
 {

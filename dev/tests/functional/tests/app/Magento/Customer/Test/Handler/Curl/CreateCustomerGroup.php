@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating customer group in admin
  *
- * @package Magento\Customer\Test\Handler\Curl
  */
 class CreateCustomerGroup extends Curl
 {

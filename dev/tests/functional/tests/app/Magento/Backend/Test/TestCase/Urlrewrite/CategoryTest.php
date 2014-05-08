@@ -17,7 +17,6 @@ use Mtf\TestCase\Injectable;
  * Class UrlrewriteTest
  * Category URL rewrite creation test
  *
- * @package Magento\Catalog\Test\TestCase\Category
  */
 class CategoryTest extends Injectable
 {

@@ -16,7 +16,6 @@ use Magento\Framework\ObjectManager as MagentoObjectManager;
 /**
  * Class ObjectManagerFactory
  *
- * @package Mtf\System
  * @api
  */
 class ObjectManagerFactory

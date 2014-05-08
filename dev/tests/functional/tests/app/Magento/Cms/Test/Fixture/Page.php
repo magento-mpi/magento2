@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Cms\Test\Repository\Page as Repository;
  * Class Page
  * CMS page
  *
- * @package Magento\Cms\Test\Fixture
  */
 class Page extends DataFixture
 {
