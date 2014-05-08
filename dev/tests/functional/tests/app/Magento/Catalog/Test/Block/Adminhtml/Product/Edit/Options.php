@@ -14,8 +14,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Abstract class Options
  * Parent class for all forms of product options
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit
  */
 abstract class Options extends Tab
 {

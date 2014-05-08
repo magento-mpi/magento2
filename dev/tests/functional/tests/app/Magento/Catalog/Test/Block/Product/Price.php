@@ -16,9 +16,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Price
- * This class is used to access the price related information from the storefront.
- *
- * @package Magento\Catalog\Test\Block\Product
+ * This class is used to access the price related information from the storefront
  */
 class Price extends Block
 {
@@ -203,7 +201,7 @@ class Price extends Block
     /**
      * Get Minimum Advertised Price value
      *
-     * @return array|string
+     * @return string
      */
     public function getOldPrice()
     {
@@ -221,7 +219,7 @@ class Price extends Block
     {
         //@TODO it have to rewrite when will be possibility to divide it to different blocks(by product type)
         $prices = explode("\n", trim($this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText()));
-        if (count($prices) == 1) {
+        if (count($prices) === 1) {
             return floatval(trim($prices[0], $currency));
         }
         return $this->formatPricesData($prices, $currency);
@@ -230,6 +228,7 @@ class Price extends Block
     /**
      * Add product to shopping cart from MAP Block
      *
+     * @return void
      */
     public function addToCartFromMap()
     {
@@ -239,6 +238,7 @@ class Price extends Block
     /**
      * Close MAP Block
      *
+     * @return void
      */
     public function closeMapBlock()
     {
@@ -248,7 +248,7 @@ class Price extends Block
     /**
      * Get price from
      *
-     * @return array|string
+     * @return string
      */
     public function getPriceFrom()
     {
@@ -258,7 +258,7 @@ class Price extends Block
     /**
      * Get price to
      *
-     * @return array|string
+     * @return string
      */
     public function getPriceTo()
     {

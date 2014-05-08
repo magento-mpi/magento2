@@ -40,10 +40,8 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(
-        CatalogProductView $catalogProductView,
-        FixtureInterface $product
-    ) {
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    {
         $this->product = $product;
         // TODO fix initialization url for frontend page
         // Open product view page
@@ -78,10 +76,9 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     {
         foreach ($options as $key => $option) {
             sort($option['price']);
-            if (!isset($compareOptions[$key]['price']) ) {
+            if (!isset($compareOptions[$key]['price'])) {
                 return false;
             }
-
             sort($compareOptions[$key]['price']);
             if ($option['is_require'] !== $compareOptions[$key]['is_require']
                 || $option['price'] !== $compareOptions[$key]['price']
@@ -89,6 +86,7 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
                 return false;
             }
         }
+
         return true;
     }
 

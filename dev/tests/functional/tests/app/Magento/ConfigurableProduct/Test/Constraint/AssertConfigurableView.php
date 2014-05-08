@@ -14,8 +14,6 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertConfigurableView
- *
- * @package Magento\ConfigurableProduct\Test\Constraint
  */
 class AssertConfigurableView extends AbstractConstraint
 {

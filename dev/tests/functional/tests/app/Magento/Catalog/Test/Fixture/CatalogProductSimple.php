@@ -16,8 +16,6 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductSimple
- *
- * @package Magento\Catalog\Test\Fixture
  */
 class CatalogProductSimple extends InjectableFixture
 {

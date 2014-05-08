@@ -14,8 +14,6 @@ use Mtf\Client\Element;
 /**
  * Class CustomOptionsTab
  * Product custom options tab
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit
  */
 class CustomOptionsTab extends Options
 {

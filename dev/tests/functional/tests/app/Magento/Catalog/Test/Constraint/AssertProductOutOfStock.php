@@ -14,8 +14,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductOutOfStock
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductOutOfStock extends AbstractConstraint
 {

@@ -13,8 +13,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductSaveMessage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductSaveMessage extends AbstractConstraint
 {

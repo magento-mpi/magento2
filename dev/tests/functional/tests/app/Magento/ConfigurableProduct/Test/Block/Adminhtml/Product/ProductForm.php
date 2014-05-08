@@ -12,19 +12,17 @@ use Mtf\Block\Mapper;
 use Mtf\Client\Element;
 use Mtf\Client\Browser;
 use Mtf\Factory\Factory;
+use Mtf\Util\XmlConverter;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Mtf\Util\XmlConverter;
 
 /**
  * Class ProductForm
  * Product creation form
- *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product
  */
 class ProductForm extends FormTabs
 {
@@ -113,6 +111,8 @@ class ProductForm extends FormTabs
     protected $advancedTabPanel = '[role="tablist"] [role="tabpanel"][aria-expanded="true"]:not("overflow")';
 
     /**
+     * Category fixture
+     *
      * @var Category
      */
     protected $category;
@@ -166,7 +166,10 @@ class ProductForm extends FormTabs
     }
 
     /**
+     * Initialization categories before use in the form of
+     *
      * @param Category $category
+     * @return void
      */
     public function setCategory(Category $category)
     {

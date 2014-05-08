@@ -17,8 +17,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 /**
  * Class CreateBundleEntityTest
  * Create bundle product entity test
- *
- * @package Magento\Bundle\Test\TestCase
  */
 class CreateBundleEntityTest extends Injectable
 {

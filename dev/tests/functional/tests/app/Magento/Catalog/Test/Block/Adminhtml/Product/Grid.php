@@ -13,8 +13,6 @@ use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 /**
  * Class ProductGrid
  * Backend catalog product grid
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
 class Grid extends ParentGrid
 {

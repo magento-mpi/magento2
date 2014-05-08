@@ -15,8 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Custom Options
  * Block of custom options product
- *
- * @package Magento\Catalog\Test\Block\Catalog\Product\View
  */
 class CustomOptions extends Block
 {
@@ -86,7 +84,6 @@ class CustomOptions extends Block
                     }
                 }
             }
-
             $options[$option['title']] = $option;
             ++$index;
         }

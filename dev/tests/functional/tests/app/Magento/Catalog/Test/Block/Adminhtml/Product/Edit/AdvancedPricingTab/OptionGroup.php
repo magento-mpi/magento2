@@ -14,9 +14,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
  * Class OptionField
- * Form 'Group prices' on the tab 'Extended price'
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab
+ * Form "Group prices" on the tab "Extended price"
  */
 class OptionGroup extends Options
 {

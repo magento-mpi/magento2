@@ -14,8 +14,6 @@ use Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest;
 /**
  * Class EditConfigurableTest
  * Edit Configurable product
- *
- * @package Magento\Catalog\Test\TestCase\Product\Configurable
  */
 class EditConfigurableTest extends CreateConfigurableTest
 {

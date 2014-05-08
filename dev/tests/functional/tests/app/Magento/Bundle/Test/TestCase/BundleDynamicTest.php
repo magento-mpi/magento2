@@ -15,13 +15,13 @@ use Magento\Bundle\Test\Fixture\Bundle;
 /**
  * Class BundleDynamicTest
  * Bundle product dynamic test
- *
- * @package Magento\Bundle\Test\TestCase
  */
 class BundleDynamicTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {

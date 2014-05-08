@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Downloadable\Test\TestCase\Create;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
+/**
+ * Class LinksPurchasedSeparatelyTest
+ */
 class LinksPurchasedSeparatelyTest extends Functional
 {
     /**

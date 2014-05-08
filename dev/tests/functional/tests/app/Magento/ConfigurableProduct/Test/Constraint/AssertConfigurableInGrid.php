@@ -14,8 +14,6 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
  * Class AssertConfigurableInGrid
- *
- * @package Magento\ConfigurableProduct\Test\Constraint
  */
 class AssertConfigurableInGrid extends AbstractConstraint
 {

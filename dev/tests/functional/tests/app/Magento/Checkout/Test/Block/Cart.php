@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +18,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class Cart
  * Shopping cart block
- *
- * @package Magento\Checkout\Test\Block
  */
 class Cart extends Block
 {
@@ -92,7 +87,6 @@ class Cart extends Block
      *
      * @param Product $product
      * @param string $currency
-     *
      * @return float
      */
     public function getCartItemUnitPrice($product, $currency = '$')
@@ -112,7 +106,7 @@ class Cart extends Block
      * Get product options in the cart
      *
      * @param Product $product
-     * @return array|string
+     * @return string
      */
     public function getCartItemOptions($product)
     {
@@ -174,6 +168,8 @@ class Cart extends Block
 
     /**
      * Press 'Check out with PayPal' button
+     *
+     * @return void
      */
     public function paypalCheckout()
     {
@@ -203,6 +199,8 @@ class Cart extends Block
 
     /**
      * Clear shopping cart
+     *
+     * @return void
      */
     public function clearShoppingCart()
     {

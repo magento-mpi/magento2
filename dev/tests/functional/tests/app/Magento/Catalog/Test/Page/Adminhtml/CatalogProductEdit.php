@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductEdit
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductEdit extends BackendPage
 {
@@ -40,7 +38,7 @@ class CatalogProductEdit extends BackendPage
         ],
         'formAction' => [
             'name' => 'formAction',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormAction',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -77,7 +75,7 @@ class CatalogProductEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormAction
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
      */
     public function getFormAction()
     {

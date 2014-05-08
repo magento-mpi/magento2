@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class UnassignCategoryTest
  * Unassign product from category on Product page
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class UnassignCategoryTest extends Functional
 {

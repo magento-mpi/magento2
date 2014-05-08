@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class AssertProductForm
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductForm extends AbstractConstraint
 {

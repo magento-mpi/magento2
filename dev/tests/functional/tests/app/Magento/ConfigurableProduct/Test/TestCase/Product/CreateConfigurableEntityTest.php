@@ -30,16 +30,22 @@ use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 class CreateConfigurableEntityTest extends Injectable
 {
     /**
+     * Category fixture
+     *
      * @var Category
      */
     protected $category;
 
     /**
+     * Backend catalog page (product grid)
+     *
      * @var CatalogProductIndex
      */
     protected $productPageGrid;
 
     /**
+     * Product page (product form)
+     *
      * @var CatalogProductNew
      */
     protected $newProductPage;
@@ -73,7 +79,7 @@ class CreateConfigurableEntityTest extends Injectable
     }
 
     /**
-     * Run test
+     * Run create configurable product test
      *
      * @param CatalogProductConfigurable $configurable
      * @param Category $category

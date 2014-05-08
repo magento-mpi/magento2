@@ -85,7 +85,7 @@ class CreateSimpleProductEntityTest extends Injectable
     }
 
     /**
-     * Run test
+     * Run create product simple entity test
      *
      * @param CatalogProductSimple $product
      * @param Category $category

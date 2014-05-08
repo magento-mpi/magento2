@@ -14,8 +14,6 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 /**
  * Class OptionDropDown
  * Form "Option dropdown" on tab product "Custom options"
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab
  */
 class OptionDropDown extends Options
 {

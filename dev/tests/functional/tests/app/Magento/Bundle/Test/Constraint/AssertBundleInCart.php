@@ -16,8 +16,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductInCart
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertBundleInCart extends AbstractConstraint
 {
@@ -29,6 +27,8 @@ class AssertBundleInCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Checking bundle product in cart
+     *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $bundle
      * @param CheckoutCart $checkoutCart

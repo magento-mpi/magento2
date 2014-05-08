@@ -16,8 +16,6 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 /**
  * Class RelatedProductTest
  * Test promoting products as related
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class RelatedProductTest extends Functional
 {

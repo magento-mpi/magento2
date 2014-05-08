@@ -16,8 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Class AssociatedProducts
  * Associated products tab
- *
- * @package Magento\Catalog\Test\Block\Product\Grouped
  */
 class AssociatedProducts extends Tab
 {

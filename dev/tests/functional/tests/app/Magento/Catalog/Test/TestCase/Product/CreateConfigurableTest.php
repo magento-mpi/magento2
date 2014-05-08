@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class CreateConfigurableTest
  * Configurable product
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateConfigurableTest extends Functional
 {

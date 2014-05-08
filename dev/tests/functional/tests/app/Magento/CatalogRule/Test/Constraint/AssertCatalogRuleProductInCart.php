@@ -18,8 +18,6 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertCatalogRuleProductInCart
- *
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleProductInCart extends AbstractConstraint
 {

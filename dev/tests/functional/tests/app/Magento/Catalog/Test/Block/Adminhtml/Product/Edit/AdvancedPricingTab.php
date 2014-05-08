@@ -14,8 +14,6 @@ use Mtf\Client\Element;
 /**
  * Class AdvancedPricingTab
  * Product advanced pricing tab
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit
  */
 class AdvancedPricingTab extends Options
 {
@@ -41,7 +39,7 @@ class AdvancedPricingTab extends Options
         foreach ($fields as $fieldName => $field) {
             // Fill form
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
-                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
                 $optionsForm = ObjectManager::getInstance()->create(
                     __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
                     ['element' => $this->_rootElement]

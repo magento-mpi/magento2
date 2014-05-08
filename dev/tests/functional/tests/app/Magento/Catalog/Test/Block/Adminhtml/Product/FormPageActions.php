@@ -10,15 +10,13 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
 use Mtf\Page\BackendPage;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\FormPageActions;
+use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 
 /**
  * Class FormAction
  * Form action
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
-class FormAction extends FormPageActions
+class FormPageActions extends ParentFormPageActions
 {
     /**
      * "Save" button
@@ -41,7 +39,8 @@ class FormAction extends FormPageActions
      * @param FixtureInterface $product
      * @return void
      */
-    public function saveProduct(BackendPage $page, FixtureInterface $product) {
+    public function saveProduct(BackendPage $page, FixtureInterface $product)
+    {
         parent::save();
         /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\AffectedAttributeSetForm $affectedAttributeSetForm */
         $affectedAttributeSetForm = $page->getAffectedAttributeSetForm();

@@ -14,8 +14,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductView
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductView extends AbstractConstraint
 {
@@ -33,10 +31,8 @@ class AssertProductView extends AbstractConstraint
      * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(
-        CatalogProductView $catalogProductView,
-        FixtureInterface $product
-    ) {
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    {
         //Open product view page
         $catalogProductView->init($product);
         $catalogProductView->open();

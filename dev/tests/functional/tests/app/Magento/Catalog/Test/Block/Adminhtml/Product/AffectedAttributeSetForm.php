@@ -16,8 +16,6 @@ use Magento\Backend\Test\Block\Widget\Form;
 /**
  * Class AffectedAttributeSet
  * Choose affected attribute set dialog popup window
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product
  */
 class AffectedAttributeSetForm extends Form
 {
@@ -67,6 +65,7 @@ class AffectedAttributeSetForm extends Form
 
     /**
      * Save the form
+     * (not used on this action)
      *
      * @param FixtureInterface $fixture
      * @return Form

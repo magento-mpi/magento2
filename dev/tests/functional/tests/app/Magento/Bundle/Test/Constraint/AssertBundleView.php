@@ -8,14 +8,13 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductView
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertBundleView extends AbstractConstraint
 {
@@ -27,6 +26,8 @@ class AssertBundleView extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Check bundle product on the product page
+     *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $bundle
      */

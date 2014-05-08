@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Block\Product\View\CustomOptions;
 /**
  * Class Bundle
  * Catalog bundle product info block
- *
- * @package Magento\Bundle\Test\Block\Catalog\Product\View\Type
  */
 class Bundle extends CustomOptions
 {

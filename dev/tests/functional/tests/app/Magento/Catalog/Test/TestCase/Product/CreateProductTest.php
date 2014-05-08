@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Class CreateProductTest
  * Create product test
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateProductTest extends Functional
 {

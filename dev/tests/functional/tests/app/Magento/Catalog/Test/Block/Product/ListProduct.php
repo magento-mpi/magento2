@@ -2,25 +2,20 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SearchResultsList
  * Product list
- *
- * @package Magento\Catalog\Test\Block\Product
  */
 class ListProduct extends Block
 {

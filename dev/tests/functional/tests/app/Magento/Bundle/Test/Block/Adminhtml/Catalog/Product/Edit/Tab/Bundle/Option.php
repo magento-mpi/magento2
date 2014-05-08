@@ -15,9 +15,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Option
- * Bundle options
- *
- * @package Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle
+ * Bundle product options block
  */
 class Option extends Block
 {
@@ -99,6 +97,7 @@ class Option extends Block
 
     /**
      * Expand block
+     *
      * @return void
      */
     public function expand()

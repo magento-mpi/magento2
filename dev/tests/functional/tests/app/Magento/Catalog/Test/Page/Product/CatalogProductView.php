@@ -13,8 +13,6 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CatalogProductView
- *
- * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductView extends FrontendPage
 {

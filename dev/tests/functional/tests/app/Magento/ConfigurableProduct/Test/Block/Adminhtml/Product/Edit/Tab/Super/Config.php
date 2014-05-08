@@ -15,8 +15,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Class Variations
  * Adminhtml catalog super product configurable tab
- *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Config extends Tab
 {

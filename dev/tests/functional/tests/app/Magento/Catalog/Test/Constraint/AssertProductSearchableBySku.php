@@ -15,8 +15,6 @@ use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
 
 /**
  * Class AssertProductSearchableBySku
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductSearchableBySku extends AbstractConstraint
 {

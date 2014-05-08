@@ -17,8 +17,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Class CreateWithAttributeTest
  * Configurable product with creating new category and new attribute
- *
- * @package Magento\Catalog\Test\TestCase\Product\Configurable
  */
 class CreateWithAttributeTest extends Functional
 {

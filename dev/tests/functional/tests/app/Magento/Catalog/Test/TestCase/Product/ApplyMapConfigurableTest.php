@@ -2,27 +2,25 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 
 /**
  * Apply minimum advertised price to Configurable product
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class ApplyMapConfigurableTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -37,6 +35,7 @@ class ApplyMapConfigurableTest extends Functional
      * Apply minimum advertised price to configurable product
      *
      * @ZephyrId MAGETWO-12847
+     * @return void
      */
     public function testApplyMapToConfigurable()
     {
@@ -59,6 +58,7 @@ class ApplyMapConfigurableTest extends Functional
      * Assert product MAP related data on category list
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapOnCategory($product)
     {
@@ -97,6 +97,7 @@ class ApplyMapConfigurableTest extends Functional
      * Assert product MAP related data on product view
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapOnProductView($product)
     {
@@ -126,6 +127,7 @@ class ApplyMapConfigurableTest extends Functional
      * Assert product MAP related data on cart
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapInShoppingCart($product)
     {
@@ -138,6 +140,8 @@ class ApplyMapConfigurableTest extends Functional
 
     /**
      * Disable MAP on Config level
+     *
+     * @return void
      */
     public static function tearDownAfterClass()
     {

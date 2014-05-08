@@ -2,10 +2,6 @@
 /**
  * {license_notice}
  *
- * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,18 +9,16 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Block\Mapper;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Mtf\Fixture\InjectableFixture;
-use Mtf\Util\Iterator\File;
 use Mtf\Util\XmlConverter;
+use Mtf\Util\Iterator\File;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class FormTabs
  * Is used to represent any form with tabs on the page
- *
- * @package Magento\Backend\Test\Block\Widget
  */
 class FormTabs extends Form
 {

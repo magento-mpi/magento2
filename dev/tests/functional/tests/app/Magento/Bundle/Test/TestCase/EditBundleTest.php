@@ -15,13 +15,12 @@ use Magento\Bundle\Test\Fixture\Bundle;
 /**
  * Class EditBundleTest
  * Edit bundle product test
- *
- * @package Magento\Bundle\Test\TestCase
  */
 class EditBundleTest extends Functional
 {
     /**
      * Login user to backend
+     *
      * @return void
      */
     protected function setUp()

@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Class CreateTest
  * Create simple product for BAT
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateTest extends Functional
 {

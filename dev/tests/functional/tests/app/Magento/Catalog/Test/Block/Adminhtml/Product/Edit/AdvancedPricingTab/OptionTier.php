@@ -14,9 +14,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
  * Class OptionField
- * Form 'Tier prices' on the tab 'Extended price'
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab
+ * Form 'Tier prices' on the tab "Extended price"
  */
 class OptionTier extends Options
 {

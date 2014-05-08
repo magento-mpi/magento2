@@ -14,8 +14,6 @@ use Magento\GiftCard\Test\Fixture\GiftCard;
 
 /**
  * Class testCreate for creating Gift Card
- *
- * @package Magento\GiftCard\Test\TestCase
  */
 class RequiredFieldsTest extends Functional
 {

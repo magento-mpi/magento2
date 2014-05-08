@@ -2,10 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,14 +9,25 @@
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
+/**
+ * Class Related
+ * Related product block on the page
+ */
 class Related extends Block
 {
+    /**
+     * Related product locator on the page
+     *
+     * @var string
+     */
     protected $relatedProduct = "//div[normalize-space(div//a)='%s']";
 
     /**
+     * Checking related product visibility
+     *
      * @param string $productName
      * @return bool
      */
@@ -30,6 +37,8 @@ class Related extends Block
     }
 
     /**
+     * Verify that you can choose the related products
+     *
      * @param string $productName
      * @return bool
      */
@@ -39,7 +48,10 @@ class Related extends Block
     }
 
     /**
+     * Open related product
+     *
      * @param string $productName
+     * @return void
      */
     public function openRelatedProduct($productName)
     {
@@ -47,7 +59,10 @@ class Related extends Block
     }
 
     /**
+     * Select related product
+     *
      * @param string $productName
+     * @return void
      */
     public function selectProductForAddToCart($productName)
     {
@@ -57,8 +72,10 @@ class Related extends Block
     }
 
     /**
+     * Get related product element
+     *
      * @param string $productName
-     * @return mixed|\Mtf\Client\Element
+     * @return Element
      */
     private function getProductElement($productName)
     {

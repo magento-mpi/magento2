@@ -17,9 +17,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
- * Product View block
- *
- * @package Magento\Catalog\Test\Block\Product\View
+ * Product view block on the product page
  */
 class View extends Block
 {
@@ -56,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productSku = '.product.attibute.sku div[itemprop="sku"]';
+    protected $productSku = '[itemprop="sku"]';
 
     /**
      * Product description element
@@ -257,21 +255,27 @@ class View extends Block
     /**
      * Return product short description on page
      *
-     * @return string
+     * @return string|null
      */
     public function getProductShortDescription()
     {
-        return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        if ($this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**
      * Return product description on page
      *
-     * @return string
+     * @return string|null
      */
     public function getProductDescription()
     {
-        return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        if ($this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**

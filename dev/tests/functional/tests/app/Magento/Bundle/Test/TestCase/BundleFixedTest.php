@@ -15,8 +15,6 @@ use Magento\Bundle\Test\Fixture\Bundle;
 /**
  * Class BundleFixedTest
  * Bundle product fixed test
- *
- * @package Magento\Bundle\Test\TestCase
  */
 class BundleFixedTest extends Functional
 {

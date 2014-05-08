@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,13 +14,13 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Apply minimum advertised price to simple product
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class ApplyMapTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -34,6 +31,7 @@ class ApplyMapTest extends Functional
      * Apply minimum advertised price to simple product
      *
      * @ZephyrId MAGETWO-12430
+     * @return void
      */
     public function testApplyMapToSimple()
     {
@@ -59,9 +57,10 @@ class ApplyMapTest extends Functional
     /**
      * Assert product MAP related data on category page
      *
-     * @param \Magento\Catalog\Test\Fixture\SimpleProduct $product
+     * @param SimpleProduct $product
+     * @return void
      */
-    protected function verifyMapOnCategory($product)
+    protected function verifyMapOnCategory(SimpleProduct $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -87,6 +86,7 @@ class ApplyMapTest extends Functional
      * Assert product MAP related data on product view page
      *
      * @param SimpleProduct $product
+     * @return void
      */
     protected function verifyMapOnProductView($product)
     {
@@ -110,8 +110,9 @@ class ApplyMapTest extends Functional
      * Assert product related data in Shopping Cart
      *
      * @param SimpleProduct $product
+     * @return void
      */
-    protected function verifyMapInShoppingCart($product)
+    protected function verifyMapInShoppingCart(SimpleProduct $product)
     {
         //Pages
         $productPage = Factory::getPageFactory()->getCatalogProductView();
@@ -127,6 +128,8 @@ class ApplyMapTest extends Functional
 
     /**
      * Disable MAP on Config level
+     *
+     * @return void
      */
     public static function tearDownAfterClass()
     {

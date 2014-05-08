@@ -15,13 +15,12 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class CreateSimpleWithCustomOptionsAndCategoryTest
  * Create simple product with custom options
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
      * @return void
      */
     protected function setUp()

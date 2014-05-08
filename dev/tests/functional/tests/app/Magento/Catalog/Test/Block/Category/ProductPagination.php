@@ -34,9 +34,10 @@ class ProductPagination extends Block
     {
         $nextPageItem = $this->_rootElement->find($this->nextPageSelector);
         if ($nextPageItem->isVisible()) {
-            return $nextPageItem;
+            $nextPageItem->click();
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 } 

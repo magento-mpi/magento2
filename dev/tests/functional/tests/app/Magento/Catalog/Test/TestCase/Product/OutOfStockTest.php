@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,15 +13,14 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class OutOfStockTest
- *
  * Test product out of stock
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class OutOfStockTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -35,6 +31,7 @@ class OutOfStockTest extends Functional
      * Test product out of stock adding to cart
      *
      * @ZephyrId MAGETWO-12423
+     * @return void
      */
     public function testTestOutOfStockItemAddToCart()
     {

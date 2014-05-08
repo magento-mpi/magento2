@@ -16,8 +16,6 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 /**
  * Class UpsellTest
  * Product upsell test
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class UpsellTest extends Functional
 {

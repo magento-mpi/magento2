@@ -16,8 +16,6 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInCategory extends AbstractConstraint
 {
@@ -35,6 +33,7 @@ class AssertProductInCategory extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param FixtureInterface $product
      * @param Category $category
+     * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
@@ -47,10 +46,7 @@ class AssertProductInCategory extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
 
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
-        while (!$isProductVisible
-            && ($productListBlock = $catalogCategoryView->getProductPagination()->getNextPage()) !== null
-        ) {
-            $productListBlock->click();
+        while (!$isProductVisible && $catalogCategoryView->getProductPagination()->getNextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
@@ -59,7 +55,7 @@ class AssertProductInCategory extends AbstractConstraint
             'Product is absent on category page.'
         );
 
-        //process price asserts
+        //Process price asserts
         $this->assertPrice($product, $catalogCategoryView);
     }
 
@@ -72,9 +68,8 @@ class AssertProductInCategory extends AbstractConstraint
      */
     protected function assertPrice(FixtureInterface $product, CatalogCategoryView $catalogCategoryView)
     {
-        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
-            $product->getName()
-        )->getRegularPrice();
+        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
+            ->getRegularPrice();
 
         $priceComparing = '$' . number_format($product->getPrice(), 2);
         \PHPUnit_Framework_Assert::assertEquals(

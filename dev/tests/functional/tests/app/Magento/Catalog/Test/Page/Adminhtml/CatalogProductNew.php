@@ -13,8 +13,6 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CatalogProductNew
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductNew extends BackendPage
 {
@@ -41,7 +39,7 @@ class CatalogProductNew extends BackendPage
         ],
         'formAction' => [
             'name' => 'formAction',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormAction',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
@@ -106,7 +104,7 @@ class CatalogProductNew extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormAction
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
      */
     public function getFormAction()
     {

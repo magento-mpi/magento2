@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Class CreateSimpleWithCategoryTest
  * Test simple product and category creation
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateSimpleWithCategoryTest extends Functional
 {

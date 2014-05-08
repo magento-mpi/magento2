@@ -20,9 +20,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class ProductForm
- * Product form
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product
+ * Product form on backend product page
  */
 class Form extends FormTabs
 {
@@ -276,6 +274,7 @@ class Form extends FormTabs
 
     /**
      * Save the form
+     * (not used on this form)
      *
      * @param FixtureInterface $fixture
      * @return Form

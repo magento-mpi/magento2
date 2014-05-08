@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Fixture\VirtualProduct;
 /**
  * Class CreateTest
  * Test product creation
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateVirtualTest extends Functional
 {

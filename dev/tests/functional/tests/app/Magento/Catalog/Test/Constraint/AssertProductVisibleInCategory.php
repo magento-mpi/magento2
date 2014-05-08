@@ -16,8 +16,6 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductVisibleInCategory
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductVisibleInCategory extends AbstractConstraint
 {
@@ -47,10 +45,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
 
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
-        while (!$isProductVisible
-            && ($productListBlock = $catalogCategoryView->getProductPagination()->getNextPage()) !== null
-        ) {
-            $productListBlock->click();
+        while (!$isProductVisible && $catalogCategoryView->getProductPagination()->getNextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
