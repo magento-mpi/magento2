@@ -27,27 +27,27 @@ class Role extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_disallowedWebsiteIds = array();
+    protected $_disallowedWebsiteIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStores = array();
+    protected $_disallowedStores = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreIds = array();
+    protected $_disallowedStoreIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreGroupIds = array();
+    protected $_disallowedStoreGroupIds = [];
 
     /**
      * @var array
      */
-    protected $_disallowedStoreGroups = array();
+    protected $_disallowedStoreGroups = [];
 
     /**
      * Storage for categories which are used in allowed store groups
@@ -69,7 +69,7 @@ class Role extends \Magento\Framework\Object
      * using category path as key
      * @var array
      */
-    protected $_exclusiveAccessToCategory = array();
+    protected $_exclusiveAccessToCategory = [];
 
     /**
      * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
@@ -89,7 +89,7 @@ class Role extends \Magento\Framework\Object
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_storeManager = $storeManager;
@@ -177,10 +177,11 @@ class Role extends \Magento\Framework\Object
     public function getStoreIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsStores();
+            $gwsStores = $this->_adminRole->getGwsStores();
+            return is_array($gwsStores) ? $gwsStores : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -208,10 +209,11 @@ class Role extends \Magento\Framework\Object
     public function getStoreGroupIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsStoreGroups();
+            $gwsStoreGroups = $this->_adminRole->getGwsStoreGroups();
+            return is_array($gwsStoreGroups) ? $gwsStoreGroups : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -239,10 +241,11 @@ class Role extends \Magento\Framework\Object
     public function getWebsiteIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsWebsites();
+            $gwsWebsites = $this->_adminRole->getGwsWebsites();
+            return is_array($gwsWebsites) ? $gwsWebsites : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -253,10 +256,11 @@ class Role extends \Magento\Framework\Object
     public function getRelevantWebsiteIds()
     {
         if ($this->_adminRole) {
-            return $this->_adminRole->getGwsRelevantWebsites();
+            $websiteIds = $this->_adminRole->getGwsRelevantWebsites();
+            return is_array($websiteIds) ? $websiteIds : [];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -276,7 +280,7 @@ class Role extends \Magento\Framework\Object
      */
     public function getDisallowedStoreIds()
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->_disallowedStores as $store) {
             $result[] = $store->getId();
@@ -303,9 +307,9 @@ class Role extends \Magento\Framework\Object
     public function getAllowedRootCategories()
     {
         if (!$this->getIsAll() && null === $this->_allowedRootCategories) {
-            $this->_allowedRootCategories = array();
+            $this->_allowedRootCategories = [];
 
-            $categoryIds = array();
+            $categoryIds = [];
             foreach ($this->getStoreGroupIds() as $groupId) {
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
@@ -360,8 +364,8 @@ class Role extends \Magento\Framework\Object
                     $result = false;
                 } else {
                     if (count(
-                        array_intersect($categoryPathArray, array_keys($this->getExclusiveRootCategories()))
-                    ) == 0
+                            array_intersect($categoryPathArray, array_keys($this->getExclusiveRootCategories()))
+                        ) == 0
                     ) {
                         $result = false;
                     }
