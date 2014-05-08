@@ -29,54 +29,70 @@
     @_icon-font-position: @icon-font-position,
     @_icon-font-text-hide: @icon-font-text-hide,
     @_icon-font-display: @icon-font-display
-) {
+) when (@_icon-font-position = before) {
     display: @_icon-font-display;
     text-decoration: none;
     ._icon-text-hide(@_icon-font-text-hide);
-    & when (@_icon-font-position = before){
+
+    &:before {
+        ._icon-font(
+            @_icon-font-content,
+            @_icon-font,
+            @_icon-font-size,
+            @_icon-font-line-height,
+            @_icon-font-color,
+            @_icon-font-margin,
+            @_icon-font-vertical-align
+        );
+    }
+    &:hover {
         &:before {
-            ._icon-font(
-                @_icon-font-content,
-                @_icon-font,
-                @_icon-font-size,
-                @_icon-font-line-height,
-                @_icon-font-color,
-                @_icon-font-margin,
-                @_icon-font-vertical-align
-            );
-        }
-        &:hover {
-            &:before {
-                .css(color, @_icon-font-color-hover);
-            }
-        }
-        &:active {
-            &:before {
-                .css(color, @_icon-font-color-active);
-            }
+            .css(color, @_icon-font-color-hover);
         }
     }
-    & when (@_icon-font-position = after) {
+    &:active {
+        &:before {
+            .css(color, @_icon-font-color-active);
+        }
+    }
+}
+
+.icon-font(
+    @_icon-font-content,
+    @_icon-font: @icon-font,
+    @_icon-font-size: @icon-font-size,
+    @_icon-font-line-height: @icon-font-line-height,
+    @_icon-font-color: @icon-font-color,
+    @_icon-font-color-hover: @icon-font-color-hover,
+    @_icon-font-color-active: @icon-font-color-active,
+    @_icon-font-margin: @icon-font-margin,
+    @_icon-font-vertical-align: @icon-font-vertical-align,
+    @_icon-font-position: @icon-font-position,
+    @_icon-font-text-hide: @icon-font-text-hide,
+    @_icon-font-display: @icon-font-display
+) when (@_icon-font-position = after) {
+    display: @_icon-font-display;
+    text-decoration: none;
+    ._icon-text-hide(@_icon-font-text-hide);
+    &:after {
+        ._icon-font(
+            @_icon-font-content,
+            @_icon-font,
+            @_icon-font-size,
+            @_icon-font-line-height,
+            @_icon-font-color,
+            @_icon-font-margin,
+            @_icon-font-vertical-align
+        );
+    }
+    &:hover {
         &:after {
-            ._icon-font(
-                @_icon-font-content,
-                @_icon-font,
-                @_icon-font-size,
-                @_icon-font-line-height,
-                @_icon-font-color,
-                @_icon-font-margin,
-                @_icon-font-vertical-align
-            );
+            .css(color, @_icon-font-color-hover);
         }
-        &:hover {
-            &:after {
-                .css(color, @_icon-font-color-hover);
-            }
-        }
-        &:active {
-            &:after {
-                .css(color, @_icon-font-color-active);
-            }
+    }
+    &:active {
+        &:after {
+            .css(color, @_icon-font-color-active);
         }
     }
 }
