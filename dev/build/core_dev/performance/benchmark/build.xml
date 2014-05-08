@@ -4,7 +4,7 @@
 * Apache Ant's build file for core development performance benchmarking
 *
 * {license_notice}
-** @package    build
+*
 * @copyright  {copyright}
 * @license    {license_link}
 */
