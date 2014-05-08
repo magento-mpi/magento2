@@ -77,7 +77,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
     public function getNoDisplay()
     {
         $isNotAllowed = !$this->authorization->isAllowed('Magento_Catalog::categories');
-        return $this->hasNoDisplay() ? ($this->_data['no_display'] || $isNotAllowed) : $isNotAllowed;
+        return $this->getData('no_display') || $isNotAllowed;
     }
 
     /**
@@ -128,14 +128,14 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
         $button = $this->_layout->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            [
-                'id' => 'add_category_button',
-                'label' => $newCategoryCaption,
-                'title' => $newCategoryCaption,
-                'onclick' => 'jQuery("#new-category").dialog("open")',
-                'disabled' => $this->getDisabled()
-            ]
-        );
+                [
+                    'id' => 'add_category_button',
+                    'label' => $newCategoryCaption,
+                    'title' => $newCategoryCaption,
+                    'onclick' => 'jQuery("#new-category").dialog("open")',
+                    'disabled' => $this->getDisabled()
+                ]
+            );
         $return = <<<HTML
     <input id="{$htmlId}-suggest" placeholder="$suggestPlaceholder" />
     <script>
