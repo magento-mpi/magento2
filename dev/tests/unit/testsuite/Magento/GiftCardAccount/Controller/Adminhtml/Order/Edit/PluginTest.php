@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CustomerBalance\Controller\Adminhtml\Order\Edit;
+namespace Magento\GiftCardAccount\Controller\Adminhtml\Order\Edit;
 
 /**
  * Class PluginTest
@@ -52,7 +52,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->plugin = $objectManagerHelper->getObject(
-            'Magento\CustomerBalance\Controller\Adminhtml\Order\Edit\Plugin',
+            'Magento\GiftCardAccount\Controller\Adminhtml\Order\Edit\Plugin',
             [
                 'sessionQuote' => $this->sessionQuote,
                 'messageManager' => $this->messageManager,

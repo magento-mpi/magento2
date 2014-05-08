@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CustomerBalance\Controller\Adminhtml\Order\Edit;
+namespace Magento\GiftCardAccount\Controller\Adminhtml\Order\Edit;
 
 /**
  * Plugin for order editing
