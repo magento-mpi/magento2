@@ -53,7 +53,7 @@ class AssertConfigurableView extends AbstractConstraint
         CatalogProductView $catalogProductView
     ) {
         /** @var \Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable\Price $priceFixture */
-        $priceFixture = $configurable->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $configurable->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         if (isset($pricePresetData['product_special_price'])) {

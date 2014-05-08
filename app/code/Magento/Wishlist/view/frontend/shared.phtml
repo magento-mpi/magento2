@@ -68,7 +68,10 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
         <div class="actions toolbar">
             <?php if($this->isSaleable()):?>
                 <div class="primary">
-                    <button type="button" title="<?php echo __('Add All to Cart') ?>" onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')" class="action tocart">
+                    <button type="button" 
+                            title="<?php echo __('Add All to Cart') ?>" 
+                            onclick="setLocation('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')"
+                            class="action tocart primary">
                         <span><?php echo __('Add All to Cart') ?></span>
                     </button>
                 </div>

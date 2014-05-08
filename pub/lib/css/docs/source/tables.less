@@ -1,14 +1,14 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
-//  */
+// * {license_notice}
+// *
+// * @category design
+// * @copyright {copyright}
+// * @license {license_link}
+// */
 
 //  # Tables
 //
-//  Table cells padding, width and bottom margin customization.
+//  Table cells padding, width and bottom margin customization  options.
 //
 //  ```html
 //    <table class="example-table-1">
@@ -118,7 +118,7 @@
 
 //  # Table typography
 //
-//  <code>.table-typography()</code> mixin provides table typography customization.
+//  The <code>.table-typography()</code> mixin provides table typography customization options.
 //
 //  ```html
 //    <table class="example-table-2">
@@ -255,6 +255,12 @@
 //            <td>Table header cell font family</td>
 //        </tr>
 //        <tr>
+//            <th>@_table-th-font-style</th>
+//            <td class="vars_value">@table-th-font-style</td>
+//            <td class="vars_value">@font-style-base</td>
+//            <td>Table header cell font style</td>
+//        </tr>
+//        <tr>
 //            <th>@_table-th-font-weight</th>
 //            <td class="vars_value">@table-th-font-weight</td>
 //            <td class="vars_value">@font-weight-bold</td>
@@ -266,19 +272,13 @@
 //            <td class="vars_value">@line-height-base</td>
 //            <td>Table header cell line height</td>
 //        </tr>
-//        <tr>
-//            <th>@_table-th-font-style</th>
-//            <td class="vars_value">@table-th-font-style</td>
-//            <td class="vars_value">@font-style-base</td>
-//            <td>Table header cell font style</td>
-//        </tr>
 //    </table>
 //  </pre>
 
 
 //  # Table caption
 //
-//  <code>.table-caption()</code> mixin is used to customize table caption.
+//  The <code>.table-caption()</code> mixin is used to customize table caption.
 //
 //  ```html
 //    <table class="example-table-3">
@@ -365,7 +365,7 @@
 //            <th>@_table-caption-hide</th>
 //            <td class="vars_value">-</td>
 //            <td class="vars_value">false</td>
-//            <td>Should table caption be visible</td>
+//            <td>Table caption is visible</td>
 //        </tr>
 //        <tr>
 //            <th>@_table-caption-font-size</th>
@@ -427,7 +427,7 @@
 
 //  # Table cells resize
 //
-//  Table header cells and table cells paddings reset provides mixin <code>.table-resize()</code>.
+//  The <code>.table-resize()</code> mixin provides table header cells and table cells paddings reset.
 //
 //  ```html
 //    <table class="example-table-4">
@@ -519,30 +519,6 @@
 //            <th class="vars_head">Comment</th>
 //        </tr>
 //        <tr>
-//            <th>@_td-padding-top</th>
-//            <td class="vars_value">@table-cell-padding-vertical / 2</td>
-//            <td class="vars_value">@indent-s-base / 2</td>
-//            <td>Table cell top padding</td>
-//        </tr>
-//        <tr>
-//            <th>@_td-padding-right</th>
-//            <td class="vars_value">@table-cell-padding-horizontal / 2</td>
-//            <td class="vars_value">@indent-s-base / 2</td>
-//            <td>Table cell right padding</td>
-//        </tr>
-//        <tr>
-//            <th>@_td-padding-bottom</th>
-//            <td class="vars_value">@_td-padding-top</td>
-//            <td class="vars_value">&nbsp;</td>
-//            <td>Table cell bottom padding</td>
-//        </tr>
-//        <tr>
-//            <th nowrap="nowrap">@_td-padding-left</th>
-//            <td class="vars_value" nowrap="nowrap">@_td-padding-right</td>
-//            <td class="vars_value">&nbsp;</td>
-//            <td>Table cell left padding</td>
-//        </tr>
-//        <tr>
 //            <th>@_th-padding-top</th>
 //            <td class="vars_value">@_td-padding-top</td>
 //            <td class="vars_value">&nbsp;</td>
@@ -566,12 +542,36 @@
 //            <td class="vars_value">&nbsp;</td>
 //            <td>Table header cell left padding</td>
 //        </tr>
+//        <tr>
+//            <th>@_td-padding-top</th>
+//            <td class="vars_value">@table-cell-padding-vertical / 2</td>
+//            <td class="vars_value">@indent-s-base / 2</td>
+//            <td>Table cell top padding</td>
+//        </tr>
+//        <tr>
+//            <th>@_td-padding-right</th>
+//            <td class="vars_value">@table-cell-padding-horizontal / 2</td>
+//            <td class="vars_value">@indent-s-base / 2</td>
+//            <td>Table cell right padding</td>
+//        </tr>
+//        <tr>
+//            <th>@_td-padding-bottom</th>
+//            <td class="vars_value">@_td-padding-top</td>
+//            <td class="vars_value">&nbsp;</td>
+//            <td>Table cell bottom padding</td>
+//        </tr>
+//        <tr>
+//            <th nowrap="nowrap">@_td-padding-left</th>
+//            <td class="vars_value" nowrap="nowrap">@_td-padding-right</td>
+//            <td class="vars_value">&nbsp;</td>
+//            <td>Table cell left padding</td>
+//        </tr>
 //    </table>
 //  </pre>
 
 //  # Table background customization
 //
-//  Mixin <code>.table-bg()</code> provides table cells background customizations.
+//  The <code>.table-bg()</code> mixin provides table cells background customization options.
 //
 //  ```html
 //    <table class="example-table-5">
@@ -678,23 +678,23 @@
 //            <td>Table tfoot background</td>
 //        </tr>
 //        <tr>
-//            <th nowrap="nowrap">@_table-td-bg</th>
-//            <td class="vars_value" nowrap="nowrap">@table-td-bg</td>
-//            <td class="vars_value">@table-bg</td>
-//            <td>Table cells background</td>
-//        </tr>
-//        <tr>
 //            <th>@_table-body-th-bg</th>
 //            <td class="vars_value">@table-body-th-bg</td>
 //            <td class="vars_value">@table-bg</td>
 //            <td>Table header cells background</td>
+//        </tr>
+//        <tr>
+//            <th nowrap="nowrap">@_table-td-bg</th>
+//            <td class="vars_value" nowrap="nowrap">@table-td-bg</td>
+//            <td class="vars_value">@table-bg</td>
+//            <td>Table cells background</td>
 //        </tr>
 //    </table>
 //  </pre>
 
 //  # Table borders customization
 //
-//  Mixin <code>.table-bordered()</code> provides table borders customizations. To setup table borders use following allowed values to <code>@_type</code> variable:
+//  The <code>.table-bordered()</code> mixin provides table borders customization options. To setup table borders use the following allowed values for the <code>@_type</code> variable:
 //
 //  ```css
 //  normal - all borders are set up
@@ -819,9 +819,9 @@
 
 //  # Table with horizontal borders
 //
-//  To set only horizontal borders to table you should set variable:
+//  To set only horizontal borders for a table use:
 //  ```css
-//  .table-bordered(@_type: horizontal);
+//  .table-bordered(@_type: horizontal)
 //  ```
 //
 //  ```html
@@ -899,9 +899,9 @@
 
 //  # Table with vertical borders
 //
-//  To set only horizontal borders to table you should set variable:
+//  To set only horizontal borders for a table use:
 //  ```css
-//  .table-bordered(@_type: vertical);
+//  .table-bordered(@_type: vertical)
 //  ```
 //
 //  ```html
@@ -979,9 +979,9 @@
 
 //  # Table with light borders
 //
-//  To set bottom borders only to table caption you should set variable:
+//  To set bottom borders only for a table caption use:
 //  ```css
-//  .table-bordered(@_type: light);
+//  .table-bordered(@_type: light)
 //  ```
 //
 //  ```html
@@ -1059,9 +1059,9 @@
 
 //  # Table without borders
 //
-//  To set bottom borders only to table caption you should set variable:
+//  To clear all table borders use:
 //  ```css
-//  .table-bordered(@_type: clear);
+//  .table-bordered(@_type: clear)
 //  ```
 //
 //  ```html
@@ -1139,7 +1139,7 @@
 
 //  # Striped table
 //
-//  Mixin <code>.table-striped()</code> sets color backgrounds to table rows
+//  The <code>.table-striped()</code> mixin sets color backgrounds to table rows.
 //
 //  ```html
 //    <table class="example-table-11">
@@ -1261,7 +1261,7 @@
 
 //  # Table with rows hover
 //
-//  Mixin <code>.table-hover()</code> sets color backgrounds to hovered table rows.
+//  The <code>.table-hover()</code> mixin sets color backgrounds to hovered table rows.
 //
 //  ```html
 //    <table class="example-table-12">
@@ -1354,14 +1354,16 @@
 //            <th>@_cell-odd-bg-hover</th>
 //            <td class="vars_value">@_cell-bg-hover</td>
 //            <td class="vars_value">@panel-bg</td>
-//            <td>Hovered table oddrow background</td>
+//            <td>Hovered table odd row background</td>
 //        </tr>
 //    </table>
 //  </pre>
 
 //  # Responsive table technics #1
 //
-//  MageLess framework employs two responsive tables technics which are applyed by calling appropriate mixin. <code>.table-overflow()</code> mixin call in media queries adds a horizontal scrollbar for mobile version. This mixin accepts no variables.
+//  Magento UI library employs two responsive tables technics which are applyed by calling an appropriate mixin.
+//
+//  The <code>.table-overflow()</code> mixin adds a horizontal scrollbar for a table. This mixin accepts no variables.
 //
 //  ```html
 //    <div class="example-table-14">
@@ -1446,7 +1448,7 @@
 
 //  # Responsive table technics #2
 //
-//  <code>.table-responsive()</code> mixin call in media queries rearranges table cells for mobile version.
+//  The <code>.table-responsive()</code> mixin rearranges table cells for mobile version.
 //
 //  ```html
 //    <table class="example-table-15">
@@ -1541,28 +1543,28 @@
 //            <td class="vars_value">@table-bg-responsive</td>
 //            <td class="vars_value">@table-bg</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>???</td>
+//            <td>Responsive table background</td>
 //        </tr>
 //        <tr>
 //            <th>@_table-th-bg-responsive</th>
 //            <td class="vars_value">@table-head-bg</td>
 //            <td class="vars_value">@table-bg</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>???</td>
+//            <td>Responsive table header cells background</td>
 //        </tr>
 //        <tr>
 //            <th>@_reset-table-striped</th>
 //            <td class="vars_value">false</td>
 //            <td class="vars_value">&nbsp;</td>
 //            <td class="vars_value">true | false</td>
-//            <td>???</td>
+//            <td>Responsive table striped cells</td>
 //        </tr>
 //        <tr>
 //            <th>@_reset-table-hover</th>
 //            <td class="vars_value">false</td>
 //            <td class="vars_value">&nbsp;</td>
 //            <td class="vars_value">true | false</td>
-//            <td>???</td>
+//            <td>Responsive table hovered table row background</td>
 //        </tr>
 //    </table>
 //  </pre>

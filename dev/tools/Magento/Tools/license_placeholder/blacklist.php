@@ -20,6 +20,7 @@ return array(
     'dev/tests/integration/testsuite/Magento/Framework/Less/_files/lib/magento_import.less',
     'dev/tests/integration/testsuite/Magento/Framework/Less/_files/lib/some_dir',
     'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/result_source.css',
+    'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/result_source_dev.css',
     'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/source.less',
     'dev/tests/integration/tmp',
     'dev/tests/js/framework/qunit',

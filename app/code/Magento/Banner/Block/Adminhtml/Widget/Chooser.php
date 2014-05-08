@@ -279,11 +279,11 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->addColumn(
             'in_banners',
             array(
-                'header_css_class' => 'a-center',
+                'header_css_class' => 'col-select',
+                'column_css_class' => 'col-select',
                 'type' => 'checkbox',
                 'name' => 'in_banners',
                 'values' => $this->getSelectedBanners(),
-                'align' => 'center',
                 'index' => 'banner_id'
             )
         );
