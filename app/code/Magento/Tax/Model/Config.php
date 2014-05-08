@@ -39,6 +39,8 @@ class Config
 
     const XML_PATH_ALGORITHM = 'tax/calculation/algorithm';
 
+    const CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED = 'tax/calculation/cross_border_trade_enabled';
+
     // tax defaults
     const CONFIG_XML_PATH_DEFAULT_COUNTRY = 'tax/defaults/country';
 
@@ -725,6 +727,21 @@ class Config
     {
         return (bool)$this->_scopeConfig->getValue(
             self::XML_PATH_DISPLAY_SALES_ZERO_TAX,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * Return the config value for self::CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED
+     *
+     * @param null|string|bool|int|Store $store
+     * @return bool
+     */
+    public function crossBorderTradeEnabled($store = null)
+    {
+        return (bool)$this->_scopeConfig->getValue(
+            self::CONFIG_XML_PATH_CROSS_BORDER_TRADE_ENABLED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
