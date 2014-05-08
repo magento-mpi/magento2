@@ -26,21 +26,6 @@
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
   * Fixed: Impossible add product from wishlist to shopping cart (MAGETWO-19635)
   * Fixed: An error appears after install Magento (MAGETWO-24246)
-* Functional tests:
-  * Functional end-to-end tests publication (MQM-60)
-     * Bundle product
-     * Category
-     * Customer
-     * Configurable product
-     * Downloadable product
-     * Newsletter
-     * Review
-     * Simple product
-     * Sitemap
-     * Store
-     * Tax Rule
-     * User
-     * Virtual product
   * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
   * Error messages are not correct during customer registration (MAGETWO-23976)
   * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
@@ -59,6 +44,21 @@
   * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
   * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
   * Fixed exception on Transaction page when searching by payment method (MAGETWO-24159)
+* Functional tests:
+  * Functional end-to-end tests publication (MQM-60)
+     * Bundle product
+     * Category
+     * Customer
+     * Configurable product
+     * Downloadable product
+     * Newsletter
+     * Review
+     * Simple product
+     * Sitemap
+     * Store
+     * Tax Rule
+     * User
+     * Virtual product
 * Service layer updates:
   * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 * GitHub requests:
