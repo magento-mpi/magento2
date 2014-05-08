@@ -1,13 +1,13 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
-//  */
+// * {license_notice}
+// *
+// * @category design
+// * @copyright {copyright}
+// * @license {license_link}
+// */
 
 //  # Pagination HTML markup
-//  Pagination is used to show numbers of pages if content requires more than one page to be shown. The markup corresponds to accesibility demands
+//  Pagination is used to display numbers of pages in case content exceeds page limits. The markup corresponds to accesibility demands.
 //
 //  Required HTML markup:
 //  ```html
@@ -58,20 +58,20 @@
 //        <tr>
 //            <th class="vars_head">Mixin variable</th>
 //            <th class="vars_head">Default value</th>
-//            <th class="vars_head">Allowable values</th>
+//            <th class="vars_head">Allowed values</th>
 //            <th class="vars_head">Comment</th>
 //        </tr>
 //        <tr>
 //            <th nowrap="nowrap">@_pager-label-display</th>
 //            <td class="vars_value">none</td>
 //            <td class="vars_value">none | block | inline-block</td>
-//            <td>how do we have to display 'page' label</td>
+//            <td>The 'page' label is displayed</td>
 //        </tr>
 //        <tr>
 //            <th nowrap="nowrap">@_pager-item-display</th>
 //            <td class="vars_value">inline-block</td>
 //            <td class="vars_value">none | block | inline-block</td>
-//            <td>how do we have to display pager item</td>
+//            <td>The pager item label is displayed</td>
 //        </tr>
 //        <tr>
 //            <th nowrap="nowrap">@_pager-reset-spaces</th>
@@ -146,13 +146,13 @@
 //            <th>@_pager-current-gradient</th>
 //            <td class="vars_value">false</td>
 //            <td class="vars_value">true | false</td>
-//            <td>does current page number have gradient background</td>
+//            <td>current page number has gradient background</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-current-gradient-direction</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">'' | vertical | horizontal</td>
-//            <td>direction of current page number background gradient  (if there is any)</td>
+//            <td>direction of current page number background gradient (if there is any)</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-current-gradient-start-color</th>
@@ -173,7 +173,7 @@
 //            <th>@_pager-gradient</th>
 //            <td class="vars_value">false</td>
 //            <td class="vars_value">true | false</td>
-//            <td>do pager items have gradient background</td>
+//            <td>pager items have gradient background</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-gradient-direction</th>
@@ -212,13 +212,13 @@
 //            <th>@_pager-gradient-start-color</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item  gradient start color</td>
+//            <td>pager item gradient start color</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-gradient-end-color</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item  gradient end color</td>
+//            <td>pager item gradient end color</td>
 //        </tr>
 //        <tr>
 //            <th colspan="4" class="vars_section">Link to page number - visited</th>
@@ -245,13 +245,13 @@
 //            <th>@_pager-gradient-start-color-visited</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item visited  gradient start color</td>
+//            <td>pager item visited gradient start color</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-gradient-end-color-visited</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item visited  gradient end color</td>
+//            <td>pager item visited gradient end color</td>
 //        </tr>
 //        <tr>
 //            <th colspan="4" class="vars_section">Link to page number - hover</th>
@@ -284,13 +284,13 @@
 //            <th>@_pager-gradient-start-color-hover</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item  hover gradient start color</td>
+//            <td>pager item hover gradient start color</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-gradient-end-color-hover</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager item  hover gradient end color</td>
+//            <td>pager item hover gradient end color</td>
 //        </tr>
 //        <tr>
 //            <th colspan="4" class="vars_section">Link to page number - active</th>
@@ -332,7 +332,7 @@
 //            <th>@_pager-action-gradient</th>
 //            <td class="vars_value">false</td>
 //            <td class="vars_value">true | false</td>
-//            <td>do previous/next links  have gradient background</td>
+//            <td>previous/next links have gradient background</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-action-gradient-direction</th>
@@ -347,7 +347,7 @@
 //            <th>@_pager-icon-use</th>
 //            <td class="vars_value">true</td>
 //            <td class="vars_value">true | false</td>
-//            <td>do previous/next links have icons</td>
+//            <td>previous/next links have icons</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-icon-previous-content</th>
@@ -365,7 +365,7 @@
 //            <th>@_pager-icon-text-hide</th>
 //            <td class="vars_value">true</td>
 //            <td class="vars_value">true | false</td>
-//            <td>does the &quot;previous&quot; and &quot;next&quot; words should be hidden</td>
+//            <td>the &quot;previous&quot; and &quot;next&quot; words are hidden</td>
 //        </tr>
 //        <tr>
 //            <th>@_pager-icon-position</th>
@@ -401,7 +401,7 @@
 //            <th>@_pager-icon-font-line-height</th>
 //            <td class="vars_value">@icon-font-line-height</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>icon font ine height</td>
+//            <td>icon font line height</td>
 //        </tr>
 //        <tr>
 //            <th colspan="4" class="vars_section">Previous/next action links - default</th>
@@ -545,37 +545,31 @@
 //            <th nowrap="nowrap">@_pager-action-gradient-end-color-active</th>
 //            <td class="vars_value">''</td>
 //            <td class="vars_value">&nbsp;</td>
-//            <td>pager action active  gradient end color</td>
+//            <td>pager action active gradient end color</td>
 //        </tr>
 //      </table>
 //  </pre>
 
 //  # Pagination with label and gradient background on links
 //
-//  Pagination with label, gradient background, borders and custom font icon
-//
-//  To display label use
+//  To display label set:
 //  ```css
 //  @_pager-label-display: inline-block
 //  ```
-//  To set up gradient background on pages numbers set
+//  To set up gradient background on pages numbers use:
 //  ```css
 //  @_pager-gradient: true
 //  ```
-//  Set start and end color for gradient for link states: default and hovered:
+//  To set gradient start and end colors for default and hovered link states use:
 //  ```css
 //  @_pager-gradient-start-color: #f4f4f4
 //  @_pager-gradient-end-color: #ccc
 //  @_pager-gradient-start-color-hover: #ccc
 //  @_pager-gradient-end-color-hover: #f4f4f4
 //  ```
-//  To use an icon on "previous" and "next" links
-//  Set
+//  To set an icon on "previous" and "next" links use:
 //  ```css
 //  @_pager-icon-use: true
-//  ```
-//  Set up previous and next icon symbols:
-//  ```css
 //  @_pager-icon-previous-content: @icon-prev
 //  @_pager-icon-next-content: @icon-next
 //  ```
@@ -644,7 +638,8 @@
     );
 }
 
-//  # Pagination with label and text previous-next links
+//  # Pagination with "previous"..."next" text links and label
+//
 //  Text view of pagination without borders, backgrounds and icons
 //
 //  Disable icon use for "previous" and "next" links
@@ -701,13 +696,14 @@
 }
 
 //  # Pagination without label, with solid background
+//
 //  Pagination without label, with solid background and icons on previous/next links
 //
 //  Hide pager label:
 //  ```css
 //  @_pager-label-display: none
 //  ```
-//  Setup default, visited, hover, active state: background and font colors:
+//  To set background and font colors for default, visited, hover, active states, use:
 //  ```css
 //  @_pager-color: #fff,
 //  @_pager-background: @link-color,
@@ -723,12 +719,12 @@
 //  @_pager-icon-font-color: #fff,
 //  @_pager-action-background-visited: @link-color-visited
 //  ```
-//  Setup current page background and font color:
+//  To set current page background and font color, use:
 //  ```css
 //  @_pager-current-color: #fff,
 //  @_pager-current-background: @link-color-visited
 //  ```
-//  Setup action link default, visited, hover, active state background and icon color
+//  To set background and icon color for default, visited, hover, active states of "previous" and "next" links, use:
 //  ```css
 //  @_pager-action-background: @link-color,
 //  @_pager-action-background-visited: @link-color-visited,

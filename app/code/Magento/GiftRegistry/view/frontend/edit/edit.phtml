@@ -18,15 +18,15 @@
     <?php echo $this->getChildHtml(); ?>
 
     <div class="actions toolbar">
-        <div class="secondary">
-            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back">
-                <span><?php echo __('Back') ?></span>
-            </a>
-        </div>
         <div class="primary">
             <button type="submit" id="submit.save" title="<?php echo __('Save') ?>" class="action primary save">
                 <span><?php echo __('Save') ?></span>
             </button>
+        </div>
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back">
+                <span><?php echo __('Back') ?></span>
+            </a>
         </div>
     </div>
 </form>
