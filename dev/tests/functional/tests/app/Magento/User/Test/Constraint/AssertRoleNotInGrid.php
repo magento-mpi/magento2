@@ -27,7 +27,7 @@ class AssertRoleNotInGrid extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Asserts that saved role is present in Role Grid.
+     * Asserts that role is not present in Role Grid.
      *
      * @return void
      */
