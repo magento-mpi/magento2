@@ -34,4 +34,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Edit">
+        <plugin name="order_edit" type="Magento\GiftCardAccount\Controller\Adminhtml\Order\Edit\Plugin" sortOrder="10"/>
+    </type>
 </config>

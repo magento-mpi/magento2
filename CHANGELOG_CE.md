@@ -28,6 +28,7 @@
   * Fixed: Improve Blank theme UI (MAGETWO-23339)
   * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
+  * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
   * Fixed: System is broken if admin user unassigned his own role (MAGETWO-15672)
   * Fixed: Exceptions on attempt to Export products - user with store-level restrictions (MAGETWO-18642)
 * Functional tests:
@@ -67,6 +68,8 @@
 * GitHub requests:
   * [#544] Performance tests not working (MAGETWO-23467)
   * [#554] Performance tests - Fix jmeter output format (MAGETWO-23743)
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message (MAGETWO-22574)
+  * [#563] (https://github.com/magento/magento2/issues/563) Admin Login not working #563 (MAGETWO-24023)
 
 2.0.0.0-dev76
 =============
