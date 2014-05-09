@@ -8,14 +8,15 @@
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
 use Magento\Framework\Model\Exception;
+use Magento\TargetRule\Block\Product\AbstractProduct;
+use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * TargetRule Catalog Product List Abstract Block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\AbstractProduct implements
-    \Magento\Framework\View\Block\IdentityInterface
+abstract class AbstractProductList extends AbstractProduct implements IdentityInterface
 {
     /**
      * TargetRule Index instance

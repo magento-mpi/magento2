@@ -80,11 +80,6 @@ abstract class AbstractController extends \Magento\Framework\App\Action\Action
      */
     public function allcartAction()
     {
-        if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            $this->_forward('noroute');
-            return;
-        }
-
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
             $this->_forward('noroute');

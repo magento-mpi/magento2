@@ -2,6 +2,8 @@
   * Blank theme was refactored to mobile-first (MAGETWO-23339)
 * Fixed bugs:
   * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
+  * Adding of products with custom option from wishlist to shoping cart shows error (MAGETWO-2828)
+  * Impossible to add to cart product from Wishlist sidebar (MAGETWO-24000)
   * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
   * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
   * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
@@ -25,24 +27,13 @@
   * Fixed: Debug section in developer settings should only website of store view scope level (MAGETWO-15297)
   * Fixed: Fatal error after uninstall if session saved in the database (MAGETWO-23657)
   * Fixed: Wrong message when try to install Magento use non-existent database(Console install script) (MAGETWO-15271)
+  * Fixed: Impossible add product from wishlist to shopping cart (MAGETWO-19635)
+  * Fixed: An error appears after install Magento (MAGETWO-24246)
   * Fixed: Improve Blank theme UI (MAGETWO-23339)
   * Fixed: Overlaping zooming picture on frontend (MAGETWO-23557)
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
-* Functional tests:
-  * Functional end-to-end tests publication (MQM-60)
-     * Bundle product
-     * Category
-     * Customer
-     * Configurable product
-     * Downloadable product
-     * Newsletter
-     * Review
-     * Simple product
-     * Sitemap
-     * Store
-     * Tax Rule
-     * User
-     * Virtual product
+  * Fixed: Impossible to view Wishlist from Wishlist Search Widget (MAGETWO-24051)
+  * Partial cache invalidation does not work for built-in caching (MAGETWO-23268)
   * Catalog Event couldn't be found by 'Countdown Ticker' filter if it has been created to display both on category and product pages (MAGETWO-23857)
   * Error messages are not correct during customer registration (MAGETWO-23976)
   * Wishlist showing product attributes from wrong storeview (MAGETWO-21010)
@@ -60,11 +51,30 @@
   * Fixed: Impossible perform installation if use index.php from pub folder(problem with js and css) (MAGETWO-23950)
   * Fixed: Multiple Wishlist does not correctly work with enabled full page cache on Chrome browser (MAGETWO-23564)
   * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
+  * Fixed exception on Transaction page when searching by payment method (MAGETWO-24159)
+  * Removed "Add to wishlist" link in catalog with disabled wishlist functionality (MAGETWO-22345)
+* Functional tests:
+  * Functional end-to-end tests publication (MQM-60)
+     * Bundle product
+     * Category
+     * Customer
+     * Configurable product
+     * Downloadable product
+     * Newsletter
+     * Review
+     * Simple product
+     * Sitemap
+     * Store
+     * Tax Rule
+     * User
+     * Virtual product
 * Service layer updates:
   * Move CurrentCustomerService from Service to Helper (MAGETWO-23113)
 * GitHub requests:
   * [#544] Performance tests not working (MAGETWO-23467)
   * [#554] Performance tests - Fix jmeter output format (MAGETWO-23743)
+  * [#525] (https://github.com/magento/magento2/pull/525) -- Fix typo in FS Generator help message (MAGETWO-22574)
+  * [#563] (https://github.com/magento/magento2/issues/563) Admin Login not working #563 (MAGETWO-24023)
 
 2.0.0.0-dev76
 =============

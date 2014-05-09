@@ -466,10 +466,11 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getIdentities()
     {
+        $identities = array();
         if ($this->getItem()) {
-            return $this->getProduct()->getIdentities();
+            $identities = $this->getProduct()->getIdentities();
         }
-        return array();
+        return $identities;
     }
 
     /**

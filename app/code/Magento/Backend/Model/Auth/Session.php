@@ -218,7 +218,7 @@ class Session extends \Magento\Framework\Session\SessionManager implements \Mage
     public function processLogin()
     {
         if ($this->getUser()) {
-            $this->regenerateId();
+            $this->regenerateId(false);
 
             if ($this->_backendUrl->useSecretKey()) {
                 $this->_backendUrl->renewSecretUrls();

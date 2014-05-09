@@ -45,7 +45,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
     /**
      * @var string
      */
-    protected $_cacheTag = 'EAV_ATTRIBUTE';
+    protected $_cacheTag = self::CACHE_TAG;
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface

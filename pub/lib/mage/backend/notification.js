@@ -34,8 +34,8 @@
         _add: function(event, jqXHR) {
             try {
                 var response = $.parseJSON(jqXHR.responseText);
-                if (response && response.error && response.message) {
-                    this.element.find('[data-container-for=messages]').html(response.message);
+                if (response && response.error && response.html_message) {
+                    this.element.find('[data-container-for=messages]').html(response.html_message);
                 }
             } catch(e) {}
         }

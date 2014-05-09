@@ -37,7 +37,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->sessionConfigMock = $this->getMockBuilder('Magento\Framework\Session\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->ipValidatorMock = $this->getMockBuilder('Zend\Validator\Ip')
+        $this->ipValidatorMock = $this->getMockBuilder('Magento\Framework\Validator\Ip')
             ->disableOriginalConstructor()
             ->getMock();
         $this->model = new \Magento\Framework\View\Element\Js\Cookie(
