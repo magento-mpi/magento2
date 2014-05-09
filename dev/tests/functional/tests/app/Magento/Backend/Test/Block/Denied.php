@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Denied
  * Access Denied Block
  *
- * @package Magento\Backend\Test\Block
  */
 class Denied extends Block
 {

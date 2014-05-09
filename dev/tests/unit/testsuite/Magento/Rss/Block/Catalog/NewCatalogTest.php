@@ -11,7 +11,6 @@ namespace Magento\Rss\Block\Catalog;
 /**
  * Test for rendering price html in rss templates
  *
- * @package Magento\Rss\Block\Catalog
  */
 class NewCatalogTest extends \PHPUnit_Framework_TestCase
 {

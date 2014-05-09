@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Model\Exception;
 /**
  * Import data from file
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Import extends \Magento\Framework\Object
 {

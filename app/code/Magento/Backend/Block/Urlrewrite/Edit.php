@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Backend\Block\Urlrewrite;
  * @method \Magento\UrlRewrite\Model\UrlRewrite getUrlRewrite()
  * @method \Magento\Backend\Block\Urlrewrite\Edit setUrlRewrite(\Magento\UrlRewrite\Model\UrlRewrite $urlRewrite)
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Widget\Container

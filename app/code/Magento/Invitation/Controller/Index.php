@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Invitation frontend controller
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Controller;
 

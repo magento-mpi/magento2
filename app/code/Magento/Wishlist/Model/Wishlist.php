@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -672,6 +670,10 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        $identities = array();
+        if ($this->getId()) {
+            $identities = array(self::CACHE_TAG . '_' . $this->getId());
+        }
+        return $identities;
     }
 }

@@ -10,7 +10,6 @@ namespace Magento\TestFramework\Integrity\Library\PhpParser;
 /**
  * Class know how create any parser
  *
- * @package Magento\TestFramework
  */
 class ParserFactory
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Invitation\Model\Invitation;
 /**
  * Invitation data helper
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {

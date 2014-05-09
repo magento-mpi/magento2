@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
  * @method \Magento\Backend\Block\Urlrewrite\Catalog\Category\Edit
  *    setCategory(\Magento\Catalog\Model\Category $category)
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Urlrewrite\Edit

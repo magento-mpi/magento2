@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage
- * @package     captcha
  * @copyright   {copyright}
  * @license     {license_link}
  */

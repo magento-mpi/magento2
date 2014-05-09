@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
 /**
  * Giftcard Amount Backend Model
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Amount extends \Magento\Framework\Model\Resource\Db\AbstractDb

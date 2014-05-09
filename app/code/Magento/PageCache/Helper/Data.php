@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Page cache data helper
  *
- * @category    Magento
- * @package     Magento_PageCache
  */
 namespace Magento\PageCache\Helper;
 

@@ -15,7 +15,6 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertOrderStatusInGrid
  *
- * @package Magento\Sales\Test\Constraint
  */
 class AssertOrderStatusInGrid extends AbstractConstraint
 {

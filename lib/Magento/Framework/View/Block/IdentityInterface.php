@@ -9,7 +9,6 @@ namespace Magento\Framework\View\Block;
 
 /**
  * Interface IdentityInterface
- * @package Magento\Framework\View\Block
  */
 interface IdentityInterface
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    acl_db
  * @copyright  {copyright}
  * @license    {license_link}
  */

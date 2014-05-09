@@ -13,7 +13,6 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 /**
  * This class is used to test the tree functions.
  * Class TreeTest
- * @package Magento\Test\Tools\Formatter\Tree
  */
 class TreeTest extends \PHPUnit_Framework_TestCase
 {

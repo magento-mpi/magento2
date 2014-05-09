@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Category\Attribute\Backend;
 /**
  * Catalog Category Attribute Default and Available Sort By Backend Model
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend

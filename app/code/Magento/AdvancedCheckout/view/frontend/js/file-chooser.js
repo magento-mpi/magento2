@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    file chooser
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

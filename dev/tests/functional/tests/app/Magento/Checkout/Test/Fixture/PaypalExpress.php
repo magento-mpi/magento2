@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Express Method
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class PaypalExpress extends Checkout
 {

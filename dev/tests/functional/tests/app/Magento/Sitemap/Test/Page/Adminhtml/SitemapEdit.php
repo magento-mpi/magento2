@@ -13,7 +13,6 @@ use Mtf\Page\BackendPage;
 /**
  * Class SitemapEdit
  *
- * @package Magento\Sitemap\Test\Page\Adminhtml
  */
 class SitemapEdit extends BackendPage
 {

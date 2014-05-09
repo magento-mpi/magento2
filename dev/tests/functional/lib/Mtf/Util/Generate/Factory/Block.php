@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Mtf\Util\Generate\Factory;
  *
  * Block Factory generator
  *
- * @package Mtf\Util\Generate\Factory
  */
 class Block extends AbstractFactory
 {

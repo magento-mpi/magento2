@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,8 +38,6 @@ use Magento\Framework\Model\Exception;
  * @method array getCustomerSegmentIds()
  * @method \Magento\TargetRule\Model\Rule setCustomerSegmentIds(array $ids)
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */

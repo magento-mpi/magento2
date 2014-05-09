@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Eav\Model\Entity\Attribute\Source;
  *
  * this class should be abstract, but kept usual for legacy purposes
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource

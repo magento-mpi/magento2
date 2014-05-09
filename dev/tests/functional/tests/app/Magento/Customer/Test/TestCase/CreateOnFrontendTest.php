@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +13,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Create Customer on frontend and set default billing address
- *
- * @package Magento\Customer\Test\TestCase;
  */
 class CreateOnFrontendTest extends Functional
 {

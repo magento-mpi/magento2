@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating a banner
  *
- * @package Magento\Banner\Test\Handler\Curl
  */
 class CreateBanner extends Curl
 {

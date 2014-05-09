@@ -11,7 +11,6 @@ namespace Mtf\Util\Generate\Repository;
 /**
  * Class Resource
  *
- * @package Mtf\Util\Generate\Repository
  */
 class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {

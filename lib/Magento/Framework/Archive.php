@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Archive
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ use Magento\Framework\Archive\Tar;
 /**
  * Class to work with archives
  *
- * @category    Magento
- * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Archive

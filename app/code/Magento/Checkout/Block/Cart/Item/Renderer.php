@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 /**
  * Shopping cart item render block
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
@@ -470,10 +466,11 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getIdentities()
     {
+        $identities = array();
         if ($this->getItem()) {
-            return $this->getProduct()->getIdentities();
+            $identities = $this->getProduct()->getIdentities();
         }
-        return array();
+        return $identities;
     }
 
     /**

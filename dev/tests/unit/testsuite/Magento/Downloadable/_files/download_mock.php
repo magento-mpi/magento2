@@ -2,10 +2,7 @@
 /**
  * {license_notice}
  *
- * @category Magento
- * @package Magento/Downloadable
- * @subpackage unit_tests
- * @copyright   {copyright}
+ * @copyright   {copyright}e
  * @license     {license_link}
  */
 namespace Magento\Downloadable\Helper;

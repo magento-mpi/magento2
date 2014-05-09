@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +33,6 @@ namespace Magento\VersionsCms\Model;
  * @method int getLastId()
  * @method \Magento\VersionsCms\Model\Increment setLastId(int $value)
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Increment extends \Magento\Framework\Model\AbstractModel

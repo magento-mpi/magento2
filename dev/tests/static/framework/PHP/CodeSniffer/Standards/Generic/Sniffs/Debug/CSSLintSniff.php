@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Roman Levishchenko <index.0h@gmail.com>
  * @copyright 2013 Roman Levishchenko
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
@@ -17,8 +15,6 @@
  *
  * Runs csslint on the file.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Roman Levishchenko <index.0h@gmail.com>
  * @copyright 2013 Roman Levishchenko
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence

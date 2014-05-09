@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Customer Segment Adminhtml Block
  *
- * @category   Magento
- * @package    Magento_CustomerSegment
  */
 namespace Magento\CustomerSegment\Block\Adminhtml;
 

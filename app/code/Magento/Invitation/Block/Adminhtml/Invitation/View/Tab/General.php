@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 /**
  * Invitation view general tab block
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class General extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  */
 namespace Magento\Backend\Controller\Adminhtml;
 

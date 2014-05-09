@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    credit card type
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

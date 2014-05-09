@@ -14,7 +14,6 @@ use \Magento\Catalog\Model\Product;
  * Class Data
  * Helper class for getting options
  *
- * @package Magento\ConfigurableProduct\Helper
  */
 class Data
 {

@@ -17,7 +17,6 @@ use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 /**
  * Class Downloadable
  *
- * @package Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab
  */
 class Downloadable extends Tab
 {

@@ -11,7 +11,6 @@ namespace Magento\ToolkitFramework\Helper;
 /**
  * Class Cli static helper
  *
- * @package Magento\ToolkitFramework\Helper
  */
 class Cli
 {

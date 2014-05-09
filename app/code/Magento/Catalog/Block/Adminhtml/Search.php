@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@ namespace Magento\Catalog\Block\Adminhtml;
 /**
  * Catalog price rules
  *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Search extends \Magento\Backend\Block\Widget\Grid\Container

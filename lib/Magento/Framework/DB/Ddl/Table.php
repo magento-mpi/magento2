@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Data Definition for table
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\DB\Ddl;

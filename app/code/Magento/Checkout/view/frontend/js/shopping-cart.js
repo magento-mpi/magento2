@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage checkout shopping cart
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

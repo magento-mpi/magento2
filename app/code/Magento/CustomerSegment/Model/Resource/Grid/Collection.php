@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterise
- * @package     Enterpise_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Customer segment data grid collection
  *
- * @category    Enterise
- * @package     Enterpise_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerSegment\Model\Resource\Grid;

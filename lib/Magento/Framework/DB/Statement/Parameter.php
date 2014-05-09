@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,6 @@ namespace Magento\Framework\DB\Statement;
  * Most used properties and methods are defined in interface. Specific things for concrete DB adapter can be
  * transmitted using 'addtional' property (\Magento\Framework\Object) as a container.
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Parameter

@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -82,6 +81,7 @@
     </div>
 </script>
 <script type="text/javascript">
+    <?php if (count($this->getWishlistShortList()) > 0): ?>
     (function($) {
         $('body').mage('multipleWishlist', {
             'canCreate': <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
@@ -103,5 +103,6 @@
                     }
                 }]
             });
-    })(jQuery);
+    }(jQuery));
+    <?php endif; ?>
 </script>

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Tests checkout via Magento one page checkout and Paypal Express checkout.
  * Shipping method used is Flat Rate
  *
- * @package Magento\Test\TestCase\Checkout
  */
 class PayflowProTest extends Functional
 {

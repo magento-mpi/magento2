@@ -15,7 +15,6 @@ use Mtf\Page\Page,
  * Class UrlrewriteEdit
  * Backend URL rewrite edit/new page
  *
- * @package Magento\Backend\Test\Page\Urlrewrite
  */
 class UrlrewriteEdit extends Page
 {
