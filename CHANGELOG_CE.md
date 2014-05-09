@@ -60,6 +60,13 @@
   * Fixed: Displayed currency and product price aren't changed after switching to new currency (MAGETWO-24297)
   * Fixed: Crash frontend when delete product from mini shopping cart (MAGETWO-24303)
   * Fixed: Bundle product is not possible to add to shopping cart (MAGETWO-24302)
+  * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
+  * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
+  * Fixed: Variables are not visible in Newsletter Templates (MAGETWO-23975)
+  * 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
+  * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
+  * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
+  * Fixed: Backup is not created by cron (MAGETWO-21355)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
