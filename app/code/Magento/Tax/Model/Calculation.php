@@ -21,46 +21,73 @@ use Magento\Framework\Exception\NoSuchEntityException;
  */
 class Calculation extends \Magento\Framework\Model\AbstractModel
 {
+    /**
+     * Identifier constant for Tax calculation before discount excluding TAX
+     */
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL = '0_0';
 
+    /**
+     * Identifier constant for Tax calculation before discount including TAX
+     */
     const CALC_TAX_BEFORE_DISCOUNT_ON_INCL = '0_1';
 
+    /**
+     * Identifier constant for Tax calculation after discount excluding TAX
+     */
     const CALC_TAX_AFTER_DISCOUNT_ON_EXCL = '1_0';
 
+    /**
+     * Identifier constant for Tax calculation after discount including TAX
+     */
     const CALC_TAX_AFTER_DISCOUNT_ON_INCL = '1_1';
 
+    /**
+     * Identifier constant for unit based calculation
+     */
     const CALC_UNIT_BASE = 'UNIT_BASE_CALCULATION';
 
+    /**
+     * Identifier constant for row based calculation
+     */
     const CALC_ROW_BASE = 'ROW_BASE_CALCULATION';
 
+    /**
+     * Identifier constant for total based calculation
+     */
     const CALC_TOTAL_BASE = 'TOTAL_BASE_CALCULATION';
 
     /**
+     * Identifier constant for unit based calculation
      * @var array
      */
     protected $_rates = array();
 
     /**
+     * Identifier constant for row based calculation
      * @var array
      */
     protected $_ctc = array();
 
     /**
+     * Identifier constant for total based calculation
      * @var array
      */
     protected $_ptc = array();
 
     /**
+     * Cache to hold the rates
      * @var array
      */
     protected $_rateCache = array();
 
     /**
+     * Store the rate calculation process
      * @var array
      */
     protected $_rateCalculationProcess = array();
 
     /**
+     * Hold the customer
      * @var CustomerDataObject|bool
      */
     protected $_customer;
@@ -491,7 +518,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
         } elseif ($customerTaxClass === false || !$customerData->getId()) {
-            $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
+            $customerTaxClass = $customerTaxClass =
+                Mage::getModel('customer/group')->getTaxClassId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
         $request = new \Magento\Framework\Object();
@@ -573,6 +601,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Gets the tax rates by type
+     *
      * @param \Magento\Framework\Object $request
      * @param string|array $fieldName
      * @param string|array $type
@@ -592,6 +622,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Gets rates for all the product tax classes
+     *
      * @param \Magento\Framework\Object $request
      * @return array
      */
@@ -601,6 +633,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Gets rates for all the customer tax classes
+     *
      * @param \Magento\Framework\Object $request
      * @return array
      */
@@ -617,6 +651,10 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      */
     public function getAppliedRates($request)
     {
+        if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
+            return array();
+        }
+
         $cacheKey = $this->_getRequestCacheKey($request);
         if (!isset($this->_rateCalculationProcess[$cacheKey])) {
             $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
@@ -625,6 +663,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Gets the calculation process
+     *
      * @param array $rates
      * @return array
      */
@@ -634,6 +674,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Get rates by customer tax class
+     *
      * @param int $customerTaxClass
      * @return array
      */
@@ -643,6 +685,8 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
+     * Get rates by customer and product classes
+     *
      * @param int $customerTaxClass
      * @param int $productTaxClass
      * @return array
