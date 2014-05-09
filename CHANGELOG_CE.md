@@ -31,6 +31,7 @@
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
   * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
   * Fixed: 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
+  * Fixed: List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
