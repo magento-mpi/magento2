@@ -30,6 +30,7 @@
   * Fixed: Edit address page notice messages UI changes (MAGETWO-23834)
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
   * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
+  * Fixed: 'No files found' displayed in Theme Java Script fieldset (MAGETWO-10592)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
@@ -98,6 +99,7 @@
   * Impossible to select value in the State/Province field in the customer registration form when customer uses multiple address checkout
   * Manage Stock option is not editable when using mass action on several products in the admin panel
   * Category is not displayed in layered navigation block when Flat Catalog is enabled in config
+
 * GitHub requests:
   * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility
   * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products
