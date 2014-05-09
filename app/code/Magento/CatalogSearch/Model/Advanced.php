@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,8 +27,6 @@
  * @method string getUpdatedAt()
  * @method \Magento\CatalogSearch\Model\Advanced setUpdatedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogSearch\Model;

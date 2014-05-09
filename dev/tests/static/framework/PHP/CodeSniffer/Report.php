@@ -4,8 +4,6 @@
  *
  * PHP version 5.
  * 
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Gabriele Santini <gsantini@sqli.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2009 SQLI <www.sqli.com>
@@ -17,8 +15,6 @@
 /**
  * Represents a PHP_CodeSniffer report.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Gabriele Santini <gsantini@sqli.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2009 SQLI <www.sqli.com>

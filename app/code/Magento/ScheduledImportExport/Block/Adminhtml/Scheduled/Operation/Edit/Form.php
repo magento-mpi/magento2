@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
 /**
  * Scheduled operation create/edit form
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method string getGeneralSettingsLabel() getGeneralSettingsLabel()

@@ -11,7 +11,6 @@ namespace Mtf\App\State;
 /**
  * Abstract class AbstractState
  *
- * @package Mtf\App\State
  */
 abstract class AbstractState implements StateInterface
 {

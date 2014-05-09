@@ -9,7 +9,6 @@ namespace Magento\Framework\Error;
 
 /**
  * Class HandlerTest
- * @package Magento\Framework\Error
  */
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {

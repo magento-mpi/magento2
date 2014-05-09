@@ -3,9 +3,6 @@
  * {license_notice}
  * Page cache data helper
  *
- * @category    Magento
- * @package     Magento_PageCache
- * @subpackage  unit_tests
  * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}

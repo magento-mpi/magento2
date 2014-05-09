@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
 /**
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Eav\Model\Resource\Entity\Attribute\Group _getResource()

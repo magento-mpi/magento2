@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */

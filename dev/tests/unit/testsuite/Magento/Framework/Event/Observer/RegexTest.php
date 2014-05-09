@@ -9,7 +9,6 @@ namespace Magento\Framework\Event\Observer;
 
 /**
  * Class RegexTest
- * @package Magento\Framework\Event\Observer
  */
 class RegexTest extends \PHPUnit_Framework_TestCase
 {

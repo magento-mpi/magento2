@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\SalesRule\Model\Coupon;
  *
  * @method \Magento\SalesRule\Model\Resource\Coupon getResource()
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Massgenerator extends \Magento\Framework\Model\AbstractModel implements

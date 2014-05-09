@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\App\Action;
 /**
  * Gift Wrapping Controller
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Giftwrapping extends \Magento\Backend\App\Action

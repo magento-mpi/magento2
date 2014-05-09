@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@
  * @method int getGrantCheckoutItems()
  * @method \Magento\CatalogPermissions\Model\Permission\Index setGrantCheckoutItems(int $value)
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogPermissions\Model\Permission;

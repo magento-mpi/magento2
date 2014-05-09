@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Core\Model\Layout\Update;
  *
  * Validator checked XML validation and protected expressions
  *
- * @category   Magento
- * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Validator extends \Zend_Validate_Abstract

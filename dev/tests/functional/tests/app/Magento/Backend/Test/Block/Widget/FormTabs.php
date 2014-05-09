@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +21,6 @@ use Mtf\Util\XmlConverter;
  * Class FormTabs
  * Is used to represent any form with tabs on the page
  *
- * @package Magento\Backend\Test\Block\Widget
  */
 class FormTabs extends Form
 {

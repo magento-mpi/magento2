@@ -17,7 +17,6 @@ use Mtf\Repository\RepositoryFactory;
 /**
  * Class CatalogRule
  *
- * @package Magento\CatalogRule\Test\Fixture
  */
 class CatalogRule extends InjectableFixture
 {

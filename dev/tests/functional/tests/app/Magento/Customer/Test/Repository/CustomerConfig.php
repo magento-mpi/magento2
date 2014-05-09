@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\Core\Test\Repository;
 /**
  * Class Customer Config Repository
  *
- * @package Magento\Core\Test\Repository
  */
 class CustomerConfig extends Repository\Config
 {

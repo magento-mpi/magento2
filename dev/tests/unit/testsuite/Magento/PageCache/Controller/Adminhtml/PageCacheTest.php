@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Magento\PageCache\Controller\Adminhtml;
 /**
  * Class PageCacheTest
  *
- * @package Magento\PageCache\Controller\Adminhtml
  */
 class PageCacheTest extends \PHPUnit_Framework_TestCase
 {

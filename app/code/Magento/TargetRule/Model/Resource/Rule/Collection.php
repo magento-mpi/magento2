@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Model\Resource\Rule;
 /**
  * Target rules resource collection model
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection

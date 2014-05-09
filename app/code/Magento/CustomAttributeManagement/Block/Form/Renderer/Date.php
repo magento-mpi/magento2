@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 /**
  * EAV Entity Attribute Form Renderer Block for Date
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer

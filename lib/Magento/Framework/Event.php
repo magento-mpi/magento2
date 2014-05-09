@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Event
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Event object and dispatcher
  *
- * @category   Magento
- * @package    Magento_Event
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework;

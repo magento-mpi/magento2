@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,6 @@ namespace Magento\Rss\Block\Catalog;
 /**
  * Test for rendering price html in rss templates
  *
- * @package Magento\Rss\Block\Catalog
  */
 class AbstractCatalogTest extends \PHPUnit_Framework_TestCase
 {

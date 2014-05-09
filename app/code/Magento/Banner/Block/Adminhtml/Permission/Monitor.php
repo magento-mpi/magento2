@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@
  *
  * Removes certain blocks from layout if user do not have required permissions
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Permission;

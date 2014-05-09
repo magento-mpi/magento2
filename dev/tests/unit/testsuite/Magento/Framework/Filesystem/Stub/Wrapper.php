@@ -10,7 +10,6 @@ namespace Magento\Framework\Filesystem\Stub;
 
 /**
  * Class Wrapper
- * @package Magento\Framework\Filesystem\Stub
  */
 class Wrapper
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Clean now import/export file history button renderer
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\System\Config;

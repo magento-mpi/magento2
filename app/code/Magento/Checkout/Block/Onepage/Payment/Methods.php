@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@
 /**
  * One page checkout status
  *
- * @category   Magento
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Checkout\Block\Onepage\Payment;

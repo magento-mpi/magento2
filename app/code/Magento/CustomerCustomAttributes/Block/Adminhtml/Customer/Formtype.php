@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
 /**
  * Form Types Grid Container Block
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Formtype extends \Magento\Backend\Block\Widget\Grid\Container
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,8 +29,6 @@ use Magento\Framework\Model\Exception;
  * @method int getIsCustomerNotified()
  * @method \Magento\CustomerBalance\Model\Balance\History setIsCustomerNotified(int $value)
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class History extends \Magento\Framework\Model\AbstractModel

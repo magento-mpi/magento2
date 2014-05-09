@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@ namespace Magento\GiftRegistry\Model;
  * @method string getCustomValues()
  * @method \Magento\GiftRegistry\Model\Person setCustomValues(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Person extends \Magento\Framework\Model\AbstractModel

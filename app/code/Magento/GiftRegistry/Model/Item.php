@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,8 +25,6 @@ namespace Magento\GiftRegistry\Model;
  * @method string getCustomOptions()
  * @method \Magento\GiftRegistry\Model\Item setCustomOptions(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Framework\Model\AbstractModel implements

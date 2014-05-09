@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Block\Form as FormInterface;
  * Class TaxRate
  * Tax rate block
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class TaxRate extends FormInterface
 {

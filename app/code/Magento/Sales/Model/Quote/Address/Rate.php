@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -37,8 +35,6 @@ use Magento\Framework\Model\AbstractModel;
  * @method string getMethodTitle()
  * @method \Magento\Sales\Model\Quote\Address\Rate setMethodTitle(string $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rate extends AbstractModel

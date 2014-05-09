@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Util\Protocol\CurlTransport;
 /**
  * Curl handler for updating a banner
  *
- * @package Magento\Banner\Test\Handler\Curl
  */
 class UpdateBanner extends CreateBanner
 {

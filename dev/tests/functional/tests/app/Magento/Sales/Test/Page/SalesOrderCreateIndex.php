@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Magento\Backend\Test\Block\GridPageActions;
  * Class SalesOrderCreateIndex
  * Backend order creation page
  *
- * @package Magento\Sales\Test\Page
  */
 class SalesOrderCreateIndex extends Page
 {

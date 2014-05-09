@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\View\Element\AbstractBlock;
 /**
  * Order information for print
  *
- * @category   Magento
- * @package    Magento_Sales
  */
 class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
 {

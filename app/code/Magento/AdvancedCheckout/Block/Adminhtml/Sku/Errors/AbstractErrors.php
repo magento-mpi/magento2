@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors setListType()
  * @method string                                                  getListType()
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractErrors extends \Magento\Backend\Block\Widget

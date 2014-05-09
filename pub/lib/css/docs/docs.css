@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 body {
   margin: 0;
   padding: 0;
@@ -572,13 +580,7 @@ input::-moz-focus-inner {
 address {
   font-style: normal;
 }
-/**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
-*/
+
 @font-face {
   font-family: 'icons-blank-theme';
   src: url('../../pub/lib/fonts/Blank-Theme-Icons/Blank-Theme-Icons.eot');

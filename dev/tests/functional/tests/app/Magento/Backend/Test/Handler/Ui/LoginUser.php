@@ -16,7 +16,6 @@ use Mtf\Factory\Factory;
  * Class LoginUser
  * Handler for ui backend user login
  *
- * @package Magento\Backend\Test\Handler\Ui
  */
 class LoginUser extends Ui
 {

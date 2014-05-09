@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Util\Protocol\SoapTransport;
 /**
  * Class CreateCustomer
  *
- * @package Magento\Customer\Handler\Webapi
  */
 class CreateCustomer extends Webapi
 {

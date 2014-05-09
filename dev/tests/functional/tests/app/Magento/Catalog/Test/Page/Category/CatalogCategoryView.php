@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Page\Page;
  * Class CatalogCategoryView
  * Category page on frontend
  *
- * @package Magento\Catalog\Test\Page\Category
  */
 class CatalogCategoryView extends Page
 {

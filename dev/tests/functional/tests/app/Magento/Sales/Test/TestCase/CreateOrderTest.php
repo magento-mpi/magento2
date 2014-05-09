@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Sales\Test\Fixture\Order;
  * Class CreateOrderTest
  * Tests for creating order on backend
  *
- * @package Magento\Sales\Test\TestCase
  */
 class CreateOrderTest extends Functional
 {

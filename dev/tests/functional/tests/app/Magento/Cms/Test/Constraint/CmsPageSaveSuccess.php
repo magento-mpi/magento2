@@ -16,7 +16,6 @@ use Magento\Cms\Test\Fixture\CmsPage as CmsPageFixture;
 /**
  * Class CmsPageSaveSuccess
  *
- * @package Magento\Backend\Test\Constraint
  */
 class CmsPageSaveSuccess extends AbstractConstraint
 {

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend catalog event
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
