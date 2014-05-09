@@ -53,6 +53,8 @@
   * Fixed: Impossible to change admin frontname using console installation (MAGETWO-15273)
   * Fixed exception on Transaction page when searching by payment method (MAGETWO-24159)
   * Removed "Add to wishlist" link in catalog with disabled wishlist functionality (MAGETWO-22345)
++ * Fixed: System is broken if admin user unassigned his own role (MAGETWO-15672)
++ * Fixed: Exceptions on attempt to Export products - user with store-level restrictions (MAGETWO-18642)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
