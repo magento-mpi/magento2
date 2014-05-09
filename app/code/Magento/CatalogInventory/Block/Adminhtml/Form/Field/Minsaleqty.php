@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml catalog inventory "Minimum Qty Allowed in Shopping Cart" field
  *
- * @category   Magento
- * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;

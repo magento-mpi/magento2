@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    gift message options toggle
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

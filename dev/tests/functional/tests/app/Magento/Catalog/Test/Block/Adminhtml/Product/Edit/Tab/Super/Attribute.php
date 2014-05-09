@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class Attribute
  * Attribute block in Variation section
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Attribute extends Block
 {

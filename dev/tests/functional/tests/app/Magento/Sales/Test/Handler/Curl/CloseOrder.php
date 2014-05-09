@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Mtf\System\Config;
  * Class CloseOrder
  * Closes a sales order
  *
- * @package Magento\Sales\Test\Handler\Curl
  */
 class CloseOrder extends Curl
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\TestCase\Injectable;
  * Class UserTest
  * Tests login to backend
  *
- * @package Magento\Backend\Test\TestCase
  */
 class UserTest extends Injectable
 {

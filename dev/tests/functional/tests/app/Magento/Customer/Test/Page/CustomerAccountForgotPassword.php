@@ -13,7 +13,6 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * @package Magento\Customer\Test\Page
  */
 class CustomerAccountForgotPassword extends Page
 {

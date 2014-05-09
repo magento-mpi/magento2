@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
 /**
  * Invitation create form
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

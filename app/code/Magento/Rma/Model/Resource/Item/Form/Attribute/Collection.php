@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Rma\Model\Resource\Item\Form\Attribute;
 /**
  * Rma Item Form Attribute Resource Collection
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Eav\Model\Resource\Form\Attribute\Collection

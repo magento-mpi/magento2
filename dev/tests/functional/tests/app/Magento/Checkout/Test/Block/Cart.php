@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
  * Class Cart
  * Shopping cart block
  *
- * @package Magento\Checkout\Test\Block
  */
 class Cart extends Block
 {

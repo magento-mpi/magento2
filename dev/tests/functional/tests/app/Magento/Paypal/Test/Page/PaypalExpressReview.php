@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class PaypalExpressReview.
  * Paypal Express Review page
  *
- * @package Magento\Paypal\Test\Page
  */
 class PaypalExpressReview extends Page
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Block;
  * Class Totals
  * Shipment totals block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Shipment
  */
 class Totals extends Block
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Framework
- * @subpackage  File
  * @copyright   {copyright}
  * @license     {license_link}
  */

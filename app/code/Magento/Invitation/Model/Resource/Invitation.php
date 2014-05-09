@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Invitation\Model\Resource;
 /**
  * Invitation data resource model
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Invitation extends \Magento\Framework\Model\Resource\Db\AbstractDb

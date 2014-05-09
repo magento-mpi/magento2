@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Attribute options preset name)
  *  - products (comma separated sku identifiers)
  *
- * @package Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable
  */
 class AttributeOptions implements FixtureInterface
 {

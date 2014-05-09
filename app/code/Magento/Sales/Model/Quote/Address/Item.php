@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -88,8 +86,6 @@ use Magento\Sales\Model\Quote;
  * @method float getBaseHiddenTaxAmount()
  * @method \Magento\Sales\Model\Quote\Address\Item setBaseHiddenTaxAmount(float $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem

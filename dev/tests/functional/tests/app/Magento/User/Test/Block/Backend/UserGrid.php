@@ -15,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class UserGrid
  * Grid on System ->Permissions -> All Users page
  *
- * @package Magento\User\Test\Block\Backend
  */
 class UserGrid extends Grid
 {

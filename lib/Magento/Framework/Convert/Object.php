@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Convert
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Default converter for \Magento\Framework\Objects to arrays
  *
- * @category   Magento
- * @package    Magento_Convert
  * @author     Magento Extensibility Team <DL-X-Extensibility-Team@corp.ebay.com>
  */
 namespace Magento\Framework\Convert;

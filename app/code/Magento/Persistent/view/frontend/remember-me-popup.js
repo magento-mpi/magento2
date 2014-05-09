@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend Persistent remember me popup
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -18,7 +18,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCatalogRuleProductInCart
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleProductInCart extends AbstractConstraint
 {

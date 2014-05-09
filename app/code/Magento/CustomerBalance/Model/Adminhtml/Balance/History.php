@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 /**
  * Customerbalance history model for adminhtml area
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class History extends \Magento\CustomerBalance\Model\Balance\History

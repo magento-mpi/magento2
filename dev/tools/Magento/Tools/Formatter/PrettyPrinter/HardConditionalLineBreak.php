@@ -10,7 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 /**
  * This class is use to return on hard line break only if it is not followed by specified elements.
  * Class HardConditionalLineBreak
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 class HardConditionalLineBreak extends HardLineBreak implements LineCondition
 {

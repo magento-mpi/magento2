@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Grid column block that is displayed only if rollback allowed
  *
- * @category   Magento
- * @package    Magento_Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backup\Block\Adminhtml\Grid\Column;

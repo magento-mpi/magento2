@@ -14,7 +14,6 @@ use Mtf\ObjectManager;
  * Class EntryPoint
  * Application entry point, used to bootstrap and run application
  *
- * @package Mtf\EntryPoint
  */
 class EntryPoint
 {

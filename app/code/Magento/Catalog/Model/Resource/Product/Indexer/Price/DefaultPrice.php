@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
  * Default Product Type Price Indexer Resource model
  * For correctly work need define product type id
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer implements PriceInterface

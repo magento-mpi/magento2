@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class CmsIndex
  * Home page for frontend
  *
- * @package Magento\Mage\Test\Page
  */
 class CmsIndex extends Page
 {

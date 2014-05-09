@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    gift registry multi-ship address option
- * @package     enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 /**
  * GoogleShopping Admin Items Controller
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @name       \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items
  * @author     Magento Core Team <core@magentocommerce.com>
  */

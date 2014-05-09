@@ -14,7 +14,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Product
  * URL Rewrite Product Repository
  *
- * @package Magento\Backend\Test\Repository\Urlrewrite
  */
 class Product extends AbstractRepository
 {

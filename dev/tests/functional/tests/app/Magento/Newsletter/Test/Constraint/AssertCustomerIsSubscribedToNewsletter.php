@@ -15,7 +15,6 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertCustomerIsSubscribedToNewsletter
  *
- * @package Magento\Newsletter\Test\Constraint
  */
 class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
 {

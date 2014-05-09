@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Backend\Block;
  * @method \Magento\Backend\Block\Urlrewrite setSelectorBlock(\Magento\Backend\Block\Urlrewrite\Selector $value)
  * @method null|\Magento\Backend\Block\Urlrewrite\Selector getSelectorBlock()
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Urlrewrite extends \Magento\Backend\Block\Widget\Grid\Container

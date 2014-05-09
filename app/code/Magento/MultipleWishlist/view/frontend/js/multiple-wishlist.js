@@ -1,7 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Frontend Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */

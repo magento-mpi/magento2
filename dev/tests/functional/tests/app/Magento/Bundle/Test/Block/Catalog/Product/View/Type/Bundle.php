@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Block\Product\View\Options;
  * Class Bundle
  * Catalog bundle product info block
  *
- * @package Magento\Bundle\Test\Block\Catalog\Product\View\Type
  */
 class Bundle extends Options
 {

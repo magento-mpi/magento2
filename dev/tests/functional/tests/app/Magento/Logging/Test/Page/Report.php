@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Logging\Test\Block\LogGrid;
  * Class Report
  * Actions logging report
  *
- * @package Magento\Logging\Test\Page
  */
 class Report extends Page
 {

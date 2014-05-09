@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ use Magento\Framework\View\Block\IdentityInterface;
 /**
  * TargetRule Catalog Product List Abstract Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class AbstractProductList extends AbstractProduct implements IdentityInterface

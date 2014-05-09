@@ -17,7 +17,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Addresses
  * Customer addresses edit block
  *
- * @package Magento\Customer\Test\Block\Adminhtml\Edit\Tab
  */
 class Addresses extends Tab
 {

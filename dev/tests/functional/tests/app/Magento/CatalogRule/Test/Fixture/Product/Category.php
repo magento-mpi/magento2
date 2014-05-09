@@ -17,7 +17,6 @@ use Mtf\Fixture\FixtureInterface;
  * Data keys:
  *  - preset (Product options preset name)
  *
- * @package Magento\CatalogRule\Test\Fixture
  */
 class Category implements  FixtureInterface
 {

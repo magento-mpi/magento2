@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class CatalogProductView
  * Frontend product view page
  *
- * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductView extends Page
 {

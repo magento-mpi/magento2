@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,8 +20,6 @@ namespace Magento\Catalog\Model\Product\Indexer;
  * @method int getValue()
  * @method \Magento\Catalog\Model\Product\Indexer\Eav setValue(int $value)
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer

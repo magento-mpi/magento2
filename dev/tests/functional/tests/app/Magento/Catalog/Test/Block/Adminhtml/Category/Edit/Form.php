@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
  * Class Form
  * Category container block
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Category\Edit
  */
 class Form extends FormTabs
 {

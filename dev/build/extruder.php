@@ -3,8 +3,6 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    extruder
  * @copyright  {copyright}
  * @license    {license_link}
  */

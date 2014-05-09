@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class CreatePaypalExpressOrder
  * Create a product
  *
- * @package Magento\Checkout\Test\Handler\Ui
  */
 class CreatePaypalExpressOrder extends Ui
 {

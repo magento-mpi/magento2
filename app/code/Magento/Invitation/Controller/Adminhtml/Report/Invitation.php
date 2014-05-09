@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\App\ResponseInterface;
 /**
  * Invitation reports controller
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 class Invitation extends \Magento\Backend\App\Action
 {

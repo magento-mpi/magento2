@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Block\Block;
  * Class Customersegment
  * Customer Segment actions block
  *
- * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml
  */
 class Customersegment extends Block
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Eav\Model;
 /**
  * EAV entity model
  *
- * @category   Magento
- * @package    Magento_Eav
  */
 class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
 {

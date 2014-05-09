@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_toolkit
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,6 @@ namespace Magento\ToolkitFramework;
 /**
  * Class ApplicationTest
  *
- * @package Magento\Test
  */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
