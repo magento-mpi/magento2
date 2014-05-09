@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,8 +31,6 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
  * @method \Magento\Framework\DB\Select reset($part = null)
  * @method \Magento\Framework\DB\Select columns($cols = '*', $correlationName = null)
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Select extends \Zend_Db_Select

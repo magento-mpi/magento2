@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,8 +26,6 @@
  * @method string getFinishedAt()
  * @method \Magento\Cron\Model\Schedule setFinishedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Cron\Model;

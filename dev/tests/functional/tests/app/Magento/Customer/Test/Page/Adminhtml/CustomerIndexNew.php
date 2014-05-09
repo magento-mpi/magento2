@@ -13,7 +13,6 @@ use Mtf\Page\BackendPage;
 /**
  * Class CustomerIndexNew
  *
- * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerIndexNew extends BackendPage
 {

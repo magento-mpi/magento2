@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Multishipping\Model\Checkout\Type\Multishipping;
 /**
  * Multishipping checkout state model
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class State extends \Magento\Framework\Object

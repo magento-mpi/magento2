@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Configurable product with creating new category and new attribute
  *
- * @package Magento\Catalog\Test\TestCase\Product\Configurable
  */
 class CreateWithAttributeTest extends Functional
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Saved Payment (CC profiles) controller
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Controller\Payment;

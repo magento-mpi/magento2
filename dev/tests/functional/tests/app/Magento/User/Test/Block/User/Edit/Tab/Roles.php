@@ -16,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class Roles
  * Grid on Roles Tab page for User
  *
- * @package Magento\User\Test\Block\User\Edit\Tab
  */
 class Roles extends Grid
 {

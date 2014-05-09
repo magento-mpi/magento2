@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,6 @@ namespace Magento\Centinel\Test\Fixture;
 /**
  * Guest checkout. PayPal Payments Pro with 3D Secure payment method and free shipping method
  *
- * @package Magento\Centinel
  */
 class GuestPayPalPaymentsProValidCc extends AbstractCreditCard
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Catalog\Helper\Product;
 
 /**
  * Class CompareTest
- * @package Magento\Catalog\Helper\Product
  */
 class CompareTest extends \PHPUnit_Framework_TestCase
 {

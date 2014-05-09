@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend product msrp
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

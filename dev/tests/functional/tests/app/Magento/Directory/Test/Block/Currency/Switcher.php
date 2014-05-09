@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * @package Magento\Directory\Test\Block\Currency
  */
 class Switcher extends Block
 {

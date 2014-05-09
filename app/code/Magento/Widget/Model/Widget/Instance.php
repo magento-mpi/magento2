@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Widget
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,6 @@ namespace Magento\Widget\Model\Widget;
  * @method \Magento\Widget\Model\Widget\Instance setThemeId(int $value)
  * @method int getThemeId()
  *
- * @category    Magento
- * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Instance extends \Magento\Framework\Model\AbstractModel

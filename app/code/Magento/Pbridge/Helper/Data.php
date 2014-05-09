@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ use Magento\Sales\Model\Quote;
 /**
  * Pbridge helper
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper

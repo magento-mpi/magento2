@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Gabriele Santini <gsantini@sqli.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2009 SQLI <www.sqli.com>
@@ -23,8 +21,6 @@ if (is_file(dirname(__FILE__).'/../CodeSniffer.php') === true) {
 /**
  * A class to manage reporting.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Gabriele Santini <gsantini@sqli.com>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2009 SQLI <www.sqli.com>

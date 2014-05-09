@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_WebsiteRestriction
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Cleanup blocks HTML cache
  *
- * @category    Magento
- * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\WebsiteRestriction\Model\System\Config\Backend;

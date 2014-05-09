@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework;
 /**
  * Image handler library
  *
- * @category   Magento
- * @package    Magento_Image
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Image

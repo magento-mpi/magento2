@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Various
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +10,6 @@
  * Adding product of type bundle fixed with percent options enabled for sub-products to shopping cart
  * Test added due to bug MAGE-5495 verification
  *
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase

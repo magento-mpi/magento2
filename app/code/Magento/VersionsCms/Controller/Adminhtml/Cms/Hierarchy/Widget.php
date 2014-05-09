@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 /**
  * Admihtml Widget Controller for Hierarchy Node Link plugin
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Widget extends \Magento\Backend\App\Action
 {

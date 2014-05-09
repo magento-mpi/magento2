@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Sam Graham <php-codesniffer@illusori.co.uk>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -18,8 +16,6 @@
  *
  * Warns about FIXME comments.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Sam Graham <php-codesniffer@illusori.co.uk>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)

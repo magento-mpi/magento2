@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@
  * Class to test composed Magento coding standard against different code cases.
  * Used to ensure, that Magento coding standard rules (sniffs) really do what they are intended to do.
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  */
 namespace Magento\Test\Php\Exemplar;
 

@@ -15,7 +15,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 /**
  * Class AssertConfigurableInGrid
  *
- * @package Magento\ConfigurableProduct\Test\Constraint
  */
 class AssertConfigurableInGrid extends AbstractConstraint
 {

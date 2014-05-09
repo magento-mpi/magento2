@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 /**
  * Segment conditions container
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Combine extends AbstractCombine

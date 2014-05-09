@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 /**
  * Attribute add/edit form options tab
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Labels extends \Magento\Backend\Block\Template

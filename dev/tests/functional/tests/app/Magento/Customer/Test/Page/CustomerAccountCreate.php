@@ -13,7 +13,6 @@ use Mtf\Page\FrontendPage;
 /**
  * Class CustomerAccountCreate
  *
- * @package Magento\Customer\Test\Page
  */
 class CustomerAccountCreate extends FrontendPage
 {

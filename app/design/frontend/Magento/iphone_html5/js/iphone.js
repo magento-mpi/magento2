@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_iphone
  * @copyright  {copyright}
  * @license    {license_link}
  */

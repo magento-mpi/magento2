@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class OrderStatus
  *
- * @package Magento\Sales\Test\Fixture
  */
 class OrderStatus extends InjectableFixture
 {

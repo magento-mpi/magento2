@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Sales\Model\Status;
  * additional data. The model helps to keep track and manipulate statuses, that different modules want to set
  * to owner object of this model.
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ListStatus

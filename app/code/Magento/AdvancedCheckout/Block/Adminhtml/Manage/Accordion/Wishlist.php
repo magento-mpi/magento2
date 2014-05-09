@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 /**
  * Accordion grid for products in wishlist
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Wishlist extends AbstractAccordion

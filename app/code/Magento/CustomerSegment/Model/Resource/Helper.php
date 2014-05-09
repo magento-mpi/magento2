@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Enterprise CustomerSegment Resource Helper Mysql
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerSegment\Model\Resource;

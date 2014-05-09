@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category Mtf
- * @package Mtf
- * @subpackage functional_tests
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Config Repository
  * Magento configuration settings
  *
- * @package Magento\Core\Test\Repository
  */
 class Config extends AbstractRepository
 {

@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Magento\Paypal\Test\Block\Express;
  * Class PaypalExpressReview.
  * Paypal Express Review page
  *
- * @package Magento\Paypal\Test\Page
  */
 class PaypalPayflowexpressReview extends Page
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Quote\Address;
 /**
  * Multishipping checkout overview information
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Overview extends \Magento\Sales\Block\Items\AbstractItems

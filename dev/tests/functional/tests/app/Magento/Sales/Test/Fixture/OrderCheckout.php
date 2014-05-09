@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class OrderCheckout
  * Fixture with all necessary data for order creation on the frontend
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class OrderCheckout extends Checkout
 {

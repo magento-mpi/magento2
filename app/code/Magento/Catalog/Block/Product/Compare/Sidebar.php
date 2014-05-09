@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Product\Compare\Item as CompareItem;
 /**
  * Catalog Comapare Products Sidebar Block
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare implements

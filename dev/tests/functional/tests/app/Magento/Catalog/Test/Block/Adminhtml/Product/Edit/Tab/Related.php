@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Related Tab
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class Related extends Tab
 {

@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class CmsPage
  *
- * @package Magento\Cms\Test\Repository
  */
 class CmsPage extends AbstractRepository
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 /**
  * Main banner properties edit form
  *
- * @category   Magento
- * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)

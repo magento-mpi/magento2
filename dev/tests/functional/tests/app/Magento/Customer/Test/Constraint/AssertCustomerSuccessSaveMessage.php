@@ -14,7 +14,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 /**
  * Class AssertCustomerSuccessSaveMessage
  *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerSuccessSaveMessage extends AbstractConstraint
 {

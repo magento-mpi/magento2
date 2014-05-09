@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Sagepay Direct dummy payment method model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Model\Payment\Method\Sagepay;

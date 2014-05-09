@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCatalogRuleProductInCategory
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleProductInCategory extends AbstractConstraint
 {

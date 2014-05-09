@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Block\Block,
  * Class Selector
  * URL rewrite type selector
  *
- * @package Magento\Backend\Test\Block\Urlrewrite
  */
 class Selector extends Block
 {

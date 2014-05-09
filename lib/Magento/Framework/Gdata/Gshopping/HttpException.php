@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Gdata
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework\Gdata\Gshopping;
 /**
  * \Exception class parse google responses to human readble format
  *
- * @category    Magento
- * @package     Magento_Gdata
  */
 class HttpException extends \Zend_Gdata_App_HttpException
 {

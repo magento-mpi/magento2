@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
  * Class ProductForm
  * Product creation form
  *
- * @package Magento\Catalog\Test\Block
  */
 class ProductForm extends FormTabs
 {

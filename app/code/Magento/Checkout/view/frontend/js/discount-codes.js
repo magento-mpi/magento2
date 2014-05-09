@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    checkout coupon discount codes
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

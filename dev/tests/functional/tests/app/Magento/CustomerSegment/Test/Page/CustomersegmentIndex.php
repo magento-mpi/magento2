@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\Page\Page;
  * Class CustomerSegment
  * CustomerSegment backend grid page.
  *
- * @package Magento\CustomerSegment\Test\Page
  */
 class CustomersegmentIndex extends Page
 {

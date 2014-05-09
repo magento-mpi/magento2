@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Customer Repository
  *
- * @package Magento\Customer\Test\Repository
  */
 class Customer extends AbstractRepository
 {

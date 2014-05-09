@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class Template
  * Backend abstract block
  *
- * @package Magento\Backend\Test\Block
  */
 class Template extends Block
 {

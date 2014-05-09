@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
 /**
  * Gift registry form fieldset element renderer
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {

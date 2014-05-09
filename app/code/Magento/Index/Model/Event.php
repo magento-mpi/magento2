@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +22,6 @@ use Magento\Index\Model\Indexer;
  * @method \Magento\Index\Model\Event setNewData(string $value)
  * @method \Magento\Framework\Object getDataObject()
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Event extends \Magento\Framework\Model\AbstractModel

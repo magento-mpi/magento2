@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,6 @@ namespace Magento\Backend\Block\System\Config;
 
 /**
  * Class Switcher
- * @package Magento\Backend\Block\System\Config
  * @deprecated
  */
 class Switcher extends \Magento\Backend\Block\Template

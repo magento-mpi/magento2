@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\App\RequestInterface;
 /**
  * Customer account controller
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Customer extends \Magento\Framework\App\Action\Action

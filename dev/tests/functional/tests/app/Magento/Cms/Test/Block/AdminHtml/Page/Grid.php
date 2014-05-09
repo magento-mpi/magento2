@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Client\Element\Locator;
  * Class Grid
  * Backend Cms Page grid
  *
- * @package Magento\Cms\Test\Block\AdminHtml\Page
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Factory\Factory;
  * Class PaypalPayflowLinkOrder
  * Guest checkout using PayPal Payflow Link method
  *
- * @package Magento\Sales\Test\Fixture
  */
 class PaypalPayflowLinkOrder extends OrderCheckout
 {
