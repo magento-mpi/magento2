@@ -286,47 +286,24 @@ class Observer
      */
     protected function _generateJobs($jobs, $exists, $groupId)
     {
-        $scheduleAheadFor = (int)$this->_scopeConfig->getValue(
-            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
-        /**
-         * @var Schedule $schedule
-         */
-        $schedule = $this->_scheduleFactory->create();
-
         foreach ($jobs as $jobCode => $jobConfig) {
-            $cronExpr = null;
+            $cronExpression = null;
             if (isset($jobConfig['config_path'])) {
-                $cronExpr = $this->_scopeConfig->getValue(
-                    $jobConfig['config_path'],
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
+                $cronExpression = $this->getConfigSchedule($jobConfig) ? : null;
             }
 
-            if (!$cronExpr && isset($jobConfig['schedule'])) {
-                $cronExpr = $jobConfig['schedule'];
-            } else {
+            if (!$cronExpression) {
+                if (isset($jobConfig['schedule'])) {
+                    $cronExpression = $jobConfig['schedule'];
+                }
+            }
+
+            if (!$cronExpression) {
                 continue;
             }
 
-            $currentTime = time();
-            $timeAhead = $currentTime + $scheduleAheadFor;
-            $schedule->setJobCode($jobCode)->setCronExpr($cronExpr)->setStatus(Schedule::STATUS_PENDING);
-
-            for ($time = $currentTime; $time < $timeAhead; $time += self::SECONDS_IN_MINUTE) {
-                $ts = strftime('%Y-%m-%d %H:%M:00', $time);
-                if (!empty($exists[$jobCode . '/' . $ts])) {
-                    // already scheduled
-                    continue;
-                }
-                if (!$schedule->trySchedule($time)) {
-                    // time does not match cron expression
-                    continue;
-                }
-                $schedule->unsScheduleId()->save();
-            }
+            $timeInterval = $this->getScheduleTimeInterval($groupId);
+            $this->saveSchedule($jobCode, $cronExpression, $timeInterval, $exists);
         }
         return $this;
     }
@@ -383,5 +360,77 @@ class Observer
         $this->_cache->save(time(), self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT, array('crontab'), null);
 
         return $this;
+    }
+
+    /**
+     * @param array $jobConfig
+     * @return mixed
+     */
+    protected function getConfigSchedule($jobConfig)
+    {
+        $cronExpr = $this->_scopeConfig->getValue(
+            $jobConfig['config_path'],
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
+        return $cronExpr;
+    }
+
+    /**
+     * @param string $jobCode
+     * @param string $cronExpression
+     * @param int $timeInterval
+     * @param array $exists
+     */
+    protected function saveSchedule($jobCode, $cronExpression, $timeInterval, $exists)
+    {
+        $currentTime = time();
+        $timeAhead = $currentTime + $timeInterval;
+        for ($time = $currentTime; $time < $timeAhead; $time += self::SECONDS_IN_MINUTE) {
+            $ts = strftime('%Y-%m-%d %H:%M:00', $time);
+            if (!empty($exists[$jobCode . '/' . $ts])) {
+                // already scheduled
+                continue;
+            }
+
+            $schedule = $this->generateSchedule($jobCode, $cronExpression, $time);
+            if ($schedule->trySchedule()) {
+                // time matches cron expression
+                $schedule->save();
+            }
+        }
+    }
+
+    /**
+     * @param string $jobCode
+     * @param string $cronExpression
+     * @param int $time
+     * @return Schedule
+     */
+    protected function generateSchedule($jobCode, $cronExpression, $time)
+    {
+        $schedule = $this->_scheduleFactory->create()
+            ->setCronExpr($cronExpression)
+            ->setJobCode($jobCode)
+            ->setStatus(Schedule::STATUS_PENDING)
+            ->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()))
+            ->setScheduledAt(strftime('%Y-%m-%d %H:%M', $time));
+
+        return $schedule;
+    }
+
+    /**
+     * @param string $groupId
+     * @return int
+     */
+    protected function getScheduleTimeInterval($groupId)
+    {
+        $scheduleAheadFor = (int)$this->_scopeConfig->getValue(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+        $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
+
+        return $scheduleAheadFor;
     }
 }
