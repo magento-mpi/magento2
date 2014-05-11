@@ -381,6 +381,7 @@ class Observer
      * @param string $cronExpression
      * @param int $timeInterval
      * @param array $exists
+     * @return void
      */
     protected function saveSchedule($jobCode, $cronExpression, $timeInterval, $exists)
     {
