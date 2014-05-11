@@ -60,6 +60,7 @@
   * Fixed: Displayed currency and product price aren't changed after switching to new currency (MAGETWO-24297)
   * Fixed: Crash frontend when delete product from mini shopping cart (MAGETWO-24303)
   * Fixed: Bundle product is not possible to add to shopping cart (MAGETWO-24302)
+  * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
