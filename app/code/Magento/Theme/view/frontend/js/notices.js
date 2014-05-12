@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    notices
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */

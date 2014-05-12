@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Sales\Model\Order\Address;
 /**
  * Paypal Express Onepage checkout block
  *
- * @category   Magento
- * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Details extends \Magento\Checkout\Block\Cart\Totals

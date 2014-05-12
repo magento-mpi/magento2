@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * TargetRule Catalog Product List Upsell Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 

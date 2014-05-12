@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftMessage\Helper;
 /**
  * Gift Message url helper
  *
- * @category   Magento
- * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Url extends \Magento\Core\Helper\Url

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Tax Rule Repository
  *
- * @package Magento\Tax\Test\Repository
  */
 class TaxRule extends AbstractRepository
 {

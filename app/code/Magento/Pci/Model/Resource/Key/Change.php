@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pci
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Pci\Model\Resource\Key;
  * Encryption key changer resource model
  * The operation must be done in one transaction
  *
- * @category    Magento
- * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb

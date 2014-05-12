@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogPermissions
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Permission model
  *
- * @category   Magento
- * @package    Magento_CatalogPermissions
  */
 namespace Magento\CatalogPermissions\Model;
 

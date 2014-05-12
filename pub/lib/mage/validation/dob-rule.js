@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    validation - dob rule
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

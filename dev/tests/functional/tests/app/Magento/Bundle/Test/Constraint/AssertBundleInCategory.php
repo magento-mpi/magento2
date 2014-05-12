@@ -16,7 +16,6 @@ use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 
 /**
  * Class AssertProductInCategory
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertBundleInCategory extends AbstractConstraint
 {

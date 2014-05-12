@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CmsPage
  *
- * @package Magento\Cms\Test\Fixture
  */
 class CmsPage extends InjectableFixture
 {

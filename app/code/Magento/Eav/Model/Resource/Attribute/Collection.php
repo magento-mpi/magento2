@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Store\Model\Website;
 /**
  * EAV additional attribute resource collection (Using Forms)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection

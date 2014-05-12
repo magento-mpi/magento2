@@ -3,9 +3,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Customer
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

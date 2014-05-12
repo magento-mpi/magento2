@@ -81,11 +81,11 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                             </div>
                             <div data-role="add-to-links" class="secondary"<?php echo strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
                                 <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()): ?>
-                                <a href="#" title="<?php echo __('Add to Wishlist') ?>"
-                                   data-post='<?php echo $this->getAddToWishlistParams($_product); ?>'
-                                   class="action towishlist" data-action="add-to-wishlist">
-                                    <span><?php echo __('Add to Wishlist') ?></span>
-                                </a>
+                                    <a href="#" title="<?php echo __('Add to Wishlist') ?>"
+                                       data-post='<?php echo $this->getAddToWishlistParams($_product); ?>'
+                                       class="action towishlist" data-action="add-to-wishlist">
+                                        <span><?php echo __('Add to Wishlist') ?></span>
+                                    </a>
                                 <?php endif; ?>
                                 <?php
                                 $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');

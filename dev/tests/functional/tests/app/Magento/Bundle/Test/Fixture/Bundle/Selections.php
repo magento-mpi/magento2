@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (bundle options preset name)
  *  - products (comma separated sku identifiers)
  *
- * @package Magento\Bundle\Test\Fixture
  */
 class Selections implements FixtureInterface
 {

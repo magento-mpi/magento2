@@ -19,7 +19,6 @@ use Magento\SalesRule\Test\Fixture\SalesRule;
 /**
  * Class DeleteSalesRule
  *
- * @package Magento\SalesRule\Test\Handler\Curl
  */
 class DeleteSalesRule extends Curl
 {

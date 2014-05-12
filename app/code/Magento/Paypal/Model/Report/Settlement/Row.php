@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,8 +46,6 @@ namespace Magento\Paypal\Model\Report\Settlement;
  * @method string getConsumerId()
  * @method \Magento\Paypal\Model\Report\Settlement\Row setConsumerId(string $value)
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Row extends \Magento\Framework\Model\AbstractModel

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Paypal\Block\Hosted\Pro;
 /**
  * Hosted Pro iframe block
  *
- * @category   Magento
- * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Iframe extends \Magento\Paypal\Block\Iframe

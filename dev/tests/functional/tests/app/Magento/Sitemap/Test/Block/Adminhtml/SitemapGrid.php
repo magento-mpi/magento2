@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class SitemapGrid
  * Backend sitemap grid
  *
- * @package Magento\Sitemap\Test\Block\Adminhtml
  */
 class SitemapGrid extends Grid
 {

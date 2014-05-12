@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_TransactionalEmails
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /**
  *  Forgot Password templates
  *
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Core_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Selenium_TestCase

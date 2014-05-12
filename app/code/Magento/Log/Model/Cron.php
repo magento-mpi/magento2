@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Log Cron Model
  *
- * @category   Magento
- * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Log\Model;

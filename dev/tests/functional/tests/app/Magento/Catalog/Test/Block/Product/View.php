@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class View
  * Product View block
  *
- * @package Magento\Catalog\Test\Block\Product\View
  */
 class View extends Block
 {

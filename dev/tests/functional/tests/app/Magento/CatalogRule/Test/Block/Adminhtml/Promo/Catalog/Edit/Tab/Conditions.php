@@ -18,7 +18,6 @@ use Mtf\Factory\Factory;
  * Class Conditions
  * Form Tab for specifying catalog price rule conditions
  *
- * @package Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\Tab
  */
 class Conditions extends Tab
 {

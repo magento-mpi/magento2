@@ -21,7 +21,7 @@ class Cookie extends Template
     protected $sessionConfig;
 
     /**
-     * @var \Zend\Validator\Ip
+     * @var \Magento\Framework\Validator\Ip
      */
     protected $ipValidator;
 
@@ -30,13 +30,13 @@ class Cookie extends Template
      *
      * @param Context $context
      * @param ConfigInterface $cookieConfig
-     * @param \Zend\Validator\Ip $ipValidator
+     * @param \Magento\Framework\Validator\Ip $ipValidator
      * @param array $data
      */
     public function __construct(
         Context $context,
         ConfigInterface $cookieConfig,
-        \Zend\Validator\Ip $ipValidator,
+        \Magento\Framework\Validator\Ip $ipValidator,
         array $data = array()
     ) {
         $this->sessionConfig = $cookieConfig;

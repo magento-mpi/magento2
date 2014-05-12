@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
 /**
  * Adminhtml customers wishlist grid item action renderer for few action controls in one cell
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Multiaction extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,8 +23,6 @@ namespace Magento\GiftCardAccount\Model;
  * @method string getAdditionalInfo()
  * @method \Magento\GiftCardAccount\Model\History setAdditionalInfo(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class History extends \Magento\Framework\Model\AbstractModel

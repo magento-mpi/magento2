@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\TestCase\Functional;
  * Class AdvancedSearchTest
  * Searching product in the Frontend via advanced search
  *
- * @package Magento\CatalogSearch\Test\TestCase
  */
 class AdvancedSearchTest extends Functional
 {

@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category Magento
- * @package Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */

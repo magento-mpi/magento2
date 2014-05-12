@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    one page checkout first step
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

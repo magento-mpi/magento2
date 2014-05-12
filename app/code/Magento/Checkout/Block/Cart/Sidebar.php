@@ -7,11 +7,17 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
+use Magento\Checkout\Block\Cart\AbstractCart;
+use Magento\Framework\View\Block\IdentityInterface;
+
 /**
  * Wishlist sidebar block
  */
-class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Magento\Framework\View\Block\IdentityInterface
+class Sidebar extends AbstractCart implements IdentityInterface
 {
+    /**
+     * Xml pah to chackout sidebar count value
+     */
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT = 'checkout/sidebar/count';
 
     /**
