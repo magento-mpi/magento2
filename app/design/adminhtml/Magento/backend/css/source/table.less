@@ -1108,7 +1108,7 @@ td.col-sku {
 
 .catalog-product-edit .ui-tabs-panel .grid {
     .hor-scroll {
-        overflow-x: auto;
+        &:extend(.h-scroll);
     }
     .col-name,
     .col-type,
@@ -1220,7 +1220,7 @@ td.col-sku {
 .review-product-index {
     .grid {
         .hor-scroll {
-            overflow-x: auto;
+            &:extend(.h-scroll);
         }
         .col-name {
             &:extend(.col-110-max all);
@@ -1388,6 +1388,11 @@ td.col-sku {
             &:extend(.ellipsis);
             &:extend(.col-150-max all);
         }
+    }
+}
+.adminhtml-rma-edit {
+    .hor-scroll {
+        &:extend(.h-scroll);
     }
 }
 
