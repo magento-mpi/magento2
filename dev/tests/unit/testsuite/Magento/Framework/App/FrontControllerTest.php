@@ -66,7 +66,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->request->expects($this->any())->method('isDispatched')->will($this->returnValue(false));
 
-        $this->assertNull($this->model->dispatch($this->request));
+        $this->model->dispatch($this->request);
     }
 
     public function testDispatched()
