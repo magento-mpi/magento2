@@ -36,7 +36,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $collectionMock;
 
-    /** @var \Magento\Locale\FormatInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Locale\FormatInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $formatInterfaceMock;
 
     /** @var \Magento\Rule\Block\Editable|\PHPUnit_Framework_MockObject_MockObject */
@@ -52,7 +52,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->collectionMock = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection', [], [], '', false);
-        $this->formatInterfaceMock = $this->getMock('Magento\Locale\FormatInterface');
+        $this->formatInterfaceMock = $this->getMock('\Magento\Framework\Locale\FormatInterface');
         $this->editableMock = $this->getMock('Magento\Rule\Block\Editable', [], [], '', false);
         $this->typeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $this->resourceProduct = $this->getMock('Magento\Catalog\Model\Resource\Product', [], [], '', false);
