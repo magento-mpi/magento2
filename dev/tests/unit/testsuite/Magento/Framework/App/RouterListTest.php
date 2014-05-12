@@ -31,7 +31,9 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->routerList = array(
             'adminRouter' => array('class' => 'AdminClass', 'disable' => true, 'sortOrder' => 10),
             'frontendRouter' => array('class' => 'FrontClass', 'disable' => false, 'sortOrder' => 10),
-            'default' => array('class' => 'DefaultClass', 'disable' => false, 'sortOrder' => 5)
+            'default' => array('class' => 'DefaultClass', 'disable' => false, 'sortOrder' => 5),
+            'someRouter' => array('class' => 'SomeClass', 'disable' => false, 'sortOrder' => 10),
+            'anotherRouter' => array('class' => 'AnotherClass', 'disable' => false, 'sortOrder' => 15),
         );
 
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
@@ -63,6 +65,10 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
 
     public function testValid()
     {
+        $this->assertTrue($this->model->valid());
+        $this->model->next();
+        $this->assertTrue($this->model->valid());
+        $this->model->next();
         $this->assertTrue($this->model->valid());
         $this->model->next();
         $this->assertTrue($this->model->valid());
