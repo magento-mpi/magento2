@@ -27,14 +27,4 @@ class AssertCatalogEventIsOpen extends AssertCatalogEventStatus
      * @var string
      */
     protected $eventStatus = 'Sale Ends In';
-
-    /**
-     * Text status 'Sale Ends In' present
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Sale Ends In status is present.';
-    }
 }

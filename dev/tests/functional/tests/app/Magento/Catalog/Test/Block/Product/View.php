@@ -389,11 +389,11 @@ class View extends Block
     }
 
     /**
-     * Is 'Add to card' button visible
+     * Check 'Add to card' button visible
      *
      * @return bool
      */
-    public function isAddToCardButtonVisible()
+    public function checkAddToCardButton()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }

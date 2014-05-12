@@ -33,6 +33,7 @@ class CatalogEventEntity extends InjectableFixture
             'category_page' => 'Yes',
             'product_page' => 'Yes'
         ],
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $event_id = [

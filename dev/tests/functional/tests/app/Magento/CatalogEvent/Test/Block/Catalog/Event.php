@@ -25,7 +25,7 @@ class Event extends Block
     /**
      * Get Event Status on the Frontend
      *
-     * $return string
+     * @return string
      */
     public function getEventStatus()
     {

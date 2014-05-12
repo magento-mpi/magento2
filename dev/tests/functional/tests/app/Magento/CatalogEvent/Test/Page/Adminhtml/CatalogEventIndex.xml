@@ -16,7 +16,7 @@
     </block>
     <block>
         <name>blockEventGrid</name>
-        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\BlockEventGrid</class>
+        <class>Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid</class>
         <locator>#catalogEventGrid</locator>
         <strategy>css selector</strategy>
     </block>

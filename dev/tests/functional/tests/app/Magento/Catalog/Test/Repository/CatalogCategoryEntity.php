@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: oonoshko
- * Date: 23.04.14
- * Time: 11:58
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Repository;
@@ -11,9 +11,8 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductSimple
- *
- * @package Magento\Catalog\Test\Repository
+ * Class CatalogCategoryEntity
+ * Data for creation Category
  */
 class CatalogCategoryEntity extends AbstractRepository
 {
@@ -21,7 +20,8 @@ class CatalogCategoryEntity extends AbstractRepository
     {
         $this->_data['default_subcategory'] = [
             'name' => 'Subcategory%isolation%',
-            'path' => 'Default Category/Subcategory%isolation%',
+            'path' => 'Default Category',
+            'parent_id' => 2,
             'is_active' => 'Yes',
             'include_in_menu' => 'Yes',
         ];

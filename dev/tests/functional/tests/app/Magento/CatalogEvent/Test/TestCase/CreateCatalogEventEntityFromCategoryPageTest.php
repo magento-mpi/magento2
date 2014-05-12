@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
-use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogCategoryIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
 
 /**
  * Test Creation for Create CatalogEventEntity from Category page
@@ -98,7 +98,9 @@ class CreateCatalogEventEntityFromCategoryPageTest extends Injectable
         //Steps
         $this->catalogCategoryIndex->open();
         $this->catalogCategoryIndex->getTreeCategories()
-            ->selectCategory($catalogCategoryEntity->getPath() . '/' . $catalogProductSimple->getCategoryIds()[1]);
+            ->selectCategory(
+                $catalogCategoryEntity->getPath() . '/' . $catalogProductSimple->getCategoryIds()[0]['name']
+            );
         $this->catalogCategoryIndex->getPageActionsEvent()->addCatalogEvent();
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);
         $this->catalogEventNew->getPageActions()->save();

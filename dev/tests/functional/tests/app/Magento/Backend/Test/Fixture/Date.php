@@ -19,9 +19,9 @@ use Mtf\Fixture\FixtureInterface;
 class Date implements FixtureInterface
 {
     /**
-     * Date
+     * Date for fill on form
      *
-     * @var array
+     * @var string
      */
     protected $data;
 

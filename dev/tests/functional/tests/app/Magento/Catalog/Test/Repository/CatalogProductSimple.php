@@ -12,8 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogProductSimple
- *
- * @package Magento\Catalog\Test\Repository
+ * Data for creation Catalog Product Simple
  */
 class CatalogProductSimple extends AbstractRepository
 {

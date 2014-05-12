@@ -85,7 +85,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->cmsIndex = $cmsIndex;
         $this->catalogProductView = $catalogProductView;
 
-        $this->categoryName = $catalogProductSimple->getCategoryIds()[1];
+        $this->categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $this->productName = $catalogProductSimple->getName();
 
         $pageEvent = $catalogEvent->getDisplayState();
@@ -112,7 +112,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogCategoryView->getEventBlock()->isVisible(),
-            "EventBlock is absent on Category page"
+            "EventBlock is absent on Category page."
         );
     }
 
@@ -127,7 +127,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogCategoryView->getEventBlock()->isVisible(),
-            "EventBlock is present on Category page"
+            "EventBlock is present on Category page."
         );
     }
 
@@ -143,7 +143,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogProductView->getEventBlock()->isVisible(),
-            "EventBlock is absent on Product page"
+            "EventBlock is absent on Product page."
         );
     }
 
@@ -159,7 +159,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogProductView->getEventBlock()->isVisible(),
-            "EventBlock is present on Product page"
+            "EventBlock is present on Product page."
         );
     }
 
@@ -170,6 +170,6 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Event block is visible/invisible on catalog/product pages according to fixture';
+        return 'Event block is visible/invisible on catalog/product pages according to fixture.';
     }
 }

@@ -87,7 +87,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CategoryIds',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $color = [

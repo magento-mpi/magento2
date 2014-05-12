@@ -13,10 +13,12 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView as AbstractCatalogProdu
 
 /**
  * Class CatalogProductView
- * Catalog Event on Product page
+ * Catalog Product page
  */
 class CatalogProductView extends AbstractCatalogProductView
 {
+    const MCA = 'catalog_event/catalog/product/view';
+
     protected $_blocks = [
         'viewBlock' => [
             'name' => 'viewBlock',

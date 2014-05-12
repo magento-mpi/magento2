@@ -27,14 +27,4 @@ class AssertCatalogEventIsClosed extends AssertCatalogEventStatus
      * @var string
      */
     protected $eventStatus = 'Closed';
-
-    /**
-     * Text status 'Closed' present
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Closed status is present.';
-    }
 }

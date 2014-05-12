@@ -16,7 +16,6 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertCatalogEventInGrid
  * Check catalog event is present in the "Events" grid
- *
  */
 class AssertCatalogEventInGrid extends AbstractConstraint
 {
@@ -55,11 +54,8 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         CatalogProductSimple $catalogProductSimple,
         CatalogEventIndex $catalogEventIndex
     ) {
-        //todo BUG MAGETWO-23857
-        return true;
-
         $this->catalogEvent = $catalogEvent;
-        $categoryName = $catalogProductSimple->getCategoryIds()[1];
+        $categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
         $currentDay = strtotime('now');
@@ -67,18 +63,30 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         if ($currentDay < $dateStart) {
             $status = 'Upcoming';
         } elseif ($currentDay > $dateEnd) {
-            $status = 'Close';
+            $status = 'Closed';
         } else {
             $status = 'Open';
         }
 
+        $sort_order = $catalogEvent->getSortOrder();
+        if ($sort_order < 0) {
+            $sort_order = 0;
+        }
+
+        $dateStart = strtotime($catalogEvent->getDateStart());
+        $dateStart = strftime("%b %#d, %Y %I:%M:%S %p", $dateStart);
+        $filter['start_on'] = $dateStart;
+        $dateEnd = strtotime($catalogEvent->getDateEnd());
+        $dateEnd = strftime("%b %#d, %Y %I:%M:%S %p", $dateEnd);
+        $filter['end_on'] = $dateEnd;
+
         $filter = [
             'category_name' => $categoryName,
-            'start_on' => $catalogEvent->getDateStart(),
-            'end_on' => $catalogEvent->getDateEnd(),
+            'start_on' => $dateStart,
+            'end_on' => $dateEnd,
             'status' => $status,
             'countdown_ticker' => $this->prepareDisplayStateForFilter(),
-            'sort_order' => $catalogEvent->getSortOrder()
+            'sort_order' => $sort_order
         ];
         $catalogEventIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
@@ -94,16 +102,21 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      */
     protected function prepareDisplayStateForFilter()
     {
-        $pageEvent = $this->catalogEvent->getDisplayState();
+        $pageEvents = $this->catalogEvent->getDisplayState();
 
-        if ($pageEvent['category_page'] == "Yes") {
-            return 'Category Page';
-        }
-        if ($pageEvent['product_page'] == "Yes") {
-            return 'Product Page';
+        $displayStates = [
+            'category_page' => 'Category Page',
+            'product_page' => 'Product Page',
+        ];
+
+        $event = 'Lister Block';
+        foreach ($pageEvents as $key => $pageEvent) {
+            if ($pageEvent === 'Yes') {
+                $event .= ', ' . $displayStates[$key];
+            }
         }
 
-        return 'Lister Block';
+        return $event;
     }
 
     /**

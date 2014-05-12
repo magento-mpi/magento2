@@ -27,14 +27,4 @@ class AssertCatalogEventIsUpcoming extends AssertCatalogEventStatus
      * @var string
      */
     protected $eventStatus = 'Coming Soon';
-
-    /**
-     * Text status 'Coming Soon' present
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return 'Coming Soon status is present.';
-    }
 }

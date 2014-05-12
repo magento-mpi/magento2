@@ -12,7 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogCategoryEntity
- * Category Simple fixture
+ * Category fixture
  */
 class CatalogCategoryEntity extends InjectableFixture
 {

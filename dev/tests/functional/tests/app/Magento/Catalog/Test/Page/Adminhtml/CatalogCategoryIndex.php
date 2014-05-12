@@ -12,7 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogCategoryIndex
- * Category page
+ * Category page on the Backend
  */
 class CatalogCategoryIndex extends BackendPage
 {
@@ -24,7 +24,13 @@ class CatalogCategoryIndex extends BackendPage
             'class' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Tree',
             'locator' => '[id="page:left"]',
             'strategy' => 'css selector',
-        ]
+        ],
+        'pageActionsEvent' => [
+            'name' => 'pageActionsEvent',
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions',
+            'locator' => '.page-actions',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -33,5 +39,13 @@ class CatalogCategoryIndex extends BackendPage
     public function getTreeCategories()
     {
         return $this->getBlockInstance('treeCategories');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Category\FormPageActions
+     */
+    public function getPageActionsEvent()
+    {
+        return $this->getBlockInstance('pageActionsEvent');
     }
 }

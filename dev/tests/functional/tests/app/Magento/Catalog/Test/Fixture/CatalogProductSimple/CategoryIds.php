@@ -6,17 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture;
+namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CategoryIds
- *
- * Data keys:
- *  - preset (Price verification preset name)
- *  - value (Price value)
+ * Create and return Category
  */
 class CategoryIds implements FixtureInterface
 {
@@ -55,8 +53,12 @@ class CategoryIds implements FixtureInterface
                 $category->persist();
 
                 /** @var CatalogCategoryEntity $category */
-                $this->data[] = $category->getId();
-                $this->data[] = $category->getName();
+                $this->data = [
+                    [
+                        'id' => $category->getId(),
+                        'name' => $category->getName(),
+                    ],
+                ];
                 $this->category[] = $category;
             }
         }
@@ -86,7 +88,7 @@ class CategoryIds implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return string
+     * @return array
      */
     public function getDataConfig()
     {

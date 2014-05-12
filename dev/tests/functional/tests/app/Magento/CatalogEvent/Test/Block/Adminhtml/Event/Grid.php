@@ -8,13 +8,13 @@
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event;
 
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class EventGrid
  * Events grid of Catalog Events
- *
- * @package Magento\CatalogEvent\Test\Block\Adminhtml\Event
  */
 class Grid extends AbstractGrid
 {
@@ -45,4 +45,18 @@ class Grid extends AbstractGrid
             'selector' => 'input[name="sort_order"]'
         ],
     ];
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return bool
+     */
+    public function isRowVisible(array $filter, $isSearchable = false)
+    {
+        $this->search(array('category_name' => $filter['category_name']));
+        return parent::isRowVisible($filter, $isSearchable);
+    }
+
 }
