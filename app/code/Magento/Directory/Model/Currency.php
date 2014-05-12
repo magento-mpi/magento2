@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Currency model
  *
- * @category   Magento
- * @package    Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model;

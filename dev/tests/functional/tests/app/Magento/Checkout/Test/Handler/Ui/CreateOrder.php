@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class CreateOrder
  * Create an order based on the fixture provided.
  *
- * @package Magento\Checkout\Test\Handler\Ui
  */
 class CreateOrder extends Ui
 {

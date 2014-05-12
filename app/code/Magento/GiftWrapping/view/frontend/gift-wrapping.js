@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    GiftWrapping
- * @package     enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */

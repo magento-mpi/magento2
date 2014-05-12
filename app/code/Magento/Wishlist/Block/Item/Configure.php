@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
  * Wishlist Item Configure block
  * Serves for configuring item on product view page
  *
- * @category   Magento
- * @package    Magento_Wishlist
  * @module     Wishlist
  */
 namespace Magento\Wishlist\Block\Item;

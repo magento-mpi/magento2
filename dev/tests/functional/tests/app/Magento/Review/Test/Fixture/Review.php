@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Fixture\DataFixture;
 /**
  * Review fixture
  *
- * @package Magento\Review\Test\Fixture
  */
 class Review extends DataFixture
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class Address
  * Customer addresses
  *
- * @package Magento\Customer\Test\Fixture
  */
 class Address extends DataFixture
 {

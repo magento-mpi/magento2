@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\TestCase\Functional;
 /**
  * Product reviews functionality
  *
- * @package Magento\Review\Test\TestCase
  */
 class ReviewTest extends Functional
 {

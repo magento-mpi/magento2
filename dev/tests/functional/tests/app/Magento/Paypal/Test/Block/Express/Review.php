@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,6 @@ use Magento\Shipping\Test\Fixture\Method;
  * Class Review
  * Paypal Express Onepage checkout block
  *
- * @package Magento\Paypal\Test\Block\Express
  */
 class Review extends Form
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Model\Resource\Order\Payment\Transaction;
 /**
  * Payment transactions collection
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
@@ -183,19 +179,12 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     }
 
     /**
-     * Prepare filters
+     * Render additional filters and joins
      *
-     * @return $this
+     * @return void
      */
-    protected function _beforeLoad()
+    protected function _renderFiltersBefore()
     {
-        parent::_beforeLoad();
-
-        if ($this->isLoaded()) {
-            return $this;
-        }
-
-        // filters
         if ($this->_paymentId) {
             $this->getSelect()->where('main_table.payment_id = ?', $this->_paymentId);
         }
@@ -226,7 +215,6 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
                 $this->_addOrderInformation
             );
         }
-        return $this;
     }
 
     /**

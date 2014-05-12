@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
  * Class FormPageActions
  * Form page actions block
  *
- * @package Magento\Backend\Test\Block
  */
 class FormPageActions extends PageActions
 {

@@ -17,7 +17,6 @@ use Mtf\Factory\Factory;
 /**
  * Class Conditions
  *
- * @package Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class Conditions extends Tab

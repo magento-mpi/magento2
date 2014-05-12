@@ -15,7 +15,6 @@ use Magento\Framework\Profiler;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * Class ObjectManagerFactory
- * @package Magento\Framework\App
  */
 class ObjectManagerFactory
 {

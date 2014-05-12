@@ -12,7 +12,6 @@ use Magento\Framework\Filesystem\DirectoryList;
 
 /**
  * Class Configuration
- * @package Magento\Framework\App\Filesystem\DirectoryList
  */
 class Configuration
 {

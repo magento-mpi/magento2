@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     toolkit_framework
  * @copyright   {copyright}
  * @license     {license_link}
  */

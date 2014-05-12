@@ -14,7 +14,6 @@ use Magento\Framework\ObjectManager;
 /**
  * Class FieldsProvider
  *
- * @package Mtf\Util\Generate\Fixture
  */
 class FieldsProvider implements FieldsProviderInterface
 {

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    gift registry advanced search
- * @package     enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sitemap
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Sitemap data helper
  *
- * @category   Magento
- * @package    Magento_Sitemap
  */
 namespace Magento\Sitemap\Helper;
 

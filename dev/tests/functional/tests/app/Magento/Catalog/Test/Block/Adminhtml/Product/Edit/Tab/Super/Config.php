@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Variations
  * Adminhtml catalog super product configurable tab
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Config extends Tab
 {

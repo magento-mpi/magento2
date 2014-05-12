@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@ namespace Magento\Log\Model\Visitor;
  * @method string getLastUrl()
  * @method \Magento\Log\Model\Visitor\Online setLastUrl(string $value)
  *
- * @category    Magento
- * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Online extends \Magento\Framework\Model\AbstractModel

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Install
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Magento\Install\Controller;
 /**
  * Class WizardTest
  *
- * @package Magento\Install\Controller
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WizardTest extends \PHPUnit_Framework_TestCase

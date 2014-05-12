@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
 /**
  * Catalog product WEEE tax backend attribute model
  *
- * @category    Magento
- * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb

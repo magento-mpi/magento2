@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder;
  * Class ProductAdvancedPricingTest
  * Test checking out with a product that has special prices
  *
- * @package Magento\Test\TestCase
  */
 class ProductAdvancedPricingTest extends Functional
 {

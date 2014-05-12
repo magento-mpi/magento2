@@ -9,8 +9,6 @@
 /**
  * Checkout cart shipping block plugin
  *
- * @category   Magento
- * @package    Magento_OfflineShipping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\OfflineShipping\Model\Plugin\Checkout\Block\Cart;

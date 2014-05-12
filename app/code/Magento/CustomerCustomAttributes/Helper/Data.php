@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Helper;
 /**
  * Enterprise Customer Data Helper
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Data extends \Magento\CustomAttributeManagement\Helper\Data
 {

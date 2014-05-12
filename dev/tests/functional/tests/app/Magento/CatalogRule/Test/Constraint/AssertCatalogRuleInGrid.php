@@ -15,7 +15,6 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 /**
  * Class AssertCatalogRuleInGrid
  *
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleInGrid extends AbstractConstraint
 {
