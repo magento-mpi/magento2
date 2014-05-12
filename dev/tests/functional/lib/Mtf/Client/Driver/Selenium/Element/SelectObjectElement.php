@@ -22,12 +22,16 @@ class SelectObjectElement extends Element
      *
      * @param array $value
      * @throws \Exception
+     * @return void
      */
     public function setValue($value)
     {
-        $optionGroup = $value['group'];
-        $value = $value['store'];
-        $optionLocator = ".//optgroup[contains(@label,'$optionGroup')]/option[contains(text(), '$value')]";
+        if (!isset($value['group']) && !isset($value['store'])) {
+            throw new \Exception('Not correct format of values.');
+        }
+        $optionLocator = './/optgroup[contains(@label,"'
+            . $value['group'] . '")]/option[contains(text(), "'
+            . $value['store'] . '")]';
         $option = $this->_context->find($optionLocator, Locator::SELECTOR_XPATH);
         if (!$option->isVisible()) {
             throw new \Exception('[' . implode('/', $value) . '] option is not visible in store switcher.');

@@ -32,7 +32,7 @@ class Grid extends GridInterface
      *
      * @param array $items
      */
-    public function updateAttributes(array $items = array())
+    public function updateAttributes(array $items = [])
     {
         $this->massaction('Update Attributes', $items);
     }

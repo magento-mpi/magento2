@@ -61,10 +61,11 @@ class CreateCategoryRewritesEntityTest extends Injectable
     }
 
     /**
-     * Create category rewrites
+     * Test check create category rewrites
      *
      * @param UrlRewriteCategory $urlRewriteCategory
      * @param FixtureFactory $fixtureFactory
+     * @return void
      */
     public function testCreateCategoryRewrites(UrlRewriteCategory $urlRewriteCategory, FixtureFactory $fixtureFactory)
     {
