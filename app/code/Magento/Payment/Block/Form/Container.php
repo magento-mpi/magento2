@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ use Magento\Payment\Model\Method\AbstractMethod;
  *
  * @method \Magento\Sales\Model\Quote getQuote()
  *
- * @category   Magento
- * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Container extends \Magento\Framework\View\Element\Template

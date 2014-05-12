@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edi
 /**
  * Fort Type Edit Tabs Block
  *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {

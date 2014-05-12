@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_HTTP
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Magento HTTP Client
  *
- * @category   Magento
- * @package    Magento_HTTP
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\HTTP;

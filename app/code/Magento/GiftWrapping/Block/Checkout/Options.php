@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftWrapping\Block\Checkout;
 /**
  * Gift wrapping checkout process options block
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Options extends \Magento\Framework\View\Element\Template

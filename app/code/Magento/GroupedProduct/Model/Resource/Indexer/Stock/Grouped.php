@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Grouped Products Stock Status Indexer Resource Model
  *
- * @category    Magento
- * @package     Magento_GroupedProduct
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GroupedProduct\Model\Resource\Indexer\Stock;

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Cms\Test\Block\Page;
  * Class CmsPage
  * Cms Page for the frontend
  *
- * @package Magento\Cms\Test\Page
  */
 class CmsPage extends \Mtf\Page\Page
 {

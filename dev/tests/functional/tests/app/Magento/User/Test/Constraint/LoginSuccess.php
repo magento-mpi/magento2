@@ -15,7 +15,6 @@ use Magento\User\Test\Fixture\AdminUserInjectable;
 /**
  * Class LoginSuccess
  *
- * @package Magento\Backend\Test\Constraint
  */
 class LoginSuccess extends AbstractConstraint
 {

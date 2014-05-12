@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\System\Config;
 /**
  * Curl handler remove all tax rules
  *
- * @package Magento\Tax\Test\Handler\Curl
  */
 class RemoveTaxRule extends Curl
 {

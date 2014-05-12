@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Admin User Repository
  *
- * @package Magento\User\Test\Repository
  */
 class AdminUser extends AbstractRepository
 {

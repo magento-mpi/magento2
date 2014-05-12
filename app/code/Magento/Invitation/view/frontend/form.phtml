@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,11 +32,11 @@
             <?php endif;?>
         </fieldset>
         <div class="actions toolbar">
+            <div class="primary">
+                <button class="action submit primary" type="submit"><span><?php echo __('Send Invitations') ?></span></button>
+            </div>
             <div class="secondary">
                 <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>" class="action back"><span><?php  echo __('Back to Invitations') ?></span></a>
-            </div>
-            <div class="primary">
-                <button class="action submit" type="submit"><span><?php echo __('Send Invitations') ?></span></button>
             </div>
         </div>
     </form>

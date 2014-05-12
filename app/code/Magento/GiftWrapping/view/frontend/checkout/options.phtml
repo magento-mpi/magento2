@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@
                 <?php echo $this->getDesignSelectHtml() ?>
                 <div class="nested design no-display">
                     <img id="image-box-${_id_}" alt="<?php echo __('Preview')?>" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>" />
-                    <div class="price-box" id="price-box-${_id_}">
+                    <div class="price box" id="price-box-${_id_}">
                     <?php if ($this->getDisplayWrappingBothPrices()): ?>
                         <span class="price excl tax">
                             <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
@@ -59,7 +57,7 @@
             <span class="label"><?php echo __('Price Excl. Tax') ?>:</span>
             <span class="price" id="price-card-excluding-tax-${id}">${price_excl_tax}</span>
         </span>
-        <span class="price incl tax"">
+        <span class="price incl tax">
             <span class="label"><?php echo __('Price Incl. Tax') ?>:</span>
             <span class="price" id="price-card-including-tax-${id}">${price_incl_tax}</span>
         </span>

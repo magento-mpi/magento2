@@ -5,8 +5,6 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  *

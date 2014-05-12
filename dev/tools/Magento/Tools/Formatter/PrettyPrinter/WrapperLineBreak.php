@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 /**
  * Class WrapperLineBreak
- * @package Magento\Tools\Formatter\PrettyPrinter
  *
  * Level 0:
  * if (x$a || $bx) {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Order by SKU Widget Block
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 namespace Magento\AdvancedCheckout\Block\Widget;
 

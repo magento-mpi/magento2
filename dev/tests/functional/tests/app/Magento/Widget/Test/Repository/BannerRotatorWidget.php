@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,6 @@ namespace Magento\Widget\Test\Repository;
 /**
  * Class BannerRotatorWidget Repository
  *
- * @package Magento\Widget\Test\Repository
  */
 class BannerRotatorWidget extends Widget
 {

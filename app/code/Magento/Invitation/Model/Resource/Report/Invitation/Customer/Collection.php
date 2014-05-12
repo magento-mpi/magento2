@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Reports invitation customer report collection
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer;

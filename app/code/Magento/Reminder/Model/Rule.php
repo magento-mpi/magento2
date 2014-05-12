@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +33,6 @@ namespace Magento\Reminder\Model;
  * @method \Magento\Reminder\Model\Rule setActiveFrom(string $value)
  * @method \Magento\Reminder\Model\Rule setActiveTo(string $value)
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rule extends \Magento\Rule\Model\AbstractModel

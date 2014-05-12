@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,8 +23,6 @@ use Magento\Index\Model\Resource\Event\Collection;
  * @method string getMode()
  * @method \Magento\Index\Model\Process setMode(string $value)
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Process extends \Magento\Framework\Model\AbstractModel

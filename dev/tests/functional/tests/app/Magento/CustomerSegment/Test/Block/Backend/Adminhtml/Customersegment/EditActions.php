@@ -15,7 +15,6 @@ use Magento\Backend\Test\Block\FormPageActions as AbstractPageActions;
 /**
  * Class EditActions
  *
- * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment
  */
 class EditActions extends AbstractPageActions
 {

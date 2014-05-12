@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,6 @@ use Mtf\System\Config;
  * Class CreateCategory.
  * Curl handler for creating category.
  *
- * @package Magento\Catalog\Test\Handler\Curl
  */
 class CreateRole extends Curl
 {

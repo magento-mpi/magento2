@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,8 +23,6 @@
  * @method string getConditionSql()
  * @method \Magento\CustomerSegment\Model\Segment setConditionSql(string $value)
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerSegment\Model;

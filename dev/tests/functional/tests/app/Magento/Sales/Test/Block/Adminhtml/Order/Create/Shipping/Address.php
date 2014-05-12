@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class ShippingAddress
  * Adminhtml sales order create shipping address block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Create\Shipping
  */
 class Address extends Form
 {

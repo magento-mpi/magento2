@@ -14,7 +14,6 @@ use Magento\Framework\Filesystem\FilesystemException;
 /**
  * Class Http
  *
- * @package Magento\Framework\Filesystem\Driver
  */
 class Http extends File
 {

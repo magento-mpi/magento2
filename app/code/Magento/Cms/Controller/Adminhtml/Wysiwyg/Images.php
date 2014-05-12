@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Controller\Adminhtml\Wysiwyg;
 /**
  * Images manage controller for Cms WYSIWYG editor
  *
- * @category    Magento
- * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Images extends \Magento\Backend\App\Action

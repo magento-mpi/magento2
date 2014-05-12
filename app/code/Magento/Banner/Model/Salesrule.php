@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ namespace Magento\Banner\Model;
  * @method int getRuleId()
  * @method \Magento\Banner\Model\Salesrule setRuleId(int $value)
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Salesrule extends \Magento\Framework\Model\AbstractModel

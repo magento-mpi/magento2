@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftRegistry\Block\Search;
 /**
  * Gift registry quick search block
  *
- * @category   Magento
- * @package    Magento_GiftRegistry
  */
 class Quick extends \Magento\Framework\View\Element\Template
 {

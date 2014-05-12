@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesArchive\Model\Resource;
 /**
  * Enterprise SalesArchive Mysql resource helper model
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Helper extends \Magento\Framework\DB\Helper

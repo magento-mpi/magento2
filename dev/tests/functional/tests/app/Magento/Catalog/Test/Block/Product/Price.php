@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  *
  * This class is used to access the price related information from the storefront.
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class Price extends Block
 {

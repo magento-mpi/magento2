@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Banners chooser for Banner Rotator widget
  *
- * @category   Magento
- * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Widget;
@@ -283,11 +279,11 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->addColumn(
             'in_banners',
             array(
-                'header_css_class' => 'a-center',
+                'header_css_class' => 'col-select',
+                'column_css_class' => 'col-select',
                 'type' => 'checkbox',
                 'name' => 'in_banners',
                 'values' => $this->getSelectedBanners(),
-                'align' => 'center',
                 'index' => 'banner_id'
             )
         );

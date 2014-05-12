@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -327,5 +325,30 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     public function getImageSize()
     {
         return $this->getVar('product_image_size', 'Magento_Wishlist');
+    }
+
+    /**
+     * Return HTML block with price
+     *
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param string $priceType
+     * @param string $renderZone
+     * @param array $arguments
+     * @return string|null
+     */
+    public function getItemPriceHtml(
+        \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item,
+        $priceType = \Magento\Catalog\Pricing\Price\ConfiguredPriceInterface::CONFIGURED_PRICE_CODE,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
+        array $arguments = []
+    ) {
+        /** @var \Magento\Framework\Pricing\Render $priceRender */
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+        $priceRender->setItem($item);
+        $arguments += [
+            'zone'         => $renderZone,
+            'render_block' => $priceRender
+        ];
+        return $priceRender ? $priceRender->render($priceType, $item->getProduct(), $arguments) : null;
     }
 }

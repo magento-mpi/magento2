@@ -18,7 +18,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductView
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductView extends AbstractConstraint
 {
@@ -54,7 +53,7 @@ class AssertProductView extends AbstractConstraint
     protected function assertOnProductView(CatalogProductSimple $product, CatalogProductView $catalogProductView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         if (isset($pricePresetData['product_special_price'])) {

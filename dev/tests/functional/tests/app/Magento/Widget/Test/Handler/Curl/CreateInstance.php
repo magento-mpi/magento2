@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating widgetInstance/frontendApp
  *
- * @package Magento\Widget\Test\Handler\Curl
  */
 class CreateInstance extends Curl
 {

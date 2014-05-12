@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@ use Magento\Store\Model\Store;
  * @method string getMetaXml()
  * @method \Magento\GiftRegistry\Model\Type setMetaXml(string $value)
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Framework\Model\AbstractModel

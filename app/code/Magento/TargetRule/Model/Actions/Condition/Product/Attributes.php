@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Model\Actions\Condition\Product;
 /**
  * TargetRule Action Product Attributes Condition Model
  *
- * @category Magento
- * @package  Magento_TargetRule
  * @author   Magento Core Team <core@magentocommerce.com>
  */
 class Attributes extends \Magento\TargetRule\Model\Rule\Condition\Product\Attributes

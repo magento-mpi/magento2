@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +13,6 @@ use Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder;
 /**
  * Class Rows reindex action for mass actions
  *
- * @package Magento\Catalog\Model\Indexer\Product\Flat\Action
  */
 class Rows extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,13 +27,16 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <fieldset class="fieldset" data-container="items"></fieldset>
 
-            <fieldset class="fieldset">
-                <?php echo $this->getChildHtml(); ?>
-            </fieldset>
+            <?php if ($this->getChildHtml()): ?>
+                <fieldset class="fieldset">
+                    <?php echo $this->getChildHtml(); ?>
+                </fieldset>
+            <?php endif; ?>
             <div class="actions toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
-                            title="<?php echo __('Add to Cart') ?>" class="action tocart">
+                            title="<?php echo __('Add to Cart') ?>"
+                            class="action tocart primary">
                         <span><?php echo __('Add to Cart') ?></span>
                     </button>
                 </div>
@@ -51,7 +52,12 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
             <?php endif; ?>
         </form>
         <script data-template="add-block" type="text/x-jQuery-tmpl">
-            <div class="fields" data-mage-init='{"deletableItem":{}}'>
+            <div class="fields additional" data-mage-init='{"deletableItem":{}}'>
+                <div class="actions toolbar">
+                    <div class="secondary">
+                        <button class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
+                    </div>
+                </div>
                 <div class="field sku required">
                     <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('Sku') ?></span></label>
                     <div class="control">
@@ -73,7 +79,6 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
                                data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
                     </div>
                 </div>
-                <button class="action remove" title="<?php echo __('Remove Row') ?>" data-role="delete"><span><?php echo __('Remove Row') ?></span></button>
             </div>
         </script>
     </div>

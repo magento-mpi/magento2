@@ -9,7 +9,6 @@ namespace Magento\Framework\Filesystem\File;
 
 /**
  * Class ReadTest
- * @package Magento\Framework\Filesystem\File
  */
 class ReadTest extends \PHPUnit_Framework_TestCase
 {

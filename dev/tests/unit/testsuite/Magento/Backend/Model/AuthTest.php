@@ -11,7 +11,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class AuthTest
- * @package Magento\Backend\Model
  */
 class AuthTest extends \PHPUnit_Framework_TestCase
 {

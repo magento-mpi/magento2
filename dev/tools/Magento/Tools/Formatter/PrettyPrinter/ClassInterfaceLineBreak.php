@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 /**
  * Class ClassInterfaceLineBreak
- * @package Magento\Tools\Formatter\PrettyPrinter
  *
  * class alpha extends beta implementsxi1,xi2,xi3
  * {

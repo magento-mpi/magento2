@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento\Framework\App\PageCache;
 /**
  * Class Version
  *
- * @package Magento\Framework\App\PageCache
  */
 class FormKey
 {

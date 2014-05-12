@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    tests
- * @package     static
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ namespace Magento\Core\Model;
  * @method string getName()
  * @method \Magento\Core\Model\Variable setName(string $value)
  *
- * @category    Magento
- * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Variable extends \Magento\Framework\Model\AbstractModel

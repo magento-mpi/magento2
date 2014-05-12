@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Customer\Test\Fixture\Address;
  * Class Edit
  * Customer address edit block
  *
- * @package Magento\Customer\Test\Block\Address
  */
 class Edit extends Form
 {

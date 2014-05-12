@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Cms\Test\Page\CmsPage;
 /**
  * Class CreatePageTest
  *
- * @package Magento\Cms\Test\TestCase
  */
 class CreatePageEntityTest extends Injectable
 {

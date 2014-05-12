@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Block\Product;
 /**
  * TargetRule abstract Products Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {

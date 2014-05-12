@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@ namespace Magento\Eav\Model\Entity;
  * @method string getIncrementLastId()
  * @method \Magento\Eav\Model\Entity\Store setIncrementLastId(string $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Store extends \Magento\Framework\Model\AbstractModel

@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    frontend Checkout region-updater
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
  * @method string                                                   getHeaderText()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku setHeaderText()
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku

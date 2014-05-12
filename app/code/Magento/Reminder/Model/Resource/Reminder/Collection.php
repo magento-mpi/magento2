@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterise
- * @package     Enterpise_Reminder
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -15,7 +15,6 @@ use Mtf\Util\Protocol\CurlTransport;
  * TestCase Classes generator based on Jira ticket
  *
  * @api
- * @package Mtf\Util\Generate
  */
 class TestCase extends AbstractGenerate
 {

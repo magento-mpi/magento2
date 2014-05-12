@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_WebsiteRestriction
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\WebsiteRestriction\Controller;
 /**
  * Website stub controller
  *
- * @category    Magento
- * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Index extends \Magento\Framework\App\Action\Action

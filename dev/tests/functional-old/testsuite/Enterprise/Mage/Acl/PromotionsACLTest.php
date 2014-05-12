@@ -4,9 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_ACL
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +11,6 @@
 /**
  * Check Promotion Rights
  *
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_Acl_PromotionsAclTest extends Mage_Selenium_TestCase

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Object
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework;
 /**
  * Universal data container with array access implementation
  *
- * @category    Magento
- * @package     Magento_Object
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Object implements \ArrayAccess

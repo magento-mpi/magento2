@@ -14,7 +14,6 @@ use Magento\Catalog\Pricing\Price as CatalogPrice;
 /**
  * Class BundleSelectionPriceTest
  *
- * @package Magento\Bundle\Pricing\Price
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

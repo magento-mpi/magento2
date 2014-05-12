@@ -15,7 +15,6 @@ use Magento\Sitemap\Test\Fixture\Sitemap;
 /**
  * Class AssertSitemapFailPathSaveMessage
  *
- * @package Magento\Sitemap\Test\Constraint
  */
 class AssertSitemapFailPathSaveMessage extends AbstractConstraint
 {

@@ -14,7 +14,6 @@ use Magento\Customer\Test\Page\CustomerAccountCreate;
 /**
  * Class AssertCustomerSuccessRegisterMessage
  *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
 {

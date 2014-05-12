@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Tools
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@ if (isset($argv[1])) {
 }
 
 if (!$path) {
-    echo "Please specify directory for scan: php -f FsGenerator.php path/to/code";
+    echo "Please specify directory for scan: php -f fs_generator.php path/to/code";
     exit;
 }
 
