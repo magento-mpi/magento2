@@ -17,7 +17,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 /**
  * Class AssertCustomerInGrid
  *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerForm extends AbstractConstraint
 {

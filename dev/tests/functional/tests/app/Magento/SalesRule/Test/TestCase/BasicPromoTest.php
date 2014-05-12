@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 /**
  * Class BasicPromoTest
  *
- * @package Magento\SalesRule\Test\TestCase
  */
 class BasicPromoTest extends Functional
 {

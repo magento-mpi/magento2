@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Gift Wrapping Image Helper
  *
- * @category   Magento
- * @package    Magento_GiftWrapping
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper;
 

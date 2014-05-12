@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\Block\Form as FormInstance;
  * Class Form
  * Is used to represent any form on the page
  *
- * @package Magento\Backend\Test\Block\Widget
  */
 class Form extends FormInstance
 {

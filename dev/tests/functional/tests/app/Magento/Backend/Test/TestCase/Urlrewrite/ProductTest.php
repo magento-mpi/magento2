@@ -16,7 +16,6 @@ use Mtf\Factory\Factory,
  * Class UrlrewriteTest
  * Product URL rewrite creation test
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class ProductTest extends Functional
 {

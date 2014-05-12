@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,8 +8,6 @@
 /**
  * Gift Options Tooltip Model
  * 
- * @category    Mage
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 GiftOptionsTooltip = Class.create();

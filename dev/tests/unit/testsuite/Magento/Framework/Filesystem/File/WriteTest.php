@@ -9,7 +9,6 @@ namespace Magento\Framework\Filesystem\File;
 
 /**
  * Class WriteTest
- * @package Magento\Framework\Filesystem\File
  */
 class WriteTest extends \PHPUnit_Framework_TestCase
 {

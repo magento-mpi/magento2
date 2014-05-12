@@ -12,7 +12,6 @@ namespace Magento\Backend\Test\Block;
  * Class GridPageActions
  * Grid page actions block
  *
- * @package Magento\Backend\Test\Block
  */
 class GridPageActions extends PageActions
 {

@@ -15,7 +15,6 @@ use Mtf\System\Config;
 /**
  * Fixture with all necessary data for user creation on backend
  *
- * @package Magento\Sales\Test\Fixture
  */
 class AdminUser extends DataFixture
 {

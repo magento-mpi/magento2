@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Store\Model\Website;
 /**
  * Customer Segments Detail grid container
  *
- * @category   Magento
- * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Detail extends \Magento\Backend\Block\Widget\Grid\Container

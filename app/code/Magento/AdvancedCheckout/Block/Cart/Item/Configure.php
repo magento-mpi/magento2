@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
  * Cart Item Configure block
  * Updates templates and blocks to show 'Update Cart' button and set right form submit url
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 namespace Magento\AdvancedCheckout\Block\Cart\Item;
 

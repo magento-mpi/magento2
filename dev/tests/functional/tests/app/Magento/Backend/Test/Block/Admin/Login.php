@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element;
  * Class Login
  * Login form for backend user
  *
- * @package Magento\Backend\Test\Block\Admin
  */
 class Login extends Form
 {

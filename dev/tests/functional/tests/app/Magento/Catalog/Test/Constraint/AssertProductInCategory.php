@@ -16,7 +16,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertProductInCategory
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInCategory extends AbstractConstraint
 {
@@ -56,7 +55,7 @@ class AssertProductInCategory extends AbstractConstraint
     protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification

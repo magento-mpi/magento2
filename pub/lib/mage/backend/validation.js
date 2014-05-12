@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -126,8 +124,6 @@
             }
             if (!response.error) {
                 this._submit();
-            } else {
-                $('[data-container-for=messages]').html(response.html_message);
             }
         },
 

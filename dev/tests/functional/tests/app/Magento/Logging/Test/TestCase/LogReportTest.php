@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\TestCase\Functional;
  * Class LogReportTest
  * Tests admin user action are logged and available in actions report
  *
- * @package Magento\Logging\Test\TestCase
  */
 class LogReportTest extends Functional
 {

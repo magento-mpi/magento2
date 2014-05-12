@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ namespace Magento\Reports\Model\Event;
  * @method int getCustomerLogin()
  * @method \Magento\Reports\Model\Event\Type setCustomerLogin(int $value)
  *
- * @category    Magento
- * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Framework\Model\AbstractModel

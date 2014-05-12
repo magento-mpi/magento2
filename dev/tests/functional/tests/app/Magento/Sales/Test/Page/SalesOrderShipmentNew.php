@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Factory\Factory;
  * Class SalesOrder
  * Manage orders page
  *
- * @package Magento\Sales\Test\Page
  */
 class SalesOrderShipmentNew extends Page
 {

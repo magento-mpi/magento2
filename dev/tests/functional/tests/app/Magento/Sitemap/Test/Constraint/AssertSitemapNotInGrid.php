@@ -15,7 +15,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 /**
  * Class AssertSitemapNotInGrid
  *
- * @package Magento\Sitemap\Test\Constraint
  */
 class AssertSitemapNotInGrid extends AbstractConstraint
 {
