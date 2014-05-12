@@ -12,7 +12,9 @@
  */
 
 define('GITHUB_URL_CHANGES', 'https://github.scm.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
     php -f get_github_changes.php --
     --team-repo="<team_repo>" --feature-branch="<feature_branch>"
     [--output-file="<output_file>"] [--file-formats="<comma_separated_list_of_formats>"]
@@ -38,6 +40,7 @@ generateChangedFilesList($outputFile, $changedFiles);
  *
  * @param string $outputFile
  * @param array $changedFiles
+ * @return void
  */
 function generateChangedFilesList($outputFile, $changedFiles)
 {
@@ -62,8 +65,9 @@ function getChangedFiles($changes, $fileFormats)
         $fileName = $change['filename'];
         foreach ($fileFormats as $format) {
             $isFileFormat = strpos($fileName, '.' . $format);
-            if($isFileFormat)
+            if($isFileFormat) {
                 $files[] = $fileName;
+            }
         }
     }
 
@@ -96,6 +100,7 @@ function retrieveChangesAcrossForks($teamRepo, $featureBranch)
 
     $jsonResponse = json_decode($response, true);
     $responseSize = count($jsonResponse);
-    if ($responseSize > 0)
+    if ($responseSize > 0) {
         return $jsonResponse['files'];
+    }
 }
