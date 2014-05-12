@@ -51,7 +51,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $indexer->reindexAll();
 
         $this->assertEmpty($this->indexTable->getIndexForProduct(3, 1, 1));
-        $this->assertContains($this->getProductData(), $this->indexTable->getIndexForProduct($product->getId(), 1, 1));
+        $productData = array_merge(array('product_id' => $product->getId()), $this->getProductData());
+        $this->assertContains($productData, $this->indexTable->getIndexForProduct($product->getId(), 1, 1));
 
         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         $product->save();
