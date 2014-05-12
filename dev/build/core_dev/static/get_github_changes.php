@@ -65,7 +65,7 @@ function getChangedFiles($changes, $fileFormats)
         $fileName = $change['filename'];
         foreach ($fileFormats as $format) {
             $isFileFormat = strpos($fileName, '.' . $format);
-            if($isFileFormat) {
+            if ($isFileFormat) {
                 $files[] = $fileName;
             }
         }
