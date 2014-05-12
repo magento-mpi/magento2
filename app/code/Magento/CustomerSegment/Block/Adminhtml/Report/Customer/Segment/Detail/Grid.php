@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Customer Segments Detail grid
  *
- * @category   Magento
- * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;

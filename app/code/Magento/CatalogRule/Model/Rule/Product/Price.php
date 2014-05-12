@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,8 +27,6 @@
  * @method string getEarliestEndDate()
  * @method \Magento\CatalogRule\Model\Rule\Product\Price setEarliestEndDate(string $value)
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Model\Rule\Product;

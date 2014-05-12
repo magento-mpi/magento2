@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
 /**
  * Catalog search backend model
  *
- * @category    Magento
- * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Engine extends \Magento\Framework\App\Config\Value

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Model\Resource\Price;
 /**
  * Product alert for changed price collection
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection

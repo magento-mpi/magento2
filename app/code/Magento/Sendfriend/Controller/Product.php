@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sendfriend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Framework\App\RequestInterface;
 /**
  * Email to a Friend Product Controller
  *
- * @category    Magento
- * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Product extends \Magento\Framework\App\Action\Action

@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Manuel Pichler <mapi@manuel-pichler.de>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -22,8 +20,6 @@
  * interface that defines multiple methods but the implementation only needs some
  * of them.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Manuel Pichler <mapi@manuel-pichler.de>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2007-2008 Manuel Pichler. All rights reserved.

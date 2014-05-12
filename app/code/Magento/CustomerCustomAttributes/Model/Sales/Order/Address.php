@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ namespace Magento\CustomerCustomAttributes\Model\Sales\Order;
  * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Order\Address getResource()
  * @method \Magento\CustomerCustomAttributes\Model\Sales\Order\Address setEntityId(int $value)
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Address extends \Magento\CustomerCustomAttributes\Model\Sales\Address\AbstractAddress

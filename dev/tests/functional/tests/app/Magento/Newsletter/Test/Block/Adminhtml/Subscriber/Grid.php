@@ -13,7 +13,6 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 /**
  * Newsletter subscribers grid
  *
- * @package Magento\Newsletter\Test\Block\Adminhtml\Subscriber
  */
 class Grid extends AbstractGrid
 {

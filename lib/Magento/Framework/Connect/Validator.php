@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework\Connect;
 /**
  * Class to validate string resources
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Validator
@@ -376,24 +372,5 @@ class Validator
     public function validatePhpExtension($name)
     {
         return extension_loaded($name);
-    }
-
-    /**
-     * @param string|bool $min
-     * @param string|bool $max
-     * @param string $ver
-     * @return bool
-     */
-    public function validatePHPVersion($min, $max, $ver = PHP_VERSION)
-    {
-        $minAccepted = true;
-        if ($min) {
-            $minAccepted = version_compare($ver, $min, ">=");
-        }
-        $maxAccepted = true;
-        if ($max) {
-            $maxAccepted = version_compate($ver, $max, "<=");
-        }
-        return (bool)$minAccepted && $maxAccepted;
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,8 +36,6 @@ namespace Magento\Eav\Model\Entity;
  * @method \Magento\Eav\Model\Entity\Type setAdditionalAttributeTable(string $value)
  * @method \Magento\Eav\Model\Entity\Type setEntityAttributeCollection(string $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Framework\Model\AbstractModel

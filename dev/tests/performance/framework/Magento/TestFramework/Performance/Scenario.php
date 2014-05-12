@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,7 +30,7 @@ class Scenario
 
     const ARG_ADMIN_PASSWORD = 'admin_password';
 
-    const ARG_ADMIN_FRONTNAME = 'admin_frontname';
+    const ARG_BACKEND_FRONTNAME = 'backend_frontname';
 
     /**#@-*/
 

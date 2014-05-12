@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Dashboard;
 /**
  * Adminhtml dashboard google chart block
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard

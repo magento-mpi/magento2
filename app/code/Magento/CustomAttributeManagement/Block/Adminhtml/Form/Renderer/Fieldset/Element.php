@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Block\Adminhtml\Form\Renderer\Fields
 /**
  * EAV entity attribute form fieldset element renderer
  *
- * @category   Magento
- * @package    Magento_CustomAttributeManagement
  */
 class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {

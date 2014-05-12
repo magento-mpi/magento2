@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Search\Block\Adminhtml\Search;
 /**
  * Search queries relations grid container
  *
- * @category   Magento
- * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Widget\Grid\Container

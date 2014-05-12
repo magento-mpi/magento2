@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Product\Attribute\Backend;
 /**
  * Catalog product price attribute backend model
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend

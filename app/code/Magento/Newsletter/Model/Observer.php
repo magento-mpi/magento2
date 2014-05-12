@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */

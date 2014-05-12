@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
 /**
  * "Add by SKU" accordion
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Sku extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate

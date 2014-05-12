@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Block\Catalog\Product;
 /**
  * Bundle product price block
  *
- * @category   Magento
- * @package    Magento_Bundle
  */
 class Price extends \Magento\Catalog\Block\Product\Price
 {

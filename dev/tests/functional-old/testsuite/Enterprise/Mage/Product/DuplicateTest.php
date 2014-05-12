@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Product
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * Duplicate Gift Card tests
  *
- * @package     Mage_Product
- * @subpackage  functional_tests
  */
 class Enterprise_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
 {

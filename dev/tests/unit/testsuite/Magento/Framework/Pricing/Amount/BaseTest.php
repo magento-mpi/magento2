@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Framework\Pricing\Amount;
 /**
  * Class BaseTest
  *
- * @package Magento\Framework\Pricing\Amount
  */
 class BaseTest extends \PHPUnit_Framework_TestCase
 {

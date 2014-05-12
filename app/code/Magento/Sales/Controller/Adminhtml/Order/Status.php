@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Sales\Controller\Adminhtml\Order;
 /**
  * Order status management controller
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Status extends \Magento\Backend\App\Action

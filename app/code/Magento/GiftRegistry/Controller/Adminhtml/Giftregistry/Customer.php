@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\GiftRegistry\Model\Entity;
 /**
  * Gift Registry controller
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Customer extends \Magento\Backend\App\Action

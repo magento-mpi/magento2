@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Downloader\Model\Config;
 /**
  * Class config
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig implements

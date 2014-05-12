@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog rules resource model
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Model\Resource;

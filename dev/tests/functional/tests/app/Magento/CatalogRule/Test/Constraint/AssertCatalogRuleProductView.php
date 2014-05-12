@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCatalogRuleProductView
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleProductView extends AbstractConstraint
 {
@@ -41,7 +40,7 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         CatalogRule $catalogRule
     ) {
         /** @var CatalogProductSimple $product */
-        $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        $product = $catalogRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
         $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
         $cmsIndex->open();

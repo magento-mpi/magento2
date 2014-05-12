@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 /**
  * Admin RMA create form header
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget

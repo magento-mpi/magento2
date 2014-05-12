@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +22,6 @@ use Magento\Framework\Model\Exception;
  * @method int getSortOrder()
  * @method \Magento\Eav\Model\Form\Element setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Element extends \Magento\Framework\Model\AbstractModel

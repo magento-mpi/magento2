@@ -9,7 +9,6 @@ namespace Magento\CatalogInventory\Model\Stock;
 
 /**
  * Class ItemTest
- * @package Magento\CatalogInventory\Model\Stock
  */
 class ItemTest extends \PHPUnit_Framework_TestCase
 {

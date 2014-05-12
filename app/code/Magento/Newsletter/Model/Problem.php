@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,6 @@ namespace Magento\Newsletter\Model;
  * @method string getProblemErrorText()
  * @method \Magento\Newsletter\Model\Problem setProblemErrorText(string $value)
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Problem extends \Magento\Framework\Model\AbstractModel

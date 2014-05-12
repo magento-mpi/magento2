@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Index\Model;
 /**
  * Shell model, used to work with indexers via command line
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Shell extends \Magento\Framework\App\AbstractShell

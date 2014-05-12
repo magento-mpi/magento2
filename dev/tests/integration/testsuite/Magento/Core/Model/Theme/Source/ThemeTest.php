@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +12,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 /**
  * Theme Test
  *
- * @package Magento\Framework\View
  */
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Enterprice
- * @package     Enterprice_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Model\Rule\Options;
 /**
  * Statuses option array
  *
- * @category   Magento
- * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Applies implements \Magento\Framework\Option\ArrayInterface

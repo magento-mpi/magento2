@@ -19,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Class Curl
  *
- * @package Magento\Sitemap\Test\Handler\Sitemap
  */
 class Curl extends AbstractCurl implements SitemapInterface
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Download
 /**
  * Adminhtml catalog product downloadable items tab links section
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Samples extends \Magento\Backend\Block\Widget

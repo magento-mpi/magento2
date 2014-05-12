@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Logging
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,8 +23,6 @@ namespace Magento\Logging\Model\Event;
  * @method string getResultData()
  * @method \Magento\Logging\Model\Event\Changes setResultData(string $value)
  *
- * @category    Magento
- * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Changes extends \Magento\Framework\Model\AbstractModel

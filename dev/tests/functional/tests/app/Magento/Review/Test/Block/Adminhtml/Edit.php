@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Form;
 /**
  * Review edit form
  *
- * @package Magento\Review\Test\Block\Adminhtml
  */
 class Edit extends Form
 {

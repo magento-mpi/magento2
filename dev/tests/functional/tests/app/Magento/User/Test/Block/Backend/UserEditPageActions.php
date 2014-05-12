@@ -16,7 +16,6 @@ use Magento\Backend\Test\Block\FormPageActions;
  * Class UserEditPageActions
  * Form page actions block
  *
- * @package Magento\User\Test\Block\Backend
  */
 class UserEditPageActions extends FormPageActions
 {

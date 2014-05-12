@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * GiftCardAccount Resource Collection
  *
- * @category    Magento
- * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Backend\Block\Urlrewrite\Catalog\Category;
 /**
  * Categories tree block for URL rewrites editing process
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory

@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_toolkit_framework
  * @copyright   {copyright}
  * @license     {license_link}
  */

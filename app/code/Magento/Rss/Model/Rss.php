@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rss
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Rss\Model;
 /**
  * Auth session model
  *
- * @category   Magento
- * @package    Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rss

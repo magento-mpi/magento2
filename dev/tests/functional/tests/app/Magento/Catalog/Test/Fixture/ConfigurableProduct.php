@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
  * Class ConfigurableProduct
  * Configurable product data
  *
- * @package Magento\Catalog\Test\Fixture
  */
 class ConfigurableProduct extends Product
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Block\Email;
 /**
  * Product Alert Abstract Email Block
  *
- * @category   Magento
- * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractEmail extends \Magento\Framework\View\Element\Template

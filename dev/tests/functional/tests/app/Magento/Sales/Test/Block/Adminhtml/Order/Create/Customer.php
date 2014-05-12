@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class Customer
  * Customer selection grid
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Create
  */
 class Customer extends Grid
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,6 @@ use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 /**
  * Entity/Attribute/Model - entity abstract
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractEntity extends \Magento\Framework\Model\Resource\AbstractResource implements EntityInterface

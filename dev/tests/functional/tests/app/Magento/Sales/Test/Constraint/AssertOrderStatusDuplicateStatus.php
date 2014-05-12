@@ -14,7 +14,6 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertOrderStatusDuplicateStatus
  *
- * @package Magento\Sales\Test\Constraint
  */
 class AssertOrderStatusDuplicateStatus extends AbstractConstraint
 {

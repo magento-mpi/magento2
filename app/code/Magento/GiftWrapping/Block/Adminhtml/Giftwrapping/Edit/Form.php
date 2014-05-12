@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -154,16 +152,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $uploadButton = $this->getLayout()->createBlock(
-            'Magento\Backend\Block\Widget\Button'
-        )->setData(
-            array('label' => __('Upload File'), 'id' => 'upload_image_button', 'onclick' => 'uploadImagesForPreview()')
-        );
-
         $fieldset->addField(
             'image',
             'image',
-            array('label' => __('Image'), 'name' => 'image_name', 'after_element_html' => $uploadButton->toHtml())
+            array('label' => __('Image'), 'name' => 'image_name')
         );
 
         if (!$model->getId()) {

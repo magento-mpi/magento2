@@ -29,7 +29,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @package IXR
  * @since 1.5
  *
  * @copyright  Incutio Ltd 2010 (http://www.incutio.com)
@@ -163,7 +162,6 @@ class IXR_Value
 /**
  * IXR_MESSAGE
  *
- * @package IXR
  * @since 1.5
  *
  */
@@ -335,7 +333,6 @@ class IXR_Message
 /**
  * IXR_Server
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_Server
@@ -539,7 +536,6 @@ EOD;
 /**
  * IXR_Request
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_Request
@@ -582,7 +578,6 @@ EOD;
 /**
  * IXR_Client
  *
- * @package IXR
  * @since 1.5
  *
  */
@@ -735,7 +730,6 @@ class IXR_Client
 /**
  * IXR_Error
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_Error
@@ -777,7 +771,6 @@ EOD;
 /**
  * IXR_Date
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_Date {
@@ -840,7 +833,6 @@ class IXR_Date {
 /**
  * IXR_Base64
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_Base64
@@ -861,7 +853,6 @@ class IXR_Base64
 /**
  * IXR_IntrospectionServer
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_IntrospectionServer extends IXR_Server
@@ -1024,7 +1015,6 @@ class IXR_IntrospectionServer extends IXR_Server
 /**
  * IXR_ClientMulticall
  *
- * @package IXR
  * @since 1.5
  */
 class IXR_ClientMulticall extends IXR_Client
@@ -1061,7 +1051,6 @@ class IXR_ClientMulticall extends IXR_Client
  * @author Jason Stirk <jstirk@gmm.com.au> (@link http://blog.griffin.homelinux.org/projects/xmlrpc/)
  * @version 0.2.0 26May2005 08:34 +0800
  * @copyright (c) 2004-2005 Jason Stirk
- * @package IXR
  */
 class IXR_ClientSSL extends IXR_Client
 {
@@ -1285,7 +1274,6 @@ class IXR_ClientSSL extends IXR_Client
  * @author Jason Stirk <jstirk@gmm.com.au>
  * @version 1.0.1 19Apr2005 17:40 +0800
  * @copyright Copyright (c) 2005 Jason Stirk
- * @package IXR
  */
 class IXR_ClassServer extends IXR_Server
 {

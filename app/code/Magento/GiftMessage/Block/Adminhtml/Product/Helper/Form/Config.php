@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form;
 /**
  * Adminhtml additional helper block for product configuration
  *
- * @category   Magento
- * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config

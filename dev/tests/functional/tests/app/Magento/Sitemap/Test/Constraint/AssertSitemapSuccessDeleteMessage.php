@@ -14,7 +14,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 /**
  * Class AssertSitemapSuccessDeleteMessage
  *
- * @package Magento\Sitemap\Test\Constraint
  */
 class AssertSitemapSuccessDeleteMessage extends AbstractConstraint
 {

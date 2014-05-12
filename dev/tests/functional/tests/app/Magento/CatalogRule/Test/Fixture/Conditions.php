@@ -17,7 +17,6 @@ use Mtf\Fixture\FixtureInterface;
  * Data keys:
  *  - preset (Conditions options preset name)
  *
- * @package Magento\CatalogRule\Test\Fixture
  */
 class Conditions implements FixtureInterface
 {

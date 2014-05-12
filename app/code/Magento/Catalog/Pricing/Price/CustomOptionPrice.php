@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,6 @@ use Magento\Framework\Pricing\Price\AbstractPrice;
 /**
  * Class OptionPrice
  *
- * @package Magento\Catalog\Pricing\Price
  */
 class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterface
 {

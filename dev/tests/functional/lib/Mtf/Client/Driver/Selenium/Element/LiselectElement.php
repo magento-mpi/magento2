@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class LiselectElement
  * Typified element class for lists selectors
  *
- * @package Mtf\Client\Driver\Selenium\Element
  */
 class LiselectElement extends Element
 {

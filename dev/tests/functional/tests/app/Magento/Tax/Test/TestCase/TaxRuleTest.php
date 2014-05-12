@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Tax\Test\Fixture\TaxRule;
  * Class TaxRuleTest
  * Functional test for Tax Rule configuration
  *
- * @package Magento\Tax\Test\TestCase
  */
 class TaxRuleTest extends Functional
 {

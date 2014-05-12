@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,6 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows;
 
 /**
  * Class TableData
- * @package Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows
  */
 class TableData implements \Magento\Catalog\Model\Indexer\Product\Flat\TableDataInterface
 {

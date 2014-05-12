@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    one page checkout first step
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -440,7 +438,9 @@
             parentsDl.find(this.options.methodOn).prop('checked', false);
             _this.prop('checked', true);
             parentsDl.find(this.options.methodDescription).hide().find('[name^="payment["]').prop('disabled', true);
-            _this.parent().nextUntil(this.options.methodContainer).find(this.options.methodDescription).show().find('[name^="payment["]').prop('disabled', false);
+            _this.closest(this.options.methodContainer)
+                .nextUntil(this.options.methodContainer)
+                .find(this.options.methodDescription).show().find('[name^="payment["]').prop('disabled', false);
         },
 
         /**

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Block\Block;
  * Class Method
  * Adminhtml sales order create payment method block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing
  */
 class Method extends Block
 {

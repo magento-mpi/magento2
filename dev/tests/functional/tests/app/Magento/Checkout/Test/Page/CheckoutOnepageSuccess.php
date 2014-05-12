@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class CheckoutOnepageSuccess
  * One page checkout success page
  *
- * @package Magento\Checkout\Test\Page
  */
 class CheckoutOnepageSuccess extends Page
 {

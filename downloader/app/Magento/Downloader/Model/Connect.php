@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ include_once "Magento/Framework/Connect.php";
 /**
  * Class for initialize Magento_Connect lib
  *
- * @category   Magento
- * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Connect extends \Magento\Downloader\Model

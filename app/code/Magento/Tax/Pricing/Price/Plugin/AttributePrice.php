@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,6 @@ namespace Magento\Tax\Pricing\Price\Plugin;
 
 /**
  * Class AttributePrice
- * @package Magento\Tax\Pricing\Price\Plugin
  */
 class AttributePrice
 {

@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -19,8 +17,6 @@
  * Verifies that there are not elseif statements. The else and the if should
  * be separated by a space.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
