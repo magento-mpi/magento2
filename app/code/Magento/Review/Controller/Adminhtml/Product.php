@@ -357,12 +357,10 @@ class Product extends \Magento\Backend\App\Action
 
             $review = $this->_objectManager->create('Magento\Review\Model\Review')->setData($data);
 
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-
             try {
                 $review->setEntityId(1) // product
                     ->setEntityPkValue($productId)
-                    ->setStoreId($product->getStoreId())
+                    ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID)
                     ->setStatusId($data['status_id'])
                     ->setCustomerId(null)//null is for administrator only
                     ->save();
