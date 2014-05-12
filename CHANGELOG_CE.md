@@ -59,6 +59,7 @@
   * Fixed: Cannot perform search for Newsletters on the Newsletter grid (MAGETWO-23960)
   * Fixed: Displayed currency and product price aren't changed after switching to new currency (MAGETWO-24297)
   * Fixed: Crash frontend when delete product from mini shopping cart (MAGETWO-24303)
+  * Fixed: [Refactored Indexers] Low Performance on attempt to reindex Price Indexer (MAGETWO-24074)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
