@@ -20,9 +20,7 @@ define('USAGE', <<<USAGE
 USAGE
 );
 
-$options = getopt('', array(
-    'team-repo:', 'feature-branch:', 'output-file:', 'file-formats:',
-));
+$options = getopt('', array('team-repo:', 'feature-branch:', 'output-file:', 'file-formats:'));
 if (empty($options['team-repo']) || empty($options['feature-branch'])) {
     echo USAGE;
     exit(1);
@@ -35,6 +33,12 @@ $changes = retrieveChangesAcrossForks($options['team-repo'], $options['feature-b
 $changedFiles = getChangedFiles($changes, $fileFormats);
 generateChangedFilesList($outputFile, $changedFiles);
 
+/**
+ * Generates a file containing changed files
+ *
+ * @param string $outputFile
+ * @param array $changedFiles
+ */
 function generateChangedFilesList($outputFile, $changedFiles)
 {
     $changedFilesList = fopen($outputFile, 'w');
@@ -43,27 +47,43 @@ function generateChangedFilesList($outputFile, $changedFiles)
     }
     fclose($changedFilesList);
 }
-
+/**
+ * Gets list of changed files
+ *
+ * @param array $changes
+ * @param string $fileFormats
+ * @return array
+ */
 function getChangedFiles($changes, $fileFormats)
 {
     $files = array();
-    foreach($changes as $change) {
-        foreach($fileFormats as $format) {
-            if(strpos($change['filename'], '.' . $format))
-                $files[] = $change['filename'];
+    foreach ($changes as $change) {
+        $fileName = $change['filename'];
+        foreach ($fileFormats as $format) {
+            $isFileFormat = strpos($fileName, '.' . $format);
+            if($isFileFormat)
+                $files[] = $fileName;
         }
     }
 
     return $files;
 }
 
+/**
+ * Retrieves changes accross forks
+ *
+ * @param string $teamRepo
+ * @param string $featureBranch
+ * @return array
+ * @throws Exception
+ */
 function retrieveChangesAcrossForks($teamRepo, $featureBranch)
 {
     $githubChangesUrl = str_replace('%FEATURE_BRANCH%', $featureBranch, str_replace('%TEAM_REPO%', $teamRepo, GITHUB_URL_CHANGES));
 
     $request = curl_init($githubChangesUrl);
-    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, FALSE);
-    curl_setopt($request, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($request);
     $status = curl_getinfo($request);
     curl_close($request);
@@ -74,6 +94,7 @@ function retrieveChangesAcrossForks($teamRepo, $featureBranch)
     }
 
     $jsonResponse = json_decode($response, true);
-    if (count($jsonResponse) > 0)
+    $responseSize = count($jsonResponse);
+    if ($responseSize > 0)
         return $jsonResponse['files'];
 }
