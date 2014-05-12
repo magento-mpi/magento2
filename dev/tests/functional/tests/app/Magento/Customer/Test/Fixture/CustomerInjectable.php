@@ -185,6 +185,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'account_information',
     ];
 
     protected $suffix = [
