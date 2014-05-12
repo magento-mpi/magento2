@@ -148,7 +148,8 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         if (in_array($product->getId(), $productIdsInCart)) {
             foreach ($cart->getQuote()->getAllItems() as $item) {
                 if (($item->getProduct()->getId() == $product->getId())
-                    && ($item->getGiftregistryItemId() == $this->getId())
+                    /* Checkout of giftRegistry products together with non-registry products will be adjusted in a specific story */
+                    /*&& ($item->getGiftregistryItemId() == $this->getId())*/
                     && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
                         $cart->removeItem($item->getId());
                         $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
