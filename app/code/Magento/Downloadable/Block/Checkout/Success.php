@@ -22,7 +22,7 @@ use Magento\Framework\View\Element\Template;
 class Success extends \Magento\Checkout\Block\Onepage\Success
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -33,7 +33,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -43,7 +43,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         parent::__construct(

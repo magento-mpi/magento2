@@ -27,4 +27,14 @@
         <area>adminhtml</area>
         <class>Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit</class>
     </customerIndexEdit>
+    <customerGroupIndex>
+        <mca>customer/group/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex</class>
+    </customerGroupIndex>
+    <customerGroupNew>
+        <mca>customer/group/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\Customer\Test\Page\Adminhtml\CustomerGroupNew</class>
+    </customerGroupNew>
 </page>

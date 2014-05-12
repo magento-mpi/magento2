@@ -445,7 +445,12 @@ abstract class AbstractData
                     }
                     break;
                 case 'date':
-                    $validator = new \Zend_Validate_Date(\Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+                    $validator = new \Zend_Validate_Date(
+                        [
+                            'format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                            'locale' => $this->_localeResolver->getLocale()
+                        ]
+                    );
                     $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Date::INVALID);
                     $validator->setMessage(__('"%1" is not a valid date.', $label), \Zend_Validate_Date::INVALID_DATE);
                     $validator->setMessage(

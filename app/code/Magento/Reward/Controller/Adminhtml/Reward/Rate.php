@@ -250,7 +250,7 @@ class Rate extends \Magento\Backend\App\Action
             $this->messageManager->addError($message);
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

@@ -70,6 +70,7 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
         $amountRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', [], [], '', false);
         $arguments = ['argument_two' => 2];
         $mergedArguments = ['argument_one' => 1, 'argument_two' => 2];
+        $renderText = 'amount data';
 
         $this->model->expects($this->at(0))
             ->method('getData')
@@ -78,12 +79,14 @@ class AbstractAdjustmentTest extends \PHPUnit_Framework_TestCase
             ->method('setData')
             ->with($mergedArguments);
         $this->model->expects($this->at(2))
-            ->method('apply');
+            ->method('apply')
+            ->will($this->returnValue($renderText));
         $this->model->expects($this->at(3))
             ->method('setData')
             ->with($this->data);
 
-        $this->model->render($amountRender, $arguments);
+        $result = $this->model->render($amountRender, $arguments);
+        $this->assertEquals($renderText, $result);
     }
 
     public function testGetAmountRender()

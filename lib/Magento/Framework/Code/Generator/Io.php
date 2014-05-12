@@ -91,7 +91,7 @@ class Io
     public function getResultFileName($className)
     {
         $autoloader = $this->_autoloader;
-        $resultFileName = $autoloader::getFilePath($className);
+        $resultFileName = $autoloader->getFilePath($className);
         return $this->_generationDirectory . $resultFileName;
     }
 

@@ -74,7 +74,7 @@ class Tree extends Block
     public function selectCategory($path)
     {
         $this->expandAllCategories();
-        $this->_rootElement->clickByPath($path);
+        $this->_rootElement->setValue($path);
         $this->getTemplateBlock()->waitLoader();
     }
 

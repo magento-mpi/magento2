@@ -96,7 +96,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
     protected $productTypeConfig;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -115,7 +115,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
@@ -130,7 +130,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Checkout\Model\Session $checkoutSession = null,
         array $data = array()

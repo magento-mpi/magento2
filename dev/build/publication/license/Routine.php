@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\License;
 
 /**
  * Service routines for license-tool command line script
@@ -131,11 +132,10 @@ class Routine
     /**
      * Filter directory by passed file mask. Results will be saved in $result variable.
      *
-     * @static
-     * @param $directory
-     * @param $fileMasks
-     * @param $result
-     * @return null
+     * @param string $directory
+     * @param array $fileMasks
+     * @param array $result
+     * @return void
      */
     protected static function _filterFilesByMask($directory, $fileMasks, &$result)
     {
@@ -151,9 +151,10 @@ class Routine
     /**
      * Filters passed array on skip path items marked by "!" sign
      *
-     * @static
      * @param string $workingDir
      * @param array $list
+     * @return void
+     * @throws \Exception
      */
     protected static function _setSkippedPaths($workingDir, $list)
     {
@@ -162,7 +163,7 @@ class Routine
             $path = $workingDir . '/' . $globPattern;
             $subPaths = glob($path, GLOB_BRACE);
             if (false === $subPaths) {
-                throw new Exception("No real paths found by glob pattern: {$path}");
+                throw new \Exception("No real paths found by glob pattern: {$path}");
             }
             $paths = array_merge($paths, $subPaths);
         }
@@ -301,30 +302,31 @@ class Routine
      * Create instance of license class which contains information about license
      *
      * @static
-     * @throws Exception
+     * @throws \Exception
      * @param string $license
      * @return AbstractLicense
      */
     public static function createLicenseInstance($license)
     {
         $licenseClassName = ucfirst(strtolower($license));
-        if (!class_exists($licenseClassName)) {
+        $licenseFullyQualifiedClassName = '\Magento\Tools\License\\' . $licenseClassName;
+        if (!class_exists($licenseFullyQualifiedClassName)) {
             $licenseClassFile = __DIR__ . '/' . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
-                throw new Exception("Can't access license file: {$licenseClassFile}.\n");
+                throw new \Exception("Can't access license file: {$licenseClassFile}.\n");
             }
 
             include_once $licenseClassFile;
 
-            if (!class_exists($licenseClassName)) {
-                throw new Exception("Can't find license class: {$licenseClassName}.\n");
+            if (!class_exists($licenseFullyQualifiedClassName)) {
+                throw new \Exception("Can't find license class: {$licenseFullyQualifiedClassName}.\n");
             }
         }
 
-        $licenseObject = new $licenseClassName;
+        $licenseObject = new $licenseFullyQualifiedClassName;
 
-        if (!$licenseObject instanceof LicenseAbstract) {
-            throw new Exception("License class does not have correct interface: {$licenseClassName}.\n");
+        if (!$licenseObject instanceof \Magento\Tools\License\LicenseAbstract) {
+            throw new \Exception("License class does not have correct interface: {$licenseFullyQualifiedClassName}.\n");
         }
 
         return $licenseObject;
@@ -333,11 +335,11 @@ class Routine
     /**
      * Entry point of routine work
      *
-     * @static
      * @param string $workingDir
      * @param array $config
      * @param array $blackList
-     * @throws Exception
+     * @return void
+     * @throws \Exception
      */
     public static function run($workingDir, $config, $blackList)
     {
@@ -373,11 +375,14 @@ class Routine
             }
         }
 
-        Routine::printLog(sprintf("\n" . 'Updated: %d; Skipped: %d; Errors: %d.' . "\n",
-            self::$_updatedCount, self::$_skippedCount, self::$_errorsCount
+        Routine::printLog(sprintf(
+            "\n" . 'Updated: %d; Skipped: %d; Errors: %d.' . "\n",
+            self::$_updatedCount,
+            self::$_skippedCount,
+            self::$_errorsCount
         ));
         if (self::$_errorsCount || self::$_skippedCount) {
-            throw new Exception('Failed: check skipped files or errors.' . "\n");
+            throw new \Exception('Failed: check skipped files or errors.' . "\n");
         }
         Routine::printLog('Success.' . "\n");
     }

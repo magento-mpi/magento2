@@ -45,6 +45,11 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     protected $optionFactory;
 
     /**
+     * @var \Magento\Framework\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * List of options related to item
      *
      * @var array
@@ -67,9 +72,10 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
-     * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -80,6 +86,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -89,6 +96,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         $this->optionFactory = $optionFactory;
         $this->optionFactory = $optionFactory;
         $this->resourceUrl = $resourceUrl;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -137,6 +145,19 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
 
         if ($this->getQty() < $qty + $this->getQtyFulfilled()) {
             $qty = $this->getQty() - $this->getQtyFulfilled();
+            $this->messageManager->addNotice(__('The quantity of "%1" product added to cart exceeds the quantity desired by the Gift Registry owner. The quantity added has been adjusted to meet remaining quantity %2.', $product->getName(), $qty));
+        }
+
+        $productIdsInCart = $cart->getProductIds();
+        if (in_array($product->getId(), $productIdsInCart)) {
+            foreach ($cart->getQuote()->getAllItems() as $item) {
+                if (($item->getProduct()->getId() == $product->getId())
+                    && ($item->getGiftregistryItemId() == $this->getId())
+                    && (($item->getQty() + $qty) > ($this->getQty() - $this->getQtyFulfilled()))) {
+                        $cart->removeItem($item->getId());
+                        $this->messageManager->addNotice(__('Existing quantity of "%1" product in the cart has been replaced with quantity %2 just requested.', $product->getName(), $qty));
+                }
+            }
         }
 
         if ($product->getStatus() != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {

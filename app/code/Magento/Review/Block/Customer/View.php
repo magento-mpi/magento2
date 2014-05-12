@@ -58,7 +58,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_ratingFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -68,7 +68,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -77,7 +77,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;

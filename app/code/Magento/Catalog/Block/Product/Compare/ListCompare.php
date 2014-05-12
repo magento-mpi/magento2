@@ -85,7 +85,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_coreData;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
@@ -96,7 +96,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      * @param Product\Visibility $catalogProductVisibility
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -106,7 +106,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

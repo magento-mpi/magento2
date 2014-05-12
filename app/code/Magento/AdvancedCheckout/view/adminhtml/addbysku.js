@@ -324,8 +324,10 @@ AddBySku.prototype = {
      */
     configure : function (id, sku)
     {
-        var descrElem = $('sku_' + sku);
-        this.qtyElement = Element.select(descrElem.up('tr'), 'input[name="qty"]')[0];
+        var productRow = $('sku_errors_table').select('div#sku_' + sku)[0];
+        var noticeElement = productRow.select('.notice');
+        var productQtyElement = productRow.up('tr').select('input[name=qty]')[0];
+
         if (typeof(this.configurableItems[sku]) == 'undefined') {
             this.configurableItems[sku] = id;
         }
@@ -335,22 +337,22 @@ AddBySku.prototype = {
         {
             // It is vital to push string element, check this line in configure.js:
             // this.itemsFilter[listType].indexOf(itemId) != -1
-            productConfigure.skuObject.configuredSkus.push(sku);
-            var $notice = Element.select(descrElem, '.notice');
-            if ($notice.length) {
+            productConfigure.skuObject.configuredSkus.push(sku.toString());
+
+            if (noticeElement.length) {
                 // Remove message saying product requires configuration
-                $notice[0].remove();
+                noticeElement[0].remove();
             }
             var $qty = productConfigure.getCurrentConfirmedQtyElement();
             if ($qty) { // Product set does not have this
                 // Synchronize qtys between configure window and grid
-                productConfigure.skuObject.qtyElement.value = $qty.value;
+                productQtyElement.value = $qty.value;
             }
         });
         productConfigure.showItemConfiguration(this.listType, sku);
         productConfigure.setShowWindowCallback(this.listType, function() {
             // sync qty of grid and qty of popup
-            var qty = productConfigure.skuObject.qtyElement.value;
+            var qty = productQtyElement.value;
             if (qty && !isNaN(qty)) {
                 var formCurrentQty = productConfigure.getCurrentFormQtyElement();
                 if (formCurrentQty) {

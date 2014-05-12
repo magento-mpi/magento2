@@ -44,20 +44,20 @@ class Management extends \Magento\Framework\View\Element\Template
     protected $_wishlistData = null;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
-     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
+     * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
-        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
+        \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;

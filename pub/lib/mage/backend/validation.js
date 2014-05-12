@@ -126,8 +126,6 @@
             }
             if (!response.error) {
                 this._submit();
-            } else {
-                $('[data-container-for=messages]').html(response.message);
             }
         },
 
