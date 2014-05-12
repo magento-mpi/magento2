@@ -2,74 +2,72 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Tax\Test\Fixture;
 
-use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TaxClass
  *
  * @package Magento\Tax\Test\Fixture
  */
-class TaxClass extends DataFixture
+class TaxClass extends InjectableFixture
 {
     /**
-     * Get tax class name
-     *
-     * @return string
+     * @var string
      */
-    public function getTaxClassName()
-    {
-        return $this->getData('fields/data/class_name/value');
-    }
+    protected $repositoryClass = 'Magento\Tax\Test\Repository\TaxClass';
 
     /**
-     * Return saved class id
-     *
-     * @return mixed
+     * @var string
      */
-    public function getTaxClassId()
+    protected $handlerInterface = 'Magento\Tax\Test\Handler\TaxClass\TaxClassInterface';
+
+    protected $defaultDataSet = [
+        'class_name' => 'TaxClass%isolation%',
+        'class_type' => 'CUSTOMER',
+    ];
+
+    protected $class_id = [
+        'attribute_code' => 'class_id',
+        'backend_type' => 'smallint',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => '',
+    ];
+
+    protected $class_name = [
+        'attribute_code' => 'class_name',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => 'TaxClass%isolation%',
+        'input' => '',
+    ];
+
+    protected $class_type = [
+        'attribute_code' => 'class_type',
+        'backend_type' => 'varchar',
+        'is_required' => '',
+        'default_value' => 'CUSTOMER',
+        'input' => '',
+    ];
+
+    public function getClassId()
     {
-        return $this->getData('fields/id');
+        return $this->getData('class_id');
     }
 
-    /**
-     * Create tax class
-     *
-     * @return TaxClass
-     */
-    public function persist()
+    public function getClassName()
     {
-        $id = Factory::getApp()->magentoTaxCreateTaxClass($this);
-        $this->_data['fields']['id'] = $id;
-        return $this;
+        return $this->getData('class_name');
     }
 
-    /**
-     * Init data
-     */
-    protected function _initData()
+    public function getClassType()
     {
-        $this->_data = array(
-            'fields' => array(
-                'class_name' => array(
-                    'value' => 'Customer Tax Class %isolation%'
-                ),
-                'class_type' => array(
-                    'value' => 'CUSTOMER'
-                )
-            )
-        );
-
-        $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoTaxTaxClass($this->_dataConfig, $this->_data);
+        return $this->getData('class_type');
     }
 }

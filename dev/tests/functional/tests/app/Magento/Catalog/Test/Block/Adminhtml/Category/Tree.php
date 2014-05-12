@@ -73,9 +73,9 @@ class Tree extends Block
      */
     public function selectCategory($path)
     {
-        $treeElement = '.tree-holder';
         $this->expandAllCategories();
         $this->_rootElement->find($treeElement, Locator::SELECTOR_CSS, 'tree')->clickByPath($path);
+        $this->_rootElement->setValue($path);
         $this->getTemplateBlock()->waitLoader();
     }
 
