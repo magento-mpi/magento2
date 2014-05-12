@@ -8,17 +8,13 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\Tab;
 
-use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 
-
 /**
  * Class Conditions
  * Form Tab for specifying catalog price rule conditions
- *
- * @package Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit\Tab
  */
 class Conditions extends Tab
 {
@@ -33,10 +29,10 @@ class Conditions extends Tab
      * Fill condition options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return void
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $data = $this->dataMapping($fields);
 

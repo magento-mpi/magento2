@@ -13,8 +13,6 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 
 /**
  * Class AssertCatalogPriceRuleSuccessSaveMessage
- *
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogPriceRuleSuccessSaveMessage extends AbstractConstraint
 {

@@ -15,8 +15,6 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogPriceRule Repository
- *
- * @package Magento\CatalogRule\Test\Repository
  */
 class CatalogPriceRule extends AbstractRepository
 {

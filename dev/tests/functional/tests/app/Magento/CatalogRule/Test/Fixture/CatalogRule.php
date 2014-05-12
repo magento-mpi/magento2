@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CatalogRule
- *
- * @package Magento\CatalogRule\Test\Fixture
  */
 class CatalogRule extends InjectableFixture
 {

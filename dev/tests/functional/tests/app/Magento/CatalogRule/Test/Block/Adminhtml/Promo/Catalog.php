@@ -19,8 +19,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Catalog
  * Backend catalog price rule grid
- *
- * @package Magento\CatalogRule\Test\Block\Backend
  */
 class Catalog extends Grid
 {

@@ -15,8 +15,6 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 
 /**
  * Class AssertCatalogPriceRuleForm
- *
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogPriceRuleForm extends AbstractConstraint
 {
@@ -62,11 +60,11 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
     /**
      * Sort array by keys
      *
-     * @param $arr
+     * @param array $arr
      */
-    public function sortArrayByKeys(&$arr) {
+    private function sortArrayByKeys(array &$arr) {
         ksort($arr);
-        foreach ($arr as $key => &$value) {
+        foreach ($arr as &$value) {
             if (is_array($value)) {
                 $this->sortArrayByKeys($value);
             }
@@ -76,12 +74,12 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
     /**
      * Convert associative array to numeric
      *
-     * @param $arr
+     * @param array $arr
      * @return array
      */
-    public function convertAssocArrayToNumeric($arr) {
+    private function convertAssocArrayToNumeric($arr) {
         $arr = array_values($arr);
-        foreach ($arr as $key => &$value) {
+        foreach ($arr as &$value) {
             if (is_array($value)) {
                 $value = array_values($value);
             }
@@ -96,7 +94,7 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
      * @param $entity2
      * @return bool
      */
-    public function compareEntities($entity1, $entity2) {
+    private function compareEntities($entity1, $entity2) {
         if (is_numeric($entity1)) {
             $entity1 = floatval($entity1);
         }
@@ -132,7 +130,7 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
      * @param $arr2
      * @return mixed
      */
-    public function checkIfArraysEqualByValue($arr1, $arr2) {
+    private function checkIfArraysEqualByValue($arr1, $arr2) {
         $this->sortArrayByKeys($arr1);
         $arr1 = $this->convertAssocArrayToNumeric($arr1);
         $this->sortArrayByKeys($arr2);

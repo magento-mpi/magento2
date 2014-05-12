@@ -25,16 +25,18 @@ use Mtf\TestCase\Injectable;
  * 6. Perform appropriate assertions
  *
  * @group Catalog_Price_Rules_(MX)
- * @ZephyrId MTA-66
+ * @ZephyrId MAGETWO-24341
  */
 class CreateCatalogPriceRuleEntityTest extends Injectable
 {
     /**
+     * Page CatalogRuleIndex
      * @var CatalogRuleIndex
      */
     protected $catalogRuleIndex;
 
     /**
+     * Page CatalogRuleNew
      * @var CatalogRuleNew
      */
     protected $catalogRuleNew;
@@ -43,7 +45,6 @@ class CreateCatalogPriceRuleEntityTest extends Injectable
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
      */
-
     public function __inject(
         CatalogRuleIndex $catalogRuleIndex,
         CatalogRuleNew $catalogRuleNew
