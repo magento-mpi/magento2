@@ -61,6 +61,7 @@
   * Fixed: Crash frontend when delete product from mini shopping cart (MAGETWO-24303)
   * Fixed: Bundle product is not possible to add to shopping cart (MAGETWO-24302)
   * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
+  * Fixed: CLONE - When importing tax rates with postal code = *, the column in the DB is set to NULL, leading to issues (MAGETWO-20916)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
