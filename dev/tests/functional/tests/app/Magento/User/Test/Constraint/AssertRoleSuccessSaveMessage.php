@@ -13,8 +13,6 @@ use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 
 /**
  * Class AssertRoleSuccessSaveMessage
- *
- * @package Magento\User\Test\Constraint
  */
 class AssertRoleSuccessSaveMessage extends AbstractConstraint
 {

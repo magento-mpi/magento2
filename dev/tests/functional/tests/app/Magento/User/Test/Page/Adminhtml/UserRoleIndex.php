@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class UserRoleIndex
- *
- * @package Magento\User\Test\Page\Adminhtml
  */
 class UserRoleIndex extends BackendPage
 {

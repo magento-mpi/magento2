@@ -12,8 +12,6 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class AdminUserRole
- *
- * @package Magento\User\Test\Repository
  */
 class AdminUserRole extends AbstractRepository
 {
@@ -24,7 +22,8 @@ class AdminUserRole extends AbstractRepository
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
-            'role_name' => 'RoleName%isolation%'
+            'role_name' => 'RoleName%isolation%',
+            'resource_access' => 'All'
         ];
     }
 }

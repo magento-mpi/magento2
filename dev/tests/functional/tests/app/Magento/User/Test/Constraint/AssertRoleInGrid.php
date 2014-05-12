@@ -14,8 +14,6 @@ use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
  * Class AssertRoleInGrid
- *
- * @package Magento\User\Test\Constraint
  */
 class AssertRoleInGrid extends AbstractConstraint
 {

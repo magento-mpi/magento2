@@ -8,7 +8,6 @@
 
 namespace Magento\User\Test\Handler\AdminUser;
 
-use Magento\User\Test\Handler\AdminUser\AdminUserInterface;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -19,8 +18,7 @@ use Magento\Backend\Test\Handler\Pagination;
 
 /**
  * Class Curl
- *
- * @package Magento\User\Test\Handler\AdminUser
+ * Creates Admin User Entity
  */
 class Curl extends AbstractCurl implements AdminUserInterface
 {
@@ -33,11 +31,10 @@ class Curl extends AbstractCurl implements AdminUserInterface
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $fixtureData = $fixture->getData();
-        $data['roles[]'] = $fixtureData['role_id'];
-        foreach ($fixtureData as $key => $value) {
-            $data[$key] = $value;
-        }
+        $data = $fixture->getData();
+        $data['roles[]'] = $fixture->getRoleId();
+        unset($data['role_id']);
+
         $url = $_ENV['app_backend_url'] . 'admin/user/save/active_tab/main_section/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
@@ -49,13 +46,10 @@ class Curl extends AbstractCurl implements AdminUserInterface
             throw new \Exception("Admin user entity creating by curl handler was not successful! Response: $response");
         }
 
-        $paginationParams = [
-            'url' => 'admin/user/roleGrid/sort/user_id/dir/desc',
-            'pattern' => '/class=\"\scol\-id col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
-                . $data['username'] . '/siu'
-        ];
-        $pagination = new Pagination();
-        $pagination->prepare($paginationParams);
+        $url = 'admin/user/roleGrid/sort/user_id/dir/desc';
+        $regExpPattern = '/class=\"\scol\-id col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+            . $data['username'] . '/siu';
+        $pagination = new Pagination($url, $regExpPattern);
 
         return ['user_id' => $pagination->getId()];
     }

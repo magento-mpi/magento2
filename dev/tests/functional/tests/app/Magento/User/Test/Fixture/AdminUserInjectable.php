@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AdminUserInjectable
- *
- * @package Magento\User\Test\Fixture
  */
 class AdminUserInjectable extends InjectableFixture
 {
@@ -28,9 +26,12 @@ class AdminUserInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\User\Test\Handler\AdminUser\AdminUserInterface';
 
     protected $defaultDataSet = [
-        'created' => null,
-        'is_active' => null,
-        'interface_locale' => null,
+        'username' => 'customAdmin%isolation%',
+        'firstname' => 'FirstName%isolation%',
+        'lastname' => 'LastName%isolation%',
+        'email' => 'email%isolation%@example.com',
+        'password' => '123123q',
+        'password_confirmation' => '123123q',
     ];
 
     protected $user_id = [

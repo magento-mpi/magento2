@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class UserRoleEditRole
- *
- * @package Magento\User\Test\Page\Adminhtml
  */
 class UserRoleEditRole extends BackendPage
 {

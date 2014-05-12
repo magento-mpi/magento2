@@ -13,8 +13,6 @@ use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
 
 /**
  * Class AssertRoleSuccessSaveMessage
- *
- * @package Magento\User\Test\Constraint
  */
 class AssertImpossibleDeleteYourOwnRole extends AbstractConstraint
 {
@@ -31,6 +29,7 @@ class AssertImpossibleDeleteYourOwnRole extends AbstractConstraint
     /**
      * Asserts that error message equals to expected message.
      *
+     * @param UserRoleEditRole $rolePage
      * @return void
      */
     public function processAssert(UserRoleEditRole $rolePage)
@@ -46,7 +45,7 @@ class AssertImpossibleDeleteYourOwnRole extends AbstractConstraint
     }
 
     /**
-     * Returns success message if equals to expected message.
+     * Returns message if equals to expected message.
      *
      * @return string
      */

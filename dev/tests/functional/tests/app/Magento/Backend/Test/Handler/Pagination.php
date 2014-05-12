@@ -8,7 +8,6 @@
 
 namespace Magento\Backend\Test\Handler;
 
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
@@ -16,7 +15,7 @@ use Mtf\System\Config;
 
 /**
  * Class Pagination
- * @package Magento\Backend\Test\Handler
+ * Used to omit possible issue, when searched Id is not on the same page in cURL response
  */
 class Pagination
 {
@@ -35,39 +34,23 @@ class Pagination
     protected $url;
 
     /**
-     * @param string $url
+     * Setting all Pagination params for Pagination object.
+     * Required url for cURL request and regexp pattern for searching in cURL response.
+     *
+     * @param $url
+     * @param $regExpPattern
      */
-    public function setUrl($url)
+    public function __construct($url, $regExpPattern)
     {
         $this->url = $url;
+        $this->regExpPattern = $regExpPattern;
     }
 
     /**
-     * @param string $pattern
-     */
-    public function setRegExpPattern($pattern)
-    {
-        $this->regExpPattern = $pattern;
-    }
-
-    /**
-     * Setting all Pagination params
+     * Retrieves id from cURL response
      *
-     * @param array $params
-     */
-    public function prepare($params)
-    {
-        extract($params);
-        $this->setUrl($url);
-        $this->setRegExpPattern($pattern);
-    }
-
-    /**
-     * Sort data in grid to define id if more than 20 items in grid
-     *
-     * @param $data
-     * @return mixed
      * @throws \Exception
+     * @return mixed
      */
     public function getId()
     {

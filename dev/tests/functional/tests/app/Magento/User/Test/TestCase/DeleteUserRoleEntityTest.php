@@ -8,11 +8,10 @@
 
 namespace Magento\User\Test\TestCase;
 
-use Magento\Backend\Block\Page\Header;
+use Magento\Backend\Test\Page\AdminAuthLogin;
 use Magento\Backend\Test\Page\Dashboard;
 use Magento\User\Test\Fixture\AdminUserInjectable;
 use Magento\User\Test\Fixture\AdminUserRole;
-use Magento\Backend\Test\Page\AdminAuth;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
 use Mtf\Fixture\FixtureFactory;
@@ -47,9 +46,9 @@ class DeleteUserRoleEntityTest extends Injectable
     protected $userRoleEditRole;
 
     /**
-     * @var AdminAuth
+     * @var AdminAuthLogin
      */
-    protected $adminAuth;
+    protected $adminAuthLogin;
 
     /**
      * @var Dashboard
@@ -60,7 +59,7 @@ class DeleteUserRoleEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @param UserRoleIndex $userRoleIndex
      * @param UserRoleEditRole $userRoleEditRole
-     * @param AdminAuth $adminAuth
+     * @param AdminAuthLogin $adminAuthLogin
      * @param AdminUserRole $role
      * @param Dashboard $dashboard
      * @return array
@@ -69,30 +68,29 @@ class DeleteUserRoleEntityTest extends Injectable
         FixtureFactory $fixtureFactory,
         UserRoleIndex $userRoleIndex,
         UserRoleEditRole $userRoleEditRole,
-        AdminAuth $adminAuth,
-        AdminUserRole $role,
+        AdminAuthLogin $adminAuthLogin,
         Dashboard $dashboard
     ) {
         $this->userRoleIndex = $userRoleIndex;
         $this->userRoleEditRole = $userRoleEditRole;
-        $this->adminAuth = $adminAuth;
+        $this->adminAuthLogin = $adminAuthLogin;
         $this->dashboard = $dashboard;
 
         $role = $fixtureFactory->createByCode('adminUserRole', ['dataSet' => 'default']);
         $role->persist();
         $role_id = $role->getData('role_id');
-        $adminUserInjectable = $fixtureFactory->createByCode(
-            'adminUserInjectable',
+        $adminUser = $fixtureFactory->createByCode(
+        'adminUserInjectable',
             [
                 'dataSet' => 'custom_admin',
                 'data' => ['role_id' => $role_id]
             ]
         );
-        $adminUserInjectable->persist();
+        $adminUser->persist();
 
         return [
             'role' => $role,
-            'adminUserInjectable' => $adminUserInjectable
+            'adminUserInjectable' => $adminUser
         ];
     }
 
@@ -101,7 +99,8 @@ class DeleteUserRoleEntityTest extends Injectable
      *
      * @param AdminUserRole $role
      * @param AdminUserInjectable $adminUserInjectable
-     * $param string $isDefaultUser
+     * @param string $isDefaultUser
+     * @return void
      */
     public function testDeleteAdminUserRole(
         AdminUserRole $role,
@@ -109,13 +108,13 @@ class DeleteUserRoleEntityTest extends Injectable
         $isDefaultUser
     ) {
         $filter = [
-            'role_name' => $role->getData('role_name')
+            'role_name' => $role->getRoleName()
         ];
         //Steps
         if ($isDefaultUser == 0) {
-            $this->adminAuth->open();
-            $this->adminAuth->getLoginForm()->fill($adminUserInjectable);
-            $this->adminAuth->getLoginForm()->submit();
+            $this->adminAuthLogin->open();
+            $this->adminAuthLogin->getLoginBlock()->fill($adminUserInjectable);
+            $this->adminAuthLogin->getLoginBlock()->submit();
             $this->userRoleIndex->open();
         } else {
             $this->userRoleIndex->open();

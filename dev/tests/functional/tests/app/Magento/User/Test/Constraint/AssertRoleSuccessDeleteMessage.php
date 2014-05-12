@@ -13,8 +13,6 @@ use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 
 /**
  * Class AssertRoleSuccessDeleteMessage
- *
- * @package Magento\User\Test\Constraint
  */
 class AssertRoleSuccessDeleteMessage extends AbstractConstraint
 {
@@ -30,6 +28,7 @@ class AssertRoleSuccessDeleteMessage extends AbstractConstraint
     /**
      * Asserts that success delete message equals to expected message.
      *
+     * @param UserRoleIndex $rolePage
      * @return void
      */
     public function processAssert(UserRoleIndex $rolePage)
