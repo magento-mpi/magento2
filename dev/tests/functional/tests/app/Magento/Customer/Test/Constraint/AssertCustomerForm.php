@@ -69,6 +69,8 @@ class AssertCustomerForm extends AbstractConstraint
         }
         if ($address) {
             $data['addresses'][1] = $address->hasData() ? $address->getData() : [];
+        } else {
+            $data['addresses'] = [];
         }
         $filter['email'] = $data['customer']['email'];
 
@@ -88,7 +90,7 @@ class AssertCustomerForm extends AbstractConstraint
      *
      * @param array $dataFixture
      * @param array $dataForm
-     * @return bool
+     * @return array
      */
     protected function verify(array $dataFixture, array $dataForm)
     {
@@ -104,7 +106,8 @@ class AssertCustomerForm extends AbstractConstraint
         foreach ($dataFixture['addresses'] as $key => $address) {
             $addressDiff = array_diff($address, $dataForm['addresses'][$key]);
             foreach ($addressDiff as $name => $value) {
-                $result[] = "\naddresse #{$key} {$name}: \"{$dataForm['addresses'][$key][$name]}\" instead of \"{$value}\"";
+                $result[] = "\naddress #{$key} {$name}: \"{$dataForm['addresses'][$key][$name]}"
+                . "\" instead of \"{$value}\"";
             }
         }
 

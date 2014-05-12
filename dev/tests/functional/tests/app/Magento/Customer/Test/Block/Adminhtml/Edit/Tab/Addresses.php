@@ -37,6 +37,13 @@ class Addresses extends Tab
     protected $customerAddress = '//*[@id="address_list"]/li[%d]/a';
 
     /**
+     * Magento loader
+     *
+     * @var string
+     */
+    protected $loader = '//ancestor::body/div[@data-role="loader"]';
+
+    /**
      * Fill customer addresses
      *
      * @param FixtureInterface|FixtureInterface[] $address
@@ -52,12 +59,8 @@ class Addresses extends Tab
             /** @var AddressInjectable $address */
             $countryId = $address->getCountryId();
             if($countryId && $this->mapping['country_id']) {
-                $this->_rootElement->find(
-                    $this->mapping['country_id']['selector'],
-                    $this->mapping['country_id']['strategy'],
-                    $this->mapping['country_id']['input']
-                )->setValue($countryId);
-                $this->waitForElementNotVisible('#loading-mask #loading_mask_loader');
+                $this->_fill($this->dataMapping(['country_id' => $countryId]));
+                $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             }
 
             $this->fillFormTab($address->getData(), $this->_rootElement);
@@ -91,12 +94,8 @@ class Addresses extends Tab
             /** @var AddressInjectable $address */
             $countryId = $address->getCountryId();
             if($countryId && $this->mapping['country_id']) {
-                $this->_rootElement->find(
-                    $this->mapping['country_id']['selector'],
-                    $this->mapping['country_id']['strategy'],
-                    $this->mapping['country_id']['input']
-                )->setValue($countryId);
-                $this->waitForElementNotVisible('#loading-mask #loading_mask_loader');
+                $this->_fill($this->dataMapping(['country_id' => $countryId]));
+                $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_XPATH);
             }
             $this->fillFormTab($address->getData(), $this->_rootElement);
         }

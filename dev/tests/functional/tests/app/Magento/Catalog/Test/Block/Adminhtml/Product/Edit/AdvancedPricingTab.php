@@ -24,10 +24,10 @@ class AdvancedPricingTab extends Tab
      * Fill group price options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $root = $element;
         $this->_rootElement->waitUntil(
