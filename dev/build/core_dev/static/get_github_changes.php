@@ -47,6 +47,7 @@ function generateChangedFilesList($outputFile, $changedFiles)
     }
     fclose($changedFilesList);
 }
+
 /**
  * Gets list of changed files
  *
