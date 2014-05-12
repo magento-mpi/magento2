@@ -33,7 +33,8 @@ class AssertCustomerForm extends AbstractConstraint
      *
      * @var array
      */
-    protected $skippedFields = [
+    protected $customerSkippedFields = [
+        'id',
         'password',
         'password_confirmation',
         'is_subscribed',
@@ -46,27 +47,39 @@ class AssertCustomerForm extends AbstractConstraint
      * @param CustomerIndex $pageCustomerIndex
      * @param CustomerIndexEdit $pageCustomerIndexEdit
      * @param AddressInjectable $address [optional]
+     * @param CustomerInjectable $initialCustomer [optional]
      * @return void
      */
     public function processAssert(
         CustomerInjectable $customer,
         CustomerIndex $pageCustomerIndex,
         CustomerIndexEdit $pageCustomerIndexEdit,
-        AddressInjectable $address = null
+        AddressInjectable $address = null,
+        CustomerInjectable $initialCustomer = null
     ) {
-        $data = ['customer' => $customer->getData()];
-        $filter = ['email' => $customer->getEmail()];
+        $data = [];
+        $filter = [];
 
+        if ($initialCustomer) {
+            $data['customer'] = $customer->hasData()
+                ? array_merge($initialCustomer->getData(), $customer->getData())
+                : $initialCustomer->getData();
+        } else {
+            $data['customer'] = $customer->getData();
+        }
         if ($address) {
             $data['addresses'][1] = $address->hasData() ? $address->getData() : [];
         }
+        $filter['email'] = $data['customer']['email'];
 
         $pageCustomerIndex->open();
         $pageCustomerIndex->getCustomerGridBlock()->searchAndOpen($filter);
         $dataForm = $pageCustomerIndexEdit->getCustomerForm()->getDataCustomer($customer, $address);
+        $dataDiff = $this->verify($data, $dataForm);
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->verifyData($data, $dataForm),
+            empty($dataDiff),
             'Customer data on edit page(backend) not equals to passed from fixture.'
+            . "\nFailed values: " . implode(', ', $dataDiff)
         );
     }
 
@@ -77,25 +90,25 @@ class AssertCustomerForm extends AbstractConstraint
      * @param array $dataForm
      * @return bool
      */
-    protected function verifyData(array $dataFixture, array $dataForm)
+    protected function verify(array $dataFixture, array $dataForm)
     {
-        foreach($dataFixture as $key => $value) {
-            if (in_array($key, $this->skippedFields)){
-                continue;
-            }
-            if (!array_key_exists($key,$dataForm)) {
-                return false;
-            }
+        $result = [];
 
-            if (
-                is_array($value) && $this->verifyData($value, $dataForm[$key])
-                || $value == $dataForm[$key]
-            ) {
+        $customerDiff = array_diff_assoc($dataFixture['customer'], $dataForm['customer']);
+        foreach ($customerDiff as $name => $value) {
+            if (in_array($name, $this->customerSkippedFields)) {
                 continue;
             }
-            return false;
+            $result[] = "\ncustomer {$name}: \"{$dataForm['customer'][$name]}\" instead of \"{$value}\"";
         }
-        return true;
+        foreach ($dataFixture['addresses'] as $key => $address) {
+            $addressDiff = array_diff($address, $dataForm['addresses'][$key]);
+            foreach ($addressDiff as $name => $value) {
+                $result[] = "\naddresse #{$key} {$name}: \"{$dataForm['addresses'][$key][$name]}\" instead of \"{$value}\"";
+            }
+        }
+
+        return $result;
     }
 
     /**

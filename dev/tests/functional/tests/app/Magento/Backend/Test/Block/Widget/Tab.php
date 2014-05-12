@@ -39,7 +39,7 @@ class Tab extends AbstractForm
     }
 
     /**
-     * Get data to fields on tab
+     * Get data of tab
      *
      * @param array|null $fields
      * @param Element|null $element

@@ -10,6 +10,7 @@ namespace Magento\Customer\Test\Block\Adminhtml\Edit;
 
 use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Form
@@ -28,7 +29,8 @@ class Form extends FormTabs
      */
     public function fillCustomer(FixtureInterface $customer, $address = null)
     {
-        if ($customer->hasData()) {
+        $isHasData = ($customer instanceof InjectableFixture) ? $customer->hasData() : true;
+        if ($isHasData) {
             parent::fill($customer);
         }
         if (null !== $address) {
@@ -48,7 +50,8 @@ class Form extends FormTabs
      */
     public function updateCustomer(FixtureInterface $customer, $address = null)
     {
-        if ($customer->hasData()) {
+        $isHasData = ($customer instanceof InjectableFixture) ? $customer->hasData() : true;
+        if ($isHasData) {
             parent::fill($customer);
         }
         if (null !== $address) {
@@ -68,13 +71,7 @@ class Form extends FormTabs
      */
     public function getDataCustomer(FixtureInterface $customer, $address = null)
     {
-        $data = [];
-
-        if ($customer->hasData()) {
-            $data['customer'] = parent::getData($customer);
-        } else {
-            $data['customer'] = parent::getData();
-        }
+        $data = ['customer' => $customer->hasData() ? parent::getData($customer) : parent::getData()];
 
         if (null !== $address) {
             $this->openTab('addresses');

@@ -147,15 +147,12 @@ class Review extends Form
      */
     protected function verifyForm(DataFixture $fixture, Form $form)
     {
-        $data = $fixture->getData();
-        $preparedData = [];
-        $formData = $form->getData($fixture);
-
-        foreach ($data['fields'] as $key => $field) {
-            $preparedData[$key] = $field['value'];
+        $fixtureData = [];
+        foreach ($fixture->getData()['fields'] as $key => $field) {
+            $fixtureData[$key] = $field['value'];
         }
+        $dataDiff = array_diff($fixtureData, $form->getData($fixture));
 
-        $dataDiff = array_diff($preparedData, $formData);
-        return 0 === count($dataDiff);
+        return empty($dataDiff);
     }
 }

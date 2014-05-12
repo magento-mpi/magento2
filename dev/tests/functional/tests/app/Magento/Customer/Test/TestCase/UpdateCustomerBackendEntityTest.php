@@ -52,12 +52,12 @@ class UpdateCustomerBackendEntityTest extends Injectable
     }
 
     /**
-     * @param CustomerInjectable $preconditionCustomer
+     * @param CustomerInjectable $initialCustomer
      * @param CustomerInjectable $customer
      * @param AddressInjectable $address
      */
     public function testUpdateCustomerBackendEntity(
-        CustomerInjectable $preconditionCustomer,
+        CustomerInjectable $initialCustomer,
         CustomerInjectable $customer,
         AddressInjectable $address
     ) {
@@ -65,10 +65,10 @@ class UpdateCustomerBackendEntityTest extends Injectable
         $address = $address->hasData() ? $address : null;
 
         // Preconditions:
-        $preconditionCustomer->persist();
+        $initialCustomer->persist();
 
         // Steps
-        $filter = ['email' => $preconditionCustomer->getEmail()];
+        $filter = ['email' => $initialCustomer->getEmail()];
         $this->customerIndexPage->open();
         $this->customerIndexPage->getCustomerGridBlock()->searchAndOpen($filter);
         $this->customerIndexEditPage->getCustomerForm()->updateCustomer($customer, $address);

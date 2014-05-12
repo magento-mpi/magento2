@@ -66,7 +66,7 @@ class CreateOnFrontendTest extends Functional
         $accountIndexPage->open();
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
-        $this->assertTrue($this->verifyCustomerAddress($customerAddress, $addressEditPage->getEditForm()));
+        $this->verifyCustomerAddress($customerAddress, $addressEditPage->getEditForm());
     }
 
     /**
@@ -86,6 +86,9 @@ class CreateOnFrontendTest extends Functional
         }
 
         $dataDiff = array_diff($preparedDataAddress, $form->getData($address));
-        return 0 === count($dataDiff);
+        $this->assertTrue(
+            empty($dataDiff),
+            'Customer addresses data on edit page(backend) not equals to passed from fixture.'
+        );
     }
 }

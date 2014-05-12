@@ -51,6 +51,10 @@
             <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[region_id]"]</selector>
             <strategy>css selector</strategy>
         </region_id>
+        <region>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[region]"]</selector>
+            <strategy>css selector</strategy>
+        </region>
         <postcode>
             <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[postcode]"]</selector>
             <strategy>css selector</strategy>

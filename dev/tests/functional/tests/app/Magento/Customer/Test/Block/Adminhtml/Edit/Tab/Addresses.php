@@ -11,6 +11,7 @@ namespace Magento\Customer\Test\Block\Adminhtml\Edit\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
@@ -46,6 +47,19 @@ class Addresses extends Tab
         $addresses = is_array($address) ? $address : [$address];
         foreach ($addresses as $address) {
             $this->addNewAddress();
+
+            /* Fix switch between region_id and region */
+            /** @var AddressInjectable $address */
+            $countryId = $address->getCountryId();
+            if($countryId && $this->mapping['country_id']) {
+                $this->_rootElement->find(
+                    $this->mapping['country_id']['selector'],
+                    $this->mapping['country_id']['strategy'],
+                    $this->mapping['country_id']['input']
+                )->setValue($countryId);
+                $this->waitForElementNotVisible('#loading-mask #loading_mask_loader');
+            }
+
             $this->fillFormTab($address->getData(), $this->_rootElement);
         }
 
@@ -72,6 +86,18 @@ class Addresses extends Tab
                 $this->addNewAddress();
             }
             $this->openCustomerAddress($addressNumber);
+
+            /* Fix switch between region_id and region */
+            /** @var AddressInjectable $address */
+            $countryId = $address->getCountryId();
+            if($countryId && $this->mapping['country_id']) {
+                $this->_rootElement->find(
+                    $this->mapping['country_id']['selector'],
+                    $this->mapping['country_id']['strategy'],
+                    $this->mapping['country_id']['input']
+                )->setValue($countryId);
+                $this->waitForElementNotVisible('#loading-mask #loading_mask_loader');
+            }
             $this->fillFormTab($address->getData(), $this->_rootElement);
         }
 

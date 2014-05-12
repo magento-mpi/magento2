@@ -11,7 +11,6 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Mtf\Fixture;
 use Mtf\Block\Form;
 use Magento\Review\Test\Block\Product\View\Summary;
 use Magento\Review\Test\Block\Product\View;
@@ -153,7 +152,7 @@ class ReviewTest extends Functional
     }
 
     /**
-     * Verify that review is equals data on form
+     * Verify that review is equals to data on form
      *
      * @param Review $review
      * @param Form $form
@@ -161,14 +160,12 @@ class ReviewTest extends Functional
      */
     protected function verifyReviewBackendForm(Review $review, Form $form)
     {
-        $dataReview = $review->getData();
-        $preparedDataReview = [];
-
-        foreach ($dataReview['fields'] as $key => $field) {
-            $preparedDataReview[$key] = $field['value'];
+        $reviewData = [];
+        foreach ($review->getData()['fields'] as $key => $field) {
+            $reviewData[$key] = $field['value'];
         }
+        $dataDiff = array_diff($reviewData, $form->getData($review));
 
-        $dataDiff = array_diff($preparedDataReview, $form->getData($review));
-        return 0 === count($dataDiff);
+        return empty($dataDiff);
     }
 }

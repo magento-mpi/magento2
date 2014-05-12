@@ -15,6 +15,7 @@ namespace Magento\Backend\Test\Block\Widget;
 use Mtf\Block\Mapper;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Iterator\File;
@@ -50,14 +51,16 @@ class FormTabs extends Form
      * @param Element $element
      * @param Mapper $mapper
      * @param XmlConverter $xmlConverter
+     * @param BlockFactory $blockFactory
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
-        XmlConverter $xmlConverter
+        XmlConverter $xmlConverter,
+        BlockFactory $blockFactory
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $mapper);
+        parent::__construct($element, $blockFactory, $mapper);
     }
 
     /**
@@ -156,7 +159,7 @@ class FormTabs extends Form
     }
 
     /**
-     * Verify form with tabs
+     * Get data of the tabs
      *
      * @param FixtureInterface|null $fixture
      * @param Element|null $element
@@ -170,7 +173,6 @@ class FormTabs extends Form
 
         foreach ($this->tabs as $tabName => $tab) {
             $this->openTab($tabName);
-
             $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : null;
             $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
             $data = array_merge($data, $tabData);
@@ -267,8 +269,8 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
-        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
+        /** @var Tab $tabElement */
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }
