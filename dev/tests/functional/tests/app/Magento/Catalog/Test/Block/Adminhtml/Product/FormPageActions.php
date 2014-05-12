@@ -26,13 +26,6 @@ class FormPageActions extends ParentFormPageActions
     protected $saveButton = '#save-split-button-button';
 
     /**
-     * Choose affected attribute set dialog popup window
-     *
-     * @var string
-     */
-    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
-
-    /**
      * Save product form with window confirmation
      *
      * @param BackendPage $page

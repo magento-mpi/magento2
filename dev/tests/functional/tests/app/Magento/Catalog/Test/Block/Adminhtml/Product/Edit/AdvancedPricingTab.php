@@ -10,12 +10,13 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Element;
+use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class AdvancedPricingTab
  * Product advanced pricing tab
  */
-class AdvancedPricingTab extends Options
+class AdvancedPricingTab extends Tab
 {
     /**
      * Class name 'Subform' of the main tab form
@@ -40,10 +41,11 @@ class AdvancedPricingTab extends Options
             // Fill form
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
                 /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
-                $optionsForm = ObjectManager::getInstance()->create(
+                $optionsForm = $this->blockFactory->create(
                     __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
                     ['element' => $this->_rootElement]
                 );
+
                 foreach ($field['value'] as $key => $option) {
                     ++$key;
                     $optionsForm->fillOptions(

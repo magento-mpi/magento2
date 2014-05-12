@@ -37,6 +37,6 @@ class CreateProduct extends Ui
         $productForm = $createProductPage->getProductForm();
         $productForm->fill($fixture);
         $createProductPage->getFormAction()->save();
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
     }
 }

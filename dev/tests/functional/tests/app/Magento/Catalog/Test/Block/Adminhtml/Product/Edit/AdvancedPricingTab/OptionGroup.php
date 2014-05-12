@@ -9,7 +9,6 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
@@ -23,10 +22,10 @@ class OptionGroup extends Options
      *
      * @var string
      */
-    protected $buttonFormLocator = "//*[@id='group_price_container']/following-sibling::tfoot//button";
+    protected $buttonFormLocator = "#group_prices_table tfoot button";
 
     /**
-     * Fill the form
+     * Fill the form 'Extended price'
      *
      * @param array $fields
      * @param Element $element
@@ -34,7 +33,7 @@ class OptionGroup extends Options
      */
     public function fillOptions(array $fields, Element $element = null)
     {
-        $this->_rootElement->find($this->buttonFormLocator, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->buttonFormLocator)->click();
         return parent::fillOptions($fields, $element);
     }
 }

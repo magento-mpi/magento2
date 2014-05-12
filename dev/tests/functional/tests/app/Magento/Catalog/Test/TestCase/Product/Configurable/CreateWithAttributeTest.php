@@ -128,7 +128,7 @@ class CreateWithAttributeTest extends Functional
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $this->assertEquals(
             'You saved the product.',
-            $createProductPage->getMessageBlock()->getSuccessMessages(),
+            $createProductPage->getMessagesBlock()->getSuccessMessages(),
             'Product was not saved'
         );
     }

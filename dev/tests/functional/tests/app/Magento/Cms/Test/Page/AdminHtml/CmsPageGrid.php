@@ -71,7 +71,7 @@ class CmsPageGrid extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)

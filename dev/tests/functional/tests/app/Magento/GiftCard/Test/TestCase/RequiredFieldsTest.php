@@ -49,7 +49,7 @@ class RequiredFieldsTest extends Functional
         $productForm->fill($giftcard);
         $createProductPage->getFormAction()->save();
         //Verification
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -96,7 +96,8 @@ class RequiredFieldsTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertTrue($productViewBlock->isOpenAmount(), 'Open Amount field is absent');
-        $this->assertTrue($productViewBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
+        $giftCardBlock = $productPage->getGiftCardBlock();
+        $this->assertTrue($giftCardBlock->isOpenAmount(), 'Open Amount field is absent');
+        $this->assertTrue($giftCardBlock->isGiftCardNotPhysical(), 'Fields are not corresponded to Virtual Card');
     }
 }

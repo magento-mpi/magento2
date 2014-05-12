@@ -52,7 +52,7 @@ class EditBundleTest extends Functional
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productForm = $editProductPage->getProductForm();
+        $productForm = $editProductPage->getForm();
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
@@ -63,7 +63,7 @@ class EditBundleTest extends Functional
         $productForm->fill($editProduct);
         $editProductPage->getFormAction()->save();
         //Verifying
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();

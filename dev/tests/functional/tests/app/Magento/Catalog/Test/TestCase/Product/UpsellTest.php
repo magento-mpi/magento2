@@ -53,7 +53,7 @@ class UpsellTest extends Functional
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
@@ -63,7 +63,7 @@ class UpsellTest extends Functional
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }

@@ -42,14 +42,14 @@ class BundleDynamicTest extends Functional
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productForm = $createProductPage->getProductForm();
+        $productForm = $createProductPage->getForm();
         //Steps
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productForm->fill($bundle);
         $createProductPage->getFormAction()->save();
         //Verification
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

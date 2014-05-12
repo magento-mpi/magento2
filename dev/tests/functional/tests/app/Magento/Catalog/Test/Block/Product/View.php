@@ -425,28 +425,4 @@ class View extends Block
     {
         return $this->_rootElement->find($this->stockAvailability)->getText();
     }
-
-    /**
-     * Verify that text field for Gift Card amount is present
-     *
-     * @return bool
-     */
-    public function isOpenAmount()
-    {
-        return $this->_rootElement->find($this->openAmount)->isVisible();
-    }
-
-    /**
-     * Verifying that Gift Card fields on fronted correspond to Gift Card type:
-     * Virtual and Combined - Sender Name, Sender Email, Recipient Name, Recipient Email
-     *
-     * @return bool
-     */
-    public function isGiftCardNotPhysical()
-    {
-        return $this->_rootElement->find($this->senderName)->isVisible()
-        && $this->_rootElement->find($this->senderEmail)->isVisible()
-        && $this->_rootElement->find($this->recipientName)->isVisible()
-        && $this->_rootElement->find($this->recipientEmail)->isVisible();
-    }
 }

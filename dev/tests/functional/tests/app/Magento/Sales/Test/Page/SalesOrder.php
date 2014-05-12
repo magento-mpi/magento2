@@ -52,7 +52,7 @@ class SalesOrder extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Order actions block
@@ -117,7 +117,7 @@ class SalesOrder extends Page
     public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 

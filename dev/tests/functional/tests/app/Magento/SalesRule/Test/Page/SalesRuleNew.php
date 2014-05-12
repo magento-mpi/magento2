@@ -57,7 +57,7 @@ class SalesRuleNew extends Page
      *
      * @var string
      */
-    protected $messageBlockSelector = '#messages .messages';
+    protected $messagesBlockSelector = '#messages .messages';
 
     /**
      * Promo Quote Form Selector
@@ -98,9 +98,9 @@ class SalesRuleNew extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageBlockSelector));
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messagesBlockSelector));
     }
 
     /**

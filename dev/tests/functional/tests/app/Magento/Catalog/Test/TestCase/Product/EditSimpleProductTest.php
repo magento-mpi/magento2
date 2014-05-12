@@ -57,7 +57,7 @@ class EditSimpleProductTest extends Functional
         $productForm->fill($editProduct);
         $editProductPage->getFormAction()->save();
         //Verifying
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();

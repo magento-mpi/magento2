@@ -49,7 +49,7 @@ class CreateTest extends Functional
         $customerSegmentPage = Factory::getPageFactory()->getCustomersegmentIndex();
         $customerSegmentCreatePage = Factory::getPageFactory()->getCustomersegmentIndexNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
-        $messagesBlock = $customerSegmentCreatePage->getMessageBlock();
+        $messagesBlock = $customerSegmentCreatePage->getMessagesBlock();
         // begin steps to add a customer segment
         $customerSegmentForm = $customerSegmentPage->getCustomerSegmentGridBlock();
         $customerSegmentPage->open();
@@ -66,8 +66,8 @@ class CreateTest extends Functional
         $saveWidget = $customerSegmentCreatePage->getSave();
         $saveWidget->clickSaveAndContinue();
 
-        $conditionMessageBlock = $customerSegmentCreatePage->getMessageBlock();
-        $conditionMessageBlock->assertSuccessMessage();
+        $conditionMessagesBlock = $customerSegmentCreatePage->getMessagesBlock();
+        $conditionMessagesBlock->assertSuccessMessage();
         // open matched customers tab
         $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('matched_customers');
         // verify matched customers

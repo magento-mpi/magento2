@@ -46,7 +46,7 @@ class EditConfigurableTest extends CreateConfigurableTest
         $productForm->fill($editProduct);
         $createProductPage->getFormAction()->save();
         //Verifying
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

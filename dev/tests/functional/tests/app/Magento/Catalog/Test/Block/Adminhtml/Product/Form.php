@@ -81,23 +81,18 @@ class Form extends FormTabs
     protected $category;
 
     /**
-     * @param Category $category
-     */
-    public function setCategory(Category $category)
-    {
-        $this->category = $category;
-    }
-
-    /**
      * Fill the product form
      *
      * @param FixtureInterface $fixture
+     * @param Category $category
      * @param Element $element
      * @return $this
      */
-    public function fill(FixtureInterface $fixture, Element $element = null)
+    public function fill(FixtureInterface $fixture, Category $category = null, Element $element = null)
     {
-        $this->fillCategory($fixture);
+        if (!empty($category)) {
+            $this->category = $category;
+        }
         return parent::fill($fixture);
     }
 
@@ -121,7 +116,7 @@ class Form extends FormTabs
      * Select category
      *
      * @param FixtureInterface $fixture
-     * @return void
+     * @return void|null
      */
     protected function fillCategory(FixtureInterface $fixture)
     {
@@ -269,18 +264,6 @@ class Form extends FormTabs
             return false;
         }
 
-        return $this;
-    }
-
-    /**
-     * Save the form
-     * (not used on this form)
-     *
-     * @param FixtureInterface $fixture
-     * @return Form
-     */
-    public function save(FixtureInterface $fixture = null)
-    {
         return $this;
     }
 }

@@ -177,7 +177,7 @@ class ApplyCatalogPriceRuleTest extends Functional
             // Add to Cart
             $productViewBlock->addToCart($product);
             $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-            $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+            $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 
             // Verify Cart page price
             $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);

@@ -36,7 +36,7 @@ class AssertProductSaveMessage extends AbstractConstraint
      */
     public function processAssert(CatalogProductEdit $productPage)
     {
-        $actualMessage = $productPage->getMessageBlock()->getSuccessMessages();
+        $actualMessage = $productPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

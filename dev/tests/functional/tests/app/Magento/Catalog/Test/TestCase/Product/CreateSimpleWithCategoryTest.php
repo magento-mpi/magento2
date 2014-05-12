@@ -54,7 +54,7 @@ class CreateSimpleWithCategoryTest extends Functional
         $createProductPage->getFormAction()->save();
 
         //Verifying
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $this->assertSuccessMessage("You saved the product.");
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
@@ -62,6 +62,22 @@ class CreateSimpleWithCategoryTest extends Functional
         $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
         $this->assertProductOnFrontend($product);
+    }
+
+    /**
+     * Assert success message
+     *
+     * @param string $messageText
+     */
+    protected function assertSuccessMessage($messageText)
+    {
+        $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
+        $messageBlock = $productEditPage->getMessagesBlock();
+        $this->assertContains(
+            $messageText,
+            $messageBlock->getSuccessMessages(),
+            sprintf('Message "%s" is not appear.', $messageText)
+        );
     }
 
     /**

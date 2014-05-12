@@ -42,8 +42,8 @@ class CatalogProductEdit extends BackendPage
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
@@ -85,8 +85,8 @@ class CatalogProductEdit extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 }

@@ -132,7 +132,7 @@ class ApplyMapConfigurableTest extends Functional
     protected function verifyMapInShoppingCart($product)
     {
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $optionPrice = $product->getProductOptionsPrice() + floatval($product->getProductPrice());
         $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());

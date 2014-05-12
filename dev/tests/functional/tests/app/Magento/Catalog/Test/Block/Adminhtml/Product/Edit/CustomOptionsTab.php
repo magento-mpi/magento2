@@ -10,12 +10,13 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
 use Mtf\ObjectManager;
 use Mtf\Client\Element;
+use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class CustomOptionsTab
  * Product custom options tab
  */
-class CustomOptionsTab extends Options
+class CustomOptionsTab extends Tab
 {
     /**
      * Class name 'Subform' of the main tab form
@@ -66,8 +67,8 @@ class CustomOptionsTab extends Options
                 && !empty($options)
             ) {
                 /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
-                $optionsForm = ObjectManager::getInstance()->create(
-                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                $optionsForm = $this->blockFactory->create(
+                    NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
                     ['element' => $rootElement]
                 );
 

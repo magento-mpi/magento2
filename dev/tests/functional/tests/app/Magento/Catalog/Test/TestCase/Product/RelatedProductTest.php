@@ -53,7 +53,7 @@ class RelatedProductTest extends Functional
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(
@@ -63,7 +63,7 @@ class RelatedProductTest extends Functional
         $productForm = $editProductPage->getProductForm();
         $productForm->fill($assignToSimple1);
         $editProductPage->getFormAction()->save();
-        $editProductPage->getMessageBlock()->assertSuccessMessage();
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
     }
@@ -106,7 +106,7 @@ class RelatedProductTest extends Functional
         //Verify that both configurable product and simple product 2 are added to shopping cart
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $this->assertTrue(
             $checkoutCartBlock->isProductInShoppingCart($configurable),
             'Configurable product was not found in the shopping cart.'

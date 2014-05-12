@@ -74,11 +74,8 @@ class CreateSimpleProductEntityTest extends Injectable
      * @param CatalogProductNew $newProductPage
      * @return void
      */
-    public function __inject(
-        Category $category,
-        CatalogProductIndex $productGrid,
-        CatalogProductNew $newProductPage
-    ) {
+    public function __inject(Category $category, CatalogProductIndex $productGrid, CatalogProductNew $newProductPage)
+    {
         $this->category = $category;
         $this->productGrid = $productGrid;
         $this->newProductPage = $newProductPage;
@@ -97,8 +94,7 @@ class CreateSimpleProductEntityTest extends Injectable
         $this->productGrid->open();
         $this->productGrid->getProductBlock()->addProduct('simple');
         $productBlockForm = $this->newProductPage->getForm();
-        $productBlockForm->setCategory($category);
-        $productBlockForm->fill($product);
+        $productBlockForm->fill($product, $category);
         $this->newProductPage->getFormAction()->save();
     }
 }

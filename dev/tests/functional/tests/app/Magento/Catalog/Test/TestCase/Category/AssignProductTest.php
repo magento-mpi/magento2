@@ -47,7 +47,7 @@ class AssignProductTest extends Functional
         $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
-        $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $messagesBlock = $catalogCategoryPage->getMessagesBlock();
         $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
@@ -61,7 +61,7 @@ class AssignProductTest extends Functional
             $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
         }
         $actionsBlock->save();
-        $messageBlock->assertSuccessMessage();
+        $messagesBlock->assertSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

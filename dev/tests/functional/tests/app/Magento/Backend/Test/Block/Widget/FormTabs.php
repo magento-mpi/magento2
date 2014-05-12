@@ -12,6 +12,7 @@ use Mtf\Block\Mapper;
 use Mtf\Client\Element;
 use Mtf\Util\XmlConverter;
 use Mtf\Util\Iterator\File;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
@@ -43,15 +44,17 @@ class FormTabs extends Form
      * @constructor
      * @param Element $element
      * @param Mapper $mapper
+     * @param BlockFactory $blockFactory
      * @param XmlConverter $xmlConverter
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
+        BlockFactory $blockFactory,
         XmlConverter $xmlConverter
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $mapper);
+        parent::__construct($element, $blockFactory, $mapper);
     }
 
     /**
@@ -260,7 +263,7 @@ class FormTabs extends Form
     {
         $tabClass = $this->tabs[$tabName]['class'];
         /** @var $tabElement Tab */
-        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

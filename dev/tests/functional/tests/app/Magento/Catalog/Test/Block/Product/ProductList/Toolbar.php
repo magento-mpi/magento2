@@ -6,17 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Category;
+namespace Magento\Catalog\Test\Block\Product\ProductList;
 
 use Mtf\Block\Block;
 
 /**
  * Class ProductPagination
  * Pagination page product list
- *
- * @package Magento\Catalog\Test\Block\Category
  */
-class ProductPagination extends Block
+class Toolbar extends Block
 {
     /**
      * Selector next active element
@@ -26,18 +24,18 @@ class ProductPagination extends Block
     protected $nextPageSelector = '.item.current + .item a';
 
     /**
-     * Getting the active element to go to the next page
+     * Go to the next page
      *
-     * @return \Mtf\Client\Element|null
+     * @return bool
      */
-    public function getNextPage()
+    public function nextPage()
     {
         $nextPageItem = $this->_rootElement->find($this->nextPageSelector);
         if ($nextPageItem->isVisible()) {
             $nextPageItem->click();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 } 

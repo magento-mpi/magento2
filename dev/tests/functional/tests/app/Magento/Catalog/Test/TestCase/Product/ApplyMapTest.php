@@ -120,7 +120,7 @@ class ApplyMapTest extends Functional
         //Steps
         $mapBlock = $productPage->getMapBlock();
         $mapBlock->addToCartFromMap();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         //Verification in Shopping Cart
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $this->assertEquals($product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart');

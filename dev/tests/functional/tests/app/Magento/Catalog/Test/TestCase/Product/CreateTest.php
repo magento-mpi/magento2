@@ -47,7 +47,7 @@ class CreateTest extends Functional
         $productForm->fill($product);
         $createProductPage->getFormAction()->save();
         //Verifying
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

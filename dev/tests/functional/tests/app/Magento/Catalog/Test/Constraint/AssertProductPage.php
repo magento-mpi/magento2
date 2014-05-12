@@ -61,34 +61,34 @@ class AssertProductPage extends AbstractConstraint
         $viewBlock = $catalogProductView->getViewBlock();
         $price = $viewBlock->getProductPriceBlock()->getPrice();
         $errorsMessages = [
-            '- product name on product view page is not correct.',
-            '- product sku on product view page is not correct.',
-            '- product regular price on product view page is not correct.',
-            '- product short description on product view page is not correct.',
-            '- product description on product view page is not correct.'
+            'name'              => '- product name on product view page is not correct.',
+            'sku'               => '- product sku on product view page is not correct.',
+            'regular_price'     => '- product regular price on product view page is not correct.',
+            'short_description' => '- product short description on product view page is not correct.',
+            'description'       => '- product description on product view page is not correct.'
         ];
         $dataOnPage = [
-            $viewBlock->getProductName(),
-            $viewBlock->getProductSku(),
-            $price['price_regular_price']
+            'name'          => $viewBlock->getProductName(),
+            'sku'           => $viewBlock->getProductSku(),
+            'regular_price' => $price['price_regular_price']
         ];
-        $compereData = [
-            $this->product->getName(),
-            $this->product->getSku(),
-            number_format($this->product->getPrice(), 2),
+        $compareData = [
+            'name'          => $this->product->getName(),
+            'sku'           => $this->product->getSku(),
+            'regular_price' => number_format($this->product->getPrice(), 2),
 
         ];
 
         if ($productShortDescription = $this->product->getShortDescription()) {
-            $compereData[] = $productShortDescription;
-            $dataOnPage[] = $viewBlock->getProductShortDescription();
+            $compareData['short_description'] = $productShortDescription;
+            $dataOnPage['short_description'] = $viewBlock->getProductShortDescription();
         }
         if ($productDescription = $this->product->getDescription()) {
-            $compereData[] = $productDescription;
-            $dataOnPage[] = $viewBlock->getProductDescription();
+            $compareData['description'] = $productDescription;
+            $dataOnPage['description'] = $viewBlock->getProductDescription();
         }
 
-        $badValues = array_diff($dataOnPage, $compereData);
+        $badValues = array_diff($dataOnPage, $compareData);
         $errorsMessages = array_merge(
             $this->assertSpecialPrice($price),
             array_intersect_key($errorsMessages, array_keys($badValues))
@@ -119,7 +119,7 @@ class AssertProductPage extends AbstractConstraint
         if ($priceComparing && isset($price['price_special_price'])
             && number_format($priceComparing, 2) !== $price['price_special_price']
         ) {
-            return ['- product special price on product view page is not correct.'];
+            return ['special_price' => '- product special price on product view page is not correct.'];
         }
 
         return [];

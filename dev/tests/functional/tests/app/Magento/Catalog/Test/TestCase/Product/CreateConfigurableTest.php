@@ -49,7 +49,7 @@ class CreateConfigurableTest extends Functional
         $productForm->fill($product);
         $createProductPage->getFormAction()->saveProduct($createProductPage, $product);
         //Verifying
-        $createProductPage->getMessageBlock()->assertSuccessMessage();
+        $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

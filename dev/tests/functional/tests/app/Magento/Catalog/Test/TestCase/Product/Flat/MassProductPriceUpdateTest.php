@@ -63,7 +63,7 @@ class MassProductPriceUpdateTest extends Functional
          */
         sleep(5);
 
-        $productGridPage->getMessageBlock()->assertSuccessMessage();
+        $productGridPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertTrue($this->isOnGrid(array(
             'sku' => $product->getProductSku(),

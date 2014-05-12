@@ -9,12 +9,11 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
- * Class OptionField
- * Form 'Tier prices' on the tab "Extended price"
+ * Class OptionTier
+ * Form 'Tier prices' on the 'Advanced Pricing' tab
  */
 class OptionTier extends Options
 {
@@ -23,7 +22,7 @@ class OptionTier extends Options
      *
      * @var string
      */
-    protected $buttonFormLocator = "//*[@id='tier_price_container']/following-sibling::tfoot//button";
+    protected $buttonFormLocator = "#tiers_table tfoot button";
 
     /**
      * Fill product form 'Tier price'
@@ -34,7 +33,7 @@ class OptionTier extends Options
      */
     public function fillOptions(array $fields, Element $element = null)
     {
-        $this->_rootElement->find($this->buttonFormLocator, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->buttonFormLocator)->click();
         return parent::fillOptions($fields, $element);
     }
 }
