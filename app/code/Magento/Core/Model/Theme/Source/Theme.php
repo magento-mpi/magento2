@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +17,6 @@ use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
 /**
  * Design
  *
- * @package Magento\Framework\View
  */
 class Theme extends AbstractSource
 {

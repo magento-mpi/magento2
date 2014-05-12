@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -89,7 +86,6 @@ class Price extends Block
      * @var string
      */
     protected $priceToSelector = 'p.price-to span.price';
-
 
     /**
      * Getting prices

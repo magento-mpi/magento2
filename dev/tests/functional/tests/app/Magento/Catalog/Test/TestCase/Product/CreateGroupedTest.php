@@ -16,7 +16,6 @@ use Magento\Catalog\Test\Fixture\GroupedProduct;
  * Class CreateGroupedTest
  * Grouped product
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateGroupedTest extends Functional
 {

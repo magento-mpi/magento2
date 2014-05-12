@@ -14,7 +14,6 @@ use Magento\Cms\Test\Page\AdminHtml\CmsPageGrid;
 /**
  * Class CmsPageDuplicateError
  *
- * @package Magento\Backend\Test\Constraint
  */
 class CmsPageDuplicateError extends AbstractConstraint
 {

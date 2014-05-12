@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\User\Block\User\Edit;
 /**
  * User page left menu
  *
- * @category   Magento
- * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Tabs extends \Magento\Backend\Block\Widget\Tabs

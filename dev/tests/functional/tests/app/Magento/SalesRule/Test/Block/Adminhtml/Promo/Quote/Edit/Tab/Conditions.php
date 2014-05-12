@@ -17,7 +17,6 @@ use Mtf\Factory\Factory;
 /**
  * Class Conditions
  *
- * @package Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class Conditions extends Tab
@@ -74,11 +73,11 @@ class Conditions extends Tab
      * Set the mapping and fill the form
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      *
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields as $key => $value) {
             $this->mapping[$key] = self::FIELD_PREFIX . $key;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Model\Resource\Indexer;
 /**
  * Bundle products Price indexer resource model
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice

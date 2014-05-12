@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,8 +41,6 @@ namespace Magento\Sales\Model\Quote;
  * @method string getCcSsIssue()
  * @method \Magento\Sales\Model\Quote\Payment setCcSsIssue(string $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Payment extends \Magento\Payment\Model\Info

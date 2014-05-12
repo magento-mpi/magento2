@@ -13,7 +13,6 @@ use Mtf\Handler\HandlerInterface;
 /**
  * Interface SitemapInterface
  *
- * @package Magento\Sitemap\Test\Handler\Sitemap
  */
 interface SitemapInterface extends HandlerInterface
 {

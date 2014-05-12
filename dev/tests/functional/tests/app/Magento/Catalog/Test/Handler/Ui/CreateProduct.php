@@ -15,8 +15,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class CreateProduct
  * Create a product
- *
- * @package Magento\Catalog\Test\Handler\Ui
  */
 class CreateProduct extends Ui
 {

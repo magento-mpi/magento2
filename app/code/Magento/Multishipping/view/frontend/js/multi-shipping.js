@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    checkout multi-shipping addresses
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -32,10 +32,10 @@ class AdvancedPricingTab extends Tab
      * Fill 'Advanced price' product form on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields as $fieldName => $field) {
             // Fill form

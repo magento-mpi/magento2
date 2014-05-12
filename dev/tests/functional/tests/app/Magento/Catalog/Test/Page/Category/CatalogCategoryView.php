@@ -12,6 +12,8 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
+ * Category page on frontend
+ * 
  */
 class CatalogCategoryView extends FrontendPage
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +12,6 @@ use Magento\Catalog\Test\Fixture;
 /**
  * Class Product Repository
  *
- * @package Magento\Catalog\Test\Repository
  */
 class SimpleProduct extends Product
 {

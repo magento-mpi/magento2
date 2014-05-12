@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class ReturnItem
  * Return Item page
  *
- * @package Magento\Rma\Test\Page
  */
 class RmaGuestCreate extends Page
 {

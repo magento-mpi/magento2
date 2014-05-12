@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class Billing
  * One page checkout status billing block
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Billing extends Form
 {

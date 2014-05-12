@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * @package Magento\Directory\Test\Block\Currency
  */
 class Switcher extends Block
 {
@@ -27,11 +23,8 @@ class Switcher extends Block
      */
     public function switchCurrency($currencyCode)
     {
-        $categoryLink = $this->_rootElement->find(
-            "//div[contains(@class, 'switcher')][contains(@class, 'currency')]"
-            . "//button[contains(@class, 'action')][contains(@class, 'switch')]",
-            Locator::SELECTOR_XPATH
-        );
+        $categoryLink = $this->_rootElement->find('#currency-switcher');
+
         $categoryLink->click();
 
         $categoryLink = $this->_rootElement->find(

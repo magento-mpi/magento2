@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,6 @@ use Magento\Framework\DB\Select;
 /**
  * EAV attribute resource model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb

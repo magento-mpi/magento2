@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Checkout\Block\Cart;
 /**
  * Cart crosssell list
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct

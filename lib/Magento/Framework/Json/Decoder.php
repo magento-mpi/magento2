@@ -8,7 +8,6 @@
 namespace Magento\Framework\Json;
 
 /**
- * @package Magento\Framework\Json
  */
 class Decoder implements DecoderInterface
 {

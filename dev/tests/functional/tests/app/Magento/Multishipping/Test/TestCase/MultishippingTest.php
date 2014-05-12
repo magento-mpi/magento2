@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
  * Class MultishippingTest
  * Test multiple address page checkout with different configurations
  *
- * @package Magento\Multishipping\Test\TestCase
  */
 class MultishippingTest extends Functional
 {

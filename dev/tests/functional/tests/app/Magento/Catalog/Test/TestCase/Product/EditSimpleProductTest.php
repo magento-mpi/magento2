@@ -15,7 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Edit products
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class EditSimpleProductTest extends Functional
 {

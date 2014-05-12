@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,11 +15,12 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Customer\Model\Session;
 use Magento\CatalogRule\Model\Resource\RuleFactory;
+use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Class CatalogRulePrice
  */
-class CatalogRulePrice extends AbstractPrice
+class CatalogRulePrice extends AbstractPrice implements BasePriceProviderInterface
 {
     /**
      * Price type identifier string

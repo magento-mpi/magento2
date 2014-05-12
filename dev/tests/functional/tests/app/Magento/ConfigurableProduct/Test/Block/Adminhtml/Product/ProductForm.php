@@ -135,7 +135,7 @@ class ProductForm extends FormTabs
         Mapper $mapper,
         XmlConverter $xmlConverter,
         Browser $browser
-    ) {
+    ) {        
         $this->browser = $browser;
         parent::__construct($element, $mapper, $xmlConverter);
     }

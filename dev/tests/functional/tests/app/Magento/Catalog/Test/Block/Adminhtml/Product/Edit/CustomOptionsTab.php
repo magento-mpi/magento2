@@ -39,10 +39,10 @@ class CustomOptionsTab extends Tab
      * Fill custom options form on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $fields = reset($fields );
         if (empty($fields['value'])) {
@@ -68,7 +68,7 @@ class CustomOptionsTab extends Tab
             ) {
                 /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
                 $optionsForm = $this->blockFactory->create(
-                    NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
                     ['element' => $rootElement]
                 );
 

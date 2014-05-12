@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesRule\Helper;
 /**
  * Helper for coupon codes creating and managing
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Coupon extends \Magento\Framework\App\Helper\AbstractHelper

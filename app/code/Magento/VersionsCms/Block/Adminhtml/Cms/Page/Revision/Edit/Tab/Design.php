@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 /**
  * Design tab with cms page attributes and some modifications to CE version
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design

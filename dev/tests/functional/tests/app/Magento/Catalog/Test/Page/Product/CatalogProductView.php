@@ -13,6 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CatalogProductView
+ * Frontend product view page
  */
 class CatalogProductView extends FrontendPage
 {

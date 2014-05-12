@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Product
  * Catalog manage products block
  *
- * @package Magento\Catalog\Test\Block\Adminhtml
  */
 class Product extends Block
 {

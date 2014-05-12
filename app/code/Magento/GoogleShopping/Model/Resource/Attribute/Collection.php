@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Model\Resource\Attribute;
 /**
  * GoogleShopping Attributes collection
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection

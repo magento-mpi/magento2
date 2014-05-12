@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Persistent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 /**
  * Remember Me block
  *
- * @category    Magento
- * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Additional extends \Magento\Framework\View\Element\Html\Link

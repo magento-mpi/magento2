@@ -71,8 +71,8 @@ class GiftCard extends Block
     public function isGiftCardNotPhysical()
     {
         return $this->_rootElement->find($this->senderName)->isVisible()
-        && $this->_rootElement->find($this->senderEmail)->isVisible()
-        && $this->_rootElement->find($this->recipientName)->isVisible()
-        && $this->_rootElement->find($this->recipientEmail)->isVisible();
+            && $this->_rootElement->find($this->senderEmail)->isVisible()
+            && $this->_rootElement->find($this->recipientName)->isVisible()
+            && $this->_rootElement->find($this->recipientEmail)->isVisible();
     }
 }

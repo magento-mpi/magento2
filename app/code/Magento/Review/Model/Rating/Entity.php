@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,6 @@ namespace Magento\Review\Model\Rating;
  * @method string getEntityCode()
  * @method \Magento\Review\Model\Rating\Entity setEntityCode(string $value)
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Entity extends \Magento\Framework\Model\AbstractModel

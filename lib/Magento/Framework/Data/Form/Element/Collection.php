@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Data
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Framework\Data\Form\AbstractForm;
 /**
  * Form element collection
  *
- * @category    Magento
- * @package     Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection implements \ArrayAccess, \IteratorAggregate
