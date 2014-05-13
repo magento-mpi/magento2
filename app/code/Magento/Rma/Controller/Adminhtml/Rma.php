@@ -48,6 +48,13 @@ class Rma extends \Magento\Backend\App\Action
     protected $carrierHelper;
 
     /**
+     * Should notify customer
+     *
+     * @var bool
+     */
+    protected $rmaConfirmation;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
@@ -228,6 +235,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function saveNewAction()
     {
+        $this->rmaConfirmation = $this->getRequest()->getParam('rma_confirmation');
         if (!$this->getRequest()->isPost() || $this->getRequest()->getParam('back', false)) {
             $this->_redirect('adminhtml/*/');
             return;
@@ -298,21 +306,16 @@ class Rma extends \Magento\Backend\App\Action
             $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
             $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-            $statusHistory->setRmaEntityId(
-                $rma->getId()
-            )->setComment(
-                $saveRequest['comment']['comment']
-            )->setIsVisibleOnFront(
-                $visible
-            )->setStatus(
-                $rma->getStatus()
-            )->setCreatedAt(
-                $dateModel->gmtDate()
-            )->setIsAdmin(
-                1
-            )->save();
+            $statusHistory->setRmaEntityId($rma->getId())
+                ->setComment($saveRequest['comment']['comment'])
+                ->setIsVisibleOnFront($visible)
+                ->setStatus($rma->getStatus())
+                ->setCreatedAt($dateModel->gmtDate())
+                ->setIsCustomerNotified($this->rmaConfirmation)
+                ->setIsAdmin(1)
+                ->save();
         }
-        if (!empty($saveRequest['rma_confirmation'])) {
+        if ($this->rmaConfirmation) {
             $rma->sendNewRmaEmail();
         }
         return $this;

@@ -9,6 +9,8 @@ namespace Magento\Rma\Model\Rma\Status;
 
 /**
  * RMA model
+ * @method \Magento\Rma\Model\Rma\Status\History setRma(\Magento\Rma\Model\Rma $value)
+ * @method \Magento\Rma\Model\Rma\Status\History setIsCustomerNotified(bool $value)
  */
 class History extends \Magento\Framework\Model\AbstractModel
 {

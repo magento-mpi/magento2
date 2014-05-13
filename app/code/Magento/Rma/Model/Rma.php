@@ -129,13 +129,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected $_rmaGridFactory;
 
     /**
-     * Rma status history factory
-     *
-     * @var \Magento\Rma\Model\Rma\Status\HistoryFactory
-     */
-    protected $_historyFactory;
-
-    /**
      * Rma source status factory
      *
      * @var \Magento\Rma\Model\Rma\Source\StatusFactory
@@ -243,7 +236,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
      * @param \Magento\Rma\Model\GridFactory $rmaGridFactory
-     * @param \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
@@ -277,7 +269,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,
         \Magento\Rma\Model\GridFactory $rmaGridFactory,
-        \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory,
@@ -306,7 +297,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         $this->_rmaItemFactory = $rmaItemFactory;
         $this->_attrSourceFactory = $attrSourceFactory;
         $this->_rmaGridFactory = $rmaGridFactory;
-        $this->_historyFactory = $historyFactory;
         $this->_statusFactory = $statusFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemsFactory = $itemsFactory;
@@ -368,12 +358,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         $gridModel = $this->_rmaGridFactory->create();
         $gridModel->addData($this->getData());
         $gridModel->save();
-
-        /** @var $statusHistory  \Magento\Rma\Model\Rma\Status\History */
-        $statusHistory = $this->_historyFactory->create();
-        $statusHistory->setRma($this);
-        $statusHistory->saveSystemComment();
-
         $itemsCollection = $this->getItemsCollection();
         if (is_array($itemsCollection)) {
             foreach ($itemsCollection as $item) {
