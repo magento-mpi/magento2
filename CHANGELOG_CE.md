@@ -2,6 +2,7 @@
 =============
 * Themes update:
   * Blank theme was refactored to implement the mobile-first approach
+* Added Readme.md file
 * Fixed bugs:
   * Fixed an issue where it was impossible to place order using store credit
   * Fixed an issue where adding products with custom options from a wishlist to shopping cart caused an error
