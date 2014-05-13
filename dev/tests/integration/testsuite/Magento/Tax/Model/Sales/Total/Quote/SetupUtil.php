@@ -51,6 +51,7 @@ class SetupUtil
                 'code' => self::TAX_RATE_TX,
                 'rate' => '20',
             ],
+            'id' => null,
         ],
         self::TAX_RATE_SHIPPING => [
             'data' => [
@@ -60,6 +61,7 @@ class SetupUtil
                 'code' => self::TAX_RATE_SHIPPING,
                 'rate' => '7.5',
             ],
+            'id' => null,
         ],
         self::TAX_STORE_RATE => [
             'data' => [
@@ -69,6 +71,7 @@ class SetupUtil
                 'code' => self::TAX_STORE_RATE,
                 'rate' => '8.25',
             ],
+            'id' => null,
         ],
     ];
 
@@ -224,6 +227,58 @@ class SetupUtil
         return $this;
     }
 
+    protected function createDefaultTaxRule() {
+        $taxRuleDefaultData = [
+            'code' => 'Test Rule',
+            'priority' => '0',
+            'position' => '0',
+            'tax_customer_class' => array_values($this->customerTaxClasses),
+            'tax_product_class' => array_values($this->productTaxClasses),
+            'tax_rate' => array_values($taxRateIds),
+        ];
+
+
+    }
+
+    /**
+     * Convert the code to id for productTaxClass, customerTaxClass and taxRate in taxRuleOverrideData
+     *
+     * @param array $taxRuleOverrideData
+     * @param array $taxRateIds
+     * @return array
+     */
+    protected function processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds) {
+        if (!empty($taxRuleOverrideData['tax_customer_class'])) {
+            $customerTaxClassIds = [];
+            foreach ($taxRuleOverrideData['tax_customer_class'] as $customerClassCode) {
+                $customerTaxClassIds[] = $this->customerTaxClasses[$customerClassCode];
+            }
+            $taxRuleOverrideData['tax_customer_class'] = $customerTaxClassIds;
+        } else {
+            $taxRuleOverrideData['tax_customer_class'] = array_values($this->customerTaxClasses);
+        }
+        if (!empty($taxRuleOverrideData['tax_product_class'])) {
+            $productTaxClassIds = [];
+            foreach ($taxRuleOverrideData['tax_product_class'] as $productClassCode) {
+                $productTaxClassIds[] = $this->productTaxClasses[$productClassCode];
+            }
+            $taxRuleOverrideData['tax_product_class'] = $productTaxClassIds;
+        } else {
+            $taxRuleOverrideData['tax_product_class'] = array_values($this->productTaxClasses);
+        }
+        if (!empty($taxRuleOverrideData['tax_rate'])) {
+            $taxRateIdsForRule = [];
+            foreach ($taxRuleOverrideData['tax_rate'] as $taxRateCode) {
+                $taxRateIdsForRule[] = $taxRateIds[$taxRateCode];
+            }
+            $taxRuleOverrideData['tax_rate'] = $taxRateIdsForRule;
+        } else {
+            $taxRuleOverrideData['tax_rate'] = array_values($taxRateIds);
+        }
+
+        return $taxRuleOverrideData;
+    }
+
     /**
      * Create tax rules
      *
@@ -255,35 +310,10 @@ class SetupUtil
                 ->getId();
 
         } else {
-            foreach ($overrides[self::TAX_RULE_OVERRIDES] as $taxRuleData ) {
-                if (!empty($taxRuleData['tax_customer_class'])) {
-                    $customerTaxClassIds = [];
-                    foreach ($taxRuleData['tax_customer_class'] as $customerClassCode) {
-                        $customerTaxClassIds[] = $this->customerTaxClasses[$customerClassCode];
-                    }
-                    $taxRuleData['tax_customer_class'] = $customerTaxClassIds;
-                } else {
-                    $taxRuleData['tax_customer_class'] = array_values($this->customerTaxClasses);
-                }
-                if (!empty($taxRuleData['tax_product_class'])) {
-                    $productTaxClassIds = [];
-                    foreach ($taxRuleData['tax_product_class'] as $productClassCode) {
-                        $productTaxClassIds[] = $this->customerTaxClasses[$productClassCode];
-                    }
-                    $taxRuleData['tax_product_class'] = $productTaxClassIds;
-                } else {
-                    $taxRuleData['tax_product_class'] = array_values($this->productTaxClasses);
-                }
-                if (!empty($taxRuleData['tax_rate'])) {
-                    $taxRateIdsForRule = [];
-                    foreach ($taxRuleData['tax_rate'] as $taxRateCode) {
-                        $taxRateIdsForRule[] = $taxRateIds[$taxRateCode];
-                    }
-                    $taxRuleData['tax_rate'] = $taxRateIdsForRule;
-                } else {
-                    $taxRuleData['tax_rate'] = array_values($taxRateIds);
-                }
-                $mergedTaxRuleData = array_merge($taxRuleDefaultData, $taxRuleData);
+            foreach ($overrides[self::TAX_RULE_OVERRIDES] as $taxRuleOverrideData ) {
+                //convert code to id for productTaxClass, customerTaxClass and taxRate
+                $taxRuleOverrideData = $this->processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds);
+                $mergedTaxRuleData = array_merge($taxRuleDefaultData, $taxRuleOverrideData);
                 $this->taxRules[$mergedTaxRuleData['code']] = $this->objectManager
                     ->create('Magento\Tax\Model\Calculation\Rule')
                     ->setData($mergedTaxRuleData)
@@ -466,14 +496,13 @@ class SetupUtil
     }
 
     /**
-     * Create a quote based on given data
+     * Create a quote object with customer
      *
      * @param array $quoteData
+     * @param \Magento\Customer\Model\Customer $customer
      * @return \Magento\Sales\Model\Quote
      */
-    public function setupQuote($quoteData) {
-        $customer = $this->createCustomer();
-
+    protected function createQuote($quoteData, $customer) {
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
@@ -504,7 +533,17 @@ class SetupUtil
             ->setCheckoutMethod($customer->getMode())
             ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
-        $itemsData = $quoteData['items'];
+        return $quote;
+    }
+
+    /**
+     * Add products to quote
+     *
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param array $itemsData
+     * @return $this
+     */
+    protected function addProductToQuote($quote, $itemsData) {
         foreach ($itemsData as $itemData) {
             $sku = $itemData['sku'];
             $price = $itemData['price'];
@@ -515,6 +554,21 @@ class SetupUtil
             $product = $this->createSimpleProduct($sku, $price, $taxClassId);
             $quote->addProduct($product, $qty);
         }
+        return $this;
+    }
+
+    /**
+     * Create a quote based on given data
+     *
+     * @param array $quoteData
+     * @return \Magento\Sales\Model\Quote
+     */
+    public function setupQuote($quoteData) {
+        $customer = $this->createCustomer();
+
+        $quote = $this->createQuote($quoteData, $customer);
+
+        $this->addProductToQuote($quote, $quoteData['items']);
 
         //Set shipping amount
         if (isset($quoteData['shipping_method'])) {
