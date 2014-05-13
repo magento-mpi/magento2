@@ -138,7 +138,8 @@ class SetupUtil
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct($objectManager) {
+    public function __construct($objectManager)
+    {
         $this->objectManager = $objectManager;
     }
 
@@ -213,7 +214,8 @@ class SetupUtil
      * @param array $overrides
      * @return $this
      */
-    protected function createTaxRates($overrides) {
+    protected function createTaxRates($overrides)
+    {
         $taxRateOverrides = empty($overrides[self::TAX_RATE_OVERRIDES]) ? [] : $overrides[self::TAX_RATE_OVERRIDES];
         foreach (array_keys($this->taxRates) as $taxRateCode) {
             if (isset($taxRateOverrides[$taxRateCode])) {
@@ -227,7 +229,8 @@ class SetupUtil
         return $this;
     }
 
-    protected function createDefaultTaxRule() {
+    protected function createDefaultTaxRule()
+    {
         $taxRuleDefaultData = [
             'code' => 'Test Rule',
             'priority' => '0',
@@ -247,7 +250,8 @@ class SetupUtil
      * @param array $taxRateIds
      * @return array
      */
-    protected function processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds) {
+    protected function processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds)
+    {
         if (!empty($taxRuleOverrideData['tax_customer_class'])) {
             $customerTaxClassIds = [];
             foreach ($taxRuleOverrideData['tax_customer_class'] as $customerClassCode) {
@@ -285,7 +289,8 @@ class SetupUtil
      * @param array $overrides
      * @return $this
      */
-    protected function createTaxRules($overrides) {
+    protected function createTaxRules($overrides)
+    {
         $taxRateIds = [];
         foreach ($this->taxRates as $taxRateCode => $taxRate) {
             $taxRateIds[$taxRateCode] = $taxRate['id'];
@@ -351,7 +356,8 @@ class SetupUtil
      * @param array $overrides
      * @return void
      */
-    public function setupTax($overrides) {
+    public function setupTax($overrides)
+    {
         //Create product tax classes
         $this->createProductTaxClass();
 
@@ -365,7 +371,7 @@ class SetupUtil
         $this->createTaxRules($overrides);
 
         //Tax calculation configuration
-        if (!empty($overrides[self::CONFIG_OVERRIDES]))  {
+        if (!empty($overrides[self::CONFIG_OVERRIDES])) {
             $this->setConfig($overrides[self::CONFIG_OVERRIDES]);
         }
     }
@@ -378,7 +384,8 @@ class SetupUtil
      * @param int $taxClassId
      * @return \Magento\Catalog\Model\Product
      */
-    public function createSimpleProduct($sku, $price, $taxClassId) {
+    public function createSimpleProduct($sku, $price, $taxClassId)
+    {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $product->isObjectNew(true);
@@ -412,7 +419,8 @@ class SetupUtil
      * @param int $customerTaxClassId
      * @return int
      */
-    protected function createCustomerGroup($customerTaxClassId) {
+    protected function createCustomerGroup($customerTaxClassId)
+    {
         /** @var \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService */
         $customerGroupService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerGroupService');
         $customerGroupBuilder = (new \Magento\Customer\Service\V1\Data\CustomerGroupBuilder())
@@ -428,7 +436,8 @@ class SetupUtil
      *
      * @return \Magento\Customer\Model\Customer
      */
-    protected function createCustomer() {
+    protected function createCustomer()
+    {
         $customerGroupId = $this->createCustomerGroup($this->customerTaxClasses[self::CUSTOMER_TAX_CLASS_1]);
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->objectManager->create('Magento\Customer\Model\Customer');
@@ -455,7 +464,8 @@ class SetupUtil
      * @param int $customerId
      * @return \Magento\Customer\Model\Address
      */
-    protected function createCustomerAddress($addressOverride, $customerId) {
+    protected function createCustomerAddress($addressOverride, $customerId)
+    {
         $defaultAddressData = [
             'attribute_set_id' => 2,
             'telephone' => 3468676,
@@ -486,7 +496,8 @@ class SetupUtil
      * @param array $ruleDataOverride
      * @return $this
      */
-    protected function createCartRule($ruleDataOverride) {
+    protected function createCartRule($ruleDataOverride)
+    {
         $salesRule = $this->objectManager->create('Magento\SalesRule\Model\Rule');
         $ruleData = array_merge($this->defaultShoppingCartPriceRule, $ruleDataOverride);
         $salesRule->setData($ruleData);
@@ -502,7 +513,8 @@ class SetupUtil
      * @param \Magento\Customer\Model\Customer $customer
      * @return \Magento\Sales\Model\Quote
      */
-    protected function createQuote($quoteData, $customer) {
+    protected function createQuote($quoteData, $customer)
+    {
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
@@ -543,7 +555,8 @@ class SetupUtil
      * @param array $itemsData
      * @return $this
      */
-    protected function addProductToQuote($quote, $itemsData) {
+    protected function addProductToQuote($quote, $itemsData)
+    {
         foreach ($itemsData as $itemData) {
             $sku = $itemData['sku'];
             $price = $itemData['price'];
@@ -563,7 +576,8 @@ class SetupUtil
      * @param array $quoteData
      * @return \Magento\Sales\Model\Quote
      */
-    public function setupQuote($quoteData) {
+    public function setupQuote($quoteData)
+    {
         $customer = $this->createCustomer();
 
         $quote = $this->createQuote($quoteData, $customer);

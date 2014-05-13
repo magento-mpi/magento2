@@ -127,7 +127,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedItemData
      * @return $this
      */
-    protected function verifyItem($item, $expectedItemData) {
+    protected function verifyItem($item, $expectedItemData)
+    {
         foreach ($expectedItemData as $key => $value) {
             $this->assertEquals($value, $item->getData($key), 'item ' . $key . ' is incorrect');
         }
@@ -142,7 +143,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedAddressData
      * @return $this
      */
-    protected function verifyQuoteAddress($quoteAddress, $expectedAddressData) {
+    protected function verifyQuoteAddress($quoteAddress, $expectedAddressData)
+    {
         foreach ($expectedAddressData as $key => $value) {
             $this->assertEquals($value, $quoteAddress->getData($key), 'Quote address ' . $key . ' is incorrect');
         }
@@ -185,7 +187,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      * @dataProvider taxDataProvider
      * @return void
      */
-    public function testTaxCalculation($configData, $quoteData, $expectedResults) {
+    public function testTaxCalculation($configData, $quoteData, $expectedResults)
+    {
         /** @var  \Magento\Framework\ObjectManager $objectManager */
         $objectManager = Bootstrap::getObjectManager();
 
