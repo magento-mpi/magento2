@@ -63,6 +63,7 @@
   * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
   * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
   * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
+  * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
