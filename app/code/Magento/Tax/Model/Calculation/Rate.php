@@ -35,12 +35,16 @@ namespace Magento\Tax\Model\Calculation;
 class Rate extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * @var mixed
+     * List of tax titles
+     *
+     * @var array
      */
     protected $_titles = null;
 
     /**
-     * @var mixed
+     * The Mage_Tax_Model_Calculation_Rate_Title
+     *
+     * @var Mage_Tax_Model_Calculation_Rate_Title
      */
     protected $_titleModel = null;
 
@@ -106,7 +110,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
             throw new \Magento\Framework\Model\Exception(__('Please fill all required fields with valid information.'));
         }
 
-        if (!is_numeric($this->getRate()) || $this->getRate() <= 0) {
+        if (!is_numeric($this->getRate()) || $this->getRate() < 0) {
             throw new \Magento\Framework\Model\Exception(__('Rate Percent should be a positive number.'));
         }
 
@@ -188,8 +192,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @param array|null $titles
-     * @return void
+     * Saves the tax titles
+     *
+     * @param array | null $titles
      */
     public function saveTitles($titles = null)
     {
@@ -216,7 +221,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return mixed
+     * Returns the Mage_Tax_Model_Calculation_Rate_Title
+     *
+     * @return Mage_Tax_Model_Calculation_Rate_Title
      */
     public function getTitleModel()
     {
@@ -227,7 +234,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return mixed
+     * Returns the list of tax titles
+     *
+     * @return array
      */
     public function getTitles()
     {
@@ -238,7 +247,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return $this
+     * Deletes all tax rates
+     *
+     * @return Mage_Tax_Model_Calculation_Rate
      */
     public function deleteAllRates()
     {
