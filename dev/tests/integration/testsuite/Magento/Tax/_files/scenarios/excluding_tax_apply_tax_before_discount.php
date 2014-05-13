@@ -9,8 +9,6 @@
 use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Sales\Total\Quote\SetupUtil;
 
-require __DIR__ . '/../tax_calculation_data.php';
-
 $taxCalculationData['excluding_tax_apply_tax_before_discount'] = [
     'config_data' => [
         SetupUtil::CONFIG_OVERRIDES => [

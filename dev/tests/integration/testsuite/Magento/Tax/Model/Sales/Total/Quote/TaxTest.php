@@ -202,7 +202,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Read the array defined in ../../../../_files/tax_calculation_data.php and feed it to testTaxCalculation
+     * Read the array defined in ../../../../_files/tax_calculation_data_aggregated.php
+     * and feed it to testTaxCalculation
      *
      * @return array
      */
