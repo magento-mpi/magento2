@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Abstract resource model. Can be used as base for indexer resources
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Index\Model\Resource;

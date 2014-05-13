@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Magento\Framework\View\Design\FileResolution\Strategy;
 /**
  * Fallback Test
  *
- * @package Magento\Framework\View
  */
 class FallbackTest extends \PHPUnit_Framework_TestCase
 {

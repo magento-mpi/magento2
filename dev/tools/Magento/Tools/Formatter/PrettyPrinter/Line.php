@@ -10,7 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 /**
  * This class handles a group of tokens, loosely called a line. Note that this can span multiple lines.
  * Class Line
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 class Line
 {

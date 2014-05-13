@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Reports\Model;
 /**
  *  Totals Class
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Totals

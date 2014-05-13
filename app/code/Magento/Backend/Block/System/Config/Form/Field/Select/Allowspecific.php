@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * System configuration shipping methods allow all countries select
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Backend\Block\System\Config\Form\Field\Select;

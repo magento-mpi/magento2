@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -33,8 +31,6 @@ use Magento\ProductAlert\Model\Resource\Price\Customer\Collection;
  * @method int getStatus()
  * @method \Magento\ProductAlert\Model\Price setStatus(int $value)
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Framework\Model\AbstractModel

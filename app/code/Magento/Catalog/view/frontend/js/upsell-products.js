@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend upsell products
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

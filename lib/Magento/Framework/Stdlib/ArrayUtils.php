@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    \Magento\Framework\Stdlib
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento\Framework\Stdlib;
 /**
  * Class ArrayUtils
  *
- * @package Magento\Framework\Stdlib
  */
 class ArrayUtils
 {

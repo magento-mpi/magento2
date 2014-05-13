@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_ImportExport
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +9,6 @@
 /**
  * Customer Backward Compatibility Tests
  *
- * @package     selenium
- * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class Enterprise_Mage_ImportExportScheduled_Customers_Finances_ExportTest extends Mage_Selenium_TestCase

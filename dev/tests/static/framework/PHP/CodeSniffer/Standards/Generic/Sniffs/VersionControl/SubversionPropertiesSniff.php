@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Jack Bates <ms419@freezone.co.uk>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
@@ -17,8 +15,6 @@
  *
  * Tests that the correct Subversion properties are set.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Jack Bates <ms419@freezone.co.uk>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence

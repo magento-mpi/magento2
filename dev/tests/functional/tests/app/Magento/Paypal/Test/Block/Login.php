@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Paypal\Test\Fixture\Customer;
  * Class Login
  * Login to paypal account
  *
- * @package Magento\Paypal\Test\Block
  */
 class Login extends Form
 {

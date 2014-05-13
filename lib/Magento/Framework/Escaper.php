@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     \Magento\Framework\Escaper
  * @copyright   {copyright}
  * @license     {license_link}
  */

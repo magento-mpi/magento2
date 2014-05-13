@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -17,8 +15,6 @@ use Magento\Framework\Escaper;
 /**
  * Data form abstract class
  *
- * @category   Magento
- * @package    Magento_Data
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractElement extends AbstractForm

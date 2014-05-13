@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 /**
  * Abstract class for accordion grids
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractAccordion extends \Magento\Backend\Block\Widget\Grid\Extended

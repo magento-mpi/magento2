@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class TaxClass
  * Customer/Product Tax Classes block
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class TaxClass extends Block
 {

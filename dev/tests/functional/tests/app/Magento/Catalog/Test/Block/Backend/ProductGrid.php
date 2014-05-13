@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class ProductGrid
  * Backend catalog product grid
  *
- * @package Magento\Catalog\Test\Block
  */
 class ProductGrid extends Grid
 {

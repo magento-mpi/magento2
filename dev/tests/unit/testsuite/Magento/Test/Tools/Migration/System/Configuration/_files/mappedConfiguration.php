@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Dummy
- * @package     Module_Dummy
  * @copyright   {copyright}
  * @license     {license_link}
  */

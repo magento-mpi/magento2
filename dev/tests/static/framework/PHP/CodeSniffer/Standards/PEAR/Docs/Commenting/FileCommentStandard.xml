@@ -13,8 +13,6 @@
  *
  * PHP version 5
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -38,8 +36,6 @@
  *
  * PHP version 5
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -56,8 +52,6 @@
  *
  * PHP version 5
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -75,8 +69,6 @@
  * <em></em>
  * PHP version 5
  * <em></em>
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -94,8 +86,6 @@
  * PHP version 5
  * <em></em>
  * <em></em>
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -113,8 +103,6 @@
  *
  * PHP version 5
  * <em></em>
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -131,8 +119,6 @@
  * PHP version 5
  * <em></em>
  * <em></em>
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -167,8 +153,6 @@
  *
  * PHP version 5
  *
- * @category Foo
- * @package Foo_Helpers
  * @copyright 2013 Foo Inc.
  * @license MIT License
  * @link http://example.com
@@ -204,7 +188,6 @@
  *
  * <em>@category</em> Foo
  * <em>@category</em> Bar
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -222,8 +205,6 @@
  *
  * <em>PHP version 5</em>
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -258,8 +239,6 @@
  *
  * PHP version 5
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License
@@ -273,8 +252,6 @@
 /**
  * Short description here.
  *
- * @category Foo
- * @package Foo_Helpers
  * @author Marty McFly <mmcfly@example.com>
  * @copyright 2013 Foo Inc.
  * @license MIT License

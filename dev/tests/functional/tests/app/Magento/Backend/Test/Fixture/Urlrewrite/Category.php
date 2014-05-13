@@ -17,7 +17,6 @@ use Mtf\System\Config,
  * Class Category
  * URL rewrite category fixture
  *
- * @package Magento\Backend\Test\Fixture\Urlrewrite
  */
 class Category extends DataFixture
 {

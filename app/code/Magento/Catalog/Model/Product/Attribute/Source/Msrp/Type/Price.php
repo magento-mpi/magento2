@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Source model for 'msrp_display_actual_price_type' product attribute
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;

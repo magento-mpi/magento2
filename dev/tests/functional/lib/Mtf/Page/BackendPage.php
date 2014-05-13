@@ -12,7 +12,6 @@ use Mtf\Factory\Factory;
 /**
  * Class BackendPage
  *
- * @package Mtf\Page
  */
 class BackendPage extends Page
 {

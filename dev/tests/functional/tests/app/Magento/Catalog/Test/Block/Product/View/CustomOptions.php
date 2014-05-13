@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Factory\Factory;
 /**
  * Class Custom Options
  *
- * @package Magento\Catalog\Test\Block\Catalog\Product\View
  */
 class CustomOptions extends Block
 {

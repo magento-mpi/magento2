@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Connect
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Class block for package
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;

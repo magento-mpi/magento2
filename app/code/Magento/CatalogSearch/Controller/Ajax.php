@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogSearch
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Catalog Search Controller
  *
- * @category   Magento
- * @package    Magento_CatalogSearch
  * @module     Catalog
  */
 namespace Magento\CatalogSearch\Controller;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\View\Element\BlockInterface;
 /**
  * Catalog category widgets controller for CMS WYSIWYG
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Widget extends \Magento\Backend\App\Action

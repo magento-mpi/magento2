@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 /**
  * Enterprise Checkout Helper
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper

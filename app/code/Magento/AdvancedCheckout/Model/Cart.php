@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ use Magento\Framework\Message\MessageInterface;
  * @method string getErrorMessage()
  * @method setErrorMessage(string $message)
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {

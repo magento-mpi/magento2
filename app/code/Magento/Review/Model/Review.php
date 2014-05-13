@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,8 +24,6 @@ use Magento\Catalog\Model\Product;
  * @method int getStatusId()
  * @method \Magento\Review\Model\Review setStatusId(int $value)
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Review extends \Magento\Framework\Model\AbstractModel

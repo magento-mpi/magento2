@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento Performance Toolkit
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\ToolkitFramework;
 /**
  * Class Application test
- * @package Magento Performance Toolkit
  */
 class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
 {

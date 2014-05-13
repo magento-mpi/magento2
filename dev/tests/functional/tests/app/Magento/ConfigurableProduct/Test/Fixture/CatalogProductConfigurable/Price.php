@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Price verification preset name)
  *  - value (Price value)
  *
- * @package Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable
  */
 class Price implements FixtureInterface
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,6 @@
  * @method string getStatus()
  * @method \Magento\Invitation\Model\Invitation\History setStatus(string $value)
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Invitation\Model\Invitation;

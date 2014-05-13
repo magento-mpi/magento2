@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@ namespace Magento\SalesRule\Model\Rule;
  * @method int getTimesUsed()
  * @method \Magento\SalesRule\Model\Rule\Customer setTimesUsed(int $value)
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Customer extends \Magento\Framework\Model\AbstractModel

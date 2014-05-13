@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@
  * @method \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form setProduct(\Magento\Catalog\Model\Product $product)
  * @method \Magento\Backend\Block\Urlrewrite\Catalog\Edit\Form setCategory(\Magento\Catalog\Model\Category $category)
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  */

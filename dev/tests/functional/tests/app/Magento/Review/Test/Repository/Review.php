@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Review Repository
  *
- * @package Magento\Review\Test\Repository
  */
 class Review extends AbstractRepository
 {

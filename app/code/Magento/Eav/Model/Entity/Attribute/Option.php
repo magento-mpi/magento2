@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ namespace Magento\Eav\Model\Entity\Attribute;
  * @method int getSortOrder()
  * @method \Magento\Eav\Model\Entity\Attribute\Option setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Framework\Model\AbstractModel

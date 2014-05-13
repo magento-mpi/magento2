@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_HTTP
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Framework\HTTP\Client;
 /**
  * Class to work with HTTP protocol using curl library
  *
- * @category    Magento
- * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Curl implements \Magento\Framework\HTTP\IClient

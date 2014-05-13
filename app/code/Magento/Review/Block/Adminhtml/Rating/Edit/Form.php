@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Review\Block\Adminhtml\Rating\Edit;
 /**
  * Rating edit form block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
