@@ -10,8 +10,10 @@
         options: {
             closeBtn: '.action.close',
             windowOverlayTemplate: '<div class="window overlay"></div>',
-            popupBlockTemplate: '<div class="popup block remember tip active">'  +
-                                '<span class="action close"></span>' +
+            popupBlockTemplate: '<div class="popup block remember tip active">' +
+                                '<div class="popup actions">' +
+                                    '<button type="button" class="action close"><span>${close}</span></button>' +
+                                '</div>' +
                                 '<div class="title">' +
                                     '<strong>${title}</strong>'+
                                 '</div>' +
@@ -55,7 +57,7 @@
             } else {
                 $.template('popupBlockTemplate', this.options.popupBlockTemplate);
                 this.popupBlock = $.tmpl('popupBlockTemplate',
-                    {title: this.options.title, content: this.options.content});
+                    {title: this.options.title, content: this.options.content, close:this.options.close});
             }
             this.popupBlock.find(this.options.closeBtn).on('click', $.proxy(this._hidePopUp, this));
         },
