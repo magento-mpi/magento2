@@ -8,9 +8,21 @@
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Tax\Model\Config;
+use Magento\Tax\Model\Calculation;
+
+require __DIR__ . '/SetupUtil.php';
+require __DIR__ . '/../../../../_files/tax_calculation_data.php';
 
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Utility object for setting up tax rates, tax classes and tax rules
+     *
+     * @var SetupUtil
+     */
+    protected $setupUtil = null;
+
     /**
      * Test taxes collection for quote.
      *
@@ -106,5 +118,97 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $quote->getGrandTotal(),
             'Customer tax was collected by \Magento\Tax\Model\Sales\Total\Quote\Tax::collect incorrectly.'
         );
+    }
+
+    /**
+     * Verify fields in quote item
+     *
+     * @param \Magento\Sales\Model\Quote\Address\Item $item
+     * @param array $expectedItemData
+     * @return $this
+     */
+    protected function verifyItem($item, $expectedItemData) {
+        foreach ($expectedItemData as $key => $value) {
+            $this->assertEquals($value, $item->getData($key), 'item ' . $key . ' is incorrect');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Verify fields in quote address
+     *
+     * @param \Magento\Sales\Model\Quote\Address $quoteAddress
+     * @param array $expectedAddressData
+     * @return $this
+     */
+    protected function verifyQuoteAddress($quoteAddress, $expectedAddressData) {
+        foreach ($expectedAddressData as $key => $value) {
+            $this->assertEquals($value, $quoteAddress->getData($key), 'Quote address ' . $key . ' is incorrect');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Verify fields in quote address and quote item are correct
+     *
+     * @param \Magento\Sales\Model\Quote\Address $quoteAddress
+     * @param array $expectedResults
+     * @return $this
+     */
+    protected function verifyResult($quoteAddress, $expectedResults)
+    {
+        $addressData = $expectedResults['address_data'];
+
+        $this->verifyQuoteAddress($quoteAddress, $addressData);
+
+        $quoteItems = $quoteAddress->getAllItems();
+        foreach ($quoteItems as $item) {
+            /** @var  \Magento\Sales\Model\Quote\Address\Item $item */
+            $sku = $item->getProduct()->getSku();
+            $expectedItemData = $expectedResults['items_data'][$sku];
+            $this->verifyItem($item, $expectedItemData);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Test tax calculation with various configuration and combination of items
+     * This method will test various collectors through $quoteAddress->collectTotals() method
+     *
+     * @param array $configData
+     * @param array $quoteData
+     * @param array $expectedResults
+     * @magentoDbIsolation enabled
+     * @dataProvider taxDataProvider
+     * @return void
+     */
+    public function testTaxCalculation($configData, $quoteData, $expectedResults) {
+        /** @var  \Magento\Framework\ObjectManager $objectManager */
+        $objectManager = Bootstrap::getObjectManager();
+
+        //Setup tax configurations
+        $this->setupUtil = new SetupUtil($objectManager);
+        $this->setupUtil->setupTax($configData);
+
+        $quote = $this->setupUtil->setupQuote($quoteData);
+        $quoteAddress = $quote->getShippingAddress();
+
+        $quoteAddress->collectTotals();
+        $this->verifyResult($quoteAddress, $expectedResults);
+        return;
+    }
+
+    /**
+     * Read the array defined in ../../../../_files/tax_calculation_data.php and feed it to testTaxCalculation
+     *
+     * @return array
+     */
+    public function taxDataProvider()
+    {
+        global $taxCalculationData;
+        return $taxCalculationData;
     }
 }
