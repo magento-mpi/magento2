@@ -13,12 +13,23 @@ $taxCalculationData['excluding_tax_apply_tax_after_discount'] = [
     'config_data' => [
         SetupUtil::CONFIG_OVERRIDES => [
             Config::CONFIG_XML_PATH_APPLY_AFTER_DISCOUNT => 1,
-            Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS => SetupUtil::PRODUCT_TAX_CLASS_1,
+            Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS => SetupUtil::SHIPPING_TAX_CLASS,
         ],
         SetupUtil::TAX_RATE_OVERRIDES => [
             SetupUtil::TAX_RATE_TX => 20,
         ],
         SetupUtil::TAX_RULE_OVERRIDES => [
+            [
+                //tax rule for product
+                'code' => 'Product Tax Rule',
+                'tax_product_class' => [SetupUtil::PRODUCT_TAX_CLASS_1],
+            ],
+            [
+                //tax rule for shipping
+                'code' => 'Shipping Tax Rule',
+                'tax_product_class' => [SetupUtil::SHIPPING_TAX_CLASS],
+                'tax_rate' => [SetupUtil::TAX_RATE_SHIPPING],
+            ],
         ],
     ],
     'quote_data' => [
@@ -48,24 +59,24 @@ $taxCalculationData['excluding_tax_apply_tax_after_discount'] = [
             'base_subtotal' => 20,
             'subtotal_incl_tax' => 24,
             'base_subtotal_incl_tax' => 24,
-            'tax_amount' => 4,
-            'base_tax_amount' => 4,
+            'tax_amount' => 2.75,
+            'base_tax_amount' => 2.75,
             'shipping_amount' => 10,
             'base_shipping_amount' => 10,
-            'shipping_incl_tax' => 12,
-            'base_shipping_incl_tax' => 12,
+            'shipping_incl_tax' => 10.75,
+            'base_shipping_incl_tax' => 10.75,
             'shipping_taxable' => 10,
             'base_shipping_taxable' => 10,
-            'shipping_tax_amount' => 2,
-            'base_shipping_tax_amount' => 2,
+            'shipping_tax_amount' => 0.75,
+            'base_shipping_tax_amount' => 0.75,
             'discount_amount' => -10,
             'base_discount_amount' => -10,
             'hidden_tax_amount' => 0,
             'base_hidden_tax_amount' => 0,
             'shipping_hidden_tax_amount' => 0,
             'base_shipping_hidden_tax_amount' => 0,
-            'grand_total' => 24,
-            'base_grand_total' => 24,
+            'grand_total' => 22.75,
+            'base_grand_total' => 22.75,
         ],
         'items_data' => [
             'simple1' => [
@@ -86,7 +97,7 @@ $taxCalculationData['excluding_tax_apply_tax_after_discount'] = [
                 'base_discount_amount' => 10,
                 'discount_percent' => 50,
                 'hidden_tax_amount' => 0,
-                'base_hidden_tax_amount' => 10,
+                'base_hidden_tax_amount' => 0,
             ],
         ],
     ],
