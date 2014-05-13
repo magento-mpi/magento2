@@ -11,6 +11,7 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Core\Test\Block\Messages;
 use Magento\Checkout\Test\Block;
 use Magento\Checkout\Test\Block\Cart;
 use Magento\Checkout\Test\Block\Cart\Totals;
