@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class AddressInjectable
  *
- * @package Magento\Customer\Test\Fixture
  */
 class AddressInjectable extends InjectableFixture
 {

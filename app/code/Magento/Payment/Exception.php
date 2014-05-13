@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Payment;
 /**
  * Payment exception
  *
- * @category   Magento
- * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Exception extends \Exception

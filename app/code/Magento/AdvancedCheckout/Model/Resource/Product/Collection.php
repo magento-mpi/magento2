@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Product collection resource
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 namespace Magento\AdvancedCheckout\Model\Resource\Product;
 

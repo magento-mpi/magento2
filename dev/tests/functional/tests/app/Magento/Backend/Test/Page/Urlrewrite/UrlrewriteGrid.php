@@ -15,7 +15,6 @@ use Mtf\Page\Page,
  * Class UrlrewriteGrid
  * Backend URL rewrite grid page
  *
- * @package Magento\Backend\Test\Page\Urlrewrite
  */
 class UrlrewriteGrid extends Page
 {

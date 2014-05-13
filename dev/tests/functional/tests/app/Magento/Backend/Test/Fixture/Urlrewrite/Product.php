@@ -17,7 +17,6 @@ use Mtf\System\Config,
  * Class Product
  * URL rewrite product fixture
  *
- * @package Magento\Backend\Test\Fixture\Urlrewrite
  */
 class Product extends DataFixture
 {

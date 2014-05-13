@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */

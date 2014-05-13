@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ use Magento\Framework\View\Element\Template;
  * @method string                                           getDataContainerId()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku setDataContainerId()
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractSku extends \Magento\Backend\Block\Template

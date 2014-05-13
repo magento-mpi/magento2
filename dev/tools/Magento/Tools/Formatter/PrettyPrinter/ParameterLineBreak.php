@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 /**
  * Class ParameterLineBreak
- * @package Magento\Tools\Formatter\PrettyPrinter
  *
  *    public function alpha(xTestClass $a,xTestClass $b,xTestClass $C,xTestClass $Dx)x
  *    {

@@ -16,7 +16,6 @@ use Mtf\TestCase\Functional;
  * Class LockedTest
  * Functional test for locked admin user
  *
- * @package Magento\Pci\Test\TestCase
  */
 class LockedTest extends Functional
 {

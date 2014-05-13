@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Block\Email;
 /**
  * ProductAlert email price changed grid
  *
- * @category   Magento
- * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\ProductAlert\Block\Email\AbstractEmail

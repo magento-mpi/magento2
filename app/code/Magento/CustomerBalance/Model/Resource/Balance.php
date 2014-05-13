@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerBalance\Model\Resource;
 /**
  * Customerbalance resource model
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Balance extends \Magento\Framework\Model\Resource\Db\AbstractDb

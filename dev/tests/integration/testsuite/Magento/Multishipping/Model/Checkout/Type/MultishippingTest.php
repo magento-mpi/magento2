@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  */
 namespace Magento\Multishipping\Model\Checkout\Type;
 

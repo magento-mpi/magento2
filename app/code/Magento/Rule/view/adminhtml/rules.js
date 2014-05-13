@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Magento_Rule
  * @copyright   {copyright}
  * @license     {license_link}
  */

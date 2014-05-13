@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Christian Weiske <christian.weiske@netresearch.de>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2012 Christian Weiske
@@ -22,8 +20,6 @@
  * - notifysend_timeout - Timeout in milliseconds
  * - notifysend_showok  - Show "ok, all fine" messages (0/1)
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Christian Weiske <christian.weiske@netresearch.de>
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2012 Christian Weiske

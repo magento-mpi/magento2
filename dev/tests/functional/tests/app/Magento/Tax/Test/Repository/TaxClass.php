@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class TaxClass
  *
- * @package Magento\Tax\Test\Repository
  */
 class TaxClass extends AbstractRepository
 {

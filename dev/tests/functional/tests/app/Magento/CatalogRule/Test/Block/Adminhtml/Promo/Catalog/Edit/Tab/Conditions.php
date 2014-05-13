@@ -15,6 +15,7 @@ use Mtf\Factory\Factory;
 /**
  * Class Conditions
  * Form Tab for specifying catalog price rule conditions
+ *
  */
 class Conditions extends Tab
 {

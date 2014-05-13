@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@ namespace Magento\Backend\Block\Widget\Grid;
 
 /**
  *
- * @category    Magento
- * @package     Magento_Core
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

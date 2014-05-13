@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,6 +16,7 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Catalog
  * Backend catalog price rule grid
+ *
  */
 class Catalog extends Grid
 {

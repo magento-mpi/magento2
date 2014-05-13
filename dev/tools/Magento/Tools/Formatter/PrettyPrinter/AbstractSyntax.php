@@ -14,7 +14,6 @@ use PHPParser_Comment;
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
  * Class BaseAbstract
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 abstract class AbstractSyntax
 {

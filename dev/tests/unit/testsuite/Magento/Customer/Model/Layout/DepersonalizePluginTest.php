@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +11,6 @@ namespace Magento\Customer\Model\Layout;
  * Class DepersonalizePluginTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @package Magento\Customer\Model\Layout
  */
 class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
 {

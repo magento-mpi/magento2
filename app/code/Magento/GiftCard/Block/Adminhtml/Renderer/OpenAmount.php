@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Data\Form;
 /**
  * HTML select element block
  *
- * @category   Magento
- * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class OpenAmount extends \Magento\Framework\Data\Form\Element\Select

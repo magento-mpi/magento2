@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Repository\AbstractRepository;
  * Class CurrencyRate Repository
  * Magento currency rates
  *
- * @package Magento\CurrencySymbol\Test\Repository
  */
 class CurrencyRate extends AbstractRepository
 {

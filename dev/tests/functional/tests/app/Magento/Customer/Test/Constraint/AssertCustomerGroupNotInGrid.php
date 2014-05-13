@@ -8,14 +8,12 @@
 
 namespace Magento\Customer\Test\Constraint;
 
-use Magento\Customer\Test\Fixture\CustomerGroup;
+use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerGroupNotInGrid
- *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupNotInGrid extends AbstractConstraint
 {
@@ -29,12 +27,12 @@ class AssertCustomerGroupNotInGrid extends AbstractConstraint
     /**
      * Assert that customer group not in grid
      *
-     * @param CustomerGroup $customerGroup
+     * @param CustomerGroupInjectable $customerGroup
      * @param CustomerGroupIndex $customerGroupIndex
      * @return void
      */
     public function processAssert(
-        CustomerGroup $customerGroup,
+        CustomerGroupInjectable $customerGroup,
         CustomerGroupIndex $customerGroupIndex
     ) {
         $customerGroupIndex->open();

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Framework\Pricing\Adjustment;
 /**
  * Class CalculatorTest
  *
- * @package Magento\Framework\Pricing\Adjustment
  */
 class CalculatorTest extends \PHPUnit_Framework_TestCase
 {

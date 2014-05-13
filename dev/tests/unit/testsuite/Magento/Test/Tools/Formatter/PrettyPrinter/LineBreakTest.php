@@ -19,7 +19,6 @@ use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 
 /**
  * Class LineBreakTest
- * @package Magento\Test\Tools\Formatter\PrettyPrinter
  *
  * This class is used to test the breaking down of lines to appropriate length results.
  */
