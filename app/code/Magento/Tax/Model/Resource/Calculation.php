@@ -193,18 +193,34 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $rates[$i + 1]['process']
             ) && $rates[$i + 1]['process'] != $rate['process']
             ) {
-                $row['percent'] = (100 + $totalPercent) * ($currentRate / 100);
+                if (!empty($rates[$i]['calculate_subtotal'])) {
+                    $row['percent'] = $currentRate;
+                    $totalPercent += $currentRate;
+                } else {
+                    $ $totalPercent += $row['percent'];
+                }
                 $row['id'] = implode($ids);
                 $result[] = $row;
                 $row = array();
                 $ids = array();
 
-                $totalPercent += (100 + $totalPercent) * ($currentRate / 100);
                 $currentRate = 0;
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Return combined percent value
+     *
+     * @param float|int $percent
+     * @param float|int $rate
+     * @return int
+     */
+    protected function _collectPercent($percent, $rate)
+    {
+        return (100 + $percent) * ($rate / 100);
     }
 
     /**
@@ -222,7 +238,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $strlen = $len;
         }
 
-        $strArr = array($postcode, $postcode . '*');
+        $strArr = array((string)$postcode, $postcode . '*');
         if ($strlen > 1) {
             for ($i = 1; $i < $strlen; $i++) {
                 $strArr[] = sprintf('%s*', substr($postcode, 0, -$i));
@@ -291,7 +307,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select->join(
                 array('rule' => $this->getTable('tax_calculation_rule')),
                 $ruleTableAliasName . ' = main_table.tax_calculation_rule_id',
-                array('rule.priority', 'rule.position')
+                array('rule.priority', 'rule.position', 'rule.calculate_subtotal')
             )->join(
                 array('rate' => $this->getTable('tax_calculation_rate')),
                 'rate.tax_calculation_rate_id = main_table.tax_calculation_rate_id',
@@ -403,7 +419,11 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $currentRate += $value;
 
             if (!isset($rates[$i + 1]) || $rates[$i + 1]['priority'] != $priority) {
-                $result += (100 + $result) * ($currentRate / 100);
+                if (!empty($rates[$i]['calculate_subtotal'])) {
+                    $result += $currentRate;
+                } else {
+                    $result += $this->_collectPercent($result, $currentRate);
+                }
                 $currentRate = 0;
             }
         }
