@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,11 +10,11 @@ namespace Magento\Customer\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Customer\Test\Fixture\Address;
+use Magento\Customer\Test\Block\Address\Edit as AddressEditForm;
 
 /**
  * Create Customer on frontend and set default billing address
- *
- * @package Magento\Customer\Test\TestCase;
  */
 class CreateOnFrontendTest extends Functional
 {
@@ -64,6 +61,29 @@ class CreateOnFrontendTest extends Functional
         $accountIndexPage->open();
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
-        $this->assertTrue($addressEditPage->getEditForm()->verify($customerAddress));
+        $this->verifyCustomerAddress($customerAddress, $addressEditPage->getEditForm());
+    }
+
+    /**
+     * Verify that customer address is equals data on form
+     *
+     * @param Address $address
+     * @param AddressEditForm $form
+     * @return bool
+     */
+    protected function verifyCustomerAddress(Address $address, AddressEditForm $form)
+    {
+        $dataAddress = $address->getData();
+        $preparedDataAddress = [];
+
+        foreach ($dataAddress['fields'] as $key => $field) {
+            $preparedDataAddress[$key] = $field['value'];
+        }
+
+        $dataDiff = array_diff($preparedDataAddress, $form->getData($address));
+        $this->assertTrue(
+            empty($dataDiff),
+            'Customer addresses data on edit page(backend) not equals to passed from fixture.'
+        );
     }
 }

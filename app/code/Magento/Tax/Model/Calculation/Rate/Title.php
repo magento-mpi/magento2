@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@
  * @method string getValue()
  * @method \Magento\Tax\Model\Calculation\Rate\Title setValue(string $value)
  *
- * @category    Magento
- * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Model\Calculation\Rate;

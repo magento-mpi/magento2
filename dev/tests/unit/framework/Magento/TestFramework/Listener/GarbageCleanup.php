@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,6 +37,15 @@ class GarbageCleanup implements \PHPUnit_Framework_TestListener
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function addIncompleteTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
     {
     }
 

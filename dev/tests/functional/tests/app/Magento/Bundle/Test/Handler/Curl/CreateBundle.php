@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating bundle product.
  *
- * @package Magento\Bundle\Test\Handler\Curl
  */
 class CreateBundle extends Curl
 {
@@ -86,7 +82,7 @@ class CreateBundle extends Curl
                 $data['bundle_selections'][] = $this->_getSelections($options['assigned_products']);
                 unset($options['assigned_products']);
             }
-            $data['bundle_options'][] = $this->_prepareData($options);
+            $data['bundle_options'][] = $this->_prepareData($options) + ['delete' => ''];
         }
         return $data;
     }
@@ -118,7 +114,7 @@ class CreateBundle extends Curl
         $data = array();
         foreach ($products as $product) {
             $product = isset($product['data']) ? $product['data'] : array();
-            $data[] = $this->_prepareData($product);
+            $data[] = $this->_prepareData($product) + ['delete' => ''];
         }
         return $data;
     }

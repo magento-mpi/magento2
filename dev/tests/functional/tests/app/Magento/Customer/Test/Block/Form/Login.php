@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class Login
  * Form for frontend login
  *
- * @package Magento\Customer\Test\Block\Form
  */
 class Login extends Form
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -52,7 +49,7 @@ class CodeSnifferTest extends \PHPUnit_Framework_TestCase
 
         $expectedCliEmulation = array(
             'files' => $whiteList,
-            'standard' => self::RULE_SET,
+            'standard' => [self::RULE_SET],
             'ignored' => $blackList,
             'extensions' => $extensions,
             'reportFile' => self::REPORT_FILE,

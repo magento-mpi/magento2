@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Errors
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 require_once 'processor.php';
 
-$processor = new Error_Processor(
+$processor = new \Magento\Framework\Error\Processor(
     new \Magento\Framework\App\Response\Http(
         new \Magento\Framework\Stdlib\Cookie(),
         new \Magento\Framework\App\Http\Context()

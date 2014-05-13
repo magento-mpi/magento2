@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Variations
  * Adminhtml catalog super product configurable tab
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Config extends Tab
 {
@@ -114,10 +110,10 @@ class Config extends Tab
      * Fill variations fieldset
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (!isset($fields['configurable_attributes_data'])) {
             return $this;

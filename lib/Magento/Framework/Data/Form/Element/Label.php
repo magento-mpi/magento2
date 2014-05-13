@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Data form abstract class
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Data\Form\Element;
@@ -43,8 +39,7 @@ class Label extends \Magento\Framework\Data\Form\Element\AbstractElement
     public function getElementHtml()
     {
         $html = $this->getBold() ? '<div class="control-value special">' : '<div class="control-value">';
-        $html .= $this->getEscapedValue();
-        $html .= $this->getBold() ? '</div>' : '</div>';
+        $html .= $this->getEscapedValue() . '</div>';
         $html .= $this->getAfterElementHtml();
         return $html;
     }

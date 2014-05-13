@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Form note element
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Data\Form\Element;
@@ -42,8 +38,13 @@ class Note extends AbstractElement
      */
     public function getElementHtml()
     {
-        $html = '<div id="' . $this->getHtmlId() . '" class="control-value">' . $this->getText() . '</div>';
-        $html .= $this->getAfterElementHtml();
+        $html = $this->getBeforeElementHtml()
+            . '<div id="'
+            . $this->getHtmlId()
+            . '" class="control-value">'
+            . $this->getText()
+            . '</div>'
+            . $this->getAfterElementHtml();
         return $html;
     }
 }

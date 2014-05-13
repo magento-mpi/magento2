@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Index
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Index Setup Model
  *
- * @category    Magento
- * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Index\Model\Resource;

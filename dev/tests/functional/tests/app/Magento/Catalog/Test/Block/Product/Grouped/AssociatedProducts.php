@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Class AssociatedProducts
  *
- * @package Magento\Catalog\Test\Block\Product\Grouped
  */
 class AssociatedProducts extends Tab
 {
@@ -77,10 +73,10 @@ class AssociatedProducts extends Tab
      * Fill data to fields on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (isset($fields['grouped_products'])) {
             foreach ($fields['grouped_products']['value'] as $groupedProduct) {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -392,17 +389,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             );
         }
         return $attribute;
-    }
-
-    /**
-     * @param \Magento\Eav\Model\Attribute\Data\AbstractData $dataModel
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _getFactoryMock($dataModel)
-    {
-        $factory = $this->getMockBuilder('Magento\Eav\Model\Attribute\Data')->setMethods(array('factory'))->getMock();
-        $factory::staticExpects($this->once())->method('factory')->will($this->returnValue($dataModel));
-        return $factory;
     }
 
     /**

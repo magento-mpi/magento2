@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -99,12 +97,14 @@
 </form>
 <script type="text/javascript">
     (function ($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
+        head.js(
+            "<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
             "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
             "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('Magento_Install::js/install.js') ?>", function() {
+            "<?php echo $this->getViewFileUrl('Magento_Install::js/install.js') ?>",
+            head.ready(function () {
                 $.mage.install.createAdmin('#form-validate');
-            });
+            }));
     })(jQuery);
 </script>

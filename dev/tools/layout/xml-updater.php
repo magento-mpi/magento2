@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -10,7 +9,7 @@ $basePath = realpath(__DIR__ . '/../../../');
 require_once $basePath . '/app/autoload.php';
 require __DIR__ . '/Formatter.php';
 
-\Magento\Framework\Autoload\IncludePath::addIncludePath(array(
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(array(
     $basePath . '/lib',
 ));
 

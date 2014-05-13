@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Catalog event backend config cache model
  *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 namespace Magento\CatalogEvent\Model\Adminhtml\System\Config\Backend;
 

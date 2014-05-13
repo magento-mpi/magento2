@@ -17,5 +17,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface CustomerInjectableInterface extends HandlerInterface
 {
-    //
+   //
 }

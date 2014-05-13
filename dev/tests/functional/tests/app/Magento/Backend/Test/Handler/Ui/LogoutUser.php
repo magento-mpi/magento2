@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class LogoutUser
  * Handler for ui backend user logout
  *
- * @package Magento\Backend\Test\Handler\Ui
  */
 class LogoutUser extends Ui
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Sales order tax resource model
  *
- * @category    Magento
- * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Tax\Model\Resource\Sales\Order\Tax;

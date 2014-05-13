@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\User\Block\User;
 /**
  * User edit page
  *
- * @category   Magento
- * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -67,5 +63,15 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         } else {
             return __('New User');
         }
+    }
+
+    /**
+     * Return validation url for edit form
+     *
+     * @return string
+     */
+    public function getValidationUrl()
+    {
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 }

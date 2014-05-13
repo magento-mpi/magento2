@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -499,7 +497,6 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         }
         $shipping = $order->getShippingAddress();
         if (!empty($shipping)) {
-            $this->_applyCountryWorkarounds($shipping);
             $request->setShiptofirstname(
                 $shipping->getFirstname()
             )->setShiptolastname(

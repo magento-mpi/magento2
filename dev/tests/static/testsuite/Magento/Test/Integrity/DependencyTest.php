@@ -4,9 +4,6 @@
  *
  * {license_notice}
  *
- * @category    tests
- * @package     static
- * @subpackage  Integrity
  * @copyright   {copyright}
  * @license     {license_link}
  *

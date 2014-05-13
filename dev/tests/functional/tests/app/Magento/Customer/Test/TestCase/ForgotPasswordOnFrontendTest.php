@@ -13,8 +13,6 @@ use Mtf\TestCase\Functional;
 
 /**
  * Reset password on frontend
- *
- * @package Magento\Customer\Test\TestCase;
  */
 class ForgotPasswordOnFrontendTest extends Functional
 {

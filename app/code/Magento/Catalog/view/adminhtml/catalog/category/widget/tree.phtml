@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -150,6 +148,7 @@ Ext.onReady(function()
     };
 
     categoryLoader.on("beforeload", function(treeLoader, node) {
+        $('<?php echo $_divId; ?>').fire('category:beforeLoad', {treeLoader:treeLoader});
         treeLoader.baseParams.id = node.attributes.id;
     });
 

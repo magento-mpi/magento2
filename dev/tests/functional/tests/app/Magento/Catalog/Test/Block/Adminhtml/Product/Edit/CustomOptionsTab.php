@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Factory\Factory;
 /**
  * Custom Options Tab
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class CustomOptionsTab extends Tab
 {
@@ -26,10 +22,10 @@ class CustomOptionsTab extends Tab
      * Fill custom options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (!isset($fields['custom_options'])) {
             return $this;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 /**
  * Store selector
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated
  */

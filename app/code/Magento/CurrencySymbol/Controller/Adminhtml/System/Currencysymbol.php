@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CurrencySymbol
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml Currency Symbols Controller
  *
- * @category    Magento
- * @package     currencysymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CurrencySymbol\Controller\Adminhtml\System;

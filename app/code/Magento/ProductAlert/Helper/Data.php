@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Store\Model\Store;
 /**
  * ProductAlert data helper
  *
- * @category   Magento
- * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Data extends \Magento\Core\Helper\Url

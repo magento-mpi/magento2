@@ -12,7 +12,6 @@ use Mtf\Handler\HandlerInterface;
 /**
  * Interface CatalogRuleInterface
  *
- * @package Magento\CatalogRule\Test\Handler\CatalogRule
  */
 interface CatalogRuleInterface extends HandlerInterface
 {

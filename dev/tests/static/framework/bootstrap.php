@@ -2,16 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  static_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 define('BP', realpath(__DIR__ . '/../../../../'));
 require BP . '/app/autoload.php';
-\Magento\Framework\Autoload\IncludePath::addIncludePath(array(__DIR__, dirname(__DIR__) . '/testsuite', BP . '/lib'));
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+    array(__DIR__, dirname(__DIR__) . '/testsuite', BP . '/lib')
+);
 \Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
 
 function tool_autoloader($className)

@@ -159,11 +159,11 @@ class Index extends \Magento\Backend\App\Action
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         if ($customerId) {
             $customer->load($customerId);
+            $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
         }
 
         // TODO: Investigate if any piece of code still relies on this; remove if not.
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
         return $customerId;
     }
 
@@ -423,7 +423,7 @@ class Index extends \Magento\Backend\App\Action
                     'adminhtml_customer_save_after',
                     array('customer' => $customer, 'request' => $request)
                 );
-
+                $this->_getSession()->unsCustomerData();
                 // Done Saving customer, finish save action
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
                 $this->messageManager->addSuccess(__('You saved the customer.'));
@@ -669,9 +669,10 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        /** @var  \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->_objectManager
             ->create('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer($customerId);
+            ->loadByCustomerId($customerId);
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();
@@ -806,7 +807,7 @@ class Index extends \Magento\Backend\App\Action
 
         if ($response->getError()) {
             $this->_view->getLayout()->initMessages();
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

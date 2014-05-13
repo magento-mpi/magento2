@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class CustomerInjectable
  *
- * @package Magento\Customer\Test\Fixture
  */
 class CustomerInjectable extends InjectableFixture
 {
@@ -181,6 +180,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'account_information',
     ];
 
     protected $suffix = [

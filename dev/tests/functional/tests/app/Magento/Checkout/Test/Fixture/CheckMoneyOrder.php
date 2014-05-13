@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\Catalog\Test\Fixture;
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrder extends Checkout
 {

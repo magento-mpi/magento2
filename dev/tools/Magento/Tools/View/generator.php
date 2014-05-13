@@ -5,14 +5,12 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Tools
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
-\Magento\Framework\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../../');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../../');
 
 /**
  * Command line usage help

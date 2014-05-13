@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Enable Order by SKU in 'My Account' options source
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 namespace Magento\AdvancedCheckout\Model\Cart\Sku\Source;
 

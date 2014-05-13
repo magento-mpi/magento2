@@ -2,6 +2,7 @@
 /**
  * {license_notice}
  *
+ * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +14,6 @@ use Mtf\Page\FrontendPage;
 /**
  * Class CustomerAccountIndex
  *
- * @package Magento\Customer\Test\Page
  */
 class CustomerAccountIndex extends FrontendPage
 {

@@ -16,7 +16,6 @@ use Magento\Framework\ObjectManager as MagentoObjectManager;
 /**
  * Class ObjectManagerFactory
  *
- * @package Mtf\System
  * @api
  */
 class ObjectManagerFactory
@@ -63,7 +62,7 @@ class ObjectManagerFactory
             ? $arguments[\Magento\Framework\App\Filesystem::PARAM_APP_DIRS]
             : array();
         $directoryList = new \Magento\Framework\App\Filesystem\DirectoryList(realpath(MTF_BP . '../../../../'), $directories);
-        \Magento\Framework\Autoload\IncludePath::addIncludePath(
+        (new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
             array($directoryList->getDir(\Magento\Framework\App\Filesystem::GENERATION_DIR))
         );
 

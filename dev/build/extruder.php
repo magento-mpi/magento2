@@ -3,16 +3,16 @@
 /**
  * {license_notice}
  *
- * @category   build
- * @package    extruder
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 require __DIR__ . '/../../app/autoload.php';
-\Magento\Framework\Autoload\IncludePath::addIncludePath(__DIR__ . '/../../lib');
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib');
 
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
 $>./extruder.php -w <working_dir> -l /path/to/list.txt [[-l /path/to/extra.txt] parameters]
     additional parameters:
     -w dir  directory with working copy to edit with the extruder

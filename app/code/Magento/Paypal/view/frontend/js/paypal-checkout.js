@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    CE
- * @package     CE_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Totals
  * Order totals block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order
  */
 class Totals extends Block
 {

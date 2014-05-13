@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Centinel
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * 3D Secure Validation Model
  *
- * @category   Magento
- * @package    Magento_Centinel
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Centinel\Model;

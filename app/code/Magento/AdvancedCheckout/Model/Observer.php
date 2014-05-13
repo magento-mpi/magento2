@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Model;
 /**
  * Admin Checkout processing model
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Observer
 {
@@ -135,7 +131,7 @@ class Observer
             return;
         }
         foreach ($addBySkuItems as $id => $params) {
-            $sku = isset($params['sku']) ? $params['sku'] : $id;
+            $sku = (string) (isset($params['sku']) ? $params['sku'] : $id);
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
         /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */

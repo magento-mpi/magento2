@@ -14,7 +14,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $page_types = array();
+        $pageTypes = array();
         $xpath = new \DOMXPath($source);
 
         /** @var $widget \DOMNode */
@@ -26,8 +26,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
 
             $pageArray = array("id" => $id, "label" => $label);
 
-            $page_types[$id] = $pageArray;
+            $pageTypes[$id] = $pageArray;
         }
-        return $page_types;
+        return $pageTypes;
     }
 }

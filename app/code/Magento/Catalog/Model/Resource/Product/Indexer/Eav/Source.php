@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 /**
  * Catalog Product Eav Select and Multiply Select Attributes Indexer resource model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Source extends AbstractEav

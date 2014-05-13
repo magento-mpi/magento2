@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Abstract config form element renderer
  *
- * @category   Magento
- * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  */

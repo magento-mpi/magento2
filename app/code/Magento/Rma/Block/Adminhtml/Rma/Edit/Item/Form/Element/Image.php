@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 /**
  * RMA Item Widget Form Image File Element Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Image extends \Magento\Framework\Data\Form\Element\AbstractElement

@@ -7,6 +7,8 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Adminhtml customer billing agreement tab
  */
@@ -81,8 +83,7 @@ class Agreement extends \Magento\Paypal\Block\Adminhtml\Billing\Agreement\Grid i
      */
     public function canShowTab()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-        return !is_null($customer);
+        return !is_null($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID));
     }
 
     /**
