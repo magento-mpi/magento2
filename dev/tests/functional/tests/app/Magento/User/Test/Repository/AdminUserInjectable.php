@@ -16,8 +16,10 @@ use Mtf\Repository\AbstractRepository;
  */
 class AdminUserInjectable extends AbstractRepository
 {
-    /**
-     * {@inheritdoc}
+    /*
+     * @constructor
+     * @param array $defaultConfig
+     * @param array $defaultData
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
@@ -38,7 +40,8 @@ class AdminUserInjectable extends AbstractRepository
             'email' => 'email%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'user_role' => 'Administrators'
+            'user_role' => 'Administrators',
+            'user_id' => '1'
         ];
     }
 }

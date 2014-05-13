@@ -27,6 +27,8 @@ class AssertRoleInGrid extends AbstractConstraint
     /**
      * Asserts that saved role is present in Role Grid.
      *
+     * @param UserRoleIndex $rolePage
+     * @param AdminUserRole $role
      * @return void
      */
     public function processAssert(

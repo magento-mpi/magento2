@@ -16,7 +16,6 @@ use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
  */
 class AssertImpossibleDeleteYourOwnRole extends AbstractConstraint
 {
-
     const ERROR_MESSAGE = 'You cannot delete self-assigned roles.';
 
     /**

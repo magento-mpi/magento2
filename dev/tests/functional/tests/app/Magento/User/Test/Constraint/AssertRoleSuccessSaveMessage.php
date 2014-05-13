@@ -29,6 +29,7 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
     /**
      * Asserts that success message equals to expected message.
      *
+     * @param UserRoleIndex $rolePage
      * @return void
      */
     public function processAssert(UserRoleIndex $rolePage)

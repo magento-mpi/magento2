@@ -25,14 +25,6 @@ use Mtf\System\Config;
 class Curl extends AbstractCurl implements AdminUserRoleInterface
 {
     /**
-     * Default attributes for cURL request
-     *
-     * @var array
-     */
-    protected $defaultAttributes = [
-        'gws_is_all' => '1'
-    ];
-    /**
      * Curl creation of Admin User Role
      *
      * @param FixtureInterface $fixture
@@ -44,9 +36,9 @@ class Curl extends AbstractCurl implements AdminUserRoleInterface
         $data = $fixture->getData();
         $data['rolename'] = $data['role_name'];
         unset($data['role_name']);
-        $data['all'] = $data['resource_access'] = "1";
+        $data['all'] = ($data['resource_access'] == 'All') ? '1' : '0';
         unset($data['resource_access']);
-        $data = array_merge($data, $this->defaultAttributes);
+        $data['gws_is_all'] = (isset($data['gws_is_all'])) ? $data['gws_is_all'] : '1';
         $url = $_ENV['app_backend_url'] . 'admin/user_role/saverole/active_tab/info/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
