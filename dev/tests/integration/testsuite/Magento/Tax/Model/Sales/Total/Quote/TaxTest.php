@@ -12,7 +12,7 @@ use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Calculation;
 
 require __DIR__ . '/SetupUtil.php';
-require __DIR__ . '/../../../../_files/tax_calculation_data.php';
+require __DIR__ . '/../../../../_files/tax_calculation_data_aggregated.php';
 
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
