@@ -73,10 +73,8 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $sort_order = 0;
         }
 
-        $dateStart = strtotime($catalogEvent->getDateStart());
         $dateStart = strftime("%b %#d, %Y %I:%M:%S %p", $dateStart);
         $filter['start_on'] = $dateStart;
-        $dateEnd = strtotime($catalogEvent->getDateEnd());
         $dateEnd = strftime("%b %#d, %Y %I:%M:%S %p", $dateEnd);
         $filter['end_on'] = $dateEnd;
 
