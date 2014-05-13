@@ -23,6 +23,7 @@ class Config extends \Magento\Payment\Model\Config
      * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
+    protected $_logger;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -40,11 +41,13 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\Logger $logger
     ) {
         parent::__construct($scopeConfig, $coreConfig, $paymentMethodFactory, $localeLists, $dataStorage);
         $this->_urlBuilder = $urlBuilder;
         $this->_encryptor = $encryptor;
+        $this->_logger = $logger;
     }
 
     /**
@@ -70,7 +73,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getShaInCode($storeId = null)
     {
-        return $this->_encryptor->decrypt($this->getConfigData('secret_key_in', $storeId));
+        return $this->getConfigData('secret_key_in', $storeId);
     }
 
     /**
@@ -80,7 +83,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getShaOutCode($storeId = null)
     {
-        return $this->_encryptor->decrypt($this->getConfigData('secret_key_out', $storeId));
+        return $this->getConfigData('secret_key_out', $storeId);
     }
 
     /**
