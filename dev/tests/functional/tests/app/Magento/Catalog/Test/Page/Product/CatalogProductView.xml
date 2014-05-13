@@ -56,4 +56,28 @@
         <locator>#map-popup</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>reviewSummary</name>
+        <class>Magento\Review\Test\Block\Product\View\Summary</class>
+        <locator>.product.reviews.summary</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>customerReviewBlock</name>
+        <class>Magento\Review\Test\Block\Product\View</class>
+        <locator>#customer-reviews</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>reviewFormBlock</name>
+        <class>Magento\Review\Test\Block\Form</class>
+        <locator>#review-form</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>

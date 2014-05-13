@@ -180,7 +180,7 @@ class ProductForm extends FormTabs
      * Fill the product form
      *
      * @param FixtureInterface $fixture
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
     public function fill(FixtureInterface $fixture, Element $element = null)

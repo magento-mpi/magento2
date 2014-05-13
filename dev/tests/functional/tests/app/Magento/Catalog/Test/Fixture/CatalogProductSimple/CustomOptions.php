@@ -78,7 +78,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23062' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -93,7 +93,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23063' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -108,7 +108,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23066' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -123,7 +123,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23069' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [

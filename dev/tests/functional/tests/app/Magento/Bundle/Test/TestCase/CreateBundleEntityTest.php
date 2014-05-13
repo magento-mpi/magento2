@@ -66,7 +66,7 @@ class CreateBundleEntityTest extends Injectable
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         // Step 2
         $productForm = $createProductPage->getForm();
-        $productForm->fill($bundle, $this->category);
+        $productForm->fillProduct($bundle, $this->category);
         // Step 3
         $createProductPage->getFormAction()->save();
     }

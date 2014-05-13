@@ -94,7 +94,7 @@ class CreateSimpleProductEntityTest extends Injectable
         $this->productGrid->open();
         $this->productGrid->getProductBlock()->addProduct('simple');
         $productBlockForm = $this->newProductPage->getForm();
-        $productBlockForm->fill($product, $category);
+        $productBlockForm->fillProduct($product, $category);
         $this->newProductPage->getFormAction()->save();
     }
 }

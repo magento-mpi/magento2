@@ -31,4 +31,17 @@ abstract class Options extends Tab
         $this->_fill($mapping, $element);
         return $this;
     }
+
+    /**
+     * Getting options data form on the product form
+     *
+     * @param array $fields
+     * @param Element $element
+     * @return $this
+     */
+    public function getDataOptions(array $fields = null, Element $element = null) {
+        $element = $element === null ? $this->_rootElement : $element;
+        $mapping = $this->dataMapping($fields);
+        return $this->_getData($mapping, $element);
+    }
 }

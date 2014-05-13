@@ -50,6 +50,30 @@ class CatalogProductView extends FrontendPage
             'locator' => '.block.crosssell',
             'strategy' => 'css selector',
         ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.page.messages .messages',
+            'strategy' => 'css selector',
+        ],
+        'reviewSummary' => [
+            'name' => 'reviewSummary',
+            'class' => 'Magento\Review\Test\Block\Product\View\Summary',
+            'locator' => '.product.reviews.summary',
+            'strategy' => 'css selector',
+        ],
+        'reviewFormBlock' => [
+            'name' => 'reviewFormBlock',
+            'class' => 'Magento\Review\Test\Block\Form',
+            'locator' => '#review-form',
+            'strategy' => 'css selector',
+        ],
+        'customerReviewBlock' => [
+            'name' => 'customerReviewBlock',
+            'class' => 'Magento\Review\Test\Block\Product\View',
+            'locator' => '#customer-reviews',
+            'strategy' => 'css selector',
+        ],
         'downloadableLinksBlock' => [
             'name' => 'downloadableLinksBlock',
             'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\Links',
@@ -59,7 +83,7 @@ class CatalogProductView extends FrontendPage
         'giftCardBlock' => [
             'name' => 'giftCardBlock',
  	 	 	'class' => 'Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard',
- 	 	 	'locator' => '[data-container-for=giftcard_info]',
+ 	 	 	'locator' => '.product.info.main',
  	 	 	'strategy' => 'css selector',
  	 	],
         'mapBlock' => [
@@ -113,6 +137,38 @@ class CatalogProductView extends FrontendPage
     public function getRelatedProductBlock()
     {
         return $this->getBlockInstance('relatedProductBlock');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Form
+     */
+    public function getReviewFormBlock()
+    {
+        return $this->getBlockInstance('reviewFormBlock');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Product\View
+     */
+    public function getCustomerReviewBlock()
+    {
+        return $this->getBlockInstance('customerReviewBlock');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
+    }
+
+    /**
+     * @return \Magento\Review\Test\Block\Product\View\Summary
+     */
+    public function getReviewSummaryBlock()
+    {
+        return $this->getBlockInstance('reviewSummary');
     }
 
     /**

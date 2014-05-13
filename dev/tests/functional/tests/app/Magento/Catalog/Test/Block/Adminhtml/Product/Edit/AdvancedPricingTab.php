@@ -63,4 +63,40 @@ class AdvancedPricingTab extends Tab
 
         return $this;
     }
+
+    /**
+     * Get data of tab
+     *
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
+     */
+    public function getDataFormTab($fields = null, Element $element = null)
+    {
+        $formData = [];
+        foreach ($fields as $fieldName => $field) {
+            // Data collection forms
+            if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                $optionsForm = $this->blockFactory->create(
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
+                    ['element' => $this->_rootElement]
+                );
+
+                foreach ($field['value'] as $key => $option) {
+                    $formData[$fieldName][$key++] = $optionsForm->getDataOptions(
+                        $option,
+                        $this->_rootElement->find('#attribute-' .
+                            $fieldName . '-container tbody tr:nth-child(' . $key . ')'
+                        )
+                    );
+                }
+            } elseif (!empty($field['value'])) {
+                $data = $this->dataMapping([$fieldName => $field]);
+                $formData[$fieldName] = $this->_getData($data, $this->_rootElement);
+            }
+        }
+
+        return $formData;
+    }
 }

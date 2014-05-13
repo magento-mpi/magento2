@@ -438,6 +438,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => 'Taxable Goods',
         'input' => 'select',
+        'group' => 'product-details',
     ];
 
     protected $thumbnail = [

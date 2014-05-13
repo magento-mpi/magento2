@@ -11,13 +11,13 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form;
+use Magento\Backend\Test\Block\Widget\Form as ParentForm;
 
 /**
  * Class AffectedAttributeSet
  * Choose affected attribute set dialog popup window
  */
-class AffectedAttributeSetForm extends Form
+class AffectedAttributeSetForm extends ParentForm
 {
     /**
      * 'Confirm' button locator
@@ -37,7 +37,7 @@ class AffectedAttributeSetForm extends Form
      * Fill popup form
      *
      * @param FixtureInterface $product
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
     public function fill(FixtureInterface $product, Element $element = null)

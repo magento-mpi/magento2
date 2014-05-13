@@ -119,8 +119,13 @@ class ApplyMapConfigurableTest extends Functional
             'Displayed on Product page price is incorrect'
         );
         $mapBlock->closeMapBlock();
-        $productViewBlock->fillOptions($product);
-        $productViewBlock->addToCart($product);
+
+        $optionsBlock = $productPage->getCustomOptionsBlock();
+        $productOptions = $product->getProductOptions();
+        if (!empty($productOptions)) {
+            $optionsBlock->fillProductOptions($productOptions);
+        }
+        $productViewBlock->clickAddToCart();
     }
 
     /**

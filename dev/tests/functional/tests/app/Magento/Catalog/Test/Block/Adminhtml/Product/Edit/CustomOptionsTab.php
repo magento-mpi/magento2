@@ -19,6 +19,13 @@ use Magento\Backend\Test\Block\Widget\Tab;
 class CustomOptionsTab extends Tab
 {
     /**
+     * Custom option row CSS locator
+     *
+     * @var string
+     */
+    protected $customOptionRow = '#product-custom-options-content .fieldset-wrapper:nth-child(%d)';
+
+    /**
      * Class name 'Subform' of the main tab form
      *
      * @var array
@@ -50,7 +57,6 @@ class CustomOptionsTab extends Tab
         }
 
         foreach ($fields['value'] as $keyRoot => $field) {
-            ++$keyRoot;
             $options = null;
             $this->_rootElement->find($this->buttonFormLocator)->click();
             if (!empty($field['options'])) {
@@ -58,7 +64,7 @@ class CustomOptionsTab extends Tab
                 unset($field['options']);
             }
 
-            $rootElement = $this->_rootElement->find('#option_' . $keyRoot);
+            $rootElement = $this->_rootElement->find(sprintf($this->customOptionRow, $keyRoot + 1));
             $data = $this->dataMapping($field);
             $this->_fill($data, $rootElement);
 
@@ -83,5 +89,57 @@ class CustomOptionsTab extends Tab
         }
 
         return $this;
+    }
+
+    /**
+     * Get data of tab
+     *
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
+     */
+    public function getDataFormTab($fields = null, Element $element = null)
+    {
+        $fields = reset($fields);
+        $formData = [];
+        if (empty($fields['value'])) {
+            return $formData;
+        }
+
+        foreach ($fields['value'] as $keyRoot => $field) {
+            $formDataItem = null;
+            $options = null;
+            if (!empty($field['options'])) {
+                $options = $field['options'];
+                unset($field['options']);
+            }
+
+            $rootLocator = sprintf($this->customOptionRow, $keyRoot + 1);
+            $rootElement = $this->_rootElement->find($rootLocator);
+            $this->waitForElementVisible($rootLocator);
+            $data = $this->dataMapping($field);
+            $formDataItem = $this->_getData($data, $rootElement);
+
+            // Data collection subform
+            if (isset($field['type']) && isset($this->childrenForm[$field['type']])
+                && !empty($options)
+            ) {
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                $optionsForm = $this->blockFactory->create(
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$field['type']],
+                    ['element' => $rootElement]
+                );
+
+                foreach ($options as $key => $option) {
+                    $formDataItem['options'][$key++] = $optionsForm->getDataOptions(
+                        $option,
+                        $rootElement->find('.fieldset .data-table tbody tr:nth-child(' . $key . ')')
+                    );
+                }
+            }
+            $formData[$fields['attribute_code']][$keyRoot] = $formDataItem;
+        }
+
+        return $formData;
     }
 }

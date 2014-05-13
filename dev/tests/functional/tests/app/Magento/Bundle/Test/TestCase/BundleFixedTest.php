@@ -46,7 +46,7 @@ class BundleFixedTest extends Functional
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         $productForm = $createProductPage->getForm();
-        $productForm->fill($bundle);
+        $productForm->fillProduct($bundle);
         $createProductPage->getFormAction()->save();
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
@@ -100,7 +100,7 @@ class BundleFixedTest extends Functional
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getCustomOptionsBlock();
-        $actualOptions = $productOptionsBlock->getBundleOptions();
+        $actualOptions = $productOptionsBlock->getOptions();
         $expectedOptions = $product->getBundleOptions();
         foreach ($actualOptions as $optionType => $actualOption) {
             $this->assertContains($expectedOptions[$optionType], $actualOption);

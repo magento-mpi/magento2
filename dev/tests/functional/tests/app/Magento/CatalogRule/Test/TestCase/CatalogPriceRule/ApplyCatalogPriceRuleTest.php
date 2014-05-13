@@ -164,14 +164,18 @@ class ApplyCatalogPriceRuleTest extends Functional
             $appliedRulePrice = $product->getProductPrice() * $this->discountRate;
             if ($product instanceof ConfigurableProduct) {
                 // Select option
-                $productViewBlock->fillOptions($product);
+                $optionsBlock = $productPage->getCustomOptionsBlock();
+                $productOptions = $product->getProductOptions();
+                if (!empty($productOptions)) {
+                    $optionsBlock->fillProductOptions($productOptions);
+                }
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
             $productPriceBlock = $productViewBlock->getProductPriceBlock();
             $this->assertContains((string)$appliedRulePrice, $productPriceBlock->getSpecialPrice());
 
             // Add to Cart
-            $productViewBlock->addToCart($product);
+            $productViewBlock->clickAddToCart();
             $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
             $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
 

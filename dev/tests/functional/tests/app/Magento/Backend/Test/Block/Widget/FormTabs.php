@@ -96,7 +96,7 @@ class FormTabs extends Form
      * Fill form with tabs
      *
      * @param FixtureInterface $fixture
-     * @param Element $element
+     * @param Element|null $element
      * @return FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
@@ -163,14 +163,22 @@ class FormTabs extends Form
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
         $data = [];
-        $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
-        $tabsFields = ($fixture === null || !$isHasData) ? [] : $this->getFieldsByTabs($fixture);
 
-        foreach ($this->tabs as $tabName => $tab) {
-            $this->openTab($tabName);
-            $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : null;
-            $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
-            $data = array_merge($data, $tabData);
+        if (null === $fixture) {
+            foreach ($this->tabs as $tabName => $tab) {
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab();
+                $data = array_merge($data, $tabData);
+            }
+        } else {
+            $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
+            $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
+            foreach ($this->tabs as $tabName => $tab) {
+                $this->openTab($tabName);
+                $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : [];
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
+                $data = array_merge($data, $tabData);
+            }
         }
 
         return $data;
