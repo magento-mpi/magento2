@@ -26,6 +26,7 @@ class RequestFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \Magento\Framework\App\RequestFactory::__construct
      * @covers \Magento\Framework\App\RequestFactory::create
      */
     public function testCreate()
