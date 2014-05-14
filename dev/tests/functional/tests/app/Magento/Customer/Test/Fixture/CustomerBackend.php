@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Factory\Factory;
 /**
  * Customer in Backend
  *
- * @package Magento\Customer\Test\Fixture
  */
 class CustomerBackend extends Customer
 {

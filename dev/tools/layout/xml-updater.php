@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
  * @copyright  {copyright}
  * @license    {license_link}
  */

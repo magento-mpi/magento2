@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\TargetRule\Model\Index;
 /**
  * TargetRule Product List Abstract Indexer Resource Model
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\AbstractDb

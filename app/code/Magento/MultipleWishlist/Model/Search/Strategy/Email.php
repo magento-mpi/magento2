@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\MultipleWishlist\Model\Search\Strategy;
 /**
  * Wishlist search by email strategy
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface

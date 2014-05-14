@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element;
  * Class Tab
  * Is used to represent any tab on the page
  *
- * @package Magento\Backend\Test\Block\Widget
  */
 class Tab extends AbstractForm
 {

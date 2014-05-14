@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleAnalytics
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Event\Observer as EventObserver;
 /**
  * Google Analytics module observer
  *
- * @category   Magento
- * @package    Magento_GoogleAnalytics
  */
 class Observer
 {

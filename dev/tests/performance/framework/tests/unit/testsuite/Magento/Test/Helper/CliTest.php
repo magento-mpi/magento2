@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     performance_tests
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\Test\Helper;
 /**
  * Class CliTest
  *
- * @package Magento\Test\Helper
  */
 class CliTest extends \PHPUnit_Framework_TestCase
 {

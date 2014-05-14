@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Factory\Factory;
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
  * @ZephyrId MAGETWO-12415
- * @package Magento\Sales\Test\Fixture
  */
 class PaypalExpressOrder extends OrderCheckout
 {

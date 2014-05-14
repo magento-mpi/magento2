@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class MatchedCustomerGrid
  * Backend segment matched customer grid
  *
- * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {

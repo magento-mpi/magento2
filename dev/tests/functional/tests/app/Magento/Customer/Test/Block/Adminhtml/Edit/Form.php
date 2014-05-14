@@ -15,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
  * Class Form
  * Form for creation of the customer
  *
- * @package Magento\Customer\Test\Block\Adminhtml\Edit
  */
 class Form extends FormTabs
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Email
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Email\Controller\Adminhtml\Email;
 /**
  * System Template admin controller
  *
- * @category   Magento
- * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Template extends \Magento\Backend\App\Action
@@ -213,8 +209,13 @@ class Template extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        $this->_view->loadLayout('systemPreview');
-        $this->_view->renderLayout();
+        try {
+            $this->_view->loadLayout('systemPreview');
+            $this->_view->renderLayout();
+        } catch (\Exception $e) {
+            $this->messageManager->addError(__('An error occurred. The email template can not be opened for preview.'));
+            $this->_redirect('adminhtml/*/');
+        }
     }
 
     /**

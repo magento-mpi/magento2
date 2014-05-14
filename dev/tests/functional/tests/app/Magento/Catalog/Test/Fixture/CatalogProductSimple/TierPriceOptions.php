@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Price options preset name)
  *  - products (comma separated sku identifiers)
  *
- * @package Magento\Catalog\Test\Fixture
  */
 class TierPriceOptions implements FixtureInterface
 {

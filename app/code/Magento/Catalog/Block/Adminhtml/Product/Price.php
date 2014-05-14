@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Product price block
  *
- * @category   Magento
- * @package    Magento_Catalog
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 

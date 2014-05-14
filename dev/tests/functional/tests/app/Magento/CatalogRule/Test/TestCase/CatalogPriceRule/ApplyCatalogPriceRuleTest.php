@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class ApplyCatalogPriceRule
  *
- * @package Magento\CatalogRule\Test\TestCase\CatalogPriceRule
  */
 class ApplyCatalogPriceRuleTest extends Functional
 {

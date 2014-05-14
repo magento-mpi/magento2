@@ -12,7 +12,6 @@ namespace Mtf\App\State;
  * Class State1
  * Example Application State class
  *
- * @package Mtf\App\State
  */
 class State1 extends AbstractState
 {

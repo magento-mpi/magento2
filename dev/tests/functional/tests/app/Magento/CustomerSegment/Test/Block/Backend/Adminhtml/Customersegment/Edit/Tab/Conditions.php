@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Conditions
  * Segment Conditions actions block
  *
- * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab
  */
 class Conditions extends Tab
 {

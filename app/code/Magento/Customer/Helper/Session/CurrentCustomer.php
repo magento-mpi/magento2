@@ -5,12 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Helper\Session;
+
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Framework\View\LayoutInterface;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Module\Manager as ModuleManager;
+use Magento\Framework\App\ViewInterface;
 
 /**
- * Class CustomerCurrentService
+ * Class CurrentCustomer
  */
-class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+class CurrentCustomer
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -28,7 +36,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     protected $customerBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountService
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
     protected $customerAccountService;
 
@@ -43,22 +51,27 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     protected $moduleManager;
 
     /**
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\View\LayoutInterface $layout
-     * @param Data\CustomerBuilder $customerBuilder
+     * @var \Magento\Framework\App\ViewInterface
+     */
+    protected $view;
+
+    /**
+     * @param CustomerSession $customerSession
+     * @param LayoutInterface $layout
+     * @param CustomerBuilder $customerBuilder
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\Module\Manager $moduleManager
-     * @param \Magento\Framework\App\ViewInterface $view
+     * @param RequestInterface $request
+     * @param ModuleManager $moduleManager
+     * @param ViewInterface $view
      */
     public function __construct(
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\Module\Manager $moduleManager,
-        \Magento\Framework\App\ViewInterface $view
+        CustomerSession $customerSession,
+        LayoutInterface $layout,
+        CustomerBuilder $customerBuilder,
+        CustomerAccountServiceInterface $customerAccountService,
+        RequestInterface $request,
+        ModuleManager $moduleManager,
+        ViewInterface $view
     ) {
         $this->customerSession = $customerSession;
         $this->layout = $layout;
@@ -96,9 +109,10 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      */
     public function getCustomer()
     {
-        if ($this->moduleManager->isEnabled(
-            'Magento_PageCache'
-        ) && !$this->request->isAjax() && $this->view->isLayoutLoaded() && $this->layout->isCacheable()
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $this->view->isLayoutLoaded()
+            && $this->layout->isCacheable()
         ) {
             return $this->getDepersonalizedCustomer();
         } else {

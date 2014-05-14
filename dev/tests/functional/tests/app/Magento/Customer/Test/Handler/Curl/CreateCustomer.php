@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\Util\Protocol\CurlInterface;
  * Class CreateCustomer.
  * Curl handler for creating customer through registration page.
  *
- * @package Magento\Customer\Test\Handler\Curl
  */
 class CreateCustomer extends Curl
 {

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    customer
- * @package     enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */
