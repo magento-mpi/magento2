@@ -32,7 +32,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      *
      * @var \Magento\Tax\Helper\Data|null
      */
-    protected $_helper = null;
+    protected $_taxHelper = null;
 
     /**
      * Flag which is initialized when collect method is started and catalog prices include tax.
@@ -64,7 +64,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         $this->setCode('shipping');
         $this->_calculator = $calculation;
         $this->_config = $taxConfig;
-        $this->_helper = $taxHelper;
+        $this->_taxHelper = $taxHelper;
     }
 
     /**
@@ -92,7 +92,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $priceIncludesTax = $this->_config->shippingPriceIncludesTax($store);
         if ($priceIncludesTax) {
-            if ($this->_helper->isCrossBorderTradeEnabled($store)) {
+            if ($this->_taxHelper->isCrossBorderTradeEnabled($store)) {
                 $this->_areTaxRequestsSimilar = true;
             } else {
                 $this->_areTaxRequestsSimilar =
