@@ -67,6 +67,7 @@
   * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
