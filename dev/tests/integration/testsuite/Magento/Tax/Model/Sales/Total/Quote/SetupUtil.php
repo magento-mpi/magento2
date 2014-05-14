@@ -229,20 +229,6 @@ class SetupUtil
         return $this;
     }
 
-    protected function createDefaultTaxRule()
-    {
-        $taxRuleDefaultData = [
-            'code' => 'Test Rule',
-            'priority' => '0',
-            'position' => '0',
-            'tax_customer_class' => array_values($this->customerTaxClasses),
-            'tax_product_class' => array_values($this->productTaxClasses),
-            'tax_rate' => array_values($taxRateIds),
-        ];
-
-
-    }
-
     /**
      * Convert the code to id for productTaxClass, customerTaxClass and taxRate in taxRuleOverrideData
      *
