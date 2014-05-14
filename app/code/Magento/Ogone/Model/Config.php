@@ -23,7 +23,6 @@ class Config extends \Magento\Payment\Model\Config
      * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
-    protected $_logger;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -41,13 +40,11 @@ class Config extends \Magento\Payment\Model\Config
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Config\DataInterface $dataStorage,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Framework\Logger $logger
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($scopeConfig, $coreConfig, $paymentMethodFactory, $localeLists, $dataStorage);
         $this->_urlBuilder = $urlBuilder;
         $this->_encryptor = $encryptor;
-        $this->_logger = $logger;
     }
 
     /**
