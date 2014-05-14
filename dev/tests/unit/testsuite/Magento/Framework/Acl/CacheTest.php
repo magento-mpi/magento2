@@ -20,6 +20,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected $cacheConfig;
 
+    /**
+     * @var string
+     */
     protected $cacheKey;
 
     protected function setUp()
@@ -31,7 +34,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $dataAcl
+     * @param array|bool $dataAcl
      * @dataProvider aclDataProvider
      */
     public function testGet($dataAcl)
@@ -52,7 +55,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $expectedTest
+     * @param bool $expectedTest
      * @dataProvider hasWithoutAclDataProvider
      */
     public function testHasWithoutAcl($expectedTest)
@@ -73,7 +76,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $dataAcl
+     * @param array|bool $dataAcl
      * @dataProvider aclDataProvider
      */
     public function testHasWithAcl($dataAcl)
