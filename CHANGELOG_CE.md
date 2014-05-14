@@ -60,6 +60,9 @@
   * Fixed: Displayed currency and product price aren't changed after switching to new currency (MAGETWO-24297)
   * Fixed: Crash frontend when delete product from mini shopping cart (MAGETWO-24303)
   * Fixed: Bundle product is not possible to add to shopping cart (MAGETWO-24302)
+  * Fixed: Configurable product base image disappears on selecting product variations (MAGETWO-22973)
+  * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
+  * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
   * Fixed: No records found is displayed in User Roles grid if no users are assigned to role (MAGETWO-9404)
   * Fixed: Variables are not visible in Newsletter Templates (MAGETWO-23975)
@@ -147,7 +150,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-  
+
 2.0.0.0-dev75
 =============
 * Modularity improvements:
