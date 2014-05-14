@@ -308,8 +308,10 @@ class Tax extends AbstractTotal
      * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
-    protected function _calculateShippingTax($address, $taxRateRequest)
-    {
+    protected function _calculateShippingTax(
+        Address $address,
+        \Magento\Framework\Object $taxRateRequest
+    ) {
         $taxRateRequest->setProductClassId($this->_config->getShippingTaxClass($this->_store));
         $rate = $this->_calculator->getRate($taxRateRequest);
         $inclTax = $address->getIsShippingInclTax();
@@ -332,24 +334,20 @@ class Tax extends AbstractTotal
     }
 
     /**
+     * Initialize tax related fields in item
      *
-     * @param Address $address
      * @param AbstractItem $item
-     * @param \Magento\Framework\Object $taxRateRequest
-     * @param array $itemTaxGroups
-     * @param boolean $catalogPriceInclTax
-     * @return $this
+     * @param array $appliedRates
+     * @param float $rate
+     * @param bool $isUnitBasedCalculation
+     * @return bool
      */
-    protected function _unitBaseProcessItemTax(
-        $address,
-        $item,
-        $taxRateRequest,
-        &$itemTaxGroups,
-        $catalogPriceInclTax
+    protected function initializeItemTax(
+        AbstractItem $item,
+        $appliedRates,
+        $rate,
+        $isUnitBasedCalculation = false
     ) {
-        $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
-        $rate = $this->_calculator->getRate($taxRateRequest);
-
         $item->setTaxAmount(0);
         $item->setBaseTaxAmount(0);
         $item->setHiddenTaxAmount(0);
@@ -359,14 +357,43 @@ class Tax extends AbstractTotal
         $rowTotalInclTax = $item->getRowTotalInclTax();
         $recalculateRowTotalInclTax = false;
         if (!isset($rowTotalInclTax)) {
-            $qty = $item->getTotalQty();
-            $item->setRowTotalInclTax($this->_store->roundPrice($item->getTaxableAmount() * $qty));
-            $item->setBaseRowTotalInclTax($this->_store->roundPrice($item->getBaseTaxableAmount() * $qty));
+            if ($isUnitBasedCalculation) {
+                $qty = $item->getTotalQty();
+                $item->setRowTotalInclTax($this->_store->roundPrice($item->getTaxableAmount() * $qty));
+                $item->setBaseRowTotalInclTax($this->_store->roundPrice($item->getBaseTaxableAmount() * $qty));
+            } else {
+                $item->setRowTotalInclTax($item->getTaxableAmount());
+                $item->setBaseRowTotalInclTax($item->getBaseTaxableAmount());
+            }
             $recalculateRowTotalInclTax = true;
         }
-
-        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
         $item->setTaxRates($appliedRates);
+
+        return $recalculateRowTotalInclTax;
+    }
+
+    /**
+     *
+     * @param Address $address
+     * @param AbstractItem $item
+     * @param \Magento\Framework\Object $taxRateRequest
+     * @param array $itemTaxGroups
+     * @param boolean $catalogPriceInclTax
+     * @return $this
+     */
+    protected function _unitBaseProcessItemTax(
+        Address $address,
+        AbstractItem $item,
+        \Magento\Framework\Object $taxRateRequest,
+        &$itemTaxGroups,
+        $catalogPriceInclTax
+    ) {
+        $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
+        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
+        $rate = $this->_calculator->getRate($taxRateRequest);
+
+        $recalculateRowTotalInclTax = $this->initializeItemTax($item, $appliedRates, $rate, true);
+
         if ($catalogPriceInclTax) {
             $this->_calcUnitTaxAmount($item, $rate);
             $this->_saveAppliedTaxes(
@@ -407,8 +434,10 @@ class Tax extends AbstractTotal
      * @param \Magento\Framework\Object $taxRateRequest
      * @return $this
      */
-    protected function _unitBaseCalculation(Address $address, $taxRateRequest)
-    {
+    protected function _unitBaseCalculation(
+        Address $address,
+        \Magento\Framework\Object $taxRateRequest
+    ) {
         $items = $this->_getAddressItems($address);
         $itemTaxGroups = array();
         $store = $address->getQuote()->getStore();
@@ -454,11 +483,11 @@ class Tax extends AbstractTotal
      * @param   float $rate
      * @param   array $taxGroups
      * @param   string $taxId
-     * @param   boolean $recalculateRowTotalInclTax
+     * @param   bool $recalculateRowTotalInclTax
      * @return  $this
      */
     protected function _calcUnitTaxAmount(
-        $item,
+        AbstractItem $item,
         $rate,
         &$taxGroups = null,
         $taxId = null,
@@ -562,30 +591,22 @@ class Tax extends AbstractTotal
      * @param AbstractItem $item
      * @param \Magento\Framework\Object $taxRateRequest
      * @param array $itemTaxGroups
-     * @param boolean $catalogPriceInclTax
+     * @param bool $catalogPriceInclTax
      * @return $this
      */
-    protected function _rowBaseProcessItemTax($address, $item, $taxRateRequest, &$itemTaxGroups, $catalogPriceInclTax)
-    {
+    protected function _rowBaseProcessItemTax(
+        Address $address,
+        AbstractItem $item,
+        \Magento\Framework\Object $taxRateRequest,
+        &$itemTaxGroups,
+        $catalogPriceInclTax
+    ) {
         $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
+        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
         $rate = $this->_calculator->getRate($taxRateRequest);
 
-        $item->setTaxAmount(0);
-        $item->setBaseTaxAmount(0);
-        $item->setHiddenTaxAmount(0);
-        $item->setBaseHiddenTaxAmount(0);
-        $item->setTaxPercent($rate);
-        $item->setDiscountTaxCompensation(0);
-        $rowTotalInclTax = $item->getRowTotalInclTax();
-        $recalculateRowTotalInclTax = false;
-        if (!isset($rowTotalInclTax)) {
-            $item->setRowTotalInclTax($item->getTaxableAmount());
-            $item->setBaseRowTotalInclTax($item->getBaseTaxableAmount());
-            $recalculateRowTotalInclTax = true;
-        }
+        $recalculateRowTotalInclTax = $this->initializeItemTax($item, $appliedRates, $rate);
 
-        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
-        $item->setTaxRates($appliedRates);
         if ($catalogPriceInclTax) {
             $this->_calcRowTaxAmount($item, $rate);
             $this->_saveAppliedTaxes($address, $appliedRates, $item->getTaxAmount(), $item->getBaseTaxAmount(), $rate);
@@ -621,8 +642,10 @@ class Tax extends AbstractTotal
      * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
-    protected function _rowBaseCalculation(Address $address, $taxRateRequest)
-    {
+    protected function _rowBaseCalculation(
+        Address $address,
+        \Magento\Framework\Object $taxRateRequest
+    ) {
         $items = $this->_getAddressItems($address);
         $itemTaxGroups = array();
         $store = $address->getQuote()->getStore();
@@ -668,11 +691,11 @@ class Tax extends AbstractTotal
      * @param   float $rate
      * @param   array $taxGroups
      * @param   string $taxId
-     * @param   boolean $recalculateRowTotalInclTax
+     * @param   bool $recalculateRowTotalInclTax
      * @return  $this
      */
     protected function _calcRowTaxAmount(
-        $item,
+        AbstractItem $item,
         $rate,
         &$taxGroups = null,
         $taxId = null,
@@ -786,8 +809,10 @@ class Tax extends AbstractTotal
      * @param   \Magento\Framework\Object $taxRateRequest
      * @return  $this
      */
-    protected function _totalBaseCalculation(Address $address, $taxRateRequest)
-    {
+    protected function _totalBaseCalculation(
+        Address $address,
+        \Magento\Framework\Object $taxRateRequest
+    ) {
         $items = $this->_getAddressItems($address);
         $store = $address->getQuote()->getStore();
         $taxGroups = array();
@@ -851,34 +876,22 @@ class Tax extends AbstractTotal
      * @param \Magento\Framework\Object $taxRateRequest
      * @param array $taxGroups
      * @param array $itemTaxGroups
-     * @param boolean $catalogPriceInclTax
+     * @param bool $catalogPriceInclTax
      * @return $this
      */
     protected function _totalBaseProcessItemTax(
-        $item,
-        $taxRateRequest,
+        AbstractItem $item,
+        \Magento\Framework\Object $taxRateRequest,
         &$taxGroups,
         &$itemTaxGroups,
         $catalogPriceInclTax
     ) {
         $taxRateRequest->setProductClassId($item->getProduct()->getTaxClassId());
+        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
         $rate = $this->_calculator->getRate($taxRateRequest);
 
-        $item->setTaxAmount(0);
-        $item->setBaseTaxAmount(0);
-        $item->setHiddenTaxAmount(0);
-        $item->setBaseHiddenTaxAmount(0);
-        $item->setTaxPercent($rate);
-        $item->setDiscountTaxCompensation(0);
-        $rowTotalInclTax = $item->getRowTotalInclTax();
-        $recalculateRowTotalInclTax = false;
-        if (!isset($rowTotalInclTax)) {
-            $item->setRowTotalInclTax($item->getTaxableAmount());
-            $item->setBaseRowTotalInclTax($item->getBaseTaxableAmount());
-            $recalculateRowTotalInclTax = true;
-        }
+        $recalculateRowTotalInclTax = $this->initializeItemTax($item, $appliedRates, $rate);
 
-        $appliedRates = $this->_calculator->getAppliedRates($taxRateRequest);
         if ($catalogPriceInclTax) {
             $taxGroups[(string)$rate]['applied_rates'] = $appliedRates;
             $taxGroups[(string)$rate]['incl_tax'] = $item->getIsPriceInclTax();
@@ -906,11 +919,11 @@ class Tax extends AbstractTotal
      * @param   float $rate
      * @param   array &$taxGroups
      * @param   string $taxId
-     * @param   boolean $recalculateRowTotalInclTax
+     * @param   bool $recalculateRowTotalInclTax
      * @return  $this
      */
     protected function _aggregateTaxPerRate(
-        $item,
+        AbstractItem $item,
         $rate,
         &$taxGroups,
         $taxId = null,
@@ -1096,8 +1109,13 @@ class Tax extends AbstractTotal
      * @param float $rate
      * @return void
      */
-    protected function _saveAppliedTaxes($address, $applied, $amount, $baseAmount, $rate)
-    {
+    protected function _saveAppliedTaxes(
+        Address $address,
+        $applied,
+        $amount,
+        $baseAmount,
+        $rate
+    ) {
         $previouslyAppliedTaxes = $address->getAppliedTaxes();
         $process = count($previouslyAppliedTaxes);
 
