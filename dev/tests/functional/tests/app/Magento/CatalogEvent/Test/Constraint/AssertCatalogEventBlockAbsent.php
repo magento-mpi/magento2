@@ -97,7 +97,7 @@ class AssertCatalogEventBlockAbsent extends AbstractConstraint
     protected function checkEventBlockOnCategoryPageAbsent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogCategoryView->getEventBlock()->isVisible(),
             "EventBlock is present on Category page."
@@ -112,7 +112,7 @@ class AssertCatalogEventBlockAbsent extends AbstractConstraint
     protected function checkEventBlockOnProductPageAbsent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogProductView->getEventBlock()->isVisible(),
