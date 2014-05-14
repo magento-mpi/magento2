@@ -83,7 +83,7 @@
          */
         _onSubmit: function(e) {
             if (this.element.val() === this.options.placeholder || this.element.val() === '') {
-                this.options.placeholder = jQuery.mage.__('Please specify at least one search term');
+                this.options.placeholder = jQuery.mage.__('Please specify at least one search term.');
                 this.element.val(this.options.placeholder);
                 e.preventDefault();
             }
