@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class Sitemap
  *
- * @package Magento\Sitemap\Test\Fixture
  */
 class Sitemap extends InjectableFixture
 {

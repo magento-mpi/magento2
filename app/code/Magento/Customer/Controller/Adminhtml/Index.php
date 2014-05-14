@@ -669,9 +669,10 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+        /** @var  \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->_objectManager
             ->create('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer($customerId);
+            ->loadByCustomerId($customerId);
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();

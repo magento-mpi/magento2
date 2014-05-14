@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Factory\Factory;
 /**
  * Guest checkout using PayPal Payflow Link payment method and offline shipping method
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class GuestPayPalPayflowLink extends Checkout
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml grid percent column renderer
  *
- * @category   Magento
- * @package    Magento_Invitation
  */
 namespace Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer;
 

@@ -12,7 +12,6 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 /**
  * Class Form
  *
- * @package Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit
  */
 class Form extends FormTabs
 {

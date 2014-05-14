@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,8 +21,6 @@ namespace Magento\Review\Model\Rating;
  * @method int getPosition()
  * @method \Magento\Review\Model\Rating\Option setPosition(int $value)
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Option extends \Magento\Framework\Model\AbstractModel

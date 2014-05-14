@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    GiftRegistry
- * @package     enterprise
  * @copyright   {copyright}
  * @license     {license_link}
  */

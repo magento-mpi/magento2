@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Test
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

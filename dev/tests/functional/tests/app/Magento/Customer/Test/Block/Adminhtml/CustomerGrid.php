@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
  * Class CustomerGrid
  * Backend customer grid
  *
- * @package Magento\Customer\Test\Block\Adminhtml\Customer
  */
 class CustomerGrid extends AbstractGrid
 {

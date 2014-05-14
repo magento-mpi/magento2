@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
 /**
  * Customer Segment grid
  *
- * @category   Magento
- * @package    Magento_CustomerSegment
  */
 class Chooser extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
 {

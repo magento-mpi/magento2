@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\AdvancedCheckout\Model\Backend;
 /**
  * Backend cart model
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Cart extends \Magento\AdvancedCheckout\Model\Cart
 {

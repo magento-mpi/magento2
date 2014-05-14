@@ -24,7 +24,6 @@ use Mtf\Util\XmlConverter;
  * Class ProductForm
  * Product creation form
  *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product
  */
 class ProductForm extends FormTabs
 {

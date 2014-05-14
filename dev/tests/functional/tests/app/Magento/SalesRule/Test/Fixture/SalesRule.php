@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class SalesRule
  *
- * @package Magento\SalesRule\Test\Fixture
  */
 class SalesRule extends DataFixture
 {

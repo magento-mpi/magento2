@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Bundle\Model\Source\Option\Selection\Price;
 /**
  * Extended Attributes Source Model
  *
- * @category   Magento
- * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Type implements \Magento\Framework\Option\ArrayInterface

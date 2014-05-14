@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  * Class Grid
  * Product grid
  *
- * @package Magento\Backend\Test\Block\Urlrewrite\Catalog\Product
  */
 class Grid extends GridInterface
 {

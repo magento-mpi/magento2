@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,6 @@ use Mtf\Page\Page;
 /**
  * Class for creating new customer in backend page
  *
- * @package Magento\CustomerSegment\Test\Page
  */
 class CustomerSegmentNew extends Page
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,6 @@ use Magento\Framework\Module\Manager as ModuleManager;
 /**
  * TargetRule Rule Resource Model
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
