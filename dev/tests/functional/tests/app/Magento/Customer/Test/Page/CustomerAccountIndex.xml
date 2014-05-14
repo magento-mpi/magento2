@@ -32,10 +32,4 @@
         <locator>.nav.items</locator>
         <strategy>css selector</strategy>
     </block>
-    <block>
-        <name>redeemBlock</name>
-        <class>Magento\GiftCardAccount\Test\Block\Account\Redeem</class>
-        <locator>#giftcard-form</locator>
-        <strategy>css selector</strategy>
-    </block>
 </page>

@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\GiftCardAccount\Test\Page;
 
-use Mtf\Page\FrontendPage;
+use Magento\Checkout\Test\Page\CheckoutCart as AbstractCheckoutCart;
 
 /**
  * Class CheckoutCartInjectable
- *
- * @package Magento\Checkout\Test\Page
+ * Page of checkout page
  */
-class CheckoutCartInjectable extends FrontendPage
+class CheckoutCart extends AbstractCheckoutCart
 {
-    const MCA = 'checkout/cart';
+    // TODO: remove "index" after fix in old test generate factory
+    const MCA = 'checkout/cart/index';
 
     protected $_blocks = [
         'giftCardAccount' => [

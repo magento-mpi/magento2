@@ -15,8 +15,7 @@ use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 
 /**
  * Class AssertGiftCardAccountForm
- *
- * @package Magento\GiftCardAccount\Test\Constraint
+ * Assert that gift card account equals to passed from fixture
  */
 class AssertGiftCardAccountForm extends AbstractConstraint
 {
@@ -42,16 +41,20 @@ class AssertGiftCardAccountForm extends AbstractConstraint
     ) {
         $index->open();
         $filter = ['balance' => $giftCardAccount->getBalance()];
-        $index->getGiftCardAccount()->searchAndSelect($filter, false);
+        $index->getGiftCardAccount()->searchAndOpen($filter, false);
+
+        $giftCardAccountFormData = $newIndex->getPageMainForm()->getData();
+        $giftCardAccountFixtureData = $giftCardAccount->getData();
+        $diff = array_diff($giftCardAccountFixtureData, $giftCardAccountFormData);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $newIndex->getPageMainForm()->verify($giftCardAccount),
+            empty($diff),
             'Gift card account not equals to passed from fixture.'
         );
     }
 
     /**
-     * Success assert of  gift card account equals to passed from fixture
+     * Success assert of gift card account equals to passed from fixture
      *
      * @return string
      */

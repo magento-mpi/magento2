@@ -12,25 +12,31 @@ use Mtf\Block\Block;
 
 /**
  * Class Redeem
- *
- * @package Magento\GiftCardAccount\Test\Block\Account
+ * Redeem block on customer account page
  */
 class Redeem extends Block
 {
     /**
-     * @var string $giftcardCode
+     * Gift card code input field
+     *
+     * @var string
      */
-    private $giftCardCode = "#giftcard-code";
+    protected $giftCardCode = '[name="giftcard_code"]';
 
-    /** @var string $redeemGiftCard */
-    private $redeemGiftCard = ".action.redeem";
+    /**
+     * Redeem button
+     *
+     * @var string
+     */
+    protected $redeemGiftCard = ".action.redeem";
 
     /**
      * Fill gift card redeem
      *
      * @param string $value
+     * @return void
      */
-    public function fillGiftCardRedeem($value)
+    public function redeemGiftCard($value)
     {
         $this->_rootElement->find($this->giftCardCode)->setValue($value);
         $this->_rootElement->find($this->redeemGiftCard)->click();

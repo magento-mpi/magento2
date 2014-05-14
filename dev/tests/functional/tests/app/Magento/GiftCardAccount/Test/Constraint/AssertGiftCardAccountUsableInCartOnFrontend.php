@@ -10,16 +10,14 @@ namespace Magento\GiftCardAccount\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCartInjectable;
+use Magento\GiftCardAccount\Test\Page\CheckoutCart;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertGiftCardAccountUsableInCartOnFrontend
- *
- * @package Magento\GiftCardAccount\Test\Constraint
+ * Assert that gift card usable in frontend
  */
 class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
 {
@@ -33,42 +31,31 @@ class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
     /**
      * Assert that gift card usable in frontend
      *
-     * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
-     * @param CheckoutCartInjectable $checkoutCart
+     * @param CheckoutCart $checkoutCart
      * @param Index $index
      * @param CatalogProductSimple $catalogProductSimple
      * @param GiftCardAccount $giftCardAccount
      * @return void
      */
     public function processAssert(
-        FixtureFactory $fixtureFactory,
         CatalogProductView $catalogProductView,
-        CheckoutCartInjectable $checkoutCart,
+        CheckoutCart $checkoutCart,
         Index $index,
         CatalogProductSimple $catalogProductSimple,
         GiftCardAccount $giftCardAccount
     ) {
         $index->open();
-        /** @var array $filter */
         $filter = ['balance' => $giftCardAccount->getBalance()];
-        /** @var string $value */
-        $value = $index->getGiftCardAccount()->searchCode($filter, false);
+        $value = $index->getGiftCardAccount()->getCode($filter, false);
 
         $catalogProductView->init($catalogProductSimple);
         $catalogProductView->open();
-
         $catalogProductView->getViewBlock()->clickAddToCart();
-        $giftCardAccountFixture = $fixtureFactory->createByCode(
-            'giftCardAccount',
-            ['data' => ['code' => $value]]
-        );
-
-        $checkoutCart->getGiftCardAccount()->fillGiftCardInCart($giftCardAccountFixture);
-        $isSuccessMassage = $checkoutCart->getMessages()->assertSuccessMessage();
+        $checkoutCart->getGiftCardAccount()->addGiftCard($value);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $isSuccessMassage,
+            $checkoutCart->getMessages()->assertSuccessMessage(),
             'Gift card is not usable on frontend'
         );
 

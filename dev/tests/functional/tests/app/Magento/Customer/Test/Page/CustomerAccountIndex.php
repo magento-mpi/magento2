@@ -13,7 +13,7 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CustomerAccountIndex
- *
+ * Page of customer account
  */
 class CustomerAccountIndex extends FrontendPage
 {
@@ -36,18 +36,6 @@ class CustomerAccountIndex extends FrontendPage
             'name' => 'titleBlock',
             'class' => 'Magento\Theme\Block\Html\Title',
             'locator' => '.page.title',
-            'strategy' => 'css selector',
-        ],
-        'accountMenuBlock' => [
-            'name' => 'accountMenuBlock',
-            'class' => 'Magento\Customer\Test\Block\Account\Links',
-            'locator' => '.nav.items',
-            'strategy' => 'css selector',
-        ],
-        'redeemBlock' => [
-            'name' => 'redeemBlock',
-            'class' => 'Magento\GiftCardAccount\Test\Block\Account\Redeem',
-            'locator' => '#giftcard-form',
             'strategy' => 'css selector',
         ],
     ];
@@ -74,21 +62,5 @@ class CustomerAccountIndex extends FrontendPage
     public function getTitleBlock()
     {
         return $this->getBlockInstance('titleBlock');
-    }
-
-    /**
-     * @return \Magento\Customer\Test\Block\Account\Links
-     */
-    public function getAccountMenuBlock()
-    {
-        return $this->getBlockInstance('accountMenuBlock');
-    }
-
-    /**
-     * @return \Magento\GiftCardAccount\Test\Block\Account\Redeem
-     */
-    public function getRedeemBlock()
-    {
-        return $this->getBlockInstance('redeemBlock');
     }
 }

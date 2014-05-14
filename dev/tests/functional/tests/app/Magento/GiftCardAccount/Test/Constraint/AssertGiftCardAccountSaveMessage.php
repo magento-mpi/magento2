@@ -13,8 +13,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftCardAccountSaveMessage
- *
- * @package Magento\GiftCardAccount\Test\Constraint
+ * Assert that success message is displayed after gift card account save
  */
 class AssertGiftCardAccountSaveMessage extends AbstractConstraint
 {

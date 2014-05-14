@@ -23,9 +23,6 @@
     <assertGiftCardAccountRedeemableOnFrontend module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardAccountRedeemableOnFrontend>
-    <assertGiftCardSuccessRedeemedMessage module="Magento_GiftCardAccount">
-        <severeness>low</severeness>
-    </assertGiftCardSuccessRedeemedMessage>
     <assertGiftCardAccountIsNotUsableInCartOnFrontend module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardAccountIsNotUsableInCartOnFrontend>

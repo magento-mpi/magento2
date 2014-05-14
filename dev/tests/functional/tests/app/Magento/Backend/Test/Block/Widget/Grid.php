@@ -35,6 +35,13 @@ abstract class Grid extends Block
     protected $searchButton = '[title=Search][class*=action]';
 
     /**
+     * Locator for 'Sort' link
+     *
+     * @var string
+     */
+    protected $sortLink = "[name='%s'][title='%s']";
+
+    /**
      * Locator value for 'Reset' button
      *
      * @var string
@@ -284,5 +291,13 @@ abstract class Grid extends Block
     public function isRowVisible(array $filter, $isSearchable = true)
     {
         return $this->getRow($filter, $isSearchable)->isVisible();
+    }
+
+    public function sortGrid($field, $sort = "desc")
+    {
+        $sortBlock = $this->_rootElement->find(sprintf($this->sortLink, $field, $sort));
+        if ($sortBlock->isVisible()) {
+            $sortBlock->click();
+        }
     }
 }

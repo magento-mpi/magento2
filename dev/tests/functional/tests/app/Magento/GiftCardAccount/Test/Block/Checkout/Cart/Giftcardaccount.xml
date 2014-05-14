@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="0">
+<mapping strict="1">
     <fields>
         <code>
             <selector>#giftcard-code</selector>

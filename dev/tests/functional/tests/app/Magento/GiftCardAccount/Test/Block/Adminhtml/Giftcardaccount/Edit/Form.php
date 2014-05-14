@@ -12,8 +12,7 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class Form
- *
- * @package Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount\Edit
+ * Gift card account edit page block
  */
 class Form extends FormTabs
 {

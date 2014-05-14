@@ -25,6 +25,13 @@ class Messages extends Block
     protected $successMessage = '[data-ui-id$=message-success]';
 
     /**
+     * Message link
+     *
+     * @var string
+     */
+    protected $messageLink = "//a[contains(.,'%s')]";
+
+    /**
      * Error message selector.
      *
      * @var string
@@ -72,30 +79,27 @@ class Messages extends Block
     }
 
     /**
-     * Click on part messages which are present on the page
+     * Click on link in the messages which are present on the page
      *
-     * @param $messageType
-     * @param $text
-     * @internal param $selector
-     * @return string
+     * @param string $messageType
+     * @param string $linkText
+     * @return void
      */
-    public function clickLinkInMessages($messageType, $text)
+    public function clickLinkInMessages($messageType, $linkText)
     {
         if ($this->isVisibleMessage($messageType)) {
-            return $this->_rootElement
+            $this->_rootElement
                 ->find($this->{$messageType . 'Message'}, Locator::SELECTOR_CSS)
-                ->find("//a[contains(.,'$text')]", Locator::SELECTOR_XPATH)
+                ->find(sprintf($this->messageLink, $linkText), Locator::SELECTOR_XPATH)
                 ->click();
         }
-        return false;
-
     }
 
     /**
-     * Check is visible error messages
+     * Check is visible messages
      *
      * @param string $messageType
-     * @return string
+     * @return bool
      */
     public function isVisibleMessage($messageType)
     {

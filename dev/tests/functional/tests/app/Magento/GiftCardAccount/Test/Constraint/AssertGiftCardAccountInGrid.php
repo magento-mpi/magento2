@@ -14,8 +14,7 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftCardAccountInGrid
- *
- * @package Magento\GiftCardAccount\Test\Constraint
+ * Assert that gift card account in grid
  */
 class AssertGiftCardAccountInGrid extends AbstractConstraint
 {
@@ -38,10 +37,19 @@ class AssertGiftCardAccountInGrid extends AbstractConstraint
         Index $index
     ) {
         $index->open();
-        $filter = ['balance' => $giftCardAccount->getBalance()];
+        if ($giftCardAccount->getDateExpires()) {
+            $dateExpires = strftime("%b %#d, %Y", strtotime($giftCardAccount->getDateExpires()));
+        } else {
+            $dateExpires = '--';
+        }
+        $filter = [
+            'balance' => $giftCardAccount->getBalance(),
+            'state' => 'Available',
+            'date_expires' => $dateExpires,
+        ];
         \PHPUnit_Framework_Assert::assertTrue(
             $index->getGiftCardAccount()->isRowVisible($filter, false),
-            'Gift card is absent in customer groups grid.'
+            'Gift card is absent in gift card account grid.'
         );
     }
 

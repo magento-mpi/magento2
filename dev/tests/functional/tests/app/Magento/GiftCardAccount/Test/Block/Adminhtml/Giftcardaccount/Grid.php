@@ -13,16 +13,28 @@ use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 
 /**
- * Class GiftCardAccountIndexGrid
- *
- * @package Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount
+ * Class Grid
+ * Gift card account grid block
  */
 class Grid extends AbstractGrid
 {
     /**
+     * Locator for edit link
+     *
+     * @var string
+     */
+    protected $editLink = '.col-code';
+
+    /**
+     *  Name for 'Sort' link
+     *
+     * @var string
+     */
+    protected $sortLinkName = 'entity_id';
+    /**
      * Initialize block elements
      *
-     * @var array $filters
+     * @var array
      */
     protected $filters = [
         'code' => [
@@ -33,6 +45,12 @@ class Grid extends AbstractGrid
         ],
         'balanceTo' => [
             'selector' => '#giftcardaccountGrid_filter_balance_to'
+        ],
+        'state' => [
+            'selector' => '#giftcardaccountGrid_filter_state'
+        ],
+        'date_expires' => [
+            'selector' => 'date_expires'
         ]
     ];
 
@@ -45,6 +63,7 @@ class Grid extends AbstractGrid
      */
     protected function getRow(array $filter, $isSearchable = true)
     {
+        $this->sortGrid($this->sortLinkName);
         if ($isSearchable) {
             $this->search($filter);
         }
@@ -64,11 +83,12 @@ class Grid extends AbstractGrid
      * @param bool $isSearchable
      * @throws \Exception
      */
-    public function searchAndSelect(array $filter, $isSearchable = false)
+    public function searchAndOpen(array $filter, $isSearchable = false)
     {
+        $this->sortGrid($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
-            $selectItem->find('.col-code')->click();
+            $selectItem->find($this->editLink)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }
@@ -82,11 +102,12 @@ class Grid extends AbstractGrid
      * @return array|string
      * @throws \Exception
      */
-    public function searchCode(array $filter, $isSearchable = false)
+    public function getCode(array $filter, $isSearchable = false)
     {
+        $this->sortGrid($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
-            return $selectItem->find('.col-code')->getText();
+            return $selectItem->find($this->editLink)->getText();
         } else {
             throw new \Exception('Searched item was not found.');
         }

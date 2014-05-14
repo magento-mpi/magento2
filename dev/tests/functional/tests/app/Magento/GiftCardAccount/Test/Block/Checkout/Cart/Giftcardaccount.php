@@ -13,8 +13,7 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount as GiftCardAccountFixtu
 
 /**
  * Class Giftcardaccount
- *
- * @package Magento\GiftCardAccount\Test\Block\Checkout\Cart
+ * Gift card account block in cart
  */
 class Giftcardaccount extends Form
 {
@@ -23,26 +22,25 @@ class Giftcardaccount extends Form
      *
      * @var string
      */
-    protected $addGiftCard = '.giftcard .action.add';
+    protected $addGiftCardButton = '.giftcard .action.add';
 
     /**
-     * @var string $giftCardsSection
+     * Locator for gift card account link
+     *
+     * @var string
      */
     protected $giftCardsSection = '.giftcard .title';
 
     /**
-     * @var string $giftCardsStatusPrice
+     * Fill gift card in cart
+     *
+     * @param string $code
+     * @return void
      */
-    protected $giftCardsStatusPrice = '.giftcard #giftcard-balance-lookup .price';
-
-    /**
-     * @param GiftCardAccountFixture $fixture
-     * @return string
-     */
-    public function fillGiftCardInCart(GiftCardAccountFixture $fixture)
+    public function addGiftCard($code)
     {
         $this->_rootElement->find($this->giftCardsSection)->click();
-        $this->fill($fixture);
-        $this->_rootElement->find($this->addGiftCard)->click();
+        $this->_fill($this->dataMapping(['code' => $code]));
+        $this->_rootElement->find($this->addGiftCardButton)->click();
     }
 }

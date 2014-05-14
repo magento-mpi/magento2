@@ -8,8 +8,6 @@
 
 namespace Magento\GiftCardAccount\Test\TestCase;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
@@ -38,42 +36,14 @@ class CreateGiftCardAccountEntityTest extends Injectable
      *
      * @var Index
      */
-    private $index;
+    protected $giftCardAccountIndex;
 
     /**
      * Page of create gift card account
      *
      * @var NewIndex
      */
-    private $newIndex;
-
-    /**
-     * Customer fixture
-     *
-     * @var \Magento\Customer\Test\Fixture\CustomerInjectable
-     */
-    private $customerInjectable;
-
-    /**
-     * Storage main page
-     *
-     * @var CmsIndex
-     */
-    private $cmsIndex;
-
-    /**
-     * Customer login page
-     *
-     * @var CustomerAccountLogin
-     */
-    private $customerAccountLogin;
-
-    /**
-     * Check that user is login to frontend
-     *
-     * @var bool
-     */
-    private $isLogin = false;
+    protected $newIndex;
 
     /**
      * @param FixtureFactory $fixtureFactory
@@ -84,58 +54,41 @@ class CreateGiftCardAccountEntityTest extends Injectable
         $catalogProductSimple = $fixtureFactory->
             createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
         $catalogProductSimple->persist();
-        $this->customerInjectable = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
-        $this->customerInjectable->persist();
-        return ['catalogProductSimple' => $catalogProductSimple];
+        $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
+        $customer->persist();
+        return [
+            'catalogProductSimple' => $catalogProductSimple,
+            'customer' => $customer
+        ];
     }
 
     /**
      * Inject gift card account page
      *
      * @param Index $index
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param NewIndex $newIndex
      */
     public function __inject(
         Index $index,
-        CmsIndex $cmsIndex,
-        CustomerAccountLogin $customerAccountLogin,
         NewIndex $newIndex
     ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->customerAccountLogin = $customerAccountLogin;
-        $this->index = $index;
+        $this->giftCardAccountIndex = $index;
         $this->newIndex = $newIndex;
-        $this->login();
     }
 
     /**
      * Create gift card account entity
      *
      * @param GiftCardAccount $giftCardAccount
+     * @return void
      */
-    public function testCreateGiftCardAccountEntity(GiftCardAccount $giftCardAccount)
+    public function testCreateGiftCardAccount(GiftCardAccount $giftCardAccount)
     {
         // Steps
-        $this->index->open();
-        $this->index->getMessagesBlock()->clickLinkInMessages('error', 'here');
-        $this->index->getGridPageActions()->addNew();
+        $this->giftCardAccountIndex->open();
+        $this->giftCardAccountIndex->getMessagesBlock()->clickLinkInMessages('error', 'here');
+        $this->giftCardAccountIndex->getGridPageActions()->addNew();
         $this->newIndex->getPageMainForm()->fill($giftCardAccount);
         $this->newIndex->getPageMainActions()->save();
-    }
-
-    /**
-     * Login to frontend
-     */
-    public function login()
-    {
-        if ($this->isLogin) {
-            return;
-        }
-        $this->cmsIndex->open();
-        $this->cmsIndex->getLinksBlock()->openLink("Log In");
-        $this->isLogin = true;
-        $this->customerAccountLogin->getLoginBlock()->login($this->customerInjectable);
     }
 }
