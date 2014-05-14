@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 ?>
-<div class="block discount">
-    <div class="title"><strong><?php echo __('Discount Codes') ?></strong></div>
-    <div class="content">
+<div class="block discount" id="block-discount" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
+    <div class="title" data-role="title"><strong><?php echo __('Discount Codes') ?></strong></div>
+    <div class="content" data-role="content">
         <form id="discount-coupon-form"
               action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>"
               method="post"
