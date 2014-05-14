@@ -13,7 +13,7 @@
         <date_start />
         <date_end />
         <sort_order />
-        <display_state>
+        <display_state composite="1">
             <category_page>
                 <selector>#event_edit_display_state_array_1</selector>
                 <strategy>css selector</strategy>
