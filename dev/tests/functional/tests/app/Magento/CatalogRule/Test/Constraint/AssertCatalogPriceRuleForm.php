@@ -48,94 +48,43 @@ class AssertCatalogPriceRuleForm extends AbstractConstraint
 
         $pageCatalogRuleIndex->open();
         $pageCatalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
+        //convert discount_amount to float to compare
+        $formData = $pageCatalogRuleNew->getEditForm()->getData($catalogPriceRule);
+        $fixtureData = $catalogPriceRule->getData();
+        $formData['discount_amount'] = floatval($formData['discount_amount']);
+        $fixtureData['discount_amount'] = floatval($fixtureData['discount_amount']);
+
         \PHPUnit_Framework_Assert::assertTrue(
             $this->checkIfArraysEqualByValue(
-                $pageCatalogRuleNew->getEditForm()->getData($catalogPriceRule),
-                $catalogPriceRule->getData()
+                $formData,
+                $fixtureData
             ),
             'Catalog Price Rule data on edit page(backend) not equals to passed from fixture.'
         );
     }
 
     /**
-     * Sort array by keys
+     * Check if arrays have equal values
      *
-     * @param array $arr
-     */
-    private function sortArrayByKeys(array &$arr) {
-        ksort($arr);
-        foreach ($arr as &$value) {
-            if (is_array($value)) {
-                $this->sortArrayByKeys($value);
-            }
-        }
-    }
-
-    /**
-     * Convert associative array to numeric
-     *
-     * @param array $arr
-     * @return array
-     */
-    private function convertAssocArrayToNumeric($arr) {
-        $arr = array_values($arr);
-        foreach ($arr as &$value) {
-            if (is_array($value)) {
-                $value = array_values($value);
-            }
-        }
-        return $arr;
-    }
-
-    /**
-     * Compare 2 entities if they are equal
-     *
-     * @param $entity1
-     * @param $entity2
+     * @param array $formData
+     * @param array $fixtureData
      * @return bool
      */
-    private function compareEntities($entity1, $entity2) {
-        if (is_numeric($entity1)) {
-            $entity1 = floatval($entity1);
-        }
-        if (is_numeric($entity2)) {
-            $entity2 = floatval($entity2);
-        }
-        if (gettype($entity1) != gettype($entity2)) {
-            return false;
-        }
-        if (is_array($entity1)) {
-            if (count($entity1) != count($entity2)) {
-                return false;
-            }
-            for ($i = 0; $i < count($entity1); $i++) {
-                if (!$this->compareEntities($entity1[$i], $entity2[$i])) {
+    protected function checkIfArraysEqualByValue(array $formData, array $fixtureData)
+    {
+        foreach ($fixtureData as $key => $value) {
+            if (is_array($value)) {
+                $diff = array_diff($value, $formData[$key]);
+                if (!empty($diff)) {
+                    return false;
+                }
+            } else {
+                if ($value !== $formData[$key]) {
                     return false;
                 }
             }
-        } else if (is_numeric($entity1)) {
-            if (abs($entity1 - $entity2) >= 0.000001) {
-                return false;
-            }
-        } else if ($entity1 != $entity2) {
-            return false;
         }
         return true;
-    }
-
-    /**
-     * Check if arrays have equal values
-     *
-     * @param $arr1
-     * @param $arr2
-     * @return mixed
-     */
-    private function checkIfArraysEqualByValue($arr1, $arr2) {
-        $this->sortArrayByKeys($arr1);
-        $arr1 = $this->convertAssocArrayToNumeric($arr1);
-        $this->sortArrayByKeys($arr2);
-        $arr2 = $this->convertAssocArrayToNumeric($arr2);
-        return $this->compareEntities($arr1, $arr2);
     }
 
     /**

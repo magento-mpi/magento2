@@ -59,6 +59,22 @@
             <input>multiselect</input>
             <group>rule_information</group>
         </website_ids>
+        <from_date>
+            <attribute_code>from_date</attribute_code>
+            <backend_type>date</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>text</input>
+            <group>rule_information</group>
+        </from_date>
+        <to_date>
+            <attribute_code>to_date</attribute_code>
+            <backend_type>date</backend_type>
+            <is_required>0</is_required>
+            <default_value></default_value>
+            <input>text</input>
+            <group>rule_information</group>
+        </to_date>
         <simple_action>
             <attribute_code>simple_action</attribute_code>
             <backend_type>smallint</backend_type>
@@ -94,6 +110,5 @@
             <backend_type>virtual</backend_type>
         </id>
     </fields>
-    <repository_class>Magento\CatalogRule\Test\Repository\CatalogRule</repository_class>
     <handler_interface>Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface</handler_interface>
 </fixture>

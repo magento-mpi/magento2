@@ -18,11 +18,6 @@ class CatalogRule extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogRule';
-
-    /**
-     * @var string
-     */
     protected $handlerInterface = 'Magento\CatalogRule\Test\Handler\CatalogRule\CatalogRuleInterface';
 
     protected $defaultDataSet = [
@@ -78,6 +73,24 @@ class CatalogRule extends InjectableFixture
         'group' => 'rule_information',
     ];
 
+    protected $from_date = [
+        'attribute_code' => 'from_date',
+        'backend_type' => 'date',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
+    ];
+
+    protected $to_date = [
+        'attribute_code' => 'to_date',
+        'backend_type' => 'date',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'rule_information',
+    ];
+
     protected $simple_action = [
         'attribute_code' => 'simple_action',
         'backend_type' => 'smallint',
@@ -109,7 +122,7 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions',
+        'source' => 'Magento\CatalogRule\Test\Fixture\Conditions',
     ];
 
     protected $id = [
@@ -140,6 +153,16 @@ class CatalogRule extends InjectableFixture
     public function getCustomerGroupIds()
     {
         return $this->getData('customer_group_ids');
+    }
+
+    public function getFromDate()
+    {
+        return $this->getData('from_date');
+    }
+
+    public function getToDate()
+    {
+        return $this->getData('to_date');
     }
 
     public function getSimpleAction()

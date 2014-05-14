@@ -31,12 +31,14 @@ class CreateCatalogPriceRuleEntityTest extends Injectable
 {
     /**
      * Page CatalogRuleIndex
+     *
      * @var CatalogRuleIndex
      */
     protected $catalogRuleIndex;
 
     /**
      * Page CatalogRuleNew
+     *
      * @var CatalogRuleNew
      */
     protected $catalogRuleNew;

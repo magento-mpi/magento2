@@ -27,8 +27,7 @@ class AssertCatalogPriceRuleNoticeMessage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that message "There are rules that have been changed but were not applied.
-     * Please, click Apply Rules in order to see immediate effect in the catalog."
+     * Assert that message "There are rules that have been changed but were not applied..."
      * is present on page after Save (without applying Rule)
      * or after Edit (without applying Rule) action on the Catalog Price Rules page.
      *

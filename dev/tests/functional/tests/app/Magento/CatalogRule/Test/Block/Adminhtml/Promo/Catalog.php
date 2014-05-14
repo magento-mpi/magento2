@@ -50,6 +50,12 @@ class Catalog extends Grid
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',
         ],
+        'from_date' => [
+            'selector' => '[data-ui-id="widget-grid-column-filter-date-filter-from-date-from"]',
+        ],
+        'to_date' => [
+            'selector' => '[data-ui-id="widget-grid-column-filter-date-1-filter-to-date-from"]',
+        ],
         'is_active' => [
             'selector' => '#promo_catalog_grid_filter_is_active',
             'input' => 'select',
@@ -107,5 +113,18 @@ class Catalog extends Grid
     public function isRuleVisible($ruleName)
     {
         return parent::isRowVisible(array('name' => $ruleName));
+    }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return bool
+     */
+    public function isRowVisible(array $filter, $isSearchable = false)
+    {
+        $this->search(array('name' => $filter['name']));
+        return parent::isRowVisible($filter, $isSearchable);
     }
 }

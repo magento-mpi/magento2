@@ -92,7 +92,7 @@ class Messages extends Block
     }
 
     /**
-     * Get all notice messages which are present on the page
+     * Get notice message which is present on the page
      *
      * @return string
      */
