@@ -20,8 +20,9 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Zend_Cache_Exception
+     * @param array $options
      *
+     * @expectedException \Zend_Cache_Exception
      * @dataProvider initializeWithExceptionDataProvider
      */
     public function testInitializeWithException($options)
@@ -81,9 +82,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -181,9 +180,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testTest($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -201,9 +198,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -272,9 +267,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemove($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -319,9 +312,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testClean($options, $mode, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -394,9 +385,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCleanException()
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithoutStoreData()]
@@ -413,9 +402,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIds($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
@@ -486,9 +473,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->method('fetchCol')
             ->will($this->returnValue(['value_one', 'value_two']));
 
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithStoreData($adapterMock)]
@@ -534,9 +519,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->method('fetchCol')
             ->will($this->returnValue(['value_one', 'value_two']));
 
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithStoreData($adapterMock)]
@@ -586,9 +569,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->method('fetchCol')
             ->will($this->returnValue(['some_value_two']));
 
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithStoreData($adapterMock)]
@@ -622,9 +603,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->method('fetchCol')
             ->will($this->returnValue(['some_value_one', 'some_value_two']));
 
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithStoreData($adapterMock)]
@@ -662,9 +641,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
             ->method('fetchRow')
             ->will($this->returnValue(['expire_time' => '3', 'update_time' => 2]));
 
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $this->getOptionsWithStoreData($adapterMock)]
@@ -688,9 +665,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testTouch($options, $expected)
     {
-        /**
-         * \Magento\Framework\Cache\Backend\Database
-         */
+        /** @var \Magento\Framework\Cache\Backend\Database $database */
         $database = $this->objectManager->getObject(
             'Magento\Framework\Cache\Backend\Database',
             ['options' => $options]
