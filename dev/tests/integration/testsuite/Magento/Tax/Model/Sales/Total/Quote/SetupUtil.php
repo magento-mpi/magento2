@@ -299,7 +299,6 @@ class SetupUtil
                 ->setData($taxRuleDefaultData)
                 ->save()
                 ->getId();
-
         } else {
             foreach ($overrides[self::TAX_RULE_OVERRIDES] as $taxRuleOverrideData ) {
                 //convert code to id for productTaxClass, customerTaxClass and taxRate

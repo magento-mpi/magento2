@@ -15,4 +15,7 @@ $taxCalculationData = [];
 
 require __DIR__ . '/scenarios/excluding_tax_apply_tax_after_discount.php';
 require __DIR__ . '/scenarios/excluding_tax_apply_tax_before_discount.php';
+require __DIR__ . '/scenarios/excluding_tax_unit.php';
+require __DIR__ . '/scenarios/excluding_tax_row.php';
+require __DIR__ . '/scenarios/excluding_tax_total.php';
 
