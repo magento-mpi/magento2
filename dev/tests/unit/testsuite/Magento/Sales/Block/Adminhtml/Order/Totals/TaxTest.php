@@ -17,12 +17,12 @@ namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test class for getFullTaxInfo
+     * Test method for getFullTaxInfo
      *
-     * @param $source
-     * @param $getCalculatedTax
-     * @param $getShippingTax
-     * @param $expectedResult
+     * @param \Magento\Sales\Model\Order $source
+     * @param array $getCalculatedTax
+     * @param array $getShippingTax
+     * @param array $expectedResult
      *
      * @dataProvider getFullTaxInfoDataProvider
      */
@@ -68,16 +68,16 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Data provider.
-     * 1st Case : $source is not an instance of Mage_Sales_Model_Order
+     * 1st Case : $source is not an instance of \Magento\Sales\Model\Order
      * 2nd Case : getCalculatedTaxes and getShippingTax return value
      *
      * @return array
      */
     public function getFullTaxInfoDataProvider()
     {
-        $firstMock = $this->getMock('stdClass');
+        $notAnInstanceOfASalesModelOrder = $this->getMock('stdClass');
 
-        $secondMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+        $salesModelOrderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -91,8 +91,10 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
-            array($firstMock, $getCalculatedTax, $getShippingTax, array()),
-            array($secondMock, $getCalculatedTax, $getShippingTax, array('tax' => 'tax',
+            'source is not an instance of \Magento\Sales\Model\Order' =>
+                array($notAnInstanceOfASalesModelOrder, $getCalculatedTax, $getShippingTax, array()),
+            'source is an instance of \Magento\Sales\Model\Order and has reasonable data' =>
+                array($salesModelOrderMock, $getCalculatedTax, $getShippingTax, array('tax' => 'tax',
                 'shipping_tax' => 'shipping_tax', 'shipping_and_handing' => 'shipping_and_handing'))
         );
     }
