@@ -17,7 +17,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex as AbstractCatalogC
  */
 class CatalogCategoryIndex extends AbstractCatalogCategoryIndex
 {
-    const MCA = 'catalog_event/catalog/category/index'; //TO Do after fix MCA
+    const MCA = 'catalog_event/catalog/category/index'; // TODO: Fix after resolving issue with factory page generation
 
     protected $_blocks = [
         'treeCategories' => [

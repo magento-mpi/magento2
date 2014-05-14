@@ -26,14 +26,14 @@ class CatalogEventEntity extends InjectableFixture
     protected $handlerInterface = 'Magento\CatalogEvent\Test\Handler\CatalogEventEntity\CatalogEventEntityInterface';
 
     protected $defaultDataSet = [
-        'date_start' => ['pattern' => 'm-d-Y 12:00 a-3 days'],
-        'date_end' => ['pattern' => 'm-d-Y 12:00 a+2 days'],
+        'date_start' => ['pattern' => 'm/d/Y 12:00 a-3 days'],
+        'date_end' => ['pattern' => 'm/d/Y 12:00 a+2 days'],
         'sort_order' => '1',
         'display_state' => [
             'category_page' => 'Yes',
             'product_page' => 'Yes'
         ],
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
+        'category_ids' => ['presets' => 'default_subcategory'],
     ];
 
     protected $event_id = [
@@ -50,6 +50,7 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $date_start = [

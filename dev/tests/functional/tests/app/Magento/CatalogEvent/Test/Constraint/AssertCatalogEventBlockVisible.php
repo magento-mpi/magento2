@@ -109,7 +109,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected function checkEventBlockOnCategoryPagePresent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogCategoryView->getEventBlock()->isVisible(),
             "EventBlock is absent on Category page."
@@ -124,7 +124,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected function checkEventBlockOnCategoryPageAbsent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogCategoryView->getEventBlock()->isVisible(),
             "EventBlock is present on Category page."
@@ -139,7 +139,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected function checkEventBlockOnProductPagePresent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
         \PHPUnit_Framework_Assert::assertTrue(
             $this->catalogProductView->getEventBlock()->isVisible(),
@@ -155,7 +155,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected function checkEventBlockOnProductPageAbsent()
     {
         $this->cmsIndex->open();
-        $this->cmsIndex->getTopmenuBlock()->selectCategoryByName($this->categoryName);
+        $this->cmsIndex->getTopmenu()->selectCategoryByName($this->categoryName);
         $this->catalogCategoryView->getListProductBlock()->openProductViewPage($this->productName);
         \PHPUnit_Framework_Assert::assertFalse(
             $this->catalogProductView->getEventBlock()->isVisible(),
