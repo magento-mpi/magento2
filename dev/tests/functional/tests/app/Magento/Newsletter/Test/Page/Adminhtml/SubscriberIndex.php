@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Newsletter\Test\Page\Adminhtml; 
+namespace Magento\Newsletter\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class SubscriberIndex
