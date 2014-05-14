@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Cms\Test\Page; 
+namespace Magento\Cms\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\FrontendPage;
 
 /**
  * Class CmsIndex
@@ -26,8 +26,8 @@ class CmsIndex extends FrontendPage
             'locator' => '#search_mini_form',
             'strategy' => 'css selector',
         ],
-        'topmenuBlock' => [
-            'name' => 'topmenuBlock',
+        'topmenu' => [
+            'name' => 'topmenu',
             'class' => 'Magento\Theme\Test\Block\Html\Topmenu',
             'locator' => '[role=navigation]',
             'strategy' => 'css selector',
@@ -69,9 +69,9 @@ class CmsIndex extends FrontendPage
     /**
      * @return \Magento\Theme\Test\Block\Html\Topmenu
      */
-    public function getTopmenuBlock()
+    public function getTopmenu()
     {
-        return $this->getBlockInstance('topmenuBlock');
+        return $this->getBlockInstance('topmenu');
     }
 
     /**

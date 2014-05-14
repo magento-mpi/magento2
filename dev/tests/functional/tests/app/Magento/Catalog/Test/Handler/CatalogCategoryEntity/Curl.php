@@ -41,8 +41,14 @@ class Curl extends AbstractCurl implements CatalogCategoryEntityInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $data['general'] = $fixture->getData();
-        $data['general']['is_active'] = ($data['general']['is_active'] == 'Yes' ? 1 : 0);
-        $data['general']['include_in_menu'] = ($data['general']['include_in_menu'] == 'Yes' ? 1 : 0);
+        foreach ($data['general'] as $key => $value) {
+            if ($value == 'Yes') {
+                $data['general'][$key] = 1;
+            }
+            if ($value == 'No') {
+                $data['general'][$key] = 0;
+            }
+        }
 
         $diff = array_diff($this->dataUseConfig, array_keys($data['general']));
         if (!empty($diff)) {

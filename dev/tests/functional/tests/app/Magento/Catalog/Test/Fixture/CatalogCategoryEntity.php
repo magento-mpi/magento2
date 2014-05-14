@@ -31,7 +31,8 @@ class CatalogCategoryEntity extends InjectableFixture
         'path' => 'Default Category',
         'url_key' => 'category%isolation%',
         'is_active' => 'Yes',
-        'include_in_menu' => 'Yes'
+        'include_in_menu' => 'Yes',
+        'parent_id' => 2,
     ];
 
     protected $entity_id = [

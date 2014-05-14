@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/index/index" >
+<page mca="cms/index/index">
     <block>
         <name>searchBlock</name>
         <class>Magento\Catalog\Test\Block\Search</class>
@@ -15,7 +15,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>topmenuBlock</name>
+        <name>topmenu</name>
         <class>Magento\Theme\Test\Block\Html\Topmenu</class>
         <locator>[role=navigation]</locator>
         <strategy>css selector</strategy>

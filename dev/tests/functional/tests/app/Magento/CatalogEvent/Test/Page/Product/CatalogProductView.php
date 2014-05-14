@@ -68,8 +68,8 @@ class CatalogProductView extends AbstractCatalogProductView
             'locator' => '#product-options-wrapper',
             'strategy' => 'css selector',
         ],
-        'EventBlock' => [
-            'name' => 'EventBlock',
+        'eventBlock' => [
+            'name' => 'eventBlock',
             'class' => 'Magento\CatalogEvent\Test\Block\Catalog\Event',
             'locator' => '.top-container',
             'strategy' => 'css selector',
@@ -166,6 +166,6 @@ class CatalogProductView extends AbstractCatalogProductView
      */
     public function getEventBlock()
     {
-        return $this->getBlockInstance('EventBlock');
+        return $this->getBlockInstance('eventBlock');
     }
 }

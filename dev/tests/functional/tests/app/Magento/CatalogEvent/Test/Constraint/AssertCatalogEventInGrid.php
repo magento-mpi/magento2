@@ -68,9 +68,9 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $status = 'Open';
         }
 
-        $sort_order = $catalogEvent->getSortOrder();
-        if ($sort_order < 0) {
-            $sort_order = 0;
+        $sortOrder = $catalogEvent->getSortOrder();
+        if ($sortOrder < 0) {
+            $sortOrder = 0;
         }
 
         $dateStart = strftime("%b %#d, %Y %I:%M:%S %p", $dateStart);
@@ -84,7 +84,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             'end_on' => $dateEnd,
             'status' => $status,
             'countdown_ticker' => $this->prepareDisplayStateForFilter(),
-            'sort_order' => $sort_order
+            'sort_order' => $sortOrder
         ];
         $catalogEventIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(

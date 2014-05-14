@@ -55,8 +55,7 @@ class Grid extends AbstractGrid
      */
     public function isRowVisible(array $filter, $isSearchable = false)
     {
-        $this->search(array('category_name' => $filter['category_name']));
+        $this->search(['category_name' => $filter['category_name']]);
         return parent::isRowVisible($filter, $isSearchable);
     }
-
 }
