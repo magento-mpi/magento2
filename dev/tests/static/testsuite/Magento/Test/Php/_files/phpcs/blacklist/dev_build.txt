@@ -4,5 +4,4 @@
 dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
 dev/tools/PHP-Parser
 dev/tests/static/framework/PHP
-dev/tests/functional
 dev/tests/functional-old
