@@ -67,6 +67,7 @@
   * Fixed: Incorrect link on Reset password email sent by admin if use secure url on frontend (MAGETWO-24308)
   * Fixed: Links section is absent while editing downloadable product from wishlist (MAGETWO-11470)
   * Fixed: Specified details for composite product are lost after adding to wishlist (Gift Card, Downloadable) (MAGETWO-19632)
+  * Fixed: Date widget in Create New Customer->DOB has incorrect dates (MAGETWO-7723)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
