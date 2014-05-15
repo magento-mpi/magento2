@@ -1,6 +1,7 @@
 * Fixed bugs:
   * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
   * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
+  * Fixed functional tests failing PSR2 test (MAGETWO-24351)
 
 2.0.0.0-dev77
 =============
