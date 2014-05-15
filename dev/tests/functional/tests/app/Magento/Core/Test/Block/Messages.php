@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Global messages block
  *
- * @package Magento\Core\Test\Block
  */
 class Messages extends Block
 {

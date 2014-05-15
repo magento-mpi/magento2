@@ -14,7 +14,6 @@ use Mtf\Constraint\AbstractConstraint;
 /**
  * Class AssertOrderStatusSuccessCreateMessage
  *
- * @package Magento\Sales\Test\Constraint
  */
 class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
 {

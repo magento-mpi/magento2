@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Block\Checkout\Cart;
 /**
  * TargetRule Checkout Cart Cross-Sell Products Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
@@ -104,7 +100,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -118,8 +113,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -133,8 +127,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $context,
             $index,
             $targetRuleData,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }

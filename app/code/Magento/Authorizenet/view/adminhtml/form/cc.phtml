@@ -2,12 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
+<?php /** @var $this \Magento\Authorizenet\Block\Authorizenet\Form\Cc */ ?>
+
 <?php $_formMessage=$this->getPartialAuthorizationFormMessage(); ?>
 <?php $_isPartialAuthorization=$this->isPartialAuthorization(); ?>
 <?php if ($_isPartialAuthorization || $_formMessage): ?>
@@ -46,7 +46,7 @@
                         });
                     }
                     <?php if ($_message = $this->getPartialAuthorizationConfirmationMessage()): ?>
-                    if (!confirm('<?php echo $_message ?>')) {
+                    if (!confirm('<?php echo $this->escapeMessage($_message) ?>')) {
                         cancelPaymentAuthorizations();
                     }
                     <?php endif;?>

@@ -24,7 +24,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             'adj5' => ['className' => 'adj5_class'],
         ];
 
-        /** @var $adjustmentFactory \Magento\Framework\Pricing\Adjustment\Factory  */
+        /** @var Factory|\PHPUnit_Framework_MockObject_MockObject $adjustmentFactory */
         $adjustmentFactory = $this->getMockBuilder('Magento\Framework\Pricing\Adjustment\Factory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])

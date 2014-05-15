@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Sales\Test\Fixture\Order;
  * Class Create
  * Adminhtml sales order create block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order
  */
 class Create extends Block
 {

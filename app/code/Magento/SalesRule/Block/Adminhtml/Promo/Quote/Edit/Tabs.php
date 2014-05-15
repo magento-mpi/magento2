@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,6 @@ namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit;
 /**
  * description
  *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Tabs extends \Magento\Backend\Block\Widget\Tabs

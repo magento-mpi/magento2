@@ -14,7 +14,6 @@ use Mtf\Block\Form as FormInterface;
  * Class TaxRate
  * Tax rate block
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class TaxRate extends FormInterface
 {

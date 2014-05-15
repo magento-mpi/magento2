@@ -1,7 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */

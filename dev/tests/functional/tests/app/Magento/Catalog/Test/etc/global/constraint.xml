@@ -76,4 +76,14 @@
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>
     </assertProductInCart>
+    <assertAddToCartButtonAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonAbsent>
+    <assertAddToCartButtonPresent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonPresent>
 </constraint>

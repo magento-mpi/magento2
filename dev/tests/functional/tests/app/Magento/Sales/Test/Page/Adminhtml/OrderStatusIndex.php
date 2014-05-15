@@ -13,7 +13,6 @@ use Mtf\Page\BackendPage;
 /**
  * Class OrderStatusIndex
  *
- * @package Magento\Sales\Test\Page\Adminhtml
  */
 class OrderStatusIndex extends BackendPage
 {

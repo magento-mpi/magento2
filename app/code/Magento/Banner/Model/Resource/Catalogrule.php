@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Banner\Model\Resource;
 /**
  * Banner Catalogrule Resource Model
  *
- * @category    Magento
- * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Catalogrule extends \Magento\Framework\Model\Resource\Db\AbstractDb

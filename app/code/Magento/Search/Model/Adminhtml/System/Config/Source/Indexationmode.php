@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Search
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Search\Model\Adminhtml\System\Config\Source;
 /**
  * Search engine indexation modes
  *
- * @category    Magento
- * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Indexationmode implements \Magento\Framework\Option\ArrayInterface

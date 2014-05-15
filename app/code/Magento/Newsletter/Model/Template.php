@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,8 +33,6 @@ namespace Magento\Newsletter\Model;
  * @method string getModifiedAt()
  * @method \Magento\Newsletter\Model\Template setModifiedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Template extends \Magento\Email\Model\AbstractTemplate

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,11 +13,8 @@ $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 
-\Magento\Framework\Autoload\IncludePath::addIncludePath(
-    array(
-        "{$testsBaseDir}/framework",
-        "{$testsBaseDir}/testsuite"
-    )
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
+    array("{$testsBaseDir}/framework", "{$testsBaseDir}/testsuite")
 );
 
 function tool_autoloader($className)

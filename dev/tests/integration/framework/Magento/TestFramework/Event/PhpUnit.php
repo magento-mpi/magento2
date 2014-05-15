@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -53,13 +50,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * An error occurred.
-     * Method is required by implemented interface, but is not needed by the class.
-     *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
-     *
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -68,13 +59,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * A failure occurred.
-     * Method is required by implemented interface, but is not needed by the class.
-     *
-     * @param  \PHPUnit_Framework_Test                 $test
-     * @param  \PHPUnit_Framework_AssertionFailedError $e
-     * @param  float                                  $time
-     *
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -83,13 +68,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * Incomplete test.
-     * Method is required by implemented interface, but is not needed by the class.
-     *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
-     *
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -98,14 +77,16 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * Skipped test.
-     * Method is required by implemented interface, but is not needed by the class.
-     *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  \Exception              $e
-     * @param  float                  $time
-     * @since  Method available since Release 3.0.0
-     *
+     * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.ShortVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function addRiskyTest(\PHPUnit_Framework_Test $test, \Exception $e, $time)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ShortVariable)
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -114,10 +95,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * A test suite started.
-     *
-     * @param  \PHPUnit_Framework_TestSuite $suite
-     * @since  Method available since Release 2.2.0
+     * {@inheritdoc}
      */
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
@@ -129,10 +107,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * A test suite ended.
-     *
-     * @param  \PHPUnit_Framework_TestSuite $suite
-     * @since  Method available since Release 2.2.0
+     * {@inheritdoc}
      */
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
@@ -143,9 +118,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * A test started.
-     *
-     * @param  \PHPUnit_Framework_Test $test
+     * {@inheritdoc}
      */
     public function startTest(\PHPUnit_Framework_Test $test)
     {
@@ -156,12 +129,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
     }
 
     /**
-     * A test ended.
-     * Method signature is implied by implemented interface, not all parameters are needed.
-     *
-     * @param  \PHPUnit_Framework_Test $test
-     * @param  float                  $time
-     *
+     * {@inheritdoc}
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function endTest(\PHPUnit_Framework_Test $test, $time)

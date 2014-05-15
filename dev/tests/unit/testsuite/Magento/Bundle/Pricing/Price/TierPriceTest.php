@@ -53,7 +53,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\TierPrice', [
-            'salableItem' => $this->product,
+            'saleableItem' => $this->product,
             'calculator' => $this->calculator
         ]);
     }
@@ -64,7 +64,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetterTierPriceList($tierPrices, $basePrice, $expectedResult)
     {
-        $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
+        $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
 
         $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
         $price->expects($this->any())

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -640,7 +638,6 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             }
             $shipping = $order->getShippingAddress();
             if (!empty($shipping)) {
-                $this->_applyCountryWorkarounds($shipping);
                 $request->setShiptofirstname(
                     $shipping->getFirstname()
                 )->setShiptolastname(
@@ -713,21 +710,6 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
             throw new \Magento\Framework\Model\Exception($response->getRespmsg());
-        }
-    }
-
-    /**
-     * Adopt specified address object to be compatible with Paypal
-     * Puerto Rico should be as state of USA and not as a country
-     *
-     * @param \Magento\Framework\Object $address
-     * @return void
-     */
-    protected function _applyCountryWorkarounds(\Magento\Framework\Object $address)
-    {
-        if ($address->getCountry() == 'PR') {
-            $address->setCountry('US');
-            $address->setRegionCode('PR');
         }
     }
 

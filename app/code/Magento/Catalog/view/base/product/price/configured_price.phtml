@@ -1,0 +1,19 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $this */
+/** @var \Magento\Catalog\Pricing\Price\ConfiguredPrice $configuredPrice */
+$configuredPrice = $this->getPrice();
+?>
+<p class="price-as-configured">
+    <?php echo $this->renderAmount($configuredPrice->getAmount(), [
+        'display_label'     => __('Price as configured:'),
+        'include_container' => false
+    ]); ?>
+</p>

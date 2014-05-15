@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    notices
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,7 +8,11 @@
 (function ($) {
     $.widget('mage.cookieBlock', {
         _create: function() {
-            this.element.show();
+            if ($.mage.cookies.get(this.options.cookieName)) {
+                this.element.hide();
+            } else {
+                this.element.show();
+            }
             $(this.options.cookieAllowButtonSelector).on('click', $.proxy(function() {
                 var cookieExpires = new Date(new Date().getTime() + this.options.cookieLifetime * 1000);
                 $.mage.cookies.set(this.options.cookieName, this.options.cookieValue, {expires: cookieExpires});

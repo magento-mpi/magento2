@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -47,7 +44,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\SpecialPrice', [
-            'salableItem' => $this->saleable,
+            'saleableItem' => $this->saleable,
             'localeDate' => $this->localeDate
         ]);
     }
@@ -90,7 +87,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
-                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, null)
+                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE)
                 ->will($this->returnValue($price));
             $price->expects($this->once())
                 ->method('getValue')
@@ -107,9 +104,9 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     public function getValueDataProvider()
     {
         return array(
-            ['basePrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true, 'value' => 60],
-            ['basePrice' => 75, 'specialPrice' => 40, 'isScopeDateInInterval' => true, 'value' => 45],
-            ['basePrice' => 75, 'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false],
+            ['basePrice' => 100, 'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 60],
+            ['basePrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => true,  'value' => 45],
+            ['basePrice' => 75,  'specialPrice' => 40, 'isScopeDateInInterval' => false, 'value' => false],
         );
     }
 }

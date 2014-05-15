@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     enterprise_iphone
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,11 +20,7 @@
     <div class="product-info">
         <div class="price">
             <span class="cart-price">
-                <?php if ($_item->getCanApplyMsrp()): ?>
-                    <?php echo $this->getMsrpHtml($_item); ?>
-                <?php else: ?>
-                    <?php echo $this->helper('Magento\Core\Helper\Data')->currency($_item->getGiftRegistryPrice()) ?>
-                <?php endif; ?>
+                <?php echo $this->getProductPriceHtml($_item->getProduct());?>
             </span>
         </div>
 

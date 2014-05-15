@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Weee
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -388,33 +386,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return $this->_weeeTax->getWeeeAmount($product, null, null, null, false, true);
         }
         return 0;
-    }
-
-    /**
-     * Adds HTML containers and formats tier prices accordingly to the currency used
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param array                          &$tierPrices
-     * @return $this
-     */
-    public function processTierPrices($product, &$tierPrices)
-    {
-        $weeeAmount = $this->getAmountForDisplay($product);
-        $store = $this->_storeManager->getStore();
-        foreach ($tierPrices as $index => &$tier) {
-            $html = $store->formatPrice(
-                $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price'], true) + $weeeAmount),
-                false
-            );
-            $tier['formated_price_incl_weee'] = '<span class="price tier-' . $index . '-incl-tax">' . $html . '</span>';
-            $html = $store->formatPrice(
-                $store->convertPrice($this->_taxData->getPrice($product, $tier['website_price']) + $weeeAmount),
-                false
-            );
-            $tier['formated_price_incl_weee_only'] = '<span class="price tier-' . $index . '">' . $html . '</span>';
-            $tier['formated_weee'] = $store->formatPrice($store->convertPrice($weeeAmount));
-        }
-        return $this;
     }
 
     /**

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    DI
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -33,7 +31,7 @@ try {
     $opt->parse();
 
     $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . '/var/generation';
-    \Magento\Framework\Autoload\IncludePath::addIncludePath($generationDir);
+    (new \Magento\Framework\Autoload\IncludePath())->addIncludePath($generationDir);
 
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . '/var/di';
     $compiledFile = $diDir . '/definitions.php';

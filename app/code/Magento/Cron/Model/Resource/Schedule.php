@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cron\Model\Resource;
 /**
  * Schedule resource
  *
- * @category    Magento
- * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Schedule extends \Magento\Framework\Model\Resource\Db\AbstractDb

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,8 +27,6 @@ namespace Magento\AdminNotification\Model;
  * @method int getIsRemove()
  * @method \Magento\AdminNotification\Model\Inbox setIsRemove(int $value)
  *
- * @category    Magento
- * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Inbox extends \Magento\Framework\Model\AbstractModel

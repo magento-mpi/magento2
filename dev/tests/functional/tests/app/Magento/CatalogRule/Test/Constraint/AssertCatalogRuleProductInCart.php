@@ -18,7 +18,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCatalogRuleProductInCart
- * @package Magento\CatalogRule\Test\Constraint
  */
 class AssertCatalogRuleProductInCart extends AbstractConstraint
 {
@@ -46,9 +45,9 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
         /** @var CatalogProductSimple $product */
         $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
         //Add product to cart
-        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
+        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory()[0];
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
         //Open product view page
         $catalogCategoryView->getListProductBlock()->openProductViewPage($product->getName());
         $catalogProductView->init($product);

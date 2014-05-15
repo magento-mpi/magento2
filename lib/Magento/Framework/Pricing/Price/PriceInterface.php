@@ -20,7 +20,7 @@ interface PriceInterface
      *
      * @return string
      */
-    public function getPriceType();
+    public function getPriceCode();
 
     /**
      * Get price value

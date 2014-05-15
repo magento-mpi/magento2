@@ -2,15 +2,13 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    acl_db
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
 $rootDir = realpath(__DIR__ . '/../../../..');
 require $rootDir . '/app/autoload.php';
-\Magento\Framework\Autoload\IncludePath::addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
 $defaultReportFile = 'report.log';
 
 try {

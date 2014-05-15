@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Model\Exception;
 /**
  * Catalog product option file type
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
@@ -766,7 +762,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 $this->_rootDirectory->getAbsolutePath($quotePath),
                 $this->_rootDirectory->getAbsolutePath($orderPath)
             );
-            $this->_rootDirectory->copyFile($quotePath, $orderPath);
         } catch (\Exception $e) {
             return $this;
         }

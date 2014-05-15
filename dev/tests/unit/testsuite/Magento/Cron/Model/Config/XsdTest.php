@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Framework
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -78,7 +75,8 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "Element 'job': The attribute 'name' is required but missing.\n",
                     "Element 'job': The attribute 'instance' is required but missing.\n",
                     "Element 'job': The attribute 'method' is required but missing.\n",
-                    "Element 'wrongSchedule': This element is not expected. Expected is ( schedule ).\n"
+                    "Element 'wrongSchedule': This element is not expected." .
+                        " Expected is one of ( schedule, config_path ).\n"
                 )
             ),
             array(

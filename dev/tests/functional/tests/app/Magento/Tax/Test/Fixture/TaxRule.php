@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class TaxRule
  *
- * @package Magento\Tax\Test\Fixture
  */
 class TaxRule extends InjectableFixture
 {

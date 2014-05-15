@@ -8,8 +8,6 @@
 
 namespace Magento\Framework\Pricing\Adjustment;
 
-use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
-
 /**
  * Adjustment collection model
  */

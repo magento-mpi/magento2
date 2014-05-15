@@ -16,7 +16,6 @@ use Mtf\Factory\Factory;
 /**
  * Custom Options Tab
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class AdvancedPricingTab extends Tab
 {
@@ -24,15 +23,15 @@ class AdvancedPricingTab extends Tab
      * Fill group price options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $root = $element;
         $this->_rootElement->waitUntil(
             function () use ($root) {
-                return $root->find('#product_info_tabs_advanced-pricing_content')->isVisible();
+                return $root->find('[data-tab-panel=advanced-pricing]')->isVisible();
             }
         );
         if (isset($fields['special_price']['value'])) {

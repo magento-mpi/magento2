@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reports
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -36,11 +34,6 @@ class Compared extends \Magento\Reports\Block\Product\Compared implements \Magen
         )->addColumnCountLayoutDepend(
             'three_columns',
             3
-        );
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'catalog/product/price.phtml'
         );
     }
 }

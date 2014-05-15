@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento\Catalog\Model\Indexer\Product\Price;
 /**
  * Abstract action reindex class
  *
- * @package Magento\Catalog\Model\Indexer\Product\Price
  */
 abstract class AbstractAction
 {

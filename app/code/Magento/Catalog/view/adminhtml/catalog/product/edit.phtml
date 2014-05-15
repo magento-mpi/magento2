@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     default_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -270,7 +268,7 @@ jQuery(function($) {
             });
 
             var nameDataMapper = function() {
-                return $(this).data('elementId');
+                return $(this).data('attributeCode');
             };
             //add new element elements or reorder
             $page.find('[data-form=edit-product] [data-role=tabs] .fieldset, #product_info_tabs .fieldset')
@@ -305,7 +303,7 @@ jQuery(function($) {
                         if (nameDataMapper.apply($elements.get(index)) == elementId) {
                             return true;
                         }
-                        var $elementToMove = $('.fieldset>.field[data-element-id="' + elementId + '"]');
+                        var $elementToMove = $('.fieldset>.field[data-attribute-code="' + elementId + '"]');
                         if ($elementToMove.length === 0) {
                             $elementToMove = $element;
                         }

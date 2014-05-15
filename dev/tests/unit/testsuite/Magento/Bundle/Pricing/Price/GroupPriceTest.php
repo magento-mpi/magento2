@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,7 +39,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\GroupPrice', [
-            'salableItem' => $this->saleable
+            'saleableItem' => $this->saleable
         ]);
     }
 
@@ -69,7 +66,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
             $this->priceInfo->expects($this->once())
                 ->method('getPrice')
-                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE, null)
+                ->with(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE)
                 ->will($this->returnValue($price));
             $price->expects($this->once())
                 ->method('getValue')

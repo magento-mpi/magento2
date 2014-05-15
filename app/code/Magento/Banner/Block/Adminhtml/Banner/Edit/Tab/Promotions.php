@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Banner
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Banner promotions binding grids
  *
- * @category   Magento
- * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Backend\Block\Urlrewrite\Cms\Page;
  * @method \Magento\Cms\Model\Page getCmsPage()
  * @method \Magento\Backend\Block\Urlrewrite\Cms\Page\Edit setCmsPage(\Magento\Cms\Model\Page $cmsPage)
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Edit extends \Magento\Backend\Block\Urlrewrite\Edit

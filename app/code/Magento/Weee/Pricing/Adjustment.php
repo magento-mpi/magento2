@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Tax
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,6 +11,7 @@ namespace Magento\Weee\Pricing;
 use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Weee\Helper\Data as WeeeHelper;
+use Magento\Tax\Pricing\Adjustment as TaxAdjustment;
 
 /**
  * Weee pricing adjustment
@@ -22,7 +21,7 @@ class Adjustment implements AdjustmentInterface
     /**
      * Adjustment code weee
      */
-    const CODE = 'weee';
+    const ADJUSTMENT_CODE = 'weee';
 
     /**
      * Weee helper
@@ -57,7 +56,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return self::CODE;
+        return self::ADJUSTMENT_CODE;
     }
 
     /**
@@ -82,8 +81,7 @@ class Adjustment implements AdjustmentInterface
             [
                 \Magento\Weee\Model\Tax::DISPLAY_INCL,
                 \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
-                4
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
             ]
         );
     }
@@ -120,7 +118,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function isExcludedWith($adjustmentCode)
     {
-        return ($adjustmentCode === self::CODE) || $adjustmentCode === \Magento\Tax\Pricing\Adjustment::CODE;
+        return (($adjustmentCode == self::ADJUSTMENT_CODE) || ($adjustmentCode == TaxAdjustment::ADJUSTMENT_CODE));
     }
 
     /**

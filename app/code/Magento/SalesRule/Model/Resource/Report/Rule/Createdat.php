@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesRule\Model\Resource\Report\Rule;
 /**
  * Rule report resource model with aggregation by created at
  *
- * @category    Magento
- * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport

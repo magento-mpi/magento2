@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +22,7 @@
         _bind: function() {
             this._labels.on({
                 click: $.proxy(function(e) {
-                    var elem = $(e.currentTarget);
-                    $('#' + elem.attr('for')).attr('checked', 'checked');
+                    $('[id="' + $(e.currentTarget).attr('for') + '"]').prop('checked', true);
                     this._updateRating();
                 }, this),
 

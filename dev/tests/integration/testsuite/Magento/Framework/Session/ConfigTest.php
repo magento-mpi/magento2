@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

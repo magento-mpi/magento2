@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -35,7 +33,6 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -45,8 +42,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Framework\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_giftRegistryData = $giftRegistryData;
@@ -56,8 +52,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $productFactory,
             $helperPool,
             $formKey,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

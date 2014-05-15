@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Model\Entity\Product\Attribute\Design\Options;
 /**
  * Entity/Attribute/Model - select product design options container from config
  *
- * @category   Magento
- * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Container extends \Magento\Eav\Model\Entity\Attribute\Source\Config

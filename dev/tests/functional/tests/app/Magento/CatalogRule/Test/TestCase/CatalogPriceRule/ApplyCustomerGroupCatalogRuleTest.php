@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class ApplyCustomerGroupCatalogRule
  *
- * @package Magento\CatalogRule\Test\TestCase\CatalogPriceRule
  */
 class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
@@ -60,15 +56,15 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
         // Edit Customer just created
         $customerGridPage->open();
-        $customerGrid = $customerGridPage->getGridBlock();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
         $customerGrid->searchAndOpen(array('email' => $customerFixture->getEmail()));
-        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
-        $editCustomerForm = $customerEditPage->getEditCustomerForm();
+        $customerEditPage = Factory::getPageFactory()->getCustomerIndexEdit();
+        $editCustomerForm = $customerEditPage->getCustomerForm();
         // Set group to Retailer
         $editCustomerForm->openTab('account_information');
-        $editCustomerForm->fill($customerFixture);
+        $editCustomerForm->fillCustomer($customerFixture);
         // Save Customer Edit
-        $editCustomerForm->save();
+        $customerEditPage->getPageActionsBlock()->save();
 
         // Add Customer Group Catalog Price Rule
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();

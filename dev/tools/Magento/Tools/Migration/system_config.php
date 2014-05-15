@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    system_configuration
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 use Magento\Framework\Autoload\IncludePath;
 use Magento\Tools\Migration\System\Configuration\Formatter;
 use Magento\Tools\Migration\System\Configuration\Generator;
@@ -24,7 +21,7 @@ use Magento\Tools\Migration\System\Configuration\Logger as Logger;
 
 $rootDir = realpath(__DIR__ . '../../../../../../');
 require __DIR__ . '/../../../../../app/autoload.php';
-IncludePath::addIncludePath(array($rootDir . '/lib', $rootDir . '/dev/tools'));
+(new IncludePath())->addIncludePath(array($rootDir . '/lib', $rootDir . '/dev'));
 $defaultReportFile = 'report.log';
 
 try {

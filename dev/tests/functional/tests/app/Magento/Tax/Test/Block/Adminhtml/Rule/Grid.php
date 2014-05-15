@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  * Class Grid
  * Adminhtml Tax Rules managment grid
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule
  */
 class Grid extends GridInterface
 {

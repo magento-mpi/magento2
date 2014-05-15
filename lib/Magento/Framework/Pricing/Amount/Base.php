@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -157,11 +155,9 @@ class Base implements AmountInterface
     {
         $this->baseAmount = $this->amount;
         $this->totalAdjustmentAmount = 0.;
-        if ($this->adjustmentAmounts) {
-            foreach ($this->adjustmentAmounts as $amount) {
-                $this->baseAmount -= $amount;
-                $this->totalAdjustmentAmount += $amount;
-            }
+        foreach ($this->adjustmentAmounts as $amount) {
+            $this->baseAmount -= $amount;
+            $this->totalAdjustmentAmount += $amount;
         }
     }
 }

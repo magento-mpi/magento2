@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cron
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -45,7 +43,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     {
         $job1 = array('schedule' => array('cron_expr' => '* * * * *'));
         $job2 = array('schedule' => array('cron_expr' => '1 1 1 1 1'));
-        $data = array('crontab' => array('jobs' => array('job1' => $job1, 'job2' => $job2)));
+        $data = array('crontab' => array('default' => array('jobs' => array('job1' => $job1, 'job2' => $job2))));
         $this->_defaultReader->expects($this->once())->method('read')->will($this->returnValue($data));
         $expected = array(
             'job1' => array('schedule' => $job1['schedule']['cron_expr']),

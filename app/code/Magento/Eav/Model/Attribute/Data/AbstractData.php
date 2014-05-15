@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Framework\Model\Exception as CoreException;
 /**
  * EAV Attribute Abstract Data Model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractData
@@ -445,7 +441,12 @@ abstract class AbstractData
                     }
                     break;
                 case 'date':
-                    $validator = new \Zend_Validate_Date(\Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+                    $validator = new \Zend_Validate_Date(
+                        [
+                            'format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                            'locale' => $this->_localeResolver->getLocale()
+                        ]
+                    );
                     $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Date::INVALID);
                     $validator->setMessage(__('"%1" is not a valid date.', $label), \Zend_Validate_Date::INVALID_DATE);
                     $validator->setMessage(

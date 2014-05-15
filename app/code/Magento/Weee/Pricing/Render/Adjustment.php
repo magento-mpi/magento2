@@ -53,23 +53,14 @@ class Adjustment extends AbstractAdjustment
      */
     protected function apply()
     {
-        if ($this->typeOfDisplay(
-            [
-                Tax::DISPLAY_EXCL,
-                Tax::DISPLAY_EXCL_DESCR_INCL
-            ]
-        )
-        ) {
+        if ($this->typeOfDisplay([Tax::DISPLAY_EXCL, Tax::DISPLAY_EXCL_DESCR_INCL])) {
             $this->finalAmount = $this->amountRender->getDisplayValue();
             $this->amountRender->setDisplayValue(
                 $this->amountRender->getDisplayValue() -
                 $this->amountRender->getAmount()->getAdjustmentAmount($this->getAdjustmentCode())
             );
         }
-        $html = $this->toHtml();
-        if (trim($html)) {
-            $this->amountRender->addAdjustmentHtml($this->getAdjustmentCode(), $html);
-        }
+        return $this->toHtml();
     }
 
     /**
@@ -79,8 +70,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getAdjustmentCode()
     {
-        //@TODO We can build two model using DI, not code. What about passing it in constructor?
-        return \Magento\Weee\Pricing\Adjustment::CODE;
+        return \Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE;
     }
 
     /**
@@ -173,13 +163,7 @@ class Adjustment extends AbstractAdjustment
      */
     protected function isDisplayFpt()
     {
-        $isDisplayFpt = $this->typeOfDisplay(
-            [
-                Tax::DISPLAY_INCL_DESCR,
-                Tax::DISPLAY_EXCL_DESCR_INCL
-            ]
-        );
-
+        $isDisplayFpt = $this->typeOfDisplay([Tax::DISPLAY_INCL_DESCR, Tax::DISPLAY_EXCL_DESCR_INCL]);
         return $isDisplayFpt;
     }
 }

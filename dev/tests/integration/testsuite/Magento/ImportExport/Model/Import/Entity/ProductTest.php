@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ namespace Magento\ImportExport\Model\Import\Entity;
 
 /**
  * Class ProductTest
- * @package Magento\ImportExport\Model\Import\Entity
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

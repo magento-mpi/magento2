@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend recently viewed products
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Catalog\Pricing\Render;
 
-use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\Price\PriceInterface;
 use Magento\Framework\Pricing\Render\PriceBox as PriceBoxRender;
 use Magento\Framework\View\Element\Template\Context;
@@ -38,7 +36,7 @@ class PriceBox extends PriceBoxRender
 
     /**
      * @param Context $context
-     * @param SaleableInterface $saleableItem
+     * @param Product $saleableItem
      * @param PriceInterface $price
      * @param RendererPool $rendererPool
      * @param Data $coreDataHelper
@@ -47,7 +45,7 @@ class PriceBox extends PriceBoxRender
      */
     public function __construct(
         Context $context,
-        SaleableInterface $saleableItem,
+        Product $saleableItem,
         PriceInterface $price,
         RendererPool $rendererPool,
         Data $coreDataHelper,
@@ -87,10 +85,10 @@ class PriceBox extends PriceBoxRender
     /**
      * Check if quantity can be displayed for tier price with msrp
      *
-     * @param SaleableInterface $product
+     * @param Product $product
      * @return bool
      */
-    public function getCanDisplayQty(SaleableInterface $product)
+    public function getCanDisplayQty(Product $product)
     {
         //TODO Refactor - change to const similar to Model\Product\Type\Grouped::TYPE_CODE
         if ($product->getTypeId() == 'grouped') {

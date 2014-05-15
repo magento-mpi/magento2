@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Block\Hierarchy;
 /**
  * Cms Hierarchy Head Block
  *
- * @category   Magento
- * @package    Magento_VersionsCms
  */
 class Head extends \Magento\Framework\View\Element\AbstractBlock
 {

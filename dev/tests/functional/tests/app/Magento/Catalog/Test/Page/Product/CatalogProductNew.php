@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class CatalogProductNew
  * Create product page
  *
- * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductNew extends Page
 {
@@ -86,6 +82,18 @@ class CatalogProductNew extends Page
     public function getProductBlockForm()
     {
         return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get product form block
+     *
+     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
+     */
+    public function getConfigurableBlockForm()
+    {
+        return Factory::getBlockFactory()->getMagentoConfigurableProductAdminhtmlProductProductForm(
             $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
         );
     }

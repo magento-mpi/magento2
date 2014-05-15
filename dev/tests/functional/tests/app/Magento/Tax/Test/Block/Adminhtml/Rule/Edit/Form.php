@@ -21,7 +21,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class Form
  * Form for tax rule creation
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class Form extends FormInterface
 {

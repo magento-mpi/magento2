@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ProductAlert
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\ProductAlert\Model;
 /**
  * ProductAlert observer
  *
- * @category   Magento
- * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Observer
@@ -225,6 +221,7 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
+                    /** @var \Magento\Catalog\Model\Product $product */
                     $product = $this->_productFactory->create()->setStoreId(
                         $website->getDefaultStore()->getId()
                     )->load(

@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
+ * Products page on the Backend
  */
 class CatalogProductIndex extends BackendPage
 {
