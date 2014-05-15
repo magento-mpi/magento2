@@ -197,7 +197,8 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     $row['percent'] = $currentRate;
                     $totalPercent += $currentRate;
                 } else {
-                    $ $totalPercent += $row['percent'];
+                    $row['percent'] = $this->_collectPercent($totalPercent, $currentRate);
+                    $totalPercent += $row['percent'];
                 }
                 $row['id'] = implode($ids);
                 $result[] = $row;
@@ -216,7 +217,7 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param float|int $percent
      * @param float|int $rate
-     * @return int
+     * @return float
      */
     protected function _collectPercent($percent, $rate)
     {
