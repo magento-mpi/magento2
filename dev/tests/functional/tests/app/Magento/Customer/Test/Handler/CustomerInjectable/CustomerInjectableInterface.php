@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Handler\CustomerInjectable; 
+namespace Magento\Customer\Test\Handler\CustomerInjectable;
 
 use Mtf\Handler\HandlerInterface;
 
