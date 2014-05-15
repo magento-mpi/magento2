@@ -32,10 +32,8 @@ class AssertGiftCardAccountNotInGrid extends AbstractConstraint
      * @param Index $index
      * @return void
      */
-    public function processAssert(
-        GiftCardAccount $giftCardAccount,
-        Index $index
-    ) {
+    public function processAssert(GiftCardAccount $giftCardAccount, Index $index)
+    {
         $index->open();
         if ($giftCardAccount->hasData('date_expires')) {
             $dateExpires = strftime("%b %#d, %Y", strtotime($giftCardAccount->getDateExpires()));

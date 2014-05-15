@@ -68,6 +68,7 @@ class DeleteGiftCardAccountEntityTest extends Injectable
      *
      * @param Index $index
      * @param NewIndex $newIndex
+     * @return void
      */
     public function __inject(Index $index, NewIndex $newIndex)
     {

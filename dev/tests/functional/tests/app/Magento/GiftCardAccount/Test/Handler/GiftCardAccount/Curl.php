@@ -22,6 +22,12 @@ use Mtf\System\Config;
  */
 class Curl extends AbstractCurl implements GiftCardAccountInterface
 {
+    /**
+     * Create gift card account
+     *
+     * @param FixtureInterface $fixture
+     * @return array|mixed
+     */
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData();
@@ -43,8 +49,11 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
             }
         }
         $url = $_ENV['app_backend_url'] . 'admin/giftcardaccount/save/active_tab/info/';
+        $generateCode = $_ENV['app_backend_url'] . 'admin/giftcardaccount/generate/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $generateCode);
+        $curl->read();
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $text = $curl->read();
         preg_match('`<td data-column=\"code\".*?>(.*?)<`mis', $text, $res);
