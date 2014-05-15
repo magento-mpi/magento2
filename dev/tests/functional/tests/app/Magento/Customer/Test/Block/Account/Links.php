@@ -13,7 +13,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Links
- * Gift card block of customer account page
+ * Links block on customer account page
  */
 class Links extends Block
 {
@@ -22,7 +22,7 @@ class Links extends Block
      *
      * @var string
      */
-    protected $navItem = '//*[contains(@class,"item")]/a[contains(.,"%s")]';
+    protected $menuItem = '//*[contains(@class,"item")]/a[contains(.,"%s")]';
 
     /**
      * Select link in menu
@@ -32,6 +32,6 @@ class Links extends Block
      */
     public function openMenuItem($link)
     {
-        $this->_rootElement->find(sprintf($this->navItem, $link), Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find(sprintf($this->menuItem, $link), Locator::SELECTOR_XPATH)->click();
     }
 } 

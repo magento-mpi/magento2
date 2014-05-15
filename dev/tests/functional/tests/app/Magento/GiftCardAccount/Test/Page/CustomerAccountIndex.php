@@ -17,7 +17,7 @@ use Magento\Customer\Test\Page\CustomerAccountIndex as AbstractCustomerAccountIn
 class CustomerAccountIndex extends AbstractCustomerAccountIndex
 {
     // TODO: remove "index" after fix in old test generate factory
-    const MCA = 'customer/account/index';
+    const MCA = 'customer/account';
 
     protected $_blocks = [
         'messages' => [

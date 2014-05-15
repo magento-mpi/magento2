@@ -48,7 +48,7 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
         CustomerInjectable $customer,
         GiftCardAccount $giftCardAccount
     ) {
-        if ($giftCardAccount->getCode()) {
+        if ($giftCardAccount->hasData('code')) {
             $value = $giftCardAccount->getCode();
         } else {
             $index->open();

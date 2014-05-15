@@ -45,7 +45,7 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
         FixtureInterface $product,
         GiftCardAccount $giftCardAccount
     ) {
-        if ($giftCardAccount->getCode()) {
+        if ($giftCardAccount->hasData('code')) {
             $value = $giftCardAccount->getCode();
         } else {
             $index->open();
