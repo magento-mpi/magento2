@@ -6,51 +6,57 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Fixture;
+namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class Price
- *
- * Data keys:
- *  - preset (Price verification preset name)
- *  - value (Price value)
- *
+ * Class CategoryIds
+ * Create and return Category
  */
 class CategoryIds implements FixtureInterface
 {
     /**
+     * Names and Ids of the created categories
+     *
      * @var array
      */
     protected $data;
 
     /**
-     * @var \Mtf\Fixture\FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * @var Category
+     * New categories
+     *
+     * @var array
      */
     protected $category;
 
     /**
-     * @param Category $category
+     * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
      */
-    public function __construct(Category $category, array $params, array $data = [])
-    {
+    public function __construct(
+        FixtureFactory $fixtureFactory,
+        array $params,
+        array $data = []
+    ) {
         $this->params = $params;
         if (isset($data['presets']) && $data['presets'] !== '-') {
             $presets = explode(',', $data['presets']);
             foreach ($presets as $preset) {
-                $category->switchData($preset);
+                $category = $fixtureFactory->createByCode('catalogCategoryEntity', ['dataSet' => $preset]);
                 $category->persist();
-                $this->category = $category;
-                $this->data[] = $category->getCategoryId();
+
+                /** @var CatalogCategoryEntity $category */
+                $this->data = [
+                    [
+                        'id' => $category->getId(),
+                        'name' => $category->getName(),
+                    ],
+                ];
+                $this->category[] = $category;
             }
         }
     }
@@ -79,7 +85,7 @@ class CategoryIds implements FixtureInterface
     /**
      * Return data set configuration settings
      *
-     * @return string
+     * @return array
      */
     public function getDataConfig()
     {
@@ -87,13 +93,12 @@ class CategoryIds implements FixtureInterface
     }
 
     /**
-     * Retrieve source category fixture
+     * Return category array
      *
-     * @return Category
+     * @return array
      */
     public function getCategory()
     {
         return $this->category;
     }
-
 }

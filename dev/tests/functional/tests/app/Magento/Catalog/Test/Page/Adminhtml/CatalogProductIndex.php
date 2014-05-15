@@ -12,7 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- *
+ * Products page on the Backend
  */
 class CatalogProductIndex extends BackendPage
 {

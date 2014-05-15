@@ -12,7 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogProductSimple
- *
+ * Data for creation Catalog Product Simple
  */
 class CatalogProductSimple extends AbstractRepository
 {
@@ -66,7 +66,16 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
             'id' => '3',
             'category_ids' => ['presets' => 'default'],
-            'mtf_dataset_name' => 'simple_with_category',
+            'mtf_dataset_name' => 'simple_with_category'
+        ];
+
+        $this->_data['product_with_category'] = [
+            'sku' => 'simple_product_with_category_%isolation%',
+            'name' => 'Simple product with category %isolation%',
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'price' => ['value' => 100, 'preset' => ''],
+            'category_ids' => ['presets' => 'default_subcategory']
         ];
     }
 }

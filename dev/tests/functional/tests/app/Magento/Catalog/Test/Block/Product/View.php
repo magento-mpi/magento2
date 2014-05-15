@@ -191,6 +191,16 @@ class View extends Block
     }
 
     /**
+     * Find button 'Add to cart'
+     *
+     * @return boolean
+     */
+    public function addToCartIsVisible()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
      * Click link
      *
      * @return void
@@ -198,6 +208,16 @@ class View extends Block
     public function clickAddToCart()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Find Add To Cart button
+     *
+     * @return bool
+     */
+    public function isVisibleAddToCart()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }
 
     /**
@@ -322,6 +342,8 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
+     * @param BundleFixture|Product $product
+     * @return void
      * @param FixtureInterface $product
      * @return void
      */
@@ -407,11 +429,11 @@ class View extends Block
     }
 
     /**
-     * Is 'ADD TO CART' button visible
+     * Check 'Add to card' button visible
      *
      * @return bool
      */
-    public function isAddToCartButtonVisible()
+    public function checkAddToCardButton()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }

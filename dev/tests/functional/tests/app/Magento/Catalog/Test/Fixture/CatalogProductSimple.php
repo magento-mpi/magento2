@@ -16,6 +16,7 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductSimple
+ * Product Simple fixture
  */
 class CatalogProductSimple extends InjectableFixture
 {
@@ -51,7 +52,13 @@ class CatalogProductSimple extends InjectableFixture
         $persist = false
     ) {
         parent::__construct(
-            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+            $configuration,
+            $repositoryFactory,
+            $fixtureFactory,
+            $handlerFactory,
+            $data,
+            $dataSet,
+            $persist
         );
         if (!isset($this->data['url_key']) && isset($this->data['name'])) {
             $this->data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $this->data['name'])), '-');
@@ -69,7 +76,7 @@ class CatalogProductSimple extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Test simple product %isolation%',
         'sku' => 'test_simple_sku_%isolation%',
-        'price' => ['value' => 90.00],
+        'price' => ['value' => 100.00],
         'weight' => 12.0000,
         'qty' => 10
     ];
@@ -80,7 +87,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CategoryIds',
+        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $color = [
@@ -318,6 +325,7 @@ class CatalogProductSimple extends InjectableFixture
         'attribute_code' => 'options_container',
         'backend_type' => 'varchar',
         'is_required' => '0',
+        'default_value' => 'Block after Info Column',
         'default_value' => 'Block after Info Column',
         'input' => 'select',
     ];

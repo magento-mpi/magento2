@@ -106,4 +106,14 @@
         <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
         <product class="Mtf\Fixture\FixtureInterface" />
     </assertProductForm>
+    <assertAddToCartButtonAbsent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonAbsent>
+    <assertAddToCartButtonPresent module="Magento_Catalog">
+        <severeness>low</severeness>
+        <require>
+        </require>
+    </assertAddToCartButtonPresent>
 </constraint>

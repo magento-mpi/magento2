@@ -42,6 +42,13 @@ class Tree extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Category tree
+     *
+     * @var string
+     */
+    protected $treeElement = '.tree-holder';
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -70,7 +77,7 @@ class Tree extends Block
     public function selectCategory($path)
     {
         $this->expandAllCategories();
-        $this->_rootElement->setValue($path);
+        $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->setValue($path);
         $this->getTemplateBlock()->waitLoader();
     }
 
