@@ -55,7 +55,8 @@ class Rule extends \Magento\Framework\Model\Resource\Db\AbstractDb
             ->joinLeft(
                 array('d' => $this->getTable('tax_calculation_rule')),
                 'd.tax_calculation_rule_id = main.tax_calculation_rule_id',
-                array('d.code'))
+                array('d.code')
+            )
             ->where('main.tax_calculation_rate_id in (?)', $rateId)
             ->where('main.customer_tax_class_id in (?)', $customerTaxClassIds)
             ->where('main.product_tax_class_id in (?)', $productTaxClassIds)
