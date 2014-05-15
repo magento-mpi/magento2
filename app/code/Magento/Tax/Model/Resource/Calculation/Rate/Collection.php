@@ -204,7 +204,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $this->getSelect()
                 ->from(
                     array('rates' => $this->getMainTable()),
-                    array('tax_calculation_rate_id', 'code'))
+                    array('tax_calculation_rate_id', 'code')
+                )
                 ->limit($size, $offset);
 
             $rates = array_merge($rates, $this->toOptionArray());
