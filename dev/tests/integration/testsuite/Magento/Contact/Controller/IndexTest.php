@@ -60,10 +60,15 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             ->method('getTransport')
             ->will($this->returnValue($transportMock));
 
-        $this->_objectManager->addSharedInstance($transportBuilderMock, 'Magento\Framework\Mail\Template\TransportBuilder');
+        $this->_objectManager->addSharedInstance(
+            $transportBuilderMock,
+            'Magento\Framework\Mail\Template\TransportBuilder'
+        );
         $this->dispatch('contact/index/post');
         $this->assertSessionMessages(
-            $this->contains("Thanks for contacting us with your comments and questions. We'll respond to you very soon."),
+            $this->contains(
+                "Thanks for contacting us with your comments and questions. We'll respond to you very soon."
+            ),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
