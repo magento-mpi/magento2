@@ -51,9 +51,9 @@ class Rule extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from(array('main' => $this->getTable('tax/tax_calculation')), null)
+            ->from(array('main' => $this->getTable('tax_calculation')), null)
             ->joinLeft(
-                array('d' => $this->getTable('tax/tax_calculation_rule')),
+                array('d' => $this->getTable('tax_calculation_rule')),
                 'd.tax_calculation_rule_id = main.tax_calculation_rule_id',
                 array('d.code'))
             ->where('main.tax_calculation_rate_id in (?)', $rateId)
