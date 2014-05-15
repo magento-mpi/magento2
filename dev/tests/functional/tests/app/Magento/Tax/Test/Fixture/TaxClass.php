@@ -12,7 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TaxClass
- *
  */
 class TaxClass extends InjectableFixture
 {
@@ -27,8 +26,7 @@ class TaxClass extends InjectableFixture
     protected $handlerInterface = 'Magento\Tax\Test\Handler\TaxClass\TaxClassInterface';
 
     protected $defaultDataSet = [
-        'class_name' => 'TaxClass%isolation%',
-        'class_type' => 'CUSTOMER',
+        'class_name' => 'Tax Class %isolation%',
     ];
 
     protected $class_id = [
@@ -43,7 +41,7 @@ class TaxClass extends InjectableFixture
         'attribute_code' => 'class_name',
         'backend_type' => 'varchar',
         'is_required' => '',
-        'default_value' => 'TaxClass%isolation%',
+        'default_value' => '',
         'input' => '',
     ];
 
@@ -53,6 +51,10 @@ class TaxClass extends InjectableFixture
         'is_required' => '',
         'default_value' => 'CUSTOMER',
         'input' => '',
+    ];
+
+    protected $id = [
+        'attribute_code' => 'id',
     ];
 
     public function getClassId()
@@ -68,5 +70,10 @@ class TaxClass extends InjectableFixture
     public function getClassType()
     {
         return $this->getData('class_type');
+    }
+
+    public function getId()
+    {
+        return $this->getData('id');
     }
 }

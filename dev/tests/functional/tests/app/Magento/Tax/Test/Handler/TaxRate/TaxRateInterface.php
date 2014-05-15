@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Test\Handler\TaxClass; 
+namespace Magento\Tax\Test\Handler\TaxRate; 
 
 use Mtf\Handler\HandlerInterface;
 
 /**
- * Interface TaxClassInterface
+ * Interface TaxRateInterface
  */
-interface TaxClassInterface extends HandlerInterface
+interface TaxRateInterface extends HandlerInterface
 {
    //
 }

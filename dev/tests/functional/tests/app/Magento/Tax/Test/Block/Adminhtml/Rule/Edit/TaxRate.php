@@ -13,7 +13,6 @@ use Mtf\Block\Form as FormInterface;
 /**
  * Class TaxRate
  * Tax rate block
- *
  */
 class TaxRate extends FormInterface
 {
@@ -26,6 +25,8 @@ class TaxRate extends FormInterface
 
     /**
      * Clicking 'Save' button on dialog window for creating new tax rate
+     *
+     * @return void
      */
     public function saveTaxRate()
     {

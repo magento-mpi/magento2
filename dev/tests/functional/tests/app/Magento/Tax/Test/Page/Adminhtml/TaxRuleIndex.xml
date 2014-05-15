@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="tax/rule/index" >
+<page mca="tax/rule/index">
     <block>
         <name>gridPageActions</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
@@ -21,7 +21,7 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>#messages</locator>
         <strategy>css selector</strategy>

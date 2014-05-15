@@ -12,22 +12,22 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class TaxRate
+ * Class TaxClass
  *
  * Data keys:
  *  - dataSet
  */
-class TaxRate implements FixtureInterface
+class TaxClass implements FixtureInterface
 {
     /**
-     * Array with tax rates codes
+     * Array with tax class names
      *
      * @var array $data
      */
     protected $data;
 
     /**
-     * Array with tax rate fixtures
+     * Array with tax class fixtures
      *
      * @var array $fixture
      */
@@ -45,17 +45,17 @@ class TaxRate implements FixtureInterface
             $dataSets = $data['dataSet'];
             foreach ($dataSets as $dataSet) {
                 if ($dataSet !== '-') {
-                    /** @var \Magento\Tax\Test\Fixture\TaxRate $taxRate */
-                    $taxRate = $fixtureFactory->createByCode('taxRate', ['dataSet' => $dataSet]);
-                    $this->fixture[] = $taxRate;
-                    $this->data[] = $taxRate->getCode();
+                    /** @var \Magento\Tax\Test\Fixture\TaxClass $taxClass */
+                    $taxClass = $fixtureFactory->createByCode('taxClass', ['dataSet' => $dataSet]);
+                    $this->fixture[] = $taxClass;
+                    $this->data[] = $taxClass->getClassName();
                 }
             }
         }
     }
 
     /**
-     * Persist custom selections tax rates
+     * Persist custom selections tax classes
      *
      * @return void
      */
@@ -86,7 +86,7 @@ class TaxRate implements FixtureInterface
     }
 
     /**
-     * Return tax rate fixtures
+     * Return tax class fixture
      *
      * @return array
      */

@@ -13,10 +13,8 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSuccessSavedMessageTaxRule
- *
- * @package Magento\Tax\Test\Constraint
  */
-class AssertSuccessSavedMessageTaxRule extends AbstractConstraint
+class AssertTaxRuleSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The tax rule has been saved.';
 
@@ -31,10 +29,11 @@ class AssertSuccessSavedMessageTaxRule extends AbstractConstraint
      * Assert that success message is displayed after tax rule saved
      *
      * @param TaxRuleIndex $taxRuleIndex
+     * @return void
      */
     public function processAssert(TaxRuleIndex $taxRuleIndex)
     {
-        $actualMessage = $taxRuleIndex->getMessageBlock()->getSuccessMessages();
+        $actualMessage = $taxRuleIndex->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

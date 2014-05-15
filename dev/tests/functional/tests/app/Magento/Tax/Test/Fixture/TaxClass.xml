@@ -25,7 +25,7 @@
             <attribute_code>class_name</attribute_code>
             <backend_type>varchar</backend_type>
             <is_required></is_required>
-            <default_value>TaxClass%isolation%</default_value>
+            <default_value></default_value>
             <input></input>
         </class_name>
         <class_type>
@@ -35,7 +35,12 @@
             <default_value>CUSTOMER</default_value>
             <input></input>
         </class_type>
+        <id>
+            <attribute_code>id</attribute_code>
+        </id>
     </fields>
+    <data_set></data_set>
+    <data_config></data_config>
     <repository_class>Magento\Tax\Test\Repository\TaxClass</repository_class>
     <handler_interface>Magento\Tax\Test\Handler\TaxClass\TaxClassInterface</handler_interface>
 </fixture>

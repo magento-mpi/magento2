@@ -14,8 +14,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTaxRuleInGrid
- *
- * @package Magento\Tax\Test\Constraint
  */
 class AssertTaxRuleInGrid extends AbstractConstraint
 {
@@ -29,16 +27,23 @@ class AssertTaxRuleInGrid extends AbstractConstraint
     /**
      * Assert tax rule availability in Tax Rule grid
      *
-     * @param TaxRule $taxRule
      * @param TaxRuleIndex $taxRuleIndex
+     * @param TaxRule $taxRule
+     * @param TaxRule $initialTaxRule
      */
     public function processAssert(
+        TaxRuleIndex $taxRuleIndex,
         TaxRule $taxRule,
-        TaxRuleIndex $taxRuleIndex
+        TaxRule $initialTaxRule = null
     ) {
+        $data = $taxRule->getData();
+        if ($initialTaxRule !== null) {
+            $data['code'] = (!isset($data['code'])) ? $initialTaxRule->getCode() : $data['code'];
+        }
         $filter = [
-            'code' => $taxRule->getCode(),
+            'code' => $data['code'],
         ];
+
         $taxRuleIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $taxRuleIndex->getTaxRuleGrid()->isRowVisible($filter),

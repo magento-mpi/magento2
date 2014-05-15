@@ -12,7 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TaxRule
- *
  */
 class TaxRule extends InjectableFixture
 {
@@ -74,10 +73,12 @@ class TaxRule extends InjectableFixture
 
     protected $tax_customer_class = [
         'attribute_code' => 'tax_customer_class',
+        'fixture' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
     ];
 
     protected $tax_product_class = [
         'attribute_code' => 'tax_product_class',
+        'fixture' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
     ];
 
     public function getTaxCalculationRuleId()

@@ -8,12 +8,12 @@
  */
 -->
 <constraint>
-    <assertSuccessSavedMessageTaxRule module="Magento_Tax">
+    <assertTaxRuleSuccessSaveMessage module="Magento_Tax">
         <severeness>low</severeness>
         <require>
             <taxRuleIndex class="Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex" />
         </require>
-    </assertSuccessSavedMessageTaxRule>
+    </assertTaxRuleSuccessSaveMessage>
     <assertTaxRuleInGrid module="Magento_Tax">
         <severeness>high</severeness>
         <require>

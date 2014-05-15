@@ -11,8 +11,7 @@ namespace Magento\Tax\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class TaxRule
- *
+ * Class TaxRule Repository
  */
 class TaxRule extends AbstractRepository
 {
@@ -37,12 +36,16 @@ class TaxRule extends AbstractRepository
                 ],
             ],
             'tax_customer_class' => [
-                0 => 'Retail Customer',
-                1 => 'Customer Tax Class %isolation%',
+                'dataSet' => [
+                    0 => 'Retail Customer',
+                    1 => 'customer_tax_class',
+                ],
             ],
             'tax_product_class' => [
-                0 => 'Taxable Goods',
-                1 => 'Product Tax Class %isolation%',
+                'dataSet' => [
+                    0 => 'Taxable Goods',
+                    1 => 'product_tax_class',
+                ],
             ],
             'priority' => '0',
             'position' => '0',
@@ -58,25 +61,28 @@ class TaxRule extends AbstractRepository
         ];
 
         $this->_data['tax_rule_default'] = [
-            'code' => 'TaxRule1',
+            'code' => 'TaxIdentifier%isolation%',
             'tax_rate' => [
                 'dataSet' => [
                     0 => 'US-CA-*-Rate 1'
                 ],
             ],
             'tax_customer_class' => [
-                0 => 'Retail Customer',
+                'dataSet' => [
+                    0 => 'Retail Customer',
+                ],
             ],
             'tax_product_class' => [
-                0 => 'Taxable Goods'
+                'dataSet' => [
+                    0 => 'Taxable Goods',
+                ],
             ],
             'priority' => '1',
             'position' => '1',
-
         ];
 
         $this->_data['tax_rule_with_custom_tax_classes'] = [
-            'code' => 'TaxRule2',
+            'code' => 'TaxIdentifier%isolation%',
             'tax_rate' => [
                 'dataSet' => [
                     0 => 'US-CA-*-Rate 1',
@@ -84,12 +90,16 @@ class TaxRule extends AbstractRepository
                 ],
             ],
             'tax_customer_class' => [
-                0 => 'Retail Customer',
-                1 => 'CustomerTaxClass1',
+                'dataSet' => [
+                    0 => 'Retail Customer',
+                    1 => 'customer_tax_class',
+                ],
             ],
             'tax_product_class' => [
-                0 => 'Taxable Goods',
-                1 => 'ProductTaxClass1',
+                'dataSet' => [
+                    0 => 'Taxable Goods',
+                    1 => 'product_tax_class',
+                ],
             ],
             'priority' => '1',
             'position' => '1',

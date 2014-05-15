@@ -15,8 +15,6 @@ use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTaxRuleForm
- *
- * @package Magento\Tax\Test\Constraint
  */
 class AssertTaxRuleForm extends AbstractConstraint
 {
@@ -30,26 +28,33 @@ class AssertTaxRuleForm extends AbstractConstraint
     /**
      * Assert that tax rule form filled right
      *
-     * @param TaxRule $taxRule
      * @param TaxRuleNew $taxRuleNew
      * @param TaxRuleIndex $taxRuleIndex
+     * @param TaxRule $taxRule
+     * @param TaxRule $initialTaxRule
      */
     public function processAssert(
-        TaxRule $taxRule,
         TaxRuleNew $taxRuleNew,
-        TaxRuleIndex $taxRuleIndex
+        TaxRuleIndex $taxRuleIndex,
+        TaxRule $taxRule,
+        TaxRule $initialTaxRule = null
     ) {
+        $data = $taxRule->getData();
+        if ($initialTaxRule !== null) {
+            $data['code'] = (!isset($data['code'])) ? $initialTaxRule->getCode() : $data['code'];
+        }
         $filter = [
-            'code' => $taxRule->getCode(),
+            'code' => $data['code'],
         ];
         $taxRuleIndex->open();
         $taxRuleIndex->getTaxRuleGrid()->searchAndOpen($filter);
         $taxRuleNew->getTaxRuleForm()->openAdditionalSettings();
         $formData = $taxRuleNew->getTaxRuleForm()->getData($taxRule);
-        $fixtureData = $taxRule->getData();
+        $dataDiff = $this->verifyForm($formData, $data);
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->verifyForm($formData, $fixtureData),
+            empty($dataDiff),
             'Tax Rule form was filled not right.'
+            . "\nLog:\n" . implode(";\n", $dataDiff)
         );
     }
 
@@ -58,24 +63,31 @@ class AssertTaxRuleForm extends AbstractConstraint
      *
      * @param array $formData
      * @param array $fixtureData
-     * @return bool
+     * @return array $errorMessage
      */
     protected function verifyForm(array $formData, array $fixtureData)
     {
+        $errorMessage = [];
+
         foreach ($fixtureData as $key => $value) {
             if (is_array($value)) {
                 $diff = array_diff($value, $formData[$key]);
+                $diff = array_merge($diff, array_diff($formData[$key], $value));
                 if (!empty($diff)) {
-                    return false;
+                    $errorMessage[] = "Data in " . $key . " field not equal."
+                        . "\nExpected: " . implode(", ", $value)
+                        . "\nActual: " . implode(", ", $formData[$key]);
                 }
             } else {
                 if ($value !== $formData[$key]) {
-                    return false;
+                    $errorMessage[] = "Data in " . $key . " field not equal."
+                        . "\nExpected: " . $value
+                        . "\nActual: " . $formData[$key];
                 }
             }
         }
 
-        return true;
+        return $errorMessage;
     }
 
     /**

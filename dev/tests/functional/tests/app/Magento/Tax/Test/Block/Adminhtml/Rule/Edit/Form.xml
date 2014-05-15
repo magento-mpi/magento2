@@ -9,15 +9,9 @@
 -->
 <mapping strict="0">
     <fields>
-        <code>
-            <selector>[id='code']</selector>
-        </code>
-        <priority>
-            <selector>[id='priority']</selector>
-        </priority>
-        <position>
-            <selector>[id='position']</selector>
-        </position>
+        <code />
+        <priority />
+        <position />
         <tax_rate>
             <selector>[class*=tax_rate]</selector>
             <input>multiselectlist</input>

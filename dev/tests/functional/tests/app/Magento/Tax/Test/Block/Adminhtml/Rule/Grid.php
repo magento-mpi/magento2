@@ -12,8 +12,7 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
  * Class Grid
- * Adminhtml Tax Rules managment grid
- *
+ * Adminhtml Tax Rules management grid
  */
 class Grid extends GridInterface
 {
@@ -26,16 +25,18 @@ class Grid extends GridInterface
 
     /**
      * Initialize block elements
+     *
+     * @var array
      */
     protected $filters = [
         'code' => [
             'selector' => '#taxRuleGrid_filter_code',
         ],
-        'customer_tax_class' => [
+        'tax_customer_class' => [
             'selector' => '#taxRuleGrid_filter_customer_tax_classes',
             'input' => 'select',
         ],
-        'product_tax_class' => [
+        'tax_product_class' => [
             'selector' => '#taxRuleGrid_filter_product_tax_classes',
             'input' => 'select',
         ],

@@ -13,8 +13,6 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Typified element class for  Multiple Select List elements
- *
- * @package Mtf\Client\Driver\Selenium\Element
  */
 class MultiselectlistElement extends MultiselectElement
 {
@@ -33,6 +31,12 @@ class MultiselectlistElement extends MultiselectElement
     protected $optionCheckedElement = './/*[contains(@class, "mselect-checked")]/following-sibling::span';
 
     /**
+     * Return Wrapped Element.
+     * If element was not created before:
+     * 1. Context is defined. If context was not passed to constructor - test case (all page) is taken as context
+     * 2. Attempt to get selenium element is performed in loop
+     * that is terminated if element is found or after timeout set in configuration
+     *
      * @param bool $waitForElementPresent
      * @return \PHPUnit_Extensions_Selenium2TestCase_Element|\PHPUnit_Extensions_Selenium2TestCase_Element_Select
      */

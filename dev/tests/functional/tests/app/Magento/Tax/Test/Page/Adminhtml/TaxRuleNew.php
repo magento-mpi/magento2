@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class TaxRuleNew
- *
- * @package Magento\Tax\Test\Page\Adminhtml
  */
 class TaxRuleNew extends BackendPage
 {
@@ -32,8 +30,8 @@ class TaxRuleNew extends BackendPage
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -59,8 +57,8 @@ class TaxRuleNew extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 }

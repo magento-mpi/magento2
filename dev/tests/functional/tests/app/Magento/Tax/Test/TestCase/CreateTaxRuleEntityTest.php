@@ -51,6 +51,9 @@ class CreateTaxRuleEntityTest extends Injectable
         $this->taxRuleNewPage = $taxRuleNewPage;
     }
 
+    /**
+     * @param TaxRule $taxRule
+     */
     public function testCreateTaxRule(TaxRule $taxRule)
     {
         // Steps

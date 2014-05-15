@@ -11,8 +11,7 @@ namespace Magento\Tax\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class TaxRate
- *
+ * Class TaxRate Repository
  */
 class TaxRate extends AbstractRepository
 {
@@ -92,7 +91,7 @@ class TaxRate extends AbstractRepository
 
         $this->_data['withZipRange'] = [
             'code' => 'TaxIdentifier%isolation%',
-            'zip_is_range' => 'yes',
+            'zip_is_range' => 'Yes',
             'zip_from' => '90001',
             'zip_to' => '96162',
             'tax_country_id' => 'United States',
