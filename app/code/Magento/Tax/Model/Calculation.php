@@ -58,36 +58,42 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
 
     /**
      * Identifier constant for unit based calculation
+     *
      * @var array
      */
     protected $_rates = array();
 
     /**
      * Identifier constant for row based calculation
+     *
      * @var array
      */
     protected $_ctc = array();
 
     /**
      * Identifier constant for total based calculation
+     *
      * @var array
      */
     protected $_ptc = array();
 
     /**
      * Cache to hold the rates
+     *
      * @var array
      */
     protected $_rateCache = array();
 
     /**
      * Store the rate calculation process
+     *
      * @var array
      */
     protected $_rateCalculationProcess = array();
 
     /**
      * Hold the customer
+     *
      * @var CustomerDataObject|bool
      */
     protected $_customer;
@@ -518,8 +524,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
         } elseif ($customerTaxClass === false || !$customerData->getId()) {
-            $customerTaxClass = $customerTaxClass =
-                Mage::getModel('customer/group')->getTaxClassId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            $customerTaxClass = $this->_groupService->getGroup(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID)->getTaxClassId();
         }
 
         $request = new \Magento\Framework\Object();
