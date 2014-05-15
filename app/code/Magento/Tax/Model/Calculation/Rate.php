@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Calculation;
 
 /**
  * Tax Rate Model
@@ -30,8 +31,6 @@
  * @method int getZipTo()
  * @method \Magento\Tax\Model\Calculation\Rate setZipTo(int $value)
  */
-namespace Magento\Tax\Model\Calculation;
-
 class Rate extends \Magento\Framework\Model\AbstractModel
 {
     /**
@@ -42,9 +41,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     protected $_titles = null;
 
     /**
-     * The Mage_Tax_Model_Calculation_Rate_Title
-     *
-     * @var Mage_Tax_Model_Calculation_Rate_Title
+     * @var \Magento\Tax\Model\Calculation\Rate\Title
      */
     protected $_titleModel = null;
 
@@ -194,7 +191,8 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Saves the tax titles
      *
-     * @param array | null $titles
+     * @param array|null $titles
+     * @return void
      */
     public function saveTitles($titles = null)
     {
@@ -221,9 +219,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Returns the Mage_Tax_Model_Calculation_Rate_Title
+     * Returns a tax title
      *
-     * @return Mage_Tax_Model_Calculation_Rate_Title
+     * @return \Magento\Tax\Model\Calculation\Rate\Title
      */
     public function getTitleModel()
     {
@@ -249,7 +247,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Deletes all tax rates
      *
-     * @return Mage_Tax_Model_Calculation_Rate
+     * @return \Magento\Tax\Model\Calculation\Rate\Title
      */
     public function deleteAllRates()
     {
