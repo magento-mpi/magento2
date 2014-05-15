@@ -8,7 +8,12 @@
 namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 
+/**
+ * Class LinkRow
+ * Fill link item data
+ */
 class LinkRow extends Form
 {
     /**
@@ -17,19 +22,11 @@ class LinkRow extends Form
      * @param array $fields
      * @return array
      */
-    private function mappingUpdate(array $fields)
+    public function _dataMapping(array $fields)
     {
-        if ($fields['sample']['sample_type'] == 'url') {
-            $fields['sample']['sample_type_url'] = 'Yes';
-        } else {
-            $fields['sample']['sample_type_file'] = 'Yes';
-        }
+        $fields['sample'][$fields['sample']['sample_type'] == 'url' ? 'sample_type_url' : 'sample_type_file'] = 'Yes';
         unset($fields['sample']['sample_type']);
-        if ($fields['file_type'] == 'url') {
-            $fields['file_type_url'] = 'Yes';
-        } else {
-            $fields['file_type_file'] = 'Yes';
-        }
+        $fields[$fields['file_type'] == 'url' ? 'file_type_url' : 'file_type_file'] = 'Yes';
         unset($fields['file_type']);
         $mapping = $this->dataMapping($fields);
         return $mapping;
@@ -41,22 +38,22 @@ class LinkRow extends Form
      * @param array $fields
      * @return void
      */
-    public function fillLinks(array $fields)
+    public function fillLinkRow(array $fields)
     {
-        $mapping = $this->mappingUpdate($fields);
+        $mapping = $this->_dataMapping($fields);
         $this->_fill($mapping);
     }
 
     /**
-     * Verify item sample
+     * Get data item link
      *
      * @param array $fields
-     * @return void
+     * @return array
      */
-    public function verifyLinks(array $fields)
+    public function getDataLinkRow(array $fields)
     {
-        $mapping = $this->mappingUpdate($fields);
-        $this->_verify($mapping);
+        $mapping = $this->_dataMapping($fields);
+        return $this->_getData($mapping);
     }
 
 }

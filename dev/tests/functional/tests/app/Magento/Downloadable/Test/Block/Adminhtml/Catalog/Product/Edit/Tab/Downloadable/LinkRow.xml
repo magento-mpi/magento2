@@ -12,17 +12,14 @@
         <title>
             <selector>[name$='[title]']</selector>
             <strategy>css selector</strategy>
-            <input>text</input>
         </title>
         <price>
             <selector>[name$='[price]']</selector>
             <strategy>css selector</strategy>
-            <input>text</input>
         </price>
         <number_of_downloads>
             <selector>[name$='[number_of_downloads]']</selector>
             <strategy>css selector</strategy>
-            <input>text</input>
         </number_of_downloads>
         <is_unlimited>
             <selector>[name$='[is_unlimited]']</selector>
@@ -34,7 +31,7 @@
             <strategy>css selector</strategy>
             <input>select</input>
         </is_shareable>
-        <sample>
+        <sample composite="1">
             <sample_type_url>
                 <selector>[value='url'][name$='[sample][type]']</selector>
                 <strategy>css selector</strategy>
@@ -48,7 +45,6 @@
             <sample_url>
                 <selector>[name$='[sample][url]']</selector>
                 <strategy>css selector</strategy>
-                <input>text</input>
             </sample_url>
         </sample>
         <file_type_url>
@@ -64,12 +60,10 @@
         <file_link_url>
             <selector>[name$='[link_url]']</selector>
             <strategy>css selector</strategy>
-            <input>text</input>
         </file_link_url>
         <sort_order>
             <selector>[name$='[sort_order]']</selector>
             <strategy>css selector</strategy>
-            <input>text</input>
         </sort_order>
     </fields>
 </mapping>

@@ -10,17 +10,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Adminhtml;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Magento\Backend\Test\Block\Widget\Grid as gridBlock;
 
 /**
- * Class ProductGrid
+ * Class Grid
  * Backend catalog product grid
- *
- * @package Magento\Catalog\Test\Block
  */
-class ProductGrid extends Grid
+class Grid extends gridBlock
 {
     /**
      * Initialize block elements

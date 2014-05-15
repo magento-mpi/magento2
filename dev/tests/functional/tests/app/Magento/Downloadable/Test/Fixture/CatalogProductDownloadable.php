@@ -9,7 +9,6 @@
 namespace Magento\Downloadable\Test\Fixture;
 
 use Mtf\Fixture\InjectableFixture;
-use Mtf\Factory\Factory;
 use Mtf\System\Config;
 use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
@@ -17,17 +16,10 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductDownloadable
- *
- * @package Magento\Downloadable\Test\Fixture
+ * Fixture for Downloadable product
  */
 class CatalogProductDownloadable extends InjectableFixture
 {
-    const GROUP = 'downloadable_information5';
-
-    const LINK_IS_SHAREABLE_NO_VALUE = 0;
-    const LINK_IS_SHAREABLE_YES_VALUE = 1;
-    const LINK_IS_SHAREABLE_USE_CONFIG_VALUE = 2;
-
     /**
      * @var string
      */
@@ -37,15 +29,6 @@ class CatalogProductDownloadable extends InjectableFixture
      * @var string
      */
     protected $handlerInterface = 'Magento\Downloadable\Test\Handler\Curl\CreateDownloadable';
-
-    /**
-     * Create product
-     */
-    public function persist()
-    {
-        $id = Factory::getApp()->magentoDownloadableCreateDownloadable($this);
-        $this->data['fields']['id']['value'] = $id;
-    }
 
     /**
      * Constructor
@@ -370,6 +353,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
+        'group' => 'product-details'
     ];
 
     protected $manage_stock = [
@@ -387,7 +371,7 @@ class CatalogProductDownloadable extends InjectableFixture
     protected $stock_data_use_config_min_qty = [
         'attribute_code' => 'stock_data_use_config_min_qty',
         'input' => 'checkbox',
-        'group' => 'advanced-inventory',
+        'group' => 'advanced-inventory'
     ];
 
     protected $stock_data_qty = [
@@ -462,7 +446,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => 'dafault',
         'input' => 'text',
         'group' => 'downloadable_information',
-        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\DownloadableLinks'
+        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Links'
 
     ];
 
@@ -473,7 +457,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'default_value' => 'dafault',
         'input' => 'text',
         'group' => 'downloadable_information',
-        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\DownloadableSamples'
+        'fixture' => 'Magento\Downloadable\Test\Fixture\CatalogProductDownloadable\Samples'
 
     ];
 
@@ -483,6 +467,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'product-details',
     ];
 
     protected $small_image = [
@@ -514,7 +499,6 @@ class CatalogProductDownloadable extends InjectableFixture
         'backend_type' => 'decimal',
         'is_required' => '0',
         'default_value' => '10',
-        'input' => 'price',
         'group' => 'advanced-pricing'
     ];
 
@@ -540,6 +524,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '2',
         'input' => 'select',
+        'group' => 'product-details'
     ];
 
     protected $thumbnail = [
@@ -598,6 +583,7 @@ class CatalogProductDownloadable extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
+        'group' => 'autosettings'
     ];
 
     protected $url_path = [
@@ -932,18 +918,4 @@ class CatalogProductDownloadable extends InjectableFixture
     {
         return $this->getData('custom_options');
     }
-
-    /*
-     * Get fixture downloadable links
-     *
-     * @param string $name
-     * @return array
-     */
-    public function getDownloadableLinks($name)
-    {
-        return $this->data['downloadable_information'] = $this->getDataFieldConfig(
-            'downloadable_information'
-        )['fixture']->getPreset($name);
-    }
-
 }

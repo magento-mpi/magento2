@@ -8,15 +8,13 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Magento\Backend\Test\Block\FormPageActions;
+use Magento\Backend\Test\Block\FormPageActions as blockFormPageActions;
 
 /**
- * Class ProductPageAction
- * Form action
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product
+ * Class FormPageActions
+ * Form action in product page on backend
  */
-class ProductPageAction extends FormPageActions
+class FormPageActions extends blockFormPageActions
 {
     /**
      * "Save" button

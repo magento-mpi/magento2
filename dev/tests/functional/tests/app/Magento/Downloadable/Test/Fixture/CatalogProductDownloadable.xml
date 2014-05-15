@@ -321,7 +321,6 @@
             <backend_type>decimal</backend_type>
             <is_required>0</is_required>
             <default_value></default_value>
-            <input>price</input>
         </special_price>
         <special_to_date>
             <attribute_code>special_to_date</attribute_code>

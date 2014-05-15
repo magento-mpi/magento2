@@ -9,6 +9,10 @@ namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Dow
 
 use Mtf\Block\Form;
 
+/**
+ * Class SampleRow
+ * Fill and get item sample data
+ */
 class SampleRow extends Form
 {
     /**
@@ -17,14 +21,10 @@ class SampleRow extends Form
      * @param array $fields
      * @return array
      */
-    private function mappingUpdate(array $fields)
+    public function _dataMapping(array $fields)
     {
-        if ($fields['type'] == 'url') {
-            $fields['type_url'] = 'Yes';
-        } else {
-            $fields['type_file'] = 'Yes';
-        }
-        unset($fields['type']);
+        $fields[$fields['sample_type'] == 'url' ? 'sample_type_url' : 'sample_type_file'] = 'Yes';
+        unset($fields['sample_type']);
         $mapping = $this->dataMapping($fields);
         return $mapping;
     }
@@ -35,21 +35,21 @@ class SampleRow extends Form
      * @param array $fields
      * @return void
      */
-    public function fillSamples(array $fields)
+    public function fillSampleRow(array $fields)
     {
-        $mapping = $this->mappingUpdate($fields);
+        $mapping = $this->_dataMapping($fields);
         $this->_fill($mapping);
     }
 
     /**
-     * Verify item sample
+     * Get data item sample
      *
      * @param array $fields
-     * @return void
+     * @return array
      */
-    public function verifySamples(array $fields)
+    public function getDataSampleRow(array $fields)
     {
-        $mapping = $this->mappingUpdate($fields);
-        $this->_verify($mapping);
+        $mapping = $this->_dataMapping($fields);
+        return $this->_getData($mapping);
     }
 }

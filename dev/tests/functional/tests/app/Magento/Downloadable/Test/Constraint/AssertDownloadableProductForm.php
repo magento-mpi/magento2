@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Constraint;
+namespace Magento\Downloadable\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Magento\Catalog\Test\Constraint\AssertProductForm;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
 
 /**
- * Class AssertProductForm
- * Assert that displayed product data on edit page equals passed from fixture
+ * Class AssertDownloadableProductForm
+ * Assert that downloadable product data on edit page equals to passed from fixture
  */
-class AssertProductForm extends AbstractConstraint
+class AssertDownloadableProductForm extends AssertProductForm
 {
     /**
      * Constraint severeness
@@ -47,7 +47,7 @@ class AssertProductForm extends AbstractConstraint
     }
 
     /**
-     * Convert fixture array
+     * Invalidate fixture array
      *
      * @param array $fields
      * @return array
@@ -58,20 +58,13 @@ class AssertProductForm extends AbstractConstraint
             if (is_array($value)) {
                 $fields[$key] = $this->convertArray($value);
             } else {
-                if ($value === null) {
+                if ($key == "sample_type" || $key == "file_type") {
+                    $fields[$fields[$key] == 'url' ? $key . '_url' : $key . '_file'] = 1;
                     unset($fields[$key]);
-                } elseif ($key == "price" || $key == "special_price") {
-                    $fields[$key] = sprintf('%1.2f', $fields[$key]);
-                } elseif ($key == "qty" || $key == "stock_data_qty") {
-                    $fields[$key] = sprintf('%1.4f', $fields[$key]);
-                } elseif ($key == "stock_data_qty") {
-                    $fields[$key] = sprintf('%1.4f', $fields[$key]);
-                } elseif ($key == "stock_data_use_config_min_qty" && $value == "No") {
-                    $fields[$key] = false;
                 }
             }
         }
-        return $fields;
+        return parent::convertArray($fields);
     }
 
     /**

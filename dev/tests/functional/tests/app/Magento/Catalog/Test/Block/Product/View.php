@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Product;
 
-use Magento\Connect\Controller\Adminhtml\Extension\Local;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -21,8 +20,6 @@ use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
 /**
  * Class View
  * Product View block
- *
- * @package Magento\Catalog\Test\Block\Product\View
  */
 class View extends Block
 {
@@ -87,7 +84,35 @@ class View extends Block
      *
      * @var string
      */
-    protected $bundleBlock = '#product-options-wrapper';
+    protected $bundleBlock = './/*[@id="product-options-wrapper"]//fieldset[contains(@class,"bundle")]';
+
+    /**
+     * Label item option
+     *
+     * @var string
+     */
+    protected $labelOptions = '/label/span[text() = "';
+
+    /**
+     * Label item option
+     *
+     * @var string
+     */
+    protected $requiredOptions = '/div[%d][%s(contains(@class,"required"))]';
+
+    /**
+     * Label item option
+     *
+     * @var string
+     */
+    protected $selectForSelectOptions = '//select/option[%d][contains(text(), "%s")][contains(text(), "$%d")]';
+
+    /**
+     * Label item option
+     *
+     * @var string
+     */
+    protected $selectForLabelOptions = '//div[%d][contains(@class, "field")]/label[contains(text(), "%s")][contains(text(), "$%d")]';
 
     /**
      * Click for Price link on Product page
@@ -111,6 +136,20 @@ class View extends Block
     protected $stockAvailability = '.stock span';
 
     /**
+     * Block Downloadable links
+     *
+     * @var string
+     */
+    protected $blockDownloadableLinks = '//div[contains(@class,"field downloads")]';
+
+    /**
+     * Block Downloadable samples
+     *
+     * @var string
+     */
+    protected $blockDownloadableSamples = '//dl[contains(@class,"downloadable samples")]';
+
+    /**
      * Customize and add to cart button selector
      *
      * @var string
@@ -125,140 +164,35 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
-     * downloadLinksData
+     * Get downloadable link block
      *
-     * @var string
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks
      */
-    protected $downloadLinksData = '.downloads';
-
-    /**
-     * Title for for links
-     *
-     * @var string
-     */
-    protected $downloadLinksDataTitleForForLink = ".//*/label/span[text()='";
-
-    /**
-     * Title item links
-     *
-     * @var string
-     */
-    protected $downloadLinksDataTitleForList = "//*[@id='downloadable-links-list']/div[%d]/label[@class='label']/span[text() = '";
-
-    /**
-     * Price item links
-     *
-     * @var string
-     */
-    protected $downloadLinksDataPriceForList = "//*[@id='downloadable-links-list']/div[@data-role='link']/label/span[@class='price-notice']/span[text() = '";
-
-    /**
-     * Checkbox item links
-     *
-     * @var string
-     */
-    protected $downloadLinksDataCheckboxForList = "//*[@id='downloadable-links-list']/div[%d]/input[@type='checkbox']";
-
-    /**
-     * Block item links
-     *
-     * @var string
-     */
-    protected $downloadLinksDataItemBlock = '[data-role=link]';
-
-    /**
-     * Title for for samples
-     *
-     * @var string
-     */
-    protected $downloadSamplesDataTitleForForSample = "//*/dl[contains(concat(' ', @class, ' '), ' downloadable')]/dt[contains(concat(' ', @class, ' '), ' title')][text()='";
-
-    /**
-     * Title item sample
-     *
-     * @var string
-     */
-    protected $downloadSampleDataTitleForList = "//*/dl[contains(concat(' ', @class, ' '), ' downloadable')]/dd[%d]/a[text()[contains(., '";
-
-    /**
-     * Verify DownloadableLinksData
-     *
-     * @param FixtureInterface $product
-     * @return bool
-     */
-    public function downloadLinksData(FixtureInterface $product)
+    public function getDownloadableLinksBlock()
     {
-        $dBlock = $this->_rootElement->find($this->stockAvailability);
-        $fields = $product->getData();
-        //Steps:
-        //1. Title for for Link block
-        if (!$dBlock->find(
-            $this->downloadLinksDataTitleForForLink . $fields['downloadable_links']['title'] . "']",
-            Locator::SELECTOR_XPATH
-        )
-        ) {
-            return false;
-        }
-        if (isset($fields['downloadable_links'])) {
-            foreach ($fields['downloadable_links']['downloadable']['link'] as $index => $link) {
-                //2. Titles for each links
-                //6. Links are displaying according to Sort Order
-                $formatTitle = sprintf($this->downloadLinksDataTitleForList . $link['title'] . "']", ($index + 1));
-                if (!$dBlock->find($formatTitle, Locator::SELECTOR_XPATH)) {
-                    return false;
-                }
-                //3. If Links can be Purchase Separately, check-nob is presented near each link
-                //4. If Links CANNOT be Purchase Separately, check-nob is not presented near each link
-                $formatPrice = sprintf($this->downloadLinksDataCheckboxForList, ($index + 1));
-                if ($fields['downloadable_links']['links_purchased_separately'] == "Yes") {
-                    if (!$dBlock->find($formatPrice, Locator::SELECTOR_XPATH)) {
-                        return false;
-                    }
-                } elseif ($fields['downloadable_links']['links_purchased_separately'] == "No") {
-                    if ($dBlock->find($formatPrice, Locator::SELECTOR_XPATH)) {
-                        return false;
-                    }
-                }
-                //5. Price is equals passed according to fixture
-                $formatPrice = sprintf($this->downloadLinksDataPriceForList . '$%1.2f' . "']", $link['price']);
-                if (!$dBlock->find($formatPrice, Locator::SELECTOR_XPATH)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return $this->blockFactory->create(
+            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks',
+            array(
+                'element' =>
+                    $this->_rootElement->find($this->blockDownloadableLinks, Locator::SELECTOR_XPATH)
+            )
+        );
     }
 
     /**
-     * Verify DownloadableSamplesData
+     * Get downloadable samples block
      *
-     * @param FixtureInterface $product
-     * @return bool
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples
      */
-    public function downloadSamplesData(FixtureInterface $product)
+    public function getDownloadableSamplesBlock()
     {
-        $dBlock = $this->_rootElement->find($this->stockAvailability);
-        $fields = $product->getData();
-        //Steps:
-        //1. Title for for sample block
-        if (!$dBlock->find(
-            $this->downloadSamplesDataTitleForForSample . $fields['downloadable_sample']['title'] . "']",
-            Locator::SELECTOR_XPATH
-        )
-        ) {
-            return false;
-        }
-        if (isset($fields['downloadable_sample'])) {
-            foreach ($fields['downloadable_sample']['downloadable']['sample'] as $index => $sample) {
-                //2. Titles for each sample
-                //3. Samples are displaying according to Sort Order
-                $formatTitle = sprintf($this->downloadSampleDataTitleForList . $sample['title'] . "')]]", ($index + 1));
-                if (!$dBlock->find($formatTitle, Locator::SELECTOR_XPATH)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return $this->blockFactory->create(
+            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples',
+            array(
+                'element' =>
+                    $this->_rootElement->find($this->blockDownloadableSamples, Locator::SELECTOR_XPATH)
+            )
+        );
     }
 
     /**
@@ -268,9 +202,66 @@ class View extends Block
      */
     public function getBundleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find($this->bundleBlock)
+        return $this->blockFactory->create(
+            'Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle',
+            array(
+                'element' =>
+                    $this->_rootElement->find($this->bundleBlock, Locator::SELECTOR_XPATH)
+            )
         );
+    }
+
+    /**
+     * Get bundle item option
+     * @param Array $fields
+     * @param index
+     * @return bool
+     */
+    public function displayedBundleItemOption(array $fields, $index)
+    {
+        $bundleOptionBlock = $this->_rootElement->find(
+            $this->bundleBlock . '/div[' . $index . ']',
+            Locator::SELECTOR_XPATH
+        );
+        if (!$bundleOptionBlock->find(
+            $this->labelOptions . $fields['title'] . '"]',
+            Locator::SELECTOR_XPATH
+        )
+        ) {
+            return false;
+        }
+
+        $formatRequired = sprintf(
+            $this->bundleBlock . $this->requiredOptions,
+            $index,
+            (($fields['required'] == 'Yes') ? '' : 'not')
+        );
+        if (!$this->_rootElement->find(
+            $formatRequired,
+            Locator::SELECTOR_XPATH
+        )
+        ) {
+            return false;
+        }
+        $Increment = 1;
+        foreach ($fields['items'] as $item) {
+            $selectOptions = ($fields['type'] == 'Drop-down' || $fields['type'] == 'Multiple Select') ? $this->selectForSelectOptions : $this->selectForLabelOptions;
+            $formatOption = sprintf(
+                $selectOptions,
+                $Increment,
+                $item['name'],
+                $item['price']
+            );
+            if (!$bundleOptionBlock->find(
+                $formatOption,
+                Locator::SELECTOR_XPATH
+            )
+            ) {
+                return false;
+            }
+            $Increment++;
+        }
+        return true;
     }
 
     /**
@@ -376,8 +367,9 @@ class View extends Block
      */
     public function getProductPriceBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
-            $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        return $this->blockFactory->create(
+            'Magento\Catalog\Test\Block\Product\Price',
+            array('element' => $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME))
         );
     }
 
@@ -464,7 +456,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

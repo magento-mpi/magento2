@@ -11,15 +11,10 @@ namespace Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class DownloadableSamples
- *
- * Data keys:
- *  - link (link options preset name)
- *  - products (comma separated sku identifiers)
- *
- * @package Magento\Catalog\Test\Fixture
+ * Class Samples
+ * Get preset from block samples
  */
-class DownloadableSamples implements FixtureInterface
+class Samples implements FixtureInterface
 {
     /**
      * Construct for class
@@ -81,13 +76,13 @@ class DownloadableSamples implements FixtureInterface
                     'sample' => [
                         [
                             'title' => 'row1%isolation%',
-                            'type' => 'url',
+                            'sample_type' => 'url',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
                             'title' => 'row2%isolation%',
-                            'type' => 'url',
+                            'sample_type' => 'url',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
                         ]
@@ -100,19 +95,19 @@ class DownloadableSamples implements FixtureInterface
                     'sample' => [
                         [
                             'title' => 'row1%isolation%',
-                            'type' => 'url',
+                            'sample_type' => 'url',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
                             'title' => 'row2%isolation%',
-                            'type' => 'url',
+                            'sample_type' => 'url',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
                         ],
                         [
                             'title' => 'row3%isolation%',
-                            'type' => 'url',
+                            'sample_type' => 'url',
                             'sample_url' => 'http://example3.com',
                             'sort_order' => 2
                         ]

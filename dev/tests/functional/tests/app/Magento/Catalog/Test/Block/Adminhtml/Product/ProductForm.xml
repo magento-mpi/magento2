@@ -22,7 +22,6 @@
             </is_virtual>
             <qty>
                 <selector>[name='product[quantity_and_stock_status][qty]']</selector>
-                <input>text</input>
             </qty>
             <quantity_and_stock_status>
                 <selector>[name='product[quantity_and_stock_status][is_in_stock]']</selector>
@@ -30,7 +29,6 @@
             </quantity_and_stock_status>
             <description>
                 <selector>textarea[name='product[description]']</selector>
-                <input>text</input>
             </description>
         </fields>
     </product-details>
@@ -82,7 +80,6 @@
             </stock_data_use_config_min_qty>
             <stock_data_min_qty>
                 <selector>[name='product[stock_data][min_qty]']</selector>
-                <input>text</input>
             </stock_data_min_qty>
         </fields>
     </advanced-inventory>
@@ -97,7 +94,6 @@
             </visibility>
             <short_description>
                 <selector>textarea[name='product[short_description]']</selector>
-                <input>text</input>
             </short_description>
         </fields>
     </autosettings>

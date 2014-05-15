@@ -18,8 +18,6 @@ use Mtf\Client\Element;
 /**
  * Class Tab
  * Is used to represent any tab on the page
- *
- * @package Magento\Backend\Test\Block\Widget
  */
 class Tab extends AbstractForm
 {
@@ -27,10 +25,10 @@ class Tab extends AbstractForm
      * Fill data to fields on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $data = $this->dataMapping($fields);
         $this->_fill($data, $element);
@@ -39,48 +37,26 @@ class Tab extends AbstractForm
     }
 
     /**
-     * Verify data to fields on tab
+     * Get data of tab
      *
-     * @param array $fields
-     * @param Element $element
-     *
-     * @return bool
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
      */
-    public function verifyFormTab(array $fields, Element $element)
+    public function getDataFormTab($fields = null, Element $element = null)
     {
         $data = $this->dataMapping($fields);
-        return $this->_verify($data, $element);
+        return $this->_getData($data, $element);
     }
 
     /**
      * Update data to fields on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      */
-    public function updateFormTab(array $fields, Element $element)
+    public function updateFormTab(array $fields, Element $element = null)
     {
         $this->fillFormTab($fields, $element);
-    }
-
-    /**
-     * Preparation of selectors forms
-     *
-     * @param array $placeholder
-     * @param array &$mapping
-     * @return array
-     */
-    protected function preparingSelectors(array $placeholder, array $mapping = [])
-    {
-        $mapping = empty($mapping) ? $this->mapping : $mapping;
-        foreach ($mapping as &$item) {
-            if (empty($item['selector'])) {
-                continue;
-            }
-            $item['selector'] = strtr($item['selector'], $placeholder);
-        }
-        unset($item);
-
-        return $mapping;
     }
 }

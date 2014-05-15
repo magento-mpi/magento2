@@ -11,15 +11,10 @@ namespace Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class DownloadableLinks
- *
- * Data keys:
- *  - link (link options preset name)
- *  - products (comma separated sku identifiers)
- *
- * @package Magento\Catalog\Test\Fixture
+ * Class Links
+ * Get preset from block links
  */
-class DownloadableLinks implements FixtureInterface
+class Links implements FixtureInterface
 {
     /**
      * Construct for class

@@ -15,6 +15,7 @@ namespace Magento\Backend\Test\Block\Widget;
 use Mtf\Block\Mapper;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Util\Iterator\File;
@@ -23,8 +24,6 @@ use Mtf\Util\XmlConverter;
 /**
  * Class FormTabs
  * Is used to represent any form with tabs on the page
- *
- * @package Magento\Backend\Test\Block\Widget
  */
 class FormTabs extends Form
 {
@@ -50,14 +49,16 @@ class FormTabs extends Form
      * @param Element $element
      * @param Mapper $mapper
      * @param XmlConverter $xmlConverter
+     * @param BlockFactory $blockFactory
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
-        XmlConverter $xmlConverter
+        XmlConverter $xmlConverter,
+        BlockFactory $blockFactory
     ) {
         $this->xmlConverter = $xmlConverter;
-        parent::__construct($element, $mapper);
+        parent::__construct($element, $blockFactory, $mapper);
     }
 
     /**
@@ -119,25 +120,6 @@ class FormTabs extends Form
     }
 
     /**
-     * Fill tabs attribute
-     *
-     * @param string $tabName
-     * @param string $attribute
-     * @param null $value
-     * @return bool
-     */
-    public function fillTabAttribute($tabName, $attribute, $value = null)
-    {
-        $this->openTab($tabName);
-        /** @var \Magento\Backend\Test\Block\Widget\Tab $tabElement */
-        $tabElement = $this->getTabElement($tabName);
-        $this->openTab($tabName);
-        $mapping = $tabElement->dataMapping([$attribute => $value]);
-        $this->_fill($mapping);
-        return true;
-    }
-
-    /**
      * Update array with fields which aren't assigned to any tab
      *
      * @param Tab $tabElement
@@ -175,37 +157,34 @@ class FormTabs extends Form
     }
 
     /**
-     * Verify form with tabs
+     * Get data of the tabs
      *
-     * @param FixtureInterface $fixture
-     * @param Element $element
-     * @throws \Exception
-     * @return FormTabs
+     * @param FixtureInterface|null $fixture
+     * @param Element|null $element
+     * @return array
      */
-    public function verify(FixtureInterface $fixture, Element $element = null)
+    public function getData(FixtureInterface $fixture = null, Element $element = null)
     {
-        $tabs = $this->getFieldsByTabs($fixture);
-        foreach ($tabs as $tabName => $tabFields) {
-            $tabElement = $this->getTabElement($tabName);
-            $this->openTab($tabName);
-            $tabElement->verifyFormTab(array_merge($tabFields, $this->unassignedFields), $this->_rootElement);
-            $this->updateUnassignedFields($tabElement);
-        }      
-        return $this;
-    }
+        $data = [];
 
-    /**
-     * Verify data to fields on tab
-     *
-     * @param array $fields
-     * @param Element $element
-     *
-     * @return bool
-     */
-    public function verifyFormTab(array $fields, Element $element)
-    {
-        $data = $this->dataMapping($fields);
-        return $this->_verify($data, $element);
+        if (null === $fixture) {
+            foreach ($this->tabs as $tabName => $tab) {
+                $this->openTab($tabName);
+                $tabData = $this->getTabElement($tabName)->getDataFormTab();
+                $data = array_merge($data, $tabData);
+            }
+        } else {
+            $isHasData = ($fixture instanceof InjectableFixture) ? $fixture->hasData() : true;
+            $tabsFields = $isHasData ? $this->getFieldsByTabs($fixture) : [];
+            foreach ($this->tabs as $tabName => $tab) {
+                $this->openTab($tabName);
+                $tabFields = isset($tabsFields[$tabName]) ? $tabsFields[$tabName] : [];
+                $tabData = $this->getTabElement($tabName)->getDataFormTab($tabFields, $this->_rootElement);
+                $data = array_merge($data, $tabData);
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -296,8 +275,8 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
-        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
+        /** @var Tab $tabElement */
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

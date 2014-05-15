@@ -14,8 +14,6 @@ use Mtf\Fixture\FixtureInterface;
 /**
  * Class CatalogProductView
  * Frontend product view page
- *
- * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductView extends FrontendPage
 {
@@ -75,7 +73,7 @@ class CatalogProductView extends FrontendPage
         ],
     ];
 
-     /**
+    /**
      * Review form
      *
      * @var string
@@ -146,11 +144,6 @@ class CatalogProductView extends FrontendPage
     protected $crosssellSelector = '.block.crosssell';
 
     /**
-     * @var string
-     */
-    protected $downloadableLinksSelector = '[data-container-for=downloadable-links]';
-
-    /**
      * MAP popup
      *
      * @var string
@@ -159,7 +152,7 @@ class CatalogProductView extends FrontendPage
 
     /**
      * Custom constructor
-     * 
+     *
      * @return void
      */
     protected function _init()
@@ -175,7 +168,7 @@ class CatalogProductView extends FrontendPage
      */
     public function init(FixtureInterface $fixture)
     {
-        $this->_url = $_ENV['app_frontend_url'] . $fixture->getData('url_key') . '.html';
+        $this->_url = $_ENV['app_frontend_url'] . $fixture->getUrlKey() . '.html';
     }
 
     /**

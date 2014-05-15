@@ -12,8 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
+ * Page with Grid in Catalog
  */
 class CatalogProductIndex extends BackendPage
 {
@@ -22,7 +21,7 @@ class CatalogProductIndex extends BackendPage
     protected $_blocks = [
         'productGrid' => [
             'name' => 'productGrid',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\ProductGrid',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Grid',
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
@@ -50,16 +49,16 @@ class CatalogProductIndex extends BackendPage
             'locator' => '[id="add_new_product"]',
             'strategy' => 'css selector',
         ],
-        'GridPageActions' => [
+        'FormPageActions' => [
             'name' => 'GridPageActions',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\GridPageActions',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '#add_new_product',
             'strategy' => 'css selector',
         ],
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\ProductGrid
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Grid
      */
     public function getProductGrid()
     {
@@ -99,10 +98,10 @@ class CatalogProductIndex extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\GridPageActions
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
      */
-    public function getGridPageActions()
+    public function getFormPageActions()
     {
-        return $this->getBlockInstance('GridPageActions');
+        return $this->getBlockInstance('FormPageActions');
     }
 }

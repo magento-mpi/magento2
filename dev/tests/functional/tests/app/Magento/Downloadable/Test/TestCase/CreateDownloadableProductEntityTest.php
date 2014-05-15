@@ -11,7 +11,7 @@ namespace Magento\Downloadable\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex as CatalogProductIndexPage;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
@@ -27,7 +27,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
  * 7. Verify created product.
  *
  * @group Downloadable_Product_(CS)
- * @ZephyrId MTA-15
+ * @ZephyrId MAGETWO-23425
  */
 class CreateDownloadableProductEntityTest extends Injectable
 {
@@ -41,12 +41,12 @@ class CreateDownloadableProductEntityTest extends Injectable
     /**
      * Page product on backend
      *
-     * @var CatalogProductIndexPage
+     * @var CatalogProductIndex
      */
     protected $catalogProductIndex;
 
     /**
-     * New page on backend
+     * New product page on backend
      *
      * @var CatalogProductNew
      */
@@ -71,14 +71,12 @@ class CreateDownloadableProductEntityTest extends Injectable
      * Filling objects of the class
      *
      * @param Category $category
-     * @param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex $catalogProductIndexNewPage
-     * @param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew $catalogProductNewPage
-     * @internal param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex $catalogProductIndex
-     * @internal param \Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew $catalogProductNew
+     * @param CatalogProductIndex $catalogProductIndexNewPage
+     * @param CatalogProductNew $catalogProductNewPage
      */
     public function __inject(
         Category $category,
-        CatalogProductIndexPage $catalogProductIndexNewPage,
+        CatalogProductIndex $catalogProductIndexNewPage,
         CatalogProductNew $catalogProductNewPage
     ) {
         $this->category = $category;
@@ -94,13 +92,11 @@ class CreateDownloadableProductEntityTest extends Injectable
      */
     public function testCreateDownloadableProduct(CatalogProductDownloadable $product, Category $category)
     {
-        // Steps
         $this->catalogProductIndex->open();
-        $this->catalogProductIndex->getGridPageActions()->setTypeProduct("downloadable");
-        $this->catalogProductIndex->getGridPageActions()->addNew();
+        $this->catalogProductIndex->getProductBlock()->addProduct('downloadable');
         $productBlockForm = $this->catalogProductNew->getProductForm();
         $productBlockForm->setCategory($category);
         $productBlockForm->fill($product);
-        $this->catalogProductNew->getProductPageAction()->save();
+        $this->catalogProductNew->getFormPageActions()->save($product);
     }
 }

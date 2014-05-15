@@ -9,194 +9,96 @@
 namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
-use Mtf\Client\Driver\Selenium\Element as RootElement;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class Downloadable
- *
- * @package Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab
+ * Fill and get data downloadable tab
  */
 class Downloadable extends Tab
 {
     /**
-     * 'Add New Row for links' button
+     * 'Add New Row' button
      *
      * @var string
      */
-    protected $addNewLinkRow = '[data-action=add-link]';
+    protected $addNewRow = '[data-action=add-link]';
 
     /**
-     * 'Add New Row for samples' button
+     * Downloadable block
      *
      * @var string
      */
-    protected $addNewSampleRow = '[data-action=add-sample]';
+    protected $downloadableBlock = '//dl[@id="tab_content_downloadableInfo"]';
 
     /**
-     * 'Show Sample block' button
+     * Get Downloadable block
      *
-     * @var string
-     */
-    protected $showSample = '[data-ui-id=widget-accordion-1-samples-title-link]';
-
-    /**
-     * 'Show Links block' button
-     *
-     * @var string
-     */
-    protected $showLinks = '[data-ui-id=widget-accordion-1-links-title-link]';
-
-    /**
-     * 'link separately type' select
-     *
-     * @var string
-     */
-    protected $linkSeparately = "//*[@id='downloadable_link_purchase_type']";
-
-    /**
-     * Downloadable link item block
-     *
-     * @var string
-     */
-    protected $downloadableLinkBlock = '#link_items_body tr:nth-child(';
-
-    /**
-     * Downloadable sample item block
-     *
-     * @var string
-     */
-    protected $downloadableSampleBlock = '#sample_items_body tr:nth-child(';
-
-    /**
-     * Sample title block
-     *
-     * @var string
-     */
-    protected $downloadableSamplesTitle = "input[name='product[samples_title]']";
-
-    /**
-     * Downloadable title block
-     *
-     * @var string
-     */
-    protected $downloadableLinksTitle = "input[name='product[links_title]']";
-
-    /**
-     * links purchased separately select
-     *
-     * @var string
-     */
-    protected $downloadableLinksPurchasedSeparately = "[name='product[links_purchased_separately]']";
-
-    /**
-     * Get product row assigned to downloadable link
-     *
-     * @param int $blockNumber
-     * @param Element $context
-     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow
-     */
-    protected function getDownloadableLinkBlock($blockNumber, Element $context = null)
-    {
-        $element = $context ? : $this->_rootElement;
-        return Factory::getBlockFactory()->getMagentoDownloadableAdminhtmlCatalogProductEditTabDownloadableLinkRow(
-            $element->find($this->downloadableLinkBlock . $blockNumber . ')')
-        );
-    }
-
-    /**
-     * Get product row assigned to downloadable sample
-     *
-     * @param int $blockNumber
-     * @param Element $context
-     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\SampleRow
-     */
-    protected function getDownloadableSampleBlock($blockNumber, Element $context = null)
-    {
-        $element = $context ? : $this->_rootElement;
-        return Factory::getBlockFactory()->getMagentoDownloadableAdminhtmlCatalogProductEditTabDownloadableSampleRow(
-            $element->find($this->downloadableSampleBlock . $blockNumber . ')')
-        );
-    }
-
-    /**
-     * Verify data to fields on tab
-     *
-     * @param array $fields
+     * @param string $type
      * @param Element $element
-     *
-     * @return bool
+     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples | \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links
      */
-    public function verifyFormTab(array $fields, Element $element)
+    public function getDownloadableBlock($type, Element $element = null)
     {
+        $element = $element ? : $this->_rootElement;
+        return $this->blockFactory->create(
+            'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\\' . $type,
+            array('element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH))
+        );
+    }
+
+    /**
+     * Get data to fields on downloadable tab
+     *
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
+     */
+    public function getDataFormTab($fields = null, Element $element = null)
+    {
+        $_fields = [];
         if (isset($fields['downloadable_sample']['value'])) {
-            if (!$element->find($this->downloadableSamplesTitle)->isVisible()) {
-                $element->find($this->showSample)->click();
-            }
-            if ($element->find($this->downloadableSamplesTitle)->getValue(
-                ) != $fields['downloadable_sample']['value']['title']
-            ) {
-                return false;
-            }
-            foreach ($fields['downloadable_sample']['value']['downloadable']['sample'] as $index => $sample) {
-                $this->getDownloadableSampleBlock($index + 1)->verifySamples($sample);
-            }
+            $_fields['downloadable_sample'] = $this->getDownloadableBlock('Samples')->getDataSamples(
+                $fields['downloadable_sample']['value']
+            );
         }
         if (isset($fields['downloadable_links']['value'])) {
-            if (!$element->find($this->downloadableLinksTitle)->isVisible()) {
-                $element->find($this->showLinks)->click();
-            }
-            if ($element->find($this->downloadableLinksTitle)->getValue(
-                ) != $fields['downloadable_links']['value']['title'] || $element->find(
-                    $this->downloadableLinksPurchasedSeparately,
-                    Locator::SELECTOR_CSS,
-                    'select'
-                )->getValue() !=
-                $fields['downloadable_links']['value']['links_purchased_separately']
-            ) {
-                return false;
-            }
-            foreach ($fields['downloadable_links']['value']['downloadable']['link'] as $index => $link) {
-                $this->getDownloadableLinkBlock($index + 1)->verifyLinks($link);
-            }
+            $_fields['downloadable_links'] = $this->getDownloadableBlock('Links')->getDataLinks(
+                $fields['downloadable_links']['value']
+            );
         }
+
+        return $_fields;
     }
 
     /**
      * Fill downloadable information
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (isset($fields['downloadable_sample']['value'])) {
-            if (!$element->find($this->downloadableSamplesTitle)->isVisible()) {
-                $element->find($this->showSample)->click();
-            }
-            $element->find($this->downloadableSamplesTitle)->setValue($fields['downloadable_sample']['value']['title']);
-            foreach ($fields['downloadable_sample']['value']['downloadable']['sample'] as $index => $sample) {
-                $element->find($this->addNewSampleRow)->click();
-                $this->getDownloadableSampleBlock($index + 1)->fillSamples($sample);
-            }
+            $this->getDownloadableBlock('Samples')->fillSamples($fields['downloadable_sample']['value']);
         }
         if (isset($fields['downloadable_links']['value'])) {
-            if (!$element->find($this->downloadableLinksTitle)->isVisible()) {
-                $element->find($this->showLinks)->click();
-            }
-            $element->find($this->downloadableLinksTitle)->setValue($fields['downloadable_links']['value']['title']);
-            $element->find($this->downloadableLinksPurchasedSeparately, Locator::SELECTOR_CSS, 'select')->setValue(
-                $fields['downloadable_links']['value']['links_purchased_separately']
-            );
-            foreach ($fields['downloadable_links']['value']['downloadable']['link'] as $index => $link) {
-                $element->find($this->addNewLinkRow)->click();
-                $this->getDownloadableLinkBlock($index + 1)->fillLinks($link);
+            $this->getDownloadableBlock('Links')->fillLinks($fields['downloadable_links']['value']);
+        }
+
+        /* for old test */
+        if (isset($fields['downloadable'])) {
+            foreach ($fields['downloadable']['link'] as $index => $link) {
+                $element->find($this->addNewRow)->click();
+                $linkRowBlock = Factory::getBlockFactory()
+                    ->getMagentoDownloadableAdminhtmlCatalogProductEditTabDownloadableLinksRow($element);
+                $linkRowBlock->fill($index, $link);
             }
         }
+
         return $this;
     }
 }
