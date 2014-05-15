@@ -15,13 +15,6 @@ class PayflowDirect extends \Magento\Paypal\Model\Direct
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT;
 
     /**
-     * Website Payments Pro instance type
-     *
-     * @var string
-     */
-    protected $_proType = 'Magento\Paypal\Model\Payflow\Pro';
-
-    /**
      * Return available CC types for gateway based on merchant country
      *
      * @return string

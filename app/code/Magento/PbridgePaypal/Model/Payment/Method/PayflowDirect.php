@@ -7,7 +7,6 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
-use Magento\Paypal\Model\Direct;
 use Magento\Sales\Model\Order\Payment;
 
 /**
@@ -15,13 +14,6 @@ use Magento\Sales\Model\Order\Payment;
  */
 class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
 {
-    /**
-     * Website Payments Pro instance type
-     *
-     * @var $_proType string
-     */
-    protected $_proType = 'Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro';
-
     /**
      * Pbridge data
      *
@@ -43,7 +35,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
+     * @param \Magento\Paypal\Model\ProFactory $proFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\RequestInterface $requestHttp
@@ -64,7 +56,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
+        \Magento\Paypal\Model\ProFactory $proFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\RequestInterface $requestHttp,
@@ -86,7 +78,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
             $moduleList,
             $localeDate,
             $centinelService,
-            $proTypeFactory,
+            $proFactory,
             $storeManager,
             $urlBuilder,
             $requestHttp,
@@ -195,7 +187,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
             $api->getIsPaymentPending()
         );
         $payflowTrxid = $api->getData(
-            \Magento\PbridgePaypal\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID
+            Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID
         );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $payflowTrxid));
 
