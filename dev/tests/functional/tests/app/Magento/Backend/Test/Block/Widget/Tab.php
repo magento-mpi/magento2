@@ -2,20 +2,18 @@
 /**
  * {license_notice}
  *
- * @api
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Backend\Test\Block\Widget;
 
-use Mtf\Block\Form as AbstractForm;
 use Mtf\Client\Element;
+use Mtf\Block\Form as AbstractForm;
 
 /**
  * Class Tab
  * Is used to represent any tab on the page
- *
  */
 class Tab extends AbstractForm
 {

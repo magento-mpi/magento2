@@ -15,12 +15,13 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Class CreateSimpleWithCategoryTest
  * Test simple product and category creation
- *
  */
 class CreateSimpleWithCategoryTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -31,6 +32,7 @@ class CreateSimpleWithCategoryTest extends Functional
      * Test product create
      *
      * @ZephyrId MAGETWO-13345
+     * @return void
      */
     public function testCreateProduct()
     {
@@ -42,14 +44,14 @@ class CreateSimpleWithCategoryTest extends Functional
         $productListPage = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $addProductBlock = $productListPage->getProductBlock();
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
 
         //Steps
         $productListPage->open();
         $addProductBlock->addProduct();
-        $productBlockForm->addNewCategory($product);
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm->addNewCategory($product);
+        $productForm->fill($product);
+        $createProductPage->getFormAction()->save();
 
         //Verifying
         $this->assertSuccessMessage("You saved the product.");
@@ -82,6 +84,7 @@ class CreateSimpleWithCategoryTest extends Functional
      * Assert simple product on Frontend
      *
      * @param SimpleProduct $product
+     * @return void
      */
     protected function assertProductOnFrontend(SimpleProduct $product)
     {
@@ -102,6 +105,7 @@ class CreateSimpleWithCategoryTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $price = $productViewBlock->getProductPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
     }
 }
