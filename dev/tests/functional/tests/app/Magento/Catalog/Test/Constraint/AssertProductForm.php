@@ -41,10 +41,10 @@ class AssertProductForm extends AbstractConstraint
         $filter = ['sku' => $product->getSku()];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
 
-        $dataInForm = $productPage->getForm()->getData($product);
-        $compareData = $this->prepareFixtureData($product);
+        $fixtureData = $productPage->getForm()->getData($product);
+        $formData = $this->prepareFixtureData($product);
 
-        $errors = $this->compareArray($dataInForm, $compareData);
+        $errors = $this->compareArray($fixtureData, $formData);
         \PHPUnit_Framework_Assert::assertTrue(
             empty($errors),
             "These data must be equal to each other:\n" . implode("\n - ", $errors)
@@ -97,29 +97,29 @@ class AssertProductForm extends AbstractConstraint
     /**
      * Comparison of multidimensional arrays
      *
-     * @param array $arrayOne
-     * @param array $arrayTwo
+     * @param array $fixtureData
+     * @param array $formData
      * @return array
      */
-    protected function compareArray(array $arrayOne, array $arrayTwo)
+    protected function compareArray(array $fixtureData, array $formData)
     {
         $errors = [];
-        ksort($arrayOne);
-        ksort($arrayTwo);
-        if (array_keys($arrayOne) !== array_keys($arrayTwo)) {
+        ksort($fixtureData);
+        ksort($formData);
+        if (array_keys($fixtureData) !== array_keys($formData)) {
             return ['arrays do not correspond to each other in composition'];
         }
 
-        foreach ($arrayOne as $key => $value) {
-            if (is_array($value) && is_array($arrayTwo[$key])
-                && ($innerErrors = $this->compareArray($value, $arrayTwo[$key])) && !empty($innerErrors)
+        foreach ($fixtureData as $key => $value) {
+            if (is_array($value) && is_array($formData[$key])
+                && ($innerErrors = $this->compareArray($value, $formData[$key])) && !empty($innerErrors)
             ) {
                 $errors = array_merge($errors, $innerErrors);
-            } elseif ($value != $arrayTwo[$key]) {
-                $paceholderOne = empty($value) ? '<empty-value>' : $value;
-                $paceholderTwo = empty($arrayTwo[$key]) ? '<empty-value>' : $arrayTwo[$key];
+            } elseif ($value != $formData[$key]) {
+                $fixtureValue = empty($value) ? '<empty-value>' : $value;
+                $formValue = empty($formData[$key]) ? '<empty-value>' : $formData[$key];
                 $errors = array_merge($errors, [
-                    "error key -> {$key} : error value ->  {$paceholderOne} does not equal -> {$paceholderTwo}"
+                    "error key -> '{$key}' : error value ->  '{$fixtureValue}' does not equal -> '{$formValue}'"
                 ]);
             }
         }
