@@ -29,4 +29,10 @@
     <assertGiftCardAccountNotRedeemableOnFrontend module="Magento_GiftCardAccount">
         <severeness>low</severeness>
     </assertGiftCardAccountNotRedeemableOnFrontend>
+    <assertMessageGiftCardAccountSuccessDeleted module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertMessageGiftCardAccountSuccessDeleted>
+    <assertGiftCardAccountNotInGrid module="Magento_GiftCardAccount">
+        <severeness>low</severeness>
+    </assertGiftCardAccountNotInGrid>
 </constraint>
