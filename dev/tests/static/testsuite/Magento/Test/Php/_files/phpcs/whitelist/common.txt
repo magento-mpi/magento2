@@ -2,14 +2,9 @@
 # Glob patterns are supported
 #
 app
+dev
 downloader/app/Magento
 downloader/lib/Magento
 index.php
 lib/Magento
 pub
-dev/tests/functional
-dev/tests/integration
-dev/tests/js
-dev/tests/performance
-dev/tests/static
-dev/tests/unit

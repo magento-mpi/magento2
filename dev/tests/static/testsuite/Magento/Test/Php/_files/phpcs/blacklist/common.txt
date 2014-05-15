@@ -28,6 +28,8 @@ dev/tools/Magento/Tools/I18n/Zend
 dev/tools/layout
 # Not magento code
 dev/tools/xml
+# PSR-1 not applied to
+dev/tests/js
 # Example files that are expected to fail code sniffer
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 # Example files that are expected to fail code mess detector
@@ -38,5 +40,9 @@ lib/Magento/Framework/Translate/Adapter.php
 lib/Magento/Framework/Translate/AdapterInterface.php
 # WrapperInterface methods cannot be camelCase as they follow method naming convention from framework classes
 lib/Magento/Framework/Filesystem/WrapperInterface.php
+# PSR-1 not applied to
+dev/tests/integration/testsuite/Magento
+# PSR-1 not applied to
+dev/tests/unit/testsuite/Magento
 # Newer version of phpcs does not complain about spacing issue.  This appears to be a bug in the phpcs version that is currently run in bamboo.
 app/code/Magento/Sales/Model/Order/Payment/Transaction.php
