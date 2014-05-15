@@ -8,6 +8,18 @@
 
 namespace Magento\Catalog\Test\Page\Product;
 
+use Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard;
+use Magento\Catalog\Test\Block\Product\ProductList\Crosssell;
+use Magento\Catalog\Test\Block\Product\Price;
+use Magento\Catalog\Test\Block\Product\ProductList\Related;
+use Magento\Catalog\Test\Block\Product\ProductList\Upsell;
+use Magento\Catalog\Test\Block\Product\View;
+use Magento\Catalog\Test\Block\Product\View\Options;
+use Magento\Catalog\Test\Block\Product\View\CustomOptions;
+use Magento\Downloadable\Test\Block\Catalog\Product\Links;
+use Magento\Review\Test\Block\Product\View\Summary;
+use Magento\Review\Test\Block\Form;
+use Magento\Review\Test\Block\Product\View as ReviewView;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
@@ -135,7 +147,7 @@ class CatalogProductView extends Page
     /**
      * Get product view block
      *
-     * @return \Magento\Catalog\Test\Block\Product\View
+     * @return View
      */
     public function getViewBlock()
     {
@@ -147,7 +159,7 @@ class CatalogProductView extends Page
     /**
      * Get product options block
      *
-     * @return \Magento\Catalog\Test\Block\Product\View\Options
+     * @return View
      */
     public function getOptionsBlock()
     {
@@ -159,7 +171,7 @@ class CatalogProductView extends Page
     /**
      * Get product options block
      *
-     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     * @return Options
      */
     public function getCustomOptionBlock()
     {
@@ -171,7 +183,7 @@ class CatalogProductView extends Page
     /**
      * Get customer reviews block
      *
-     * @return \Magento\Review\Test\Block\Form
+     * @return CustomOptions
      */
     public function getReviewFormBlock()
     {
@@ -181,7 +193,7 @@ class CatalogProductView extends Page
     /**
      * Get customer reviews block
      *
-     * @return \Magento\Review\Test\Block\Product\View
+     * @return Form
      */
     public function getCustomerReviewBlock()
     {
@@ -193,7 +205,7 @@ class CatalogProductView extends Page
     /**
      * Get review summary block
      *
-     * @return \Magento\Review\Test\Block\Product\View\Summary
+     * @return ReviewView
      */
     public function getReviewSummaryBlock()
     {
@@ -205,7 +217,7 @@ class CatalogProductView extends Page
     /**
      * Get upsell block
      *
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Upsell
+     * @return Summary
      */
     public function getUpsellProductBlock()
     {
@@ -217,7 +229,7 @@ class CatalogProductView extends Page
     /**
      * Get messages block
      *
-     * @return \Magento\Core\Test\Block\Messages
+     * @return Upsell
      */
     public function getMessagesBlock()
     {
@@ -229,7 +241,7 @@ class CatalogProductView extends Page
     /**
      * Get related product block
      *
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Related
+     * @return GiftCard
      */
     public function getRelatedProductBlock()
     {
@@ -241,7 +253,7 @@ class CatalogProductView extends Page
     /**
      * Get gift card options block
      *
-     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     * @return Related
      */
     public function getGiftCardBlock()
     {
@@ -251,7 +263,7 @@ class CatalogProductView extends Page
     }
 
     /**
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
+     * @return Links
      */
     public function getDownloadableLinksBlock()
     {
@@ -263,7 +275,7 @@ class CatalogProductView extends Page
     /**
      * Get product price block
      *
-     * @return \Magento\Catalog\Test\Block\Product\Price
+     * @return Price
      */
     public function getMapBlock()
     {
@@ -275,7 +287,7 @@ class CatalogProductView extends Page
     /**
      * Retrieve cross-sell block
      *
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Crosssell
+     * @return Crosssell
      */
     public function getCrosssellBlock()
     {
@@ -287,7 +299,7 @@ class CatalogProductView extends Page
     /**
      * Get gift card amount block
      *
-     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     * @return GiftCard
      */
     public function getGiftCardAmountBlock()
     {
