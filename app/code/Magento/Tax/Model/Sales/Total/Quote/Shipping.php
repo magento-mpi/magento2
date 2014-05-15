@@ -122,17 +122,17 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $baseStoreTax = $calc->calcTaxAmount($baseShipping, $storeRate, true, false);
                 $shipping = $calc->round($shipping - $storeTax);
                 $baseShipping = $calc->round($baseShipping - $baseStoreTax);
-                $tax            = $this->_round($calc->calcTaxAmount($shipping, $rate, false, false), $rate, true);
-                $baseTax        = $this->_round(
+                $tax = $this->_round($calc->calcTaxAmount($shipping, $rate, false, false), $rate, true);
+                $baseTax = $this->_round(
                     $calc->calcTaxAmount($baseShipping, $rate, false, false),
                     $rate,
                     true,
                     'base'
                 );
-                $taxShipping    = $shipping + $tax;
+                $taxShipping = $shipping + $tax;
                 $baseTaxShipping = $baseShipping + $baseTax;
-                $taxable        = $taxShipping;
-                $baseTaxable    = $baseTaxShipping;
+                $taxable = $taxShipping;
+                $baseTaxable = $baseTaxShipping;
                 $isPriceInclTax = true;
                 $address->setTotalAmount('shipping', $shipping);
                 $address->setBaseTotalAmount('shipping', $baseShipping);
@@ -152,12 +152,12 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                     'base'
                 );
             }
-            $tax            = array_sum($taxes);
-            $baseTax        = array_sum($baseTaxes);
-            $taxShipping    = $shipping + $tax;
+            $tax = array_sum($taxes);
+            $baseTax = array_sum($baseTaxes);
+            $taxShipping = $shipping + $tax;
             $baseTaxShipping = $baseShipping + $baseTax;
-            $taxable        = $shipping;
-            $baseTaxable    = $baseShipping;
+            $taxable = $shipping;
+            $baseTaxable = $baseShipping;
             $isPriceInclTax = false;
             $address->setTotalAmount('shipping', $shipping);
             $address->setBaseTotalAmount('shipping', $baseShipping);
