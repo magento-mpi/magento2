@@ -45,12 +45,6 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>giftCardBlock</name>
-        <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
-        <locator>[data-container-for=giftcard_info]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
         <name>mapBlock</name>
         <class>Magento\Catalog\Test\Block\Product\Price</class>
         <locator>#map-popup</locator>

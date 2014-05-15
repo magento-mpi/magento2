@@ -90,11 +90,9 @@ class Form extends FormTabs
      */
     public function fillProduct(FixtureInterface $fixture, Category $category = null, Element $element = null)
     {
-        if ($category instanceof FixtureInterface) {
-            $this->category = $category;
-        }
+        $this->category = $category;
         $this->fillCategory($fixture);
-        return parent::fill($fixture);
+        return parent::fill($fixture, $element);
     }
 
     /**

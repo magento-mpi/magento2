@@ -13,6 +13,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Browser;
 use Mtf\Factory\Factory;
 use Mtf\Util\XmlConverter;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
@@ -128,16 +129,18 @@ class ProductForm extends FormTabs
      * @param Element $element
      * @param Mapper $mapper
      * @param XmlConverter $xmlConverter
+     * @param BlockFactory $blockFactory
      * @param Browser $browser
      */
     public function __construct(
         Element $element,
         Mapper $mapper,
         XmlConverter $xmlConverter,
+        BlockFactory $blockFactory,
         Browser $browser
     ) {        
         $this->browser = $browser;
-        parent::__construct($element, $mapper, $xmlConverter);
+        parent::__construct($element, $mapper, $blockFactory, $xmlConverter);
     }
 
     /**

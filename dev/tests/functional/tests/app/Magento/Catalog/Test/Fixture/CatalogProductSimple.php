@@ -87,7 +87,7 @@ class CatalogProductSimple extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds',
     ];
 
     protected $color = [
@@ -178,7 +178,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions',
     ];
 
     protected $has_options = [
@@ -345,7 +345,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Price',
     ];
 
     protected $quantity_and_stock_status = [
@@ -472,7 +472,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions',
     ];
 
     protected $updated_at = [
@@ -543,7 +543,7 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'customer-options',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()

@@ -12,7 +12,7 @@ use Mtf\Block\Block;
 
 /**
  * Class ProductPagination
- * Pagination page product list
+ * Toolbar the product list page
  */
 class Toolbar extends Block
 {

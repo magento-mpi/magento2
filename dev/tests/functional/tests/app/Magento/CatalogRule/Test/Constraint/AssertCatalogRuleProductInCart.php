@@ -46,9 +46,9 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
         CheckoutCart $checkoutCart
     ) {
         /** @var CatalogProductSimple $product */
-        $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        $product = $catalogRule->getDataFieldConfig('condition_value')['source]->getProduct();
         //Add product to cart
-        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory()[0];
+        $category = $product->getDataFieldConfig('category_ids')['source]->getCategory()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
         //Open product view page
@@ -77,7 +77,7 @@ class AssertCatalogRuleProductInCart extends AbstractConstraint
     protected function assertOnShoppingCart(CatalogProductSimple $product, CheckoutCart $checkoutCart)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source];
         $pricePresetData = $priceFixture->getPreset();
 
         $price = $checkoutCart->getCartBlock()->getProductPriceByName($product->getName());

@@ -62,16 +62,4 @@ class AffectedAttributeSetForm extends ParentForm
             $this->_rootElement->find($this->confirmButton, Locator::SELECTOR_XPATH)->click();
         }
     }
-
-    /**
-     * Save the form
-     * (not used on this action)
-     *
-     * @param FixtureInterface $fixture
-     * @return Form
-     */
-    public function save(FixtureInterface $fixture = null)
-    {
-        return $this;
-    }
 }

@@ -46,6 +46,6 @@ class OutOfStockTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
         $productPage->open();
-        $this->assertFalse($productPage->getViewBlock()->isAddToCartButtonVisible());
+        $this->assertFalse($productPage->getViewBlock()->checkAddToCardButton());
     }
 }

@@ -80,12 +80,6 @@ class CatalogProductView extends FrontendPage
             'locator' => '[data-container-for=downloadable-links]',
             'strategy' => 'css selector',
         ],
-        'giftCardBlock' => [
-            'name' => 'giftCardBlock',
- 	 	 	'class' => 'Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard',
- 	 	 	'locator' => '.product.info.main',
- 	 	 	'strategy' => 'css selector',
- 	 	],
         'mapBlock' => [
             'name' => 'mapBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Price',
@@ -193,14 +187,6 @@ class CatalogProductView extends FrontendPage
     public function getDownloadableLinksBlock()
     {
         return $this->getBlockInstance('downloadableLinksBlock');
-    }
-
-    /**
-     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
-     */
-    public function getGiftCardBlock()
-    {
-        return $this->getBlockInstance('giftCardBlock');
     }
 
     /**

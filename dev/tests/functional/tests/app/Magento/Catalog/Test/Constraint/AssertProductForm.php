@@ -44,9 +44,10 @@ class AssertProductForm extends AbstractConstraint
         $dataInForm = $productPage->getForm()->getData($product);
         $compareData = $this->prepareFixtureData($product);
 
+        $errors = $this->compareArray($dataInForm, $compareData);
         \PHPUnit_Framework_Assert::assertTrue(
-            $this->compareArray($dataInForm, $compareData),
-            'Form data not equals fixture data'
+            empty($errors),
+            "These data must be equal to each other:\n" . implode("\n - ", $errors)
         );
     }
 
@@ -98,25 +99,32 @@ class AssertProductForm extends AbstractConstraint
      *
      * @param array $arrayOne
      * @param array $arrayTwo
-     * @return bool
+     * @return array
      */
     protected function compareArray(array $arrayOne, array $arrayTwo)
     {
+        $errors = [];
         ksort($arrayOne);
         ksort($arrayTwo);
         if (array_keys($arrayOne) !== array_keys($arrayTwo)) {
-            return false;
+            return ['arrays do not correspond to each other in composition'];
         }
 
         foreach ($arrayOne as $key => $value) {
-            if (is_array($value) && is_array($arrayTwo[$key]) && !$this->compareArray($value, $arrayTwo[$key])) {
-                return false;
+            if (is_array($value) && is_array($arrayTwo[$key])
+                && ($innerErrors = $this->compareArray($value, $arrayTwo[$key])) && !empty($innerErrors)
+            ) {
+                $errors = array_merge($errors, $innerErrors);
             } elseif ($value != $arrayTwo[$key]) {
-                return false;
+                $paceholderOne = empty($value) ? '<empty-value>' : $value;
+                $paceholderTwo = empty($arrayTwo[$key]) ? '<empty-value>' : $arrayTwo[$key];
+                $errors = array_merge($errors, [
+                    "error key -> {$key} : error value ->  {$paceholderOne} does not equal -> {$paceholderTwo}"
+                ]);
             }
         }
 
-        return true;
+        return $errors;
     }
 
     /**

@@ -120,41 +120,6 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
-     * Gift Card Amount field
-     *
-     * @var string
-     */
-    protected $openAmount = '#giftcard-amount-input';
-
-    /**
-     * Gift Card Sender Name field
-     *
-     * @var string
-     */
-    protected $senderName = '#giftcard_sender_name';
-
-    /**
-     * Gift Card Sender Email field
-     *
-     * @var string
-     */
-    protected $senderEmail = '#giftcard_sender_email';
-
-    /**
-     * Gift Card Recipient Name field
-     *
-     * @var string
-     */
-    protected $recipientName = '#giftcard_recipient_name';
-
-    /**
-     * Gift Card Recipient Email field
-     *
-     * @var string
-     */
-    protected $recipientEmail = '#giftcard_recipient_email';
-
-    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -342,8 +307,6 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param BundleFixture|Product $product
-     * @return void
      * @param FixtureInterface $product
      * @return void
      */
