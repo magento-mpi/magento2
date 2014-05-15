@@ -38,6 +38,12 @@ class CustomerAccountIndex extends FrontendPage
             'locator' => '.page.title',
             'strategy' => 'css selector',
         ],
+        'accountMenuBlock' => [
+            'name' => 'accountMenuBlock',
+            'class' => 'Magento\Customer\Test\Block\Account\Links',
+            'locator' => '.nav.items',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -62,5 +68,15 @@ class CustomerAccountIndex extends FrontendPage
     public function getTitleBlock()
     {
         return $this->getBlockInstance('titleBlock');
+    }
+
+    /**
+     * Get Account Menu Block
+     *
+     * @return \Magento\Customer\Test\Block\Account\Menu
+     */
+    public function getAccountMenuBlock()
+    {
+        return $this->getBlockInstance('accountMenuBlock');
     }
 }

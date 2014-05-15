@@ -16,13 +16,5 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
  */
 class Form extends FormTabs
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected $waitForSelector = 'div#giftcardaccount_info_tabs';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $waitForSelectorVisible = false;
+    //
 }

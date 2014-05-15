@@ -12,10 +12,10 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class StoreCredit
+ * Class History
  * Store credit block on customer account page
  */
-class StoreCredit extends Block
+class History extends Block
 {
     /**
      * Redeem button
@@ -25,7 +25,7 @@ class StoreCredit extends Block
     protected $balanceChange = '//*[contains(@class,"change")]/span[contains(.,"%s")]';
 
     /**
-     * Fill gift card redeem
+     * Check store credit balance history
      *
      * @param string $value
      * @return bool

@@ -16,7 +16,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Abstract class Grid
  * Basic grid actions
- *
  */
 abstract class Grid extends Block
 {
@@ -273,7 +272,7 @@ abstract class Grid extends Block
             $this->search($filter);
         }
         $location = '//div[@class="grid"]//tr[';
-        $rows = array();
+        $rows = [];
         foreach ($filter as $value) {
             $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
         }
@@ -293,7 +292,13 @@ abstract class Grid extends Block
         return $this->getRow($filter, $isSearchable)->isVisible();
     }
 
-    public function sortGrid($field, $sort = "desc")
+    /**
+     * Sort grid by field
+     *
+     * @param $field
+     * @param string $sort
+     */
+    public function sortGridByField($field, $sort = "desc")
     {
         $sortBlock = $this->_rootElement->find(sprintf($this->sortLink, $field, $sort));
         if ($sortBlock->isVisible()) {

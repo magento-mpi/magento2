@@ -48,12 +48,16 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
         CustomerInjectable $customer,
         GiftCardAccount $giftCardAccount
     ) {
-        $index->open();
-        $filter = ['balance' => $giftCardAccount->getBalance()];
-        $value = $index->getGiftCardAccount()->getCode($filter, false);
+        if ($giftCardAccount->getCode()) {
+            $value = $giftCardAccount->getCode();
+        } else {
+            $index->open();
+            $filter = ['balance' => $giftCardAccount->getBalance()];
+            $value = $index->getGiftCardAccount()->getCode($filter, false);
+        }
         $this->login($cmsIndex, $customerAccountLogin, $customer);
 
-        $customerAccountIndex->getAccountMenuBlock()->selectNavItem('Gift Card');
+        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $customerAccountIndex->getRedeemBlock()->redeemGiftCard($value);
 
         \PHPUnit_Framework_Assert::assertTrue(
@@ -86,11 +90,10 @@ class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractConstraint
         CustomerInjectable $customer
     ) {
         $cmsIndex->open();
-        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink("My Account");
-            return;
+        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $cmsIndex->getLinksBlock()->openLink("Log In");
+            $customerAccountLogin->getLoginBlock()->login($customer);
         }
-        $cmsIndex->getLinksBlock()->openLink("Log In");
-        $customerAccountLogin->getLoginBlock()->login($customer);
+        $cmsIndex->getLinksBlock()->openLink("My Account");
     }
 }

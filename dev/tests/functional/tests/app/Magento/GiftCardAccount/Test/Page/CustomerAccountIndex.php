@@ -16,6 +16,9 @@ use Magento\Customer\Test\Page\CustomerAccountIndex as AbstractCustomerAccountIn
  */
 class CustomerAccountIndex extends AbstractCustomerAccountIndex
 {
+    // TODO: remove "index" after fix in old test generate factory
+    const MCA = 'customer/account/index';
+
     protected $_blocks = [
         'messages' => [
             'name' => 'messages',
@@ -23,21 +26,9 @@ class CustomerAccountIndex extends AbstractCustomerAccountIndex
             'locator' => '.page.messages',
             'strategy' => 'css selector',
         ],
-        'dashboardAddress' => [
-            'name' => 'dashboardAddress',
-            'class' => 'Magento\Customer\Block\Account\Dashboard\Address',
-            'locator' => '.block.dashboard.addresses',
-            'strategy' => 'css selector',
-        ],
-        'titleBlock' => [
-            'name' => 'titleBlock',
-            'class' => 'Magento\Theme\Block\Html\Title',
-            'locator' => '.page.title',
-            'strategy' => 'css selector',
-        ],
         'accountMenuBlock' => [
             'name' => 'accountMenuBlock',
-            'class' => 'Magento\GiftCardAccount\Test\Block\Account\Links',
+            'class' => 'Magento\Customer\Test\Block\Account\Links',
             'locator' => '.nav.items',
             'strategy' => 'css selector',
         ],
@@ -49,7 +40,7 @@ class CustomerAccountIndex extends AbstractCustomerAccountIndex
         ],
         'storeCreditBlock' => [
             'name' => 'storeCredit',
-            'class' => 'Magento\CustomerBalance\Test\Block\Account\StoreCredit',
+            'class' => 'Magento\CustomerBalance\Test\Block\Account\History',
             'locator' => '#maincontent',
             'strategy' => 'css selector',
         ],
@@ -64,7 +55,7 @@ class CustomerAccountIndex extends AbstractCustomerAccountIndex
     }
 
     /**
-     * @return \Magento\CustomerBalance\Test\Block\Account\StoreCredit
+     * @return \Magento\CustomerBalance\Test\Block\Account\History
      */
     public function getStoreCreditBlock()
     {
@@ -72,7 +63,7 @@ class CustomerAccountIndex extends AbstractCustomerAccountIndex
     }
 
     /**
-     * @return \Magento\GiftCardAccount\Test\Block\Account\Links
+     * @return \Magento\Customer\Test\Block\Account\Links
      */
     public function getAccountMenuBlock()
     {

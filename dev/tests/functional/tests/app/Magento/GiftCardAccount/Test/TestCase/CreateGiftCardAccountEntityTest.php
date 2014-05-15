@@ -51,13 +51,15 @@ class CreateGiftCardAccountEntityTest extends Injectable
      */
     public function __prepare(FixtureFactory $fixtureFactory)
     {
-        $catalogProductSimple = $fixtureFactory->
-            createByCode('catalogProductSimple', ['dataSet' => '100_dollar_product']);
-        $catalogProductSimple->persist();
+        $product = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => '100_dollar_product']
+        );
+        $product->persist();
         $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'default']);
         $customer->persist();
         return [
-            'catalogProductSimple' => $catalogProductSimple,
+            'product' => $product,
             'customer' => $customer
         ];
     }
@@ -68,10 +70,8 @@ class CreateGiftCardAccountEntityTest extends Injectable
      * @param Index $index
      * @param NewIndex $newIndex
      */
-    public function __inject(
-        Index $index,
-        NewIndex $newIndex
-    ) {
+    public function __inject(Index $index, NewIndex $newIndex)
+    {
         $this->giftCardAccountIndex = $index;
         $this->newIndex = $newIndex;
     }

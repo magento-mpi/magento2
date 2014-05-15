@@ -63,7 +63,7 @@ class Grid extends AbstractGrid
      */
     protected function getRow(array $filter, $isSearchable = true)
     {
-        $this->sortGrid($this->sortLinkName);
+        $this->sortGridByField($this->sortLinkName);
         if ($isSearchable) {
             $this->search($filter);
         }
@@ -85,7 +85,7 @@ class Grid extends AbstractGrid
      */
     public function searchAndOpen(array $filter, $isSearchable = false)
     {
-        $this->sortGrid($this->sortLinkName);
+        $this->sortGridByField($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
             $selectItem->find($this->editLink)->click();
@@ -104,7 +104,7 @@ class Grid extends AbstractGrid
      */
     public function getCode(array $filter, $isSearchable = false)
     {
-        $this->sortGrid($this->sortLinkName);
+        $this->sortGridByField($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
             return $selectItem->find($this->editLink)->getText();

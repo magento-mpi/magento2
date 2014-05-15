@@ -54,14 +54,8 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractConstraint
         $filter = ['balance' => $giftCardAccount->getBalance()];
         $value = $index->getGiftCardAccount()->getCode($filter, false);
         $this->login($cmsIndex, $customerAccountLogin, $customer);
-        $customerAccountIndex->getAccountMenuBlock()->selectNavItem('Gift Card');
+        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Gift Card');
         $customerAccountIndex->getRedeemBlock()->redeemGiftCard($value);
-
-        \PHPUnit_Framework_Assert::assertTrue(
-            $customerAccountIndex->getMessages()->assertSuccessMessage(),
-            'Gift card is not redeemable on frontend'
-        );
-
         $message = $customerAccountIndex->getMessages()->getSuccessMessages();
         $expectMessage = sprintf(self::SUCCESS_MESSAGE, $value);
         \PHPUnit_Framework_Assert::assertEquals(
@@ -72,10 +66,10 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractConstraint
             . "\nActual: " . $message
         );
 
-        $customerAccountIndex->getAccountMenuBlock()->selectNavItem('Store Credit');
+        $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Store Credit');
         \PHPUnit_Framework_Assert::assertTrue(
             $customerAccountIndex->getStoreCreditBlock()->isBalanceChangeVisible($filter['balance']),
-            'Store credit is not change'
+            'Store credit is not change.'
         );
     }
 
@@ -103,11 +97,10 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractConstraint
         CustomerInjectable $customer
     ) {
         $cmsIndex->open();
-        if ($cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
-            $cmsIndex->getLinksBlock()->openLink("My Account");
-            return;
+        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out')) {
+            $cmsIndex->getLinksBlock()->openLink("Log In");
+            $customerAccountLogin->getLoginBlock()->login($customer);
         }
-        $cmsIndex->getLinksBlock()->openLink("Log In");
-        $customerAccountLogin->getLoginBlock()->login($customer);
+        $cmsIndex->getLinksBlock()->openLink("My Account");
     }
 }

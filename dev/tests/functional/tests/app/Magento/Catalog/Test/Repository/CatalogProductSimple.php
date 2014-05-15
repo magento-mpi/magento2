@@ -12,7 +12,7 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class CatalogProductSimple
- *
+ * Catalog product simple repository
  */
 class CatalogProductSimple extends AbstractRepository
 {

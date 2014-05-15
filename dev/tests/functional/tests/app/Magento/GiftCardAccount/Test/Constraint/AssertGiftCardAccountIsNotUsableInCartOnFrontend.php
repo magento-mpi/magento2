@@ -8,12 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\GiftCardAccount\Test\Page\CheckoutCart;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGiftCardAccountIsNotUsableInCartOnFrontend
@@ -34,7 +34,7 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
      * @param Index $index
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param FixtureInterface $product
      * @param GiftCardAccount $giftCardAccount
      * @return void
      */
@@ -42,21 +42,25 @@ class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstrain
         CatalogProductView $catalogProductView,
         CheckoutCart $checkoutCart,
         Index $index,
-        CatalogProductSimple $catalogProductSimple,
+        FixtureInterface $product,
         GiftCardAccount $giftCardAccount
     ) {
-        $index->open();
-        $filter = ['balance' => $giftCardAccount->getBalance()];
-        $value = $index->getGiftCardAccount()->getCode($filter, false);
+        if ($giftCardAccount->getCode()) {
+            $value = $giftCardAccount->getCode();
+        } else {
+            $index->open();
+            $filter = ['balance' => $giftCardAccount->getBalance()];
+            $value = $index->getGiftCardAccount()->getCode($filter, false);
+        }
 
-        $catalogProductView->init($catalogProductSimple);
+        $catalogProductView->init($product);
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->clickAddToCart();
-        $checkoutCart->getGiftCardAccount()->addGiftCard($value);
+        $checkoutCart->getGiftCardAccountBlock()->addGiftCard($value);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $checkoutCart->getMessages()->assertErrorMessage(),
-            'Gift card is usable on frontend'
+            $checkoutCart->getMessagesBlock()->assertErrorMessage(),
+            'Gift card is usable on frontend.'
         );
     }
 

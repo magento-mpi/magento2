@@ -20,13 +20,13 @@ class CheckoutCart extends AbstractCheckoutCart
     const MCA = 'checkout/cart/index';
 
     protected $_blocks = [
-        'giftCardAccount' => [
+        'giftCardAccountBlock' => [
             'name' => 'giftCardAccount',
             'class' => 'Magento\GiftCardAccount\Test\Block\Checkout\Cart\Giftcardaccount',
             'locator' => '.giftcard',
             'strategy' => 'css selector',
         ],
-        'messages' => [
+        'messagesBlock' => [
             'name' => 'messages',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.page.messages',
@@ -37,16 +37,16 @@ class CheckoutCart extends AbstractCheckoutCart
     /**
      * @return \Magento\GiftCardAccount\Test\Block\Checkout\Cart\Giftcardaccount
      */
-    public function getGiftCardAccount()
+    public function getGiftCardAccountBlock()
     {
-        return $this->getBlockInstance('giftCardAccount');
+        return $this->getBlockInstance('giftCardAccountBlock');
     }
 
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessages()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messages');
+        return $this->getBlockInstance('messagesBlock');
     }
 }
