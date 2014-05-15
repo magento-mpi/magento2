@@ -830,5 +830,4 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('custom_options');
     }
-
 }
