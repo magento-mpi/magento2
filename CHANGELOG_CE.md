@@ -8,6 +8,7 @@
   * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
 
 2.0.0.0-dev77
 =============
