@@ -88,7 +88,7 @@ class ProductAdvancedPricingTest extends Functional
         $productPage->open();
         $productPage->getViewBlock()->addToCart($product);
         // Make sure the item is added to the cart before continuing on.
-        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**

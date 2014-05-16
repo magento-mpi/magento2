@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Page\Category;
+namespace Magento\Catalog\Test\Page\Category; 
 
-use Mtf\Page\FrontendPage;
+use Mtf\Page\FrontendPage; 
 
 /**
  * Class CatalogCategoryView
@@ -36,7 +36,13 @@ class CatalogCategoryView extends FrontendPage
             'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
             'locator' => '.block.filter',
             'strategy' => 'css selector',
-        ]
+        ],
+        'toolbar' => [
+            'name' => 'toolbar',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.pages .items',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -61,5 +67,13 @@ class CatalogCategoryView extends FrontendPage
     public function getLayeredNavigationBlock()
     {
         return $this->getBlockInstance('layeredNavigationBlock');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     */
+    public function getToolbar()
+    {
+        return $this->getBlockInstance('toolbar');
     }
 }
