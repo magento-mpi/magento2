@@ -16,6 +16,7 @@
         <fields>
             <id>
                 <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
             </id>
         </fields>
         <data_set />
@@ -29,6 +30,7 @@
         <fields>
             <id>
                 <attribute_code>id</attribute_code>
+                <backend_type>virtual</backend_type>
             </id>
         </fields>
         <data_set />
@@ -42,12 +44,15 @@
         <fields>
             <tax_rate>
                 <attribute_code>tax_rate</attribute_code>
+                <backend_type>virtual</backend_type>
             </tax_rate>
             <tax_customer_class>
                 <attribute_code>tax_customer_class</attribute_code>
+                <backend_type>virtual</backend_type>
             </tax_customer_class>
             <tax_product_class>
                 <attribute_code>tax_product_class</attribute_code>
+                <backend_type>virtual</backend_type>
             </tax_product_class>
         </fields>
         <data_set />

@@ -154,7 +154,7 @@ class Form extends FormInterface
         );
 
         /** @var \Magento\Tax\Test\Fixture\TaxRule\TaxRate $taxRatesFixture */
-        $taxRatesFixture = $taxRule->getDataFieldConfig('tax_rate')['fixture'];
+        $taxRatesFixture = $taxRule->getDataFieldConfig('tax_rate')['source'];
         $taxRatesFixture = $taxRatesFixture->getFixture();
         $taxRatesData = $taxRule->getTaxRate();
 

@@ -55,6 +55,7 @@ class TaxClass extends InjectableFixture
 
     protected $id = [
         'attribute_code' => 'id',
+        'backend_type' => 'virtual',
     ];
 
     public function getClassId()

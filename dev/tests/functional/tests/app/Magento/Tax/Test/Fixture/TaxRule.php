@@ -68,17 +68,20 @@ class TaxRule extends InjectableFixture
 
     protected $tax_rate = [
         'attribute_code' => 'tax_rate',
-        'fixture' => 'Magento\Tax\Test\Fixture\TaxRule\TaxRate',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Tax\Test\Fixture\TaxRule\TaxRate',
     ];
 
     protected $tax_customer_class = [
         'attribute_code' => 'tax_customer_class',
-        'fixture' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
     ];
 
     protected $tax_product_class = [
         'attribute_code' => 'tax_product_class',
-        'fixture' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Tax\Test\Fixture\TaxRule\TaxClass',
     ];
 
     public function getTaxCalculationRuleId()

@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Test\Handler\TaxClass;
 
-use Magento\Tax\Test\Handler\TaxClass\TaxClassInterface;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -18,6 +17,7 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl handler for creating customer and product tax class
  */
 class Curl extends AbstractCurl implements TaxClassInterface
 {

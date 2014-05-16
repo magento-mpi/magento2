@@ -22,14 +22,14 @@ class TaxClass implements FixtureInterface
     /**
      * Array with tax class names
      *
-     * @var array $data
+     * @var array
      */
     protected $data;
 
     /**
      * Array with tax class fixtures
      *
-     * @var array $fixture
+     * @var array
      */
     protected $fixture;
 

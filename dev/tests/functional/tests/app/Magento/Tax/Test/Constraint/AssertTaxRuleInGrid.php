@@ -36,18 +36,19 @@ class AssertTaxRuleInGrid extends AbstractConstraint
         TaxRule $taxRule,
         TaxRule $initialTaxRule = null
     ) {
-        $data = $taxRule->getData();
         if ($initialTaxRule !== null) {
-            $data['code'] = (!isset($data['code'])) ? $initialTaxRule->getCode() : $data['code'];
+            $taxRuleCode = ($taxRule->hasData('code')) ? $taxRule->getCode() : $initialTaxRule->getCode();
+        } else {
+            $taxRuleCode = $taxRule->getCode();
         }
         $filter = [
-            'code' => $data['code'],
+            'code' => $taxRuleCode,
         ];
 
         $taxRuleIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
             $taxRuleIndex->getTaxRuleGrid()->isRowVisible($filter),
-            'Tax Rule \'' . $taxRule->getCode() . '\' is absent in Tax Rule grid.'
+            'Tax Rule \'' . $filter['code'] . '\' is absent in Tax Rule grid.'
         );
     }
 

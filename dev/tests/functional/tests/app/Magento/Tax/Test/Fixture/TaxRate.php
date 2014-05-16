@@ -107,6 +107,7 @@ class TaxRate extends InjectableFixture
 
     protected $id = [
         'attribute_code' => 'id',
+        'backend_type' => 'virtual',
     ];
 
     public function getTaxCalculationRateId()

@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Test\Handler\TaxRule;
 
-use Magento\Tax\Test\Handler\TaxRule\TaxRuleInterface;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -18,13 +17,14 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl handler for creating Tax Rule
  */
 class Curl extends AbstractCurl implements TaxRuleInterface
 {
     /**
      * Default Tax Class values
      *
-     * @var array $defaultTaxClasses
+     * @var array
      */
     protected $defaultTaxClasses = [
         'tax_customer_class' => 3, // Retail Customer
@@ -74,7 +74,7 @@ class Curl extends AbstractCurl implements TaxRuleInterface
                 continue;
             }
             $fieldFixture = $fixture->getDataFieldConfig($field);
-            $fieldFixture = $fieldFixture['fixture']->getFixture();
+            $fieldFixture = $fieldFixture['source']->getFixture();
             foreach ($data[$field] as $key => $value) {
                 $id = $fieldFixture[$key]->getId();
                 if ($id === null) {

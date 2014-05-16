@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Test\Handler\TaxRate;
 
-use Magento\Tax\Test\Handler\TaxRate\TaxRateInterface;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -18,13 +17,14 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
+ * Curl handler for creating Tax Rate
  */
 class Curl extends AbstractCurl implements TaxRateInterface
 {
     /**
      * Mapping for countries
      *
-     * @var array $countryId
+     * @var array
      */
     protected $countryId = [
         'AU' => 'Australia',
@@ -35,7 +35,7 @@ class Curl extends AbstractCurl implements TaxRateInterface
     /**
      * Mapping for regions
      *
-     * @var array $regionId
+     * @var array
      */
     protected $regionId = [
         '0' => '*',

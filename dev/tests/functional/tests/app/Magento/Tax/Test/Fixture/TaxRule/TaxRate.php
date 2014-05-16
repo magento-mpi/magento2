@@ -22,14 +22,14 @@ class TaxRate implements FixtureInterface
     /**
      * Array with tax rates codes
      *
-     * @var array $data
+     * @var array
      */
     protected $data;
 
     /**
      * Array with tax rate fixtures
      *
-     * @var array $fixture
+     * @var array
      */
     protected $fixture;
 

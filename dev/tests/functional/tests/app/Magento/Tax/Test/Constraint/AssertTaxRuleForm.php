@@ -41,10 +41,12 @@ class AssertTaxRuleForm extends AbstractConstraint
     ) {
         $data = $taxRule->getData();
         if ($initialTaxRule !== null) {
-            $data['code'] = (!isset($data['code'])) ? $initialTaxRule->getCode() : $data['code'];
+            $taxRuleCode = ($taxRule->hasData('code')) ? $taxRule->getCode() : $initialTaxRule->getCode();
+        } else {
+            $taxRuleCode = $taxRule->getCode();
         }
         $filter = [
-            'code' => $data['code'],
+            'code' => $taxRuleCode,
         ];
         $taxRuleIndex->open();
         $taxRuleIndex->getTaxRuleGrid()->searchAndOpen($filter);
