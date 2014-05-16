@@ -9,6 +9,7 @@ namespace Magento\Rma\Controller\Adminhtml;
 
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Backend\App\Action;
+use Magento\Rma\Model\Rma as RmaModel;
 
 class Rma extends \Magento\Backend\App\Action
 {
@@ -278,7 +279,8 @@ class Rma extends \Magento\Backend\App\Action
             'customer_id' => $order->getCustomerId(),
             'order_date' => $order->getCreatedAt(),
             'customer_name' => $order->getCustomerName(),
-            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : ''
+            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : '',
+            RmaModel::NOTIFY_CUSTOMER_BY_EMAIL_PARAM => $saveRequest[RmaModel::NOTIFY_CUSTOMER_BY_EMAIL_PARAM]
         );
         return $rmaData;
     }
@@ -294,26 +296,10 @@ class Rma extends \Magento\Backend\App\Action
     {
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
-            /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
-            $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
             $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-            $statusHistory->setRmaEntityId(
-                $rma->getId()
-            )->setComment(
-                $saveRequest['comment']['comment']
-            )->setIsVisibleOnFront(
-                $visible
-            )->setStatus(
-                $rma->getStatus()
-            )->setCreatedAt(
-                $dateModel->gmtDate()
-            )->setIsAdmin(
-                1
-            )->save();
-        }
-        if (!empty($saveRequest['rma_confirmation'])) {
-            $rma->sendNewRmaEmail();
+            $statusHistory->setRma($rma);
+            $statusHistory->saveComment($saveRequest['comment']['comment'], $visible, true);
         }
         return $this;
     }
@@ -529,27 +515,12 @@ class Rma extends \Magento\Backend\App\Action
             $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
             /** @var $history \Magento\Rma\Model\Rma\Status\History */
             $history = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-            $history->setRmaEntityId(
-                (int)$rma->getId()
-            )->setComment(
-                $comment
-            )->setIsVisibleOnFront(
-                $visible
-            )->setIsCustomerNotified(
-                $notify
-            )->setStatus(
-                $rma->getStatus()
-            )->setCreatedAt(
-                $dateModel->gmtDate()
-            )->setIsAdmin(
-                1
-            )->save();
-
-            if ($notify && $history) {
-                $history->setRma($rma);
-                $history->setStoreId($rma->getStoreId());
+            $history->setRma($rma);
+            $history->setComment($comment);
+            if ($notify) {
                 $history->sendCommentEmail();
             }
+            $history->saveComment($comment, $visible, true);
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('comments_history')->toHtml();
