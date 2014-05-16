@@ -15,6 +15,7 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServic
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tax\Model\Config;
 
 /**
  * Tax Calculation Model
@@ -131,6 +132,13 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     protected $_classesFactory;
 
     /**
+     * Tax configuration object
+     *
+     * @var Config
+     */
+    protected $_config;
+
+    /**
      * @var GroupServiceInterface
      */
     protected $_groupService;
@@ -149,6 +157,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param Config $taxConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -166,6 +175,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        Config $taxConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -179,6 +189,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
+        $this->_config = $taxConfig;
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
@@ -417,6 +428,33 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
             $store
         );
         return $request;
+    }
+
+    /**
+     * Return the default rate request. It can be either based on store address or customer address
+     *
+     * @param null|int|string|Store $store
+     * @return \Magento\Framework\Object
+     */
+    public function getDefaultRateRequest($store = null)
+    {
+        if ($this->_isCrossBorderTradeEnabled($store)) {
+            //If cross border trade is enabled, we will use customer tax rate as store tax rate
+            return $this->getRateRequest(null, null, null, $store);
+        } else {
+            return $this->getRateOriginRequest($store);
+        }
+    }
+
+    /**
+     * Return whether cross border trade is enabled or not
+     *
+     * @param   null|int|string|Store $store
+     * @return  bool
+     */
+    protected function _isCrossBorderTradeEnabled($store = null)
+    {
+        return (bool)$this->_config->crossBorderTradeEnabled($store);
     }
 
     /**
