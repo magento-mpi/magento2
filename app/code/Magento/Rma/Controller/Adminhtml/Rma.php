@@ -294,15 +294,18 @@ class Rma extends \Magento\Backend\App\Action
     protected function _processNewRmaAdditionalInfo(array $saveRequest, \Magento\Rma\Model\Rma $rma)
     {
         /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
-        $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-        $statusHistory->setRma($rma);
-        if ($statusHistory['rma_confirmation']) {
-            $statusHistory->sendNewRmaEmail();
+        $systemComment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+        $systemComment->setRma($rma);
+        if ($saveRequest['rma_confirmation']) {
+            $systemComment->sendNewRmaEmail();
         }
-        $statusHistory->saveSystemComment();
+        $systemComment->saveSystemComment();
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
-            $statusHistory->saveComment($saveRequest['comment']['comment'], $visible, true);
+            /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+            $customComment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+            $customComment->setRma($rma);
+            $customComment->saveComment($saveRequest['comment']['comment'], $visible, true);
         }
         return $this;
     }

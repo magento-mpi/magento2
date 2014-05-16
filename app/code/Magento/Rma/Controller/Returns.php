@@ -121,7 +121,9 @@ class Returns extends \Magento\Framework\App\Action\Action
                     $statusHistory->sendNewRmaEmail();
                     $statusHistory->saveSystemComment();
                     if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                        $statusHistory->saveComment($post['rma_comment'], true, false);
+                        $comment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+                        $comment->setRma($rmaModel);
+                        $comment->saveComment($post['rma_comment'], true, false);
                     }
                     $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
                     $this->getResponse()->setRedirect($this->_redirect->success($urlModel->getUrl('*/*/history')));

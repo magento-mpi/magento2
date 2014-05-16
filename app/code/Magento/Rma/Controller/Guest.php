@@ -184,7 +184,10 @@ class Guest extends \Magento\Framework\App\Action\Action
                 $statusHistory->sendNewRmaEmail();
                 $statusHistory->saveSystemComment();
                 if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                    $statusHistory->saveComment($post['rma_comment'], true, false);
+                    /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+                    $comment = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+                    $comment->setRma($result);
+                    $comment->saveComment($post['rma_comment'], true, false);
                 }
                 $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
                 $url = $urlModel->getUrl('*/*/returns');
