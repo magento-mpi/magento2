@@ -17,7 +17,9 @@
 
 <script type="text/javascript">
     (function ($) {
-        $('#product_addtocart_form').mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>});
+        $(document).ready(function() {
+            $('#product_addtocart_form').mage('priceOption', {"priceConfig":<?php echo $this->getJsonConfig() ?>});
+        });
     })(jQuery);
 </script>
 <div class="product add form">
