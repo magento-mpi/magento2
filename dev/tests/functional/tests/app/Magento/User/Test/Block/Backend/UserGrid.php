@@ -60,4 +60,3 @@ class UserGrid extends Grid
         parent::_init();
     }
 }
-

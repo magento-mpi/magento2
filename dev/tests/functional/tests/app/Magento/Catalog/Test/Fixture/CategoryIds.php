@@ -95,5 +95,4 @@ class CategoryIds implements FixtureInterface
     {
         return $this->category;
     }
-
 }
