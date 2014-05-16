@@ -562,7 +562,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
         } elseif ($customerTaxClass === false || !$customerData->getId()) {
-            $customerTaxClass = $this->_groupService->getGroup(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID)->getTaxClassId();
+            $customerTaxClass = $this->_groupService->getGroup(GroupServiceInterface::NOT_LOGGED_IN_ID)->getTaxClassId();
         }
 
         $request = new \Magento\Framework\Object();

@@ -221,12 +221,12 @@ class Rule extends \Magento\Framework\Model\AbstractModel
      * and product tax class combination
      *
      * @param array $rateId
-     * @param array $customerTaxClassId
-     * @param array $productTaxClassId
+     * @param array $customerTaxClassIds
+     * @param array $productTaxClassIds
      * @return array
      */
-    public function fetchRuleCodes($rateId, $customerTaxClassId, $productTaxClassId)
+    public function fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds)
     {
-        return $this->getResource()->fetchRuleCodes($rateId, $customerTaxClassId, $productTaxClassId);
+        return $this->getResource()->fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds);
     }
 }
