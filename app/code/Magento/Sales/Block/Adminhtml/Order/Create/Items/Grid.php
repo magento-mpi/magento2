@@ -116,12 +116,9 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $item->setQty($item->getQty());
             $stockItem = $item->getProduct()->getStockItem();
             if ($stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
-                // This check has been performed properly in Inventory observer, so it has no sense
-                /*
                 $check = $stockItem->checkQuoteItemQty($item->getQty(), $item->getQty(), $item->getQty());
                 $item->setMessage($check->getMessage());
                 $item->setHasError($check->getHasError());
-                */
                 if ($item->getProduct()->getStatus() == ProductStatus::STATUS_DISABLED) {
                     $item->setMessage(__('This product is disabled.'));
                     $item->setHasError(true);

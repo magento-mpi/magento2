@@ -129,6 +129,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'getQty'
         )->with(
             'product_id',
+            'quote_item_id',
             'quote_id',
             $qtyToAdd * $optionValue
         )->will(
@@ -199,6 +200,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'getQty'
         )->with(
             'product_id',
+            'quote_item_id',
             'quote_id',
             $qty * $optionValue
         )->will(
