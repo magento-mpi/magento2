@@ -118,14 +118,17 @@ class TaxRule extends AbstractRepository
      */
     protected function getUKFullTaxRule($defaultData)
     {
-        return array_replace_recursive($defaultData, array(
-            'data' => array(
-                'fields' => array(
-                    'tax_rate' => array(
-                        'value' => '%uk_full_tax_rate%'
+        return array_replace_recursive(
+            $defaultData,
+            array(
+                'data' => array(
+                    'fields' => array(
+                        'tax_rate' => array(
+                            'value' => '%uk_full_tax_rate%'
+                        ),
                     ),
                 ),
-            ),
-        ));
+            )
+        );
     }
 }
