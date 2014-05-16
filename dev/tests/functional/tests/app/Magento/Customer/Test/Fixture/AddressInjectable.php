@@ -36,7 +36,7 @@ class AddressInjectable extends InjectableFixture
         'region_id' => 'California',
         'postcode' => '90230',
         'country_id' => 'United States',
-        'telephone' => '555-55-555-55',
+        'telephone' => '123-345-7890',
     ];
 
     protected $city = [

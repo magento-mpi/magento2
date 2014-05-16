@@ -71,7 +71,7 @@ class Address extends AbstractRepository
                         'input' => 'select'
                     ),
                     'telephone' => array(
-                        'value' => '555-55-555-55'
+                        'value' => '123-345-7890'
                     )
                 )
             )
@@ -167,7 +167,7 @@ class Address extends AbstractRepository
                         'value' => '90230'
                     ),
                     'telephone' => array(
-                        'value' => '555-55-555-55'
+                        'value' => '123-345-7890'
                     )
                 )
             )

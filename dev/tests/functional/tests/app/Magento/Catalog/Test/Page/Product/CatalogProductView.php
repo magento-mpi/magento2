@@ -112,7 +112,7 @@ class CatalogProductView extends Page
      *
      * @var string
      */
-    protected $mapBlock = '#map-popup';
+    protected $mapBlock = '#map-popup-click-for-price';
 
     /**
      * Custom constructor
