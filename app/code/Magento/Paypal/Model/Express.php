@@ -34,13 +34,6 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_infoBlockType = 'Magento\Paypal\Block\Payment\Info';
 
     /**
-     * Website Payments Pro instance type
-     *
-     * @var $_proType string
-     */
-    protected $_proType = 'Magento\Paypal\Model\Pro';
-
-    /**
      * Availability option
      *
      * @var bool

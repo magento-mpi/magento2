@@ -114,13 +114,6 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     protected $_pro;
 
     /**
-     * Website Payments Pro instance type
-     *
-     * @var $_proType string
-     */
-    protected $_proType = 'Magento\Paypal\Model\Pro';
-
-    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
