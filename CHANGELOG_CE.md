@@ -66,6 +66,7 @@
   * Fixed: CLONE - When importing tax rates with postal code = *, the column in the DB is set to NULL, leading to issues (MAGETWO-20916)
   * Fixed: Incorrect link on Reset password email sent by admin if use secure url on frontend (MAGETWO-24308)
   * Fixed: Links section is absent while editing downloadable product from wishlist (MAGETWO-11470)
+  * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
 * Functional tests:
   * Functional end-to-end tests publication (MQM-60)
      * Bundle product
