@@ -10,35 +10,29 @@
 ?>
 <?php
 /** @var \Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Sendemail $this */
-$_element = $this->getElement();
+$element = $this->getElement();
 ?>
 
-<?php if (!$_element->getNoDisplay()): ?>
-    <div class="field field-<?php echo $_element->getId() ?>">
-        <?php if ($_element->getType() == 'hidden'): ?>
-            <div class="hidden"><?php echo $_element->getElementHtml(); ?></div>
-        <?php else: ?>
-            <?php echo $_element->getLabelHtml(); ?>
-            <div class="control">
-                <?php echo $_element->getElementHtml(); ?>
-            </div>
-        <?php endif; ?>
+<div class="field field-<?php echo $element->getId() ?>">
+    <?php echo $element->getLabelHtml(); ?>
+    <div class="control">
+        <?php echo $element->getElementHtml(); ?>
     </div>
+</div>
 
-    <script type="text/javascript">
-        document.observe('dom:loaded', function() {
-            $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail = function() {
-                $('<?php echo $this->getFormHtmlId() ?>sendemail').disabled = ('' == this.value || '0' == this.value);
-            <?php if(!$this->isSingleStoreMode()): ?>
-                $('<?php echo $this->getFormHtmlId() ?>sendemail_store_id').disabled=(''==this.value || '0'==this.value);
-            <?php endif; ?>
-            }.bind($('<?php echo $this->getFormHtmlId() ?>website_id'));
-            Event.observe(
-                '<?php echo $this->getFormHtmlId() ?>website_id',
-                'change',
-                $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail
-            );
-            $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail();
-        });
-    </script>
-<?php endif; ?>
+<script type="text/javascript">
+    document.observe('dom:loaded', function() {
+        $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail = function() {
+            $('<?php echo $this->getFormHtmlId() ?>sendemail').disabled = ('' == this.value || '0' == this.value);
+        <?php if(!$this->isSingleStoreMode()): ?>
+            $('<?php echo $this->getFormHtmlId() ?>sendemail_store_id').disabled=(''==this.value || '0'==this.value);
+        <?php endif; ?>
+        }.bind($('<?php echo $this->getFormHtmlId() ?>website_id'));
+        Event.observe(
+            '<?php echo $this->getFormHtmlId() ?>website_id',
+            'change',
+            $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail
+        );
+        $('<?php echo $this->getFormHtmlId() ?>website_id').disableSendemail();
+    });
+</script>

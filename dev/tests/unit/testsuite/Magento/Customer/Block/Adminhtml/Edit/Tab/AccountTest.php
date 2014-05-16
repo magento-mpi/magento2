@@ -8,14 +8,11 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use \Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Block\Adminhtml\Edit\Tab\Account */
-    protected $account;
-
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
@@ -87,19 +84,15 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     private function _setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer)
     {
         $backendSessionMock = $this->getMock('\Magento\Backend\Model\Session', ['getCustomerData'], [], '', false);
-        $backendSessionMock->expects($this->any())
-            ->method('getCustomerData')
-            ->will($this->returnValue([]));
+        $backendSessionMock->expects($this->any())->method('getCustomerData')->will($this->returnValue([]));
 
         $layoutMock = $this->getMock('\Magento\Framework\View\Layout\Element\Layout', ['createBlock'], [], '', false);
-        $layoutMock->expects($this->at(0))
-            ->method('createBlock')
+        $layoutMock->expects($this->at(0))->method('createBlock')
             ->with('Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Group')
             ->will($this->returnValue(
                 $this->objectManagerHelper->getObject('\Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Group')
             ));
-        $layoutMock->expects($this->at(1))
-            ->method('createBlock')
+        $layoutMock->expects($this->at(1))->method('createBlock')
             ->with('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element')
             ->will($this->returnValue(
                 $this->objectManagerHelper->getObject(
@@ -107,61 +100,46 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 )
             ));
         if (empty($customerData['id'])) {
-            $layoutMock->expects($this->at(2))
-                ->method('createBlock')
+            $layoutMock->expects($this->at(2))->method('createBlock')
                 ->with('Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Sendemail')
-                ->will($this->returnValue(
-                    $this->objectManagerHelper->getObject(
-                        'Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Sendemail'
-                    )
-                ));
+                ->will($this->returnValue($this->objectManagerHelper->getObject(
+                    'Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Sendemail'
+                ))
+            );
         }
 
         $urlBuilderMock = $this->getMock('\Magento\Backend\Model\Url', ['getBaseUrl'], [], '', false);
-        $urlBuilderMock->expects($this->once())
-            ->method('getBaseUrl')
-            ->will($this->returnValue('someUrl'));
+        $urlBuilderMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue('someUrl'));
 
         $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
-        $storeManagerMock->expects($this->any())
-            ->method('isSingleStoreMode')
+        $storeManagerMock->expects($this->any())->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStoreMode));
 
         $customerObject = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
             ->setMethods(['__toArray', 'getId'])
             ->disableOriginalConstructor()
             ->getMock();
-        $customerObject->expects($this->any())
-            ->method('__toArray')
-            ->will($this->returnValue($customerData));
+        $customerObject->expects($this->any())->method('__toArray')->will($this->returnValue($customerData));
         if (!empty($customerData['id'])) {
-            $customerObject->expects($this->any())
-                ->method('getId')
-                ->will($this->returnValue($customerData['id']));
+            $customerObject->expects($this->any())->method('getId')->will($this->returnValue($customerData['id']));
         }
 
-        $fieldset = $this->getMock('\Magento\Framework\Data\Form\Element\Fieldset', [], [], '', false);
+        $fieldset = $this->getMockBuilder('\Magento\Framework\Data\Form\Element\Fieldset')
+            ->setMethods(['getForm', 'addField', 'removeField'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $accountForm = $this->getMockBuilder('Magento\Framework\Data\Form')
             ->setMethods(['create', 'addFieldset', 'getElement', 'setValues'])
             ->disableOriginalConstructor()
             ->getMock();
 
-        $accountForm->expects($this->any())
-            ->method('addFieldset')
-            ->with('base_fieldset')
+        $accountForm->expects($this->any())->method('addFieldset')->with('base_fieldset')
             ->will($this->returnValue($fieldset));
-        $accountForm->expects($this->any())
-            ->method('setValues')
-            ->will($this->returnValue($accountForm));
-
-        $fieldset->expects($this->any())
-            ->method('getForm')
-            ->will($this->returnValue($accountForm));
-
+        $accountForm->expects($this->any())->method('setValues')->will($this->returnValue($accountForm));
+        $fieldset->expects($this->any())->method('getForm')->will($this->returnValue($accountForm));
         $formElement = $this->getMockBuilder('\Magento\Framework\Data\Form\Element\Select')
             ->setMethods(['setRenderer', 'addClass', 'setDisabled'])
-            ->disableOriginalConstructor()
-            ->getMock();
+            ->disableOriginalConstructor()->getMock();
 
         $formElement->expects($this->any())->method('setRenderer')->will($this->returnValue(null));
         $formElement->expects($this->any())->method('addClass')->will($this->returnValue(null));
@@ -169,10 +147,10 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $accountForm->expects($this->any())->method('getElement')->withAnyParameters()
             ->will($this->returnValue($formElement));
 
-        $customerForm = $this->getMock('\Magento\Customer\Model\Metadata\Form',['getAttributes'], [], '', false);
-        $customerForm->expects($this->any())
-            ->method('getAttributes')
-            ->will($this->returnValue([]));
+        $fieldset->expects($this->any())->method('addField')->will($this->returnValue($formElement));
+
+        $customerForm = $this->getMock('\Magento\Customer\Model\Metadata\Form', ['getAttributes'], [], '', false);
+        $customerForm->expects($this->any())->method('getAttributes')->will($this->returnValue([]));
 
         $this->contextMock->expects($this->any())->method('getBackendSession')
             ->will($this->returnValue($backendSessionMock));
@@ -187,22 +165,27 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->customerBuilderMock->expects($this->any())->method('create')
             ->will($this->returnValue($customerObject));
         $this->customerHelperMock->expects($this->any())->method('getNamePrefixOptions')
-            ->will($this->returnValue([]));
+            ->will($this->returnValue(['Pref1', 'Pref2']));
         $this->customerHelperMock->expects($this->any())->method('getNameSuffixOptions')
-            ->will($this->returnValue([]));
+            ->will($this->returnValue(['Suf1', 'Suf2']));
         $this->formFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($accountForm));
-        $this->customerFormFactoryMock->expects($this->any())->method('create')
-            ->with('customer', 'adminhtml_customer')
+        $this->customerFormFactoryMock->expects($this->any())->method('create')->with('customer', 'adminhtml_customer')
             ->will($this->returnValue($customerForm));
-        $this->customerAccountServiceInterfaceMock->expects($this->any())->method('canModify')
-            ->withAnyParameters()
+        $this->customerAccountServiceInterfaceMock->expects($this->any())->method('canModify')->withAnyParameters()
             ->will($this->returnValue($canModifyCustomer));
         $this->customerAccountServiceInterfaceMock->expects($this->any())->method('getConfirmationStatus')
             ->withAnyParameters()
             ->will($this->returnValue(CustomerAccountServiceInterface::ACCOUNT_CONFIRMED));
+    }
 
-        $this->account = $this->objectManagerHelper->getObject(
+    /**
+     * @dataProvider getInitFormData
+     */
+    public function testInitForm($customerData, $isSingleStoreMode, $canModifyCustomer)
+    {
+        $this->_setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer);
+        $this->objectManagerHelper->getObject(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Account',
             [
                 'context' => $this->contextMock,
@@ -216,16 +199,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 'customerMetadataService' => $this->customerMetadataServiceInterfaceMock,
                 'customerBuilder' => $this->customerBuilderMock
             ]
-        );
-    }
-
-    /**
-     * @dataProvider getInitFormData
-     */
-    public function testInitForm($customerData, $isSingleStoreMode, $canModifyCustomer)
-    {
-        $this->_setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer);
-        $this->account->initForm();
+        )->initForm();
     }
 
     /**

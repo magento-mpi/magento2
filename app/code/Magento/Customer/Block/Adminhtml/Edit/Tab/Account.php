@@ -155,27 +155,8 @@ class Account extends GenericMetadata
             )
         );
 
-        foreach (['prefix' => 'group_id', 'suffix' => 'lastname'] as $elementName => $previousSiblingName) {
-            $element = $form->getElement($elementName);
-            if ($element) {
-                $getOptionsMethodName = 'getName' . ucfirst($elementName) . 'Options';
-                $options = $this->_customerHelper->$getOptionsMethodName($this->_getCustomerDataObject()->getStoreId());
-                if (!empty($options)) {
-                    $fieldset->removeField($element->getId());
-                    $elementField = $fieldset->addField(
-                        $element->getId(),
-                        'select',
-                        $element->getData(),
-                        $form->getElement($previousSiblingName)->getId()
-                    );
-                    $elementField->setValues($options);
-                    if ($this->_getCustomerDataObject()) {
-                        $getElementValueMethodName = 'get' . ucfirst($elementName);
-                        $elementField->addElementValues($this->_getCustomerDataObject()->$getElementValueMethodName());
-                    }
-                }
-            }
-        }
+        $this->_checkElementType('prefix', $fieldset);
+        $this->_checkElementType('suffix', $fieldset);
 
         $fieldset->getForm()->getElement('website_id')->addClass('validate-website-has-store');
         $renderer = $this->getLayout()->createBlock(
@@ -193,6 +174,42 @@ class Account extends GenericMetadata
         $this->_handleReadOnlyCustomer($form, $this->_getCustomerDataObject()->getId(), $attributes);
 
         return array_merge($customerFormFields, $accountData);
+    }
+
+    /**
+     * Check if type of Prefix and Suffix elements should be changed from text to select and change it if need.
+     *
+     * @param $elementName
+     * @param $fieldset
+     */
+    public function _checkElementType($elementName, $fieldset)
+    {
+        $possibleElements = ['prefix', 'suffix'];
+        if (!in_array($elementName, $possibleElements)) {
+            return;
+        }
+        $element = $fieldset->getForm()->getElement($elementName);
+        if ($element) {
+            if ($elementName == 'prefix') {
+                $options = $this->_customerHelper->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
+                $prevSibling = $fieldset->getForm()->getElement('group_id')->getId();;
+            }
+            if ($elementName == 'suffix') {
+                $options = $this->_customerHelper->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
+                $prevSibling = $fieldset->getForm()->getElement('lastname')->getId();;
+            }
+
+            if (!empty($options)) {
+                $fieldset->removeField($element->getId());
+                $elementField = $fieldset->addField(
+                    $element->getId(),
+                    'select',
+                    $element->getData(),
+                    $prevSibling
+                );
+                $elementField->setValues($options);
+            }
+        }
     }
 
     /**
