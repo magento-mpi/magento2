@@ -552,14 +552,6 @@ class Tax extends AbstractTotal
                         'incl_tax' => $inclTax
                     );
                 }
-                // calculate discount compensation
-                // We need the discount compensation when dont calculate the hidden taxes
-                // (when product does not include taxes)
-                if (!$item->getNoDiscount() && $item->getWeeeTaxApplied()) {
-                    $item->setDiscountTaxCompensation(
-                        $item->getDiscountTaxCompensation() + $unitTaxBeforeDiscount * $qty - max(0, $unitTax) * $qty
-                    );
-                }
                 break;
         }
         $rowTax = $this->_store->roundPrice(max(0, $qty * $unitTax));
@@ -772,12 +764,6 @@ class Tax extends AbstractTotal
                         'value' => $hiddenTax,
                         'base_value' => $baseHiddenTax,
                         'incl_tax' => $inclTax
-                    );
-                }
-                // calculate discount compensation
-                if (!$item->getNoDiscount() && $item->getWeeeTaxApplied()) {
-                    $item->setDiscountTaxCompensation(
-                        $item->getDiscountTaxCompensation() + $rowTaxBeforeDiscount - max(0, $rowTax)
                     );
                 }
                 break;
@@ -1005,14 +991,6 @@ class Tax extends AbstractTotal
                     0,
                     $this->_deltaRound($baseRowTaxBeforeDiscount, $rateKey, $inclTax, 'tax_before_discount_base')
                 );
-
-                if (!$item->getNoDiscount()) {
-                    if ($item->getWeeeTaxApplied()) {
-                        $item->setDiscountTaxCompensation(
-                            $item->getDiscountTaxCompensation() + $taxBeforeDiscountRounded - max(0, $rowTax)
-                        );
-                    }
-                }
 
 
                 if ($inclTax && $discount > 0) {
