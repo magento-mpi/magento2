@@ -80,6 +80,7 @@ class DeleteGiftCardAccountEntityTest extends Injectable
      * Delete gift card account entity
      *
      * @param GiftCardAccount $giftCardAccount
+     * @return void
      */
     public function testDeleteGiftCardAccount(GiftCardAccount $giftCardAccount)
     {
