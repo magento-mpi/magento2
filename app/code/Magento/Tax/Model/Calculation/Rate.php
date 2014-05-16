@@ -91,7 +91,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Prepare location settings and tax postcode before save rate
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeSave()
@@ -153,7 +153,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Save rate titles
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterSave()
     {
@@ -165,7 +165,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Processing object before delete data
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      * @throws \Magento\Framework\Model\Exception
      */
     protected function _beforeDelete()
@@ -180,7 +180,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      * After rate delete
      * redeclared for dispatch tax_settings_change_after event
      *
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     protected function _afterDelete()
     {
@@ -247,7 +247,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * Deletes all tax rates
      *
-     * @return \Magento\Tax\Model\Calculation\Rate\Title
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function deleteAllRates()
     {
@@ -260,7 +260,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      * Load rate model by code
      *
      * @param  string $code
-     * @return $this
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function loadByCode($code)
     {
