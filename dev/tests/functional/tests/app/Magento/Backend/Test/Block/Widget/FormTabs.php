@@ -148,8 +148,9 @@ class FormTabs extends Form
         }
 
         if (!empty($this->unassignedFields)) {
-            throw new \Exception('Could not find all elements on the tabs: '
-                . implode(', ', array_keys($this->unassignedFields)));
+            throw new \Exception(
+                'Could not find all elements on the tabs: ' . implode(', ', array_keys($this->unassignedFields))
+            );
         }
     }
 

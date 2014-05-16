@@ -14,6 +14,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Checkout\Test\Block\Onepage\Link;
 
 /**
  * Class Cart
@@ -157,7 +158,7 @@ class Cart extends Block
     /**
      * Get proceed to checkout block
      *
-     * @return \Magento\Checkout\Test\Block\Onepage\Link
+     * @return Link
      */
     public function getOnepageLinkBlock()
     {

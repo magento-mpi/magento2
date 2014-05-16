@@ -100,7 +100,8 @@ class CatalogCategoryEdit extends Page
     public function getTreeBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryTree(
-            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS), $this->getTemplateBlock()
+            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS),
+            $this->getTemplateBlock()
         );
     }
 
@@ -136,6 +137,7 @@ class CatalogCategoryEdit extends Page
     public function getPageActionsBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
-            $this->_browser->find($this->pageActionsBlock));
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 }
