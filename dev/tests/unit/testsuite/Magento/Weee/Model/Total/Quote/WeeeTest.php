@@ -12,16 +12,15 @@ namespace Magento\Weee\Model;
 
 class WeeeTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_weeeDataMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_salesRuleDataMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -95,11 +94,6 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new \Magento\Object([
-            'name' => 'object_name',
-            'code' => '1',
-            'amount' => '2'
-        ]);
         $this->_initializeMockObjects();
         $this->_prepareStaticMockExpects();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -107,7 +101,6 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             '\Magento\Weee\Model\Total\Quote\Weee',
             array(
                 'weeeData' => $this->_weeeDataMock,
-                'salesRuleData' => $this->_salesRuleDataMock,
                 'taxConfig' =>  $this->_configMock
             )
         );
@@ -117,12 +110,12 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Initialize mock objects
      */
     protected function _initializeMockObjects(){
-
         $weeeDataMethods = [
             'isEnabled',
             'isDiscounted',
             'isTaxable',
-            'includeInSubtotal'
+            'includeInSubtotal',
+            'addItemDiscountPrices',
         ];
         $quoteItemMethods = [
             '__wakeup',
@@ -131,16 +124,17 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'setBaseWeeeTaxAppliedAmount',
             'setWeeeTaxAppliedRowAmount',
             'setBaseWeeeTaxAppliedRowAmnt',
+            'getHasChildren',
+            'getChildren',
             'isChildrenCalculated',
-            'getTotalQty'
+            'getTotalQty',
+            'getQuote'
         ];
 
         $this->_weeeDataMock = $this->getMock('\Magento\Weee\Helper\Data', $weeeDataMethods,
             $this->_prepareWeeeDataConstruct(), '');
-        $this->_salesRuleDataMock = $this->getMock(
-            '\Magento\SalesRule\Helper\Data', ['addItemDiscountPrices'], [], '', false
-        );
         $this->_configMock = $this->getMock('\Magento\Tax\Model\Config', ['priceIncludesTax'], [], '', false);
+        $this->_objectMock = $this->getMock('\Magento\Object', [], [], '', false);
         $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', ['__wakeup', 'convertPrice'], [], '', false);
         $this->_quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', $quoteItemMethods, [], '', false);
         $this->_productModelMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
@@ -152,9 +146,11 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             'unsBaseSubtotalInclTax',
             'getAllItems',
             'getQuote',
-            'getAllNonNominalItems'
+            'getAllNonNominalItems',
+            'getPrice'
         ], [], '', false);
     }
+
     /**
      * Prepare constructor data for \Magento\Weee\Helper\Data
      * return array
@@ -196,24 +192,18 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_storeMock));
         $this->_quoteModelMock->expects($this->any())->method('getBillingAddress')
             ->will($this->returnValue($this->_addressMock));
-        $this->_quoteItemMock->expects($this->any())->method('setWeeeTaxAppliedAmount')
-            ->will($this->returnValue($this->_quoteItemMock));
-        $this->_quoteItemMock->expects($this->any())->method('setBaseWeeeTaxAppliedAmount')
-            ->will($this->returnValue($this->_quoteItemMock));
-        $this->_quoteItemMock->expects($this->any())->method('setWeeeTaxAppliedRowAmount')
-            ->will($this->returnValue($this->_quoteItemMock));
-        $this->_quoteItemMock->expects($this->any())->method('setBaseWeeeTaxAppliedRowAmnt')
-            ->will($this->returnValue($this->_quoteItemMock));
+        $this->_quoteModelMock->expects($this->any())->method('getPrice')
+            ->will($this->returnValue(1));
         $this->_quoteItemMock->expects($this->any())->method('getProduct')
             ->will($this->returnValue($this->_productModelMock));
         $this->_quoteItemMock->expects($this->any())->method('getTotalQty')
             ->will($this->returnValue(1));
-        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->_quoteItemMock->expects($this->any())->method('getQuote')
+            ->will($this->returnValue($this->_quoteModelMock));
         $this->_scopeConfigInterfaceMock->expects($this->any())->method('isSetFlag')
             ->will($this->returnValue(true));
         $this->_weeeTaxMock->expects($this->any())->method('getProductWeeeAttributes')
-            ->will($this->returnValue(array($this->_object)));
+            ->will($this->returnValue(array($this->_objectMock)));
         $this->_storeMock->expects($this->any())->method('convertPrice')
             ->will($this->returnValue(1));
     }
@@ -229,7 +219,9 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
             ->will($this->returnValue(false));
-        $this->_salesRuleDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->_model->collect($this->_addressMock);
     }
 
@@ -244,14 +236,16 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
             ->will($this->returnValue(false));
-        $this->_salesRuleDataMock->expects($this->never())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->never())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->_model->collect($this->_addressMock);
     }
 
     /**
      * Collect items without address item
      */
-    public function testCollectWithoutAddressItem()
+    public function te1stCollectWithoutAddressItem()
     {
         $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
             ->will($this->returnValue(array()));
@@ -270,6 +264,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
             ->will($this->returnValue(false));
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->_quoteItemMock->expects($this->once())->method('isChildrenCalculated')
             ->will($this->returnValue(true));
         $this->_model->collect($this->_addressMock);
@@ -279,9 +275,8 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
      * Collect items with price that includes tax
      *
      * @param array
-     * @dataProvider amountTypeData
      */
-    public function testCollectPriceIncludesTax($amountData)
+    public function testCollectPriceIncludesTax()
     {
         $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
             ->will($this->returnValue(array($this->_quoteItemMock)));
@@ -289,38 +284,35 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock->expects($this->once())->method('getAllNonNominalItems');
         $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
             ->will($this->returnValue(true));
-        $this->_salesRuleDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
             ->will($this->returnValue(true));
         $this->_configMock->expects($this->once())->method('priceIncludesTax')
             ->will($this->returnValue(false));
         $this->_model->collect($this->_addressMock);
-        foreach ($amountData as $key => $amountType) {
-           $this->assertNotEmpty($this->_quoteItemMock->getData($amountType));
-        }
     }
 
     /**
      * Collect items with price that does not include tax
      *
      * @param array
-     * @dataProvider amountTypeData
      */
-    public function testCollectPriceNotIncludesTax($amountData)
+    public function testCollectPriceNotIncludesTax()
     {
         $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
             ->will($this->returnValue(array($this->_quoteItemMock)));
         $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
             ->will($this->returnValue(true));
-        $this->_salesRuleDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
             ->will($this->returnValue(true));
         $this->_configMock->expects($this->once())->method('priceIncludesTax')
             ->will($this->returnValue(true));
         $this->_model->collect($this->_addressMock);
-        foreach ($amountData as $key => $amountType) {
-            $this->assertEmpty($this->_quoteItemMock->getData($amountType));
-        }
     }
 
     /**
@@ -334,8 +326,10 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock->expects($this->once())->method('unsBaseSubtotalInclTax');
         $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
             ->will($this->returnValue(true));
-        $this->_salesRuleDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
             ->will($this->returnValue(true));
         $this->_configMock->expects($this->once())->method('priceIncludesTax')
             ->will($this->returnValue(true));
@@ -345,7 +339,7 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     /**
      * Collect does not taxable items
      */
-    public function testCollectNotTaxable()
+    public function testCollectDataStoreDisabled()
     {
         $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
             ->will($this->returnValue(array($this->_quoteItemMock)));
@@ -353,10 +347,11 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
         $this->_addressMock->expects($this->never())->method('unsBaseSubtotalInclTax');
         $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
             ->will($this->returnValue(true));
-        $this->_salesRuleDataMock->expects($this->once())->method('addItemDiscountPrices');
         $this->_weeeDataMock->expects($this->any())->method('isTaxable')
             ->will($this->returnValue(false));
         $this->_weeeDataMock->expects($this->any())->method('includeInSubtotal')
+            ->will($this->returnValue(false));
+        $this->_weeeDataMock->expects($this->once(0))->method('isEnabled')
             ->will($this->returnValue(false));
         $this->_configMock->expects($this->never())->method('priceIncludesTax')
             ->will($this->returnValue(true));
@@ -364,21 +359,77 @@ class WeeeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider amount type list
+     * Collect items and apply discount to weee
      */
-    public function amountTypeData()
+    public function testCollectWithChildren()
     {
-        return array(
-            array(
-                'amountType' =>
-                    array(
-                        'extra_taxable_amount',
-                        'base_extra_taxable_amount',
-                        'extra_row_taxable_amount',
-                        'base_extra_row_taxable_amount'
-                    )
-            )
-        );
+        $childQuoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
+
+        $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
+            ->will($this->returnValue(array($this->_quoteItemMock)));
+        $this->_quoteItemMock->expects($this->any())->method('getHasChildren')
+            ->will($this->returnValue(true));
+        $this->_quoteItemMock->expects($this->any())->method('isChildrenCalculated')
+            ->will($this->returnValue(true));
+        $this->_quoteItemMock->expects($this->any())->method('getChildren')
+            ->will($this->returnValue(array($childQuoteItemMock)));
+        $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('isTaxable')
+            ->will($this->returnValue(false));
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->_model->collect($this->_addressMock);
     }
 
+    public function testCollectWeeeIncludeInSubtotal()
+    {
+        $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
+            ->will($this->returnValue(array($this->_quoteItemMock)));
+        $this->_weeeDataMock->expects($this->any())->method('isDiscounted')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('isTaxable')
+            ->will($this->returnValue(false));
+        $this->_weeeDataMock->expects($this->once())->method('addItemDiscountPrices');
+        $this->_weeeDataMock->expects($this->any())->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->_weeeDataMock->expects($this->any())->method('includeInSubtotal')
+            ->will($this->returnValue(true));
+        $this->_model->collect($this->_addressMock);
+    }
+
+    /**
+     * Collect empty items
+     */
+    public function testCollectWithoutItems()
+    {
+        $this->_addressMock->expects($this->any())->method('getAllNonNominalItems')
+            ->will($this->returnValue(null));
+        $this->assertEquals($this->_model, $this->_model->collect($this->_addressMock));
+    }
+
+    /**
+     * Fetch method test
+     */
+    public function testFetch()
+    {
+        $this->assertEquals($this->_model, $this->_model->fetch($this->_addressMock));
+    }
+
+    /**
+     * Process configuration array
+     */
+    public function testProcessConfigArray()
+    {
+        $this->assertEquals($this->_configMock, $this->_model->processConfigArray($this->_configMock, $this->_storeMock));
+    }
+
+    /**
+     * Get label
+     */
+    public function testGetLabel()
+    {
+        $this->assertEquals('', $this->_model->getLabel());
+    }
 }
