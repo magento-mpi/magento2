@@ -38,14 +38,27 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->collectionFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', array('create'), array(), '', false);
+            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
+            '\Magento\Store\Model\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->layerMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search', array(), array(), '', false
+            '\Magento\Catalog\Model\Layer\Search',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
@@ -62,7 +75,11 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     public function testGetListWithEmptyIds()
     {
         $productCollectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollectionMock));
@@ -76,7 +93,11 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     {
         //retriving set ids
         $productCollectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection') //+
             ->will($this->returnValue($productCollectionMock));
@@ -85,7 +106,11 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
 
         // creating attribute collection
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->collectionFactoryMock
             ->expects($this->once())

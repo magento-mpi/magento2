@@ -28,4 +28,3 @@ class Actions extends Block
         $this->_rootElement->find($this->addNewButton)->click();
     }
 }
-
