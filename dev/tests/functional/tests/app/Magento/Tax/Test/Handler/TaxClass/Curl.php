@@ -17,36 +17,43 @@ use Mtf\System\Config;
 
 /**
  * Class Curl
- * Add New Tax Class
- *
- * @package Magento\Tax\Test\Handler\TaxClass
+ * Curl handler for creating customer and product tax class
  */
 class Curl extends AbstractCurl implements TaxClassInterface
 {
     /**
-     * @param FixtureInterface $fixture
-     * @return array|mixed
-     * @throws \Exception
+     * Post request for creating tax class
+     *
+     * @param FixtureInterface $fixture [optional]
+     * @return mixed|string
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        foreach ($fixture->getData() as $key => $value) {
-            $data[$key] = $value;
-        }
+        $data = $fixture->getData();
 
-        $url = $_ENV['app_backend_url'] . 'tax/tax/ajaxSave/?isAjax=true';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
+        $url = $_ENV['app_backend_url'] . 'tax/tax/ajaxSAve/?isAjax=true';
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
 
-        if (!strpos($response, '"success":true')) {
-            throw new \Exception("Product creation by curl handler was not successful! Response: $response");
-        }
-        preg_match('`"class_id":"(\d+)"`', $response, $matches);
-        $id = isset($matches[1]) ? $matches[1] : null;
+        $id = $this->getClassId($response);
+        return ['id' => $id];
+    }
 
-        return ['class_id' => $id];
+    /**
+     * Return saved class id if saved
+     *
+     * @param $response
+     * @return int|null
+     * @throws \Exception
+     */
+    protected function getClassId($response)
+    {
+        $data = json_decode($response);
+        if ($data->success !== true) {
+            throw new \Exception("Tax class creation by curl handler was not successful! Response: $response");
+        }
+        return isset($data->class_id) ? (int)$data->class_id : null;
     }
 }

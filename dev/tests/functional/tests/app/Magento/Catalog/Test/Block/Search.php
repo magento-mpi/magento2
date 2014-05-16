@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Search
  * Block for search field
- *
  */
 class Search extends Block
 {
@@ -43,6 +42,7 @@ class Search extends Block
      * Search products by a keyword
      *
      * @param string $keyword
+     * @return void
      */
     public function search($keyword)
     {
@@ -59,7 +59,8 @@ class Search extends Block
     public function isPlaceholderContains($placeholderText)
     {
         $field = $this->_rootElement->find(
-            sprintf($this->placeholder, $placeholderText), Locator::SELECTOR_XPATH
+            sprintf($this->placeholder, $placeholderText),
+            Locator::SELECTOR_XPATH
         );
         return $field->isVisible();
     }

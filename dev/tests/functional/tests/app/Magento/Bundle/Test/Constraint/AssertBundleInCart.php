@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Bundle\Test\Fixture\CatalogProductBundle;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertProductInCart
@@ -27,9 +27,12 @@ class AssertBundleInCart extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Checking bundle product in cart
+     *
      * @param CatalogProductView $catalogProductView
      * @param CatalogProductBundle $bundle
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     public function processAssert(
         CatalogProductView $catalogProductView,
@@ -42,7 +45,7 @@ class AssertBundleInCart extends AbstractConstraint
 
         $catalogProductView->getViewBlock()->clickCustomize();
 
-        $optionsBlock = $catalogProductView->getOptionsBlock();
+        $optionsBlock = $catalogProductView->getCustomOptionsBlock();
         /** @var \Magento\Bundle\Test\Fixture\Bundle\Selections $selectionsFixture */
         $selectionsFixture = $bundle->getDataFieldConfig('bundle_selections')['source'];
         $bundleOptions = $selectionsFixture->getSelectionForCheckout();
@@ -51,7 +54,7 @@ class AssertBundleInCart extends AbstractConstraint
         }
         $productOptions = $bundle->getCustomOptions();
         if ($productOptions) {
-            $options = $optionsBlock->getBundleCustomOptions();
+            $options = $optionsBlock->getOptions();
             $key = $productOptions[0]['title'];
             $optionsBlock->selectProductCustomOption($options[$key][1]);
         }
@@ -65,6 +68,7 @@ class AssertBundleInCart extends AbstractConstraint
      *
      * @param CatalogProductBundle $bundle
      * @param CheckoutCart $checkoutCart
+     * @return void
      */
     protected function assertOnShoppingCart(CatalogProductBundle $bundle, CheckoutCart $checkoutCart)
     {

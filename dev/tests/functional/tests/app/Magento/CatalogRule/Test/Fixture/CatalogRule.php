@@ -8,13 +8,22 @@
 
 namespace Magento\CatalogRule\Test\Fixture;
 
+use Mtf\System\Config;
+use Mtf\Handler\HandlerFactory;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogRule
  */
 class CatalogRule extends InjectableFixture
 {
+    /**
+     * @var string
+     */
+    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogPriceRule';
+
     /**
      * @var string
      */

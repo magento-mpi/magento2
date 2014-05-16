@@ -17,7 +17,7 @@ use Mtf\Fixture\FixtureInterface;
  */
 class TaxClassIds implements FixtureInterface
 {
-    /** @var array Data */
+    /** @var string Data */
     protected $data;
 
     /**
@@ -32,14 +32,13 @@ class TaxClassIds implements FixtureInterface
     ) {
         $this->params = $params;
         if (isset($data['dataSet']) && $data['dataSet'] !== '-') {
-            $dataSets = explode(',', $data['dataSet']);
-            foreach ($dataSets as $dataSet) {
-                $taxClassRepository = $fixtureFactory->createByCode('taxClass', ['dataSet' => $dataSet]);
-                if (!$taxClassRepository->getClassId()) {
-                    $taxClassRepository->persist();
-                }
-                $this->data = $taxClassRepository->getClassName();
+            $dataSet = $data['dataSet'];
+            /** @var \Magento\Tax\Test\Fixture\TaxClass $taxClass */
+            $taxClass = $fixtureFactory->createByCode('taxClass', ['dataSet' => $dataSet]);
+            if (!$taxClass->hasData('id')) {
+                $taxClass->persist();
             }
+            $this->data = $taxClass->getClassName();
         }
     }
 
