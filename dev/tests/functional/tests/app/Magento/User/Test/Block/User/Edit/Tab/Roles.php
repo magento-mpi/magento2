@@ -43,4 +43,3 @@ class Roles extends Grid
         $this->selectItem = 'tbody tr';
     }
 }
-
