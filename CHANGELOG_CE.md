@@ -8,6 +8,22 @@
   * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed: Awful design for edit gift registry page from customer page on backend (MAGETWO-24310)
+  * Fixed: [GC] Layout is broken during updating status for review (MAGETWO-24071)
+  * Fixed: Unexpected line is displayed on "Create new Banner" page (MAGETWO-19678)
+  * Fixed: Admin Look&Feel bugs: different (MAGETWO-18200)
+  * Fixed: Create New Order page: order notices and error msgs for products are not in red color (MAGETWO-17308)
+  * Fixed: [GITHUB] "Insert Image" window is overlapped on menu (MAGETWO-21407)
+  * Fixed: Return reason is clipped on Return Items grid (MAGETWO-23812)
+  * Fixed: UI issue on Create custom attribute (MAGETWO-18734)
+  * Fixed: No popup appears after clicking 'What's this?' of enabled 'Remember Me' option PSC (MAGETWO-22593)
+  * Fixed: Sales->returns grid: broken layout (MAGETWO-24007)
+  * Fixed: Backend action split dropdown values can be displayed outside browser page (MAGETWO-23345)
+  * Fixed: Default Theme preview image sample link is absent (MAGETWO-23361)
+  * Fixed: [Safari] [IE9] backend menu is not displayed for user with custom admin role (MAGETWO-23977)
+  * Fixed: Bundle Product Price isn't displayed as calculated in floating block (MAGETWO-23919)
+  * Fixed: It's impossible to disable debug mode (MAGETWO-22991)
+  * Fixed: Page layout minor errors (MAGETWO-24038)
 
 2.0.0.0-dev77
 =============
