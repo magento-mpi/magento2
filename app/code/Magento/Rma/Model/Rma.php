@@ -25,6 +25,8 @@ class Rma extends \Magento\Framework\Model\AbstractModel
 
     const XML_PATH_USE_STORE_ADDRESS = 'sales/magento_rma/use_store_address';
 
+    const NOTIFY_CUSTOMER_BY_EMAIL_PARAM = 'rma_confirmation';
+
     /**
      * Rma Instance
      *
@@ -80,13 +82,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected $_session;
 
     /**
-     * Mail transport builder
-     *
-     * @var \Magento\Framework\Mail\Template\TransportBuilder
-     */
-    protected $_transportBuilder;
-
-    /**
      * Core store manager interface
      *
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -99,13 +94,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
-
-    /**
-     * Rma configuration model
-     *
-     * @var \Magento\Rma\Model\Config
-     */
-    protected $_rmaConfig;
 
     /**
      * Rma item factory
@@ -127,6 +115,13 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @var \Magento\Rma\Model\GridFactory
      */
     protected $_rmaGridFactory;
+
+    /**
+     * Rma status history factory
+     *
+     * @var \Magento\Rma\Model\Rma\Status\HistoryFactory
+     */
+    protected $_historyFactory;
 
     /**
      * Rma source status factory
@@ -220,22 +215,16 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     protected $messageManager;
 
     /**
-     * @var \Magento\Framework\Translate\Inline\StateInterface
-     */
-    protected $inlineTranslation;
-
-    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
      * @param \Magento\Rma\Model\GridFactory $rmaGridFactory
+     * @param \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory
      * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
@@ -251,7 +240,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      *
@@ -262,13 +250,12 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,
         \Magento\Rma\Model\GridFactory $rmaGridFactory,
+        \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory,
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory,
@@ -284,19 +271,17 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_session = $session;
-        $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
-        $this->_rmaConfig = $rmaConfig;
         $this->_rmaItemFactory = $rmaItemFactory;
         $this->_attrSourceFactory = $attrSourceFactory;
         $this->_rmaGridFactory = $rmaGridFactory;
+        $this->_historyFactory = $historyFactory;
         $this->_statusFactory = $statusFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemsFactory = $itemsFactory;
@@ -311,7 +296,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         $this->_escaper = $escaper;
         $this->_localeDate = $localeDate;
         $this->messageManager = $messageManager;
-        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -358,6 +342,15 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         $gridModel = $this->_rmaGridFactory->create();
         $gridModel->addData($this->getData());
         $gridModel->save();
+
+        /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+        $statusHistory = $this->_historyFactory->create();
+        $statusHistory->setRma($this);
+        if ($this->getData(self::NOTIFY_CUSTOMER_BY_EMAIL_PARAM)) {
+            $statusHistory->sendNewRmaEmail();
+        }
+        $statusHistory->saveSystemComment();
+
         $itemsCollection = $this->getItemsCollection();
         if (is_array($itemsCollection)) {
             foreach ($itemsCollection as $item) {
@@ -498,103 +491,6 @@ class Rma extends \Magento\Framework\Model\AbstractModel
 
         $this->save();
         $this->_rma = $this;
-        return $this;
-    }
-
-    /**
-     * Sending email with RMA data
-     *
-     * @return $this
-     */
-    public function sendNewRmaEmail()
-    {
-        return $this->_sendRmaEmailWithItems($this->_rmaConfig->getRootRmaEmail());
-    }
-
-    /**
-     * Sending authorizing email with RMA data
-     *
-     * @return $this
-     */
-    public function sendAuthorizeEmail()
-    {
-        if (!$this->getIsSendAuthEmail()) {
-            return $this;
-        }
-        return $this->_sendRmaEmailWithItems($this->_rmaConfig->getRootAuthEmail());
-    }
-
-    /**
-     * Sending authorizing email with RMA data
-     *
-     * @param string $rootConfig
-     * @return $this
-     */
-    public function _sendRmaEmailWithItems($rootConfig)
-    {
-        $this->_rmaConfig->init($rootConfig, $this->getStoreId());
-        if (!$this->_rmaConfig->isEnabled()) {
-            return $this;
-        }
-
-        $this->inlineTranslation->suspend();
-
-        $copyTo = $this->_rmaConfig->getCopyTo();
-        $copyMethod = $this->_rmaConfig->getCopyMethod();
-
-        if ($this->getOrder()->getCustomerIsGuest()) {
-            $template = $this->_rmaConfig->getGuestTemplate();
-            $customerName = $this->getOrder()->getBillingAddress()->getName();
-        } else {
-            $template = $this->_rmaConfig->getTemplate();
-            $customerName = $this->getCustomerName();
-        }
-
-        $sendTo = array(array('email' => $this->getOrder()->getCustomerEmail(), 'name' => $customerName));
-        if ($this->getCustomerCustomEmail()) {
-            $sendTo[] = array('email' => $this->getCustomerCustomEmail(), 'name' => $customerName);
-        }
-        if ($copyTo && $copyMethod == 'copy') {
-            foreach ($copyTo as $email) {
-                $sendTo[] = array('email' => $email, 'name' => null);
-            }
-        }
-
-        $returnAddress = $this->_rmaData->getReturnAddress('html', array(), $this->getStoreId());
-
-        $bcc = array();
-        if ($copyTo && $copyMethod == 'bcc') {
-            $bcc = $copyTo;
-        }
-
-        foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder->setTemplateIdentifier(
-                $template
-            )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
-            )->setTemplateVars(
-                array(
-                    'rma' => $this,
-                    'order' => $this->getOrder(),
-                    'return_address' => $returnAddress,
-                    'item_collection' => $this->getItemsForDisplay()
-                )
-            )->setFrom(
-                $this->_rmaConfig->getIdentity()
-            )->addTo(
-                $recipient['email'],
-                $recipient['name']
-            )->addBcc(
-                $bcc
-            )->getTransport();
-
-            $transport->sendMessage();
-        }
-
-        $this->setEmailSent(true);
-
-        $this->inlineTranslation->resume();
-
         return $this;
     }
 
