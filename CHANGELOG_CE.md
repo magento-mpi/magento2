@@ -9,6 +9,7 @@
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
   * Fixed functional tests failing PSR2 test (MAGETWO-24351)
+  * Fixed System logs are not generated properly in integration tests (MAGETWO-24419)
 
 2.0.0.0-dev77
 =============
