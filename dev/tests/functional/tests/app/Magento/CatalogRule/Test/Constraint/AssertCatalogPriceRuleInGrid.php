@@ -44,9 +44,7 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
         ];
         //add to filter from_date & to_date if there are ones
         $data = $catalogPriceRule->getData();
-        if (isset($data['from_date'])
-            && isset($data['to_date'])
-        ) {
+        if (isset($data['from_date']) && isset($data['to_date'])) {
             $dateArray['from_date'] = date("M j, Y", strtotime($catalogPriceRule->getFromDate()));
             $dateArray['to_date'] = date("M j, Y", strtotime($catalogPriceRule->getToDate()));
             $filter = array_merge($filter, $dateArray);
