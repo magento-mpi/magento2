@@ -8,16 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\Category;
-use Mtf\Fixture\InjectableFixture;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductVisibleInCategory
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductVisibleInCategory extends AbstractConstraint
 {
@@ -33,25 +31,22 @@ class AssertProductVisibleInCategory extends AbstractConstraint
      *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param InjectableFixture $product
+     * @param FixtureInterface $product
      * @param Category $category
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        InjectableFixture $product,
+        FixtureInterface $product,
         Category $category
     ) {
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
 
-        $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getData('name'));
-        while (!$isProductVisible
-            && ($productListBlock = $catalogCategoryView->getProductPagination()->getNextPage()) !== null
-        ) {
-            $productListBlock->click();
-            $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getData('name'));
+        $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
+        while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
+            $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
         \PHPUnit_Framework_Assert::assertTrue(
@@ -61,7 +56,7 @@ class AssertProductVisibleInCategory extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in category assert
+     * Returns a string representation of the object.
      *
      * @return string
      */

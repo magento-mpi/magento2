@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CatalogEvent\Model\Resource\Event;
 /**
  * Catalog Event resource collection
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
@@ -88,14 +84,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addFieldToFilter($field, $condition = null)
     {
         if ($field == 'display_state') {
-            $field = $this->_getMappedField($field);
             if (is_array($condition) && isset($condition['eq'])) {
                 $condition = $condition['eq'];
             }
-            if (in_array((int)$condition, array(0, 1))) {
-                $this->getSelect()->where('display_state = ?', (int)$condition);
-            } else {
-                $this->getSelect()->where('display_state=?', 0);
+            if ((int)$condition > 0) {
+                $this->getSelect()->where('display_state = 3 OR display_state = ?', (int)$condition);
             }
             return $this;
         }

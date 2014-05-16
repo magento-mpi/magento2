@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Factory\Factory;
 /**
  * Upsell Tab
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class Upsell extends Tab
 {
@@ -29,7 +25,7 @@ class Upsell extends Tab
      * Select up-sell products
      *
      * @param array $products
-     * @param Element $context
+     * @param Element|null $context
      * @return $this
      */
     public function fillFormTab(array $products, Element $context = null)

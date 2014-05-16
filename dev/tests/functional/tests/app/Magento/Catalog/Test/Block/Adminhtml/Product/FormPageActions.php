@@ -8,13 +8,15 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Magento\Backend\Test\Block\FormPageActions as blockFormPageActions;
+use Mtf\Page\BackendPage;
+use Mtf\Fixture\FixtureInterface;
+use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
 
 /**
- * Class FormPageActions
- * Form action in product page on backend
+ * Class FormAction
+ * Form action
  */
-class FormPageActions extends blockFormPageActions
+class FormPageActions extends ParentFormPageActions
 {
     /**
      * "Save" button
@@ -22,4 +24,19 @@ class FormPageActions extends blockFormPageActions
      * @var string
      */
     protected $saveButton = '#save-split-button-button';
-} 
+
+    /**
+     * Save product form with window confirmation
+     *
+     * @param BackendPage $page
+     * @param FixtureInterface $product
+     * @return void
+     */
+    public function saveProduct(BackendPage $page, FixtureInterface $product)
+    {
+        parent::save();
+        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\AffectedAttributeSetForm $affectedAttributeSetForm */
+        $affectedAttributeSetForm = $page->getAffectedAttributeSetForm();
+        $affectedAttributeSetForm->fill($product)->confirm();
+    }
+}

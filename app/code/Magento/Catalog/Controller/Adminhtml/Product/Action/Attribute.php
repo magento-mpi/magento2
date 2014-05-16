@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\App\Action;
 /**
  * Adminhtml catalog product action attribute update controller
  *
- * @category   Magento
- * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Attribute extends Action
@@ -302,7 +298,7 @@ class Attribute extends Action
             );
             $this->_view->getLayout()->initMessages();
             $response->setError(true);
-            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

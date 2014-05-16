@@ -12,30 +12,28 @@ use Mtf\Client\Element;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
- * Class OptionField
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab
+ * Class OptionTier
+ * Form 'Tier prices' on the 'Advanced Pricing' tab
  */
 class OptionTier extends Options
 {
     /**
-     * Add button selector
+     * 'Add Tier' button selector
      *
      * @var string
      */
-    private $buttonFormLocator = "button[title='Add Tier']";
+    protected $buttonFormLocator = "#tiers_table tfoot button";
 
     /**
-     * Fill the form
+     * Fill product form 'Tier price'
      *
      * @param array $fields
-     * @param array $locatorPlaceholder
      * @param Element $element
      * @return $this
      */
-    public function fillAnArray(array $fields, array $locatorPlaceholder = [], Element $element = null)
+    public function fillOptions(array $fields, Element $element = null)
     {
         $this->_rootElement->find($this->buttonFormLocator)->click();
-        return parent::fillAnArray($fields);
+        return parent::fillOptions($fields, $element);
     }
-} 
+}

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +14,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Search
  * Block for search field
- *
- * @package Magento\Catalog\Test\Block
  */
 class Search extends Block
 {
@@ -47,6 +42,7 @@ class Search extends Block
      * Search products by a keyword
      *
      * @param string $keyword
+     * @return void
      */
     public function search($keyword)
     {

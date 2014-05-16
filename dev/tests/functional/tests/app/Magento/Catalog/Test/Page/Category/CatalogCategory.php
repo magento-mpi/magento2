@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class CatalogCategory
  * Manage categories page in backend
  *
- * @package Magento\Catalog\Test\Page\Category
  */
 class CatalogCategory extends Page
 {
@@ -47,7 +43,7 @@ class CatalogCategory extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Backend abstract block
@@ -105,10 +101,10 @@ class CatalogCategory extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 

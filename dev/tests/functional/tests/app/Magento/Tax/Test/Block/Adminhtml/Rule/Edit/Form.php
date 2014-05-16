@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Magento\Tax\Test\Fixture\TaxRule;
  * Class Form
  * Form for tax rule creation
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class Form extends FormInterface
 {

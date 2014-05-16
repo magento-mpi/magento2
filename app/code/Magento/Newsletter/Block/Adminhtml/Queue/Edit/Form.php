@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Newsletter
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 /**
  * Newsletter queue edit form
  *
- * @category   Magento
- * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic

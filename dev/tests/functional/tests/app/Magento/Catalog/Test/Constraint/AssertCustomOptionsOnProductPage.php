@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\InjectableFixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
@@ -27,60 +27,38 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Product page
-     *
-     * @var CatalogProductView
-     */
-    protected $catalogProductView;
-
-    /**
      * Product fixture
      *
-     * @var InjectableFixture
+     * @var FixtureInterface
      */
     protected $product;
 
     /**
+     * Assertion that commodity options are displayed correctly
+     *
      * @param CatalogProductView $catalogProductView
-     * @param InjectableFixture $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function processAssert(
-        CatalogProductView $catalogProductView,
-        InjectableFixture $product
-    ) {
+    public function processAssert(CatalogProductView $catalogProductView, FixtureInterface $product)
+    {
+        $this->product = $product;
         // TODO fix initialization url for frontend page
         // Open product view page
-        $catalogProductView->init($product);
+        $catalogProductView->init($this->product);
         $catalogProductView->open();
-        $customOptions = $catalogProductView->getCustomOptions()->getOptions();
+        $customOptions = $catalogProductView->getCustomOptionsBlock()->getOptions();
+        $compareOptions = $this->product->getCustomOptions();
 
-        $compareOptions = $product->getCustomOptions();
-        $noError = true;
-        $requireCompere = ['Yes' => true, 'No' => false];
-        foreach ($compareOptions as $compareOption) {
-            if (!$noError) {
-                break;
-            }
-            foreach ($customOptions as &$optionOnPage) {
-                if ($noError = $optionOnPage['title'] === $compareOption['title']
-                    && !empty($compareOption['options']) && !empty($optionOnPage['price'])
-                    && $requireCompere[$compareOption['is_require']] === $optionOnPage['is_require']
-                ) {
-                    foreach ($compareOption['options'] as $optionVariant) {
-                        if ($optionVariant['price_type'] === 'Percent') {
-                            $optionVariant['price'] = $product->getData('price') / 100 * $optionVariant['price'];
-                        }
-                        if ($noError = in_array(number_format($optionVariant['price'], 2), $optionOnPage['price'])) {
-                            unset($optionOnPage);
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
+        $compareOptions = $this->prepareOptionArray($compareOptions);
+        ksort($compareOptions);
+        ksort($customOptions);
+        $noError = array_keys($compareOptions) === array_keys($customOptions);
+
+        if ($noError) {
+            $noError = $this->compareOptions($customOptions, $compareOptions);
         }
-        unset($optionOnPage);
+
         \PHPUnit_Framework_Assert::assertTrue(
             $noError,
             'Incorrect display of custom product options on the product page.'
@@ -88,10 +66,62 @@ class AssertCustomOptionsOnProductPage extends AbstractConstraint
     }
 
     /**
+     * Comparison of options
+     *
+     * @param array $options
+     * @param array $compareOptions
+     * @return bool
+     */
+    protected function compareOptions(array $options, array $compareOptions)
+    {
+        foreach ($options as $key => $option) {
+            sort($option['price']);
+            if (!isset($compareOptions[$key]['price'])) {
+                return false;
+            }
+            sort($compareOptions[$key]['price']);
+            if ($option['is_require'] !== $compareOptions[$key]['is_require']
+                || $option['price'] !== $compareOptions[$key]['price']
+            ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Preparation options before comparing
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function prepareOptionArray(array $options)
+    {
+        $result = [];
+        $productPrice = $this->product->getPrice();
+        $placeholder = ['Yes' => true, 'No' => false];
+        foreach ($options as $option) {
+            $result[$option['title']]['is_require'] = $placeholder[$option['is_require']];
+            $result[$option['title']]['price'] = [];
+            foreach ($option['options'] as $optionValue) {
+                if ($optionValue['price_type'] === 'Percent') {
+                    $optionValue['price'] = $productPrice / 100 * $optionValue['price'];
+                }
+                $result[$option['title']]['price'][] = number_format($optionValue['price'], 2);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns a string representation of the object.
+     *
      * @return string
      */
     public function toString()
     {
-        return 'Value of custom option on the page is not correct.';
+        return 'Value of custom option on the page is correct.';
     }
 }

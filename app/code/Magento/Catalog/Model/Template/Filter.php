@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog Template Filter Model
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        Needs to be reimplemented to get rid of the copypasted methods
  */

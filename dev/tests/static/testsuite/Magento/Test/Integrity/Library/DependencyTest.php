@@ -16,7 +16,6 @@ use Zend\Code\Reflection\FileReflection;
 /**
  * Test check if Magento library components contain incorrect dependencies to application layer
  *
- * @package Magento\Test
  */
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {

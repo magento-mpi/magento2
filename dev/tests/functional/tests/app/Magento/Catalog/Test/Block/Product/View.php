@@ -12,14 +12,12 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
- * Product View block
+ * Product view block on the product page
  */
 class View extends Block
 {
@@ -56,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productSku = '.product.attibute.sku div[itemprop="sku"]';
+    protected $productSku = '[itemprop="sku"]';
 
     /**
      * Product description element
@@ -164,6 +162,13 @@ class View extends Block
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
 
     /**
+     * This member holds the class name of the tier price block.
+     *
+     * @var string
+     */
+    protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
+
+    /**
      * Get downloadable link block
      *
      * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks
@@ -212,59 +217,6 @@ class View extends Block
     }
 
     /**
-     * Get bundle item option
-     * @param Array $fields
-     * @param index
-     * @return bool
-     */
-    public function displayedBundleItemOption(array $fields, $index)
-    {
-        $bundleOptionBlock = $this->_rootElement->find(
-            $this->bundleBlock . '/div[' . $index . ']',
-            Locator::SELECTOR_XPATH
-        );
-        if (!$bundleOptionBlock->find(
-            $this->labelOptions . $fields['title'] . '"]',
-            Locator::SELECTOR_XPATH
-        )
-        ) {
-            return false;
-        }
-
-        $formatRequired = sprintf(
-            $this->bundleBlock . $this->requiredOptions,
-            $index,
-            (($fields['required'] == 'Yes') ? '' : 'not')
-        );
-        if (!$this->_rootElement->find(
-            $formatRequired,
-            Locator::SELECTOR_XPATH
-        )
-        ) {
-            return false;
-        }
-        $Increment = 1;
-        foreach ($fields['items'] as $item) {
-            $selectOptions = ($fields['type'] == 'Drop-down' || $fields['type'] == 'Multiple Select') ? $this->selectForSelectOptions : $this->selectForLabelOptions;
-            $formatOption = sprintf(
-                $selectOptions,
-                $Increment,
-                $item['name'],
-                $item['price']
-            );
-            if (!$bundleOptionBlock->find(
-                $formatOption,
-                Locator::SELECTOR_XPATH
-            )
-            ) {
-                return false;
-            }
-            $Increment++;
-        }
-        return true;
-    }
-
-    /**
      * Get block price
      *
      * @return \Magento\Catalog\Test\Block\Product\Price
@@ -289,6 +241,16 @@ class View extends Block
     }
 
     /**
+     * Find button 'Add to cart'
+     *
+     * @return boolean
+     */
+    public function addToCartIsVisible()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
+
+    /**
      * Click link
      *
      * @return void
@@ -296,6 +258,16 @@ class View extends Block
     public function clickAddToCart()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Find Add To Cart button
+     *
+     * @return bool
+     */
+    public function isVisibleAddToCart()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }
 
     /**
@@ -329,38 +301,6 @@ class View extends Block
     }
 
     /**
-     * Get product description displayed on page
-     *
-     * @return string
-     */
-    public function getProductDescription()
-    {
-        if ($productDescription = $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)) {
-            return $productDescription->getText();
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Get product short description displayed on page
-     *
-     * @return string
-     */
-    public function getProductShortDescription()
-    {
-        if ($productShortDescription = $this->_rootElement->find(
-            $this->productShortDescription,
-            Locator::SELECTOR_CSS
-        )
-        ) {
-            return $productShortDescription->getText();
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * This method returns the price box block.
      *
      * @return Price
@@ -381,6 +321,32 @@ class View extends Block
     public function getProductPrice()
     {
         return $this->getPriceBlock()->getPrice();
+    }
+
+    /**
+     * Return product short description on page
+     *
+     * @return string|null
+     */
+    public function getProductShortDescription()
+    {
+        if ($this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
+    }
+
+    /**
+     * Return product description on page
+     *
+     * @return string|null
+     */
+    public function getProductDescription()
+    {
+        if ($this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**
@@ -427,10 +393,10 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param BundleFixture|Product $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function fillOptions($product)
+    public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
         $configureSection = $this->_rootElement->find('.product.options.wrapper');
@@ -456,8 +422,7 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH
-        )->getText();
+            Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -513,11 +478,11 @@ class View extends Block
     }
 
     /**
-     * Is 'ADD TO CART' button visible
+     * Check 'Add to card' button visible
      *
      * @return bool
      */
-    public function isAddToCartButtonVisible()
+    public function checkAddToCardButton()
     {
         return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
     }

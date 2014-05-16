@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Magento\Backend\Test\Block\FormPageActions;
  * Class TaxRuleNew
  * Class for new tax rule page
  *
- * @package Magento\Tax\Test\Page
  */
 class TaxRuleNew extends Page
 {

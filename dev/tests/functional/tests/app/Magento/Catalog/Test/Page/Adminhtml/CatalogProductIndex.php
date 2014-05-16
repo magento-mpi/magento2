@@ -12,7 +12,7 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductIndex
- * Page with Grid in Catalog
+ * Products page on the Backend
  */
 class CatalogProductIndex extends BackendPage
 {
@@ -25,8 +25,8 @@ class CatalogProductIndex extends BackendPage
             'locator' => '#productGrid',
             'strategy' => 'css selector',
         ],
-        'messageBlock' => [
-            'name' => 'messageBlock',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
@@ -68,9 +68,9 @@ class CatalogProductIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**

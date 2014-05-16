@@ -12,16 +12,10 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CustomerInjectable
- *
- * @package Magento\Customer\Test\Fixture
+ * Customer fixture
  */
 class CustomerInjectable extends InjectableFixture
 {
-    /**
-     * @var string
-     */
-    protected $repositoryClass = 'Magento\Customer\Test\Repository\CustomerInjectable';
-
     /**
      * @var string
      */
@@ -31,6 +25,8 @@ class CustomerInjectable extends InjectableFixture
         'firstname' => 'John',
         'lastname' => 'Doe',
         'email' => 'John.Doe%isolation%@example.com',
+        'password' => '123123q',
+        'password_confirmation' => '123123q',
     ];
 
     protected $confirmation = [
@@ -185,6 +181,7 @@ class CustomerInjectable extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
+        'group' => 'account_information',
     ];
 
     protected $suffix = [

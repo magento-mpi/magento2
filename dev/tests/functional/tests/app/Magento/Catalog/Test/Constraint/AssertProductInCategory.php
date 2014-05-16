@@ -8,16 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\Category;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertProductInCategory
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInCategory extends AbstractConstraint
 {
@@ -29,16 +27,18 @@ class AssertProductInCategory extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Checking the product in the page of its price
+     *
      * @param CatalogCategoryView $catalogCategoryView
      * @param CmsIndex $cmsIndex
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param Category $category
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         CmsIndex $cmsIndex,
-        CatalogProductSimple $product,
+        FixtureInterface $product,
         Category $category
     ) {
         //Open category view page and check visible product
@@ -46,10 +46,7 @@ class AssertProductInCategory extends AbstractConstraint
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
 
         $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
-        while (!$isProductVisible
-            && ($productListBlock = $catalogCategoryView->getProductPagination()->getNextPage()) !== null
-        ) {
-            $productListBlock->click();
+        while (!$isProductVisible && $catalogCategoryView->getToolbar()->nextPage()) {
             $isProductVisible = $catalogCategoryView->getListProductBlock()->isProductVisible($product->getName());
         }
 
@@ -58,22 +55,21 @@ class AssertProductInCategory extends AbstractConstraint
             'Product is absent on category page.'
         );
 
-        //process price asserts
+        //Process price asserts
         $this->assertPrice($product, $catalogCategoryView);
     }
 
     /**
      * Verify product price on category view page
      *
-     * @param CatalogProductSimple $product
+     * @param FixtureInterface $product
      * @param CatalogCategoryView $catalogCategoryView
      * @return void
      */
-    protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
+    protected function assertPrice(FixtureInterface $product, CatalogCategoryView $catalogCategoryView)
     {
-        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
-            $product->getName()
-        )->getRegularPrice();
+        $price = $catalogCategoryView->getListProductBlock()->getProductPriceBlock($product->getName())
+            ->getRegularPrice();
 
         $priceComparing = '$' . number_format($product->getPrice(), 2);
         \PHPUnit_Framework_Assert::assertEquals(
@@ -84,12 +80,12 @@ class AssertProductInCategory extends AbstractConstraint
     }
 
     /**
-     * Text of Visible in category assert
+     * Returns a string representation of the object.
      *
      * @return string
      */
     public function toString()
     {
-        return 'Product price on category page is not correct.';
+        return 'Product price on category page correct.';
     }
 }

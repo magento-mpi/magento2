@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Model\Actions\Condition\Product;
 /**
  * TargetRule Action Special Product Attributes Condition Model
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {

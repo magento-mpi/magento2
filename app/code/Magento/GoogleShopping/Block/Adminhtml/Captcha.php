@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleShopping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GoogleShopping\Block\Adminhtml;
 /**
  * Adminhtml Google Content Captcha challenge
  *
- * @category   Magento
- * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Captcha extends \Magento\Backend\Block\Template

@@ -13,7 +13,6 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 /**
  * This class is used to dump information about the node.
  * Class DumpNodeVisitor
- * @package Magento\Test\Tools\Formatter\Tree
  */
 class DumpNodeVisitor extends NodeVisitorAbstract
 {

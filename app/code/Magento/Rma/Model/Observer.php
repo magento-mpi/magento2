@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Event\Observer as EventObserver;
 /**
  * RMA observer
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Observer

@@ -2,10 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,6 +42,7 @@ class Grid extends gridBlock
      * Update attributes for selected items
      *
      * @param array $items
+     * @return void
      */
     public function updateAttributes(array $items = array())
     {

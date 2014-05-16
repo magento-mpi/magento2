@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@
 /**
  * Catalog price rules
  *
- * @category    Magento
- * @category   Magento
- * @package    Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogRule\Block\Adminhtml\Promo;

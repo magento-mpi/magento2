@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Fixture\DataFixture;
 /**
  * Class Customer Group Fixture
  *
- * @package Magento\Customer\Test\Fixture
  */
 class CustomerGroup extends DataFixture
 {

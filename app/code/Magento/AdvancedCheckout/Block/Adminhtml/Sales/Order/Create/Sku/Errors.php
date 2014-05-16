@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Form for adding products by SKU
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;

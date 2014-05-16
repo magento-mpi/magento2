@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,6 @@ namespace Magento\Eav\Model\Form;
  * @method int getSortOrder()
  * @method \Magento\Eav\Model\Form\Fieldset setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Fieldset extends \Magento\Framework\Model\AbstractModel

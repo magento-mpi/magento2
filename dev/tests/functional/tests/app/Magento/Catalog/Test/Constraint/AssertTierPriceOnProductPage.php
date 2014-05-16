@@ -8,14 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertTierPriceOnProductPage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertTierPriceOnProductPage extends AbstractConstraint
 {
@@ -27,7 +25,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Process assert
+     * Assertion that tier prices are displayed correctly
      *
      * @param CatalogProductView $catalogProductView
      * @param FixtureInterface $product
@@ -59,7 +57,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
         $match = [];
         $index = 1;
         $viewBlock = $catalogProductView->getViewBlock();
-        $tierPrices = $product->getData('tier_price');
+        $tierPrices = $product->getTierPrice();
 
         foreach ($tierPrices as $tierPrice) {
             $text = $viewBlock->getTierPrices($index++);
@@ -80,7 +78,7 @@ class AssertTierPriceOnProductPage extends AbstractConstraint
     }
 
     /**
-     * Text of visible in tier price product assert
+     * Returns a string representation of the object.
      *
      * @return string
      */

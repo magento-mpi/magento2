@@ -8,15 +8,13 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class AssertProductSearchableBySku
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductSearchableBySku extends AbstractConstraint
 {
@@ -32,24 +30,24 @@ class AssertProductSearchableBySku extends AbstractConstraint
      *
      * @param CatalogsearchResult $catalogSearchResult
      * @param CmsIndex $cmsIndex
-     * @param InjectableFixture $product
+     * @param FixtureInterface $product
      * @return void
      */
     public function processAssert(
         CatalogsearchResult $catalogSearchResult,
         CmsIndex $cmsIndex,
-        InjectableFixture $product
+        FixtureInterface $product
     ) {
         $cmsIndex->open();
-        $cmsIndex->getSearchBlock()->search($product->getData('sku'));
+        $cmsIndex->getSearchBlock()->search($product->getSku());
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogSearchResult->getListProductBlock()->isProductVisible($product->getData('name')),
+            $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()),
             'Product was not found by SKU.'
         );
     }
 
     /**
-     * Text of Searchable assert
+     * Returns a string representation of the object.
      *
      * @return string
      */

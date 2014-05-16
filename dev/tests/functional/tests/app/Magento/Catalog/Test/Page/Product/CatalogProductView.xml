@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="catalog/product/view" >
+<page mca="catalog/product/view">
     <block>
         <name>viewBlock</name>
         <class>Magento\Catalog\Test\Block\Product\View</class>
@@ -15,45 +15,63 @@
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>optionsBlock</name>
-        <class>Magento\Catalog\Test\Block\Product\View\Options</class>
+        <name>customOptionsBlock</name>
+        <class>Magento\Catalog\Test\Block\Product\View\CustomOptions</class>
         <locator>#product-options-wrapper</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>relatedProductSelector</name>
+        <name>relatedProductBlock</name>
         <class>Magento\Catalog\Test\Block\Product\ProductList\Related</class>
         <locator>.block.related</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>upsellSelector</name>
+        <name>upsellBlock</name>
         <class>Magento\Catalog\Test\Block\Product\ProductList\Upsell</class>
         <locator>.block.upsell</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>giftCardBlockSelector</name>
-        <class>Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard</class>
-        <locator>[data-container-for=giftcard_info]</locator>
-        <strategy>css selector</strategy>
-    </block>
-    <block>
-        <name>crosssellSelector</name>
+        <name>crosssellBlock</name>
         <class>Magento\Catalog\Test\Block\Product\ProductList\Crosssell</class>
         <locator>.block.crosssell</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>downloadableLinksSelector</name>
+        <name>downloadableLinksBlock</name>
         <class>Magento\Downloadable\Test\Block\Catalog\Product\Links</class>
         <locator>[data-container-for=downloadable-links]</locator>
         <strategy>css selector</strategy>
     </block>
     <block>
-        <name>customOptions</name>
-        <class>Magento\Catalog\Test\Block\Product\View\CustomOptions</class>
-        <locator>#product-options-wrapper</locator>
+        <name>mapBlock</name>
+        <class>Magento\Catalog\Test\Block\Product\Price</class>
+        <locator>#map-popup</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.page.messages .messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>reviewSummary</name>
+        <class>Magento\Review\Test\Block\Product\View\Summary</class>
+        <locator>.product.reviews.summary</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>customerReviewBlock</name>
+        <class>Magento\Review\Test\Block\Product\View</class>
+        <locator>#customer-reviews</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>reviewFormBlock</name>
+        <class>Magento\Review\Test\Block\Form</class>
+        <locator>#review-form</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

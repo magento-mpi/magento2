@@ -15,7 +15,6 @@ use Mtf\Block\Block,
  * Class Tree
  * Categories tree block
  *
- * @package Magento\Backend\Test\Block\Urlrewrite\Catalog\Category
  */
 class Tree extends Block
 {

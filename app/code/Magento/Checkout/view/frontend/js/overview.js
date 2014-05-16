@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    checkout multi-shipping review order overview
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

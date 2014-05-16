@@ -12,8 +12,7 @@ use Mtf\Page\FrontendPage;
 
 /**
  * Class CatalogCategoryView
- *
- * @package Magento\Catalog\Test\Page\Category
+ * Catalog Category page
  */
 class CatalogCategoryView extends FrontendPage
 {
@@ -36,6 +35,12 @@ class CatalogCategoryView extends FrontendPage
             'name' => 'layeredNavigationBlock',
             'class' => 'Magento\Search\Test\Block\Catalog\Layer\View',
             'locator' => '.block.filter',
+            'strategy' => 'css selector',
+        ],
+        'toolbar' => [
+            'name' => 'toolbar',
+            'class' => 'Magento\Catalog\Test\Block\Product\ProductList\Toolbar',
+            'locator' => '.pages .items',
             'strategy' => 'css selector',
         ],
         'productPagination' => [
@@ -70,6 +75,13 @@ class CatalogCategoryView extends FrontendPage
         return $this->getBlockInstance('layeredNavigationBlock');
     }
 
+    /**
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Toolbar
+     */
+    public function getToolbar()
+    {
+        return $this->getBlockInstance('toolbar');
+    }
     /**
      * @return \Magento\Catalog\Test\Block\Category\ProductPagination
      */

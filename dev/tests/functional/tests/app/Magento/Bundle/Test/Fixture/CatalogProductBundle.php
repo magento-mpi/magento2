@@ -16,8 +16,6 @@ use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogProductBundle
- *
- * @package Magento\Bundle\Test\Fixture
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -174,7 +172,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
     ];
 
     protected $has_options = [
@@ -321,7 +319,7 @@ class CatalogProductBundle extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'group' => 'product-details',
-        'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Price'
+        'source' => 'Magento\Bundle\Test\Fixture\Bundle\Price'
     ];
 
     protected $price_type = [
@@ -530,7 +528,7 @@ class CatalogProductBundle extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '1',
         'group' => 'bundle',
-        'fixture' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
+        'source' => 'Magento\Bundle\Test\Fixture\Bundle\Selections',
     ];
 
     protected $custom_options = [
@@ -538,7 +536,7 @@ class CatalogProductBundle extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'customer-options',
-        'fixture' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomOptions',
     ];
 
     public function getCategoryIds()
@@ -825,5 +823,4 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('custom_options');
     }
-
 }

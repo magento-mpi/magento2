@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,8 +11,6 @@ namespace Magento\Checkout\Block\Cart\Item;
  * Cart Item Configure block
  * Updates templates and blocks to show 'Update Cart' button and set right form submit url
  *
- * @category   Magento
- * @package    Magento_Checkout
  * @module     Checkout
  */
 class Configure extends \Magento\Framework\View\Element\Template

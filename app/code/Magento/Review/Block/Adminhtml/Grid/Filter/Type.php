@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Review\Block\Adminhtml\Grid\Filter;
 /**
  * Adminhtml review grid filter by type
  *
- * @category   Magento
- * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select

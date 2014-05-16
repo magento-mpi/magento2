@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +22,6 @@ namespace Magento\CatalogInventory\Model\Indexer;
  * @method int getStockStatus()
  * @method \Magento\CatalogInventory\Model\Indexer\Stock setStockStatus(int $value)
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer

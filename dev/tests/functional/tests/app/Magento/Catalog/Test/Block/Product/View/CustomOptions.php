@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,28 +11,89 @@ namespace Magento\Catalog\Test\Block\Product\View;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
 
 /**
  * Class Custom Options
- *
- * @package Magento\Catalog\Test\Block\Catalog\Product\View
+ * Block of custom options product
  */
 class CustomOptions extends Block
 {
     /**
-     * Field set selector
+     * Regexp price pattern
      *
      * @var string
      */
-    protected $fieldsetSelector = '.fieldset';
+    protected $pricePattern = '#\$([\d,]+\.\d+)$#';
 
     /**
-     * Row selector
+     * Field set XPath locator
      *
      * @var string
      */
-    protected $rowSelector = '.field';
+    protected $fieldsetLocator = '//*[@id="product-options-wrapper"]//*[@class="fieldset"]';
+
+    /**
+     * Field XPath locator
+     *
+     * @var string
+     */
+    protected $fieldLocator = '/div[not(contains(@class,"downloads")) and contains(@class,"field")%s][%d]';
+
+    /**
+     * Required field XPath locator
+     *
+     * @var string
+     */
+    protected $requiredLocator = ' and contains(@class,"required")';
+
+    /**
+     * Select field XPath locator
+     *
+     * @var string
+     */
+    protected $selectLocator = '//div[contains(@class,"control")]//select';
+
+    /**
+     * Title value CSS locator
+     *
+     * @var string
+     */
+    protected $titleLocator = '.label span:not(.price-notice)';
+
+    /**
+     * Price value CSS locator
+     *
+     * @var string
+     */
+    protected $priceLocator = '.label .price-notice';
+
+    /**
+     * Option XPath locator
+     *
+     * @var string
+     */
+    protected $optionLocator = '//option[%d]';
+
+    /**
+     * Option XPath locator by value
+     *
+     * @var string
+     */
+    protected $optionByValueLocator = '//*[@class="product options wrapper"]//option[text()="%s"]/..';
+
+    /**
+     * Select XPath locator by title
+     *
+     * @var string
+     */
+    protected $selectByTitleLocator = '//*[*[@class="product options wrapper"]//span[text()="%s"]]//select';
+
+    /**
+     * Bundle field CSS locator
+     *
+     * @var string
+     */
+    protected $bundleFieldLocator = '#product-options-wrapper > .fieldset > .field';
 
     /**
      * Get product options
@@ -48,87 +106,81 @@ class CustomOptions extends Block
         $index = 1;
 
         while (($fieldElement = $this->_rootElement->find(
-                '//*[@id="product-options-wrapper"]//*[@class="fieldset"]'
-                . '/div[not(contains(@class,"downloads")) and contains(@class,"field")][' . $index . ']',
+                $this->fieldsetLocator . sprintf($this->fieldLocator, '', $index),
                 Locator::SELECTOR_XPATH))
             && $fieldElement->isVisible()
         ) {
             $option = ['price' => []];
             $option['is_require'] = $this->_rootElement->find(
-                '//*[@id="product-options-wrapper"]//*[@class="fieldset"]'
-                . '/div[not(contains(@class,"downloads")) and contains(@class,"field")'
-                . ' and contains(@class,"required")][' . $index . ']',
+                $this->fieldsetLocator . sprintf($this->fieldLocator, $this->requiredLocator, $index),
                 Locator::SELECTOR_XPATH
             )->isVisible();
-            $option['title'] = $fieldElement->find('.label span:not(.price-notice)')->getText();
+            $option['title'] = $fieldElement->find($this->titleLocator)->getText();
 
-            if (($price = $fieldElement->find('.label .price-notice'))
+            if (($price = $fieldElement->find($this->priceLocator))
                 && $price->isVisible()
             ) {
                 $matches = [];
-                $priceValue = $price->getText();
-                if (preg_match('#\$(\d+\.\d+)$#', $priceValue, $matches)) {
+                $value = $price->getText();
+                if (preg_match($this->pricePattern, $value, $matches)) {
+                    $option['value'][] = $value;
                     $option['price'][] = $matches[1];
                 }
             } elseif (($prices = $fieldElement->find(
-                    './/div[contains(@class,"control")]/select',
+                    $this->selectLocator,
                     Locator::SELECTOR_XPATH))
                 && $prices->isVisible()
             ) {
                 $priceIndex = 0;
-                while (($price = $prices->find('.//option[' . ++$priceIndex . ']', Locator::SELECTOR_XPATH))
+                while (($price = $prices->find(sprintf($this->optionLocator, ++$priceIndex), Locator::SELECTOR_XPATH))
                     && $price->isVisible()
                 ) {
                     $matches = [];
-                    $priceValue = $price->getText();
-                    if (preg_match('#\$(\d+\.\d+)$#', $priceValue, $matches)) {
+                    $value = $price->getText();
+                    if (preg_match($this->pricePattern, $value, $matches)) {
+                        $option['value'][] = $value;
                         $option['price'][] = $matches[1];
                     }
                 }
             }
-
-            $options[] = $option;
-            $index += 1;
+            $options[$option['title']] = $option;
+            ++$index;
         }
 
         return $options;
     }
 
     /**
-     * Get options
+     * Fill configurable product options
      *
-     * @return array
+     * @param array $productOptions
+     * @return void
      */
-    public function get()
+    public function fillProductOptions($productOptions)
     {
-        $optionsFieldset = $this->_rootElement->find($this->fieldsetSelector);
-        $fieldsetIndex = 1;
-        $options = array();
-        //@todo move to separate block
-        $field = $optionsFieldset->find($this->rowSelector . ':nth-of-type(' . $fieldsetIndex . ')');
-        while ($field->isVisible()) {
-            $optionFieldset = [];
-            $optionFieldset['title'] = $field->find('.label')->getText();
-            $optionFieldset['is_require'] = $field->find('select.required')->isVisible();
-            $options[] = & $optionFieldset;
-            $optionIndex = 1;
-            //@todo move to separate block
-            $option = $field->find('select > option:nth-of-type(' . $optionIndex . ')');
-            while ($option->isVisible()) {
-                if (preg_match('~^(?<title>.+) .?\$(?P<price>\d+\.\d*)$~', $option->getText(), $matches) !== false
-                    && !empty($matches['price'])
-                ) {
-                    $optionFieldset['options'][] = [
-                        'title' => $matches['title'],
-                        'price' => $matches['price'],
-                    ];
-                };
-                $optionIndex++;
-                $option = $field->find('select > option:nth-of-type(' . $optionIndex . ')');
-            }
-            $fieldsetIndex++;
-            $field = $optionsFieldset->find($this->rowSelector . ':nth-of-type(' . $fieldsetIndex . ')');
+        foreach ($productOptions as $attributeLabel => $attributeValue) {
+            $select = $this->_rootElement->find(
+                sprintf($this->selectByTitleLocator, $attributeLabel),
+                Locator::SELECTOR_XPATH,
+                'select'
+            );
+            $select->setValue($attributeValue);
         }
-        return $options;
+    }
+
+    /**
+     * Choose custom option in a drop down
+     *
+     * @param string $productOption
+     * @return void
+     */
+    public function selectProductCustomOption($productOption)
+    {
+        $select = $this->_rootElement->find(
+            sprintf($this->optionByValueLocator, $productOption),
+            Locator::SELECTOR_XPATH,
+            'select'
+        );
+        $select->setValue($productOption);
     }
 }

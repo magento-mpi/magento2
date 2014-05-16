@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer_MySource
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
@@ -20,8 +18,6 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false
 /**
  * Ensures that systems, asset types and libs are included before they are used.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer_MySource
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
  * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class CheckoutCart
  * Checkout cart page
  *
- * @package Magento\Checkout\Test\Page
  */
 class CheckoutCart extends Page
 {
@@ -67,7 +63,7 @@ class CheckoutCart extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('.messages .messages', Locator::SELECTOR_CSS)

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerCustomAttributes
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -204,7 +202,7 @@ class Attribute extends \Magento\Backend\App\Action
 
                 $this->_view->getLayout()->initMessages();
                 $response->setError(true);
-                $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setHtmlMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());

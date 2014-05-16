@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Cms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Cms\Controller;
 /**
  * CMS Page controller
  *
- * @category   Magento
- * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Page extends \Magento\Framework\App\Action\Action

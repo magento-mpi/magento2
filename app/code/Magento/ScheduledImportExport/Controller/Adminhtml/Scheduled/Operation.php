@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Operation controller
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled;

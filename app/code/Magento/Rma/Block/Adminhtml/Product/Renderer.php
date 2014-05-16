@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Additional Renderer of Product's Attribute Enable RMA control structure
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Rma\Block\Adminhtml\Product;

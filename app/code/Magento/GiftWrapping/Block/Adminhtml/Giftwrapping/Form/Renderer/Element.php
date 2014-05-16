@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Gift wrapping form fieldset element renderer
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer;
 

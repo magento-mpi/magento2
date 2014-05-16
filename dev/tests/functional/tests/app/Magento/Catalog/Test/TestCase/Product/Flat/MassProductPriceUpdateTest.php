@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\TestCase\Functional;
  * Product massaction with enabled flat
  *
  * Class MassProductPriceUpdateTest
- * @package Magento\Catalog\Test\TestCase\Product\Flat
  */
 class MassProductPriceUpdateTest extends Functional
 {
@@ -63,7 +59,7 @@ class MassProductPriceUpdateTest extends Functional
          */
         sleep(5);
 
-        $productGridPage->getMessageBlock()->assertSuccessMessage();
+        $productGridPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertTrue($this->isOnGrid(array(
             'sku' => $product->getProductSku(),

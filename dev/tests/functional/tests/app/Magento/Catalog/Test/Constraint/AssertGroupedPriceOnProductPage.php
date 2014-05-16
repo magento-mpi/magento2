@@ -8,14 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGroupedPriceOnProductPage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertGroupedPriceOnProductPage extends AbstractConstraint
 {
@@ -53,6 +51,8 @@ class AssertGroupedPriceOnProductPage extends AbstractConstraint
     }
 
     /**
+     * Returns a string representation of the object.
+     *
      * @return string
      */
     public function toString()

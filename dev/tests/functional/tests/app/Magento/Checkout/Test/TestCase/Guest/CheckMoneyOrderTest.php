@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,7 +20,6 @@ use Magento\Checkout\Test\Block\Onepage;
  * Class CheckMoneyOrderTest
  * Guest checkout with Check/Money Order payment method and offline shipping method
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrderTest extends Functional
 {
@@ -64,7 +60,7 @@ class CheckMoneyOrderTest extends Functional
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
             $cartPage = Factory::getPageFactory()->getCheckoutCart();
-            $cartPage->getMessageBlock()->assertSuccessMessage();
+            $cartPage->getMessagesBlock()->assertSuccessMessage();
             $this->checkProductPrice($fixture, $product, $cartPage->getCartBlock());
         }
     }

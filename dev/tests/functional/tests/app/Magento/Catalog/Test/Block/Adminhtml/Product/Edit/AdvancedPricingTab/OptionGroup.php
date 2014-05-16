@@ -13,29 +13,27 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options;
 
 /**
  * Class OptionField
- *
- * @package Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab
+ * Form "Group prices" on the tab "Extended price"
  */
 class OptionGroup extends Options
 {
     /**
-     * Add button selector
+     * 'Add Group Price' button selector
      *
      * @var string
      */
-    private $buttonFormLocator = "button[title='Add Group Price']";
+    protected $buttonFormLocator = "#group_prices_table tfoot button";
 
     /**
-     * Fill the form
+     * Fill the form 'Extended price'
      *
      * @param array $fields
-     * @param array $locatorPlaceholder
      * @param Element $element
      * @return $this
      */
-    public function fillAnArray(array $fields, array $locatorPlaceholder = [], Element $element = null)
+    public function fillOptions(array $fields, Element $element = null)
     {
         $this->_rootElement->find($this->buttonFormLocator)->click();
-        return parent::fillAnArray($fields);
+        return parent::fillOptions($fields, $element);
     }
-} 
+}

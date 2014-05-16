@@ -8,17 +8,15 @@
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CustomOptions
+ * Custom options fixture
  *
  * Data keys:
  *  - preset (Custom options preset name)
  *  - products (comma separated sku identifiers)
- *
- * @package Magento\Bundle\Test\Fixture
  */
 class CustomOptions implements FixtureInterface
 {
@@ -80,7 +78,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23062' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -95,7 +93,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23063' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -110,7 +108,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23066' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -125,7 +123,7 @@ class CustomOptions implements FixtureInterface
             'MAGETWO-23069' => [
                 [
                     'title' => 'custom option drop down',
-                    'is_require' => true,
+                    'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
                         [
@@ -152,7 +150,7 @@ class CustomOptions implements FixtureInterface
                     ]
                 ],
                 [
-                    'title' => 'Test1 option %isolation%',
+                    'title' => 'Test2 option %isolation%',
                     'is_require' => 'Yes',
                     'type' => 'Field',
                     'options' => [
@@ -165,7 +163,7 @@ class CustomOptions implements FixtureInterface
                     ]
                 ],
                 [
-                    'title' => 'Test2 option %isolation%',
+                    'title' => 'Test3 option %isolation%',
                     'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [
@@ -184,7 +182,7 @@ class CustomOptions implements FixtureInterface
                     ]
                 ],
                 [
-                    'title' => 'Test2 option %isolation%',
+                    'title' => 'Test4 option %isolation%',
                     'is_require' => 'Yes',
                     'type' => 'Drop-down',
                     'options' => [

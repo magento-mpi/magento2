@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Catalog\Model\Product;
 /**
  * Shopping cart model
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface

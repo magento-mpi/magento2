@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Price options preset name)
  *  - products (comma separated sku identifiers)
  *
- * @package Magento\Catalog\Test\Fixture
  */
 class GroupPriceOptions implements FixtureInterface
 {
@@ -78,7 +77,7 @@ class GroupPriceOptions implements FixtureInterface
     {
         $presets = [
             'MAGETWO-23055' => [
-                [
+                '0' => [
                     'price' => 90,
                     'website' => 'All Websites [USD]',
                     'customer_group' => 'NOT LOGGED IN'

@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Downloadable\Test\TestCase\Create;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
+/**
+ * Class LinksPurchasedSeparatelyTest
+ */
 class LinksPurchasedSeparatelyTest extends Functional
 {
     /**
@@ -32,6 +36,7 @@ class LinksPurchasedSeparatelyTest extends Functional
      * Creating Downloadable product with required fields only and assign it to the category
      *
      * @ZephyrId MAGETWO-13595
+     * @return void
      */
     public function test()
     {
@@ -58,6 +63,8 @@ class LinksPurchasedSeparatelyTest extends Functional
 
     /**
      * Assert existing product on admin product grid
+     *
+     * @return void
      */
     protected function assertOnBackend()
     {
@@ -69,6 +76,8 @@ class LinksPurchasedSeparatelyTest extends Functional
 
     /**
      * Assert product data on category and product pages
+     *
+     * @return void
      */
     protected function assertOnFrontend()
     {

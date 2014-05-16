@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc;
  *
  * Test one page checkout with PayPal credit card payments (payments advanced and payflow link).
  *
- * @package Magento\Test\TestCase\Guest
  */
 class PaypalCreditCardTest extends Functional
 {
@@ -50,7 +46,7 @@ class PaypalCreditCardTest extends Functional
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout

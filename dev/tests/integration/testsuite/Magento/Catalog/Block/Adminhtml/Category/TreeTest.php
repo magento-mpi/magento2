@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -23,6 +20,14 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Block\Adminhtml\Category\Tree'
+        );
+
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Adminhtml\Category\Tree',
+            '',
+            []
         );
     }
 

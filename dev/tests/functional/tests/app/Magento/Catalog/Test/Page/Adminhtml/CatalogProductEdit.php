@@ -12,28 +12,38 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class CatalogProductEdit
- *
- * @package Magento\Catalog\Test\Page\Adminhtml
  */
 class CatalogProductEdit extends BackendPage
 {
     const MCA = 'catalog/product/edit';
 
     protected $_blocks = [
-        'productForm' => [
-            'name' => 'productForm',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm',
+        'form' => [
+            'name' => 'form',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Form',
             'locator' => '[id="page:main-container"]',
             'strategy' => 'css selector',
         ],
-        'productPageAction' => [
-            'name' => 'productPageAction',
-            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction',
+        'productForm' => [
+            'name' => 'productForm',
+            'class' => 'Magento\Catalog\Test\Block\Backend\ProductForm',
+            'locator' => '[id="page:main-container"]',
+            'strategy' => 'css selector',
+        ],
+        'configurableProductForm' => [
+            'name' => 'configurableProductForm',
+            'class' => 'Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm',
+            'locator' => '[id="page:main-container"]',
+            'strategy' => 'css selector',
+        ],
+        'formAction' => [
+            'name' => 'formAction',
+            'class' => 'Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
         ],
-        'message' => [
-            'name' => 'message',
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages .messages',
             'strategy' => 'css selector',
@@ -41,7 +51,7 @@ class CatalogProductEdit extends BackendPage
     ];
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm
+     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
      */
     public function getProductForm()
     {
@@ -49,18 +59,34 @@ class CatalogProductEdit extends BackendPage
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\ProductPageAction
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Form
      */
-    public function getProductPageAction()
+    public function getForm()
     {
-        return $this->getBlockInstance('productPageAction');
+        return $this->getBlockInstance('form');
+    }
+
+    /**
+     * @return \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\ProductForm
+     */
+    public function getConfigurableProductForm()
+    {
+        return $this->getBlockInstance('configurableProductForm');
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\FormPageActions
+     */
+    public function getFormAction()
+    {
+        return $this->getBlockInstance('formAction');
     }
 
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessage()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('message');
+        return $this->getBlockInstance('messagesBlock');
     }
 }

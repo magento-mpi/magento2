@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
 /**
  * TargetRule Adminhtml Edit Tab Conditions Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  */
 class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
     \Magento\Backend\Block\Widget\Tab\TabInterface

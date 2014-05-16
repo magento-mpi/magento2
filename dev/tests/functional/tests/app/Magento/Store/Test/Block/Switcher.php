@@ -19,7 +19,7 @@ class Switcher extends Block
      *
      * @var string
      */
-    protected $dropDownButton = 'button';
+    protected $dropDownButton = '#language-switcher';
 
     /**
      * Select store
@@ -28,7 +28,7 @@ class Switcher extends Block
      */
     public function selectStoreView($name)
     {
-        $this->_rootElement->find($this->dropDownButton, Locator::SELECTOR_TAG_NAME)->click();
+        $this->_rootElement->find($this->dropDownButton)->click();
         $this->_rootElement->find($name, Locator::SELECTOR_LINK_TEXT)->click();
     }
 }

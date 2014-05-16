@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Customer\Block\Adminhtml\Grid\Filter;
 /**
  * Country customer grid column filter
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select

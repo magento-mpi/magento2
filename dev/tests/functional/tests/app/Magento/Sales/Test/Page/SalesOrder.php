@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category Mtf
- * @package Mtf
- * @subpackage functional_tests
  * @copyright {copyright}
  * @license {license_link}
  */
@@ -24,7 +21,6 @@ use Mtf\Client\Element\Locator;
  * Class SalesOrder
  * Manage orders page
  *
- * @package Magento\Sales\Test\Page
  */
 class SalesOrder extends Page
 {
@@ -52,7 +48,7 @@ class SalesOrder extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Order actions block
@@ -117,7 +113,7 @@ class SalesOrder extends Page
     public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 

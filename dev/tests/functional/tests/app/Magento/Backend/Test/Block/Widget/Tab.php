@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Backend\Test\Block\Widget;
 
-use Mtf\Block\Form as AbstractForm;
 use Mtf\Client\Element;
+use Mtf\Block\Form as AbstractForm;
 
 /**
  * Class Tab

@@ -13,59 +13,51 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
- * Custom options tab
- *
- * @package Magento\Catalog\Test\Block\Product
+ * Class AdvancedPricingTab
+ * Product advanced pricing tab
  */
 class AdvancedPricingTab extends Tab
 {
     /**
-     * Subform of the main tab form
+     * Class name 'Subform' of the main tab form
      *
      * @var array
      */
     protected $childrenForm = [
-        'group_price' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab\OptionGroup',
-        'tier_price' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab\OptionTier'
+        'group_price' => 'AdvancedPricingTab\OptionGroup',
+        'tier_price' => 'AdvancedPricingTab\OptionTier'
     ];
 
     /**
-     * Fill group price options
+     * Fill 'Advanced price' product form on tab
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         foreach ($fields as $fieldName => $field) {
-
             // Fill form
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
-
-                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
-                $optionsForm = ObjectManager::getInstance()->create(
-                    $this->childrenForm[$fieldName],
-                    ['element' => $element]
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                $optionsForm = $this->blockFactory->create(
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
+                    ['element' => $this->_rootElement]
                 );
 
-                $optionIsolationMapping = $optionsForm->getMapping();
-                foreach ($field['value'] as $row => $option) {
-
-                    $placeholder = ['%row%' => $row];
-                    $mapping = $this->preparingSelectors(
-                        $placeholder,
-                        $optionIsolationMapping
+                foreach ($field['value'] as $key => $option) {
+                    ++$key;
+                    $optionsForm->fillOptions(
+                        $option,
+                        $this->_rootElement->find('#attribute-' .
+                            $fieldName . '-container tbody tr:nth-child(' . $key . ')'
+                        )
                     );
-
-                    $optionsForm->setMapping($mapping);
-                    $optionsForm->fillAnArray($option, $placeholder);
                 }
-
             } elseif (!empty($field['value'])) {
-
                 $data = $this->dataMapping([$fieldName => $field]);
-                $this->_fill($data, $element);
+                $this->_fill($data, $this->_rootElement);
             }
         }
 
@@ -73,46 +65,38 @@ class AdvancedPricingTab extends Tab
     }
 
     /**
-     * Verify data to fields on tab
+     * Get data of tab
      *
-     * @param array $fields
-     * @param Element $element
-     *
-     * @return bool
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
      */
-    public function verifyFormTab(array $fields, Element $element)
+    public function getDataFormTab($fields = null, Element $element = null)
     {
+        $formData = [];
         foreach ($fields as $fieldName => $field) {
-
-            // Verify form
+            // Data collection forms
             if (isset($this->childrenForm[$fieldName]) && is_array($field['value'])) {
-
-                /**@var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm*/
-                $optionsForm = ObjectManager::getInstance()->create(
-                    $this->childrenForm[$fieldName],
-                    ['element' => $element]
+                /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Options $optionsForm */
+                $optionsForm = $this->blockFactory->create(
+                    __NAMESPACE__ . '\\' . $this->childrenForm[$fieldName],
+                    ['element' => $this->_rootElement]
                 );
 
-                $optionIsolationMapping = $optionsForm->getMapping();
-                foreach ($field['value'] as $row => $option) {
-
-                    $placeholder = ['%row%' => $row];
-                    $mapping = $this->preparingSelectors(
-                        $placeholder,
-                        $optionIsolationMapping
+                foreach ($field['value'] as $key => $option) {
+                    $formData[$fieldName][$key++] = $optionsForm->getDataOptions(
+                        $option,
+                        $this->_rootElement->find('#attribute-' .
+                            $fieldName . '-container tbody tr:nth-child(' . $key . ')'
+                        )
                     );
-
-                    $optionsForm->setMapping($mapping);
-                    $optionsForm->verifyAnArray($option, $placeholder);
                 }
-
             } elseif (!empty($field['value'])) {
-
                 $data = $this->dataMapping([$fieldName => $field]);
-                $this->_verify($data, $element);
+                $formData[$fieldName] = $this->_getData($data, $this->_rootElement);
             }
         }
 
-        return $this;
+        return $formData;
     }
 }

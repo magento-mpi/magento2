@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\App\RequestInterface;
 /**
  * EAV Entity Attribute Multiply select Data Model
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select

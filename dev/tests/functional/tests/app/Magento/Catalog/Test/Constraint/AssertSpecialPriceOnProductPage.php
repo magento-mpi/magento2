@@ -8,14 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertSpecialPriceOnProductPage
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertSpecialPriceOnProductPage extends AbstractConstraint
 {

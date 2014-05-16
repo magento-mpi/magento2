@@ -8,14 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductInStock
- *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductInStock extends AbstractConstraint
 {
@@ -51,7 +49,7 @@ class AssertProductInStock extends AbstractConstraint
     }
 
     /**
-     * Text of In Stock assertion
+     * Returns a string representation of the object.
      *
      * @return string
      */

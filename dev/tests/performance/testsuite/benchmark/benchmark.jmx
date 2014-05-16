@@ -104,7 +104,7 @@
           </elementProp>
           <elementProp name="admin_path" elementType="Argument">
             <stringProp name="Argument.name">admin_path</stringProp>
-            <stringProp name="Argument.value">${__P(path,/)}${__P(admin_frontname,backend)}/</stringProp>
+            <stringProp name="Argument.value">${__P(path,/)}${__P(backend_frontname,backend)}/</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="admin_username" elementType="Argument">
