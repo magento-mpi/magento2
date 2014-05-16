@@ -18,7 +18,7 @@ $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 
-\Magento\Framework\Autoload\IncludePath::addIncludePath(
+(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
     array(
         "{$testsBaseDir}/framework",
         "{$testsBaseDir}/testsuite",

@@ -23,7 +23,6 @@ class RmaTest extends Functional
      */
     public function testRma()
     {
-        $this->markTestSkipped('MAGETWO-22745');
         // Setup Preconditions:
         $this->configureRma();
 

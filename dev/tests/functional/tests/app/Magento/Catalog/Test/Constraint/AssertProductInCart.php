@@ -11,9 +11,6 @@ namespace Magento\Catalog\Test\Constraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Fixture\Category;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**

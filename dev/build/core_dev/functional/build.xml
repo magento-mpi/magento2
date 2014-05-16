@@ -257,6 +257,10 @@
             <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
+        <condition property="env.bamboo_tests_configuration" value="basic">
+            <not><isset property="env.bamboo_tests_configuration"/></not>
+        </condition>
+
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
             <replacefilter token="{{selenium_port}}" value="${env.selenium_port}"/>
@@ -267,6 +271,7 @@
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
             <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
         </replace>
 
         <!-- Adds the parallelized instances to the phpunit.xml -->

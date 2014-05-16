@@ -83,7 +83,7 @@ class Customer extends AbstractRepository
                     'password' => array(
                         'value' => '123123q'
                     ),
-                    'confirmation' => array(
+                    'password_confirmation' => array(
                         'value' => '123123q'
                     )
                 ),
@@ -121,7 +121,7 @@ class Customer extends AbstractRepository
                     'password' => array(
                         'value' => '123123q'
                     ),
-                    'confirmation' => array(
+                    'password_confirmation' => array(
                         'value' => '123123q'
                     )
                 ),
@@ -162,7 +162,7 @@ class Customer extends AbstractRepository
                         'value' => '123123q',
                         'group' => null
                     ),
-                    'confirmation' => array(
+                    'password_confirmation' => array(
                         'value' => '123123q',
                         'group' => null
                     )
@@ -202,7 +202,7 @@ class Customer extends AbstractRepository
                     'password' => array(
                         'value' => '123123q',
                     ),
-                    'confirmation' => array(
+                    'password_confirmation' => array(
                         'value' => '123123q',
                     ),
                 ),

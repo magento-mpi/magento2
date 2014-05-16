@@ -25,6 +25,11 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     protected $_selectedIds = array();
 
     /**
+     * @var array
+     */
+    protected $_expandedPath = array();
+
+    /**
      * @return void
      */
     protected function _prepareLayout()
@@ -56,6 +61,24 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     }
 
     /**
+     * @return array
+     */
+    protected function getExpandedPath()
+    {
+        return $this->_expandedPath;
+    }
+
+    /**
+     * @param string $path
+     * @return $this
+     */
+    protected function setExpandedPath($path)
+    {
+        $this->_expandedPath = array_merge($this->_expandedPath, explode('/', $path));
+        return $this;
+    }
+
+    /**
      * @param array|Node $node
      * @param int $level
      * @return array
@@ -64,7 +87,6 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     {
         $item = array();
         $item['text'] = $this->escapeHtml($node->getName());
-
         if ($this->_withProductCount) {
             $item['text'] .= ' (' . $node->getProductCount() . ')';
         }
@@ -73,36 +95,23 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
         $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
         $item['allowDrop'] = false;
         $item['allowDrag'] = false;
-
+        if (in_array($node->getId(), $this->getCategoryIds())) {
+            $this->setExpandedPath($node->getData('path'));
+            $item['checked'] = true;
+        }
+        if ($node->getLevel() < 2) {
+            $this->setExpandedPath($node->getData('path'));
+        }
         if ($node->hasChildren()) {
             $item['children'] = array();
             foreach ($node->getChildren() as $child) {
                 $item['children'][] = $this->_getNodeJson($child, $level + 1);
             }
         }
-
         if (empty($item['children']) && (int)$node->getChildrenCount() > 0) {
             $item['children'] = array();
         }
-
-        if (!empty($item['children'])) {
-            $item['expanded'] = true;
-        }
-
-        if (in_array($node->getId(), $this->getCategoryIds())) {
-            $item['checked'] = true;
-        }
-
+        $item['expanded'] = in_array($node->getId(), $this->getExpandedPath());
         return $item;
-    }
-
-    /**
-     * @param mixed|null $parentNodeCategory
-     * @param int $recursionLevel
-     * @return Node|array|null
-     */
-    public function getRoot($parentNodeCategory = null, $recursionLevel = 3)
-    {
-        return $this->getRootByIds($this->getCategoryIds());
     }
 }

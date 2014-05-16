@@ -59,13 +59,14 @@ class Options extends Block
      * @param string $fieldSelector
      * @return array
      */
-    protected function getOptions($fieldSelector = '.fieldset.bundle.options') {
+    protected function getOptions($fieldSelector = '.fieldset.bundle.options')
+    {
         $index = 1;
-        $options = array();
+        $options = [];
         $field = $this->_rootElement->find($fieldSelector . ':nth-of-type(' . $index . ')');
         while ($field->isVisible()) {
             $optionName = $field->find('label > span')->getText();
-            $options[$optionName] = array();
+            $options[$optionName] = [];
             $productIndex = 1;
             $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             while ($productOption->isVisible()) {

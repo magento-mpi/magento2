@@ -16,7 +16,11 @@
              */
             $.mage.component({
                 newsletter: [
-                    '<?php echo $this->getViewFileUrl('Magento_Newsletter::newsletter.js')?>'
+                    '<?php echo $this->getViewFileUrl('Magento_Newsletter::newsletter.js')?>',
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.validate.js') ?>',
+                    '<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js') ?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation.js')?>',
+                    '<?php echo $this->getViewFileUrl('mage/validation/validation.js') ?>'
                 ]
             });
         })(jQuery);

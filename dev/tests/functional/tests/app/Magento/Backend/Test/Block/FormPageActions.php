@@ -45,6 +45,13 @@ class FormPageActions extends PageActions
     protected $saveButton = '#save';
 
     /**
+     * "Delete" button
+     *
+     * @var string
+     */
+    protected $deleteButton = '#delete';
+
+    /**
      * Click on "Back" button
      */
     public function back()
@@ -66,6 +73,8 @@ class FormPageActions extends PageActions
     public function saveAndContinue()
     {
         $this->_rootElement->find($this->saveAndContinueButton)->click();
+        $this->waitForElementNotVisible('.popup popup-loading');
+        $this->waitForElementNotVisible('.loader');
     }
 
     /**
@@ -76,5 +85,14 @@ class FormPageActions extends PageActions
         $this->_rootElement->find($this->saveButton)->click();
         $this->waitForElementNotVisible('.popup popup-loading');
         $this->waitForElementNotVisible('.loader');
+    }
+
+    /**
+     * Click on "Delete" button
+     */
+    public function delete()
+    {
+        $this->_rootElement->find($this->deleteButton)->click();
+        $this->_rootElement->acceptAlert();
     }
 }

@@ -93,9 +93,9 @@ class CreateOrderTest extends Functional
     {
         //Pages
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerViewPage = Factory::getPageFactory()->getCustomerEdit();
+        $customerViewPage = Factory::getPageFactory()->getCustomerIndexEdit();
         //Block
-        $customerGrid = $customerGridPage->getGridBlock();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
 
         //Test flow - customer saved check
         $customerGridPage->open();

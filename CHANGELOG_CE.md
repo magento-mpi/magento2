@@ -1,19 +1,16 @@
-* Pricing Improvements:
-  * Eliminated price calculation from blocks and templates and implemented new calculation models for the following modules:
-     * ConfigurableProduct (MAGETWO-20399)
-     * Wishlist (MAGETWO-21556)
-     * Rss (MAGETWO-21555)
-     * ProductAlert (MAGETWO-21554)
-* JavaScript improvements:
-  * Removed head.js usages from frontend (MAGETWO-18032)
-  * Removed head.js usages from adminhtml (MAGETWO-18053)
-* Themes update:
-  * Plushe theme is now based on blank (MAGETWO-23528)
 * Fixed bugs:
-  * Unable to place order with product with custom option 'file'(MAGETWO-23679)
-  * OnePageCheckout is not working if PayPal method within Payment Bridge enabled(MAGETWO-23249)
-  * Impossible reset password for admin user(incorrect link in email)(MAGETWO-23697)
-  * Images are not displayed in wysiwyg when editing default pages (MAGETWO-21124)
+  * Fixed: Impossible to place order via "Use Store Credit" (MAGETWO-24028)
+  * [GC] Drop-down with multiple wishlist items is missed on Category page (MAGETWO-23141)
+  * Unable to manage multiple wishlists from frontend with disabled FPC (MAGETWO-24042)
+  * Prices with Taxes aren't displayed on "Category" & "Product" frontend pages (MAGETWO-23964)
+  * Cannot store cache using Varnish/Built-In (MAGETWO-24041)
+  * All re-factored indexers are in "REINDEX REQUIRED" status after installation (MAGETWO-24061)
+  * Fixed: User Role Permission Problems when Managing Orders (MAGETWO-3520)
+  * Fixed: HTTPS links were not generated correctly (MAGETWO-18460)
+  * Fixed: It was impossible to specify Subcategories is condition for Catalog Price Rule (MAGETWO-19700)
+  * Fixed: Unable to place order via Payments Advanced with registered customer (MAGETWO-23673)
+  * Fixed: PayPal Settlement report page is empty (MAGETWO-23897)
+  * Fixed: New created subcategory still is active after clicking on Default Category (MAGETWO-24043)
   * Customer addresses are not editable and removed on backend (MAGETWO-22599)
   * Fatal error when previewing newsletter template with restricted user (MAGETWO-19343)
   * Cannot save tax rate if Zip was in range and Zip/Post Code field was left empty before (MAGETWO-9486)
@@ -21,9 +18,43 @@
   * Special Price displayed in place of original price in "Items Ordered" column for orders. (MAGETWO-7666)
   * When Anchor Categories selected for "Display On" setting for Widgets, check boxes do not stay checked (MAGETWO-7628)
   * Admin User Password Confirmation is Not Validated on Server-Side (MAGETWO-7204)
-  * Adding Customer Review: error in system.log (MAGETWO-3674)
-* Framework Improvements:
-  * Covered Magento lib form elements with unit tests: (MAGETWO-21124)
+  * Adding Customer Review: error in system.log (MAGETWO-3674)  
+
+2.0.0.0-dev76
+=============
+* Pricing improvements:
+  * Eliminated code duplication from templates and implemented new calculation models for the following modules:
+     * ConfigurableProduct
+     * Wishlist
+     * Rss
+     * ProductAlert
+* JavaScript improvements:
+  * Removed head.js usages from frontend
+  * Removed head.js usages from adminhtml
+* Themes update:
+  * Plushe styles are removed, Plushe theme is now based on blank
+* Fixed bugs:  
+  * Unable to place order with product that contains custom option 'file'
+  * OnePageCheckout is not working if PayPal method is enabled to work via Payment Bridge
+  * Impossible to reset password for admin user (incorrect reset password link in email)
+  * Errors when deleting customer group specified as default one in the config
+  * A number of essential buttons do not work and block other functionality in Internet Explorer 10
+  * "Insert Widget" button is missing in Insert Widget popup while creating CMS page
+  * Impossible to change status for rating in admin
+  * System email templates are not loaded when user creates new email template
+  * Billing Agreements tab displays during New Customer creation in admin panel
+  * Images are not displayed in WYSIWYG when editing default pages
+  * Error message "Asymmetric transaction rollback" when creating simple product with flat catalog product option enabled in config
+  * Fatal error when trying to preview sample(type=link) or view link for download(type="link") for downloadable product
+  * Customer is redirected to Home Page after adding new address during multiple address checkout if secure URLs are enabled for frontend in config
+  * Impossible to select value in the State/Province field in the customer registration form when customer uses multiple address checkout
+  * Manage Stock option is not editable when using mass action on several products in the admin panel
+  * Category is not displayed in layered navigation block when Flat Catalog is enabled in config
+* GitHub requests:
+  * [#489] (https://github.com/magento/magento2/issues/489) -- PHPUnit 4.0 Compatibility
+  * [#535] (https://github.com/magento/magento2/issues/535) -- Image management for products
+* Framework improvements:
+  * Covered Magento lib form elements with unit tests:
       * `lib/Magento/Framework/Data/Form/Element/AbstractElement.php`
       * `lib/Magento/Framework/Data/Form/Element/Button.php`
       * `lib/Magento/Framework/Data/Form/Element/Checkbox.php`
@@ -46,7 +77,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-
+  
 2.0.0.0-dev75
 =============
 * Modularity improvements:
