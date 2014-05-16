@@ -19,55 +19,55 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_giftcardaccount')
 )->addColumn(
     'giftcardaccount_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Giftcardaccount Id'
 )->addColumn(
     'code',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array('nullable' => false),
     'Code'
 )->addColumn(
     'status',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false),
     'Status'
 )->addColumn(
     'date_created',
-    \Magento\DB\Ddl\Table::TYPE_DATE,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DATE,
     null,
     array('nullable' => false),
     'Date Created'
 )->addColumn(
     'date_expires',
-    \Magento\DB\Ddl\Table::TYPE_DATE,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DATE,
     null,
     array(),
     'Date Expires'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Website Id'
 )->addColumn(
     'balance',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance'
 )->addColumn(
     'state',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => '0'),
     'State'
 )->addColumn(
     'is_redeemable',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => '1'),
     'Is Redeemable'
@@ -79,8 +79,8 @@ $table = $installer->getConnection()->newTable(
     'website_id',
     $installer->getTable('store_website'),
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Giftcardaccount'
 );
@@ -93,13 +93,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_giftcardaccount_pool')
 )->addColumn(
     'code',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array('nullable' => false, 'primary' => true),
     'Code'
 )->addColumn(
     'status',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => '0'),
     'Status'
@@ -115,43 +115,43 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_giftcardaccount_history')
 )->addColumn(
     'history_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'History Id'
 )->addColumn(
     'giftcardaccount_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Giftcardaccount Id'
 )->addColumn(
     'updated_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Updated At'
 )->addColumn(
     'action',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Action'
 )->addColumn(
     'balance_amount',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance Amount'
 )->addColumn(
     'balance_delta',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance Delta'
 )->addColumn(
     'additional_info',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Additional Info'
@@ -168,8 +168,8 @@ $table = $installer->getConnection()->newTable(
     'giftcardaccount_id',
     $installer->getTable('magento_giftcardaccount'),
     'giftcardaccount_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Giftcardaccount History'
 );

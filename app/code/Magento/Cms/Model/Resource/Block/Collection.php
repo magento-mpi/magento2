@@ -12,7 +12,7 @@ namespace Magento\Cms\Model\Resource\Block;
 /**
  * CMS block model
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -65,7 +65,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * Get SQL for get record count.
      * Extra GROUP BY strip added.
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

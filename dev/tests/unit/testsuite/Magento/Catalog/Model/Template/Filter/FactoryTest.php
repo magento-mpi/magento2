@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model\Template\Filter;
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManagerMock;
 
@@ -21,7 +21,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManagerHelper->getObject(
@@ -32,7 +32,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $className = 'Magento\Filter\Template';
+        $className = 'Magento\Framework\Filter\Template';
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
         $this->_objectManagerMock->expects(
@@ -51,7 +51,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithArguments()
     {
-        $className = 'Magento\Filter\Template';
+        $className = 'Magento\Framework\Filter\Template';
         $arguments = array('foo', 'bar');
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
@@ -70,8 +70,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Model\Exception
-     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Filter\Template
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage WrongClass doesn't extends \Magento\Framework\Filter\Template
      */
     public function testWrongTypeException()
     {

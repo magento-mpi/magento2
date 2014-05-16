@@ -16,12 +16,12 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
 {
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -52,7 +52,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
 
                         default:
                             self::$_format = $this->_localeDate->getDateFormat(
-                                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                                \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                             );
                             break;
                     }
@@ -67,10 +67,10 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
     /**
      * Renders grid column
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
             switch ($this->getColumn()->getPeriodType()) {
@@ -81,7 +81,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
                     $dateFormat = 'yyyy';
                     break;
                 default:
-                    $dateFormat = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+                    $dateFormat = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
                     break;
             }
 

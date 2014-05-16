@@ -21,7 +21,7 @@ class Item extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Method is invoked after save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     public function afterSave($object)

@@ -29,7 +29,7 @@ class BalanceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWebsiteIdWithException()
     {
-        $this->setExpectedException('Magento\Model\Exception', __('A website ID must be set.'));
+        $this->setExpectedException('Magento\Framework\Model\Exception', __('A website ID must be set.'));
         $this->_model->getWebsiteId();
     }
 

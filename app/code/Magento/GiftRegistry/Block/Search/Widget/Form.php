@@ -30,14 +30,14 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
     protected $_selectOptions;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
@@ -136,7 +136,7 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
         );
 
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setName(
             'search_by'
         )->setId(

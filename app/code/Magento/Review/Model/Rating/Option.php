@@ -27,7 +27,7 @@ namespace Magento\Review\Model\Rating;
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Model\AbstractModel
+class Option extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * @return void

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Oauth
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,18 +10,18 @@ namespace Magento\Integration\Model\Resource\Oauth;
 /**
  * OAuth token resource model
  */
-class Token extends \Magento\Model\Resource\Db\AbstractDb
+class Token extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $_dateTime;
 
     /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime $dateTime)
+    public function __construct(\Magento\Framework\App\Resource $resource, \Magento\Framework\Stdlib\DateTime $dateTime)
     {
         $this->_dateTime = $dateTime;
         parent::__construct($resource);
@@ -43,13 +41,13 @@ class Token extends \Magento\Model\Resource\Db\AbstractDb
      * Clean up old authorized tokens for specified consumer-user pairs
      *
      * @param \Magento\Integration\Model\Oauth\Token $exceptToken Token just created to exclude from delete
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int The number of affected rows
      */
     public function cleanOldAuthorizedTokensExcept(\Magento\Integration\Model\Oauth\Token $exceptToken)
     {
         if (!$exceptToken->getId() || !$exceptToken->getAuthorized()) {
-            throw new \Magento\Model\Exception('Invalid token to except');
+            throw new \Magento\Framework\Model\Exception('Invalid token to except');
         }
         $adapter = $this->_getWriteAdapter();
         $where = $adapter->quoteInto(
@@ -64,7 +62,7 @@ class Token extends \Magento\Model\Resource\Db\AbstractDb
         } elseif ($exceptToken->getAdminId()) {
             $where .= $adapter->quoteInto(' AND admin_id = ?', $exceptToken->getAdminId(), \Zend_Db::INT_TYPE);
         } else {
-            throw new \Magento\Model\Exception('Invalid token to except');
+            throw new \Magento\Framework\Model\Exception('Invalid token to except');
         }
         return $adapter->delete($this->getMainTable(), $where);
     }

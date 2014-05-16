@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
 {

@@ -51,7 +51,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_attributeItem;
 
     /**
-     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_string;
 
@@ -150,7 +150,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_attributeItem)
         );
 
-        $this->_string = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false);
+        $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false);
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 

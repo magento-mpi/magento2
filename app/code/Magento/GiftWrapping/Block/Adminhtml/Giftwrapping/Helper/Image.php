@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper;
 
-class Image extends \Magento\Data\Form\Element\Image
+class Image extends \Magento\Framework\Data\Form\Element\Image
 {
     /**
      * Get gift wrapping image url

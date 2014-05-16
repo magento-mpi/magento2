@@ -13,7 +13,7 @@ namespace Magento\CustomerCustomAttributes\Model\Sales;
  * Customer abstract model
  *
  */
-abstract class AbstractSales extends \Magento\Model\AbstractModel
+abstract class AbstractSales extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Save new attribute
@@ -42,10 +42,10 @@ abstract class AbstractSales extends \Magento\Model\AbstractModel
     /**
      * Attach extended data to sales object
      *
-     * @param \Magento\Model\AbstractModel $sales
+     * @param \Magento\Framework\Model\AbstractModel $sales
      * @return $this
      */
-    public function attachAttributeData(\Magento\Model\AbstractModel $sales)
+    public function attachAttributeData(\Magento\Framework\Model\AbstractModel $sales)
     {
         $sales->addData($this->getData());
         return $this;
@@ -54,10 +54,10 @@ abstract class AbstractSales extends \Magento\Model\AbstractModel
     /**
      * Save extended attributes data
      *
-     * @param \Magento\Model\AbstractModel $sales
+     * @param \Magento\Framework\Model\AbstractModel $sales
      * @return $this
      */
-    public function saveAttributeData(\Magento\Model\AbstractModel $sales)
+    public function saveAttributeData(\Magento\Framework\Model\AbstractModel $sales)
     {
         $this->addData($sales->getData())->setId($sales->getId())->save();
 

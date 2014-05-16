@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\AdvancedCheckout\Model\Cart" type="Magento\AdvancedCheckout\Model\Backend\Cart" />
     <type name="Magento\AdvancedCheckout\Model\Backend\Cart">
         <arguments>

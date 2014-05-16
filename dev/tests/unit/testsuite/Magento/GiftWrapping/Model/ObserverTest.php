@@ -13,12 +13,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Event\Observer
+     * @var \Magento\Framework\Event\Observer
      */
     protected $_observer;
 
     /**
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_event;
 
@@ -26,8 +26,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\GiftWrapping\Model\Observer');
-        $this->_event = new \Magento\Object();
-        $this->_observer = new \Magento\Event\Observer(array('event' => $this->_event));
+        $this->_event = new \Magento\Framework\Object();
+        $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
     }
 
     /**
@@ -107,12 +107,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $originalItems = array(
             array(),
             array(
-                new \Magento\Object(array('parent_item' => 'something', 'gw_id' => 1, 'gw_base_price' => 0.3)),
-                new \Magento\Object(array('gw_id' => null, 'gw_base_price' => 0.3)),
-                new \Magento\Object(array('gw_id' => 1, 'gw_base_price' => 0.0)),
-                new \Magento\Object(array('gw_id' => 2, 'gw_base_price' => null)),
-                new \Magento\Object(array('gw_id' => 3, 'gw_base_price' => 0.12)),
-                new \Magento\Object(array('gw_id' => 4, 'gw_base_price' => 2.1))
+                new \Magento\Framework\Object(
+                    array('parent_item' => 'something', 'gw_id' => 1, 'gw_base_price' => 0.3)
+                ),
+                new \Magento\Framework\Object(array('gw_id' => null, 'gw_base_price' => 0.3)),
+                new \Magento\Framework\Object(array('gw_id' => 1, 'gw_base_price' => 0.0)),
+                new \Magento\Framework\Object(array('gw_id' => 2, 'gw_base_price' => null)),
+                new \Magento\Framework\Object(array('gw_id' => 3, 'gw_base_price' => 0.12)),
+                new \Magento\Framework\Object(array('gw_id' => 4, 'gw_base_price' => 2.1))
             )
         );
         $itemsPrice = array(0, 0.12 + 2.1);
@@ -121,7 +123,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             foreach ($originalItems as $i => $originalItemsSet) {
                 $items = array();
                 foreach ($originalItemsSet as $originalItem) {
-                    $items[] = new \Magento\Object(array('original_item' => $originalItem));
+                    $items[] = new \Magento\Framework\Object(array('original_item' => $originalItem));
                 }
                 $data[] = array($items, $amount, $itemsPrice[$i] + (double)$amount);
             }

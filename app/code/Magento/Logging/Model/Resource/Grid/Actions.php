@@ -9,7 +9,7 @@
  */
 namespace Magento\Logging\Model\Resource\Grid;
 
-class Actions implements \Magento\Option\ArrayInterface
+class Actions implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Logging\Helper\Data

@@ -54,7 +54,7 @@ interface StoreManagerInterface
      *
      * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return \Magento\Store\Model\Website
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getWebsite($websiteId = null);
 
@@ -87,7 +87,7 @@ interface StoreManagerInterface
      * @param null|\Magento\Store\Model\Group|string $groupId
      * @return \Magento\Store\Model\Group
      * @throws \Magento\Store\Model\Exception
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getGroup($groupId = null);
 
@@ -111,30 +111,10 @@ interface StoreManagerInterface
     public function clearWebsiteCache($websiteId = null);
 
     /**
-     * Get either default or any store view
-     *
-     * @return \Magento\Store\Model\Store|null
-     */
-    public function getAnyStoreView();
-
-    /**
      * Set current default store
      *
      * @param string $store
      * @return void
      */
     public function setCurrentStore($store);
-
-    /**
-     * Get current store code
-     *
-     * @return string
-     */
-    public function getCurrentStore();
-
-    /**
-     * @return void
-     * @throws \Magento\Store\Model\Exception
-     */
-    public function throwStoreException();
 }

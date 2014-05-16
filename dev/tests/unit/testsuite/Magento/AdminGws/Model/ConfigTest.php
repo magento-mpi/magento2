@@ -32,8 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_readerMock = $this->getMock('Magento\AdminGws\Model\Config\Reader', array(), array(), '', false);
-        $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
-        $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cacheId = null;
 
         $this->_model = new \Magento\AdminGws\Model\Config(

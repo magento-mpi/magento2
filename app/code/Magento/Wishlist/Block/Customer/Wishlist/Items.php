@@ -8,22 +8,18 @@
  * @license     {license_link}
  */
 
-/**
- * Wishlist block customer items
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Wishlist\Block\Customer\Wishlist;
 
-class Items extends \Magento\View\Element\Template
+/**
+ * Wishlist block customer items
+ */
+class Items extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -32,13 +28,13 @@ class Items extends \Magento\View\Element\Template
     /**
      * Retrieve table column object list
      *
-     * @return array
+     * @return \Magento\Wishlist\Block\Customer\Wishlist\Item\Column[]
      */
     public function getColumns()
     {
         $columns = array();
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $child) {
-            if ($child->isEnabled()) {
+            if ($child instanceof \Magento\Wishlist\Block\Customer\Wishlist\Item\Column && $child->isEnabled()) {
                 $columns[] = $child;
             }
         }

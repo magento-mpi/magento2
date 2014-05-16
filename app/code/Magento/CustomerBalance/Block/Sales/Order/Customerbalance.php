@@ -13,13 +13,13 @@ namespace Magento\CustomerBalance\Block\Sales\Order;
  * Customer balance block for order
  *
  */
-class Customerbalance extends \Magento\View\Element\Template
+class Customerbalance extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -53,7 +53,7 @@ class Customerbalance extends \Magento\View\Element\Template
         if ((double)$this->getSource()->getCustomerBalanceAmount() == 0) {
             return $this;
         }
-        $total = new \Magento\Object(
+        $total = new \Magento\Framework\Object(
             array(
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),

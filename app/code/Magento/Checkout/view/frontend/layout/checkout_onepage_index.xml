@@ -14,6 +14,9 @@
             <block class="Magento\Checkout\Block\Onepage\Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
         </container>
     </referenceContainer>
+    <referenceBlock name="head.components">
+        <block class="Magento\Framework\View\Element\Js\Components" name="checkout_onepage_head_components" template="Magento_Checkout::js/components.phtml"/>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml">
             <block class="Magento\Checkout\Block\Onepage\Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml" cacheable="false">
@@ -30,8 +33,8 @@
             </block>
             <block class="Magento\Checkout\Block\Onepage\Payment" name="checkout.onepage.payment" as="payment" template="onepage/payment.phtml" cacheable="false">
                 <block class="Magento\Checkout\Block\Onepage\Payment\Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml" cacheable="false"/>
-                <block class="Magento\View\Element\Template" name="checkout.onepage.payment.additional" as="additional"/>
-                <block class="Magento\View\Element\Template" name="checkout.onepage.payment.methods_additional" as="methods_additional"/>
+                <block class="Magento\Framework\View\Element\Template" name="checkout.onepage.payment.additional" as="additional"/>
+                <block class="Magento\Framework\View\Element\Template" name="checkout.onepage.payment.methods_additional" as="methods_additional"/>
             </block>
             <block class="Magento\Checkout\Block\Onepage\Review" name="checkout.onepage.review" as="review" template="onepage/review.phtml" cacheable="false"/>
         </block>

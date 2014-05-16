@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Order status resource model
@@ -18,7 +18,7 @@ use Magento\Model\Exception;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Status extends \Magento\Model\Resource\Db\AbstractDb
+class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Status labels table
@@ -52,7 +52,7 @@ class Status extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -82,10 +82,10 @@ class Status extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Store labels getter
      *
-     * @param \Magento\Model\AbstractModel $status
+     * @param \Magento\Framework\Model\AbstractModel $status
      * @return array
      */
-    public function getStoreLabels(\Magento\Model\AbstractModel $status)
+    public function getStoreLabels(\Magento\Framework\Model\AbstractModel $status)
     {
         $select = $this->_getWriteAdapter()->select()->from(
             $this->_labelsTable,
@@ -100,10 +100,10 @@ class Status extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save status labels per store
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($object->hasStoreLabels()) {
             $labels = $object->getStoreLabels();
@@ -152,7 +152,7 @@ class Status extends \Magento\Model\Resource\Db\AbstractDb
      * @param string $status
      * @param string $state
      * @return $this
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function unassignState($status, $state)
     {

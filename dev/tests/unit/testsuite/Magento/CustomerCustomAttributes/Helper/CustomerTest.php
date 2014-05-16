@@ -30,7 +30,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_contextMock = $this->getMockBuilder(
-            'Magento\App\Helper\Context'
+            'Magento\Framework\App\Helper\Context'
         )->disableOriginalConstructor()->getMock();
 
         $this->_dataHelperMock = $this->getMockBuilder(
@@ -76,13 +76,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
+            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );
 
-        $this->setExpectedException('Magento\Model\Exception');
+        $this->setExpectedException('Magento\Framework\Model\Exception');
         $helper->filterPostData($data);
     }
 
@@ -101,8 +101,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
             $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Stdlib\DateTime\TimezoneInterface'),
-            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Stdlib\DateTime\TimezoneInterface'),
+            $this->getMock('Magento\Framework\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
         );

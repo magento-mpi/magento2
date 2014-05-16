@@ -11,7 +11,7 @@ namespace Magento\SalesArchive\Model\System\Config\Backend;
 
 class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     \Magento\Backend\Model\Config\CommentInterface,
-    \Magento\Object\IdentityInterface
+    \Magento\Framework\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -24,23 +24,23 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
     protected $_orderCollection;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_archive = $archive;

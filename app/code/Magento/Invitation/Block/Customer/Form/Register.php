@@ -18,36 +18,36 @@ class Register extends \Magento\Customer\Block\Form\Register
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -69,14 +69,14 @@ class Register extends \Magento\Customer\Block\Form\Register
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getFormData()
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $customerFormData = $this->_customerSession->getCustomerFormData(true);
-            $data = new \Magento\Object($customerFormData ?: array());
+            $data = new \Magento\Framework\Object($customerFormData ?: array());
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
 

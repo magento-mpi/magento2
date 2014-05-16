@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Order creditmemo model
@@ -201,7 +201,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -221,7 +221,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_cmItemCollectionFactory;
 
     /**
-     * @var \Magento\Math\CalculatorFactory
+     * @var \Magento\Framework\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -241,48 +241,48 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollectionFactory;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
-     * @param \Magento\Math\CalculatorFactory $calculatorFactory
+     * @param \Magento\Framework\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
-        \Magento\Math\CalculatorFactory $calculatorFactory,
+        \Magento\Framework\Math\CalculatorFactory $calculatorFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
@@ -900,7 +900,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -926,7 +926,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
                     $this->_transportBuilder->addBcc($email);
                 }
             }
-            /** @var \Magento\Mail\TransportInterface $transport */
+            /** @var \Magento\Framework\Mail\TransportInterface $transport */
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -937,7 +937,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,
@@ -1013,7 +1013,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             $this->_transportBuilder->setTemplateIdentifier(
                 $templateId
             )->setTemplateOptions(
-                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
             )->setTemplateVars(
                 array(
                     'order' => $order,
@@ -1038,7 +1038,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
                     $this->_transportBuilder->addBcc($email);
                 }
             }
-            /** @var \Magento\Mail\TransportInterface $transport */
+            /** @var \Magento\Framework\Mail\TransportInterface $transport */
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -1049,7 +1049,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $templateId
                 )->setTemplateOptions(
-                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
                 )->setTemplateVars(
                     array(
                         'order' => $order,
@@ -1091,7 +1091,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

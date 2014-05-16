@@ -29,14 +29,14 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         array $data = array()
     ) {
@@ -85,7 +85,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
                 'Magento\Backend\Block\Widget\Button',
                 array(
                     'label' => __('Refund Offline'),
-                    'class' => 'save submit-button',
+                    'class' => 'save submit-button primary',
                     'onclick' => 'disableElements(\'submit-button\');submitCreditMemoOffline()'
                 )
             );

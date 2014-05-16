@@ -22,23 +22,23 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_systemStore;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
@@ -54,7 +54,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_info');
 
@@ -159,7 +159,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Expiration Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 )
             )
         );

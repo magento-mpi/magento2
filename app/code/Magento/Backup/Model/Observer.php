@@ -17,6 +17,8 @@
  */
 namespace Magento\Backup\Model;
 
+use Magento\Store\Model\ScopeInterface;
+
 class Observer
 {
     const XML_PATH_BACKUP_ENABLED = 'system/backup/enabled';
@@ -42,49 +44,49 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Logger
+     * @var \Magento\Framework\Logger
      */
     protected $_logger;
 
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
      * Filesystem facade
      *
-     * @var \Magento\App\Filesystem
+     * @var \Magento\Framework\App\Filesystem
      */
     protected $_filesystem;
 
     /**
-     * @var \Magento\Backup\Factory
+     * @var \Magento\Framework\Backup\Factory
      */
     protected $_backupFactory;
 
     /**
      * @param \Magento\Backup\Helper\Data $backupData
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Logger $logger
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Backup\Factory $backupFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Filesystem $filesystem
+     * @param \Magento\Framework\Backup\Factory $backupFactory
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
-        \Magento\Registry $coreRegistry,
-        \Magento\Logger $logger,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Backup\Factory $backupFactory
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Filesystem $filesystem,
+        \Magento\Framework\Backup\Factory $backupFactory
     ) {
         $this->_backupData = $backupData;
         $this->_coreRegistry = $coreRegistry;
@@ -101,15 +103,15 @@ class Observer
      */
     public function scheduledBackup()
     {
-        if (!$this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if (!$this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_ENABLED, ScopeInterface::SCOPE_STORE)) {
             return $this;
         }
 
-        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
             $this->_backupData->turnOnMaintenanceMode();
         }
 
-        $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $type = $this->_scopeConfig->getValue(self::XML_PATH_BACKUP_TYPE, ScopeInterface::SCOPE_STORE);
 
         $this->_errors = array();
         try {
@@ -125,9 +127,9 @@ class Observer
 
             $this->_coreRegistry->register('backup_manager', $backupManager);
 
-            if ($type != \Magento\Backup\Factory::TYPE_DB) {
+            if ($type != \Magento\Framework\Backup\Factory::TYPE_DB) {
                 $backupManager->setRootDir(
-                    $this->_filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR)
+                    $this->_filesystem->getPath(\Magento\Framework\App\Filesystem::ROOT_DIR)
                 )->addIgnorePaths(
                     $this->_backupData->getBackupIgnorePaths()
                 );
@@ -143,7 +145,7 @@ class Observer
             $this->_logger->logException($e);
         }
 
-        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->_scopeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, ScopeInterface::SCOPE_STORE)) {
             $this->_backupData->turnOffMaintenanceMode();
         }
 

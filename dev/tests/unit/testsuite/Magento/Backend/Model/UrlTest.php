@@ -70,7 +70,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected $_paramsResolverMock;
 
     /**
-     * @var \Magento\Encryption\EncryptorInterface
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
@@ -85,7 +85,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_menuConfigMock = $this->getMock('Magento\Backend\Model\Menu\Config', array(), array(), '', false);
         $this->_menuConfigMock->expects($this->any())->method('getMenu')->will($this->returnValue($this->_menuMock));
 
-        $this->_formKey = $this->getMock('Magento\Data\Form\FormKey', array('getFormKey'), array(), '', false);
+        $this->_formKey = $this->getMock(
+            'Magento\Framework\Data\Form\FormKey',
+            array('getFormKey'),
+            array(),
+            '', false
+        );
         $this->_formKey->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
 
         $mockItem = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
@@ -118,7 +123,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_areaFrontName)
         );
-        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_scopeConfigMock->expects(
             $this->any()
         )->method(
@@ -141,9 +146,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             false
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_encryptor = $this->getMock('Magento\Encryption\Encryptor', null, array(), '', false);
+        $this->_encryptor = $this->getMock('Magento\Framework\Encryption\Encryptor', null, array(), '', false);
         $this->_paramsResolverMock = $this->getMock(
-            'Magento\Url\RouteParamsResolverFactory',
+            'Magento\Framework\Url\RouteParamsResolverFactory',
             array(),
             array(),
             '',
@@ -194,7 +199,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);
     }
 

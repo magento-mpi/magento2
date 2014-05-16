@@ -32,7 +32,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $scopeConfig = $this->getMockBuilder(
-            '\Magento\App\Config\ScopeConfigInterface'
+            '\Magento\Framework\App\Config\ScopeConfigInterface'
         )->setMethods(
             array('isSetFlag', 'getValue')
         )->disableOriginalConstructor()->getMock();
@@ -99,14 +99,14 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $httpClient = $this->getMockBuilder(
-            '\Magento\HTTP\ZendClient'
+            '\Magento\Framework\HTTP\ZendClient'
         )->disableOriginalConstructor()->setMethods(
             array('request')
         )->getMock();
         $httpClient->expects($this->any())->method('request')->will($this->returnValue($this->_httpResponse));
 
         $httpClientFactory = $this->getMockBuilder(
-            '\Magento\HTTP\ZendClientFactory'
+            '\Magento\Framework\HTTP\ZendClientFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();

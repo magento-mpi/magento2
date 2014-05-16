@@ -16,7 +16,7 @@ namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
  * @package     Magento_CustomAttributeManagement
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractRenderer extends \Magento\View\Element\Template
+abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
 {
     /**
      * Attribute instance
@@ -28,7 +28,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -71,10 +71,10 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -83,7 +83,7 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Model\AbstractModel
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -93,16 +93,16 @@ abstract class AbstractRenderer extends \Magento\View\Element\Template
     /**
      * Return Data Form Filter or false
      *
-     * @return \Magento\Data\Form\Filter\FilterInterface|false
+     * @return \Magento\Framework\Data\Form\Filter\FilterInterface|false
      */
     protected function _getFormFilter()
     {
         $filterCode = $this->getAttributeObject()->getInputFilter();
         if ($filterCode) {
-            $filterClass = 'Magento\\Data\\Form\\Filter\\' . ucfirst($filterCode);
+            $filterClass = 'Magento\\Framework\\Data\\Form\\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
                 $format = $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 );
                 $filter = new $filterClass($format);
             } else {

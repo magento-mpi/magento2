@@ -25,7 +25,7 @@ class Processor
     protected $indexersFactory;
 
     /**
-     * @var \Magento\Mview\ProcessorInterface
+     * @var \Magento\Framework\Mview\ProcessorInterface
      */
     protected $mviewProcessor;
 
@@ -33,13 +33,13 @@ class Processor
      * @param ConfigInterface $config
      * @param IndexerFactory $indexerFactory
      * @param Indexer\CollectionFactory $indexersFactory
-     * @param \Magento\Mview\ProcessorInterface $mviewProcessor
+     * @param \Magento\Framework\Mview\ProcessorInterface $mviewProcessor
      */
     public function __construct(
         ConfigInterface $config,
         IndexerFactory $indexerFactory,
         Indexer\CollectionFactory $indexersFactory,
-        \Magento\Mview\ProcessorInterface $mviewProcessor
+        \Magento\Framework\Mview\ProcessorInterface $mviewProcessor
     ) {
         $this->config = $config;
         $this->indexerFactory = $indexerFactory;

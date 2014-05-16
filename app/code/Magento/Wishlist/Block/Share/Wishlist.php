@@ -34,27 +34,24 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
             $httpContext,
             $productFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

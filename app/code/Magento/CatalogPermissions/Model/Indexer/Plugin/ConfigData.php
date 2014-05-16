@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use Magento\App\CacheInterface;
+use Magento\Framework\App\CacheInterface;
 use Magento\CatalogPermissions\App\ConfigInterface;
 
 class ConfigData

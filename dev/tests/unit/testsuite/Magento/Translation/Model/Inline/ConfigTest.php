@@ -15,7 +15,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfigMock;
 
@@ -26,7 +26,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->helperMock = $this->getMock('Magento\Core\Helper\Data', array('isDevAllowed'), array(), '', false);
         $this->model = new Config(
             $this->scopeConfigMock,
@@ -38,7 +38,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = 'some store';
         $result = 'result';
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $scopeConfig->expects(
             $this->once()
         )->method(

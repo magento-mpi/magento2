@@ -32,20 +32,20 @@ class ApplyConfig extends Direct
      */
     public function persist(FixtureInterface $fixture = null)
     {
-        $factory = new \Magento\App\ObjectManagerFactory();
+        $factory = new \Magento\Framework\App\ObjectManagerFactory();
         $objectManager = $factory->create(BP, $_SERVER);
 
-        $objectManager->get('Magento\Config\Scope')->setCurrentScope('adminhtml');
+        $objectManager->get('Magento\Framework\Config\Scope')->setCurrentScope('adminhtml');
 
         $objectManager->configure(
-            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('adminhtml')
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('adminhtml')
         );
 
         $objectManager->configure(
             array(
                 'preferences' => array(
-                    'Magento\Authorization\Policy' => 'Magento\Authorization\Policy\DefaultPolicy',
-                    'Magento\Authorization\RoleLocator' => 'Magento\Authorization\RoleLocator\DefaultRoleLocator'
+                    'Magento\Framework\Authorization\Policy' => 'Magento\Framework\Authorization\Policy\DefaultPolicy',
+                    'Magento\Framework\Authorization\RoleLocator' => 'Magento\Framework\Authorization\RoleLocator\DefaultRoleLocator'
                 )));
 
         $configFactory = $objectManager->get('Magento\Backend\Model\Config\Factory');

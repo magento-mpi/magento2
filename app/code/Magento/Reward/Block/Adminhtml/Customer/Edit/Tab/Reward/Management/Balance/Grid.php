@@ -33,7 +33,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +55,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param array $data
@@ -64,7 +64,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         array $data = array()

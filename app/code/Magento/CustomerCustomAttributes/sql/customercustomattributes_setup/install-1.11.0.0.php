@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 /**
@@ -18,7 +18,7 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customercustomattributes_sales_flat_order')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Entity Id'
@@ -32,8 +32,8 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     $installer->getTable('sales_flat_order'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customer Sales Flat Order'
 );
@@ -46,7 +46,7 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customercustomattributes_sales_flat_order_address')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Entity Id'
@@ -60,8 +60,8 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     $installer->getTable('sales_flat_order_address'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customer Sales Flat Order Address'
 );
@@ -74,7 +74,7 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customercustomattributes_sales_flat_quote')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Entity Id'
@@ -88,8 +88,8 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     $installer->getTable('sales_flat_quote'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customer Sales Flat Quote'
 );
@@ -102,7 +102,7 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customercustomattributes_sales_flat_quote_address')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Entity Id'
@@ -116,8 +116,8 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     $installer->getTable('sales_flat_quote_address'),
     'address_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customer Sales Flat Quote Address'
 );

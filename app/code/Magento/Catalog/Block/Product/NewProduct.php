@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implements
-    \Magento\View\Block\IdentityInterface
+    \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Default value for products count that will be shown
@@ -30,7 +30,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     protected $_productsCount;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -52,25 +52,22 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
      * @param Context $context
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\App\Http\Context $httpContext,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        \Magento\Framework\App\Http\Context $httpContext,
+        array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->httpContext = $httpContext;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -126,20 +123,20 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     /**
      * Prepare and return product collection
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Framework\Data\Collection
      */
     protected function _getProductCollection()
     {
         $todayStartOfDayDate = $this->_localeDate->date()->setTime(
             '00:00:00'
         )->toString(
-            \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+            \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         );
 
         $todayEndOfDayDate = $this->_localeDate->date()->setTime(
             '23:59:59'
         )->toString(
-            \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+            \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         );
 
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
@@ -187,7 +184,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     /**
      * Prepare collection with new products
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

@@ -23,24 +23,24 @@ class Store extends Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Filter\FilterManager
+     * @var \Magento\Framework\Filter\FilterManager
      */
     protected $filterManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\Filter\FilterManager $filterManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\Filter\FilterManager $filterManager
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filterManager = $filterManager;
@@ -275,7 +275,7 @@ class Store extends Action
                 }
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPostData($postData);
             } catch (\Exception $e) {
@@ -438,7 +438,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The website has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete website. Please, try again later.'));
@@ -471,7 +471,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The store has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete store. Please, try again later.'));
@@ -509,7 +509,7 @@ class Store extends Action
             $this->messageManager->addSuccess(__('The store view has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to delete store view. Please, try again later.'));
@@ -547,15 +547,15 @@ class Store extends Action
                 'db'
             )->setPath(
                 $this->_objectManager->get(
-                    'Magento\App\Filesystem'
+                    'Magento\Framework\App\Filesystem'
                 )->getPath(
-                    \Magento\App\Filesystem::VAR_DIR
+                    \Magento\Framework\App\Filesystem::VAR_DIR
                 ) . '/backups'
             );
 
             $backupDb->createBackup($backup);
             $this->messageManager->addSuccess(__('The database was backed up.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect($failPath, $arguments);
             return;

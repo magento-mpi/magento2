@@ -15,10 +15,10 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
  */
 class GeneralTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout;
 
-    /** @var \Magento\View\Design\ThemeInterface */
+    /** @var \Magento\Framework\View\Design\ThemeInterface */
     protected $_theme;
 
     /** @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_General */
@@ -28,12 +28,12 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
         $this->_theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\View\Design\ThemeInterface'
+            'Magento\Framework\View\Design\ThemeInterface'
         );
-        $this->_theme->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL);
+        $this->_theme->setType(\Magento\Framework\View\Design\ThemeInterface::TYPE_VIRTUAL);
         $this->_block = $this->_layout->createBlock(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General'
         );
@@ -43,7 +43,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_theme', $this->_theme);
+        $objectManager->get('Magento\Framework\Registry')->register('current_theme', $this->_theme);
         $this->_block->setArea('adminhtml');
 
         $this->_block->toHtml();

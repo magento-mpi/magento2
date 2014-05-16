@@ -9,8 +9,8 @@
  */
 namespace Magento\Log\App;
 
-use Magento\App\Console\Response;
-use Magento\AppInterface;
+use Magento\Framework\App\Console\Response;
+use Magento\Framework\AppInterface;
 
 class Shell implements AppInterface
 {
@@ -27,7 +27,7 @@ class Shell implements AppInterface
     protected $_shellFactory;
 
     /**
-     * @var \Magento\App\Console\Response
+     * @var \Magento\Framework\App\Console\Response
      */
     protected $_response;
 
@@ -46,7 +46,7 @@ class Shell implements AppInterface
     /**
      * Run application
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {

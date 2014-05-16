@@ -11,7 +11,7 @@ namespace Magento\Catalog\Block;
 
 use Magento\Catalog\Model\Product as ModelProduct;
 
-class Product extends \Magento\View\Element\Template
+class Product extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var array
@@ -26,12 +26,12 @@ class Product extends \Magento\View\Element\Template
     protected $_productFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {

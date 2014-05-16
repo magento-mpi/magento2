@@ -23,8 +23,8 @@ class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param \Magento\Stdlib\DateTime\Date|string $fromDate
-     * @param \Magento\Stdlib\DateTime\Date|string $toDate
+     * @param \Magento\Framework\Stdlib\DateTime\Date|string $fromDate
+     * @param \Magento\Framework\Stdlib\DateTime\Date|string $toDate
      * @return $this
      */
     public function setDateRange($fromDate, $toDate)

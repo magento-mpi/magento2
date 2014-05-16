@@ -38,7 +38,7 @@ class CategoryResourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param boolean $hasParentPathAccess
      * @param boolean $hasCurrentPathAccess
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeChangeParentThrowsExceptionWhenAccessIsRestrictedDataProvider
      */

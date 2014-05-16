@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource\Layer\Filter;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Decimal extends \Magento\Model\Resource\Db\AbstractDb
+class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
@@ -93,7 +93,7 @@ class Decimal extends \Magento\Model\Resource\Db\AbstractDb
      * Joined table has index
      *
      * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect($filter)
     {

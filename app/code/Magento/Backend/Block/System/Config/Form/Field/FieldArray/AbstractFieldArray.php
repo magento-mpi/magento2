@@ -87,7 +87,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             'class' => $this->_getParam($params, 'class'),
             'renderer' => false
         );
-        if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\View\Element\AbstractBlock) {
+        if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\Framework\View\Element\AbstractBlock) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
     }
@@ -108,10 +108,10 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Get the grid and scripts contents
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $this->setElement($element);
         $html = $this->_toHtml();
@@ -123,11 +123,11 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Prepare existing row data object
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _prepareArrayRow(\Magento\Object $row)
+    protected function _prepareArrayRow(\Magento\Framework\Object $row)
     {
         // override in descendants
     }
@@ -135,7 +135,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
     /**
      * Obtain existing data from form element
      *
-     * Each row will be instance of \Magento\Object
+     * Each row will be instance of \Magento\Framework\Object
      *
      * @return array
      */
@@ -145,7 +145,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
             return $this->_arrayRowsCache;
         }
         $result = array();
-        /** @var \Magento\Data\Form\Element\AbstractElement */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {
@@ -156,7 +156,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
                 }
                 $row['_id'] = $rowId;
                 $row['column_values'] = $rowColumnValues;
-                $result[$rowId] = new \Magento\Object($row);
+                $result[$rowId] = new \Magento\Framework\Object($row);
                 $this->_prepareArrayRow($result[$rowId]);
             }
         }

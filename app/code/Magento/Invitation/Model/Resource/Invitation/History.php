@@ -16,7 +16,7 @@ namespace Magento\Invitation\Model\Resource\Invitation;
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Model\Resource\Db\AbstractDb
+class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Intialize resource model

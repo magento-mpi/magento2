@@ -129,8 +129,8 @@ class Amount extends AbstractCondition
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @throws \Magento\Model\Exception
-     * @return \Magento\DB\Select
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\DB\Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -166,7 +166,7 @@ class Amount extends AbstractCondition
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Unknown quote total specified.'));
+                throw new \Magento\Framework\Model\Exception(__('Unknown quote total specified.'));
         }
 
         if ($joinAddress) {

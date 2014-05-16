@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Framework/Validator/etc/validation.xsd">
+    <entity>
+        <rules>
+            <rule name="test_rule_b">
+                <!-- constraints element is not allowed here, expected entity_constraints or property_constraints -->
+                <constraints>
+                    <constraint class="Magento\Framework\Validator\Test\True"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_b">
+                <uses>
+                    <use rule="test_rule_b"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

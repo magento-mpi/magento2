@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-class Visibility extends \Magento\Object
+class Visibility extends \Magento\Framework\Object
 {
     const VISIBILITY_NOT_VISIBLE = 1;
 
@@ -160,7 +160,7 @@ class Visibility extends \Magento\Object
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $column = array('unsigned' => true, 'default' => null, 'extra' => null);
 
-        $column['type'] = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
         $column['nullable'] = true;
         $column['comment'] = 'Catalog Product Visibility ' . $attributeCode . ' column';
 
@@ -181,7 +181,7 @@ class Visibility extends \Magento\Object
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

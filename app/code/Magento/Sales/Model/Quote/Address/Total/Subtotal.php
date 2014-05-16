@@ -102,25 +102,42 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             }
         }
 
+        $originalPrice = $product->getPrice();
         if ($quoteItem->getParentItem() && $quoteItem->isChildrenCalculated()) {
             $finalPrice = $quoteItem->getParentItem()->getProduct()->getPriceModel()->getChildFinalPrice(
                 $quoteItem->getParentItem()->getProduct(),
                 $quoteItem->getParentItem()->getQty(),
-                $quoteItem->getProduct(),
+                $product,
                 $quoteItem->getQty()
             );
-            $item->setPrice($finalPrice)->setBaseOriginalPrice($finalPrice);
-            $item->calcRowTotal();
+            $this->_calculateRowTotal($item, $finalPrice, $originalPrice);
         } else if (!$quoteItem->getParentItem()) {
             $finalPrice = $product->getFinalPrice($quoteItem->getQty());
-            $item->setPrice($finalPrice)->setBaseOriginalPrice($finalPrice);
-            $item->calcRowTotal();
+            $this->_calculateRowTotal($item, $finalPrice, $originalPrice);
             $this->_addAmount($item->getRowTotal());
             $this->_addBaseAmount($item->getBaseRowTotal());
             $address->setTotalQty($address->getTotalQty() + $item->getQty());
         }
 
         return true;
+    }
+
+    /**
+     * Processing calculation of row price for address item
+     *
+     * @param AddressItem|Item $item
+     * @param int $finalPrice
+     * @param int $originalPrice
+     * @return $this
+     */
+    protected function _calculateRowTotal($item, $finalPrice, $originalPrice)
+    {
+        if (!$originalPrice) {
+            $originalPrice = $finalPrice;
+        }
+        $item->setPrice($finalPrice)->setBaseOriginalPrice($originalPrice);
+        $item->calcRowTotal();
+        return $this;
     }
 
     /**

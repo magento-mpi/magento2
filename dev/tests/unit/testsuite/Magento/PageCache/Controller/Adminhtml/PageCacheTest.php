@@ -22,17 +22,17 @@ namespace Magento\PageCache\Controller\Adminhtml;
 class PageCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
 
     /**
-     * @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
 
     /**
-     * @var \Magento\App\View|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\View|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $viewMock;
 
@@ -42,7 +42,7 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\Http\FileFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $fileFactoryMock;
 
@@ -57,7 +57,7 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileFactoryMock = $this->getMockBuilder(
-            'Magento\App\Response\Http\FileFactory'
+            'Magento\Framework\App\Response\Http\FileFactory'
         )->disableOriginalConstructor()->getMock();
         $this->configMock = $this->getMockBuilder(
             'Magento\PageCache\Model\Config'
@@ -67,12 +67,12 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
 
         $this->requestMock = $this->getMockBuilder(
-            'Magento\App\Request\Http'
+            'Magento\Framework\App\Request\Http'
         )->disableOriginalConstructor()->getMock();
         $this->responseMock = $this->getMockBuilder(
-            'Magento\App\Response\Http'
+            'Magento\Framework\App\Response\Http'
         )->disableOriginalConstructor()->getMock();
-        $this->viewMock = $this->getMockBuilder('Magento\App\View')->disableOriginalConstructor()->getMock();
+        $this->viewMock = $this->getMockBuilder('Magento\Framework\App\View')->disableOriginalConstructor()->getMock();
 
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->requestMock));
         $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->responseMock));
@@ -90,7 +90,7 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
         $fileContent = 'some conetnt';
         $filename = 'varnish.vcl';
         $responseMock = $this->getMockBuilder(
-            'Magento\App\ResponseInterface'
+            'Magento\Framework\App\ResponseInterface'
         )->disableOriginalConstructor()->getMock();
 
         $this->configMock->expects($this->once())->method('getVclFile')->will($this->returnValue($fileContent));
@@ -101,12 +101,12 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->equalTo($filename),
             $this->equalTo($fileContent),
-            $this->equalTo(\Magento\App\Filesystem::VAR_DIR)
+            $this->equalTo(\Magento\Framework\App\Filesystem::VAR_DIR)
         )->will(
             $this->returnValue($responseMock)
         );
 
         $result = $this->controller->exportVarnishConfigAction();
-        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
+        $this->assertInstanceOf('Magento\Framework\App\ResponseInterface', $result);
     }
 }

@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer \Magento\Module\Setup */
+/* @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -44,7 +44,7 @@ $connection->changeColumn(
     $oldColumn,
     $newColumn,
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'primary' => true,
         'nullable' => false,
         'unsigned' => true,
@@ -62,7 +62,7 @@ $connection->changeColumn(
     $oldColumn,
     $newColumn,
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'nullable' => false,
         'unsigned' => true,
         'comment' => 'Theme layout update id'
@@ -74,9 +74,9 @@ $connection->changeColumn(
  */
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'theme_id', \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    $installer->getIdxName($newTableName, 'theme_id', \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
     'theme_id',
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 $connection->addForeignKey(
     $installer->getFkName($newTableName, 'theme_id', 'core_theme', 'theme_id'),
@@ -84,14 +84,14 @@ $connection->addForeignKey(
     'theme_id',
     $installer->getTable('core_theme'),
     'theme_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 );
 $connection->addIndex(
     $newTableName,
-    $installer->getIdxName($newTableName, 'layout_update_id', \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
+    $installer->getIdxName($newTableName, 'layout_update_id', \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX),
     'layout_update_id',
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
 );
 $connection->addForeignKey(
     $installer->getFkName($newTableName, 'layout_update_id', 'core_layout_update', 'layout_update_id'),
@@ -99,8 +99,8 @@ $connection->addForeignKey(
     'layout_update_id',
     $installer->getTable('core_layout_update'),
     'layout_update_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 );
 
 /**

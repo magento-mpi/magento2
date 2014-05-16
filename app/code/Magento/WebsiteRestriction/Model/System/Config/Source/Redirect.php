@@ -13,7 +13,7 @@ namespace Magento\WebsiteRestriction\Model\System\Config\Source;
  * Sys config source model for private sales redirect modes
  *
  */
-class Redirect extends \Magento\Object implements \Magento\Option\ArrayInterface
+class Redirect extends \Magento\Framework\Object implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Get options for select

@@ -15,7 +15,7 @@ namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
  * @category   Magento
  * @package    Magento_CustomerBalance
  */
-class Additional extends \Magento\View\Element\Template
+class Additional extends \Magento\Framework\View\Element\Template
 {
     /**
      * Customer balance instance
@@ -40,14 +40,14 @@ class Additional extends \Magento\View\Element\Template
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,

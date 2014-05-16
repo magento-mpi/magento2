@@ -12,7 +12,7 @@ namespace Magento\Cms\Block;
 /**
  * Cms block content block
  */
-class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View\Block\IdentityInterface
+class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -36,14 +36,14 @@ class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View
     /**
      * Construct
      * 
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\BlockFactory $blockFactory,

@@ -15,7 +15,7 @@ namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
 use Magento\Wishlist\Model\Resource\Wishlist\Collection;
 
-class Management extends \Magento\View\Element\Template
+class Management extends \Magento\Framework\View\Element\Template
 {
     /**
      * Id of current customer
@@ -49,13 +49,13 @@ class Management extends \Magento\View\Element\Template
     protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()

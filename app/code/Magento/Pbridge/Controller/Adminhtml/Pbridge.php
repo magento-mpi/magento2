@@ -50,7 +50,7 @@ class Pbridge extends \Magento\Backend\App\Action
      * Iframe Ajax Action
      *
      *  @return void
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function iframeAction()
     {
@@ -72,7 +72,7 @@ class Pbridge extends \Magento\Backend\App\Action
                 }
             }
         } else {
-            throw new \Magento\Model\Exception(__('Payment Method Code is not passed.'));
+            throw new \Magento\Framework\Model\Exception(__('Payment Method Code is not passed.'));
         }
     }
 

@@ -21,7 +21,7 @@ class Search extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -36,12 +36,12 @@ class Search extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;

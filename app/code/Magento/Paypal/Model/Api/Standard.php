@@ -226,7 +226,7 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
             return;
         }
 
-        $request = \Magento\Object\Mapper::accumulateByMap($address, $request, array_flip($this->_addressMap));
+        $request = \Magento\Framework\Object\Mapper::accumulateByMap($address, $request, array_flip($this->_addressMap));
 
         // Address may come without email info (user is not always required to enter it), so add email from order
         if (!$request['email']) {
@@ -241,23 +241,7 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
             $request['state'] = $regionCode;
         }
         $this->_importStreetFromAddress($address, $request, 'address1', 'address2');
-        $this->_applyCountryWorkarounds($request);
 
         $request['address_override'] = 1;
-    }
-
-    /**
-     * Adopt specified request array to be compatible with Paypal
-     * Puerto Rico should be as state of USA and not as a country
-     *
-     * @param array $request
-     * @return void
-     */
-    protected function _applyCountryWorkarounds(&$request)
-    {
-        if (isset($request['country']) && $request['country'] == 'PR') {
-            $request['country'] = 'US';
-            $request['state'] = 'PR';
-        }
     }
 }

@@ -18,8 +18,8 @@
 </div>
 <div class="packed content">
 <?php foreach ($this->getPackages() as $packageId => $package): ?>
-        <?php $package = new \Magento\Object($package) ?>
-        <?php $params = new \Magento\Object($package->getParams()) ?>
+        <?php $package = new \Magento\Framework\Object($package) ?>
+        <?php $params = new \Magento\Framework\Object($package->getParams()) ?>
         <div class="block package info">
             <div class="title"><strong><?php echo __('Package') . ' ' . $packageId ?></strong></div>
             <table class="tracking popup data table">
@@ -54,7 +54,7 @@
                     <th class="col qty"><?php echo __('Qty') ?></th>
                 </tr>
                 <?php foreach($package->getItems() as $itemId => $item) : ?>
-                    <?php $item = new \Magento\Object($item) ?>
+                    <?php $item = new \Magento\Framework\Object($item) ?>
                     <tr title="#">
                         <td class="col product"> <?php echo $item->getName(); ?></td>
                         <td class="col weight"><?php echo $item->getWeight(); ?></td>

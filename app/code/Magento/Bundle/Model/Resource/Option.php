@@ -16,7 +16,7 @@ namespace Magento\Bundle\Model\Resource;
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Model\Resource\Db\AbstractDb
+class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define resource
@@ -31,10 +31,10 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * After save process
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
 
@@ -46,7 +46,7 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
 
-        $data = new \Magento\Object();
+        $data = new \Magento\Framework\Object();
         $data->setOptionId($object->getId())->setStoreId($object->getStoreId())->setTitle($object->getTitle());
 
         $write->insert($this->getTable('catalog_product_bundle_option_value'), $data->getData());
@@ -67,10 +67,10 @@ class Option extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * After delete process
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
 

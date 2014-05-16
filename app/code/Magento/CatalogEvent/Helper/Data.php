@@ -17,10 +17,10 @@
  */
 namespace Magento\CatalogEvent\Helper;
 
-use Magento\App\Helper\AbstractHelper;
-use Magento\App\Helper\Context;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\CatalogEvent\Model\Event;
-use Magento\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Data extends AbstractHelper
 {

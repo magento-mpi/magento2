@@ -10,7 +10,7 @@ namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 class Helper
 {
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $request;
 
@@ -30,13 +30,13 @@ class Helper
     protected $productLinks;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param StockDataFilter $stockFilter
      * @param Helper\ProductLinks $productLinks
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         StockDataFilter $stockFilter,
         Helper\ProductLinks $productLinks

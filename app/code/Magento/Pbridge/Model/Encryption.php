@@ -9,8 +9,8 @@
  */
 namespace Magento\Pbridge\Model;
 
-use Magento\Math\Random;
-use Magento\Encryption\CryptFactory;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Encryption\CryptFactory;
 
 class Encryption extends \Magento\Pci\Model\Encryption
 {

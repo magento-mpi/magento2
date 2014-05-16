@@ -9,7 +9,6 @@
  */
 namespace Magento\Logging\App\Action\Plugin;
 
-use Magento\App\ResponseInterface;
 use Magento\Logging\Model\Processor;
 
 class Log
@@ -30,17 +29,17 @@ class Log
     /**
      * Mark actions for logging, if required
      *
-     * @param \Magento\App\ActionInterface $subject
+     * @param \Magento\Framework\App\ActionInterface $subject
      * @param callable $proceed
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundDispatch(
-        \Magento\App\ActionInterface $subject,
+        \Magento\Framework\App\ActionInterface $subject,
         \Closure $proceed,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $beforeForwardInfo = $request->getBeforeForwardInfo();
 

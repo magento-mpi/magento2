@@ -17,7 +17,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
     /**
      * Serialize before saving
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)
@@ -34,7 +34,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
     /**
      * Unserialize after saving
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterSave($object)
@@ -47,7 +47,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
     /**
      * Unserialize after loading
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function afterLoad($object)
@@ -60,10 +60,10 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
     /**
      * Try to unserialize the attribute value
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
-    protected function _unserialize(\Magento\Object $object)
+    protected function _unserialize(\Magento\Framework\Object $object)
     {
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($object->getData($attrCode)) {

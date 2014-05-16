@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model;
 
-class View extends \Magento\App\View
+class View extends \Magento\Framework\App\View
 {
     /**
      * @var Layout\Filter\Acl
@@ -15,23 +15,23 @@ class View extends \Magento\App\View
     protected $_aclFilter;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Translate\InlineInterface $translateInline
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param \Magento\Framework\App\ResponseInterface $response
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Translate\InlineInterface $translateInline
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param Layout\Filter\Acl $aclFilter
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
-        \Magento\App\RequestInterface $request,
-        \Magento\App\ResponseInterface $response,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Translate\InlineInterface $translateInline,
-        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\ResponseInterface $response,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Translate\InlineInterface $translateInline,
+        \Magento\Framework\App\ActionFlag $actionFlag,
         Layout\Filter\Acl $aclFilter
     ) {
         $this->_aclFilter = $aclFilter;

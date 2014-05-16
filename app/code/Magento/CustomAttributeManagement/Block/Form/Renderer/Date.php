@@ -40,10 +40,10 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     protected $_dateRange = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -56,7 +56,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     public function getDateFormat()
     {
-        return $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

@@ -18,15 +18,15 @@
  */
 namespace Magento\Wishlist\Controller;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 
 class Index extends \Magento\Wishlist\Controller\AbstractController implements
     \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileResponseFactory;
 
@@ -45,17 +45,17 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Translate\Inline\StateInterface
+     * @var \Magento\Framework\Translate\Inline\StateInterface
      */
     protected $inlineTranslation;
 
@@ -65,25 +65,25 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     protected $_customerHelperView;
 
     /**
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Customer\Helper\View $customerHelperView
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
+        \Magento\Framework\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Framework\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Customer\Helper\View $customerHelperView
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -98,7 +98,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
     /**
      * @param RequestInterface $request
      * @return ResponseInterface
-     * @throws \Magento\App\Action\NotFoundException
+     * @throws \Magento\Framework\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
@@ -116,7 +116,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $customerSession->setBeforeWishlistRequest($request->getParams());
         }
         if (!$this->_objectManager->get(
-            'Magento\App\Config\ScopeConfigInterface'
+            'Magento\Framework\App\Config\ScopeConfigInterface'
         )->isSetFlag(
             'wishlist/general/active'
         )
@@ -165,11 +165,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
 
             if (!$wishlist->getId() || $wishlist->getCustomerId() != $customerId) {
                 $wishlist = null;
-                throw new \Magento\Model\Exception(__("The requested wish list doesn't exist."));
+                throw new \Magento\Framework\Model\Exception(__("The requested wish list doesn't exist."));
             }
 
             $this->_coreRegistry->register('wishlist', $wishlist);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             return false;
         } catch (\Exception $e) {
@@ -245,11 +245,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         }
 
         try {
-            $buyRequest = new \Magento\Object($requestParams);
+            $buyRequest = new \Magento\Framework\Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
             if (is_string($result)) {
-                throw new \Magento\Model\Exception($result);
+                throw new \Magento\Framework\Model\Exception($result);
             }
             $wishlist->save();
 
@@ -274,17 +274,17 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $message = __(
                 '%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.',
-                $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                $this->_objectManager->get('Magento\Escaper')->escapeUrl($referer)
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName()),
+                $this->_objectManager->get('Magento\Framework\Escaper')->escapeUrl($referer)
             );
             $this->messageManager->addSuccess($message);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(
                 __('An error occurred while adding item to wish list: %1', $e->getMessage())
             );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('An error occurred while adding item to wish list.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
         $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
@@ -304,7 +304,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $item = $this->_objectManager->create('Magento\Wishlist\Model\Item');
             $item->loadWithOptions($id);
             if (!$item->getId()) {
-                throw new \Magento\Model\Exception(__('We can\'t load the wish list item.'));
+                throw new \Magento\Framework\Model\Exception(__('We can\'t load the wish list item.'));
             }
             $wishlist = $this->_getWishlist($item->getWishlistId());
             if (!$wishlist) {
@@ -313,7 +313,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
 
             $this->_coreRegistry->register('wishlist_item', $item);
 
-            $params = new \Magento\Object();
+            $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
             $buyRequest = $item->getBuyRequest();
@@ -332,13 +332,13 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                 $this,
                 $params
             );
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t configure the product.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_redirect('*');
             return;
         }
@@ -376,7 +376,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                 return;
             }
 
-            $buyRequest = new \Magento\Object($this->getRequest()->getParams());
+            $buyRequest = new \Magento\Framework\Object($this->getRequest()->getParams());
 
             $wishlist->updateItem($id, $buyRequest)->save();
 
@@ -390,11 +390,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
 
             $message = __('%1 has been updated in your wish list.', $product->getName());
             $this->messageManager->addSuccess($message);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('An error occurred while updating wish list.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -448,7 +448,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                     try {
                         $item->delete();
                     } catch (\Exception $e) {
-                        $this->_objectManager->get('Magento\Logger')->logException($e);
+                        $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                         $this->messageManager->addError(__('Can\'t delete item from wishlist'));
                     }
                 }
@@ -464,7 +464,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                     $this->messageManager->addError(
                         __(
                             'Can\'t save description %1',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($description)
+                            $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($description)
                         )
                     );
                 }
@@ -508,7 +508,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         try {
             $item->delete();
             $wishlist->save();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError(
                 __('An error occurred while deleting the item from wish list: %1', $e->getMessage())
             );
@@ -558,7 +558,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $item->setQty($qty);
         }
 
-        /* @var $session \Magento\Session\Generic */
+        /* @var $session \Magento\Framework\Session\Generic */
         $session = $this->_objectManager->get('Magento\Wishlist\Model\Session');
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 
@@ -587,7 +587,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             if (!$cart->getQuote()->getHasError()) {
                 $message = __(
                     'You added %1 to your shopping cart.',
-                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                    $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName())
                 );
                 $this->messageManager->addSuccess($message);
             }
@@ -600,7 +600,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                 $redirectUrl = $this->_redirect->getRefererUrl();
             }
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $this->messageManager->addError(__('This product(s) is out of stock.'));
             } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
@@ -640,7 +640,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         try {
             $item = $cart->getQuote()->getItemById($itemId);
             if (!$item) {
-                throw new \Magento\Model\Exception(__("The requested cart item doesn't exist."));
+                throw new \Magento\Framework\Model\Exception(__("The requested cart item doesn't exist."));
             }
 
             $productId = $item->getProductId();
@@ -652,11 +652,11 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $cart->getQuote()->removeItem($itemId);
             $cart->save();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName());
-            $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
+            $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($item->getProduct()->getName());
+            $wishlistName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($wishlist->getName());
             $this->messageManager->addSuccess(__("%1 has been moved to wish list %2", $productName, $wishlistName));
             $wishlist->save();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We can\'t move the item to the wish list.'));
@@ -760,7 +760,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+                $scopeConfig = $this->_objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder->setTemplateIdentifier(
@@ -770,7 +770,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                         )
                     )->setTemplateOptions(
                         array(
-                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                             'store' => $storeManager->getStore()->getStoreId()
                         )
                     )->setTemplateVars(
@@ -863,9 +863,9 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
         try {
             $info = unserialize($option->getValue());
             $filePath = $this->_objectManager->get(
-                'Magento\App\Filesystem'
+                'Magento\Framework\App\Filesystem'
             )->getPath(
-                \Magento\App\Filesystem::ROOT_DIR
+                \Magento\Framework\App\Filesystem::ROOT_DIR
             ) . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
@@ -873,7 +873,7 @@ class Index extends \Magento\Wishlist\Controller\AbstractController implements
                 $this->_fileResponseFactory->create(
                     $info['title'],
                     array('value' => $filePath, 'type' => 'filename'),
-                    \Magento\App\Filesystem::ROOT_DIR
+                    \Magento\Framework\App\Filesystem::ROOT_DIR
                 );
             }
         } catch (\Exception $e) {

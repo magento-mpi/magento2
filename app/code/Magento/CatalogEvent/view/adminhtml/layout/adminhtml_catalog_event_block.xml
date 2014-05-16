@@ -29,17 +29,21 @@
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="event_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">ID</argument>
-                        <argument name="width" xsi:type="string">80px</argument>
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="index" xsi:type="string">event_id</argument>
+                        <argument name="column_css_class" xsi:type="string">col-id</argument>
+                        <argument name="header_css_class" xsi:type="string">col-id</argument>
+
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="category_id">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Category ID</argument>
-                        <argument name="width" xsi:type="string">70</argument>
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="index" xsi:type="string">category_id</argument>
+                        <argument name="column_css_class" xsi:type="string">col-id</argument>
+                        <argument name="header_css_class" xsi:type="string">col-id</argument>
+
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="category">
@@ -55,7 +59,9 @@
                         <argument name="type" xsi:type="string">datetime</argument>
                         <argument name="index" xsi:type="string">date_start</argument>
                         <argument name="filter_time" xsi:type="string">1</argument>
-                        <argument name="width" xsi:type="string">150</argument>
+                        <argument name="column_css_class" xsi:type="string">col-date</argument>
+                        <argument name="header_css_class" xsi:type="string">col-date</argument>
+
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="date_end">
@@ -64,7 +70,8 @@
                         <argument name="type" xsi:type="string">datetime</argument>
                         <argument name="index" xsi:type="string">date_end</argument>
                         <argument name="filter_time" xsi:type="string">1</argument>
-                        <argument name="width" xsi:type="string">150</argument>
+                        <argument name="column_css_class" xsi:type="string">col-date</argument>
+                        <argument name="header_css_class" xsi:type="string">col-date</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">
@@ -72,7 +79,6 @@
                         <argument name="header" xsi:type="string" translate="true">Status</argument>
                         <argument name="type" xsi:type="string">options</argument>
                         <argument name="index" xsi:type="string">status</argument>
-                        <argument name="width" xsi:type="string">140</argument>
                         <argument name="options" xsi:type="options" model="Magento\CatalogEvent\Model\Resource\Event\Grid\Statuses"/>
                     </arguments>
                 </block>
@@ -90,13 +96,11 @@
                         <argument name="header" xsi:type="string" translate="true">Sort Order</argument>
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="index" xsi:type="string">sort_order</argument>
-                        <argument name="width" xsi:type="string">70</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="actions">
                     <arguments>
                         <argument name="header" xsi:type="string" translate="true">Action</argument>
-                        <argument name="width" xsi:type="string">15</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                         <argument name="type" xsi:type="string">action</argument>

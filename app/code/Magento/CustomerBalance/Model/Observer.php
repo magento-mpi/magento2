@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer balance observer
@@ -26,7 +26,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,7 +36,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -56,19 +56,19 @@ class Observer
     /**
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Converter $customerConverter
      */
     public function __construct(
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_onePageCheckout = $onePageCheckout;
@@ -83,7 +83,7 @@ class Observer
     /**
      * Customer balance update after save
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function customerSaveAfter($observer)
@@ -91,7 +91,7 @@ class Observer
         if (!$this->_customerBalanceData->isEnabled()) {
             return;
         }
-        /* @var $request \Magento\App\RequestInterface */
+        /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
         /* @var $customer \Magento\Customer\Service\V1\Data\Customer */
@@ -125,10 +125,10 @@ class Observer
     /**
      * Check for customer balance use switch & update payment info
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function paymentDataImport(\Magento\Event\Observer $observer)
+    public function paymentDataImport(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return;
@@ -174,10 +174,10 @@ class Observer
     /**
      * Validate balance just before placing an order
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function processBeforeOrderPlace(\Magento\Event\Observer $observer)
+    public function processBeforeOrderPlace(\Magento\Framework\Event\Observer $observer)
     {
         if ($this->_customerBalanceData->isEnabled()) {
             $order = $observer->getEvent()->getOrder();
@@ -190,10 +190,10 @@ class Observer
     /**
      * Check if customer balance was used in quote and reduce balance if so
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function processOrderPlace(\Magento\Event\Observer $observer)
+    public function processOrderPlace(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
@@ -250,10 +250,10 @@ class Observer
     /**
      * Revert store credit if order was not placed
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function revertStoreCredit(\Magento\Event\Observer $observer)
+    public function revertStoreCredit(\Magento\Framework\Event\Observer $observer)
     {
         /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
@@ -267,10 +267,10 @@ class Observer
     /**
      * Revert authorized store credit amounts for all orders
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param   \Magento\Framework\Event\Observer $observer
      * @return  $this
      */
-    public function revertStoreCreditForAllOrders(\Magento\Event\Observer $observer)
+    public function revertStoreCreditForAllOrders(\Magento\Framework\Event\Observer $observer)
     {
         $orders = $observer->getEvent()->getOrders();
 
@@ -284,10 +284,10 @@ class Observer
     /**
      * The same as paymentDataImport(), but for admin checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function processOrderCreationData(\Magento\Event\Observer $observer)
+    public function processOrderCreationData(\Magento\Framework\Event\Observer $observer)
     {
         if (!$this->_customerBalanceData->isEnabled()) {
             return $this;
@@ -307,7 +307,7 @@ class Observer
      * Analyze payment data for quote and set free shipping if grand total is covered by balance
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @param \Magento\Object|\Magento\Sales\Model\Quote\Payment $payment
+     * @param \Magento\Framework\Object|\Magento\Sales\Model\Quote\Payment $payment
      * @param bool $shouldUseBalance
      * @return void
      */
@@ -343,7 +343,7 @@ class Observer
      *
      * The Customerbalance instance must already be in the quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function togglePaymentMethods($observer)
@@ -373,10 +373,10 @@ class Observer
     /**
      * Set the flag that we need to collect overall totals
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
+    public function quoteCollectTotalsBefore(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $quote->setCustomerBalanceCollected(false);
@@ -385,10 +385,10 @@ class Observer
     /**
      * Set the source customer balance usage flag into new quote
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function quoteMergeAfter(\Magento\Event\Observer $observer)
+    public function quoteMergeAfter(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
         $source = $observer->getEvent()->getSource();
@@ -402,10 +402,10 @@ class Observer
      * Increase order customer_balance_invoiced attribute based on created invoice
      * used for event: sales_order_invoice_save_after
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function increaseOrderInvoicedAmount(\Magento\Event\Observer $observer)
+    public function increaseOrderInvoicedAmount(\Magento\Framework\Event\Observer $observer)
     {
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
@@ -433,11 +433,11 @@ class Observer
      * Refund process
      * used for event: sales_order_creditmemo_save_after
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      * @throws Exception
      */
-    public function creditmemoSaveAfter(\Magento\Event\Observer $observer)
+    public function creditmemoSaveAfter(\Magento\Framework\Event\Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
@@ -494,10 +494,10 @@ class Observer
      * Set refund flag to creditmemo based on user input
      * used for event: adminhtml_sales_order_creditmemo_register_before
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function creditmemoDataImport(\Magento\Event\Observer $observer)
+    public function creditmemoDataImport(\Magento\Framework\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $creditmemo = $observer->getEvent()->getCreditmemo();
@@ -541,10 +541,10 @@ class Observer
      * Set forced canCreditmemo flag
      * used for event: sales_order_load_after
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function salesOrderLoadAfter(\Magento\Event\Observer $observer)
+    public function salesOrderLoadAfter(\Magento\Framework\Event\Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -567,10 +567,10 @@ class Observer
      * Set refund amount to creditmemo
      * used for event: sales_order_creditmemo_refund
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function refund(\Magento\Event\Observer $observer)
+    public function refund(\Magento\Framework\Event\Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
@@ -634,10 +634,10 @@ class Observer
     /**
      * Set customers balance currency code to website base currency code on website deletion
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(\Magento\Event\Observer $observer)
+    public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(\Magento\Framework\Event\Observer $observer)
     {
         $this->_balanceFactory->create()->setCustomersBalanceCurrencyTo(
             $observer->getEvent()->getWebsite()->getWebsiteId(),
@@ -649,10 +649,10 @@ class Observer
     /**
      * Add customer balance amount to payment discount total
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function addPaymentCustomerBalanceItem(\Magento\Event\Observer $observer)
+    public function addPaymentCustomerBalanceItem(\Magento\Framework\Event\Observer $observer)
     {
         /** @var $cart \Magento\Payment\Model\Cart */
         $cart = $observer->getEvent()->getCart();
@@ -666,14 +666,14 @@ class Observer
     /**
      * Extend sales amount expression with customer balance refunded value
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
-    public function extendSalesAmountExpression(\Magento\Event\Observer $observer)
+    public function extendSalesAmountExpression(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $expressionTransferObject \Magento\Object */
+        /** @var $expressionTransferObject \Magento\Framework\Object */
         $expressionTransferObject = $observer->getEvent()->getExpressionObject();
-        /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
+        /** @var $adapter \Magento\Framework\DB\Adapter\AdapterInterface */
         $adapter = $observer->getEvent()->getCollection()->getConnection();
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' + (%s)');
         $arguments = $expressionTransferObject->getArguments();

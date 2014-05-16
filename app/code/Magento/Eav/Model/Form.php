@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model;
 
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * EAV Entity Form Model
@@ -51,7 +51,7 @@ abstract class Form
     /**
      * Current entity instance
      *
-     * @var \Magento\Model\AbstractModel
+     * @var \Magento\Framework\Model\AbstractModel
      */
     protected $_entity;
 
@@ -105,7 +105,7 @@ abstract class Form
     protected $_ignoreInvisible = true;
 
     /**
-     * @var \Magento\Validator
+     * @var \Magento\Framework\Validator
      */
     protected $_validator = null;
 
@@ -120,7 +120,7 @@ abstract class Form
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var \Magento\Framework\Module\Dir\Reader
      */
     protected $_modulesReader;
 
@@ -130,7 +130,7 @@ abstract class Form
     protected $_attrDataFactory;
 
     /**
-     * @var \Magento\Validator\UniversalFactory $universalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory $universalFactory
      */
     protected $_universalFactory;
 
@@ -140,35 +140,35 @@ abstract class Form
     protected $_httpRequest;
 
     /**
-     * @var \Magento\Validator\ConfigFactory
+     * @var \Magento\Framework\Validator\ConfigFactory
      */
     protected $_validatorConfigFactory;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
      * @param RequestInterface $httpRequest
-     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
+     * @param \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
         RequestInterface $httpRequest,
-        \Magento\Validator\ConfigFactory $validatorConfigFactory
+        \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
     ) {
         if (empty($this->_moduleName)) {
-            throw new \Magento\Model\Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Framework\Model\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new \Magento\Model\Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Framework\Model\Exception(__('Current module EAV entity is undefined'));
         }
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -222,10 +222,10 @@ abstract class Form
     /**
      * Set entity instance
      *
-     * @param \Magento\Model\AbstractModel $entity
+     * @param \Magento\Framework\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Framework\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         if ($entity->getEntityTypeId()) {
@@ -274,13 +274,13 @@ abstract class Form
     /**
      * Return current form code
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return string
      */
     public function getFormCode()
     {
         if (empty($this->_formCode)) {
-            throw new \Magento\Model\Exception(__('Form code is not defined'));
+            throw new \Magento\Framework\Model\Exception(__('Form code is not defined'));
         }
         return $this->_formCode;
     }
@@ -302,13 +302,13 @@ abstract class Form
     /**
      * Return current entity instance
      *
-     * @throws \Magento\Model\Exception
-     * @return \Magento\Model\AbstractModel
+     * @throws \Magento\Framework\Model\Exception
+     * @return \Magento\Framework\Model\AbstractModel
      */
     public function getEntity()
     {
         if (is_null($this->_entity)) {
-            throw new \Magento\Model\Exception(__('Entity instance is not defined'));
+            throw new \Magento\Framework\Model\Exception(__('Entity instance is not defined'));
         }
         return $this->_entity;
     }
@@ -451,13 +451,13 @@ abstract class Form
      * Get validator
      *
      * @param array $data
-     * @return \Magento\Validator
+     * @return \Magento\Framework\Validator
      */
     protected function _getValidator(array $data)
     {
         if (is_null($this->_validator)) {
             $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
-            /** @var $validatorFactory \Magento\Validator\Config */
+            /** @var $validatorFactory \Magento\Framework\Validator\Config */
             $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 

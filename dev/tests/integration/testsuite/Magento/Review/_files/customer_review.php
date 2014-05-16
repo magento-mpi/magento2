@@ -37,7 +37,7 @@ $review
     ])
     ->save();
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Registry')->register(
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry')->register(
     'review_data',
     $review
 );

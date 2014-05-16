@@ -12,7 +12,7 @@ namespace Magento\Search\Helper;
 /**
  * Enterprise search helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
+class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Magento\Search\Helper\ClientInterface
 {
     /**
      * Define if search engine is used for layered navigation
@@ -73,12 +73,12 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -92,12 +92,12 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Date time
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -109,25 +109,25 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     protected $_languages;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -334,17 +334,17 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         } elseif ($backendType == 'datetime') {
             $field = 'attr_datetime_' . $field;
 
-            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+            $format = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
                 foreach ($value as &$val) {
                     if (!$this->dateTime->isEmptyDate($val)) {
-                        $date = new \Magento\Stdlib\DateTime\Date($val, $format);
+                        $date = new \Magento\Framework\Stdlib\DateTime\Date($val, $format);
                         $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                     }
                 }
             } else {
                 if (!$this->dateTime->isEmptyDate($value)) {
-                    $date = new \Magento\Stdlib\DateTime\Date($value, $format);
+                    $date = new \Magento\Framework\Stdlib\DateTime\Date($value, $format);
                     $value = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }

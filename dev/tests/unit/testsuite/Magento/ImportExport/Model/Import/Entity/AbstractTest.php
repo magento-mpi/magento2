@@ -73,7 +73,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      * Test for method validateData()
      *
      * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataEmptyColumnName()
@@ -86,7 +86,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      * Test for method validateData()
      *
      * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Columns number: "1" have empty headers
      */
     public function testValidateDataColumnNameWithWhitespaces()
@@ -99,7 +99,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      * Test for method validateData()
      *
      * @covers \Magento\ImportExport\Model\Import\Entity\AbstractEntity::validateData
-     * @expectedException \Magento\Model\Exception
+     * @expectedException \Magento\Framework\Model\Exception
      * @expectedExceptionMessage Column names: "_test1" are invalid
      */
     public function testValidateDataAttributeNames()

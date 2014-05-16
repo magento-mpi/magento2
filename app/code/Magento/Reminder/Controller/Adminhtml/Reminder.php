@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 /**
  * Reminder grid and edit controller
@@ -39,7 +39,7 @@ class Reminder extends \Magento\Backend\App\Action
     protected $_conditionFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime\Filter\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
 
@@ -48,14 +48,14 @@ class Reminder extends \Magento\Backend\App\Action
      * @param Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
-     * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
-        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
@@ -86,7 +86,7 @@ class Reminder extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\Reminder\Model\Rule
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _initRule($requestParam = 'id')
     {
@@ -95,7 +95,7 @@ class Reminder extends \Magento\Backend\App\Action
         if ($ruleId) {
             $rule->load($ruleId);
             if (!$rule->getId()) {
-                throw new \Magento\Model\Exception(__('Please correct the reminder rule you requested.'));
+                throw new \Magento\Framework\Model\Exception(__('Please correct the reminder rule you requested.'));
             }
         }
         $this->_coreRegistry->register('current_reminder_rule', $rule);
@@ -137,7 +137,7 @@ class Reminder extends \Magento\Backend\App\Action
 
         try {
             $model = $this->_initRule();
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
@@ -224,7 +224,7 @@ class Reminder extends \Magento\Backend\App\Action
                 );
                 $data = $inputFilter->getUnescaped();
 
-                $validateResult = $model->validateData(new \Magento\Object($data));
+                $validateResult = $model->validateData(new \Magento\Framework\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
                         $this->messageManager->addError($errorMessage);
@@ -250,14 +250,14 @@ class Reminder extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not save the reminder rule.'));
-                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
         $this->_redirect('adminhtml/*/');
@@ -274,13 +274,13 @@ class Reminder extends \Magento\Backend\App\Action
             $model = $this->_initRule();
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the reminder rule.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not delete the reminder rule.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -296,11 +296,11 @@ class Reminder extends \Magento\Backend\App\Action
             $model = $this->_initRule();
             $model->sendReminderEmails();
             $this->messageManager->addSuccess(__('You matched the reminder rule.'));
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Reminder rule matching error.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
     }

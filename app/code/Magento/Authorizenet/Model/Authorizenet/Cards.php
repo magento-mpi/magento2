@@ -87,7 +87,7 @@ class Cards
     /**
      * Save data from card object in cards storage
      *
-     * @param \Magento\Object $card
+     * @param \Magento\Framework\Object $card
      * @return $this
      */
     public function updateCard($card)
@@ -104,12 +104,12 @@ class Cards
      * Retrieve card by ID
      *
      * @param string $cardId
-     * @return \Magento\Object|false
+     * @return \Magento\Framework\Object|false
      */
     public function getCard($cardId)
     {
         if (isset($this->_cards[$cardId])) {
-            $card = new \Magento\Object($this->_cards[$cardId]);
+            $card = new \Magento\Framework\Object($this->_cards[$cardId]);
             return $card;
         }
         return false;

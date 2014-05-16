@@ -9,10 +9,10 @@
  */
 namespace Magento\Core\Model\Url;
 
-class SecurityInfo implements \Magento\Url\SecurityInfoInterface
+class SecurityInfo implements \Magento\Framework\Url\SecurityInfoInterface
 {
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -31,11 +31,13 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
     protected $_secureUrlCache = array();
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $secureUrlList
      */
-    public function __construct(\Magento\App\Config\ScopeConfigInterface $scopeConfig, array $secureUrlList = array())
-    {
+    public function __construct(
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        array $secureUrlList = array()
+    ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_secureUrlList = $secureUrlList;
     }

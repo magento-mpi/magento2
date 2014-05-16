@@ -30,7 +30,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_config;
 
@@ -42,9 +42,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
 
-        $configCacheType = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
+        $configCacheType = $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
 
         $this->_countryCollection = $this->getMock(
             'Magento\Directory\Model\Resource\Country\Collection',
@@ -84,7 +84,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
 
-        $this->_config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_config = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $arguments = array(
             'context' => $context,
@@ -102,8 +102,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetRegionJson()
     {
         $countries = array(
-            new \Magento\Object(array('country_id' => 'Country1')),
-            new \Magento\Object(array('country_id' => 'Country2'))
+            new \Magento\Framework\Object(array('country_id' => 'Country1')),
+            new \Magento\Framework\Object(array('country_id' => 'Country2'))
         );
         $countryIterator = new \ArrayIterator($countries);
         $this->_countryCollection->expects(
@@ -115,13 +115,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         $regions = array(
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r1', 'code' => 'r1-code', 'name' => 'r1-name')
             ),
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array('country_id' => 'Country1', 'region_id' => 'r2', 'code' => 'r2-code', 'name' => 'r2-name')
             ),
-            new \Magento\Object(
+            new \Magento\Framework\Object(
                 array('country_id' => 'Country2', 'region_id' => 'r3', 'code' => 'r3-code', 'name' => 'r3-name')
             )
         );

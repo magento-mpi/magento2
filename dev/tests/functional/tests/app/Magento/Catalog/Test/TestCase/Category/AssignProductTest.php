@@ -44,9 +44,11 @@ class AssignProductTest extends Functional
         $category->persist();
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
+        $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
         $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
@@ -58,7 +60,7 @@ class AssignProductTest extends Functional
         foreach ($products as $product) {
             $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
         }
-        $formBlock->save($category);
+        $actionsBlock->save();
         $messageBlock->assertSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();

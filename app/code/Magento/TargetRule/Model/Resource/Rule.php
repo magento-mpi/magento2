@@ -10,9 +10,9 @@
 namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
-use Magento\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Indexer\Model\CacheContext;
-use Magento\Module\Manager as ModuleManager;
+use Magento\Framework\Module\Manager as ModuleManager;
 
 /**
  * TargetRule Rule Resource Model
@@ -57,14 +57,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $context;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Index\Model\Indexer $indexer
      * @param ModuleManager $moduleManager
      * @param EventManagerInterface $eventManager
      * @param CacheContext $context
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Index\Model\Indexer $indexer,
         ModuleManager $moduleManager,
         EventManagerInterface $eventManager,
@@ -90,10 +90,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get Customer Segment Ids by rule
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return array
      */
-    public function getCustomerSegmentIds(\Magento\Model\AbstractModel $object)
+    public function getCustomerSegmentIds(\Magento\Framework\Model\AbstractModel $object)
     {
         $ids = $this->getReadConnection()->select()->from(
             $this->getTable('magento_targetrule_customersegment'),
@@ -144,10 +144,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add customer segment ids to rule
      *
-     * @param \Magento\Model\AbstractModel $object
+     * @param \Magento\Framework\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Framework\Model\AbstractModel $object)
     {
         $object->setData('customer_segment_ids', $this->getCustomerSegmentIds($object));
         return parent::_afterLoad($object);
@@ -156,10 +156,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save matched products for current rule and clean index, clean full page cache
      *
-     * @param \Magento\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
@@ -180,7 +180,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         );
 
         $this->_indexer->processEntityAction(
-            new \Magento\Object(array('type_id' => $typeId)),
+            new \Magento\Framework\Object(array('type_id' => $typeId)),
             \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );
@@ -197,13 +197,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Clean index
      *
-     * @param \Magento\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\TargetRule\Model\Rule $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Model\AbstractModel $object)
+    protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         $this->_indexer->processEntityAction(
-            new \Magento\Object(array('type_id' => $object->getData('apply_to'))),
+            new \Magento\Framework\Object(array('type_id' => $object->getData('apply_to'))),
             \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
             \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
         );

@@ -27,10 +27,10 @@ class UrlRewriteTest extends \PHPUnit_Framework_TestCase
         );
         $optionsMock->expects($this->any())->method('getRedirectOptions')->will($this->returnValue(array('R', 'RP')));
         $helper = new \Magento\UrlRewrite\Helper\UrlRewrite(
-            $this->getMock('Magento\App\Helper\Context', array(), array(), '', false, false),
+            $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false, false),
             $optionsMock
         );
-        $mockObject = new \Magento\Object();
+        $mockObject = new \Magento\Framework\Object();
         $mockObject->setOptions($option);
         $this->assertEquals($expected, $helper->hasRedirectOptions($mockObject));
     }

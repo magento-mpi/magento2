@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Data;
 /**
  * SearchResults Service Data Object used for the search service requests
  */
-class SearchResults extends \Magento\Service\Data\AbstractObject
+class SearchResults extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * Get items
@@ -26,7 +26,7 @@ class SearchResults extends \Magento\Service\Data\AbstractObject
     /**
      * Get search criteria
      *
-     * @return \Magento\Service\V1\Data\SearchCriteria
+     * @return \Magento\Framework\Service\V1\Data\SearchCriteria
      */
     public function getSearchCriteria()
     {

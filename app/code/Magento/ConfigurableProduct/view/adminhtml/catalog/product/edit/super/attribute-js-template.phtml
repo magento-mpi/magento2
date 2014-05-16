@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this \Magento\View\Element\Template */
+/* @var $this \Magento\Framework\View\Element\Template */
 ?>
 <script data-template-for="configurable-attribute" type="text/x-jquery-tmpl">
     <div class="entry-edit" data-role="configurable-attribute" data-attribute="${JSON.stringify(attribute)}">
@@ -122,7 +122,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4"><?php echo $this->getChildHtml('add_option'); ?></td>
+                                        <td colspan="4" class="col-actions-add"><?php echo $this->getChildHtml('add_option'); ?></td>
                                     </tr>
                                 </tfoot>
                             </table>

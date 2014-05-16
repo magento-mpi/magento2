@@ -74,5 +74,7 @@ class FormPageActions extends PageActions
     public function save()
     {
         $this->_rootElement->find($this->saveButton)->click();
+        $this->waitForElementNotVisible('.popup popup-loading');
+        $this->waitForElementNotVisible('.loader');
     }
 }

@@ -20,15 +20,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Pricing\Price\SpecialPrice|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $salableItemMock;
+    protected $saleableItemMock;
 
     /**
-     * @var \Magento\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceCurrencyMock;
 
     /**
-     * @var \Magento\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -45,7 +45,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->salableItemMock = $this->getMock(
+        $this->saleableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             [
                 'getGiftcardAmounts',
@@ -60,11 +60,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->priceCurrencyMock = $this->getMockBuilder(
-            'Magento\Pricing\PriceCurrencyInterface'
+            'Magento\Framework\Pricing\PriceCurrencyInterface'
         )->disableOriginalConstructor()->setMethods(['convertAndFormat', 'convert'])->getMockForAbstractClass();
 
         $this->contextMock = $this->getMock(
-            'Magento\View\Element\Template\Context',
+            'Magento\Framework\View\Element\Template\Context',
             ['getStoreManager'],
             [],
             '',
@@ -92,7 +92,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->storeManagerMock));
 
         $this->priceCurrencyMock = $this->getMockBuilder(
-            'Magento\Pricing\PriceCurrencyInterface'
+            'Magento\Framework\Pricing\PriceCurrencyInterface'
         )->disableOriginalConstructor()->setMethods(['convertAndFormat', 'convert'])->getMockForAbstractClass();
     }
 
@@ -105,11 +105,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRegularPrice($amounts, $isOpenAmount, $expected)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue($amounts));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getAllowOpenAmount')
             ->will($this->returnValue($isOpenAmount));
 
@@ -166,7 +166,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         return $this->objectManager->getObject(
             'Magento\GiftCard\Pricing\Render\FinalPriceBox',
             [
-                'saleableItem' => $this->salableItemMock,
+                'saleableItem' => $this->saleableItemMock,
                 'priceCurrency' => $this->priceCurrencyMock,
                 'context' => $this->contextMock
             ]
@@ -181,11 +181,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsOpenAmountAvailable($isOpenAmount, $expected)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getAllowOpenAmount')
             ->will($this->returnValue($isOpenAmount));
 
@@ -218,7 +218,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRegularPrice($amounts, $expected)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue($amounts));
 
@@ -262,7 +262,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAmounts($amounts, $expected)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue($amounts));
 
@@ -304,7 +304,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertAndFormatCurrency()
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
@@ -319,7 +319,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertCurrency()
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
@@ -340,7 +340,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAmountAvailable($amounts, $expected)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue($amounts));
 
@@ -371,11 +371,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOpenAmountMin()
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getOpenAmountMin')
             ->will($this->returnValue(0.));
 
@@ -385,11 +385,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOpenAmountMax()
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getOpenAmountMax')
             ->will($this->returnValue(20.));
 
@@ -399,7 +399,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentCurrency()
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue([]));
 
@@ -435,19 +435,19 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     protected function preparePriceCalculation($amounts, $openMinAmount, $openMaxAmount, $isOpenAmount)
     {
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getGiftcardAmounts')
             ->will($this->returnValue($amounts));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getOpenAmountMin')
             ->will($this->returnValue($openMinAmount));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getOpenAmountMax')
             ->will($this->returnValue($openMaxAmount));
 
-        $this->salableItemMock->expects($this->any())
+        $this->saleableItemMock->expects($this->any())
             ->method('getAllowOpenAmount')
             ->will($this->returnValue($isOpenAmount));
     }

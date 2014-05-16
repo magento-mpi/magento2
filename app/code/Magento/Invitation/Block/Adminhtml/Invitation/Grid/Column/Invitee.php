@@ -40,10 +40,10 @@ class Invitee extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     /**
      * Render invitee email linked to its account edit page
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
             if (!$row->getReferralId()) {

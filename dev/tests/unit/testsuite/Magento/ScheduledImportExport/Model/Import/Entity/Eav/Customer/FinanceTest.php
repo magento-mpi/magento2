@@ -13,8 +13,10 @@
  * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
-use \Magento\ImportExport\Model\Import\AbstractEntity;
-use \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
+
+use Magento\ImportExport\Model\Import\AbstractEntity;
+use Magento\Customer\Model\ImportExport\Import\Address;
+use Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection;
 
 class FinanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,7 +88,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             Finance::COLUMN_WEBSITE => 'website1',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => null,
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 1,
+            Address::COLUMN_ADDRESS_ID => 1,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
             Collection::COLUMN_REWARD_POINTS => 200
         ),
@@ -95,14 +97,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2
+            Address::COLUMN_ADDRESS_ID => 2
         ),
         array(
             Finance::COLUMN_EMAIL => 'test2@email.com',
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => 'update',
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID => 2,
+            Address::COLUMN_ADDRESS_ID => 2,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
             Collection::COLUMN_REWARD_POINTS => 200
         )
@@ -184,7 +186,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward'))
             );
 
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
         $adminUser->expects($this->any())
@@ -208,15 +210,21 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
-            new \Magento\Stdlib\String(),
+            new \Magento\Framework\Stdlib\String(),
             $scopeConfig,
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\App\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
+            $this->getMock(
+                'Magento\Customer\Model\Resource\ImportExport\Import\Customer\StorageFactory',
+                array(),
+                array(),
+                '',
+                false
+            ),
             $authSession,
             $moduleHelper,
             $customerFactory,
@@ -260,9 +268,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $connection = $this->getMock('stdClass');
 
-        /** @var $customerStorage \Magento\ImportExport\Model\Resource\Customer\Storage */
+        /** @var $customerStorage \Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage */
         $customerStorage = $this->getMock(
-            'Magento\ImportExport\Model\Resource\Customer\Storage',
+            'Magento\Customer\Model\Resource\ImportExport\Import\Customer\Storage',
             array('load'),
             array(),
             '',
@@ -298,9 +306,9 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 $this->returnCallback(array($this, 'getModelInstance'))
             );
 
-        /** @var $attributeCollection \Magento\Data\Collection */
+        /** @var $attributeCollection \Magento\Framework\Data\Collection */
         $attributeCollection = $this->getMock(
-            'Magento\Data\Collection',
+            'Magento\Framework\Data\Collection',
             array('getEntityTypeCode'),
             array($this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false))
         );
@@ -362,11 +370,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      *
-     * @param \Magento\Data\Collection $collection
+     * @param \Magento\Framework\Data\Collection $collection
      * @param int $pageSize
      * @param array $callbacks
      */
-    public function iterate(\Magento\Data\Collection $collection, $pageSize, array $callbacks)
+    public function iterate(\Magento\Framework\Data\Collection $collection, $pageSize, array $callbacks)
     {
         foreach ($collection as $customer) {
             foreach ($callbacks as $callback) {
@@ -392,7 +400,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             $websiteData = array('id' => $id, 'code' => $code);
-            $websites[$id] = new \Magento\Object($websiteData);
+            $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
         return $websites;

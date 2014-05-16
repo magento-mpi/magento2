@@ -39,7 +39,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Magento\View\Element\Template';
+    protected $_iframeBlockType = 'Magento\Framework\View\Element\Template';
 
     /**
      * Default iframe template
@@ -91,26 +91,26 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
@@ -189,7 +189,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Create and return iframe block
      *
-     * @return \Magento\View\Element\Template
+     * @return \Magento\Framework\View\Element\Template
      */
     public function getIframeBlock()
     {
@@ -281,7 +281,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_JS);
+        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_JS);
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;

@@ -7,10 +7,13 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
+use Magento\Payment\Model\MethodInterface;
+use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+
 /**
  * Paypal dummy payment method model
  */
-class Paypal implements \Magento\Payment\Model\MethodInterface
+class Paypal implements MethodInterface, PaymentMethodChecksInterface
 {
     /**
      * @var \Magento\Pbridge\Helper\Data
@@ -18,7 +21,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -41,14 +44,14 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
      * @param string $paypalClassName
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
         $paypalClassName
@@ -201,5 +204,48 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     public function getTitle()
     {
         return $this->_paypalMethodInstance->getTitle();
+    }
+
+    /**
+     * Using internal pages for input payment data
+     * Can be used in admin
+     *
+     * @return bool
+     */
+    public function canUseInternal()
+    {
+        return $this->_paypalMethodInstance->canUseInternal();
+    }
+
+    /**
+     * Can be used in regular checkout
+     *
+     * @return bool
+     */
+    public function canUseCheckout()
+    {
+        return $this->_paypalMethodInstance->canUseCheckout();
+    }
+
+    /**
+     * To check billing country is allowed for the payment method
+     *
+     * @param string $country
+     * @return bool
+     */
+    public function canUseForCountry($country)
+    {
+        return $this->_paypalMethodInstance->canUseForCountry($country);
+    }
+
+    /**
+     * Check method for processing with base currency
+     *
+     * @param string $currencyCode
+     * @return bool
+     */
+    public function canUseForCurrency($currencyCode)
+    {
+        return $this->_paypalMethodInstance->canUseForCurrency($currencyCode);
     }
 }

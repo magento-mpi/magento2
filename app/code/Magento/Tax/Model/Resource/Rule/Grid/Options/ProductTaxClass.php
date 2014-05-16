@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Model\Resource\Rule\Grid\Options;
 
-class ProductTaxClass implements \Magento\Option\ArrayInterface
+class ProductTaxClass implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Tax\Model\Resource\TaxClass\CollectionFactory

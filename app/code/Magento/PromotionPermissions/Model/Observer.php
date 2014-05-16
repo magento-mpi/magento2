@@ -22,7 +22,7 @@ class Observer
     /**
      * Instance of http request
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
@@ -68,12 +68,12 @@ class Observer
 
     /**
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
      */
     public function __construct(
         \Magento\PromotionPermissions\Helper\Data $promoPermData,
-        \Magento\App\RequestInterface $request,
+        \Magento\Framework\App\RequestInterface $request,
         \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
     ) {
         $this->_request = $request;
@@ -89,12 +89,12 @@ class Observer
     /**
      * Handle view_block_abstract_to_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-        /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\Framework\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -110,7 +110,7 @@ class Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -205,7 +205,7 @@ class Observer
             case 'promo_quote_edit_tabs':
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $relatedBannersBlock = $block->getChildBlock('salesrule.related.banners');
-                    if ($relatedBannersBlock instanceof \Magento\View\Element\AbstractBlock) {
+                    if ($relatedBannersBlock instanceof \Magento\Framework\View\Element\AbstractBlock) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
                 }
@@ -224,7 +224,7 @@ class Observer
     /**
      * Handle controller_action_predispatch event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function controllerActionPredispatch($observer)

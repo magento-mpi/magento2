@@ -21,7 +21,7 @@ class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
     /**
      * Perform operation before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      */
     public function beforeSave($object)
@@ -35,7 +35,7 @@ class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
     /**
      * Perform operation after save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return void
      */
     public function afterSave($object)

@@ -39,7 +39,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
-        $this->requestMock = $this->getMock('\Magento\App\RequestInterface');
+        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
         $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',

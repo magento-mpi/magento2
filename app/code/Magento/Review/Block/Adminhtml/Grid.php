@@ -42,7 +42,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -67,7 +67,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Review\Helper\Action\Pager $reviewActionPager
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -77,7 +77,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Review\Helper\Action\Pager $reviewActionPager,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_productsFactory = $productsFactory;
@@ -166,10 +166,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'review_id',
             array(
                 'header' => __('ID'),
-                'align' => 'right',
-                'width' => '50px',
                 'filter_index' => 'rt.review_id',
-                'index' => 'review_id'
+                'index' => 'review_id',
+                'header_css_class' => 'col-id',
+                'column_css_class' => 'col-id'
             )
         );
 
@@ -177,11 +177,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'created_at',
             array(
                 'header' => __('Created'),
-                'align' => 'left',
                 'type' => 'datetime',
-                'width' => '100px',
                 'filter_index' => 'rt.created_at',
-                'index' => 'review_created_at'
+                'index' => 'review_created_at',
+                'header_css_class' => 'col-date',
+                'column_css_class' => 'col-date'
             )
         );
 
@@ -190,10 +190,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'status',
                 array(
                     'header' => __('Status'),
-                    'align' => 'left',
                     'type' => 'options',
                     'options' => $this->_reviewData->getReviewStatuses(),
-                    'width' => '100px',
                     'filter_index' => 'rt.status_id',
                     'index' => 'status_id'
                 )
@@ -204,8 +202,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'title',
             array(
                 'header' => __('Title'),
-                'align' => 'left',
-                'width' => '100px',
                 'filter_index' => 'rdt.title',
                 'index' => 'title',
                 'type' => 'text',
@@ -218,13 +214,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'nickname',
             array(
                 'header' => __('Nickname'),
-                'align' => 'left',
-                'width' => '100px',
                 'filter_index' => 'rdt.nickname',
                 'index' => 'nickname',
                 'type' => 'text',
                 'truncate' => 50,
-                'escape' => true
+                'escape' => true,
+                'header_css_class' => 'col-name',
+                'column_css_class' => 'col-name'
             )
         );
 
@@ -232,7 +228,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'detail',
             array(
                 'header' => __('Review'),
-                'align' => 'left',
                 'index' => 'detail',
                 'filter_index' => 'rdt.detail',
                 'type' => 'text',
@@ -265,16 +260,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->addColumn(
             'name',
-            array('header' => __('Product'), 'align' => 'left', 'type' => 'text', 'index' => 'name', 'escape' => true)
+            array('header' => __('Product'), 'type' => 'text', 'index' => 'name', 'escape' => true)
         );
 
         $this->addColumn(
             'sku',
             array(
                 'header' => __('SKU'),
-                'align' => 'right',
                 'type' => 'text',
-                'width' => '50px',
                 'index' => 'sku',
                 'escape' => true
             )
@@ -284,7 +277,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'action',
             array(
                 'header' => __('Action'),
-                'width' => '50px',
                 'type' => 'action',
                 'getter' => 'getReviewId',
                 'actions' => array(
@@ -361,7 +353,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get row url
      *
-     * @param \Magento\Review\Model\Review|\Magento\Object $row
+     * @param \Magento\Review\Model\Review|\Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

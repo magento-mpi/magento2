@@ -12,7 +12,7 @@ namespace Magento\Backend\Block\System\Design\Edit\Tab;
 class General extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\View\Design\Theme\LabelFactory
+     * @var \Magento\Framework\View\Design\Theme\LabelFactory
      */
     protected $_labelFactory;
 
@@ -23,17 +23,17 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\View\Design\Theme\LabelFactory $labelFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
@@ -49,7 +49,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
         $fieldset = $form->addFieldset('general', array('legend' => __('General Settings')));
@@ -78,7 +78,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             );
         }
 
-        /** @var $label \Magento\View\Design\Theme\Label */
+        /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_labelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField(
@@ -93,7 +93,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'date_from',
             'date',

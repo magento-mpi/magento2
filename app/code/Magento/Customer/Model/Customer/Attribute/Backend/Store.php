@@ -24,10 +24,10 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_storeManager;
 
     /**
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Logger $logger, \Magento\Store\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Framework\Logger $logger, \Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
         parent::__construct($logger);
@@ -36,7 +36,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Before save
      *
-     * @param \Magento\Object $object
+     * @param \Magento\Framework\Object $object
      * @return $this
      */
     public function beforeSave($object)

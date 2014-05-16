@@ -9,7 +9,7 @@
  */
 namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
 
-use Magento\Data\Form\Element\AbstractElement;
+use Magento\Framework\Data\Form\Element\AbstractElement;
 
 /**
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model

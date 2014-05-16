@@ -18,7 +18,7 @@
  */
 namespace Magento\WebsiteRestriction\Model\Resource;
 
-class Setup extends \Magento\Module\Setup
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
      * @var \Magento\Cms\Model\PageFactory
@@ -26,18 +26,18 @@ class Setup extends \Magento\Module\Setup
     protected $_pageFactory;
 
     /**
-     * @param \Magento\Module\Setup\Context $context
+     * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Module\Setup\Context $context,
+        \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_WebsiteRestriction',
-        $connectionName = \Magento\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
+        $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

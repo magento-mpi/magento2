@@ -16,7 +16,7 @@ namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
  * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tax extends \Magento\Model\Resource\Db\AbstractDb
+class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -24,11 +24,11 @@ class Tax extends \Magento\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;

@@ -31,13 +31,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $urlBuilder = $this->getMock('Magento\UrlInterface\Proxy', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Framework\UrlInterface\Proxy', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
             ->with('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
             ->will($this->returnValue($url));
 
-        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));

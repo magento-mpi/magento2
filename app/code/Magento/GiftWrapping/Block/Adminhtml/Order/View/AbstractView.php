@@ -17,17 +17,17 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class AbstractView extends \Magento\View\Element\Template
+class AbstractView extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -49,17 +49,17 @@ class AbstractView extends \Magento\View\Element\Template
     protected $_adminHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
@@ -112,7 +112,7 @@ class AbstractView extends \Magento\View\Element\Template
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -122,7 +122,7 @@ class AbstractView extends \Magento\View\Element\Template
             $temp['design'] = $this->escapeHtml($item->getDesign());
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

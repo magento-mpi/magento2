@@ -18,21 +18,21 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $objectManagerMock;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $bundleMock;
 
-    /** @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $selectionMock;
 
     protected function setUp()
     {
-        $this->bundleMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
-        $this->selectionMock = $this->getMock('Magento\Pricing\Object\SaleableInterface');
+        $this->bundleMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->selectionMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
-        $this->objectManagerMock = $this->getMock('Magento\ObjectManager');
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->bundleSelectionFactory = $this->objectManagerHelper->getObject(
@@ -45,7 +45,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $result = $this->getMock('Magento\Bundle\Pricing\Price\BundleSelectionPriceInterface');
+        $result = $this->getMock('Magento\Bundle\Pricing\Price\BundleSelectionPrice', [], [], '', false);
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->with(
@@ -54,7 +54,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
-                        'salableItem' => $this->selectionMock,
+                        'saleableItem' => $this->selectionMock,
                         'quantity' => 2.
                     ]
                 )
@@ -80,7 +80,7 @@ class BundleSelectionFactoryTest extends \PHPUnit_Framework_TestCase
                     [
                         'test' => 'some value',
                         'bundleProduct' => $this->bundleMock,
-                        'salableItem' => $this->selectionMock,
+                        'saleableItem' => $this->selectionMock,
                         'quantity' => 2.
                     ]
                 )

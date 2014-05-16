@@ -27,9 +27,11 @@ class SendTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->register('current_giftcardaccount', $model);
+        $objectManager->get('Magento\Framework\Registry')->register('current_giftcardaccount', $model);
 
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
 
         $this->_block = $layout->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');
     }
@@ -38,7 +40,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('current_giftcardaccount');
+        $objectManager->get('Magento\Framework\Registry')->unregister('current_giftcardaccount');
         parent::tearDown();
     }
 
@@ -68,7 +70,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
 
         $element = $form->getElement('store_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertEquals('store_id', $element->getId());
     }
 }

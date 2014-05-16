@@ -9,6 +9,6 @@
  */
 namespace Magento\Payment\Model\Paygate;
 
-class Result extends \Magento\Object
+class Result extends \Magento\Framework\Object
 {
 }

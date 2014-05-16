@@ -32,7 +32,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
         $specialPriceModel = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\SpecialPrice',
             [
-                'salableItem' => $this->prepareSalebleItem($specialPrice),
+                'saleableItem' => $this->prepareSaleableItem($specialPrice),
                 'localeDate'  => $this->prepareLocaleDate($isValidInterval)
             ]
         );
@@ -44,9 +44,9 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
      * @param float $specialPrice
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product
      */
-    protected function prepareSalebleItem($specialPrice)
+    protected function prepareSaleableItem($specialPrice)
     {
-        $salableItemMock = $this->getMock(
+        $saleableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
             ['getSpecialPrice', 'getPriceInfo', 'getStore', '__wakeup'],
             [],
@@ -54,33 +54,33 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $salableItemMock->expects($this->any())
+        $saleableItemMock->expects($this->any())
             ->method('getSpecialPrice')
             ->will($this->returnValue($specialPrice));
 
         $priceInfo = $this->getMockBuilder(
-            'Magento\Pricing\PriceInfoInterface'
+            'Magento\Framework\Pricing\PriceInfoInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $priceInfo->expects($this->any())
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
-        $salableItemMock->expects($this->any())
+        $saleableItemMock->expects($this->any())
             ->method('getPriceInfo')
             ->will($this->returnValue($priceInfo));
 
-        return $salableItemMock;
+        return $saleableItemMock;
     }
 
     /**
      * @param bool $isValidInterval
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Stdlib\DateTime\TimezoneInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected function prepareLocaleDate($isValidInterval)
     {
         $localeDate = $this->getMockBuilder(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
         $localeDate->expects($this->any())

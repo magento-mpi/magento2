@@ -18,7 +18,7 @@
  */
 namespace Magento\Banner\Model\Resource;
 
-class Salesrule extends \Magento\Model\Resource\Db\AbstractDb
+class Salesrule extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize banner sales rule resource model

@@ -112,7 +112,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * Get total renderer
      *
      * @param string $code
-     * @return bool|\Magento\View\Element\BlockInterface
+     * @return bool|\Magento\Framework\View\Element\BlockInterface
      */
     protected function _getTotalRenderer($code)
     {
@@ -138,7 +138,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     /**
      * Render total
      *
-     * @param \Magento\Object $total
+     * @param \Magento\Framework\Object $total
      * @param string|null $area
      * @param int $colspan
      * @return mixed

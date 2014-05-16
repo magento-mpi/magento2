@@ -16,7 +16,7 @@ namespace Magento\Search\Model\Resource;
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Recommendations extends \Magento\Model\Resource\Db\AbstractDb
+class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Search query model
@@ -28,11 +28,11 @@ class Recommendations extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Construct
      *
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         parent::__construct($resource);

@@ -15,9 +15,9 @@ namespace Magento\Rss\Block\Catalog;
 class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     /**
-     * \Magento\Stdlib\DateTime\DateInterface object for date comparsions
+     * \Magento\Framework\Stdlib\DateTime\DateInterface object for date comparsions
      *
-     * @var \Magento\Stdlib\DateTime\Date
+     * @var \Magento\Framework\Stdlib\DateTime\Date
      */
     protected static $_currentDate = null;
 
@@ -32,14 +32,14 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_rssFactory;
 
     /**
-     * @var \Magento\Model\Resource\Iterator
+     * @var \Magento\Framework\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
-    protected $_coreData;
+    protected $_priceCurrency;
 
     /**
      * @var \Magento\Catalog\Helper\Image
@@ -52,32 +52,32 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_outputHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
-     * @param \Magento\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Framework\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
-        \Magento\Model\Resource\Iterator $resourceIterator,
+        \Magento\Framework\Model\Resource\Iterator $resourceIterator,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
         array $data = array()
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_imageHelper = $imageHelper;
-        $this->_coreData = $coreData;
+        $this->_priceCurrency = $priceCurrency;
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
@@ -167,9 +167,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 // render a row for RSS feed
                 $product->setData($result);
                 $html = sprintf(
-                    '<table><tr>
-                    <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
-                    <td style="text-decoration:none;">%s',
+                    '<table><tr>' .
+                    '<td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>' .
+                    '<td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
                     $this->_imageHelper->init($product, 'thumbnail')->resize(75, 75),
                     $this->_outputHelper->productAttribute($product, $product->getDescription(), 'description')
@@ -186,14 +186,14 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
                                 'Special Expires On: %1',
                                 $this->formatDate(
                                     $result['special_to_date'],
-                                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+                                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                                 )
                             );
                         }
                         $html .= sprintf(
                             '<p>%s %s%s</p>',
-                            __('Price: %1', $this->_coreData->currency($result['price'])),
-                            __('Special Price: %1', $this->_coreData->currency($result['final_price'])),
+                            __('Price: %1', $this->_priceCurrency->convertAndFormat($result['price'])),
+                            __('Special Price: %1', $this->_priceCurrency->convertAndFormat($result['final_price'])),
                             $special
                         );
                     }
@@ -218,11 +218,11 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     public function addSpecialXmlCallback($args)
     {
         if (!isset(self::$_currentDate)) {
-            self::$_currentDate = new \Magento\Stdlib\DateTime\Date();
+            self::$_currentDate = new \Magento\Framework\Stdlib\DateTime\Date();
         }
 
         // dispatch event to determine whether the product will eventually get to the result
-        $product = new \Magento\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
+        $product = new \Magento\Framework\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
         $this->_eventManager->dispatch('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
@@ -239,7 +239,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         ) {
             $compareDate = self::$_currentDate->compareDate(
                 $row['special_to_date'],
-                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
+                \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT
             );
             if (-1 === $compareDate || 0 === $compareDate) {
                 $row['use_special'] = true;

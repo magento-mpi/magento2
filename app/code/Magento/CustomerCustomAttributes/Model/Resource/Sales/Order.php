@@ -22,11 +22,11 @@ class Order extends AbstractSales
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Order $parentResourceModel
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sales\Model\Resource\Order $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;

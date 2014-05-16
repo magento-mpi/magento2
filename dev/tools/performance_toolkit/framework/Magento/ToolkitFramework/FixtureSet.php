@@ -42,7 +42,7 @@ class FixtureSet
         if (!is_readable($filename)) {
             throw new \Exception("Fixtures set file `{$filename}` is not readable or does not exists.");
         }
-        $this->_fixtures = (new \Magento\Xml\Parser())->load($filename)->xmlToArray();
+        $this->_fixtures = (new \Magento\Framework\Xml\Parser())->load($filename)->xmlToArray();
     }
 
     /**

@@ -12,18 +12,18 @@ namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Grid;
 class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $args
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $args = array()
     ) {
         $this->_registryManager = $registry;
@@ -33,7 +33,7 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
     /**
      * Convert template params array and merge with preselected params
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return array|mixed
      */
     protected function _prepareParameters($item)

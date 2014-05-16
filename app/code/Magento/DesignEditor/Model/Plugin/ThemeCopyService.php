@@ -27,8 +27,8 @@ class ThemeCopyService
      *
      * @param \Magento\Theme\Model\CopyService $subject
      * @param callable $proceed
-     * @param \Magento\View\Design\ThemeInterface $source
-     * @param \Magento\View\Design\ThemeInterface $target
+     * @param \Magento\Framework\View\Design\ThemeInterface $source
+     * @param \Magento\Framework\View\Design\ThemeInterface $target
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -36,8 +36,8 @@ class ThemeCopyService
     public function aroundCopy(
         \Magento\Theme\Model\CopyService $subject,
         \Closure $proceed,
-        \Magento\View\Design\ThemeInterface $source,
-        \Magento\View\Design\ThemeInterface $target
+        \Magento\Framework\View\Design\ThemeInterface $source,
+        \Magento\Framework\View\Design\ThemeInterface $target
     ) {
         $proceed($source, $target);
         if ($source && $target) {

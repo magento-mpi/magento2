@@ -26,7 +26,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Invitation\Block\Form'
         );
@@ -68,14 +68,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _changeConfig($path, $value)
     {
         $oldValue = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->getValue(
             $path,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             $path,
             $value,
@@ -96,7 +96,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _restoreConfig()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             $this->_rememberedConfig['path'],
             $this->_rememberedConfig['old_value'],

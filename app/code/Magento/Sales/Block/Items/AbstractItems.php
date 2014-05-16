@@ -16,7 +16,7 @@ namespace Magento\Sales\Block\Items;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class AbstractItems extends \Magento\View\Element\Template
+class AbstractItems extends \Magento\Framework\View\Element\Template
 {
     /**
      * Block alias fallback
@@ -27,12 +27,12 @@ class AbstractItems extends \Magento\View\Element\Template
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return \Magento\View\Element\AbstractBlock
+     * @return \Magento\Framework\View\Element\AbstractBlock
      * @throws \RuntimeException
      */
     public function getItemRenderer($type)
     {
-        /** @var \Magento\View\Element\RendererList $rendererList */
+        /** @var \Magento\Framework\View\Element\RendererList $rendererList */
         $rendererList = $this->getRendererListName() ? $this->getLayout()->getBlock(
             $this->getRendererListName()
         ) : $this->getChildBlock(
@@ -51,10 +51,10 @@ class AbstractItems extends \Magento\View\Element\Template
     /**
      * Prepare item before output
      *
-     * @param \Magento\View\Element\AbstractBlock $renderer
+     * @param \Magento\Framework\View\Element\AbstractBlock $renderer
      * @return $this
      */
-    protected function _prepareItem(\Magento\View\Element\AbstractBlock $renderer)
+    protected function _prepareItem(\Magento\Framework\View\Element\AbstractBlock $renderer)
     {
         return $this;
     }
@@ -62,10 +62,10 @@ class AbstractItems extends \Magento\View\Element\Template
     /**
      * Return product type for quote/order item
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @return string
      */
-    protected function _getItemType(\Magento\Object $item)
+    protected function _getItemType(\Magento\Framework\Object $item)
     {
         if ($item->getOrderItem()) {
             $type = $item->getOrderItem()->getProductType();
@@ -80,10 +80,10 @@ class AbstractItems extends \Magento\View\Element\Template
     /**
      * Get item row html
      *
-     * @param   \Magento\Object $item
+     * @param   \Magento\Framework\Object $item
      * @return  string
      */
-    public function getItemHtml(\Magento\Object $item)
+    public function getItemHtml(\Magento\Framework\Object $item)
     {
         $type = $this->_getItemType($item);
 

@@ -12,7 +12,7 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 /**
  * Customer Sales abstract resource
  */
-abstract class AbstractSales extends \Magento\Model\Resource\Db\AbstractDb
+abstract class AbstractSales extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Used us prefix to name of column table
@@ -58,19 +58,19 @@ abstract class AbstractSales extends \Magento\Model\Resource\Db\AbstractDb
 
         switch ($backendType) {
             case 'datetime':
-                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_DATE);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE);
                 break;
             case 'decimal':
-                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL, 'length' => 12, 4);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL, 'length' => 12, 4);
                 break;
             case 'int':
-                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_INTEGER);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER);
                 break;
             case 'text':
-                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT);
                 break;
             case 'varchar':
-                $definition = array('type' => \Magento\DB\Ddl\Table::TYPE_TEXT, 'length' => 255);
+                $definition = array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, 'length' => 255);
                 break;
             default:
                 return $this;

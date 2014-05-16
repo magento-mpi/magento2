@@ -28,17 +28,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_storeManagerMock;
 
     /**
-     * @var \Magento\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resourceMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dateTimeMock;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_localeDateMock;
 
@@ -63,9 +63,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_resourceMock = $this->getMock('Magento\App\Resource', array(), array(), '', false);
-        $this->_dateTimeMock = $this->getMock('Magento\Stdlib\DateTime', array(), array(), '', false);
-        $this->_localeDateMock = $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface');
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->_dateTimeMock = $this->getMock('Magento\Framework\Stdlib\DateTime', array(), array(), '', false);
+        $this->_localeDateMock = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->_eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_priceProcessorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
@@ -92,11 +92,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $idsToProcess = array(1, 2, 3);
 
-        $selectMock = $this->getMock('Magento\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
         $selectMock->expects($this->any())->method('from')->will($this->returnSelf());
         $selectMock->expects($this->any())->method('where')->will($this->returnSelf());
 
-        $connectionMock = $this->getMock('Magento\DB\Adapter\AdapterInterface', array(), array(), '', false);
+        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
         $connectionMock->expects($this->any())->method('select')->will($this->returnValue($selectMock));
         $connectionMock->expects(
             $this->any()

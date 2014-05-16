@@ -12,7 +12,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 /**
  * Entity/Attribute/Model - attribute abstract
  */
-abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements AttributeInterface
+abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractModel implements AttributeInterface
 {
     const TYPE_STATIC = 'static';
 
@@ -93,34 +93,34 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Validator\UniversalFactory
+     * @var \Magento\Framework\Validator\UniversalFactory
      */
     protected $_universalFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -152,7 +152,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      */
     public function loadByCode($entityType, $code)
     {
-        \Magento\Profiler::start('load_by_code');
+        \Magento\Framework\Profiler::start('load_by_code');
         if (is_numeric($entityType)) {
             $entityTypeId = $entityType;
         } elseif (is_string($entityType)) {
@@ -166,7 +166,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
         }
         $this->_getResource()->loadByCode($this, $entityTypeId, $code);
         $this->_afterLoad();
-        \Magento\Profiler::stop('load_by_code');
+        \Magento\Framework\Profiler::stop('load_by_code');
         return $this;
     }
 
@@ -418,7 +418,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      * Retrieve backend instance
      *
      * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getBackend()
     {
@@ -457,7 +457,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      * Retrieve source instance
      *
      * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getSource()
     {
@@ -665,7 +665,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                 break;
             case 'datetime':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_DATETIME,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
@@ -674,7 +674,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                 break;
             case 'decimal':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
                     'length' => '12,4',
                     'unsigned' => false,
                     'nullable' => true,
@@ -684,7 +684,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                 break;
             case 'int':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_INTEGER,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
@@ -693,17 +693,17 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
                 break;
             case 'text':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'unsigned' => false,
                     'nullable' => true,
                     'default' => null,
                     'extra' => null,
-                    'length' => \Magento\DB\Ddl\Table::MAX_TEXT_SIZE
+                    'length' => \Magento\Framework\DB\Ddl\Table::MAX_TEXT_SIZE
                 );
                 break;
             case 'varchar':
                 $columns[$this->getAttributeCode()] = array(
-                    'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'length' => '255',
                     'unsigned' => false,
                     'nullable' => true,
@@ -867,7 +867,7 @@ abstract class AbstractAttribute extends \Magento\Model\AbstractModel implements
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getFlatUpdateSelect($store = null)
     {

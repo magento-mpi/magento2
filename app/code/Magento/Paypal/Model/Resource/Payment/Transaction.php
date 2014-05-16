@@ -17,7 +17,7 @@ namespace Magento\Paypal\Model\Resource\Payment;
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Transaction extends \Magento\Model\Resource\Db\AbstractDb
+class Transaction extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Serializeable field: additional_information
@@ -55,11 +55,11 @@ class Transaction extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Serialize additional information, if any
      *
-     * @param \Magento\Model\AbstractModel $transaction
+     * @param \Magento\Framework\Model\AbstractModel $transaction
      * @return $this
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $transaction)
     {
         $txnId = $transaction->getData('txn_id');
         $idFieldName = $this->getIdFieldName();
@@ -97,7 +97,7 @@ class Transaction extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param string $txnId
      * @param string|array|Zend_Db_Expr $columns
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     private function _getLoadByUniqueKeySelect($txnId, $columns = '*')
     {

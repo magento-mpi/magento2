@@ -50,7 +50,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
                     break;
 
                 case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
-                    /* @var $actionObject \Magento\Object */
+                    /* @var $actionObject \Magento\Framework\Object */
                     $actionObject = $event->getDataObject();
                     $reindexPrice = false;
 

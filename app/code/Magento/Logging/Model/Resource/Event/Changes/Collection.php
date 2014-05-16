@@ -16,7 +16,7 @@ namespace Magento\Logging\Model\Resource\Event\Changes;
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource

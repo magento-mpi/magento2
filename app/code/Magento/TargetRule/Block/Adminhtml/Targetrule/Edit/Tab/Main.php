@@ -25,15 +25,15 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\TargetRule\Model\Rule $rule
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\TargetRule\Model\Rule $rule,
         array $data = array()
     ) {
@@ -50,7 +50,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     {
         /* @var $model \Magento\TargetRule\Model\Rule */
         $model = $this->_coreRegistry->registry('current_target_rule');
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
 
@@ -91,7 +91,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             )
         );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'from_date',
             'date',
@@ -99,7 +99,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'name' => 'from_date',
                 'label' => __('From Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
-                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
             )
         );
@@ -110,7 +110,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
                 'name' => 'to_date',
                 'label' => __('To Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
-                'input_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
             )
         );

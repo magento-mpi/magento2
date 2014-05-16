@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure;
 
-class Converter implements \Magento\Config\ConverterInterface
+class Converter implements \Magento\Framework\Config\ConverterInterface
 {
     /**
      * @var \Magento\Backend\Model\Config\Structure\Mapper\Factory

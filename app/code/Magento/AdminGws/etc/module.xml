@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/Module/etc/module.xsd">
     <module name="Magento_AdminGws" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_Sales"/>
@@ -21,7 +21,7 @@
             <module name="Magento_Review"/>
             <module name="Magento_Customer"/>
             <module name="Magento_CatalogEvent"/>
-            <module name="Magento_Checkout"/>
+            <module name="Magento_CheckoutAgreements" />
             <module name="Magento_GiftRegistry"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_SalesRule"/>

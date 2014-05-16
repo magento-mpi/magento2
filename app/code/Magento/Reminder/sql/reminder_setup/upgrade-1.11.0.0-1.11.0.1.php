@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Module\Setup */
+/** @var $installer \Magento\Framework\Module\Setup */
 $installer = $this;
 
 $ruleTable = $installer->getTable('magento_reminder_rule');
@@ -22,14 +22,14 @@ $connection->changeColumn(
     $ruleTable,
     'active_from',
     'from_date',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_DATE, 'nullable' => true, 'default' => null)
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE, 'nullable' => true, 'default' => null)
 );
 
 $connection->changeColumn(
     $ruleTable,
     'active_to',
     'to_date',
-    array('type' => \Magento\DB\Ddl\Table::TYPE_DATE, 'nullable' => true, 'default' => null)
+    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DATE, 'nullable' => true, 'default' => null)
 );
 
 
@@ -51,8 +51,8 @@ $connection->addForeignKey(
     'website_id',
     $coreWebsiteTable,
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 );
 
 $installer->endSetup();

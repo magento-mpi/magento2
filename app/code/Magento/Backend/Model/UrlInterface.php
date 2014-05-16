@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Model;
 
-interface UrlInterface extends \Magento\UrlInterface
+interface UrlInterface extends \Magento\Framework\UrlInterface
 {
     /**
      * Secret key query param name

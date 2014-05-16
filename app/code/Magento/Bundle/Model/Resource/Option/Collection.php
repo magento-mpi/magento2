@@ -12,7 +12,7 @@ namespace Magento\Bundle\Model\Resource\Option;
 /**
  * Bundle Options Resource Collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * All item ids cache
@@ -105,7 +105,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Bundle\Model\Resource\Selection\Collection $selectionsCollection
      * @param bool $stripBefore
      * @param bool $appendAll
-     * @return \Magento\Object[]
+     * @return \Magento\Framework\Object[]
      */
     public function appendSelections($selectionsCollection, $stripBefore = false, $appendAll = true)
     {
@@ -155,7 +155,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         if (is_array($ids)) {
             $this->addFieldToFilter('main_table.option_id', array('in' => $ids));
-        } else if ($ids != '') {
+        } elseif ($ids != '') {
             $this->addFieldToFilter('main_table.option_id', $ids);
         }
         return $this;

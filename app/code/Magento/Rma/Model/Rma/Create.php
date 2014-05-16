@@ -12,7 +12,7 @@ namespace Magento\Rma\Model\Rma;
 /**
  * RMA create model
  */
-class Create extends \Magento\Object
+class Create extends \Magento\Framework\Object
 {
     /**
      * Customer object, RMA's order attached to

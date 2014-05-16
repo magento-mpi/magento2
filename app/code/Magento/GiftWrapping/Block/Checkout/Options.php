@@ -16,10 +16,10 @@ namespace Magento\GiftWrapping\Block\Checkout;
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Options extends \Magento\View\Element\Template
+class Options extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_designCollection;
 
@@ -56,7 +56,7 @@ class Options extends \Magento\View\Element\Template
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
@@ -66,7 +66,7 @@ class Options extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
@@ -111,7 +111,7 @@ class Options extends \Magento\View\Element\Template
     public function getDesignSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => 'giftwrapping-${_id_}', 'class' => 'select')
         )->setName(
@@ -137,7 +137,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Calculate including tax price
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $basePrice
      * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param bool $includeTax
@@ -156,7 +156,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Return gift wrapping designs info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getDesignsInfo()
     {
@@ -185,13 +185,13 @@ class Options extends \Magento\View\Element\Template
             $temp['path'] = $item->getImageUrl();
             $data[$item->getId()] = $temp;
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
      * Prepare and return quote items info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getItemsInfo()
     {
@@ -203,7 +203,7 @@ class Options extends \Magento\View\Element\Template
         } else {
             $this->_processItems($this->getQuote()->getAllItems(), $this->getQuote()->getShippingAddress(), $data);
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**
@@ -226,19 +226,19 @@ class Options extends \Magento\View\Element\Template
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress,
                             true
                         );
                         $temp['price_excl_tax'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress
                         );
                     } else {
                         $temp['price'] = $this->calculatePrice(
-                            new \Magento\Object(),
+                            new \Magento\Framework\Object(),
                             $price,
                             $shippingAddress,
                             $this->getDisplayWrappingIncludeTaxPrice()
@@ -254,7 +254,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Prepare and return printed card info
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getCardInfo()
     {
@@ -266,19 +266,19 @@ class Options extends \Magento\View\Element\Template
 
                 if ($this->getDisplayCardBothPrices()) {
                     $data[$entityId]['price_incl_tax'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address,
                         true
                     );
                     $data[$entityId]['price_excl_tax'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address
                     );
                 } else {
                     $data[$entityId]['price'] = $this->calculatePrice(
-                        new \Magento\Object(),
+                        new \Magento\Framework\Object(),
                         $price,
                         $address,
                         $this->getDisplayCardIncludeTaxPrice()
@@ -286,7 +286,7 @@ class Options extends \Magento\View\Element\Template
                 }
             }
         }
-        return new \Magento\Object($data);
+        return new \Magento\Framework\Object($data);
     }
 
     /**

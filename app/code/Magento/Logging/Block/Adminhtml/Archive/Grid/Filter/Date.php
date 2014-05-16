@@ -25,12 +25,12 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
             array(
                 'date_format' => $this->_localeDate->getDateFormat(
-                    \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+                    \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 )
             )
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
         );
         $date = $filterInput->filter($date);
         $date = $filterInternal->filter($date);

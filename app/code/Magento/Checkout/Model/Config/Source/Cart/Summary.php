@@ -9,7 +9,7 @@
  */
 namespace Magento\Checkout\Model\Config\Source\Cart;
 
-class Summary implements \Magento\Option\ArrayInterface
+class Summary implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

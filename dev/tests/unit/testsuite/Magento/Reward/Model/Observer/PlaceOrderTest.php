@@ -70,7 +70,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
 
         $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder(
             $this->_restrictionMock,
@@ -98,7 +98,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects(
@@ -131,7 +131,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));
@@ -152,7 +152,7 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
         $order->expects($this->once())->method('getBaseRewardCurrencyAmount')->will($this->returnValue(-1));

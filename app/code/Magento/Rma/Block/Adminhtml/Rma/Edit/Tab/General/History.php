@@ -30,14 +30,14 @@ class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
         array $data = array()

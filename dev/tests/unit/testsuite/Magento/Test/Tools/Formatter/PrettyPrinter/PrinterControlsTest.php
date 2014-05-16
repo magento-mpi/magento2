@@ -90,7 +90,7 @@ protected function alpha() {
             throw new \Magento\SomeModule\Exception(__('You cannot void a verification transaction.'));
         }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ){throw new \Magento\Model\Exception($response->getRespmsg());}}}
+        ){throw new \Magento\Framework\Model\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -103,7 +103,7 @@ class If5
         } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED &&
             $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
         ) {
-            throw new \Magento\Model\Exception($response->getRespmsg());
+            throw new \Magento\Framework\Model\Exception($response->getRespmsg());
         }
     }
 }
@@ -333,7 +333,7 @@ function alpha() {
 if ($ftp) {
     $cwd=$ftpObj->getcwd();
     $dir=$cwd . '/' .$config->downloader_path . '/'
-        . \Magento\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
+        . \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim( $pChan, "\\/");
     $ftpObj->mkdirRecursive($dir,0777);
     $ftpObj->chdir($cwd);
 } else {
@@ -347,7 +347,13 @@ function alpha()
 {
     if ($ftp) {
         $cwd = $ftpObj->getcwd();
-        $dir = $cwd . '/' . $config->downloader_path . '/' . \Magento\Connect\Config::DEFAULT_CACHE_PATH . '/' . trim(
+        $dir = $cwd .
+            '/' .
+            $config->downloader_path .
+            '/' .
+            \Magento\Framework\Connect\Config::DEFAULT_CACHE_PATH .
+            '/' .
+            trim(
             $pChan,
             "\\/"
         );
@@ -414,7 +420,7 @@ FORMATTEDCLOSURE2;
 class CSample3 {
     public function cS3() {
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+            /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
             return $fileTheme->getThemeId();
         }, $themes));}}
 ORIGINALCLOSURE3;
@@ -428,7 +434,7 @@ class CSample3
             array($codeDir, $jsDir),
             array_map(
                 function ($fileTheme) {
-                    /** @var $fileTheme \Magento\View\Design\ThemeInterface */
+                    /** @var $fileTheme \Magento\Framework\View\Design\ThemeInterface */
                     return $fileTheme->getThemeId();
                 },
                 $themes
@@ -527,7 +533,7 @@ FC6;
 <?php
 class CSample7 {
     public function cS7() {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -539,7 +545,7 @@ class CSample7
 {
     public function cS7()
     {
-        $option = new \Magento\Validator\Constraint\Option\Callback(
+        $option = new \Magento\Framework\Validator\Constraint\Option\Callback(
             function () {
             }
         );
@@ -604,11 +610,11 @@ class MC3 { public function mC3(){
         if ($this->_role->getWebsiteIds()) {
             return $this->_redirect($controller, $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 ));}
         $this->_redirect($controller, $this->_backendUrl->getUrl('adminhtml/system_config/edit', array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode())
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode())
                 ));}}
 OMC3;
         $formattedMethodCall3 = <<<'FMC3'
@@ -623,7 +629,7 @@ class MC3
                 $controller,
                 $this->_backendUrl->getUrl(
                     'adminhtml/system_config/edit',
-                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                    array('website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode())
                 )
             );
         }
@@ -632,8 +638,8 @@ class MC3
             $this->_backendUrl->getUrl(
                 'adminhtml/system_config/edit',
                 array(
-                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
-                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                    'website' => $this->_storeManager->getDefaultStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getDefaultStoreView()->getCode()
                 )
             )
         );

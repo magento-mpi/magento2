@@ -10,10 +10,10 @@ namespace Magento\Logging\Model\Resource;
 /**
  * Logging event resource model
  */
-class Event extends \Magento\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Framework\Filesystem\Directory\Write
      */
     protected $directory;
 
@@ -25,27 +25,27 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
     protected $_archiveFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * Class constructor
      *
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Framework\App\Resource $resource
+     * @param \Magento\Framework\App\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\App\Filesystem $filesystem,
+        \Magento\Framework\App\Resource $resource,
+        \Magento\Framework\App\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 
@@ -62,10 +62,10 @@ class Event extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Convert data before save ip
      *
-     * @param \Magento\Model\AbstractModel $event
-     * @return $this|\Magento\Model\Resource\Db\AbstractDb
+     * @param \Magento\Framework\Model\AbstractModel $event
+     * @return $this|\Magento\Framework\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Model\AbstractModel $event)
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->dateTime->formatDate($event->getTime()));

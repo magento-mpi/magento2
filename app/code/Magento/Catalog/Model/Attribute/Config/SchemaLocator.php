@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Attribute\Config;
 
-class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for both individual and merged configs
@@ -19,9 +19,9 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     private $_schema;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Framework\Module\Dir\Reader $moduleReader
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader)
+    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Catalog') . '/catalog_attributes.xsd';
     }

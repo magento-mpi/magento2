@@ -91,7 +91,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $column = array('unsigned' => true, 'default' => null, 'extra' => null);
 
-        $column['type'] = \Magento\DB\Ddl\Table::TYPE_SMALLINT;
+        $column['type'] = \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT;
         $column['nullable'] = true;
         $column['comment'] = 'Enterprise Giftcard Type ' . $attributeCode . ' column';
 
@@ -102,7 +102,7 @@ class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

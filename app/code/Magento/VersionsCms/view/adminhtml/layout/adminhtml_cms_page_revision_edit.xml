@@ -47,7 +47,7 @@
         </block>
     </referenceBlock>
     <referenceBlock name="head.components">
-        <block class="Magento\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+        <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit" name="cms_page_revision_edit">

@@ -37,10 +37,10 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         //Prepare objects for constructor
-        $this->_cacheMock = $this->getMock('Magento\App\CacheInterface');
-        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface');
+        $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_curlFactoryMock = $this->getMock(
-            'Magento\HTTP\Adapter\CurlFactory',
+            'Magento\Framework\HTTP\Adapter\CurlFactory',
             array('create'),
             array(),
             '',
@@ -72,7 +72,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue($cached));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(null));
 
-        $httpAdapterMock = $this->getMock('Magento\HTTP\Adapter\Curl', array(), array(), '', false);
+        $httpAdapterMock = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', array(), array(), '', false);
         $httpAdapterMock->expects($this->any())->method('read')->will($this->returnValue($response));
         $this->_curlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($httpAdapterMock));
 

@@ -11,8 +11,10 @@ namespace Magento\Persistent\Model;
 
 /**
  * Persistent Session Model
+ *
+ * @method int getCustomerId()
  */
-class Session extends \Magento\Model\AbstractModel
+class Session extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Persistent cookie key length
@@ -60,7 +62,7 @@ class Session extends \Magento\Model\AbstractModel
     protected $_coreData;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -74,48 +76,48 @@ class Session extends \Magento\Model\AbstractModel
     /**
      * Cookie model
      *
-     * @var \Magento\Stdlib\Cookie
+     * @var \Magento\Framework\Stdlib\Cookie
      */
     protected $_cookie;
 
     /**
-     * @var \Magento\Math\Random
+     * @var \Magento\Framework\Math\Random
      */
     protected $mathRandom;
 
     /**
-     * @var \Magento\Session\Config\ConfigInterface
+     * @var \Magento\Framework\Session\Config\ConfigInterface
      */
     protected $sessionConfig;
 
     /**
      * Construct
      *
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
-     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Framework\Stdlib\Cookie $cookie
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,
-        \Magento\Stdlib\Cookie $cookie,
+        \Magento\Framework\Stdlib\Cookie $cookie,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreData = $coreData;

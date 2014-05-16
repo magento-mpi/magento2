@@ -19,10 +19,10 @@ class Sourcename extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abst
     /**
      * Render the grid cell value
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $data = $row->getData($this->getColumn()->getIndex());
         if (!$data) {

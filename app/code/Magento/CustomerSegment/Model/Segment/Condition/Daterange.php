@@ -29,7 +29,7 @@ class Daterange extends AbstractCondition
     /**
      * Value form element
      *
-     * @var \Magento\Data\Form\Element\Text
+     * @var \Magento\Framework\Data\Form\Element\Text
      */
     private $_valueElement = null;
 

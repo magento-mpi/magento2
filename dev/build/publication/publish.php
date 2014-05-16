@@ -84,6 +84,17 @@ try {
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
 
+    // composer.json
+    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
+    execVerbose("$gitCmd add composer.json");
+
+    // Travis CI config
+    copy(__DIR__ . '/travis/.travis.yml', $targetDir . '/.travis.yml');
+    execVerbose("$gitCmd add .travis.yml");
+    $integrationTestsLocalConfig = 'dev/tests/integration/etc/local-mysql.travis.xml.dist';
+    copy(__DIR__ . "/travis/$integrationTestsLocalConfig", $targetDir . "/$integrationTestsLocalConfig");
+    execVerbose("$gitCmd add $integrationTestsLocalConfig");
+
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
     execVerbose(
@@ -91,10 +102,6 @@ try {
         "$licenseToolDir/license-tool.php",
         $targetDir
     );
-
-    // composer.json
-    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
-    execVerbose("$gitCmd add composer.json");
 
     // commit and push
     execVerbose("$gitCmd add --update");

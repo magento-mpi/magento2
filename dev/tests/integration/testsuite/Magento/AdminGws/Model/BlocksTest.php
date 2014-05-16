@@ -71,7 +71,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->getBlock(
                 'adminhtml.user.role.edit.gws'
             ),
@@ -97,7 +97,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertInstanceOf(
             'Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->getBlock(
                 'adminhtml.user.role.grid'
             ),

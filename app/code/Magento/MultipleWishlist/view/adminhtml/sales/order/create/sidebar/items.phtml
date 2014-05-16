@@ -45,9 +45,13 @@
                         <th><?php echo __('Price') ?></th>
                         <?php endif; ?>
                         <?php if($this->canRemoveItems()): ?>
-                        <th class="a-center"><img src="<?php echo $this->getViewFileUrl('images/fam_bin.gif') ?>" alt="<?php echo __('Remove') ?>" title="<?php echo __('Remove') ?>" width="16" height="16"/></th>
+                        <th class="a-center">
+                            <span class="icon icon-remove"><?php echo __('Remove') ?></span>
+                        </th>
                         <?php endif; ?>
-                        <th class="a-center"><img src="<?php echo $this->getViewFileUrl('images/fam_package_go.gif') ?>" alt="<?php echo __('Add To Order') ?>" title="<?php echo __('Add To Order') ?>" width="16" height="16"/></th>
+                        <th class="a-center">
+                            <span class="icon icon-add"><?php echo __('Add To Order') ?></span>
+                        </th>
                     </tr>
                 </thead>
                 <?php foreach ($this->getItems() as $_item): ?>

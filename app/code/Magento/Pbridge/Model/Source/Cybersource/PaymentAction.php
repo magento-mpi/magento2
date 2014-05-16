@@ -12,7 +12,7 @@ namespace Magento\Pbridge\Model\Source\Cybersource;
 /**
  * Cybersource Payment Action Dropdown source
  */
-class PaymentAction implements \Magento\Option\ArrayInterface
+class PaymentAction implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

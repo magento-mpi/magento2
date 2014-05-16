@@ -29,20 +29,21 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             self::STUB_CLASS,
             false
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
+            ->setAreaCode('frontend');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             self::STUB_CLASS
         );
 
         $value = null;
-        $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
+        $formatType = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
         $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Stdlib\DateTime\TimezoneInterface'
+            'Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->getDateFormat(
             $formatType
         );

@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create;
 
-class Payment extends \Magento\View\Element\Template
+class Payment extends \Magento\Framework\View\Element\Template
 {
     /**
      * Gift card account data
@@ -24,13 +24,13 @@ class Payment extends \Magento\View\Element\Template
     protected $_orderCreate = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         array $data = array()

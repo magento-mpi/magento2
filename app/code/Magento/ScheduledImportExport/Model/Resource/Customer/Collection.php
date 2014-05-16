@@ -42,15 +42,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Reward\Model\Resource\Reward $resourceReward
      * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -61,15 +61,15 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\Object\Copy\Config $fieldsetConfig,
         \Magento\Reward\Model\Resource\Reward $resourceReward,
         \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

@@ -29,14 +29,14 @@ class Catalog extends Grid
      *
      * @var string
      */
-    protected $addNewCatalogRule = "../*[@class='page-actions']//*[@id='add']";
+    protected $addNewCatalogRule = "//*[@class='page-actions']//*[@id='add']";
 
     /**
      * 'Apply Rules' button
      *
      * @var string
      */
-    protected $applyCatalogRules = "../*[@class='page-actions']//*[@id='apply_rules']";
+    protected $applyCatalogRules = "//*[@class='page-actions']//*[@id='apply_rules']";
 
     /**
      * {@inheritdoc}

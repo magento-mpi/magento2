@@ -67,6 +67,6 @@ namespace Magento\Shipping\Model\Shipment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Request extends \Magento\Object
+class Request extends \Magento\Framework\Object
 {
 }

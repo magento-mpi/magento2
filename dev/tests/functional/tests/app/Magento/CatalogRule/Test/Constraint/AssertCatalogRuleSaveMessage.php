@@ -9,7 +9,7 @@
 namespace Magento\CatalogRule\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\CatalogRule\Test\Page;
+use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 
 /**
  * Class AssertCatalogRuleSaveMessage
@@ -33,13 +33,13 @@ class AssertCatalogRuleSaveMessage extends AbstractConstraint
     /**
      * Assert that success message is displayed after Catalog Rule save
      *
-     * @param Page\CatalogRule $catalogRuleInGrid
+     * @param CatalogRuleIndex $catalogRuleGrid
      * @return void
      */
-    public function processAssert(Page\CatalogRule $catalogRuleInGrid)
+    public function processAssert(CatalogRuleIndex $catalogRuleGrid)
     {
-        $catalogRuleInGrid->open();
-        $actualMessage = $catalogRuleInGrid->getMessagesBlock()->getSuccessMessages();
+        $catalogRuleGrid->open();
+        $actualMessage = $catalogRuleGrid->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

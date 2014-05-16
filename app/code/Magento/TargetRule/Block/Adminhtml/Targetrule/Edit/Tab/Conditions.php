@@ -30,16 +30,16 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
      * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
         array $data = array()
@@ -59,7 +59,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
         /* @var $model \Magento\TargetRule\Model\Rule */
         $model = $this->_coreRegistry->registry('current_target_rule');
 
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 

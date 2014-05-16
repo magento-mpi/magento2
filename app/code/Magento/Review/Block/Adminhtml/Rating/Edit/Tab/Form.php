@@ -21,7 +21,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Session
      *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Framework\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -34,19 +34,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Review\Model\Rating\OptionFactory $optionFactory
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Review\Model\Rating\OptionFactory $optionFactory,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
@@ -63,7 +63,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $this->setForm($form);
 
@@ -195,15 +195,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getWarningHtml()
     {
-        return '<div>
-<div class="messages">
-    <div class="message notice">
+        return '
+    <div class="message info">
         <div>' .
         __(
             'Please specify a rating title for a store, or we\'ll just use the default value.'
         ) . '</div>
-    </div>
-</div>
-</div>';
+    </div>';
     }
 }

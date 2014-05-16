@@ -15,7 +15,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit;
  */
 class FormTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /** @var \Magento\Framework\View\LayoutInterface */
     protected $_layout = null;
 
     /** @var \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form */
@@ -25,7 +25,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         );
         $this->_block = $this->_layout->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
     }
@@ -38,7 +38,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             array('_prepareLayout'),
             array(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                    'Magento\View\Element\Template\Context'
+                    'Magento\Framework\View\Element\Template\Context'
                 )
             )
         );

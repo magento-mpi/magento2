@@ -16,7 +16,7 @@ namespace Magento\GiftWrapping\Helper;
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Gift wrapping allow section in configuration
@@ -56,7 +56,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -71,14 +71,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_taxCalculation;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\Calculation $taxCalculation
     ) {
@@ -361,7 +361,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return totals of data object
      *
-     * @param  \Magento\Object $dataObject
+     * @param  \Magento\Framework\Object $dataObject
      * @return array
      */
     public function getTotals($dataObject)
@@ -503,7 +503,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get gift wrapping items price with tax processing
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Framework\Object $item
      * @param float $price
      * @param bool $includeTax
      * @param null|\Magento\Customer\Model\Address $shippingAddress

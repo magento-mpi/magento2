@@ -19,25 +19,25 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_banner')
 )->addColumn(
     'banner_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Banner Id'
 )->addColumn(
     'name',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Name'
 )->addColumn(
     'is_enabled',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('nullable' => false),
     'Is Enabled'
 )->addColumn(
     'types',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Types'
@@ -53,19 +53,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_banner_content')
 )->addColumn(
     'banner_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Banner Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
     'Store Id'
 )->addColumn(
     'banner_content',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '2M',
     array(),
     'Banner Content'
@@ -80,15 +80,15 @@ $table = $installer->getConnection()->newTable(
     'banner_id',
     $installer->getTable('magento_banner'),
     'banner_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_banner_content', 'store_id', 'store', 'store_id'),
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Banner Content'
 );
@@ -101,13 +101,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_banner_catalogrule')
 )->addColumn(
     'banner_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Banner Id'
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
@@ -122,15 +122,15 @@ $table = $installer->getConnection()->newTable(
     'banner_id',
     $installer->getTable('magento_banner'),
     'banner_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_banner_catalogrule', 'rule_id', 'catalogrule', 'rule_id'),
     'rule_id',
     $installer->getTable('catalogrule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Banner Catalogrule'
 );
@@ -143,13 +143,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_banner_salesrule')
 )->addColumn(
     'banner_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Banner Id'
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
@@ -164,15 +164,15 @@ $table = $installer->getConnection()->newTable(
     'banner_id',
     $installer->getTable('magento_banner'),
     'banner_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_banner_salesrule', 'rule_id', 'salesrule', 'rule_id'),
     'rule_id',
     $installer->getTable('salesrule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Banner Salesrule'
 );

@@ -10,7 +10,7 @@
 namespace Magento\Eav\Model\Resource\Form;
 
 use Magento\Eav\Model\Form\Type as FormType;
-use Magento\Model\AbstractModel;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Eav Form Type Resource Model
@@ -19,7 +19,7 @@ use Magento\Model\AbstractModel;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Model\Resource\Db\AbstractDb
+class Type extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -77,7 +77,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Save entity types after save form type
      *
-     * @see \Magento\Model\Resource\Db\AbstractDb#_afterSave($object)
+     * @see \Magento\Framework\Model\Resource\Db\AbstractDb#_afterSave($object)
      *
      * @param FormType|AbstractModel $object
      * @return $this

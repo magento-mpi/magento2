@@ -102,9 +102,9 @@ class User extends \Magento\User\Model\Resource\User
             )->where(
                 'user_id = :user_id'
             )->order(
-                'expires ' . \Magento\DB\Select::SQL_DESC
+                'expires ' . \Magento\Framework\DB\Select::SQL_DESC
             )->order(
-                'password_id ' . \Magento\DB\Select::SQL_DESC
+                'password_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 $retainLimit
             ),
@@ -160,7 +160,7 @@ class User extends \Magento\User\Model\Resource\User
             )->where(
                 'user_id = :user_id'
             )->order(
-                'password_id ' . \Magento\DB\Select::SQL_DESC
+                'password_id ' . \Magento\Framework\DB\Select::SQL_DESC
             )->limit(
                 1
             ),

@@ -18,7 +18,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testIndexAction()
     {
         $this->markTestIncomplete('Bug MAGE-6447');
-        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
             array($logger)

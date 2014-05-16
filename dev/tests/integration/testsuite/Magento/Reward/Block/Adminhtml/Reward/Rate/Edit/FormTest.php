@@ -21,14 +21,14 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\View\Layout');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\View\Layout');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        if (!$objectManager->get('Magento\Registry')->registry('current_reward_rate')) {
+        if (!$objectManager->get('Magento\Framework\Registry')->registry('current_reward_rate')) {
             $rate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Reward\Model\Reward\Rate'
             );
-            $objectManager->get('Magento\Registry')->register('current_reward_rate', $rate);
+            $objectManager->get('Magento\Framework\Registry')->register('current_reward_rate', $rate);
         }
 
         $this->_block = $layout->createBlock('Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form');
@@ -43,7 +43,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $this->assertNull($form->getElement('website_id'));
     }
 
@@ -57,10 +57,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('Test used wrong area, as area was not set to layout previously');
         $this->_block->toHtml();
         $form = $this->_block->getForm();
-        $this->assertInstanceOf('Magento\Data\Form', $form);
+        $this->assertInstanceOf('Magento\Framework\Data\Form', $form);
         $element = $form->getElement('website_id');
         $this->assertNotNull($element);
-        $this->assertInstanceOf('Magento\Data\Form\Element\Select', $element);
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Select', $element);
         $this->assertEquals('website_id', $element->getId());
     }
 }

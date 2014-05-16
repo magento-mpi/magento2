@@ -28,8 +28,8 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
@@ -37,8 +37,8 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -64,7 +64,7 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 
         $this->_cmsData->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
-        /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
+        /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {

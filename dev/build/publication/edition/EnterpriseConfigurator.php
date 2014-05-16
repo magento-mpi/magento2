@@ -17,15 +17,15 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Framework\Filesystem\Driver\File
      */
     protected $_filesystemDriver;
 
     /**
      * @param $basePath
-     * @param \Magento\Filesystem\Driver\File $filesystemDriver
+     * @param \Magento\Framework\Filesystem\Driver\File $filesystemDriver
      */
-    public function __construct($basePath, \Magento\Filesystem\Driver\File $filesystemDriver)
+    public function __construct($basePath, \Magento\Framework\Filesystem\Driver\File $filesystemDriver)
     {
         $this->_basePath = $basePath;
         $this->_filesystemDriver = $filesystemDriver;

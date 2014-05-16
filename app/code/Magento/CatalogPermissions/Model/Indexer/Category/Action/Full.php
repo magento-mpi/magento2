@@ -81,7 +81,7 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                         'grant_catalog_product_price',
                         'grant_checkout_items'
                     ),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }
@@ -111,7 +111,7 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                         'grant_catalog_product_price',
                         'grant_checkout_items'
                     ),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }

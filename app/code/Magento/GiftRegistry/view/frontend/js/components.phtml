@@ -1,0 +1,37 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+    <script type="text/javascript">
+        (function($) {
+            "use strict";
+            /**
+             * Declaration of resources needed for defined components
+             */
+            $.mage.component({
+                regionUpdater: [
+                    '<?php echo $this->getViewFileUrl('Magento_Checkout::js/region-updater.js') ?>'
+                ],
+                advancedSearch: [
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::advanced-search.js') ?>'
+                ],
+                rowBuilder: [
+                    '<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js') ?>'
+                ],
+                giftRegistry: [
+                    '<?php echo $this->getViewFileUrl('Magento_Theme::js/row-builder.js')?>',
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::gift-registry.js') ?>'
+                ],
+                addressOption: [
+                    '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::address-option.js') ?>'
+                ]
+            });
+        })(jQuery);
+    </script>
+<?php echo $this->getChildHtml() ?>

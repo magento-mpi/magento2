@@ -18,7 +18,7 @@ namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Custom
 
 use Magento\Customer\Model\Resource\Group\CollectionFactory;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var array

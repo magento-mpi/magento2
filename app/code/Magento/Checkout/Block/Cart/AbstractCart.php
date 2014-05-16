@@ -12,7 +12,7 @@ use Magento\Sales\Model\Quote;
 /**
  * Shopping cart abstract block
  */
-class AbstractCart extends \Magento\View\Element\Template
+class AbstractCart extends \Magento\Framework\View\Element\Template
 {
     /**
      * Block alias fallback
@@ -52,14 +52,14 @@ class AbstractCart extends \Magento\View\Element\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -75,7 +75,7 @@ class AbstractCart extends \Magento\View\Element\Template
     /**
      * Retrieve renderer list
      *
-     * @return \Magento\View\Element\RendererList
+     * @return \Magento\Framework\View\Element\RendererList
      */
     protected function _getRendererList()
     {
@@ -90,7 +90,7 @@ class AbstractCart extends \Magento\View\Element\Template
      * Retrieve item renderer block
      *
      * @param string|null $type
-     * @return \Magento\View\Element\Template
+     * @return \Magento\Framework\View\Element\Template
      * @throws \RuntimeException
      */
     public function getItemRenderer($type = null)

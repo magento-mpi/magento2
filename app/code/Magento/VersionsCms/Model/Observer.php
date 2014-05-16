@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Model;
 
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -27,7 +27,7 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -42,30 +42,30 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_coreUrl;
 
     /**
-     * @var \Magento\App\ViewInterface
+     * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;
 
     /**
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\UrlInterface $coreUrl
-     * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Framework\UrlInterface $coreUrl
+     * @param \Magento\Framework\App\ViewInterface $view
      */
     public function __construct(
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\UrlInterface $coreUrl,
-        \Magento\App\ViewInterface $view
+        \Magento\Framework\UrlInterface $coreUrl,
+        \Magento\Framework\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -93,7 +93,7 @@ class Observer
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
-        /* @var $action \Magento\App\Action\Action */
+        /* @var $action \Magento\Framework\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
 
         // collect loaded handles for cms page
@@ -127,7 +127,7 @@ class Observer
     public function addCmsToTopmenuItems(EventObserver $observer)
     {
         /**
-         * @var $topMenuRootNode \Magento\Data\Tree\Node
+         * @var $topMenuRootNode \Magento\Framework\Data\Tree\Node
          */
         $topMenuRootNode = $observer->getMenu();
 
@@ -176,7 +176,7 @@ class Observer
                 continue;
             }
 
-            $menuNode = new \Magento\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
+            $menuNode = new \Magento\Framework\Data\Tree\Node($menuNodeData, 'id', $tree, $parentNode);
             $parentNode->addChild($menuNode);
 
             $nodesFlatList[$menuNodeId] = $menuNode;

@@ -12,7 +12,7 @@ namespace Magento\Rma\Model\Shipping;
 /**
  * RMA Shipping Info Model
  */
-class Info extends \Magento\Object
+class Info extends \Magento\Framework\Object
 {
     /**
      * Tracking info

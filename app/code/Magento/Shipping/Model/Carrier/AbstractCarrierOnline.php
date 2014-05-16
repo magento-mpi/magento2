@@ -7,7 +7,7 @@
  */
 namespace Magento\Shipping\Model\Carrier;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Sales\Model\Quote\Address\RateRequest;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
 use Magento\Shipping\Model\Shipment\Request;
@@ -92,9 +92,9 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
-     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
      * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
@@ -110,9 +110,9 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
-        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
@@ -382,10 +382,10 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Prepare shipment request.
      * Validate and correct request information
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return void
      */
-    protected function _prepareShipmentRequest(\Magento\Object $request)
+    protected function _prepareShipmentRequest(\Magento\Framework\Object $request)
     {
         $phonePattern = '/[\s\_\-\(\)]+/';
         $phoneNumber = $request->getShipperContactPhoneNumber();
@@ -400,8 +400,8 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Do request to shipment
      *
      * @param Request $request
-     * @return \Magento\Object
-     * @throws Exception
+     * @return \Magento\Framework\Object
+     * @throws \Magento\Framework\Model\Exception
      */
     public function requestToShipment($request)
     {
@@ -417,7 +417,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new \Magento\Object($package['params']));
+            $request->setPackageParams(new \Magento\Framework\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -436,7 +436,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array('info' => $data));
+        $response = new \Magento\Framework\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -447,8 +447,8 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * Do request to RMA shipment
      *
      * @param Request $request
-     * @return \Magento\Object
-     * @throws Exception
+     * @return \Magento\Framework\Object
+     * @throws \Magento\Framework\Model\Exception
      */
     public function returnOfShipment($request)
     {
@@ -465,7 +465,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             $request->setPackageId($packageId);
             $request->setPackagingType($package['params']['container']);
             $request->setPackageWeight($package['params']['weight']);
-            $request->setPackageParams(new \Magento\Object($package['params']));
+            $request->setPackageParams(new \Magento\Framework\Object($package['params']));
             $request->setPackageItems($package['items']);
             $result = $this->_doShipmentRequest($request);
 
@@ -484,7 +484,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array('info' => $data));
+        $response = new \Magento\Framework\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -508,10 +508,10 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     /**
      * Do shipment request to carrier web service, obtain Print Shipping Labels and process errors in response
      *
-     * @param \Magento\Object $request
-     * @return \Magento\Object
+     * @param \Magento\Framework\Object $request
+     * @return \Magento\Framework\Object
      */
-    abstract protected function _doShipmentRequest(\Magento\Object $request);
+    abstract protected function _doShipmentRequest(\Magento\Framework\Object $request);
 
     /**
      * Check is Country U.S. Possessions and Trust Territories

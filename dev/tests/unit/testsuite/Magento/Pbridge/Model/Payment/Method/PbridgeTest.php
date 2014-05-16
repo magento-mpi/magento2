@@ -31,7 +31,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             true,
             array('getConfigPaymentAction')
         );
-        $requestHttp = $this->getMock('Magento\App\Request\Http', null, array(), '', false);
+        $requestHttp = $this->getMock('Magento\Framework\App\Request\Http', null, array(), '', false);
         $originalMethodInstance->setData('info_instance', $infoInstance);
         $order = $this->getMock(
             'Magento\Sales\Model\Order',
@@ -52,7 +52,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStore'
         )->will(
-            $this->returnValue(new \Magento\Object(array('id' => 1)))
+            $this->returnValue(new \Magento\Framework\Object(array('id' => 1)))
         );
         $order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $order->expects($this->once())->method('getShippingAddress')->will($this->returnValue($address));
@@ -189,6 +189,6 @@ class ObjectConstraint extends \PHPUnit_Framework_Constraint
      */
     protected function failureDescription($other)
     {
-        return 'Magento\Object ' . $this->toString();
+        return 'Magento\Framework\Object ' . $this->toString();
     }
 }

@@ -17,10 +17,9 @@
  */
 namespace Magento\Pbridge\Controller\Payment;
 
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
+use Magento\Framework\App\RequestInterface;
 
-class Profile extends \Magento\App\Action\Action
+class Profile extends \Magento\Framework\App\Action\Action
 {
     /**
      * Customer session
@@ -32,10 +31,10 @@ class Profile extends \Magento\App\Action\Action
     /**
      * Construct
      *
-     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Customer\Model\Session $customerSession)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Customer\Model\Session $customerSession)
     {
         $this->_customerSession = $customerSession;
         parent::__construct($context);
@@ -45,7 +44,7 @@ class Profile extends \Magento\App\Action\Action
      * Check whether Payment Profiles functionality enabled
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

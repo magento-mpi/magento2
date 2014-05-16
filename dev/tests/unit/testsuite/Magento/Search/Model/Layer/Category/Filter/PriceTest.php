@@ -45,7 +45,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_resourceEngine;
 
     /**
-     * @var \Magento\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\CacheInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cache;
 
@@ -116,8 +116,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
-        $this->_cache = $this->getMock('\Magento\App\CacheInterface', array(), array(), '', false);
-        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_cache = $this->getMock('\Magento\Framework\App\CacheInterface', array(), array(), '', false);
+        $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(

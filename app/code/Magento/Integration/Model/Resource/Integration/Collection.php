@@ -10,7 +10,7 @@ namespace Magento\Integration\Model\Resource\Integration;
 /**
  * Integrations collection.
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization.

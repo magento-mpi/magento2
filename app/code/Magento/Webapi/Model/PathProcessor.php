@@ -8,7 +8,7 @@
  */
 namespace Magento\Webapi\Model;
 
-use Magento\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class PathProcessor
 {
@@ -56,7 +56,7 @@ class PathProcessor
             return $path;
         } else {
             // store does not exist
-            throw new NoSuchEntityException('storeCode', $storeCode);
+            throw NoSuchEntityException::singleField('storeCode', $storeCode);
         }
     }
 }

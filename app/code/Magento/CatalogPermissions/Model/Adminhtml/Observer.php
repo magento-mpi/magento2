@@ -16,11 +16,11 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml;
 
-use Magento\AuthorizationInterface;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Catalog\Block\Adminhtml\Category\Tabs;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\Event\Observer as EventObserver;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {

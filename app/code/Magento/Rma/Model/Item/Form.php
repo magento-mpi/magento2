@@ -38,21 +38,21 @@ class Form extends \Magento\Eav\Model\Form
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\Framework\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
-     * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
+     * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Framework\App\RequestInterface $httpRequest
+     * @param \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory
      * @param \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\Framework\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
-        \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\RequestInterface $httpRequest,
-        \Magento\Validator\ConfigFactory $validatorConfigFactory,
+        \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Framework\App\RequestInterface $httpRequest,
+        \Magento\Framework\Validator\ConfigFactory $validatorConfigFactory,
         \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory $collectionFactory
     ) {
         $this->_collectionFactory = $collectionFactory;

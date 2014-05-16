@@ -17,7 +17,7 @@ use Magento\Invitation\Model\Invitation;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * @var bool
@@ -48,18 +48,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Url builder
      *
-     * @var \Magento\UrlInterface
+     * @var \Magento\Framework\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        \Magento\Framework\App\Helper\Context $context,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus

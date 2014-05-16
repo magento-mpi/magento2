@@ -21,10 +21,10 @@ class Html extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     /**
      * Return data "as is", don't escape HTML
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         return $row->getData($this->getColumn()->getIndex());
     }

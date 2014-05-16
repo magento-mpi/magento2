@@ -16,7 +16,7 @@ namespace Magento\WebsiteRestriction\Controller;
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Index extends \Magento\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var string
@@ -24,7 +24,7 @@ class Index extends \Magento\App\Action\Action
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
-     * @var \Magento\App\Cache\Type\Config
+     * @var \Magento\Framework\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -43,7 +43,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -58,32 +58,32 @@ class Index extends \Magento\App\Action\Action
     protected $_pageFactory;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_configCacheType = $configCacheType;
@@ -128,7 +128,7 @@ class Index extends \Magento\App\Action\Action
                 )
                 ) {
                     $this->_objectManager->get(
-                        'Magento\View\DesignInterface'
+                        'Magento\Framework\View\DesignInterface'
                     )->setDesignTheme(
                         $page->getCustomTheme()
                     );

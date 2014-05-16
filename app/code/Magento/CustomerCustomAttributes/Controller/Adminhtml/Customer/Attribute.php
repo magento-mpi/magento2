@@ -24,7 +24,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -45,14 +45,14 @@ class Attribute extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
@@ -186,7 +186,7 @@ class Attribute extends \Magento\Backend\App\Action
      */
     public function validateAction()
     {
-        $response = new \Magento\Object();
+        $response = new \Magento\Framework\Object();
         $response->setError(false);
         $attributeId = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {
@@ -227,13 +227,13 @@ class Attribute extends \Magento\Backend\App\Action
             $attributeObject = $this->_initAttribute();
             /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
             $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
-            /* @var $filterManager \Magento\Filter\FilterManager */
-            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
+            /* @var $filterManager \Magento\Framework\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Framework\Filter\FilterManager');
 
             //filtering
             try {
                 $data = $this->_filterPostData($data);
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
                     $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -330,7 +330,7 @@ class Attribute extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/');
                 }
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -373,7 +373,7 @@ class Attribute extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the customer attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

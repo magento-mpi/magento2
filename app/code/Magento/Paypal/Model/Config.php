@@ -592,7 +592,7 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -613,7 +613,7 @@ class Config
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory
      * @param \Magento\Paypal\Model\CertFactory $certFactory
@@ -621,7 +621,7 @@ class Config
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory,
         \Magento\Paypal\Model\CertFactory $certFactory,
@@ -1093,10 +1093,10 @@ class Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param \Magento\Locale\ResolverInterface $locale
+     * @param \Magento\Framework\Locale\ResolverInterface $locale
      * @return string
      */
-    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Locale\ResolverInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Framework\Locale\ResolverInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {
@@ -1471,10 +1471,10 @@ class Config
     /**
      * Export page style current settings to specified object
      *
-     * @param \Magento\Object $to
+     * @param \Magento\Framework\Object $to
      * @return void
      */
-    public function exportExpressCheckoutStyleSettings(\Magento\Object $to)
+    public function exportExpressCheckoutStyleSettings(\Magento\Framework\Object $to)
     {
         foreach ($this->_ecStyleConfigMap as $key => $exportKey) {
             if ($this->{$key}) {

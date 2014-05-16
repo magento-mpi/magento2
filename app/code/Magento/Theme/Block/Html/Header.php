@@ -14,7 +14,7 @@ use Magento\Customer\Helper\View as CustomerViewHelper;
 /**
  * Html page header block
  */
-class Header extends \Magento\View\Element\Template
+class Header extends \Magento\Framework\View\Element\Template
 {
     /**
      * Current template name
@@ -34,7 +34,7 @@ class Header extends \Magento\View\Element\Template
     protected $_fileStorageHelper;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
 
@@ -44,18 +44,18 @@ class Header extends \Magento\View\Element\Template
     protected $_customerViewHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageHelper
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param CustomerViewHelper $customerViewHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         CustomerViewHelper $customerViewHelper,
         array $data = array()
     ) {
@@ -147,7 +147,8 @@ class Header extends \Magento\View\Element\Template
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         $path = $folderName . '/' . $storeLogoPath;
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA)) . $path;
+        $logoUrl = $this->_urlBuilder
+                ->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA)) . $path;
 
         if (!is_null($storeLogoPath) && $this->_isFile($path)) {
             $url = $logoUrl;

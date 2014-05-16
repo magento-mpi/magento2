@@ -18,7 +18,7 @@
             <action method="setShouldPrepareInfoTabs">
                 <argument name="value" xsi:type="string">1</argument>
             </action>
-            <block class="Magento\View\Element\Text" as="payment_info" name="sales.recurring.payment.view.tab.payment" group="info_tabs">
+            <block class="Magento\Framework\View\Element\Text" as="payment_info" name="sales.recurring.payment.view.tab.payment" group="info_tabs">
                 <action method="setViewLabel">
                     <argument name="value" xsi:type="string" translate="true">Payment Information</argument>
                 </action>
@@ -27,7 +27,7 @@
                 </action>
             </block>
             <!-- not implemented
-            <block class="Magento\View\Element\Text" as="history" name="sales.recurring.payment.view.tab.history">
+            <block class="Magento\Framework\View\Element\Text" as="history" name="sales.recurring.payment.view.tab.history">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>
@@ -39,7 +39,7 @@
                 </action>
             </block>
             -->
-            <block class="Magento\View\Element\Text" as="related_orders" name="sales.recurring.payment.view.tab.orders" group="info_tabs">
+            <block class="Magento\Framework\View\Element\Text" as="related_orders" name="sales.recurring.payment.view.tab.orders" group="info_tabs">
                 <action method="setViewLabel">
                     <argument translate="true" name="value" xsi:type="string">Related Orders</argument>
                 </action>
@@ -48,7 +48,7 @@
                 </action>
             </block>
             <!-- not implemented
-            <block class="Magento\View\Element\Text" as="vendor_info" name="sales.recurring.payment.view.tab.vendor">
+            <block class="Magento\Framework\View\Element\Text" as="vendor_info" name="sales.recurring.payment.view.tab.vendor">
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>

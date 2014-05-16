@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
-use Magento\Data\Form;
+use Magento\Framework\Data\Form;
 
 /**
  * HTML select element block
@@ -18,23 +18,23 @@ use Magento\Data\Form;
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class OpenAmount extends \Magento\Data\Form\Element\Select
+class OpenAmount extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
-     * @var \Magento\Data\Form\Element\Checkbox
+     * @var \Magento\Framework\Data\Form\Element\Checkbox
      */
     protected $_element;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Framework\Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        \Magento\Framework\Data\Form\Element\Factory $factoryElement,
+        \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Framework\Escaper $escaper,
         array $data = array()
     ) {
         $this->_element = $factoryElement->create('checkbox');

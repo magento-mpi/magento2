@@ -36,7 +36,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
          * therefore cleanup is performed by cache ID
          */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\CacheInterface'
+            'Magento\Framework\App\CacheInterface'
         )->remove(
             "RESTRICTION_LANGING_PAGE_{$websiteId}"
         );

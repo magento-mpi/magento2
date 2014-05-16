@@ -18,7 +18,7 @@
         <word>Magento\Core\Utility\Theme</word>
         <word>@group module:</word>
         <word>Magento\Test\Di\InstanceManager</word>
-        <word>\Magento\ObjectManager_Zend</word>
+        <word>\Magento\Framework\ObjectManager_Zend</word>
         <word>base_public_url</word>
         <word>secure_public_url}}js/</word>
         <word>\Magento\Core\Model\App_Options</word>

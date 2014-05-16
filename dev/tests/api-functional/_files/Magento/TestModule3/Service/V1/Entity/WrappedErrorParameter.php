@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class WrappedErrorParameter extends \Magento\Service\Data\AbstractObject
+class WrappedErrorParameter extends \Magento\Framework\Service\Data\AbstractObject
 {
     /**
      * Get field name.
@@ -18,16 +18,6 @@ class WrappedErrorParameter extends \Magento\Service\Data\AbstractObject
     public function getFieldName()
     {
         return $this->_data['field_name'];
-    }
-
-    /**
-     * Get code.
-     *
-     * @return string $code
-     */
-    public function getCode()
-    {
-        return $this->_data['code'];
     }
 
     /**

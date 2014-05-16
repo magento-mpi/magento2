@@ -9,8 +9,8 @@
  */
 namespace Magento\CustomAttributeManagement\Block\Form\Renderer;
 
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\Template;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
 
 /**
  * EAV Entity Attribute Form Renderer Block for File

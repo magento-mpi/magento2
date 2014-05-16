@@ -42,72 +42,72 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
      */
     public function validateToken($orderId)
     {
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'pbridge_validate_token',
             array('group' => 'pbridge', 'operation' => 'pbridge:validate_token')
         );
         $this->_call(array('client_identifier' => $orderId, 'payment_action' => 'validate_token'));
-        \Magento\Profiler::stop('pbridge_validate_token');
+        \Magento\Framework\Profiler::stop('pbridge_validate_token');
         return $this;
     }
 
     /**
      * Authorize
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doAuthorize($request)
     {
-        \Magento\Profiler::start('pbridge_place', array('group' => 'pbridge', 'operation' => 'pbridge:place'));
+        \Magento\Framework\Profiler::start('pbridge_place', array('group' => 'pbridge', 'operation' => 'pbridge:place'));
         $request->setData('payment_action', 'place');
         $this->_call($request->getData());
-        \Magento\Profiler::stop('pbridge_place');
+        \Magento\Framework\Profiler::stop('pbridge_place');
         return $this;
     }
 
     /**
      * Capture
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doCapture($request)
     {
-        \Magento\Profiler::start('pbridge_capture', array('group' => 'pbridge', 'operation' => 'pbridge:capture'));
+        \Magento\Framework\Profiler::start('pbridge_capture', array('group' => 'pbridge', 'operation' => 'pbridge:capture'));
         $request->setData('payment_action', 'capture');
         $this->_call($request->getData());
-        \Magento\Profiler::stop('pbridge_capture');
+        \Magento\Framework\Profiler::stop('pbridge_capture');
         return $this;
     }
 
     /**
      * Refund
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doRefund($request)
     {
-        \Magento\Profiler::start('pbridge_refund', array('group' => 'pbridge', 'operation' => 'pbridge:refund'));
+        \Magento\Framework\Profiler::start('pbridge_refund', array('group' => 'pbridge', 'operation' => 'pbridge:refund'));
         $request->setData('payment_action', 'refund');
         $this->_call($request->getData());
-        \Magento\Profiler::stop('pbridge_refund');
+        \Magento\Framework\Profiler::stop('pbridge_refund');
         return $this;
     }
 
     /**
      * Void
      *
-     * @param \Magento\Object $request
+     * @param \Magento\Framework\Object $request
      * @return $this
      */
     public function doVoid($request)
     {
-        \Magento\Profiler::start('pbridge_void', array('group' => 'pbridge', 'operation' => 'pbridge:void'));
+        \Magento\Framework\Profiler::start('pbridge_void', array('group' => 'pbridge', 'operation' => 'pbridge:void'));
         $request->setData('payment_action', 'void');
         $this->_call($request->getData());
-        \Magento\Profiler::stop('pbridge_void');
+        \Magento\Framework\Profiler::stop('pbridge_void');
         return $this;
     }
 }

@@ -11,16 +11,16 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-use Magento\App\RequestInterface;
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;
 use Magento\CatalogEvent\Model\EventFactory;
-use Magento\Model\Exception;
-use Magento\Stdlib\DateTime\Filter\DateTime;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Stdlib\DateTime\Filter\DateTime;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Event extends Action
 {
@@ -170,7 +170,7 @@ class Event extends Action
      * Save action
      *
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function saveAction()
     {
@@ -191,7 +191,7 @@ class Event extends Action
             return;
         }
 
-        $data = new \Magento\Object($postData['catalogevent']);
+        $data = new \Magento\Framework\Object($postData['catalogevent']);
 
         $event->setDisplayState(
             $data->getDisplayState()

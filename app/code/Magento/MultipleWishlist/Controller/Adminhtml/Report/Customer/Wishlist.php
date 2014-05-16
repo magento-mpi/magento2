@@ -23,7 +23,7 @@ class Wishlist extends \Magento\Backend\App\Action
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Framework\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
@@ -32,12 +32,12 @@ class Wishlist extends \Magento\Backend\App\Action
      *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_backendAuthSession = $backendAuthSession;
         $this->_fileFactory = $fileFactory;
@@ -91,7 +91,7 @@ class Wishlist extends \Magento\Backend\App\Action
     /**
      * Export Excel Action
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportExcelAction()
     {
@@ -105,14 +105,14 @@ class Wishlist extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\App\Filesystem::VAR_DIR
+            \Magento\Framework\App\Filesystem::VAR_DIR
         );
     }
 
     /**
      * Export Csv Action
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -123,7 +123,7 @@ class Wishlist extends \Magento\Backend\App\Action
             'adminhtml.block.report.customer.wishlist.grid',
             'grid.export'
         );
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**

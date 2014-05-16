@@ -16,7 +16,7 @@ namespace Magento\Customer\Block\Form;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Login extends \Magento\View\Element\Template
+class Login extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var int
@@ -48,7 +48,7 @@ class Login extends \Magento\View\Element\Template
     protected $coreUrl;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Checkout\Helper\Data $checkoutData
@@ -56,7 +56,7 @@ class Login extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Checkout\Helper\Data $checkoutData,

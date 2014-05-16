@@ -18,7 +18,7 @@ use Magento\Cms\Model\Page;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of admin users in loaded collection

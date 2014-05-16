@@ -17,7 +17,7 @@
  */
 namespace Magento\TargetRule\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const XML_PATH_TARGETRULE_CONFIG = 'catalog/magento_targetrule/';
 
@@ -26,17 +26,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
@@ -46,7 +46,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve Maximum Number of Products in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getMaximumNumberOfProduct($type)
@@ -71,7 +71,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid product list type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -81,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Show Related/Upsell/Cross-Sell Products behavior
      *
      * @param int $type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getShowProducts($type)
@@ -106,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid product list type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid product list type'));
         }
 
         return $show;
@@ -133,7 +133,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve Rotation Mode in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return int
      */
     public function getRotationMode($type)
@@ -158,7 +158,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 );
                 break;
             default:
-                throw new \Magento\Model\Exception(__('Invalid rotation mode type'));
+                throw new \Magento\Framework\Model\Exception(__('Invalid rotation mode type'));
         }
         return $mode;
     }

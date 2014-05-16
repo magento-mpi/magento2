@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Block\Cart;
 /**
  * Cart link block
  */
-class Link extends \Magento\View\Element\Template
+class Link extends \Magento\Framework\View\Element\Template
 {
     /**
      * Gift registry data
@@ -22,12 +22,12 @@ class Link extends \Magento\View\Element\Template
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {

@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Resource;
 
-class Permission extends \Magento\Model\Resource\Db\AbstractDb
+class Permission extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource

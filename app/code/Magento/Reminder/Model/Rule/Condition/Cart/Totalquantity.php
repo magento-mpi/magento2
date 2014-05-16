@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Cart product qty condition

@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Category\Helper;
 
-class Pricestep extends \Magento\Data\Form\Element\Text
+class Pricestep extends \Magento\Framework\Data\Form\Element\Text
 {
     /**
      * Returns js code that is used instead of default toggle code for "Use default config" checkbox

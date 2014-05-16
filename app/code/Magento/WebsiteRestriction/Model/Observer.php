@@ -30,51 +30,51 @@ class Observer
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Session\Generic
+     * @var \Magento\Framework\Session\Generic
      */
     protected $_session;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var \Magento\Framework\Event\ManagerInterface
      */
     protected $_eventManager;
 
     /**
-     * @var \Magento\UrlFactory
+     * @var \Magento\Framework\UrlFactory
      */
     protected $_urlFactory;
 
     /**
-     * @var \Magento\App\ActionFlag
+     * @var \Magento\Framework\App\ActionFlag
      */
     protected $_actionFlag;
 
     /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Session\Generic $session
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Framework\Session\Generic $session
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\UrlFactory $urlFactory
+     * @param \Magento\Framework\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Session\Generic $session,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\UrlFactory $urlFactory,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\Framework\Session\Generic $session,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\UrlFactory $urlFactory,
+        \Magento\Framework\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -89,15 +89,15 @@ class Observer
     /**
      * Implement website stub or private sales restriction
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller \Magento\App\Action\Action */
+        /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
-        $dispatchResult = new \Magento\Object(array('should_proceed' => true, 'customer_logged_in' => false));
+        $dispatchResult = new \Magento\Framework\Object(array('should_proceed' => true, 'customer_logged_in' => false));
         $this->_eventManager->dispatch(
             'websiterestriction_frontend',
             array('controller' => $controller, 'result' => $dispatchResult)
@@ -108,9 +108,9 @@ class Observer
         if (!$this->_config->isRestrictionEnabled()) {
             return;
         }
-        /* @var $request \Magento\App\RequestInterface */
+        /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getEvent()->getRequest();
-        /* @var $response \Magento\App\ResponseInterface */
+        /* @var $response \Magento\Framework\App\ResponseInterface */
         $response = $controller->getResponse();
         switch ($this->_config->getMode()) {
             // show only landing page with 503 or 200 code
@@ -169,7 +169,7 @@ class Observer
 
                     if ($redirectUrl) {
                         $response->setRedirect($redirectUrl);
-                        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                        $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     if ($this->_scopeConfig->isSetFlag(
                         \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
@@ -183,7 +183,7 @@ class Observer
                     $this->_session->setWebsiteRestrictionAfterLoginUrl($afterLoginUrl);
                 } elseif ($this->_session->hasWebsiteRestrictionAfterLoginUrl()) {
                     $response->setRedirect($this->_session->getWebsiteRestrictionAfterLoginUrl(true));
-                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                 }
                 break;
         }
@@ -192,7 +192,7 @@ class Observer
     /**
      * Make layout load additional handler when in private sales mode
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return void
      */
     public function addPrivateSalesLayoutUpdate($observer)

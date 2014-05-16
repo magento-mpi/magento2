@@ -67,14 +67,14 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -84,17 +84,17 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected $_eavConfig;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
     /**
-     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
      */
     protected $_localeDate;
 
@@ -103,37 +103,37 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
-     * @param \Magento\Logger $logger
+     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $options
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
-        \Magento\Logger $logger,
+        \Magento\Framework\Logger $logger,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\CacheInterface $cache,
+        \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         $options = array()
     ) {
         $this->_eavConfig = $eavConfig;
@@ -157,7 +157,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             $this->_connect($options);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
@@ -242,7 +242,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             );
             $locale = new \Zend_Locale($locale);
 
-            $dateObj = new \Magento\Stdlib\DateTime\Date(null, null, $locale);
+            $dateObj = new \Magento\Framework\Stdlib\DateTime\Date(null, null, $locale);
             $dateObj->setTimezone($timezone);
             $this->_dateFormats[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }

@@ -10,25 +10,17 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Framework\Pricing\Price\AbstractPrice;
+
 /**
  * Class BasePrice
  */
-class BasePrice extends RegularPrice
+class BasePrice extends AbstractPrice
 {
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE_BASE_PRICE = 'base_price';
-
-    /**
-     * @var string
-     */
-    protected $priceType = self::PRICE_TYPE_BASE_PRICE;
-
-    /**
-     * @var bool|float|null
-     */
-    protected $maxValue;
+    const PRICE_CODE = 'base_price';
 
     /**
      * Get Base Price Value
@@ -39,8 +31,11 @@ class BasePrice extends RegularPrice
     {
         if ($this->value === null) {
             $this->value = false;
-            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
-                $this->value = min($price->getValue(), $this->value ?: $price->getValue());
+            foreach ($this->priceInfo->getPrices() as $code => $price) {
+                if ($price instanceof \Magento\Framework\Pricing\Price\BasePriceProviderInterface && $price->getValue()
+                ) {
+                    $this->value = min($price->getValue(), $this->value ? : $price->getValue());
+                }
             }
         }
         return $this->value;

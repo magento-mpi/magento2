@@ -9,7 +9,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Options;
 
-class Frequency implements \Magento\Option\ArrayInterface
+class Frequency implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data

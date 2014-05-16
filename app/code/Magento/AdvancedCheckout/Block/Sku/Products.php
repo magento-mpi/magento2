@@ -28,13 +28,13 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
@@ -43,13 +43,13 @@ class Products extends \Magento\Checkout\Block\Cart
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Framework\App\Http\Context $httpContext,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
@@ -151,7 +151,7 @@ class Products extends \Magento\Checkout\Block\Cart
                 }
 
                 if (isset($products[$product->getId()])) {
-                    $object = new \Magento\Object($products[$product->getId()]);
+                    $object = new \Magento\Framework\Object($products[$product->getId()]);
                     $item->getProduct()->setUrlDataObject($object);
                 }
             }

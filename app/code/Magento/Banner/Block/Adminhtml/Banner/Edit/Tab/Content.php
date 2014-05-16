@@ -30,21 +30,21 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * WYSIWYG config data
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_wysiwygConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         array $data = array()
     ) {
@@ -99,7 +99,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     protected function _prepareForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('banner_content_');
 
@@ -129,9 +129,9 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Create default content fieldset
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param string $fieldsetHtmlClass
-     * @return \Magento\Data\Form\Element\Fieldset
+     * @return \Magento\Framework\Data\Form\Element\Fieldset
      */
     protected function _createDefaultContentFieldset($form, $fieldsetHtmlClass)
     {
@@ -145,7 +145,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Get Wysiwyg Config
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     protected function _getWysiwygConfig()
     {
@@ -160,10 +160,10 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Create Store default content field
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param \Magento\Banner\Model\Banner $model
-     * @param \Magento\Data\Form $form
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param \Magento\Framework\Data\Form $form
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _createStoreDefaultContentField($fieldset, $model, $form)
     {
@@ -197,10 +197,10 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Create default content for stores field
      *
-     * @param \Magento\Data\Form\Element\Fieldset $fieldset
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\Banner\Model\Banner $model
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _createDefaultContentForStoresField($fieldset, $form, $model)
     {
@@ -237,9 +237,9 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Create fieldset that provides ability to change content per store view
      *
-     * @param \Magento\Data\Form $form
+     * @param \Magento\Framework\Data\Form $form
      * @param \Magento\Banner\Model\Banner $model
-     * @return \Magento\Data\Form\Element\Fieldset
+     * @return \Magento\Framework\Data\Form\Element\Fieldset
      */
     protected function _createStoresContentFieldset($form, $model)
     {

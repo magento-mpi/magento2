@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Helper;
 
-class PostData extends \Magento\App\Helper\AbstractHelper
+class PostData extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * get data for post by javascript in format acceptable to $.mage.dataPost widget
@@ -24,8 +24,8 @@ class PostData extends \Magento\App\Helper\AbstractHelper
      */
     public function getPostData($url, array $data = array())
     {
-        if (!isset($data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
-            $data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
+        if (!isset($data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
+            $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
         }
         return json_encode(array('action' => $url, 'data' => $data));
     }

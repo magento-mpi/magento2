@@ -85,79 +85,79 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'name',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Name'
 )->addColumn(
     'from_date',
-    \Magento\DB\Ddl\Table::TYPE_DATE,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DATE,
     null,
     array(),
     'From Date'
 )->addColumn(
     'to_date',
-    \Magento\DB\Ddl\Table::TYPE_DATE,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DATE,
     null,
     array(),
     'To Date'
 )->addColumn(
     'is_active',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('nullable' => false, 'default' => '0'),
     'Is Active'
 )->addColumn(
     'conditions_serialized',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64K',
     array('nullable' => false),
     'Conditions Serialized'
 )->addColumn(
     'actions_serialized',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64K',
     array('nullable' => false),
     'Actions Serialized'
 )->addColumn(
     'positions_limit',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('nullable' => false, 'default' => '0'),
     'Positions Limit'
 )->addColumn(
     'apply_to',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false),
     'Apply To'
 )->addColumn(
     'sort_order',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array(),
     'Sort Order'
 )->addColumn(
     'use_customer_segment',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Use Customer Segment'
 )->addColumn(
     'action_select',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64K',
     array(),
     'Action Select'
 )->addColumn(
     'action_select_bind',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64K',
     array(),
     'Action Select Bind'
@@ -189,13 +189,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_customersegment')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'segment_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Segment Id'
@@ -207,8 +207,8 @@ $table = $installer->getConnection()->newTable(
     'rule_id',
     $installer->getTable('magento_targetrule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName(
         'magento_targetrule_customersegment',
@@ -219,8 +219,8 @@ $table = $installer->getConnection()->newTable(
     'segment_id',
     $installer->getTable('magento_customersegment_segment'),
     'segment_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Customersegment'
 );
@@ -233,19 +233,19 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_product')
 )->addColumn(
     'rule_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Rule Id'
 )->addColumn(
     'product_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Product Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
@@ -260,22 +260,22 @@ $table = $installer->getConnection()->newTable(
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_product', 'product_id', 'catalog_product_entity', 'entity_id'),
     'product_id',
     $installer->getTable('catalog_product_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_product', 'rule_id', 'magento_targetrule', 'rule_id'),
     'rule_id',
     $installer->getTable('magento_targetrule'),
     'rule_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Product'
 );
@@ -288,31 +288,31 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_index')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Entity Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Group Id'
 )->addColumn(
     'type_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Type Id'
 )->addColumn(
     'flag',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '1'),
     'Flag'
@@ -330,22 +330,22 @@ $table = $installer->getConnection()->newTable(
     'customer_group_id',
     $installer->getTable('customer_group'),
     'customer_group_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
     $installer->getTable('catalog_product_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index', 'store_id', 'store', 'store_id'),
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Index'
 );
@@ -358,25 +358,25 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_index_related')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Entity Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Group Id'
 )->addColumn(
     'product_ids',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Related Product Ids'
@@ -396,22 +396,22 @@ $table = $installer->getConnection()->newTable(
     'customer_group_id',
     $installer->getTable('customer_group'),
     'customer_group_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_related', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
     $installer->getTable('catalog_product_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_related', 'store_id', 'store', 'store_id'),
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Index Related'
 );
@@ -424,25 +424,25 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_index_upsell')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Entity Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Group Id'
 )->addColumn(
     'product_ids',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Upsell Product Ids'
@@ -462,22 +462,22 @@ $table = $installer->getConnection()->newTable(
     'customer_group_id',
     $installer->getTable('customer_group'),
     'customer_group_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_upsell', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
     $installer->getTable('catalog_product_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'store', 'store_id'),
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Index Upsell'
 );
@@ -490,25 +490,25 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_targetrule_index_crosssell')
 )->addColumn(
     'entity_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Entity Id'
 )->addColumn(
     'store_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Store Id'
 )->addColumn(
     'customer_group_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'primary' => true),
     'Customer Group Id'
 )->addColumn(
     'product_ids',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'CrossSell Product Ids'
@@ -528,22 +528,22 @@ $table = $installer->getConnection()->newTable(
     'customer_group_id',
     $installer->getTable('customer_group'),
     'customer_group_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_crosssell', 'entity_id', 'catalog_product_entity', 'entity_id'),
     'entity_id',
     $installer->getTable('catalog_product_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'store', 'store_id'),
     'store_id',
     $installer->getTable('store'),
     'store_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Targetrule Index Crosssell'
 );

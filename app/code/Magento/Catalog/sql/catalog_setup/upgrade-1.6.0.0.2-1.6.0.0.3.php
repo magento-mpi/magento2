@@ -22,12 +22,12 @@ $installer->getConnection()->addIndex(
     $tableName,
     $indexName,
     $fields,
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );
 
 $installer->getConnection()->addIndex(
     $tableNameTmp,
     $indexNameTmp,
     $fields,
-    \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
+    \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY
 );

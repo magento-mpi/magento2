@@ -50,7 +50,7 @@ class General extends \Magento\Catalog\Block\Adminhtml\Form
     public function _prepareLayout()
     {
         parent::_prepareLayout();
-        /** @var \Magento\Data\Form $form */
+        /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_general');
         $form->setDataObject($this->getCategory());

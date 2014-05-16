@@ -32,7 +32,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -55,7 +55,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
@@ -65,7 +65,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,

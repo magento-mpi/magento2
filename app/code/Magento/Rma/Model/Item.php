@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Item model
  */
-class Item extends \Magento\Model\AbstractModel
+class Item extends \Magento\Framework\Model\AbstractModel
 {
     /**
      * Entity code.
@@ -84,32 +84,32 @@ class Item extends \Magento\Model\AbstractModel
     /**
      * Application request factory
      *
-     * @var \Magento\App\RequestFactory
+     * @var \Magento\Framework\App\RequestFactory
      */
     protected $_requestFactory;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
-     * @param \Magento\App\RequestFactory $requestFactory
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\App\RequestFactory $requestFactory
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
-        \Magento\App\RequestFactory $requestFactory,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\App\RequestFactory $requestFactory,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaFactory = $rmaFactory;

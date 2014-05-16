@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
@@ -29,7 +29,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
         $fileName = 'creditmemos.csv';
         $grid = $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
         $csvFile = $grid->getCsvFile();
-        return $this->_fileFactory->create($fileName, $csvFile, \Magento\App\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $csvFile, \Magento\Framework\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -41,8 +41,12 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
     {
         $this->_view->loadLayout(false);
         $fileName = 'creditmemos.xml';
-        $grid = $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+        $grid = $this->_view->getLayout()->getChildBlock('sales.creditmemo.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $grid->getExcelFile($fileName),
+            \Magento\Framework\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

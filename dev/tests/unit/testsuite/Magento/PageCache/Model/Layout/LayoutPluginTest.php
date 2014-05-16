@@ -15,24 +15,24 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
 
     /**
-     * @var \Magento\View\Layout|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layoutMock;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $configMock;
 
     public function setUp()
     {
         $this->layoutMock = $this->getMockForAbstractClass(
-            'Magento\View\Layout',
+            'Magento\Framework\View\Layout',
             array(),
             '',
             false,
@@ -40,7 +40,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             true,
             array('isCacheable', 'getAllBlocks')
         );
-        $this->responseMock = $this->getMock('\Magento\App\Response\Http', array(), array(), '', false);
+        $this->responseMock = $this->getMock('\Magento\Framework\App\Response\Http', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
 
         $this->model = new \Magento\PageCache\Model\Layout\LayoutPlugin(

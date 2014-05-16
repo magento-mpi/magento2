@@ -20,7 +20,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Root ACL Resource
      *
-     * @var \Magento\Acl\RootResource
+     * @var \Magento\Framework\Acl\RootResource
      */
     protected $_rootResource;
 
@@ -34,7 +34,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
     /**
      * Acl resource provider
      *
-     * @var \Magento\Acl\Resource\ProviderInterface
+     * @var \Magento\Framework\Acl\Resource\ProviderInterface
      */
     protected $_aclResourceProvider;
 
@@ -48,11 +48,11 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      * Initialize dependencies.
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Acl\RootResource $rootResource
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
-     * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
+     * @param \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
@@ -62,11 +62,11 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Acl\RootResource $rootResource,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
-        \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
+        \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Webapi\Helper\Data $webapiData,
         \Magento\Integration\Helper\Data $integrationData,
         array $data = array()

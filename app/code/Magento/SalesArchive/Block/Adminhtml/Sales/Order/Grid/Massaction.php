@@ -22,14 +22,14 @@ class Massaction extends \Magento\Backend\Block\Widget\Grid\Massaction\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()

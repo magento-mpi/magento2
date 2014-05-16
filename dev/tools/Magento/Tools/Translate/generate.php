@@ -430,5 +430,5 @@ if (isset($CONFIG['generate']['args']['clean'])) {
 }
 
 /** write to file */
-$varienCsv = new \Magento\File\Csv();
+$varienCsv = new \Magento\Framework\File\Csv();
 $varienCsv->saveData($args['output'], $csvData);

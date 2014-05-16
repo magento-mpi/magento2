@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
-class Smtpauth implements \Magento\Option\ArrayInterface
+class Smtpauth implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

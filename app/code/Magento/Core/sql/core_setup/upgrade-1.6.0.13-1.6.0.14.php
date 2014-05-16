@@ -8,6 +8,6 @@
  * @license    {license_link}
  */
 
-/* @var $this \Magento\Module\Setup */
+/* @var $this \Magento\Framework\Module\Setup */
 $connection = $this->getConnection();
 $connection->dropTable('core_theme_file_update');

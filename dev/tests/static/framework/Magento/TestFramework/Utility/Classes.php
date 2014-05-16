@@ -169,7 +169,7 @@ class Classes
             self::getXmlNodeValues(
                 $xml,
                 '/layout//action/attributeType | /layout//action[@method="addTab"]/content
-                | /layout//action[@method="addPriceBlockType" or @method="addMergeSettingsBlockType"
+                | /layout//action[@method="addMergeSettingsBlockType"
                     or @method="addInformationRenderer"
                     or @method="addDatabaseBlock"]/*[2]
                 | /layout//action[@method="setMassactionBlockName"]/name
@@ -198,7 +198,7 @@ class Classes
         foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
-                $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR . str_replace(
+                $class = "{$module}" . \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . str_replace(
                     '/',
                     '\\',
                     $matches[3]

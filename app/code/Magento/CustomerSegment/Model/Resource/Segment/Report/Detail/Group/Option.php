@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Group;
 
-class Option implements \Magento\Option\ArrayInterface
+class Option implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Model\Resource\Group\Collection

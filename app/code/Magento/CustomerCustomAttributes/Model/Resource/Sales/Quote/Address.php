@@ -22,11 +22,11 @@ class Address extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Add
     protected $_parentResourceModel;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Sales\Model\Resource\Quote\Address $parentResourceModel
     ) {
         $this->_parentResourceModel = $parentResourceModel;

@@ -10,12 +10,12 @@ namespace Magento\Test\Di\Child;
 class Interceptor extends \Magento\Test\Di\Child
 {
     /**
-     * @var \Magento\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\Config
      */
     protected $_config;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_factory;
 
@@ -25,7 +25,7 @@ class Interceptor extends \Magento\Test\Di\Child
     protected $_plugins = array();
 
     /**
-     * @var \Magento\ObjectManager\ObjectManager
+     * @var \Magento\Framework\ObjectManager\ObjectManager
      */
     protected $_objectManager;
 
@@ -45,15 +45,15 @@ class Interceptor extends \Magento\Test\Di\Child
     protected $_arguments;
 
     /**
-     * @param \Magento\ObjectManager\Factory $factory
-     * @param \Magento\ObjectManager\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManager\Factory $factory
+     * @param \Magento\Framework\ObjectManager\ObjectManager $objectManager
      * @param string $subjectType
      * @param array $pluginList
      * @param array $arguments
      */
     public function __construct(
-        \Magento\ObjectManager\Factory $factory,
-        \Magento\ObjectManager\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManager\Factory $factory,
+        \Magento\Framework\ObjectManager\ObjectManager $objectManager,
         $subjectType,
         array $pluginList,
         array $arguments

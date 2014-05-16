@@ -17,7 +17,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(
             'Magento\Backend\Block\Page\Head',
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\View\LayoutInterface'
+                'Magento\Framework\View\LayoutInterface'
             )->createBlock(
                 'Magento\Backend\Block\Page\Head'
             )

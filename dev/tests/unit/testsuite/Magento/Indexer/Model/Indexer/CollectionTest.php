@@ -15,7 +15,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $indexerIdSecond = 'second_indexer_id';
 
         $entityFactory = $this->getMockBuilder(
-            'Magento\Data\Collection\EntityFactoryInterface'
+            'Magento\Framework\Data\Collection\EntityFactoryInterface'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();

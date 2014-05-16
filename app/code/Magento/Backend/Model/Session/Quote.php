@@ -24,7 +24,7 @@ namespace Magento\Backend\Model\Session;
  * @method Quote setOrderId($orderId)
  * @method int getOrderId()
  */
-class Quote extends \Magento\Session\SessionManager
+class Quote extends \Magento\Framework\Session\SessionManager
 {
     const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
 
@@ -70,35 +70,35 @@ class Quote extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\App\Request\Http $request
-     * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Session\ValidatorInterface $validator
-     * @param \Magento\Session\StorageInterface $storage
+     * @param \Magento\Framework\App\Request\Http $request
+     * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
+     * @param \Magento\Framework\Session\ValidatorInterface $validator
+     * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\App\Request\Http $request,
-        \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Session\SaveHandlerInterface $saveHandler,
-        \Magento\Session\ValidatorInterface $validator,
-        \Magento\Session\StorageInterface $storage,
+        \Magento\Framework\App\Request\Http $request,
+        \Magento\Framework\Session\SidResolverInterface $sidResolver,
+        \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
+        \Magento\Framework\Session\ValidatorInterface $validator,
+        \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerService = $customerService;
@@ -127,7 +127,7 @@ class Quote extends \Magento\Session\SessionManager
                 try {
                     $customerData = $this->_customerService->getCustomer($this->getCustomerId());
                     $this->_quote->assignCustomer($customerData);
-                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     /** Customer does not exist */
                 }
                 $customerGroupId = $this->_scopeConfig->getValue(

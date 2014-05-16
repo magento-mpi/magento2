@@ -10,7 +10,7 @@ namespace Magento\CatalogPermissions\Model\Indexer\System\Config;
 /**
  * Catalog Permissions on/off backend
  */
-class Mode extends \Magento\App\Config\Value
+class Mode extends \Magento\Framework\App\Config\Value
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
@@ -23,23 +23,23 @@ class Mode extends \Magento\App\Config\Value
     protected $indexerState;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Indexer\Model\Indexer\State $indexerState
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $indexer,
         \Magento\Indexer\Model\Indexer\State $indexerState,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->indexer = $indexer;

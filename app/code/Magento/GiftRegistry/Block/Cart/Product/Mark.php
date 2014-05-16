@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftRegistry\Block\Cart\Product;
 
-class Mark extends \Magento\View\Element\Template
+class Mark extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory
@@ -24,13 +24,13 @@ class Mark extends \Magento\View\Element\Template
     protected $_giftRegistryData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()

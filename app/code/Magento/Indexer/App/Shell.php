@@ -7,7 +7,7 @@
  */
 namespace Magento\Indexer\App;
 
-class Shell implements \Magento\AppInterface
+class Shell implements \Magento\Framework\AppInterface
 {
     /**
      * Filename of the entry point script
@@ -17,7 +17,7 @@ class Shell implements \Magento\AppInterface
     protected $entryFileName;
 
     /**
-     * @var \Magento\App\Console\Response
+     * @var \Magento\Framework\App\Console\Response
      */
     protected $response;
 
@@ -29,12 +29,12 @@ class Shell implements \Magento\AppInterface
     /**
      * @param string $entryFileName
      * @param \Magento\Indexer\Model\ShellFactory $shellFactory
-     * @param \Magento\App\Console\Response $response
+     * @param \Magento\Framework\App\Console\Response $response
      */
     public function __construct(
         $entryFileName,
         \Magento\Indexer\Model\ShellFactory $shellFactory,
-        \Magento\App\Console\Response $response
+        \Magento\Framework\App\Console\Response $response
     ) {
         $this->entryFileName = $entryFileName;
         $this->shellFactory = $shellFactory;
@@ -44,7 +44,7 @@ class Shell implements \Magento\AppInterface
     /**
      * Run application
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {

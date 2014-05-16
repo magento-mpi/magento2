@@ -38,7 +38,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_configScopeMock = $this->getMock('Magento\Config\CacheInterface');
+        $this->_configScopeMock = $this->getMock('Magento\Framework\Config\CacheInterface');
     }
 
     /**

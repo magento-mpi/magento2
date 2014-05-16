@@ -22,7 +22,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
         parent::assert404NotFound();
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->assertNull($objectManager->get('Magento\Registry')->registry('current_category'));
+        $this->assertNull($objectManager->get('Magento\Framework\Registry')->registry('current_category'));
     }
 
     public function getViewActionDataProvider()
@@ -68,7 +68,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $currentCategory \Magento\Catalog\Model\Category */
-        $currentCategory = $objectManager->get('Magento\Registry')->registry('current_category');
+        $currentCategory = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $currentCategory);
         $this->assertEquals($categoryId, $currentCategory->getId(), 'Category in registry.');
 
@@ -79,7 +79,7 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 
         /* Layout updates */
         $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->getUpdate()->getHandles();
         foreach ($expectedHandles as $expectedHandleName) {
             $this->assertContains($expectedHandleName, $handles);

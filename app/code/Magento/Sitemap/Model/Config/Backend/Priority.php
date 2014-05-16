@@ -9,7 +9,7 @@
  */
 namespace Magento\Sitemap\Model\Config\Backend;
 
-class Priority extends \Magento\App\Config\Value
+class Priority extends \Magento\Framework\App\Config\Value
 {
     /**
      * @return $this

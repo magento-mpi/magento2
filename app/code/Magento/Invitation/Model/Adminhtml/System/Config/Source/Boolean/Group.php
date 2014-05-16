@@ -13,7 +13,7 @@
  */
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
 
-class Group implements \Magento\Option\ArrayInterface
+class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return the option array

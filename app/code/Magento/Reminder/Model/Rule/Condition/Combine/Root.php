@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Model\Rule\Condition\Combine;
 
 use Magento\Customer\Model\Customer;
-use Magento\DB\Select;
+use Magento\Framework\DB\Select;
 
 /**
  * Root rule condition (top level condition)

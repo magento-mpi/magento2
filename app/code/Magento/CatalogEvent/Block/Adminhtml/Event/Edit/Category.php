@@ -17,9 +17,9 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Collection;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Helper\Adminhtml\Event;
-use Magento\Registry;
-use Magento\Data\Tree\Node;
-use Magento\Json\EncoderInterface;
+use Magento\Framework\Registry;
+use Magento\Framework\Data\Tree\Node;
+use Magento\Framework\Json\EncoderInterface;
 
 class Category extends AbstractCategory
 {
@@ -29,13 +29,6 @@ class Category extends AbstractCategory
      * @var string
      */
     protected $_template = 'categories.phtml';
-
-    /**
-     * Category model factory
-     *
-     * @var CategoryFactory
-     */
-    protected $_categoryFactory;
 
     /**
      * @var EncoderInterface
@@ -51,8 +44,8 @@ class Category extends AbstractCategory
      * @param Context $context
      * @param Tree $categoryTree
      * @param Registry $registry
-     * @param EncoderInterface $jsonEncoder
      * @param CategoryFactory $categoryFactory
+     * @param EncoderInterface $jsonEncoder
      * @param Event $eventAdminhtml
      * @param array $data
      */
@@ -60,15 +53,14 @@ class Category extends AbstractCategory
         Context $context,
         Tree $categoryTree,
         Registry $registry,
-        EncoderInterface $jsonEncoder,
         CategoryFactory $categoryFactory,
+        EncoderInterface $jsonEncoder,
         Event $eventAdminhtml,
         array $data = array()
     ) {
         $this->_eventAdminhtml = $eventAdminhtml;
-        parent::__construct($context, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $categoryFactory, $data);
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_categoryFactory = $categoryFactory;
     }
 
     /**

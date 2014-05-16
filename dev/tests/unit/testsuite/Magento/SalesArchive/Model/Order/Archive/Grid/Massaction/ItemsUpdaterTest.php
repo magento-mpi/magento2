@@ -38,7 +38,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
             'Magento\SalesArchive\Model\Config'
         )->disableOriginalConstructor()->getMock();
 
-        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')->getMock();
+        $this->_authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')->getMock();
 
         $this->_model = new \Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater(
             $this->_cfgSalesArchiveMock,

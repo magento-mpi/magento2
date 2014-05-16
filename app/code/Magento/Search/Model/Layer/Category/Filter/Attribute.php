@@ -28,7 +28,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param array $data
      */
@@ -37,7 +37,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         array $data = array()
     ) {

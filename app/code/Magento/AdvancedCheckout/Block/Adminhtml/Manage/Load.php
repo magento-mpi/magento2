@@ -12,28 +12,28 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 /**
  * Admin Checkout block for returning dynamically loaded content
  */
-class Load extends \Magento\View\Element\Template
+class Load extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\View\Helper\Js
+     * @var \Magento\Framework\View\Helper\Js
      */
     protected $_jsHelper;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\View\Helper\Js $jsHelper
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\View\Helper\Js $jsHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\View\Helper\Js $jsHelper,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\View\Helper\Js $jsHelper,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

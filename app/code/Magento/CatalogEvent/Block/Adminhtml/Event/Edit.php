@@ -16,7 +16,7 @@ namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Container;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Registry;
+use Magento\Framework\Registry;
 
 class Edit extends Container
 {

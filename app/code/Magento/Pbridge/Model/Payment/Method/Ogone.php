@@ -89,11 +89,11 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(\Magento\Object $payment, $amount)
+    public function authorize(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -103,11 +103,11 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -121,11 +121,11 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(\Magento\Framework\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
@@ -136,10 +136,10 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Voiding method being executed via Payment Bridge
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function void(\Magento\Object $payment)
+    public function void(\Magento\Framework\Object $payment)
     {
         $response = $this->getPbridgeMethodInstance()->void($payment);
         $payment->addData((array)$response);
@@ -149,10 +149,10 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Cancel payment
      *
-     * @param \Magento\Object $payment
+     * @param \Magento\Framework\Object $payment
      * @return $this
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(\Magento\Framework\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $response = $this->getPbridgeMethodInstance()->void($payment);

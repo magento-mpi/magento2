@@ -40,7 +40,13 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime', array('date'), array(), '', false);
+        $dateModelMock = $this->getMock(
+            'Magento\Framework\Stdlib\DateTime\DateTime',
+            array('date'),
+            array(),
+            '',
+            false
+        );
         $dateModelMock->expects(
             $this->any()
         )->method(
@@ -50,9 +56,9 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = new \Magento\ScheduledImportExport\Model\Export(
-            $this->getMock('Magento\Logger', array(), array(), '', false),
-            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\Logger\AdapterFactory', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\ConfigInterface', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Export\Adapter\Factory', array(), array(), '', false),
@@ -75,7 +81,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     public function testGetDateModel()
     {
         $this->assertInstanceOf(
-            'Magento\Stdlib\DateTime\DateTime',
+            'Magento\Framework\Stdlib\DateTime\DateTime',
             $this->_model->getDateModel(),
             'Date model getter retrieve instance with wrong type'
         );
@@ -190,7 +196,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback to use instead \Magento\Stdlib\DateTime\DateTime::date()
+     * Callback to use instead \Magento\Framework\Stdlib\DateTime\DateTime::date()
      *
      * @param string $format
      * @param int|string $input

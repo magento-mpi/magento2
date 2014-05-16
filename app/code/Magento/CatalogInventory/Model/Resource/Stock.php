@@ -12,7 +12,7 @@
  */
 namespace Magento\CatalogInventory\Model\Resource;
 
-class Stock extends \Magento\Model\Resource\Db\AbstractDb
+class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Is initialized configuration flag
@@ -73,7 +73,7 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -85,25 +85,25 @@ class Stock extends \Magento\Model\Resource\Db\AbstractDb
     protected $_stockFactory;
 
     /**
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * Construct
      * 
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_catalogInventoryData = $catalogInventoryData;

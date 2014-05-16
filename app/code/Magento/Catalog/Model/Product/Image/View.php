@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model\Product\Image;
 
-class View extends \Magento\Object
+class View extends \Magento\Framework\Object
 {
     /**
      * Separator between location and suffix
@@ -46,7 +46,7 @@ class View extends \Magento\Object
     const WHITE_BORDERS_MODULE = 'Magento_Catalog';
 
     /**
-     * @var \Magento\Config\View
+     * @var \Magento\Framework\Config\View
      */
     protected $_configView;
 
@@ -73,18 +73,18 @@ class View extends \Magento\Object
     /**
      * View config model
      *
-     * @var \Magento\View\ConfigInterface
+     * @var \Magento\Framework\View\ConfigInterface
      */
     protected $_viewConfig;
 
     /**
      * @param \Magento\Catalog\Helper\Image $helperImage
-     * @param \Magento\View\ConfigInterface $viewConfig
+     * @param \Magento\Framework\View\ConfigInterface $viewConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Helper\Image $helperImage,
-        \Magento\View\ConfigInterface $viewConfig,
+        \Magento\Framework\View\ConfigInterface $viewConfig,
         array $data = array()
     ) {
         $this->_helperImage = $helperImage;
@@ -184,7 +184,7 @@ class View extends \Magento\Object
     /**
      * Get view config object
      *
-     * @return \Magento\Config\View
+     * @return \Magento\Framework\Config\View
      */
     protected function _getConfigView()
     {

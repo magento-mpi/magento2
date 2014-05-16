@@ -43,14 +43,14 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->_objectFactory = $this->getMock('Magento\ObjectManager');
+        $this->_objectFactory = $this->getMock('Magento\Framework\ObjectManager');
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $response = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
+        $response = $this->getMock('Magento\Framework\App\ResponseInterface', array(), array(), '', false);
 
         $this->_controllerMock = $this->getMock('\Magento\Backend\App\Action', array(), array(), '', false);
-        $this->_ctrlRequestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_ctrlRequestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
 
-        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
 
         $this->_model = $helper->getObject(

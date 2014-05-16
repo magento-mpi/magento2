@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite;
 
-class Suffix extends \Magento\App\Config\Value
+class Suffix extends \Magento\Framework\App\Config\Value
 {
     /**
      * Core url rewrite
@@ -23,21 +23,21 @@ class Suffix extends \Magento\App\Config\Value
     protected $_coreUrlRewrite = null;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\UrlRewrite\Helper\UrlRewrite $coreUrlRewrite,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreUrlRewrite = $coreUrlRewrite;

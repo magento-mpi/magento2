@@ -70,12 +70,7 @@
 </div>
 <script type="text/javascript">
     (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('form[id^="gr-quick-search"]').validation();
-            });
+        $('form[id^="gr-quick-search"]').mage('validation');
     })(jQuery);
 </script>
 <?php endif; ?>

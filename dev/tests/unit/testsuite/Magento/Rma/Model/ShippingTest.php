@@ -31,7 +31,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
             false
         );
         $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
-        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false, false);
+        $filesystem = $this->getMock('Magento\Framework\App\Filesystem', array(), array(), '', false, false);
 
         $this->_model = $objectManagerHelper->getObject(
             'Magento\Rma\Model\Shipping',

@@ -87,7 +87,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_blockFactoryMock = $this->getMock('Magento\View\Element\BlockFactory', array(), array(), '', false);
+        $this->_blockFactoryMock = $this->getMock(
+            'Magento\Framework\View\Element\BlockFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_depMapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper',
             array(),
@@ -171,7 +177,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testGetTooltipCreatesTooltipBlock()
     {
         $this->_model->setData(array('tooltip_block' => 'Magento\Core\Block\Tooltip'), 'scope');
-        $tooltipBlock = $this->getMock('Magento\View\Element\BlockInterface');
+        $tooltipBlock = $this->getMock('Magento\Framework\View\Element\BlockInterface');
         $tooltipBlock->expects($this->once())->method('toHtml')->will($this->returnValue('tooltip block'));
         $this->_blockFactoryMock->expects(
             $this->once()
@@ -217,11 +223,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'Magento\Model\Name'
+            'Magento\Framework\Model\Name'
         )->will(
             $this->returnValue('backend_model_object')
         );
-        $this->_model->setData(array('backend_model' => 'Magento\Model\Name'), 'scope');
+        $this->_model->setData(array('backend_model' => 'Magento\Framework\Model\Name'), 'scope');
         $this->assertEquals('backend_model_object', $this->_model->getBackendModel());
     }
 
@@ -273,7 +279,13 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             'someArr' => array('testVar' => 'testVal')
         );
         $this->_model->setData($params, 'scope');
-        $elementMock = $this->getMock('Magento\Data\Form\Element\Text', array('setOriginalData'), array(), '', false);
+        $elementMock = $this->getMock(
+            'Magento\Framework\Data\Form\Element\Text',
+            array('setOriginalData'),
+            array(),
+            '',
+            false
+        );
         unset($params['someArr']);
         $elementMock->expects($this->once())->method('setOriginalData')->with($params);
         $this->_model->populateInput($elementMock);
@@ -344,7 +356,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     public function testGetOptionsUsesOptionsInterfaceIfNoMethodIsProvided()
     {
         $this->_model->setData(array('source_model' => 'Source_Model_Name'), 'scope');
-        $sourceModelMock = $this->getMock('Magento\Option\ArrayInterface');
+        $sourceModelMock = $this->getMock('Magento\Framework\Option\ArrayInterface');
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(
@@ -373,7 +385,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'multiselect'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Framework\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(
@@ -395,7 +407,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
             array('source_model' => 'Source_Model_Name::retrieveElements', 'path' => 'path', 'type' => 'select'),
             'scope'
         );
-        $sourceModelMock = $this->getMock('Magento\Object', array('setPath', 'retrieveElements'));
+        $sourceModelMock = $this->getMock('Magento\Framework\Object', array('setPath', 'retrieveElements'));
         $this->_sourceFactoryMock->expects(
             $this->once()
         )->method(

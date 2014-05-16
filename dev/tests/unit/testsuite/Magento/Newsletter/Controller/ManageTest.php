@@ -7,6 +7,8 @@
  */
 namespace Magento\Newsletter\Controller;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -18,22 +20,22 @@ class ManageTest extends \PHPUnit_Framework_TestCase
     private $controller;
 
     /**
-     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $requestMock;
 
     /**
-     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $responseMock;
 
     /**
-     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $messageManagerMock;
 
     /**
-     * @var \Magento\App\Response\RedirectInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Response\RedirectInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $redirectMock;
 
@@ -54,16 +56,16 @@ class ManageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->requestMock = $this->getMockBuilder('Magento\App\RequestInterface')
+        $this->requestMock = $this->getMockBuilder('Magento\Framework\App\RequestInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->responseMock = $this->getMockBuilder('Magento\App\ResponseInterface')
+        $this->responseMock = $this->getMockBuilder('Magento\Framework\App\ResponseInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\ManagerInterface')
+        $this->messageManagerMock = $this->getMockBuilder('Magento\Framework\Message\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->redirectMock = $this->getMockBuilder('Magento\App\Response\RedirectInterface')
+        $this->redirectMock = $this->getMockBuilder('Magento\Framework\App\Response\RedirectInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->customerSessionMock = $this->getMockBuilder('Magento\Customer\Model\Session')
@@ -136,7 +138,13 @@ class ManageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->customerAccountServiceMock->expects($this->any())
             ->method('getCustomer')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('customerId', 'value')));
+            ->will($this->throwException(
+                    new NoSuchEntityException(
+                        NoSuchEntityException::MESSAGE_SINGLE_FIELD,
+                        ['fieldName' => 'customerId', 'value' => 'value']
+                    )
+                )
+            );
         $this->redirectMock->expects($this->once())
             ->method('redirect')
             ->with($this->responseMock, 'customer/account/', []);

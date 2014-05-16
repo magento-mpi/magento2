@@ -44,13 +44,13 @@ class Solr extends \Apache_Solr_Service
      * Initialize Solr Client
      *
      * @param array $options
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct($options = array())
     {
         $_optionsNames = array('hostname', 'login', 'password', 'port', 'path');
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }
@@ -146,12 +146,12 @@ class Solr extends \Apache_Solr_Service
     protected function _sendRawGet($url, $timeout = false)
     {
         $this->_setAuthHeader($this->_getContext);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'solr_send_raw_get',
             array('group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost())
         );
         $response = parent::_sendRawGet($url, $timeout);
-        \Magento\Profiler::stop('solr_send_raw_get');
+        \Magento\Framework\Profiler::stop('solr_send_raw_get');
         return $response;
     }
 
@@ -167,12 +167,12 @@ class Solr extends \Apache_Solr_Service
     protected function _sendRawPost($url, $rawPost, $timeout = false, $contentType = 'text/xml; charset=UTF-8')
     {
         $this->_setAuthHeader($this->_postContext);
-        \Magento\Profiler::start(
+        \Magento\Framework\Profiler::start(
             'solr_send_raw_post',
             array('group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost())
         );
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
-        \Magento\Profiler::stop('solr_send_raw_post');
+        \Magento\Framework\Profiler::stop('solr_send_raw_post');
         return $response;
     }
 

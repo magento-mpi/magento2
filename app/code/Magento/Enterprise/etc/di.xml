@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">
@@ -22,7 +22,7 @@
             <argument name="eulaFile" xsi:type="string">LICENSE_EE.html</argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Updater\SetupFactory">
+    <type name="Magento\Framework\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
                 <item name="enterprise_setup" xsi:type="string">Magento\Enterprise\Model\Resource\Setup</item>

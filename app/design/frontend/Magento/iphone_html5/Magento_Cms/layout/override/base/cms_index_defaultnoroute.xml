@@ -15,6 +15,6 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Navigation" name="hp_nav" template="navigation/top.phtml"/>
-        <block class="Magento\View\Element\Template" name="default_no_route" template="Magento_Cms::default/no-route.phtml"/>
+        <block class="Magento\Framework\View\Element\Template" name="default_no_route" template="Magento_Cms::default/no-route.phtml"/>
     </referenceContainer>
 </layout>

@@ -77,14 +77,13 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
                 'sortable' => true,
                 'index' => 'is_visible',
                 'type' => 'options',
-                'options' => array('0' => __('No'), '1' => __('Yes')),
-                'align' => 'center'
+                'options' => array('0' => __('No'), '1' => __('Yes'))
             )
         );
 
         $this->addColumn(
             'sort_order',
-            array('header' => __('Sort Order'), 'sortable' => true, 'align' => 'center', 'index' => 'sort_order')
+            array('header' => __('Sort Order'), 'sortable' => true, 'index' => 'sort_order')
         );
 
         return $this;

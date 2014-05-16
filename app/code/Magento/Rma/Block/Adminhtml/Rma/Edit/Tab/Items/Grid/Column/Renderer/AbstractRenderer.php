@@ -40,10 +40,10 @@ class AbstractRenderer extends \Magento\Backend\Block\Widget\Grid\Column\Rendere
      *
      * Render column depending on row status value, which define whether cell is editable
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         $this->_itemStatus->setStatus($row->getStatus());
         $this->setStatusManager($this->_itemStatus);
@@ -60,10 +60,10 @@ class AbstractRenderer extends \Magento\Backend\Block\Widget\Grid\Column\Rendere
      *
      * Must be overwritten in child classes
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getEditableView(\Magento\Object $row)
+    protected function _getEditableView(\Magento\Framework\Object $row)
     {
         return parent::render($row);
     }
@@ -73,10 +73,10 @@ class AbstractRenderer extends \Magento\Backend\Block\Widget\Grid\Column\Rendere
      *
      * Must be overwritten in child classes
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getNonEditableView(\Magento\Object $row)
+    protected function _getNonEditableView(\Magento\Framework\Object $row)
     {
         return parent::render($row);
     }

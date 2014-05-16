@@ -23,7 +23,7 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include BASE_PATH . '/lib/Magento/File/Csv.php';
+include BASE_PATH . '/lib/Magento/Framework/File/Csv.php';
 include __DIR__ . '/ModuleTranslations.php';
 
 global $argv;
@@ -173,7 +173,7 @@ class Combine
         $resultData = array();
 
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
 
         foreach ($files as $alias => $file) {
             $data = $csv->getData($file);

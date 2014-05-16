@@ -273,10 +273,10 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Retrieve row column field value for display
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function getRowField(\Magento\Object $row)
+    public function getRowField(\Magento\Framework\Object $row)
     {
         $renderedValue = $this->getRenderer()->render($row);
         if ($this->getHtmlDecorators()) {
@@ -301,10 +301,10 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Retrieve row column field value for export
      *
-     * @param   \Magento\Object $row
+     * @param   \Magento\Framework\Object $row
      * @return  string
      */
-    public function getRowFieldExport(\Magento\Object $row)
+    public function getRowFieldExport(\Magento\Framework\Object $row)
     {
         $renderedValue = $this->getRenderer()->renderExport($row);
 

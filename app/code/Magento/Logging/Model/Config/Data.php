@@ -9,6 +9,6 @@
  */
 namespace Magento\Logging\Model\Config;
 
-class Data extends \Magento\Config\Data
+class Data extends \Magento\Framework\Config\Data
 {
 }

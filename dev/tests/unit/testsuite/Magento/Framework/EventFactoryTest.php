@@ -1,0 +1,50 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Framework;
+
+class EventFactoryTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var \Magento\Framework\EventFactory
+     */
+    protected $_model;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
+    /**
+     * @var \Magento\Framework\Event
+     */
+    protected $_expectedObject;
+
+    protected function setUp()
+    {
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->_model = new \Magento\Framework\EventFactory($this->_objectManagerMock);
+        $this->_expectedObject = $this->getMockBuilder('Magento\Framework\Event')->getMock();
+    }
+
+    public function testCreate()
+    {
+        $arguments = array('property' => 'value');
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Framework\Event',
+            $arguments
+        )->will(
+            $this->returnValue($this->_expectedObject)
+        );
+
+        $this->assertEquals($this->_expectedObject, $this->_model->create($arguments));
+    }
+}

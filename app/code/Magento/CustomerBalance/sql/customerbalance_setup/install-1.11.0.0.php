@@ -19,31 +19,31 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customerbalance')
 )->addColumn(
     'balance_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'Balance Id'
 )->addColumn(
     'customer_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Customer Id'
 )->addColumn(
     'website_id',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true),
     'Website Id'
 )->addColumn(
     'amount',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance Amount'
 )->addColumn(
     'base_currency_code',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
     array(),
     'Base Currency Code'
@@ -51,10 +51,10 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName(
         'magento_customerbalance',
         array('customer_id', 'website_id'),
-        \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     array('customer_id', 'website_id'),
-    array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('magento_customerbalance', array('website_id')),
     array('website_id')
@@ -63,15 +63,15 @@ $table = $installer->getConnection()->newTable(
     'website_id',
     $installer->getTable('store_website'),
     'website_id',
-    \Magento\DB\Ddl\Table::ACTION_SET_NULL,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_SET_NULL,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->addForeignKey(
     $installer->getFkName('magento_customerbalance', 'customer_id', 'customer_entity', 'entity_id'),
     'customer_id',
     $installer->getTable('customer_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customerbalance'
 );
@@ -84,49 +84,49 @@ $table = $installer->getConnection()->newTable(
     $installer->getTable('magento_customerbalance_history')
 )->addColumn(
     'history_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
     'History Id'
 )->addColumn(
     'balance_id',
-    \Magento\DB\Ddl\Table::TYPE_INTEGER,
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Balance Id'
 )->addColumn(
     'updated_at',
-    \Magento\DB\Ddl\Table::TYPE_TIMESTAMP,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
     array(),
     'Updated At'
 )->addColumn(
     'action',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Action'
 )->addColumn(
     'balance_amount',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance Amount'
 )->addColumn(
     'balance_delta',
-    \Magento\DB\Ddl\Table::TYPE_DECIMAL,
+    \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
     array('nullable' => false, 'default' => '0.0000'),
     'Balance Delta'
 )->addColumn(
     'additional_info',
-    \Magento\DB\Ddl\Table::TYPE_TEXT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
     array(),
     'Additional Info'
 )->addColumn(
     'is_customer_notified',
-    \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Is Customer Notified'
@@ -138,8 +138,8 @@ $table = $installer->getConnection()->newTable(
     'balance_id',
     $installer->getTable('magento_customerbalance'),
     'balance_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Enterprise Customerbalance History'
 );

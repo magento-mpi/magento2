@@ -21,14 +21,14 @@ class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()

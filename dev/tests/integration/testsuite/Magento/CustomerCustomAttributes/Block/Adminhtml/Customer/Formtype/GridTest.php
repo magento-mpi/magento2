@@ -19,7 +19,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid'
         );

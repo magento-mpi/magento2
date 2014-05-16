@@ -89,7 +89,7 @@ class Combine extends AbstractCombine
      *
      * @param Customer|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website $website
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -102,7 +102,7 @@ class Combine extends AbstractCombine
      * Prepare Condition According to ApplyTo Value
      *
      * @param array $conditions
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     protected function _prepareConditionAccordingApplyToValue(array $conditions)
@@ -122,7 +122,7 @@ class Combine extends AbstractCombine
                 break;
 
             default:
-                throw new \Magento\Model\Exception(__('Wrong "ApplyTo" type'));
+                throw new \Magento\Framework\Model\Exception(__('Wrong "ApplyTo" type'));
                 break;
         }
         return $returnedConditions;

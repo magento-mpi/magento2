@@ -9,20 +9,20 @@
  */
 namespace Magento\GiftCardAccount\Controller;
 
-class Cart extends \Magento\App\Action\Action
+class Cart extends \Magento\Framework\App\Action\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
      */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
     {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -50,7 +50,7 @@ class Cart extends \Magento\App\Action\Action
             $code = $data['giftcard_code'];
             try {
                 if (strlen($code) > \Magento\GiftCardAccount\Helper\Data::GIFT_CARD_CODE_MAX_LENGTH) {
-                    throw new \Magento\Model\Exception(__('Please correct the gift card code.'));
+                    throw new \Magento\Framework\Model\Exception(__('Please correct the gift card code.'));
                 }
                 $this->_objectManager->create(
                     'Magento\GiftCardAccount\Model\Giftcardaccount'
@@ -58,9 +58,9 @@ class Cart extends \Magento\App\Action\Action
                     $code
                 )->addToCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot apply this gift card.'));
@@ -83,9 +83,9 @@ class Cart extends \Magento\App\Action\Action
                     $code
                 )->removeFromCart();
                 $this->messageManager->addSuccess(
-                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
+                    __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($code))
                 );
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot remove this gift card.'));
@@ -112,7 +112,7 @@ class Cart extends \Magento\App\Action\Action
         $this->_coreRegistry->register('current_giftcardaccount', $card);
         try {
             $card->isValid(true, true, true, false);
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             $card->unsetData();
         }
 

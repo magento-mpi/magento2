@@ -29,23 +29,23 @@ class Data extends \Magento\ImportExport\Helper\Data
     protected $_customerBalanceData = null;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\File\Size $fileSize
+     * @param \Magento\Framework\App\State $appState
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\File\Size $fileSize
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\App\State $appState,
-        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\File\Size $fileSize,
+        \Magento\Framework\App\State $appState,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\File\Size $fileSize,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Reward\Helper\Data $rewardData,
         $dbCompatibleMode = true

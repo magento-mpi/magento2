@@ -67,6 +67,6 @@ namespace Magento\Shipping\Model\Shipment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class ReturnShipment extends \Magento\Object
+class ReturnShipment extends \Magento\Framework\Object
 {
 }

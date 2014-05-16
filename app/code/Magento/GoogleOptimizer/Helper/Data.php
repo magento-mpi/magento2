@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Helper;
 
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /**
      * Xml path google experiments enabled
@@ -22,7 +22,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_activeForCmsFlag;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -32,13 +32,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_analyticsHelper;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
     ) {
         $this->_scopeConfig = $scopeConfig;

@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Address\Renderer;
 
 use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Model\Metadata\ElementFactory;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Address format renderer default
@@ -19,7 +19,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Format type object
      *
-     * @var \Magento\Object
+     * @var \Magento\Framework\Object
      */
     protected $_type;
 
@@ -48,7 +48,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Context $context
+     * @param \Magento\Framework\View\Element\Context $context
      * @param ElementFactory $elementFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
@@ -56,7 +56,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Context $context,
+        \Magento\Framework\View\Element\Context $context,
         ElementFactory $elementFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Customer\Model\Address\Converter $addressConverter,
@@ -74,7 +74,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Retrieve format type object
      *
-     * @return \Magento\Object
+     * @return \Magento\Framework\Object
      */
     public function getType()
     {
@@ -84,10 +84,10 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     /**
      * Retrieve format type object
      *
-     * @param  \Magento\Object $type
+     * @param  \Magento\Framework\Object $type
      * @return $this
      */
-    public function setType(\Magento\Object $type)
+    public function setType(\Magento\Framework\Object $type)
     {
         $this->_type = $type;
         return $this;

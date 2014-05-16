@@ -9,8 +9,8 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition;
 
-use Magento\DB\Select;
-use Magento\Model\Exception;
+use Magento\Framework\DB\Select;
+use Magento\Framework\Model\Exception;
 
 /**
  * Customer cart conditions combine
@@ -18,14 +18,14 @@ use Magento\Model\Exception;
 class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @var \Magento\Stdlib\DateTime\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime\DateTime
      */
     protected $_dateModel;
 
     /**
      * Core resource helper
      *
-     * @var \Magento\DB\Helper
+     * @var \Magento\Framework\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -39,16 +39,16 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
-     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\DB\Helper $resourceHelper
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateModel
+     * @param \Magento\Framework\DB\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\DB\Helper $resourceHelper,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateModel,
+        \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -141,7 +141,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 0) {
-            throw new \Magento\Model\Exception(
+            throw new \Magento\Framework\Model\Exception(
                 __('The root shopping cart condition should have a days value of 0 or greater.')
             );
         }

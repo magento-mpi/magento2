@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Model;
 
-use Magento\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 /**
  * Reward model
@@ -26,7 +26,7 @@ use Magento\Model\Exception;
  * @method \Magento\Reward\Model\Reward setAction() setAction(int $value)
  * @method \Magento\Reward\Model\Reward setComment() setComment(string $value)
  */
-class Reward extends \Magento\Model\AbstractModel
+class Reward extends \Magento\Framework\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
 
@@ -108,7 +108,7 @@ class Reward extends \Magento\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Locale\CurrencyInterface
+     * @var \Magento\Framework\Locale\CurrencyInterface
      */
     protected $_localeCurrency;
 
@@ -135,7 +135,7 @@ class Reward extends \Magento\Model\AbstractModel
 
     /**
      * Mail transport builder
-     * @var \Magento\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
 
@@ -147,42 +147,42 @@ class Reward extends \Magento\Model\AbstractModel
     protected $_reward;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Locale\CurrencyInterface $localeCurrency
+     * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Model\Resource\AbstractResource $resource
+     * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Model\Context $context,
-        \Magento\Registry $registry,
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Locale\CurrencyInterface $localeCurrency,
+        \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Model\Resource\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardCustomer = $rewardCustomer;
@@ -229,12 +229,12 @@ class Reward extends \Magento\Model\AbstractModel
      * @param int $actionId
      * @param string $actionModelClass
      * @return void
-     * @throws Exception
+     * @throws \Magento\Framework\Model\Exception
      */
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            throw new Exception(__('The action ID you enter must be a numerical integer.'));
+            throw new \Magento\Framework\Model\Exception(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -754,7 +754,7 @@ class Reward extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
         )->setTemplateVars(
             array(
                 'store' => $store,
@@ -785,7 +785,7 @@ class Reward extends \Magento\Model\AbstractModel
         $error = false;
         try {
             $transport->sendMessage();
-        } catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Framework\Mail\Exception $e) {
             $error = true;
         }
 
@@ -833,7 +833,7 @@ class Reward extends \Magento\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
         )->setTemplateVars(
             array(
                 'store' => $store,

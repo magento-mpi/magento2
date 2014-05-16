@@ -33,7 +33,7 @@ class Selection extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry = null;
 
@@ -52,7 +52,7 @@ class Selection extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Model\Config\Source\Yesno $yesno
      * @param \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Selection extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Config\Source\Yesno $yesno,
         \Magento\Bundle\Model\Source\Option\Selection\Price\Type $priceType,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogData = $catalogData;
@@ -135,7 +135,7 @@ class Selection extends \Magento\Backend\Block\Widget
     public function getPriceTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array(
                 'id' => $this->getFieldId() . '_{{index}}_price_type',
@@ -160,7 +160,7 @@ class Selection extends \Magento\Backend\Block\Widget
     public function getQtyTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock(
-            'Magento\View\Element\Html\Select'
+            'Magento\Framework\View\Element\Html\Select'
         )->setData(
             array('id' => $this->getFieldId() . '_{{index}}_can_change_qty', 'class' => 'select')
         )->setName(

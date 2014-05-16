@@ -9,7 +9,7 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 
-class Attribute extends \Magento\Model\Resource\Db\AbstractDb
+class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Label table name cache
@@ -40,12 +40,12 @@ class Attribute extends \Magento\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData
     ) {

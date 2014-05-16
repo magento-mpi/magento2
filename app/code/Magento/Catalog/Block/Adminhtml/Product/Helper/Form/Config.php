@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-class Config extends \Magento\Data\Form\Element\Select
+class Config extends \Magento\Framework\Data\Form\Element\Select
 {
     /**
      * Retrieve element html

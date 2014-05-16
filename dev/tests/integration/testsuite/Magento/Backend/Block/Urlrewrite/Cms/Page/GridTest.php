@@ -23,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
         );
@@ -39,7 +39,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->assertStringStartsWith('http://localhost/index.php', $gridBlock->getGridUrl(), 'Grid URL is invalid');
 
-        $row = new \Magento\Object(array('id' => 1));
+        $row = new \Magento\Framework\Object(array('id' => 1));
         $this->assertStringStartsWith(
             'http://localhost/index.php/backend/admin/index/edit/cms_page/1',
             $gridBlock->getRowUrl($row),
@@ -59,7 +59,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
         $gridBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Backend\Block\Urlrewrite\Cms\Page\Grid'
         );

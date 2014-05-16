@@ -122,7 +122,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -137,7 +137,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
      * @param array $params
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $_productColFac
      */
     public function __construct(
@@ -146,7 +146,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
         array $params,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $_productColFac
     ) {
         $this->_productTypesConfig = $productTypesConfig;

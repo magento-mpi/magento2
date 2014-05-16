@@ -27,19 +27,19 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Config\DataInterface
+     * @var \Magento\Framework\Config\DataInterface
      */
     protected $_dataStorage;
 
     /**
      * Locale model
      *
-     * @var \Magento\Locale\ListsInterface
+     * @var \Magento\Framework\Locale\ListsInterface
      */
     protected $_localeLists;
 
@@ -53,18 +53,18 @@ class Config
     /**
      * Construct
      *
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-     * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Config\DataInterface $dataStorage
+     * @param \Magento\Framework\Locale\ListsInterface $localeLists
+     * @param \Magento\Framework\Config\DataInterface $dataStorage
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
-        \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Config\DataInterface $dataStorage
+        \Magento\Framework\Locale\ListsInterface $localeLists,
+        \Magento\Framework\Config\DataInterface $dataStorage
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_dataStorage = $dataStorage;

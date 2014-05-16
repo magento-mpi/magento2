@@ -11,7 +11,7 @@
  */
 namespace Magento\Banner\Model\Resource\Salesrule;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -30,7 +30,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _construct()
     {
-        $this->_init('Magento\Object', 'Magento\SalesRule\Model\Resource\Rule');
+        $this->_init('Magento\Framework\Object', 'Magento\SalesRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_salesrule');
     }
 

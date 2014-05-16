@@ -7,7 +7,7 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-class WebapiObjectManager implements \Magento\ObjectManager
+class WebapiObjectManager implements \Magento\Framework\ObjectManager
 {
     /**
      * @var array

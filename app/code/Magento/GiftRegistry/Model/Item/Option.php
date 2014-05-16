@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Item;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends \Magento\Model\AbstractModel implements
+class Option extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**

@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Web;
 
-class Protocol implements \Magento\Option\ArrayInterface
+class Protocol implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * @return array

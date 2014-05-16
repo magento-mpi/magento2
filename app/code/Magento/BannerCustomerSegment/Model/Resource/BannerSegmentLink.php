@@ -11,7 +11,7 @@
  */
 namespace Magento\BannerCustomerSegment\Model\Resource;
 
-class BannerSegmentLink extends \Magento\Model\Resource\Db\AbstractDb
+class BannerSegmentLink extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
      * Setup association with a table

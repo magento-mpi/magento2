@@ -47,10 +47,10 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
      * - website_ids - string, comma-separated
      * - store_group_ids - string, comma-separated
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
-    public function render(\Magento\Object $row)
+    public function render(\Magento\Framework\Object $row)
     {
         if ($row->getData('gws_is_all')) {
             return __('All');

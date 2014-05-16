@@ -8,7 +8,7 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
-class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
+class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
     const XML_PATH_RESTRICTION_ENABLED = 'general/restriction/is_active';
 
@@ -21,7 +21,7 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
     const XML_PATH_RESTRICTION_HTTP_REDIRECT = 'general/restriction/http_redirect';
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
@@ -34,16 +34,16 @@ class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRest
 
     /**
      * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
-     * @param \Magento\Config\ScopeInterface $configScope
-     * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Config\ScopeInterface $configScope
+     * @param \Magento\Framework\Config\CacheInterface $cache
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $cacheId
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\Config\Reader $reader,
-        \Magento\Config\ScopeInterface $configScope,
-        \Magento\Config\CacheInterface $cache,
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Config\ScopeInterface $configScope,
+        \Magento\Framework\Config\CacheInterface $cache,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $cacheId = 'website_restrictions'
     ) {
         $this->_scopeConfig = $scopeConfig;

@@ -115,7 +115,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

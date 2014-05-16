@@ -20,7 +20,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_formTypesFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\LabelFactory
+     * @var \Magento\Framework\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
@@ -28,14 +28,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
-     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
-        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
+        \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_formTypesFactory = $formTypesFactory;
@@ -82,7 +82,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->addColumn('store_id', array('header' => __('Store View'), 'index' => 'store_id', 'type' => 'store'));
 
-        /** @var $label \Magento\View\Design\Theme\Label */
+        /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
         array_unshift($design, array('value' => 'all', 'label' => __('All Themes')));
@@ -114,7 +114,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row click URL
      *
-     * @param \Magento\Object $row
+     * @param \Magento\Framework\Object $row
      * @return string
      */
     public function getRowUrl($row)

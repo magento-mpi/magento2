@@ -28,20 +28,20 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_widgetRadio;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param Radio $widgetRadio
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         Radio $widgetRadio,
         array $data = array()
@@ -55,10 +55,10 @@ class Chooser extends \Magento\Backend\Block\Template
     /**
      * Prepare chooser element HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element Form Element
+     * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    public function prepareElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $uniqueId = $this->mathRandom->getUniqueHash($element->getId());
         $sourceUrl = $this->getUrl('adminhtml/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));

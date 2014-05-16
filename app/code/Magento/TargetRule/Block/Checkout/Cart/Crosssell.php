@@ -104,7 +104,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -118,8 +117,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -133,8 +131,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $context,
             $index,
             $targetRuleData,
-            $data,
-            $priceBlockTypes
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -276,7 +273,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     /**
      * Get link collection for cross-sell
      *
-     * @throws \Magento\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
      */
     protected function _getTargetLinkCollection()

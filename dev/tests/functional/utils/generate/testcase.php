@@ -25,7 +25,7 @@ set_include_path($path);
 $appRoot = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
 require $appRoot . '/app/bootstrap.php';
 
-$objectManagerFactory = new \Magento\App\ObjectManagerFactory();
+$objectManagerFactory = new \Magento\Framework\App\ObjectManagerFactory();
 $arguments = $_SERVER;
 $objectManager = $objectManagerFactory->create(BP, $arguments);
 \Mtf\ObjectManagerFactory::configure($objectManager);

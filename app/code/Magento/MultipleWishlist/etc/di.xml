@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <!-- TODO: this preference should be check -->
     <preference for="Magento\Wishlist\Helper\Data" type="Magento\MultipleWishlist\Helper\Data"/>
     <type name="Magento\MultipleWishlist\Model\Item\Collection">

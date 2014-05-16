@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Weee\Pricing\Render\Adjustment $this */
+
+$weeeSeparator = $openBrace = $closeBrace = '';
+$openBrace = '(';
+$closeBrace = ')';
+?>
+
+<?php if ($this->showInclDescr()): // incl. + weee ?>
+    <span class="weee"><?php echo $openBrace ?>
+        <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
+            <?php echo $weeeSeparator; ?>
+            <?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?>
+            <?php $weeeSeparator = ' + '; ?>
+        <?php endforeach; ?>
+        <?php echo $closeBrace ?></span>
+<?php elseif ($this->showExclDescrIncl()): // excl. + weee + final ?>
+    <?php echo $openBrace ?>
+    <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
+        <span class="weee">
+            <?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?>
+        </span>
+    <?php endforeach; ?>
+    <?php echo $closeBrace ?>
+<?php endif; ?>

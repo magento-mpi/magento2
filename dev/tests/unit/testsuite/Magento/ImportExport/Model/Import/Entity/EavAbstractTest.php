@@ -34,7 +34,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected $_coreDataMock;
 
     /**
-     * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_string;
 
@@ -44,7 +44,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected $_importFactory;
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $_resource;
 
@@ -71,8 +71,8 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_string = new \Magento\Stdlib\String();
-        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_string = new \Magento\Framework\Stdlib\String();
+        $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_importFactory = $this->getMock(
             'Magento\ImportExport\Model\ImportFactory',
@@ -81,7 +81,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper',
             array(),

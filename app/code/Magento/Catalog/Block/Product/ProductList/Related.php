@@ -10,14 +10,14 @@
 namespace Magento\Catalog\Block\Product\ProductList;
 
 use Magento\Catalog\Model\Resource\Product\Collection;
-use Magento\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Catalog product related items block
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
+class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
@@ -58,23 +58,20 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

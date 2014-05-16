@@ -9,7 +9,6 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
-use Magento\App\Action\NotFoundException;
 use Magento\Backend\App\AbstractAction;
 
 /**

@@ -10,7 +10,11 @@
 <?php $entityValues = $this->getEntityValues() ?>
 
 <?php if ($this->getEnabled() && count($entityValues)): ?>
-<form action="<?php echo $this->getAddUrl();?>" method="post" id="add-cart-items-to-gift-registry" class="form giftregistry">
+<form action="<?php echo $this->getAddUrl();?>"
+      method="post"
+      id="add-cart-items-to-gift-registry"
+      class="form giftregistry"
+      data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset">
         <div class="field giftregistry">
             <div class="control">
@@ -26,14 +30,4 @@
         </button>
     </fieldset>
 </form>
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#add-cart-items-to-gift-registry').validation();
-            });
-    })(jQuery);
-</script>
 <?php endif; ?>

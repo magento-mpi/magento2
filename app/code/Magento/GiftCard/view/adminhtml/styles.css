@@ -20,12 +20,12 @@
 .field-open_amount_min .addon .addafter,
 .field-open_amount_max .addon .addafter {
     border-width: 1px 0 1px 1px;
-    border-radius: 4px 0 0 4px;
+    border-radius: 2px 0 0 2px;
 }
 
 .field-open_amount_min .addon input:first-child,
 .field-open_amount_max .addon input:first-child {
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 2px 2px 0;
 }
 
 .eq-ie8 .field-open_amount_min .addon .addafter,
@@ -40,10 +40,7 @@
 }
 
 .field-open_amount_min input:focus,
-.field-open_amount_max input:focus {
-    box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
-}
-
+.field-open_amount_max input:focus,
 .field-open_amount_min input:focus ~ label.addafter,
 .field-open_amount_max input:focus ~ label.addafter {
     box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);

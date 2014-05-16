@@ -28,7 +28,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * Magento string lib
      *
-     * @var \Magento\Stdlib\String
+     * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
 
@@ -39,7 +39,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
-     * @param \Magento\Stdlib\String $string
+     * @param \Magento\Framework\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
-        \Magento\Stdlib\String $string,
+        \Magento\Framework\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_resource = $filterAttributeFactory->create();

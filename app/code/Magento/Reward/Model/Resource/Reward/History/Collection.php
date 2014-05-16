@@ -14,7 +14,7 @@ namespace Magento\Reward\Model\Resource\Reward\History;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Expiry config
@@ -24,7 +24,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $_expiryConfig = array();
 
     /**
-     * @var \Magento\Locale\ResolverInterface
+     * @var \Magento\Framework\Locale\ResolverInterface
      */
     protected $_localeResolver;
 
@@ -38,31 +38,31 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Date time formatter
      *
-     * @var \Magento\Stdlib\DateTime
+     * @var \Magento\Framework\Stdlib\DateTime
      */
     protected $dateTime;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param null $connection
-     * @param \Magento\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Framework\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_localeResolver = $localeResolver;
         $this->_customerFactory = $customerFactory;
@@ -116,7 +116,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * Getter for $_expiryConfig
      *
      * @param int $websiteId Specified Website Id
-     * @return array|\Magento\Object
+     * @return array|\Magento\Framework\Object
      */
     protected function _getExpiryConfig($websiteId = null)
     {
@@ -299,7 +299,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         $field = $expiryConfig->getExpiryCalculation() == 'static' ? 'expired_at_static' : 'expired_at_dynamic';
         $locale = $this->_localeResolver->getLocale();
-        $expireAtLimit = new \Magento\Stdlib\DateTime\Date($locale);
+        $expireAtLimit = new \Magento\Framework\Stdlib\DateTime\Date($locale);
         $expireAtLimit->addDay($inDays);
         $expireAtLimit = $this->dateTime->formatDate($expireAtLimit);
 

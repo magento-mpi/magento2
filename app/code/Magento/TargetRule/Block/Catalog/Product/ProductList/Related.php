@@ -40,7 +40,6 @@ class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abst
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Checkout\Model\Cart $cart
      * @param array $data
-     * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -50,8 +49,7 @@ class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abst
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Checkout\Model\Cart $cart,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = array()
     ) {
         $this->_cart = $cart;
         parent::__construct(
@@ -61,8 +59,7 @@ class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abst
             $productCollectionFactory,
             $visibility,
             $indexFactory,
-            $data,
-            $priceBlockTypes
+            $data
         );
     }
 

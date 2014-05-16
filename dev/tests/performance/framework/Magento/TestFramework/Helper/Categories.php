@@ -17,7 +17,7 @@ class Categories
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager\ObjectManager
+     * @var \Magento\Framework\ObjectManager\ObjectManager
      */
     protected $_objectManager = null;
 
@@ -83,12 +83,12 @@ class Categories
     /**
      * Get object manager
      *
-     * @return \Magento\ObjectManager\ObjectManager|null
+     * @return \Magento\Framework\ObjectManager\ObjectManager|null
      */
     protected function getObjectManager()
     {
         if (!$this->_objectManager) {
-            $locatorFactory = new \Magento\App\ObjectManagerFactory();
+            $locatorFactory = new \Magento\Framework\App\ObjectManagerFactory();
             $this->_objectManager = $locatorFactory->create(BP, $_SERVER);
         }
         return $this->_objectManager;

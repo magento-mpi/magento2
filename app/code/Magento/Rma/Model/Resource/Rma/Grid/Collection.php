@@ -46,7 +46,7 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
     /**
      * Get SQL for get record count
      *
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     public function getSelectCountSql()
     {

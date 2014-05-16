@@ -20,13 +20,13 @@ class CreateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    /** @var \Magento\Message\ManagerInterface */
+    /** @var \Magento\Framework\Message\ManagerInterface */
     protected $_messageManager;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_messageManager = Bootstrap::getObjectManager()->get('Magento\Message\ManagerInterface');
+        $this->_messageManager = Bootstrap::getObjectManager()->get('Magento\Framework\Message\ManagerInterface');
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\AdminOrder\Create',
             array('messageManager' => $this->_messageManager)
@@ -46,7 +46,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertFalse($order->getShippingAddress());
@@ -67,7 +67,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertTrue($order->getShippingAddress()->getSameAsBilling());
@@ -89,7 +89,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($order->getShippingAddress()->getSameAsBilling());
 
-        $objectManager->get('Magento\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('rule_data');
         $this->_model->initFromOrder($order);
 
         $this->assertFalse($order->getShippingAddress()->getSameAsBilling());
@@ -113,7 +113,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        $objectManager->get('Magento\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
         $this->assertNull($payment->getCcExpMonth());
@@ -140,7 +140,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('AE', $payment->getCcType());
         $this->assertEquals('0005', $payment->getCcLast4());
 
-        $objectManager->get('Magento\Registry')->unregister('rule_data');
+        $objectManager->get('Magento\Framework\Registry')->unregister('rule_data');
         $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
 
         $this->assertEquals('5', $payment->getCcExpMonth());
@@ -261,11 +261,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_model->createOrder();
             $this->fail('Validation errors are expected to lead to exception during createOrder() call.');
-        } catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Framework\Model\Exception $e) {
             /** createOrder is expected to throw exception with empty message when validation error occurs */
         }
         $errorMessages = array();
-        /** @var $validationError \Magento\Message\Error */
+        /** @var $validationError \Magento\Framework\Message\Error */
         foreach ($this->_messageManager->getMessages()->getItems() as $validationError) {
             $errorMessages[] = $validationError->getText();
         }

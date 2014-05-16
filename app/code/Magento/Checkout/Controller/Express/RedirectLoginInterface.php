@@ -36,7 +36,7 @@ interface RedirectLoginInterface
     /**
      * Retrieve response object
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function getResponse();
 }

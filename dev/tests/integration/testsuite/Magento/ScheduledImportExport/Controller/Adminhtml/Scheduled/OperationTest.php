@@ -120,9 +120,9 @@ class OperationTest extends \Magento\Backend\Utility\Controller
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        /** @var \Magento\Filesystem\Directory\Write $varDir */
+        /** @var \Magento\Framework\Filesystem\Directory\Write $varDir */
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Filesystem'
+            'Magento\Framework\App\Filesystem'
         )->getDirectoryWrite(
             'var'
         );
@@ -137,10 +137,10 @@ class OperationTest extends \Magento\Backend\Utility\Controller
         // Restore current working directory
         chdir($cwd);
 
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);
         $this->assertSessionMessages(
             $this->logicalNot($this->isEmpty()),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
+            \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 

@@ -12,7 +12,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 /**
  * Admin Checkout block for showing messages
  */
-class Messages extends \Magento\View\Element\Messages
+class Messages extends \Magento\Framework\View\Element\Messages
 {
     /**
      * Prepares layout for current block

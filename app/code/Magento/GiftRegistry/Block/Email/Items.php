@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Block\Email;
 /**
  * Update email template gift registry items block
  */
-class Items extends \Magento\View\Element\Template
+class Items extends \Magento\Framework\View\Element\Template
 {
     /**
      * Return list of gift registry items

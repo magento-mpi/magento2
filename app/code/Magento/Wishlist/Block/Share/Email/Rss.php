@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Block\Share\Email;
 
-class Rss extends \Magento\View\Element\Template
+class Rss extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string

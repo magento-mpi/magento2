@@ -23,7 +23,7 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include BASE_PATH . '/lib/Magento/File/Csv.php';
+include BASE_PATH . '/lib/Magento/Framework/File/Csv.php';
 include __DIR__ . '/ModuleTranslations.php';
 
 
@@ -159,7 +159,7 @@ class Split
             return false;
         }
 
-        $csv = new \Magento\File\Csv();
+        $csv = new \Magento\Framework\File\Csv();
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
 

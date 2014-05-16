@@ -40,28 +40,28 @@ class Observer
     protected $_invitationData;
 
     /**
-     * @var \Magento\Message\ManagerInterface
+     * @var \Magento\Framework\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
      * Request object
      *
-     * @var \Magento\App\RequestInterface
+     * @var \Magento\Framework\App\RequestInterface
      */
     protected $_request;
 
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Config $config
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Config $config,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\App\RequestInterface $request
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\App\RequestInterface $request
     ) {
         $this->_invitationData = $invitationData;
         $this->_config = $config;
@@ -80,7 +80,7 @@ class Observer
     {
         $messages = $this->messageManager->getMessages();
         $errors = $messages->getErrors();
-        $notices = $messages->getItemsByType(\Magento\Message\MessageInterface::TYPE_NOTICE);
+        $notices = $messages->getItemsByType(\Magento\Framework\Message\MessageInterface::TYPE_NOTICE);
         $status = empty($errors) &&
             empty($notices) ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)->setInfo($this->_request->getParam('invitations'));

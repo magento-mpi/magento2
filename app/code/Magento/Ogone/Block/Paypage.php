@@ -9,7 +9,7 @@
  */
 namespace Magento\Ogone\Block;
 
-class Paypage extends \Magento\View\Element\Template
+class Paypage extends \Magento\Framework\View\Element\Template
 {
     /**
      * @var string

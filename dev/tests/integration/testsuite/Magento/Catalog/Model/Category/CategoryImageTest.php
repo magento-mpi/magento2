@@ -48,7 +48,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             'dev/log/active',
             $this->_oldLogActive,
@@ -58,7 +58,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
         $this->_oldLogActive = null;
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Config\MutableScopeConfigInterface'
+            'Magento\Framework\App\Config\MutableScopeConfigInterface'
         )->setValue(
             'dev/log/exception_file',
             $this->_oldExceptionFile,
@@ -81,7 +81,7 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that there is no exception '$_FILES array is empty' in \Magento\File\Uploader::_setUploadFileId()
+     * Test that there is no exception '$_FILES array is empty' in \Magento\Framework\File\Uploader::_setUploadFileId()
      * if category image was not set
      *
      */
@@ -93,7 +93,8 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = $objectManager->get('Magento\Registry')->registry('_fixture/Magento\Catalog\Model\Category');
+        $category = $objectManager->get('Magento\Framework\Registry')
+            ->registry('_fixture/Magento\Catalog\Model\Category');
         $this->assertNotEmpty($category->getId());
 
         foreach (StubZendLogWriterStreamTest::$exceptions as $exception) {

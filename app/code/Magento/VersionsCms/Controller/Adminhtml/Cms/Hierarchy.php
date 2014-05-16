@@ -45,7 +45,7 @@ class Hierarchy extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -56,12 +56,12 @@ class Hierarchy extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Registry $coreRegistry
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry,
+        \Magento\Framework\Registry $coreRegistry,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
@@ -70,10 +70,10 @@ class Hierarchy extends \Magento\Backend\App\Action
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(\Magento\Framework\App\RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
             if ($request->getActionName() != 'noroute') {
@@ -212,7 +212,7 @@ class Hierarchy extends \Magento\Backend\App\Action
                     $nodeModel->collectTree(array(), array());
                 }
                 $this->messageManager->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong while deleting the hierarchy.'));
@@ -245,7 +245,7 @@ class Hierarchy extends \Magento\Backend\App\Action
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
                 $this->messageManager->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong while copying the hierarchy.'));
@@ -327,7 +327,7 @@ class Hierarchy extends \Magento\Backend\App\Action
 
                 $hasError = false;
                 $this->messageManager->addSuccess(__('You have saved the hierarchy.'));
-            } catch (\Magento\Model\Exception $e) {
+            } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong while saving the hierarchy.'));

@@ -14,22 +14,22 @@ class CarrierFactory implements CarrierFactoryInterface
     /**
      * Core store config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\ObjectManager $objectManager
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\ObjectManager $objectManager
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_objectManager = $objectManager;

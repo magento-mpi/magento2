@@ -119,7 +119,7 @@ class Open extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Retrieve select for flat attribute update
      *
      * @param int $store
-     * @return \Magento\DB\Select|null
+     * @return \Magento\Framework\DB\Select|null
      */
     public function getFlatUpdateSelect($store)
     {

@@ -17,10 +17,10 @@ class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
     /**
      * Render gift registry item qty as input html element
      *
-     * @param  \Magento\Object $row
+     * @param  \Magento\Framework\Object $row
      * @return string
      */
-    protected function _getValue(\Magento\Object $row)
+    protected function _getValue(\Magento\Framework\Object $row)
     {
         $value = $row->getData($this->getColumn()->getIndex()) * 1;
 

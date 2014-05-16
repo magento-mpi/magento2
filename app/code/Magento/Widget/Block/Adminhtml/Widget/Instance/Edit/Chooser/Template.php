@@ -34,7 +34,7 @@ class Template extends \Magento\Backend\Block\Widget
             $html .= $widgetTemplate['label'];
         } else {
             $html = $this->getLayout()->createBlock(
-                'Magento\View\Element\Html\Select'
+                'Magento\Framework\View\Element\Html\Select'
             )->setName(
                 'template'
             )->setClass(

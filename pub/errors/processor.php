@@ -124,14 +124,14 @@ class Error_Processor
     /**
      * Http response
      *
-     * @var Magento\App\Response\Http
+     * @var Magento\Framework\App\Response\Http
      */
     protected $_response;
 
     /**
-     * @param \Magento\App\Response\Http $response
+     * @param \Magento\Framework\App\Response\Http $response
      */
-    public function __construct(\Magento\App\Response\Http $response)
+    public function __construct(\Magento\Framework\App\Response\Http $response)
     {
         $this->_response = $response;
         $this->_errorDir  = __DIR__ . '/';
@@ -162,7 +162,7 @@ class Error_Processor
     /**
      * Process no cache error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function processNoCache()
     {
@@ -174,7 +174,7 @@ class Error_Processor
     /**
      * Process 404 error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function process404()
     {
@@ -188,7 +188,7 @@ class Error_Processor
     /**
      * Process 503 error
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function process503()
     {
@@ -201,7 +201,7 @@ class Error_Processor
     /**
      * Process report
      *
-     * @return \Magento\App\Response\Http
+     * @return \Magento\Framework\App\Response\Http
      */
     public function processReport()
     {

@@ -16,7 +16,7 @@ try {
 
     $basePath = realpath($options['dir']);
     require $basePath . '/app/autoload.php';
-    \Magento\Autoload\IncludePath::addIncludePath(
+    \Magento\Framework\Autoload\IncludePath::addIncludePath(
         array(
             realpath($basePath . '/dev/build/publication/edition/'),
             realpath($basePath . '/lib/'),
@@ -41,7 +41,7 @@ try {
         case 'ee':
             $configurator = new EnterpriseConfigurator(
                 $basePath,
-                new Magento\Filesystem\Driver\File()
+                new Magento\Framework\Filesystem\Driver\File()
             );
             break;
         default:

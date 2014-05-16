@@ -40,28 +40,28 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
     /**
      * Core registry
      *
-     * @var \Magento\Registry|null
+     * @var \Magento\Framework\Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\App\Http\Context $httpContext,
-        \Magento\Registry $registry,
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

@@ -51,7 +51,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_designHelperMock = $this->getMock('Magento\DesignEditor\Helper\Data', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -61,7 +61,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_routeParamsMock = $this->getMock(
-            'Magento\Url\RouteParamsResolverFactory',
+            'Magento\Framework\Url\RouteParamsResolverFactory',
             array(),
             array(),
             '',

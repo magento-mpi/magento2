@@ -36,15 +36,18 @@ class CreateTest extends Functional
         //Pages & Blocks
         $catalogCategoryPage = Factory::getPageFactory()->getCatalogCategory();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
-        $formBlock = $catalogCategoryPage->getFormBlock();
-        $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
+        $treeBlockEdit = $catalogCategoryEditPage->getTreeBlock();
+        $formBlock = $catalogCategoryEditPage->getFormBlock();
+        $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
+        $messageBlock = $catalogCategoryEditPage->getMessageBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $catalogCategoryPage->open();
         $treeBlock->selectCategory($category->getCategoryPath());
-        $treeBlock->addSubcategory();
+        $treeBlockEdit->addSubcategory();
         $formBlock->fill($category);
-        $formBlock->save($category);
+        $actionsBlock->save();
         //Verifying
         $messageBlock->assertSuccessMessage();
         //Flush cache

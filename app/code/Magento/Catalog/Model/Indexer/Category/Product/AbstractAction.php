@@ -32,21 +32,21 @@ abstract class AbstractAction
     /**
      * Cached non anchor categories select by store id
      *
-     * @var \Magento\DB\Select[]
+     * @var \Magento\Framework\DB\Select[]
      */
     protected $nonAnchorSelects = array();
 
     /**
      * Cached anchor categories select by store id
      *
-     * @var \Magento\DB\Select[]
+     * @var \Magento\Framework\DB\Select[]
      */
     protected $anchorSelects = array();
 
     /**
      * Cached all product select by store id
      *
-     * @var \Magento\DB\Select[]
+     * @var \Magento\Framework\DB\Select[]
      */
     protected $productsSelects = array();
 
@@ -58,7 +58,7 @@ abstract class AbstractAction
     protected $categoryPath = array();
 
     /**
-     * @var \Magento\App\Resource
+     * @var \Magento\Framework\App\Resource
      */
     protected $resource;
 
@@ -80,12 +80,12 @@ abstract class AbstractAction
     protected $useTempTable = true;
 
     /**
-     * @param \Magento\App\Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $config
      */
     public function __construct(
-        \Magento\App\Resource $resource,
+        \Magento\Framework\App\Resource $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $config
     ) {
@@ -153,7 +153,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getReadAdapter()
     {
@@ -168,7 +168,7 @@ abstract class AbstractAction
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
      */
     protected function getWriteAdapter()
     {
@@ -201,7 +201,7 @@ abstract class AbstractAction
      * Retrieve select for reindex products of non anchor categories
      *
      * @param \Magento\Store\Model\Store $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function getNonAnchorCategoriesSelect(\Magento\Store\Model\Store $store)
     {
@@ -299,12 +299,12 @@ abstract class AbstractAction
     /**
      * Return selects cut by min and max
      *
-     * @param \Magento\DB\Select $select
+     * @param \Magento\Framework\DB\Select $select
      * @param string $field
      * @param int $range
-     * @return \Magento\DB\Select[]
+     * @return \Magento\Framework\DB\Select[]
      */
-    protected function prepareSelectsByRange(\Magento\DB\Select $select, $field, $range = self::RANGE_CATEGORY_STEP)
+    protected function prepareSelectsByRange(\Magento\Framework\DB\Select $select, $field, $range = self::RANGE_CATEGORY_STEP)
     {
         return $this->isRangingNeeded() ? $this->getWriteAdapter()->selectsByRange(
             $field,
@@ -330,7 +330,7 @@ abstract class AbstractAction
                     $select,
                     $this->getMainTmpTable(),
                     array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }
@@ -351,7 +351,7 @@ abstract class AbstractAction
      * Create anchor select
      *
      * @param \Magento\Store\Model\Store $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function createAnchorSelect(\Magento\Store\Model\Store $store)
     {
@@ -450,7 +450,7 @@ abstract class AbstractAction
      * Retrieve select for reindex products of non anchor categories
      *
      * @param \Magento\Store\Model\Store $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function getAnchorCategoriesSelect(\Magento\Store\Model\Store $store)
     {
@@ -476,7 +476,7 @@ abstract class AbstractAction
                     $select,
                     $this->getMainTmpTable(),
                     array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
         }
@@ -486,7 +486,7 @@ abstract class AbstractAction
      * Get select for all products
      *
      * @param \Magento\Store\Model\Store $store
-     * @return \Magento\DB\Select
+     * @return \Magento\Framework\DB\Select
      */
     protected function getAllProducts(\Magento\Store\Model\Store $store)
     {
@@ -604,7 +604,7 @@ abstract class AbstractAction
                         $select,
                         $this->getMainTmpTable(),
                         array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
-                        \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                        \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                     )
                 );
             }

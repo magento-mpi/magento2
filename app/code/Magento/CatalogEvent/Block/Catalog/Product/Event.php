@@ -11,12 +11,12 @@
  */
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
-class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\View\Block\IdentityInterface
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -28,16 +28,16 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
     protected $_catalogEventData;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Registry $registry,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {

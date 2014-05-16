@@ -33,11 +33,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         /** @var $event \Magento\CatalogEvent\Model\Event */
         $event = $objectManager->create('Magento\CatalogEvent\Model\Event');
         $event->load(1, 'category_id');
-        $objectManager->get('Magento\Registry')->register('magento_catalogevent_event', $event);
+        $objectManager->get('Magento\Framework\Registry')->register('magento_catalogevent_event', $event);
 
         /** @var \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
+            'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form'
         );
@@ -47,7 +47,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
             \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE
         );
-        /** @var \Magento\Data\Form\Element\AbstractElement $element */
+        /** @var \Magento\Framework\Data\Form\Element\AbstractElement $element */
         $element = $block->getForm()->getElement('display_state_array');
         foreach ($checkboxValues as $value) {
             $this->assertEquals('disabled', $element->getDisabled($value));

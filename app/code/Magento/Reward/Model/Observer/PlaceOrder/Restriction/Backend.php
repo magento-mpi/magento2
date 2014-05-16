@@ -18,15 +18,15 @@ class Backend implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionIn
     /**
      * Authoriztion interface
      *
-     * @var \Magento\AuthorizationInterface
+     * @var \Magento\Framework\AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * @param \Magento\Reward\Helper\Data $helper
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Framework\AuthorizationInterface $authorization
      */
-    public function __construct(\Magento\Reward\Helper\Data $helper, \Magento\AuthorizationInterface $authorization)
+    public function __construct(\Magento\Reward\Helper\Data $helper, \Magento\Framework\AuthorizationInterface $authorization)
     {
         $this->_helper = $helper;
         $this->_authorization = $authorization;

@@ -17,7 +17,7 @@ namespace Magento\Checkout\Block\Cart\Item;
  * @package    Magento_Checkout
  * @module     Checkout
  */
-class Configure extends \Magento\View\Element\Template
+class Configure extends \Magento\Framework\View\Element\Template
 {
     /**
      * Configure product view blocks

@@ -8,7 +8,11 @@
  */
 ?>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist-search-form" class="form wishlist find">
+<form action="<?php echo $this->getActionUrl() ?>"
+      method="get"
+      id="wishlist-search-form"
+      class="form wishlist find"
+      data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset" data-hasrequired="* <?php echo __('Required Fields') ?>">
         <legend class="legend"><span><?php echo __('Search Options') ?></span></legend><br>
         <div class="field firstname required">
@@ -30,7 +34,11 @@
     </fieldset>
 </form>
 
-<form action="<?php echo $this->getActionUrl() ?>" method="get" id="wishlist-search-email-form" class="form wishlist find">
+<form action="<?php echo $this->getActionUrl() ?>"
+      method="get"
+      id="wishlist-search-email-form"
+      class="form wishlist find"
+      data-mage-init='{"validation":{}}'>
     <fieldset class="fieldset" data-hasrequired="* <?php echo __('Required Fields') ?>">
         <div class="field email required">
             <label for="params_email" class="label"><span><?php echo __('Owner Email') ?></span></label>
@@ -44,17 +52,3 @@
         </div>
     </fieldset>
 </form>
-
-<script type="text/javascript">
-    (function($) {
-        head.js("<?php echo $this->getViewFileUrl('jquery/jquery.validate.js')?>",
-            "<?php echo $this->getViewFileUrl('jquery/jquery.metadata.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation.js')?>",
-            "<?php echo $this->getViewFileUrl('mage/validation/validation.js')?>", function() {
-                $('#wishlist-search-form')
-                    .add('#wishlist-search-email-form').validation();
-            });
-    })(jQuery);
-</script>
-
-

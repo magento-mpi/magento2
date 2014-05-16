@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class State implements \Magento\Option\ArrayInterface
+class State implements \Magento\Framework\Option\ArrayInterface
 {
     /**
      * Return catalog event array

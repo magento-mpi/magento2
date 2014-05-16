@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Framework/Config/etc/theme.xsd">
+    <title>Test</title>
+    <version>2.1.0.0</version>
+    <parent>default_default</parent>
+    <media>
+        <preview_image />
+    </media>
+</theme>

@@ -17,7 +17,7 @@ class ExtendsAbstractData extends AbstractData
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(\Magento\Framework\App\RequestInterface $request)
     {
     }
 
@@ -110,10 +110,10 @@ class ExtendsAbstractData extends AbstractData
     }
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return mixed
      */
-    public function getRequestValue(\Magento\App\RequestInterface $request)
+    public function getRequestValue(\Magento\Framework\App\RequestInterface $request)
     {
         return $this->_getRequestValue($request);
     }

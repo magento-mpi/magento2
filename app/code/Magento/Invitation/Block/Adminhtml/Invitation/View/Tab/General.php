@@ -32,7 +32,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Framework\Registry
      */
     protected $_coreRegistry;
 
@@ -44,33 +44,31 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     protected $_customerFactory;
 
     /**
-     * Customer Group Factory
-     *
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupFactory;
+    protected $_customerGroupService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Registry $registry
+     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Registry $registry,
+        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
         $this->_invitationData = $invitationData;
         $this->_customerFactory = $customerFactory;
-        $this->_groupFactory = $groupFactory;
+        $this->_customerGroupService = $customerGroupService;
     }
 
     /**
@@ -154,7 +152,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
-            $date = $this->_localeDate->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
+            $date = $this->_localeDate->date($date, \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -201,24 +199,6 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
     }
 
     /**
-     * Return customer group collection
-     *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
-     */
-    public function getCustomerGroupCollection()
-    {
-        if (!$this->hasData('customer_groups_collection')) {
-            $groups = $this->_groupFactory->create()->getCollection()->addFieldToFilter(
-                'customer_group_id',
-                array('gt' => 0)
-            )->load();
-            $this->setData('customer_groups_collection', $groups);
-        }
-
-        return $this->getData('customer_groups_collection');
-    }
-
-    /**
      * Return customer group code by group id
      * If $configUsed passed as true then result will be default string
      * instead of N/A sign
@@ -229,9 +209,9 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
      */
     public function getCustomerGroupCode($groupId, $configUsed = false)
     {
-        $group = $this->getCustomerGroupCollection()->getItemById($groupId);
+        $group = $this->_customerGroupService->getGroup($groupId);
         if ($group) {
-            return $group->getCustomerGroupCode();
+            return $group->getCode();
         } else {
             if ($configUsed) {
                 return __('Default from System Configuration');

@@ -30,7 +30,7 @@ class Gender extends AbstractWidget
     /**
      * Create an instance of the Gender widget
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param CustomerMetadataServiceInterface $attributeMetadata
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -38,7 +38,7 @@ class Gender extends AbstractWidget
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerMetadataServiceInterface $attributeMetadata,
         CustomerAccountServiceInterface $customerAccountService,

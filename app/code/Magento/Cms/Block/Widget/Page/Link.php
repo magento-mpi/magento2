@@ -12,7 +12,7 @@ namespace Magento\Cms\Block\Widget\Page;
 /**
  * Widget to display link to CMS page
  */
-class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
+class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Prepared href attribute
@@ -48,13 +48,13 @@ class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Bl
     protected $_cmsPage;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Cms\Model\Resource\Page $resourcePage
      * @param \Magento\Cms\Helper\Page $cmsPage
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Cms\Model\Resource\Page $resourcePage,
         \Magento\Cms\Helper\Page $cmsPage,
         array $data = array()

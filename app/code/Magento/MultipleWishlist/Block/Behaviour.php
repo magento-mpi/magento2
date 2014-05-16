@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block;
 
-class Behaviour extends \Magento\View\Element\Template
+class Behaviour extends \Magento\Framework\View\Element\Template
 {
     /**
      * Wishlist data
@@ -32,13 +32,13 @@ class Behaviour extends \Magento\View\Element\Template
     protected $currentCustomer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()

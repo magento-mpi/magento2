@@ -7,10 +7,10 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Framework/ObjectManager/etc/config.xsd">
     <type name="Magento\CatalogRule\Model\Resource\Rule">
         <arguments>
-            <argument name="eventManager" xsi:type="object">Magento\Event\Manager\Proxy</argument>
+            <argument name="eventManager" xsi:type="object">Magento\Framework\Event\Manager\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\CatalogRule\Model\Resource\Rule\Collection" shared="false" />
@@ -28,21 +28,20 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Module\Setup\Migration">
+    <type name="Magento\Framework\Module\Setup\Migration">
         <arguments>
             <argument name="compositeModules" xsi:type="array">
                 <item name="catalogrule" xsi:type="string">Magento_CatalogRule</item>
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Pricing\PriceComposite">
+
+    <virtualType name="Magento\Catalog\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
         <arguments>
-            <argument name="metadata" xsi:type="array">
-                <item name="catalog_rule_price" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\CatalogRule\Pricing\Price\CatalogRulePrice</item>
-                    <item name="include_in_base_price" xsi:type="boolean">true</item>
-                </item>
+            <argument name="prices" xsi:type="array">
+                <item name="catalog_rule_price" xsi:type="string">Magento\CatalogRule\Pricing\Price\CatalogRulePrice</item>
             </argument>
         </arguments>
-    </type>
+    </virtualType>
+
 </config>

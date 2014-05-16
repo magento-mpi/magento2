@@ -33,7 +33,7 @@ class Content extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
      */
     public function getFilebrowserSetupObject()
     {
-        $setupObject = new \Magento\Object();
+        $setupObject = new \Magento\Framework\Object();
 
         $setupObject->setData(
             array(

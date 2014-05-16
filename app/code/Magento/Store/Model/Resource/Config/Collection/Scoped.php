@@ -9,7 +9,7 @@
  */
 namespace Magento\Store\Model\Resource\Config\Collection;
 
-class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Scoped extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Scope to filter by
@@ -27,9 +27,9 @@ class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource\Config\Data $resource
      * @param string $scope
      * @param mixed $connection
@@ -37,9 +37,9 @@ class Scoped extends \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Framework\Logger $logger,
+        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource\Config\Data $resource,
         $scope,
         $connection = null,

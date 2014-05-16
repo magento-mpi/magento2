@@ -77,7 +77,9 @@
         </antcall>
     </target>
 
-    <target name="integration_tests_ee_dev_xd_mysql_tpfx" depends="_server_info,_enterprise_edition" description="Integration tests in dev mode with Xdebug and table prefix on MySQL for EE">
+    <target name="integration_tests_ee_dev_xd_mysql_tpfx" depends="_product_location,_server_info,_enterprise_edition" description="Integration tests in dev mode with Xdebug and table prefix on MySQL for EE">
+        <copy file="${product_root_dir}/dev/build/core_dev/integration/.htaccess.sample" failonerror="true" overwrite="true"
+              tofile="${product_root_dir}/.htaccess"/>
         <antcall target="_integration_tests_magento_xdebug">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>

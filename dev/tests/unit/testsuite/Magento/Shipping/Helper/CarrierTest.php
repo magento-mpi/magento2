@@ -26,13 +26,13 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManagerHelper->getObject(
             'Magento\Shipping\Helper\Carrier',
             array(
-                'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false),
-                'locale' => $this->getMock('Magento\LocaleInterface'),
+                'context' => $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
+                'locale' => $this->getMock('Magento\Framework\LocaleInterface'),
                 'scopeConfig' => $this->scopeConfig
             )
         );
