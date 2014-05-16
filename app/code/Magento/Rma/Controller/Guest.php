@@ -169,19 +169,21 @@ class Guest extends \Magento\Framework\App\Action\Action
                     'customer_id' => $order->getCustomerId(),
                     'order_date' => $order->getCreatedAt(),
                     'customer_name' => $order->getCustomerName(),
-                    'customer_custom_email' => $post['customer_custom_email'],
-                    Rma::NOTIFY_CUSTOMER_BY_EMAIL_PARAM => true
+                    'customer_custom_email' => $post['customer_custom_email']
                 );
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
+
                 if (!$result) {
                     $url = $urlModel->getUrl('*/*/create', array('order_id' => $orderId));
                     $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }
+                /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
+                $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
+                $statusHistory->setRma($result);
+                $statusHistory->sendNewRmaEmail();
+                $statusHistory->saveSystemComment();
                 if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
-                    /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
-                    $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-                    $statusHistory->setRma($rmaModel);
                     $statusHistory->saveComment($post['rma_comment'], true, false);
                 }
                 $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
