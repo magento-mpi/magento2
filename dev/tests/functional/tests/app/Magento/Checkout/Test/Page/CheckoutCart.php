@@ -11,6 +11,12 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Core\Test\Block\Messages;
+use Magento\Checkout\Test\Block;
+use Magento\Checkout\Test\Block\Cart;
+use Magento\Checkout\Test\Block\Cart\Totals;
+use Magento\Checkout\Test\Block\Cart\Shipping;
+use Magento\Catalog\Test\Block\Product\ProductList\Crosssell;
 
 /**
  * Class CheckoutCart
@@ -49,7 +55,7 @@ class CheckoutCart extends Page
     /**
      * Get shopping cart block
      *
-     * @return \Magento\Checkout\Test\Block\Cart
+     * @return Cart
      */
     public function getCartBlock()
     {
@@ -61,7 +67,7 @@ class CheckoutCart extends Page
     /**
      * Get messages block
      *
-     * @return \Magento\Core\Test\Block\Messages
+     * @return Messages
      */
     public function getMessageBlock()
     {
@@ -73,7 +79,7 @@ class CheckoutCart extends Page
     /**
      * Get cart shipping block
      *
-     * @return \Magento\Checkout\Test\Block\Cart\Shipping
+     * @return Shipping
      */
     public function getShippingBlock()
     {
@@ -85,7 +91,7 @@ class CheckoutCart extends Page
     /**
      * Get cart totals block
      *
-     * @return \Magento\Checkout\Test\Block\Cart\Totals
+     * @return Totals
      */
     public function getTotalsBlock()
     {
@@ -97,7 +103,7 @@ class CheckoutCart extends Page
     /**
      * Retrieve cross-sells block
      *
-     * @return \Magento\Catalog\Test\Block\Product\ProductList\Crosssell
+     * @return Crosssell
      */
     public function getCrosssellBlock()
     {
