@@ -12,6 +12,14 @@
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
   * Fixed functional tests failing PSR2 test (MAGETWO-24351)
+  * Fixed: [Refactored Indexers] Low Performance on attempt to reindex Price Indexer (MAGETWO-24074)
+  * Fixed: CLONE - When importing tax rates with postal code = *, the column in the DB is set to NULL, leading to issues (MAGETWO-20916)
+  * Fixed: Incorrect link on Reset password email sent by admin if use secure url on frontend (MAGETWO-24308)
+  * Fixed: Links section is absent while editing downloadable product from wishlist (MAGETWO-11470)
+  * Fixed: Specified details for composite product are lost after adding to wishlist (Gift Card, Downloadable) (MAGETWO-19632)
+  * Fixed: Date widget in Create New Customer->DOB has incorrect dates (MAGETWO-7723)
+  * Fixed: Customer redirected to Dashboard ("Redirect user to dashboard after login"="No") (MAGETWO-17437)
+  * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
 
 2.0.0.0-dev77
 =============
