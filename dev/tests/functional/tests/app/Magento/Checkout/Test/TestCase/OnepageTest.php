@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Class OnepageTest
  * Test one page checkout with different configurations
  *
- * @package Magento\Test\TestCase\Guest
  */
 class OnepageTest extends Functional
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Block for items ordered on order page
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order\View
  */
 class Items extends Block
 {

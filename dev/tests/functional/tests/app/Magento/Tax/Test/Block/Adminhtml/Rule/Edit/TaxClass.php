@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class TaxClass
  * Customer/Product Tax Classes block
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class TaxClass extends Block
 {
@@ -71,14 +67,18 @@ class TaxClass extends Block
         }
         //Select tax classes
         foreach ($taxClasses as $class) {
-            $taxOption = $this->_rootElement->find($this->taxClassItem . '[text()="' . $class . '"]',
-                Locator::SELECTOR_XPATH);
+            $taxOption = $this->_rootElement->find(
+                $this->taxClassItem . '[text()="' . $class . '"]',
+                Locator::SELECTOR_XPATH
+            );
             if (!$taxOption->isVisible()) {
                 $this->_rootElement->find($this->addNewTaxClass, Locator::SELECTOR_CSS)->click();
                 $this->_rootElement->find($this->newTaxClass, Locator::SELECTOR_CSS)->setValue($class);
                 $this->_rootElement->find($this->saveTaxClass, Locator::SELECTOR_CSS)->click();
-                $this->waitForElementVisible($this->taxClassRow . '/span[text()="' . $class . '"]',
-                    Locator::SELECTOR_XPATH);
+                $this->waitForElementVisible(
+                    $this->taxClassRow . '/span[text()="' . $class . '"]',
+                    Locator::SELECTOR_XPATH
+                );
             } else {
                 $this->_rootElement->find('//label/span[text()="' . $class . '"]', Locator::SELECTOR_XPATH)->click();
             }

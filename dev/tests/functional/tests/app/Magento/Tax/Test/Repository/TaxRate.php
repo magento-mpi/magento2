@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Tax Rate Repository
  *
- * @package Magento\Tax\Test\Repository
  */
 class TaxRate extends AbstractRepository
 {
@@ -142,17 +138,20 @@ class TaxRate extends AbstractRepository
      */
     protected function getUKFullTaxRate($defaultData)
     {
-        return array_replace_recursive($defaultData, array(
-            'data' => array(
-                'fields' => array(
-                    'rate' => array(
-                        'value' => 20
-                    ),
-                    'tax_country_id' => array(
-                        'value' => 'GB',
+        return array_replace_recursive(
+            $defaultData,
+            array(
+                'data' => array(
+                    'fields' => array(
+                        'rate' => array(
+                            'value' => 20
+                        ),
+                        'tax_country_id' => array(
+                            'value' => 'GB',
+                        ),
                     ),
                 ),
-            ),
-        ));
+            )
+        );
     }
 }

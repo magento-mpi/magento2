@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Payments Pro Method
  * Register on checkout to checkout with multi shipping using PayPal Payments Pro payment method
  *
- * @package Magento\Multishipping\Test\Fixture
  */
 class GuestPaypalDirect extends Checkout
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Client\Element;
  * Class Cc
  * Card Verification frame on OnePageCheckout order review step
  *
- * @package Magento\Payment
  */
 class Cc extends Form
 {

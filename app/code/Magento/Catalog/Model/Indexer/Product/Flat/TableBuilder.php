@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,6 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
 /**
  * Class TableBuilder
- * @package Magento\Catalog\Model\Indexer\Product\Flat
  */
 class TableBuilder
 {
@@ -242,7 +239,7 @@ class TableBuilder
 
             $columnsChunks = array_chunk(
                 $tableColumns,
-                \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction::ATTRIBUTES_CHUNK_SIZE,
+                Action\Indexer::ATTRIBUTES_CHUNK_SIZE,
                 true
             );
             foreach ($columnsChunks as $columnsList) {

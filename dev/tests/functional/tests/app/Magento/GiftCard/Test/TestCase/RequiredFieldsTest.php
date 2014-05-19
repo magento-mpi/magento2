@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\GiftCard\Test\Fixture\GiftCard;
 /**
  * Class testCreate for creating Gift Card
  *
- * @package Magento\GiftCard\Test\TestCase
  */
 class RequiredFieldsTest extends Functional
 {

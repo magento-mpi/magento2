@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <firstname>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[firstname]"]</selector>
+            <strategy>css selector</strategy>
+        </firstname>
+        <lastname>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[lastname]"]</selector>
+            <strategy>css selector</strategy>
+        </lastname>
+        <street>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[street][0]"]</selector>
+            <strategy>css selector</strategy>
+        </street>
+        <city>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[city]"]</selector>
+            <strategy>css selector</strategy>
+        </city>
+        <country_id>
+            <input>select</input>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[country_id]"]</selector>
+            <strategy>css selector</strategy>
+        </country_id>
+        <region_id>
+            <input>select</input>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[region_id]"]</selector>
+            <strategy>css selector</strategy>
+        </region_id>
+        <postcode>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[postcode]"]</selector>
+            <strategy>css selector</strategy>
+        </postcode>
+        <telephone>
+            <selector>#address_form_container [aria-hidden="false"] [name^="address"][name$="[telephone]"]</selector>
+            <strategy>css selector</strategy>
+        </telephone>
+    </fields>
+</mapping>

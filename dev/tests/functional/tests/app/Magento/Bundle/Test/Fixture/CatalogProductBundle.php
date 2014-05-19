@@ -17,7 +17,6 @@ use Mtf\Repository\RepositoryFactory;
 /**
  * Class CatalogProductBundle
  *
- * @package Magento\Bundle\Test\Fixture
  */
 class CatalogProductBundle extends InjectableFixture
 {
@@ -56,7 +55,13 @@ class CatalogProductBundle extends InjectableFixture
             $data['url_key'] = trim(strtolower(preg_replace('#[^0-9a-z%]+#i', '-', $data['name'])), '-');
         }
         parent::__construct(
-            $configuration, $repositoryFactory, $fixtureFactory, $handlerFactory, $data, $dataSet, $persist
+            $configuration,
+            $repositoryFactory,
+            $fixtureFactory,
+            $handlerFactory,
+            $data,
+            $dataSet,
+            $persist
         );
     }
 
@@ -825,5 +830,4 @@ class CatalogProductBundle extends InjectableFixture
     {
         return $this->getData('custom_options');
     }
-
 }

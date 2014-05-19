@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -34,8 +31,10 @@ class Crosssell extends Block
      */
     public function verifyProductCrosssell(Product $crosssell)
     {
-        $match = $this->_rootElement->find(sprintf($this->linkSelector,
-            $crosssell->getProductName()), Locator::SELECTOR_CSS);
+        $match = $this->_rootElement->find(
+            sprintf($this->linkSelector, $crosssell->getProductName()),
+            Locator::SELECTOR_CSS
+        );
         return $match->isVisible();
     }
 

@@ -34,8 +34,7 @@
         <env name="server_config_path" value="config/server.yml.dist"/>
         <env name="isolation_config_path" value="config/isolation.yml.dist"/>
         <env name="handlers_config_path" value="config/handler.yml.dist"/>
-        <env name="configuration:Magento/Mtf/TestSuite/MtfTests" value="basic"/>
-        <!--{{parallel_instances}}-->
+        <env name="configuration:Mtf/TestSuite/InjectableTests" value="{{tests_configuration}}"/>
     </php>
 
     <logging>

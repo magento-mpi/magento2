@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Log\Model;
  * @method \Magento\Log\Model\Resource\Aggregation getResource()
  * @method \Magento\Log\Model\Resource\Aggregation _getResource()
  *
- * @category   Magento
- * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Aggregation extends \Magento\Framework\Model\AbstractModel

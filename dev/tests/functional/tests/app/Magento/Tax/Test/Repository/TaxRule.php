@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Tax Rule Repository
  *
- * @package Magento\Tax\Test\Repository
  */
 class TaxRule extends AbstractRepository
 {
@@ -122,14 +118,17 @@ class TaxRule extends AbstractRepository
      */
     protected function getUKFullTaxRule($defaultData)
     {
-        return array_replace_recursive($defaultData, array(
-            'data' => array(
-                'fields' => array(
-                    'tax_rate' => array(
-                        'value' => '%uk_full_tax_rate%'
+        return array_replace_recursive(
+            $defaultData,
+            array(
+                'data' => array(
+                    'fields' => array(
+                        'tax_rate' => array(
+                            'value' => '%uk_full_tax_rate%'
+                        ),
                     ),
                 ),
-            ),
-        ));
+            )
+        );
     }
 }

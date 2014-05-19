@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Fixture\DataFixture;
 /**
  * Class Role
  *
- * @package Magento\User\Test\Fixture
  */
 class Role extends DataFixture
 {
@@ -109,4 +105,3 @@ class Role extends DataFixture
         $this->_repository->set($name, $data);
     }
 }
-

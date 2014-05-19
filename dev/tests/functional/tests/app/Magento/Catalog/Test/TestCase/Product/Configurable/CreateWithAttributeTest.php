@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Configurable product with creating new category and new attribute
  *
- * @package Magento\Catalog\Test\TestCase\Product\Configurable
  */
 class CreateWithAttributeTest extends Functional
 {
@@ -171,11 +167,13 @@ class CreateWithAttributeTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals(
-            $product->getProductName(), $productViewBlock->getProductName(),
+            $product->getProductName(),
+            $productViewBlock->getProductName(),
             'Product name does not correspond to specified.'
         );
         $this->assertEquals(
-            $product->getProductPrice(), $productViewBlock->getProductPrice(),
+            $product->getProductPrice(),
+            $productViewBlock->getProductPrice(),
             'Product price does not correspond to specified.'
         );
         $this->assertTrue(

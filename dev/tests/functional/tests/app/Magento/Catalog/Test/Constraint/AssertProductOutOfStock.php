@@ -15,7 +15,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 /**
  * Class AssertProductOutOfStock
  *
- * @package Magento\Catalog\Test\Constraint
  */
 class AssertProductOutOfStock extends AbstractConstraint
 {

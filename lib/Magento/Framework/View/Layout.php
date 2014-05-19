@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -958,6 +956,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             $this->_structure->reorderChild($parentName, $childName, null);
         } else {
             $children = $this->getChildNames($parentName);
+            if ($this->_structure->getChildId($parentName, $offsetOrSibling) !== false) {
+                $offsetOrSibling = $this->_structure->getChildId($parentName, $offsetOrSibling);
+            }
             $sibling = $this->_filterSearchMinus($offsetOrSibling, $children, $after);
             if ($childName !== $sibling) {
                 $siblingParentName = $this->_structure->getParentId($sibling);

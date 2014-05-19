@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Magento\PageCache\Helper;
 /**
  * Class DataTest
  *
- * @package Magento\PageCache\Controller
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {

@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +21,6 @@ use Mtf\Util\XmlConverter;
  * Class FormTabs
  * Is used to represent any form with tabs on the page
  *
- * @package Magento\Backend\Test\Block\Widget
  */
 class FormTabs extends Form
 {
@@ -126,7 +122,8 @@ class FormTabs extends Form
     protected function updateUnassignedFields(Tab $tabElement)
     {
         $this->unassignedFields = array_diff_key(
-            $this->unassignedFields, array_intersect_key($this->unassignedFields, $tabElement->setFields)
+            $this->unassignedFields,
+            array_intersect_key($this->unassignedFields, $tabElement->setFields)
         );
     }
 
@@ -150,8 +147,9 @@ class FormTabs extends Form
         }
 
         if (!empty($this->unassignedFields)) {
-            throw new \Exception('Could not find all elements on the tabs: '
-                . implode(', ', array_keys($this->unassignedFields)));
+            throw new \Exception(
+                'Could not find all elements on the tabs: ' . implode(', ', array_keys($this->unassignedFields))
+            );
         }
     }
 
@@ -160,18 +158,20 @@ class FormTabs extends Form
      *
      * @param FixtureInterface $fixture
      * @param Element $element
-     * @throws \Exception
-     * @return FormTabs
+     * @return bool
      */
     public function verify(FixtureInterface $fixture, Element $element = null)
     {
         $tabs = $this->getFieldsByTabs($fixture);
+
         foreach ($tabs as $tab => $tabFields) {
-            if (!$this->openTab($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
-                throw new \Exception('Invalid form data.');
+            $this->openTab($tab);
+            if (!$this->getTabElement($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
+                return false;
             }
         }
-        return $this;
+
+        return true;
     }
 
     /**

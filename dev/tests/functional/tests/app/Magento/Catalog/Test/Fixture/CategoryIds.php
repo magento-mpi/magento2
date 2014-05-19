@@ -18,7 +18,6 @@ use Mtf\Fixture\FixtureInterface;
  *  - preset (Price verification preset name)
  *  - value (Price value)
  *
- * @package Magento\Bundle\Test\Fixture
  */
 class CategoryIds implements FixtureInterface
 {
@@ -96,5 +95,4 @@ class CategoryIds implements FixtureInterface
     {
         return $this->category;
     }
-
 }

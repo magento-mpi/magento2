@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Catalog Event resource collection
  *
- * @category    Magento
- * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;

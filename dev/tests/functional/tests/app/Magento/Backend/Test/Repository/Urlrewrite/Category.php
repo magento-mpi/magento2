@@ -14,7 +14,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Category
  * URL Rewrite Category Repository
  *
- * @package Magento\Backend\Test\Repository\Urlrewrite
  */
 class Category extends AbstractRepository
 {

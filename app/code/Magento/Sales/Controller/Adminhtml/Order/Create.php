@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Backend\App\Action;
 /**
  * Adminhtml sales orders creation process controller
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Create extends \Magento\Backend\App\Action
@@ -480,6 +476,14 @@ class Create extends \Magento\Backend\App\Action
     public function saveAction()
     {
         try {
+            // check if the creation of a new customer is allowed
+            if (!$this->_authorization->isAllowed('Magento_Customer::manage')
+                && !$this->_getSession()->getCustomerId()
+                && !$this->_getSession()->getQuote()->getCustomerIsGuest()
+            ) {
+                $this->_forward('denied');
+                return;
+            }
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {

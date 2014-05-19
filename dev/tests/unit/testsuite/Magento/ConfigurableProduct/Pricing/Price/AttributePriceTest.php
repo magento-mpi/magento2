@@ -10,8 +10,6 @@ namespace Magento\ConfigurableProduct\Pricing\Price;
 
 /**
  * Class CustomOptionTest
- *
- * @package Magento\ConfigurableProduct\Pricing\Price;
  */
 class AttributePriceTest extends \PHPUnit_Framework_TestCase
 {

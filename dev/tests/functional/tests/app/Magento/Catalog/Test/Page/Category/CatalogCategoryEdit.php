@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Magento\Backend\Test\Block\FormPageActions;
  * Class CatalogCategoryEdit
  * Edit category page in backend
  *
- * @package Magento\Catalog\Test\Page\Category
  */
 class CatalogCategoryEdit extends Page
 {
@@ -104,7 +100,8 @@ class CatalogCategoryEdit extends Page
     public function getTreeBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryTree(
-            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS), $this->getTemplateBlock()
+            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS),
+            $this->getTemplateBlock()
         );
     }
 
@@ -140,6 +137,7 @@ class CatalogCategoryEdit extends Page
     public function getPageActionsBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendFormPageActions(
-            $this->_browser->find($this->pageActionsBlock));
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 }

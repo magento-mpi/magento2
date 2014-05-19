@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +9,6 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
 /**
  * Class FullTest
- * @package Magento\Catalog\Model\Product\Flat\Action
  */
 class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
 {

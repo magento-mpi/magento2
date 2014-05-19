@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +22,6 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
  * Class ProductForm
  * Product creation form
  *
- * @package Magento\Catalog\Test\Block
  */
 class ProductForm extends FormTabs
 {
@@ -147,11 +143,14 @@ class ProductForm extends FormTabs
             return;
         }
         $category = $this->_rootElement->find(
-            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+            str_replace('%categoryName%', $categoryName, $this->categoryName),
+            Locator::SELECTOR_XPATH
         );
         if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
+                $categoryName,
+                'category_ids-suggest',
+                '//*[@id="attribute-category_ids-container"]'
             );
         }
     }

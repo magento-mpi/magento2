@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for persisting Magento configuration
  *
- * @package Magento\Core\Test\Handler\Curl
  */
 class ApplyConfig extends Curl
 {

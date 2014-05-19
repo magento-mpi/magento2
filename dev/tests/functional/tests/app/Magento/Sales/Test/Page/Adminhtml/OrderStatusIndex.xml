@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales/order_status/index" >
+    <block>
+        <name>orderStatusGrid</name>
+        <class>Magento\Sales\Test\Block\Adminhtml\Order\StatusGrid</class>
+        <locator>#sales_order_status_grid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>gridPageActions</name>
+        <class>Magento\Backend\Test\Block\GridPageActions</class>
+        <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>#messages</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

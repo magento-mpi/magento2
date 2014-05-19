@@ -16,7 +16,6 @@ use Mtf\Factory\Factory;
 /**
  * Custom Options Tab
  *
- * @package Magento\Catalog\Test\Block\Product
  */
 class AdvancedPricingTab extends Tab
 {

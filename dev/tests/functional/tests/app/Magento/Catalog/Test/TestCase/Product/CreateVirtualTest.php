@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Fixture\VirtualProduct;
  * Class CreateTest
  * Test product creation
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateVirtualTest extends Functional
 {

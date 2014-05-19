@@ -16,7 +16,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Variations
  * Adminhtml catalog super product configurable tab
  *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Config extends Tab
 {
@@ -169,8 +168,10 @@ class Config extends Tab
             $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
             $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
             $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
-            $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
-                Locator::SELECTOR_XPATH);
+            $attribute = $this->_rootElement->find(
+                "//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
+                Locator::SELECTOR_XPATH
+            );
             if ($attribute->isVisible()) {
                 $attribute->click();
             }

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Block\Form as FormInterface;
  * Class TaxRate
  * Tax rate block
  *
- * @package Magento\Tax\Test\Block\Adminhtml\Rule\Edit
  */
 class TaxRate extends FormInterface
 {
@@ -65,8 +61,10 @@ class TaxRate extends FormInterface
                 $taxRateDialog->find($this->saveTaxRate, Locator::SELECTOR_CSS)->click();
                 $this->waitForElementNotVisible($this->taxRateUiDialog, Locator::SELECTOR_XPATH);
             } else {
-                $this->_rootElement->find($this->taxRateOption . '/span[text()="' . $rate['code']['value'] . '"]',
-                    Locator::SELECTOR_XPATH)->click();
+                $this->_rootElement->find(
+                    $this->taxRateOption . '/span[text()="' . $rate['code']['value'] . '"]',
+                    Locator::SELECTOR_XPATH
+                )->click();
             }
         }
     }

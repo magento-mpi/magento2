@@ -22,4 +22,9 @@
         <data_set />
         <data_config />
     </order>
+    <orderStatus module="Magento_Sales">
+        <type>flat</type>
+        <entity_type>sales_order_status</entity_type>
+        <collection>Magento\Sales\Model\Resource\Order\Status\Collection</collection>
+    </orderStatus>
 </fixture>

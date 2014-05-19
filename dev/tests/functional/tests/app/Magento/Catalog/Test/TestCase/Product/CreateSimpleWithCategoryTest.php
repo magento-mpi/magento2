@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
  * Class CreateSimpleWithCategoryTest
  * Test simple product and category creation
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateSimpleWithCategoryTest extends Functional
 {
@@ -99,8 +95,10 @@ class CreateSimpleWithCategoryTest extends Functional
 
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
-            'Product is absent on category page.');
+        $this->assertTrue(
+            $productListBlock->isProductVisible($product->getProductName()),
+            'Product is absent on category page.'
+        );
 
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();

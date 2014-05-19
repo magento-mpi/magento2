@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,12 +14,12 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Checkout\Test\Block\Onepage\Link;
 
 /**
  * Class Cart
  * Shopping cart block
  *
- * @package Magento\Checkout\Test\Block
  */
 class Cart extends Block
 {
@@ -117,7 +114,7 @@ class Cart extends Block
     /**
      * Get proceed to checkout block
      *
-     * @return \Magento\Checkout\Test\Block\Onepage\Link
+     * @return Link
      */
     public function getOnepageLinkBlock()
     {

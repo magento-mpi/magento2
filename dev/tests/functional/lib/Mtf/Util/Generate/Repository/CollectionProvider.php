@@ -13,7 +13,6 @@ use Magento\Framework\ObjectManager;
 /**
  * Class CollectionProvider
  *
- * @package Mtf\Util\Generate\Repository
  */
 class CollectionProvider implements CollectionProviderInterface
 {

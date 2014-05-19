@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
 /**
  * Edit products
  *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class EditSimpleProductTest extends Functional
 {
@@ -50,10 +46,12 @@ class EditSimpleProductTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
 
         $productGridPage->open();
-        $gridBlock->searchAndOpen(array(
-            'sku' => $product->getProductSku(),
-            'type' => 'Simple Product'
-        ));
+        $gridBlock->searchAndOpen(
+            array(
+                'sku' => $product->getProductSku(),
+                'type' => 'Simple Product'
+            )
+        );
         $productBlockForm->fill($editProduct);
         $productBlockForm->save($editProduct);
         //Verifying

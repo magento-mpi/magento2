@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class Edit
  * Backend Cms Page edit page
  *
- * @package Magento\Cms\Test\Block\AdminHtml\Page
  */
 class Edit extends FormTabs
 {

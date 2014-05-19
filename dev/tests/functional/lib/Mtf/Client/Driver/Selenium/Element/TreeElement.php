@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
  * Class TreeElement
  * Typified element class for Tree elements
  *
- * @package Mtf\Client\Element
  */
 class TreeElement extends Element
 {
@@ -145,13 +141,13 @@ class TreeElement extends Element
         $nodeList = array();
         $counter = 1;
 
-        $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')' );
+        $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')');
 
         //Get list of all children nodes to work with
         while ($newNode->isVisible()) {
             $nodeList[] = $newNode;
             ++$counter;
-            $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')' );
+            $newNode = $node->find($parentCssClass .' > .x-tree-node:nth-of-type(' . $counter . ')');
         }
 
         //Write to array values of current node

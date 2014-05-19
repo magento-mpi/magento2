@@ -89,7 +89,7 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertSoapStdObjectToArray()
     {
-        $stdObject = json_decode(json_encode($this->getCustomerDetails()->__toArray()), FALSE);
+        $stdObject = json_decode(json_encode($this->getCustomerDetails()->__toArray()), false);
         $addresses = $stdObject->addresses;
         unset($stdObject->addresses);
         $stdObject->addresses = new \stdClass();
@@ -199,5 +199,4 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
 
         return $customerDetails;
     }
-
 }

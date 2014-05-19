@@ -16,7 +16,6 @@ use Magento\Framework\ObjectManager as MagentoObjectManager;
 /**
  * Class ObjectManagerFactory
  *
- * @package Mtf\System
  * @api
  */
 class ObjectManagerFactory
@@ -49,6 +48,9 @@ class ObjectManagerFactory
         }
         if (!defined('MTF_TESTS_PATH')) {
             define('MTF_TESTS_PATH', MTF_BP . '/tests/app/');
+        }
+        if (!defined('MTF_STATES_PATH')) {
+            define('MTF_STATES_PATH', MTF_BP . '/lib/Mtf/App/State/');
         }
 
         $diConfig = new $this->configClassName();
@@ -93,8 +95,8 @@ class ObjectManagerFactory
             new \Magento\Framework\App\Arguments\Loader(
                 $directoryList,
                 isset($arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                    : null
+                ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
+                : null
             )
         );
     }
