@@ -11,7 +11,7 @@
 //--------------------------------------
 
 .block.newsletter {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     .form.subscribe {
         display: table;
         width: 100%;
@@ -52,6 +52,7 @@
         width: 1%;
     }
     .action.subscribe {
+        &:extend(.action-primary all);
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         margin-left: -1px;
@@ -63,12 +64,6 @@
 //--------------------------------------
 .responsive(@break) when (@break = @break-point-1) {
     .block.newsletter {
-        width: 32%;
-        .field {
-            margin-right: 5px;
-        }
-        .action.subscribe {
-            border-radius: 3px;
-        }
+        width: 34%;
     }
 }
