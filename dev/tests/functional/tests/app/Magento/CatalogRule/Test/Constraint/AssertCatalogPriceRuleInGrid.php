@@ -29,21 +29,37 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
      *
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRuleIndex $pageCatalogRuleIndex
-     * @return void
+     * @param CatalogRule $catalogPriceRuleOriginal
      */
     public function processAssert(
         CatalogRule $catalogPriceRule,
-        CatalogRuleIndex $pageCatalogRuleIndex
+        CatalogRuleIndex $pageCatalogRuleIndex,
+        CatalogRule $catalogPriceRuleOriginal = null
     ) {
-        $rule_website = $catalogPriceRule->getWebsiteIds();
-        $rule_website = reset($rule_website);
-        $filter = [
-            'name' => $catalogPriceRule->getName(),
-            'is_active' => $catalogPriceRule->getIsActive(),
-            'rule_website' => $rule_website,
-        ];
-        //add to filter from_date & to_date if there are ones
         $data = $catalogPriceRule->getData();
+        if ($catalogPriceRuleOriginal !== null) {
+            $data['rule_id'] = (!isset($data['rule_id'])) ? $catalogPriceRuleOriginal->getId() : $data['rule_id'];
+            $data['name'] = (!isset($data['name'])) ? $catalogPriceRuleOriginal->getName() : $data['name'];
+            $data['is_active'] = (!isset($data['is_active'])) ?
+                $catalogPriceRuleOriginal->getIsActive() : $data['is_active'];
+            $filter = [
+                'rule_id' => $data['rule_id'],
+                'name' => $data['name'],
+                'is_active' => $data['is_active'],
+            ];
+        } else {
+            $filter = [
+                'name' => $data['name'],
+                'is_active' => $data['is_active'],
+            ];
+        }
+        //add rule_website to filter if there is one
+        if ($catalogPriceRule->getWebsiteIds() != null) {
+            $rule_website = $catalogPriceRule->getWebsiteIds();
+            $rule_website = reset($rule_website);
+            $filter['rule_website'] = $rule_website;
+        }
+        //add from_date & to_date to filter if there are ones
         if (isset($data['from_date']) && isset($data['to_date'])) {
             $dateArray['from_date'] = date("M j, Y", strtotime($catalogPriceRule->getFromDate()));
             $dateArray['to_date'] = date("M j, Y", strtotime($catalogPriceRule->getToDate()));
@@ -51,11 +67,10 @@ class AssertCatalogPriceRuleInGrid extends AbstractConstraint
         }
 
         $pageCatalogRuleIndex->open();
+        $errorMessage = implode(', ', $filter);
         \PHPUnit_Framework_Assert::assertTrue(
             $pageCatalogRuleIndex->getCatalogRuleGrid()->isRowVisible($filter),
-            'Catalog Price Rule \'' . $filter['name'] . '\', '
-            . 'with status \'' . $filter['is_active'] . '\', '
-            . 'website \''. $rule_website . '\' '
+            'Catalog Price Rule with following data: \'' . $errorMessage . '\' '
             . 'is absent in Catalog Price Rule grid.'
         );
     }

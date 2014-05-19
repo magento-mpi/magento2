@@ -8,11 +8,7 @@
 
 namespace Magento\CatalogRule\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
-use Mtf\Repository\RepositoryFactory;
 
 /**
  * Class CatalogRule
@@ -22,7 +18,7 @@ class CatalogRule extends InjectableFixture
     /**
      * @var string
      */
-    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogPriceRule';
+    protected $repositoryClass = 'Magento\CatalogRule\Test\Repository\CatalogRule';
 
     /**
      * @var string
@@ -134,6 +130,19 @@ class CatalogRule extends InjectableFixture
         'source' => 'Magento\CatalogRule\Test\Fixture\Conditions',
     ];
 
+    protected $rule = [
+        'attribute_code' => 'rule',
+        'backend_type' => 'virtual',
+        'is_required' => '0',
+        'group' => 'conditions',
+        'fixture' => 'Magento\CatalogRule\Test\Fixture\CatalogRule\Conditions',
+    ];
+
+    protected $condition = [
+        'attribute_code' => 'rule',
+        'backend_type' => 'virtual',
+    ];
+
     protected $id = [
         'attribute_code' => 'id',
         'backend_type' => 'virtual',
@@ -192,6 +201,16 @@ class CatalogRule extends InjectableFixture
     public function getConditionValue()
     {
         return $this->getData('condition_value');
+    }
+
+    public function getRule()
+    {
+        return $this->getData('rule');
+    }
+
+    public function getCondition()
+    {
+        return $this->getData('condition');
     }
 
     public function getId()

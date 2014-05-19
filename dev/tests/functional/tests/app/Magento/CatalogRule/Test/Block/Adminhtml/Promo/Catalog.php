@@ -47,6 +47,9 @@ class Catalog extends Grid
      * @var array
      */
     protected $filters = [
+        'rule_id' => [
+            'selector' => '#promo_catalog_grid_filter_rule_id'
+        ],
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',
         ],
