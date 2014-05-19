@@ -72,6 +72,11 @@ class Product extends \Magento\Backend\App\Action
     protected $productValidator;
 
     /**
+     * @var \Magento\Catalog\Service\V1\Data\ProductBuilder
+     */
+    protected $productDataObjectBuilder;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
@@ -82,6 +87,7 @@ class Product extends \Magento\Backend\App\Action
      * @param Validator $productValidator
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+     * @param \Magento\Catalog\Service\V1\Data\ProductBuilder $productDataObjectBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -93,7 +99,8 @@ class Product extends \Magento\Backend\App\Action
         Product\Builder $productBuilder,
         Validator $productValidator,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
-        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
+        \Magento\Catalog\Service\V1\Data\ProductBuilder $productDataObjectBuilder
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
@@ -104,6 +111,9 @@ class Product extends \Magento\Backend\App\Action
         $this->productBuilder = $productBuilder;
         $this->productValidator = $productValidator;
         $this->productTypeManager = $productTypeManager;
+
+        $this->productDataObjectBuilder = $productDataObjectBuilder;
+
         parent::__construct($context);
     }
 
@@ -518,6 +528,12 @@ class Product extends \Magento\Backend\App\Action
         $productId = $this->getRequest()->getParam('id');
 
         $data = $this->getRequest()->getPost();
+        $productData = $data['product'];
+
+        $productDataObject = $this
+            ->productDataObjectBuilder->populateWithArray($productData)
+            ->create();
+
         if ($data) {
             $product = $this->initializationHelper->initialize($this->productBuilder->build($this->getRequest()));
             $this->productTypeManager->processProduct($product);
