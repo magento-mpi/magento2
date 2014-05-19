@@ -51,7 +51,13 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         $this->backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->collectionMock = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection', [], [], '', false);
+        $this->collectionMock = $this->getMock(
+            'Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->formatInterfaceMock = $this->getMock('\Magento\Framework\Locale\FormatInterface');
         $this->editableMock = $this->getMock('Magento\Rule\Block\Editable', [], [], '', false);
         $this->typeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
