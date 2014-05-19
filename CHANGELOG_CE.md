@@ -1,4 +1,12 @@
 * Fixed bugs:
+  * Fixed: Extra '%' char in error\notice message on Gift Card Accounts page (MAGETWO-14280)
+  * Fixed: Images upload in config looks broken (MAGETWO-15764)
+  * Fixed: Unable to navigate website front end while downloadable product being downloaded (MAGETWO-18447)
+  * Fixed: Page not found on attempt to open link from invitation email (MAGETWO-18652)
+  * Fixed: Adding CMS block Catalog Events Lister causes error (MAGETWO-22314)
+  * Fixed: Price is displayed twice on "Product" frontend page (MAGETWO-23914)
+  * Fixed: Store admin cannot open search result (MAGETWO-24344)
+  * Fixed: Rule based product relation functionality is generating incorrect SQL when product category attribute set through "is one of" or "contains" operator by constant value (MAGETWO-3185)
   * Fixed: Blank page displayed when change store view on product page (MAGETWO-24339)
   * Fixed: Can't change attribute template during product creation (MAGETWO-24334)
   * Fixed: Categories field and 'New Category' button is displayed on product page if Products - Categories is denied for current role (MAGETWO-9750)
