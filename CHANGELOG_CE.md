@@ -8,6 +8,7 @@
   * List of State/Province in frontend is displayed with html tag if inline translate is enabled (MAGETWO-7701)
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
   * Fixed functional tests failing PSR2 test (MAGETWO-24351)
   * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
   * Fixed: Awful design for edit gift registry page from customer page on backend (MAGETWO-24310)
