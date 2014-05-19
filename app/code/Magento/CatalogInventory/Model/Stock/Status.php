@@ -174,43 +174,6 @@ class Status extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Retrieve Default website store Id
-     *
-     * @param int $websiteId
-     * @return int
-     */
-    public function getWebsiteDefaultStoreId($websiteId)
-    {
-        $websites = $this->getWebsites();
-        if (isset($websites[$websiteId])) {
-            return $websites[$websiteId];
-        }
-        return 0;
-    }
-
-    /**
-     * Change Stock Item status process
-     *
-     * @param Item $item
-     * @return $this
-     */
-    public function changeItemStatus(Item $item)
-    {
-        $productId = $item->getProductId();
-        if (!($productType = $item->getProductTypeId())) {
-            $productType = $this->getProductType($productId);
-        }
-
-        $status = (int)$item->getIsInStock();
-        $qty = (int)$item->getQty();
-
-        $this->_processChildren($productId, $productType, $qty, $status, $item->getStockId());
-        $this->_processParents($productId, $item->getStockId());
-
-        return $this;
-    }
-
-    /**
      * Assign Stock Status to Product
      *
      * @param \Magento\Catalog\Model\Product $product
@@ -443,19 +406,6 @@ class Status extends \Magento\Framework\Model\AbstractModel
     public function getProductStatus($productIds, $storeId = null)
     {
         return $this->getResource()->getProductStatus($productIds, $storeId);
-    }
-
-    /**
-     * Retrieve Product(s) Data array
-     *
-     * @param int|int[] $productIds
-     * @param int $websiteId
-     * @param int $stockId
-     * @return array
-     */
-    public function getProductData($productIds, $websiteId, $stockId = 1)
-    {
-        return $this->getResource()->getProductData($productIds, $websiteId, $stockId);
     }
 
     /**

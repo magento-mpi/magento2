@@ -9,6 +9,8 @@
  */
 namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
+use Magento\CatalogInventory\Service\V1\StockStatusServiceInterface as StockStatus;
+
 class Collection extends \Magento\Framework\Data\Collection
 {
     /**
@@ -22,33 +24,33 @@ class Collection extends \Magento\Framework\Data\Collection
     protected $_productModel;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
-     */
-    protected $_inventoryModel;
-
-    /**
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
+     * @var StockStatus
+     */
+    protected $stockStatus;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Catalog\Model\Product $productModel
-     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogInventory
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\CatalogInventory\Service\V1\StockStatusServiceInterface $stockStatusService
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $productModel,
-        \Magento\CatalogInventory\Model\Stock\Status $catalogInventory,
-        \Magento\Core\Helper\Data $coreHelper
+        \Magento\Core\Helper\Data $coreHelper,
+        StockStatus $stockStatusService
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;
-        $this->_inventoryModel = $catalogInventory;
         $this->_coreHelper = $coreHelper;
+        $this->stockStatus = $stockStatusService;
         parent::__construct($entityFactory);
     }
 
@@ -79,7 +81,7 @@ class Collection extends \Magento\Framework\Data\Collection
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    $status = $this->_inventoryModel->getProductStockStatus($productId, $this->getWebsiteId());
+                    $status = $this->stockStatus->getProductStockStatus($productId, $this->getWebsiteId());
                     if (!empty($status[$productId])) {
                         $product->setIsSalable($status[$productId]);
                     }

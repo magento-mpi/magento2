@@ -147,38 +147,6 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Retrieve product(s) data array
-     *
-     * @param int|array $productIds
-     * @param int $websiteId
-     * @param int $stockId
-     * @return array
-     */
-    public function getProductData($productIds, $websiteId, $stockId = 1)
-    {
-        if (!is_array($productIds)) {
-            $productIds = array($productIds);
-        }
-
-        $result = array();
-
-        $select = $this->_getReadAdapter()->select()->from(
-            $this->getMainTable()
-        )->where(
-            'product_id IN(?)',
-            $productIds
-        )->where(
-            'stock_id=?',
-            (int)$stockId
-        )->where(
-            'website_id=?',
-            (int)$websiteId
-        );
-        $result = $this->_getReadAdapter()->fetchAssoc($select);
-        return $result;
-    }
-
-    /**
      * Retrieve websites and default stores
      * Return array as key website_id, value store_id
      *

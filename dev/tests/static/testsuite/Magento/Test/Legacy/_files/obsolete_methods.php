@@ -1699,4 +1699,8 @@ return array(
         'Magento\Framework\View\Asset\ModuleNotation\Resolver::convertModuleNotationToPath'
     ],
     ['getViewFile', 'Magento\Framework\View\FileSystem', 'Magento\Framework\View\Asset\File::getSourceFile()'],
+    ['changeItemStatus', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getWebsiteDefaultStoreId', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getProductData', 'Magento\CatalogInventory\Model\Stock\Status'],
+    ['getProductData', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
 );
