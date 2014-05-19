@@ -9,28 +9,12 @@
 namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Catalog\Model\Product;
-use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 
 /**
  * Final price model
  */
 class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
 {
-    /**
-     * Price type final
-     */
-    const PRICE_CODE = 'final_price';
-
-    /**
-     * @var BundleCalculatorInterface
-     */
-    protected $calculator;
-
-    /**
-     * @var BasePrice
-     */
-    protected $basePrice;
-
     /**
      * @return float
      */

@@ -43,6 +43,11 @@ class BundleSelectionPrice extends AbstractPrice
     protected $eventManager;
 
     /**
+     * @var float
+     */
+    protected $discount = 0;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
@@ -96,7 +101,19 @@ class BundleSelectionPrice extends AbstractPrice
                 $value = $this->product->getSelectionPriceValue() * $this->quantity;
             }
         }
-        $this->value = $this->bundleBasePrice->calculateBaseValue($value);
+        $this->value = $this->applyDiscountPercent($value);
         return $this->value;
+    }
+
+    protected function applyDiscountPercent($value)
+    {
+        if ($this->discount === null) {
+            foreach ($this->priceInfo->getPrices() as $price) {
+                if ($price instanceof DiscountProviderInterface && $price->getDiscount()) {
+                    $this->discount = max($price->getDiscount(), $this->discount ?: $price->getDiscount());
+                }
+            }
+        }
+        return $value - ($this->discount * $value);
     }
 }

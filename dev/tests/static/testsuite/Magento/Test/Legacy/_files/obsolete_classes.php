@@ -2495,5 +2495,12 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
+    ],
+    [
+        'Magento\Bundle\Pricing\Price\BasePrice',
+        'Magento\Catalog\Pricing\Price\BasePrice'
+    ],
+    [
+        '\Magento\Bundle\Pricing\Price\BasePriceInterface'
     ]
 );

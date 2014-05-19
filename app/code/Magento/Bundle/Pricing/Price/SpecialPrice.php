@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\BasePrice as CatalogBasePrice;
+use Magento\Catalog\Pricing\Price\RegularPrice;
 
 /**
  * Special price model
@@ -16,9 +16,20 @@ use Magento\Catalog\Pricing\Price\BasePrice as CatalogBasePrice;
 class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
 {
     /**
-     * Price type special
+     * @var float|false
      */
-    const PRICE_CODE = 'special_price';
+    protected $percent;
+
+    /**
+     * @return bool|float
+     */
+    public function getDiscountPercent()
+    {
+        if ($this->percent === null) {
+            $this->percent = parent::getValue();
+        }
+        return $this->percent;
+    }
 
     /**
      * @return bool|float
@@ -29,10 +40,10 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
             return $this->value;
         }
 
-        $specialPrice = parent::getValue();
+        $specialPrice = $this->getDiscountPercent();
         if ($specialPrice) {
-            $basePrice = $this->getBasePrice();
-            $this->value = $basePrice - $basePrice * ($specialPrice / 100);
+            $regularPrice = $this->getRegularPrice();
+            $this->value = $regularPrice - $regularPrice * ($specialPrice / 100);
         } else {
             $this->value = false;
         }
@@ -42,10 +53,8 @@ class SpecialPrice extends \Magento\Catalog\Pricing\Price\SpecialPrice
     /**
      * @return bool|float
      */
-    protected function getBasePrice()
+    protected function getRegularPrice()
     {
-        return $this->priceInfo
-            ->getPrice(CatalogBasePrice::PRICE_CODE)
-            ->getValue();
+        return $this->priceInfo->getPrice(RegularPrice::PRICE_CODE)->getValue();
     }
 }
