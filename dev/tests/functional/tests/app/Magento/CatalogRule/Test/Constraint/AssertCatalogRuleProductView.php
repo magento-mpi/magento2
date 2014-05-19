@@ -14,6 +14,7 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity as Category;
 
 /**
  * Class AssertCatalogRuleProductView

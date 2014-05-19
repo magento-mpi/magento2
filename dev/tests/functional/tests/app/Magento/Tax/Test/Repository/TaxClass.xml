@@ -22,9 +22,4 @@
         <id>3</id>
         <mtf_dataset_name><![CDATA[retail_customer]]></mtf_dataset_name>
     </item>
-    <item>
-        <class_name><![CDATA[TaxClass%isolation%]]></class_name>
-        <class_type><![CDATA[CUSTOMER]]></class_type>
-        <mtf_dataset_name><![CDATA[tax_customer_class]]></mtf_dataset_name>
-    </item>
 </repository>

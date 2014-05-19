@@ -87,4 +87,3 @@ class UserIndex extends Page
         );
     }
 }
-
