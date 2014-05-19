@@ -31,6 +31,13 @@ class View extends Block
     protected $addToCart = '#product-addtocart-button';
 
     /**
+     * Quantity input id
+     *
+     * @var string
+     */
+    protected $qty = '#qty';
+
+    /**
      * 'Check out with PayPal' button
      *
      * @var string
@@ -131,6 +138,17 @@ class View extends Block
      */
     public function clickAddToCart()
     {
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Set quantity and click add to cart
+     *
+     * @param $qty
+     */
+    public function setQtyAndClickAddToCart($qty)
+    {
+        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS, 'input')->setValue($qty);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 

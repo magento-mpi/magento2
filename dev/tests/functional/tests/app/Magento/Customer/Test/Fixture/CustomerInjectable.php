@@ -30,6 +30,8 @@ class CustomerInjectable extends InjectableFixture
         'firstname' => 'John',
         'lastname' => 'Doe',
         'email' => 'John.Doe%isolation%@example.com',
+        'password' => '123123q',
+        'confirmation' => '123123q'
     ];
 
     protected $confirmation = [

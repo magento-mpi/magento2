@@ -40,6 +40,20 @@ class Totals extends Block
     protected $tax = '//tr[normalize-space(td)="Tax"]//span';
 
     /**
+     * Get shipping price selector
+     *
+     * @var string
+     */
+    protected $shippingPriceSelector = '.shipping.excl .price';
+
+    /**
+     * Get shipping price block selector
+     *
+     * @var string
+     */
+    protected $shippingPriceBlockSelector = '.totals.shipping.excl';
+
+    /**
      * Get Grand Total Text
      *
      * @return array|string
@@ -67,5 +81,23 @@ class Totals extends Block
     public function getSubtotal()
     {
         return $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get shipping price
+     *
+     * @return string
+     */
+    public function getChippingPrice(){
+        return  $this->_rootElement->find($this->shippingPriceSelector, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Is visible shipping price block
+     *
+     * @return bool
+     */
+    public function isVisibleShippingPriceBlock(){
+        return  $this->_rootElement->find($this->shippingPriceBlockSelector, Locator::SELECTOR_CSS)->isVisible();
     }
 }

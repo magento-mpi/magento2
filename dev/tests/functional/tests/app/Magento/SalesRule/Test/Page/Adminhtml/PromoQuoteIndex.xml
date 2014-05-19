@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="sales_rule/promo_quote/index" >
+    <block>
+        <name>promoQuoteGrid</name>
+        <class>Magento\SalesRule\Test\Block\Adminhtml\PromoQuoteGrid</class>
+        <locator>#promo_quote_grid</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

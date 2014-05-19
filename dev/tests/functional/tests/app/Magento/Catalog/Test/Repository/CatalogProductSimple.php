@@ -68,5 +68,25 @@ class CatalogProductSimple extends AbstractRepository
             'category_ids' => ['presets' => 'default'],
             'mtf_dataset_name' => 'simple_with_category',
         ];
+
+        $this->_data['simple_for_salesrule_1'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 100, 'preset' => ''],
+            'weight' => 100,
+            'category_ids' => ['presets' => 'default_subcategory']
+        ];
+
+        $this->_data['simple_for_salesrule_2'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 50, 'preset' => ''],
+            'weight' => 50,
+            'category_ids' => ['presets' => 'default_subcategory']
+        ];
     }
 }

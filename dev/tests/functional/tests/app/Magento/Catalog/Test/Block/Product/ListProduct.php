@@ -128,13 +128,7 @@ class ListProduct extends Block
      */
     protected function getProductNameElement($productName)
     {
-        return $this->_rootElement->find(
-            $this->productTitle,
-            Locator::SELECTOR_CSS
-        )->find(
-            '//*[@title="' . $productName . '"]',
-            Locator::SELECTOR_XPATH
-        );
+        return $this->_rootElement->find($this->productTitle)->find('[title="' . $productName . '"]');
     }
 
     /**

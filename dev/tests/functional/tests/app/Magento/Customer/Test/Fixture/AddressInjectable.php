@@ -27,16 +27,6 @@ class AddressInjectable extends InjectableFixture
     protected $handlerInterface = 'Magento\Customer\Test\Handler\AddressInjectable\AddressInjectableInterface';
 
     protected $defaultDataSet = [
-        'firstname' => 'John',
-        'lastname' => 'Doe',
-        'email' => 'John.Doe%isolation%@example.com',
-        'company' => 'Magento %isolation%',
-        'street' => '6161 West Centinela Avenue',
-        'city' => 'Culver City',
-        'region_id' => 'California',
-        'postcode' => '90230',
-        'country_id' => 'United States',
-        'telephone' => '555-55-555-55',
     ];
 
     protected $city = [
@@ -191,6 +181,14 @@ class AddressInjectable extends InjectableFixture
         'input' => 'text',
     ];
 
+    protected $estimate_postcode = [
+        'attribute_code' => 'estimate_postcode',
+        'backend_type' => 'varchar',
+        'is_required' => '1',
+        'default_value' => '',
+        'input' => 'text',
+    ];
+
     public function getCity()
     {
         return $this->getData('city');
@@ -284,5 +282,10 @@ class AddressInjectable extends InjectableFixture
     public function getVatRequestSuccess()
     {
         return $this->getData('vat_request_success');
+    }
+
+    public function getEstimatePostcode()
+    {
+        return $this->getData('estimate_postcode');
     }
 }
