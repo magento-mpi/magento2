@@ -104,9 +104,8 @@ class AssertProductForm extends AbstractConstraint
     protected function compareArray(array $fixtureData, array $formData)
     {
         $errors = [];
-        ksort($fixtureData);
-        ksort($formData);
-        if (array_keys($fixtureData) !== array_keys($formData)) {
+        $keysDiff = array_diff(array_keys($fixtureData), array_keys($formData));
+        if (!empty($keysDiff)) {
             return ['arrays do not correspond to each other in composition'];
         }
 

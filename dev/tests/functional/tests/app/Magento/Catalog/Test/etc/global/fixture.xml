@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 -->
-
 <fixture>
     <catalogProductSimple module="Magento_Catalog">
         <type>eav</type>

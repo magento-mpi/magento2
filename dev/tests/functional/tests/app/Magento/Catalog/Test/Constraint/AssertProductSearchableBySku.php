@@ -26,6 +26,20 @@ class AssertProductSearchableBySku extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
+     * Displays an error message
+     *
+     * @var string
+     */
+    protected  $errorMessage = 'Product was not found by SKU.';
+
+    /**
+     * Message for passing test
+     *
+     * @var string
+     */
+    protected $successfulMessage = 'Product successfully found by SKU.';
+
+    /**
      * Assert that product can be searched via Quick Search using searchable product attributes (Search by SKU).
      *
      * @param CatalogsearchResult $catalogSearchResult
@@ -40,9 +54,18 @@ class AssertProductSearchableBySku extends AbstractConstraint
     ) {
         $cmsIndex->open();
         $cmsIndex->getSearchBlock()->search($product->getSku());
+
+        if ($product->getVisibility() === 'Catalog' || $product->getQuantityAndStockStatus() === 'Out of Stock') {
+            $isVisible = !($catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()));
+            $this->errorMessage = 'Product was found by SKU.';
+            $this->successfulMessage = 'The product has successfully been found by SKU';
+        } else {
+            $isVisible = $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName());
+        }
+
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogSearchResult->getListProductBlock()->isProductVisible($product->getName()),
-            'Product was not found by SKU.'
+            $isVisible,
+            $this->errorMessage
         );
     }
 
@@ -53,6 +76,6 @@ class AssertProductSearchableBySku extends AbstractConstraint
      */
     public function toString()
     {
-        return "Product is searchable by SKU.";
+        return $this->successfulMessage;
     }
 }
