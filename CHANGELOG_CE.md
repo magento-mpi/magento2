@@ -9,6 +9,7 @@
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
   * Fixed functional tests failing PSR2 test (MAGETWO-24351)
+  * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
   * Fixed: Awful design for edit gift registry page from customer page on backend (MAGETWO-24310)
   * Fixed: [GC] Layout is broken during updating status for review (MAGETWO-24071)
   * Fixed: Unexpected line is displayed on "Create new Banner" page (MAGETWO-19678)
@@ -92,6 +93,7 @@
   * Fixed an issue with frontend crashing when deleting a product from a mini shopping cart
   * Fixed an issue where it was impossible to add a bundle product to a shopping cart
   * Fixed an issue where a configurable product base image disappeared when selecting product variations
+
 * Functional tests:
   * Functional end-to-end tests publication
      * Bundle product
