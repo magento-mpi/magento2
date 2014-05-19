@@ -118,6 +118,12 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     public function testPhpFiles()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $codeToTest = array();
+        if (isset($_ENV['INCREMENTAL_BUILD'])) {
+            $codeToTest = \Magento\TestFramework\Utility\Files::readLists(__DIR__ . '/_files/changed_files.txt');
+        } else {
+            $codeToTest = \Magento\TestFramework\Utility\Files::init()->getPhpFiles();
+        }
         $invoker(
             function ($file) {
                 $content = file_get_contents($file);
@@ -132,7 +138,7 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
                 $this->_testObsoleteConstants($content);
                 $this->_testObsoletePropertySkipCalculate($content);
             },
-            \Magento\TestFramework\Utility\Files::init()->getPhpFiles()
+            $codeToTest
         );
     }
 
