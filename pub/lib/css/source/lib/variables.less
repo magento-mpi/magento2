@@ -1054,7 +1054,7 @@
 @pager-font-weight: @font-weight-base;
 @pager-line-height: 32px;
 @pager-item-margin: 0 1px;
-@pager-item-padding: 0 10px;
+@pager-item-padding: 0 4px;
 @pager-actions-padding: 0;
 
 // Pager current page
@@ -1110,9 +1110,9 @@
 @pager-icon-text-hide: true;
 @pager-icon-position: before;
 @pager-icon-font: @icon-font;
-@pager-icon-font-margin: @icon-margin;
+@pager-icon-font-margin: 0 0 0 -6px;
 @pager-icon-font-vertical-align: top;
-@pager-icon-font-size: 32px;
+@pager-icon-font-size: 46px;
 @pager-icon-font-line-height: @icon-font-line-height;
 
 // Pager link.action gradient: does element have gradient background
@@ -1261,12 +1261,20 @@
 //--------------------------------------
 @breadcrumbs-font-size: @font-size-s;
 
-@breadcrumbs-separator-symbol: '>';
+@breadcrumbs-separator-symbol: false;
 @breadcrumbs-separator-color: @breadcrumbs-current-color;
+
+@breadcrumbs-icon-use: true;
+@breadcrumbs-icon-font-content: @icon-next;
+@breadcrumbs-icon-font: @icon-font;
+@breadcrumbs-icon-font-size: 24px;
+@breadcrumbs-icon-font-line-height: 18px;
+@breadcrumbs-icon-font-color: false;
+@breadcrumbs-icon-font-margin: 0;
+@breadcrumbs-icon-font-vertical-align: top;
 
 @breadcrumbs-display: false;
 @breadcrumbs-padding: false;
-@breadcrumbs-hide-label: true;
 
 // Breadcrumbs - current page
 @breadcrumbs-current-color: #a3a3a3;

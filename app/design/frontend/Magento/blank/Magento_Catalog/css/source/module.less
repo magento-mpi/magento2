@@ -67,7 +67,7 @@
 }
 
 .actual.price {
-  font-weight: @font-weight-bold;
+    font-weight: @font-weight-bold;
 }
 
 .product.name a {
@@ -133,8 +133,6 @@
             position: relative;
             vertical-align: top;
         }
-        .product.photo {
-        }
         .img.container {
             max-width: 100%;
             > .image {
@@ -147,12 +145,10 @@
             display: block;
         }
         .price-box {
-            margin-top: @indent-s-base;
+            margin-top: 17px;
             .price {
                 font-weight: @font-weight-bold;
             }
-        }
-        .details {
         }
         .description {
             padding-top: @indent-l-base;
@@ -161,13 +157,14 @@
         .actions {
             > .secondary {
                 display: none;
+                vertical-align: top;
             }
             > .primary,
             > .secondary {
                 margin: @indent-s-base 0 0 0;
             }
             .stock.unavailable {
-                margin: 20px 5px 0 0;
+                margin: 7px 5px 0 0;
             }
         }
         .action {
@@ -191,8 +188,6 @@
                     @_icon-font-line-height: normal
                 );
             }
-            &.tocart {
-            }
         }
     }
     &.wrapper.list {
@@ -214,12 +209,6 @@
                 font-size: @font-size-l;
                 margin-bottom: @indent-base;
             }
-            .description {
-            }
-            .actions {
-                > .primary {
-                }
-            }
         }
     }
     &.wrapper.grid {
@@ -229,16 +218,8 @@
                 padding: @product-grid-items-padding;
                 margin: @product-grid-items-margin;
             }
-            .product.photo {
-            }
             .img.container {
                 margin-bottom: @indent-base;
-            }
-            .details {
-            }
-            .name {
-            }
-            .description {
             }
             .actions {
                 > .primary {
@@ -271,9 +252,10 @@
             }
             .mode {
                 border: 1px solid @border-color-base;
-                width: floor(@toolbar-mode-icon-font-size * @line-height-base);
-                text-align: center;
+                font-weight: @font-weight-base;
                 color: @text-color-muted;
+                text-align: center;
+                width: floor(@toolbar-mode-icon-font-size * @line-height-base);
                 .icon-text-hide();
                 &.active {
                     background: #e5e5e5;
@@ -286,15 +268,15 @@
             }
             .mode.grid {
                 .icon-font(
-                  @icon-grid,
-                  @_icon-font-size: @toolbar-mode-icon-font-size
-                 );
+                    @icon-grid,
+                    @_icon-font-size: @toolbar-mode-icon-font-size
+                );
             }
             .mode.list {
                 .icon-font(
-                  @icon-list,
-                  @_icon-font-size: @toolbar-mode-icon-font-size
-                 );
+                    @icon-list,
+                    @_icon-font-size: @toolbar-mode-icon-font-size
+                );
             }
         }
         .sorter {
@@ -304,18 +286,17 @@
             }
             .action.sort.asc {
                 .icon-font(
-                  @icon-arrow-down,
-                  @_icon-font-size: 27px,
-                  @_icon-font-color: @text-color-muted
-               );
+                    @icon-arrow-down,
+                    @_icon-font-size: 27px,
+                    @_icon-font-color: @text-color-muted
+                );
                 .icon-text-hide();
-
             }
             .action.sort.desc {
                 .icon-font(
-                  @icon-arrow-up,
-                  @_icon-font-size: 27px,
-                  @_icon-font-color: @text-color-muted
+                    @icon-arrow-up,
+                    @_icon-font-size: 27px,
+                    @_icon-font-color: @text-color-muted
                 );
                 .icon-text-hide();
             }
@@ -380,13 +361,11 @@
             position: relative;
             padding-left: 22px;
             margin-bottom: 6px;
-
             .label {
                 font-weight: @font-weight-bold;
             }
             .action.remove {
                 &:extend(.remove-button-for-blocks all);
-
                 position: absolute;
                 left: -6px;
                 top: 0;
@@ -600,8 +579,6 @@
             .pager {
                 text-align: right;
             }
-            .pages {
-            }
             .modes,
             .sorter,
             .limiter {
@@ -642,8 +619,6 @@
                     }
                     .img.container {
                         margin: 0;
-                    }
-                    .name {
                     }
                     .price-box {
                         width: 30%;
@@ -747,9 +722,6 @@ body.catalog-product-compare-index {
     .product.name {
         display: block;
         margin: 15px 0;
-    }
-
-    .action.tocart {
     }
 
     .addto.links {
