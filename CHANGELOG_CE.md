@@ -9,6 +9,7 @@
   * Fixed: CAPTCHA is absent on Contact Us page (MAGETWO-23971)
   * Fixed: Backup is not created by cron (MAGETWO-21355)
   * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
+  * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
 
 2.0.0.0-dev77
 =============
