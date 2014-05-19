@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-test('options', function() {
+TestCase('options', function() {
 	expect(3);
 
 	var element = $('<div>');
@@ -18,7 +18,7 @@ test('options', function() {
 
 });
 
-test( 'element init', function() {
+TestCase( 'element init', function() {
 	expect(1);
 
 	var element = $('<div>');
@@ -30,7 +30,7 @@ test( 'element init', function() {
 
 });
 
-test( 'body init', function() {
+TestCase( 'body init', function() {
 	expect(1);
 
 	//Initialize Loader on Body
@@ -40,7 +40,7 @@ test( 'body init', function() {
     body.loader('destroy');
 });
 
-test( 'show/hide', function() {
+TestCase( 'show/hide', function() {
 	expect(3);
 
 	var element = $('<div>');
@@ -64,7 +64,7 @@ test( 'show/hide', function() {
 
 });
 
-test( 'destroy', function() {
+TestCase( 'destroy', function() {
 	expect(1);
 
 	var element = $("#loader").loader();
