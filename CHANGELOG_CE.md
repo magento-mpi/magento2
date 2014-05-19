@@ -38,6 +38,8 @@
   * Fixed: It's impossible to disable debug mode (MAGETWO-22991)
   * Fixed: Page layout minor errors (MAGETWO-24038)
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
+  * Retest and fix benchmarking script (MAGETWO-23662)
+  * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
 
 2.0.0.0-dev77
 =============
