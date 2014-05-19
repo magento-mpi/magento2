@@ -20,4 +20,15 @@
         <label for="use_gr_address" class="label"><span><?php echo __('Use the gift registry shipping address') ?></span></label>
     </div>
 </script>
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        /**
+         * Declaration of resources needed for defined components
+         */
+        $.mage.extend('opcheckout', 'opcheckout',
+            '<?php echo $this->getViewFileUrl('Magento_GiftRegistry::js/opcheckout.js') ?>'
+        );
+    })(jQuery);
+</script>
 <?php endif; ?>
