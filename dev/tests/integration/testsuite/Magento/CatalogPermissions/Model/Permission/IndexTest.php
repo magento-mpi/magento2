@@ -434,30 +434,31 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultAllow()
     {
+        $productId = 5;
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
-        $permissions = $this->index->getIndexForProduct(5, 0, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 0, $storeId);
         $this->assertCount(0, $permissions);
-        $permissions = $this->index->getIndexForProduct(5, 1, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 1, $storeId);
         $this->assertCount(0, $permissions);
 
         $this->indexer->reindexAll();
 
-        $permissions = $this->index->getIndexForProduct(5, 0, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 0, $storeId);
         $this->assertCount(0, $permissions);
 
-        $permissions = $this->index->getIndexForProduct(5, 1, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 1, $storeId);
         $this->assertCount(1, $permissions);
-        $this->assertArrayHasKey('grant_catalog_category_view', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_catalog_category_view']);
-        $this->assertArrayHasKey('grant_catalog_product_price', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_catalog_product_price']);
-        $this->assertArrayHasKey('grant_checkout_items', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_checkout_items']);
+        $this->assertArrayHasKey('grant_catalog_category_view', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_catalog_category_view']);
+        $this->assertArrayHasKey('grant_catalog_product_price', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_catalog_product_price']);
+        $this->assertArrayHasKey('grant_checkout_items', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_checkout_items']);
     }
 
     /**
@@ -470,29 +471,30 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultDeny()
     {
+        $productId = 5;
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
-        $permissions = $this->index->getIndexForProduct(5, 0, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 0, $storeId);
         $this->assertCount(0, $permissions);
-        $permissions = $this->index->getIndexForProduct(5, 1, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 1, $storeId);
         $this->assertCount(0, $permissions);
 
         $this->indexer->reindexAll();
 
-        $permissions = $this->index->getIndexForProduct(5, 0, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 0, $storeId);
         $this->assertCount(0, $permissions);
 
-        $permissions = $this->index->getIndexForProduct(5, 1, $storeId);
+        $permissions = $this->index->getIndexForProduct($productId, 1, $storeId);
         $this->assertCount(1, $permissions);
-        $this->assertArrayHasKey('grant_catalog_category_view', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_catalog_category_view']);
-        $this->assertArrayHasKey('grant_catalog_product_price', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_catalog_product_price']);
-        $this->assertArrayHasKey('grant_checkout_items', $permissions[$deny]);
-        $this->assertEquals($deny, $permissions[$deny]['grant_checkout_items']);
+        $this->assertArrayHasKey('grant_catalog_category_view', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_catalog_category_view']);
+        $this->assertArrayHasKey('grant_catalog_product_price', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_catalog_product_price']);
+        $this->assertArrayHasKey('grant_checkout_items', $permissions[$productId]);
+        $this->assertEquals($deny, $permissions[$productId]['grant_checkout_items']);
     }
 }

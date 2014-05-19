@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Store\Test\Fixture;
+
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
