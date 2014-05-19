@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
-use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogEventInGrid
@@ -41,20 +41,30 @@ class AssertCatalogEventInGrid extends AbstractConstraint
     protected $catalogEventPages = '';
 
     /**
+     * Catalog Event fixture from repository
+     *
+     * @var CatalogEventEntity
+     */
+    protected $catalogEventEntity;
+
+    /**
      * Assert that catalog event is presented in the "Events" grid
      *
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogEventIndex $catalogEventIndex
+     * @param CatalogEventEntity $catalogEventEntity
      *
      * @return void
      */
     public function processAssert(
         CatalogEventEntity $catalogEvent,
         CatalogProductSimple $catalogProductSimple,
-        CatalogEventIndex $catalogEventIndex
+        CatalogEventIndex $catalogEventIndex,
+        CatalogEventEntity $catalogEventEntity = null
     ) {
         $this->catalogEvent = $catalogEvent;
+        $this->catalogEventEntity = $catalogEventEntity;
         $categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
@@ -69,8 +79,12 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         }
 
         $sortOrder = $catalogEvent->getSortOrder();
-        if ($sortOrder < 0) {
-            $sortOrder = 0;
+        if ($sortOrder !== null) {
+            $sortOrder = ($sortOrder < 0) ? 0 : $sortOrder;
+        } elseif ($catalogEventEntity !== null) {
+            $sortOrder = $catalogEventEntity->getSortOrder();
+        } else {
+            $sortOrder = "";
         }
 
         $dateStart = strftime("%b %#d, %Y %I:%M:%S %p", $dateStart);
@@ -100,7 +114,16 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      */
     protected function prepareDisplayStateForFilter()
     {
-        $pageEvents = $this->catalogEvent->getDisplayState();
+        if ($this->catalogEventEntity !== null && !$this->catalogEvent->hasData('display_state')) {
+            $pageEvents = $this->catalogEventEntity->getDisplayState();
+        } elseif (
+            ($this->catalogEventEntity !== null && $this->catalogEvent->hasData('display_state'))
+            || $this->catalogEvent->hasData('display_state')
+        ) {
+            $pageEvents = $this->catalogEvent->getDisplayState();
+        } else {
+            return $event = 'Lister Block';
+        }
 
         $displayStates = [
             'category_page' => 'Category Page',

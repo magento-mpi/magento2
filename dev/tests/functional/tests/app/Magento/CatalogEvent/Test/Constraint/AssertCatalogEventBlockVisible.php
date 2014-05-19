@@ -71,6 +71,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogProductView $catalogProductView
+     * @param CatalogEventEntity $catalogEventEntity
      *
      * @return void
      */
@@ -79,7 +80,8 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         CatalogEventEntity $catalogEvent,
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $catalogProductSimple,
-        CatalogProductView $catalogProductView
+        CatalogProductView $catalogProductView,
+        CatalogEventEntity $catalogEventEntity = null
     ) {
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
@@ -88,7 +90,28 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $this->productName = $catalogProductSimple->getName();
 
-        $pageEvent = $catalogEvent->getDisplayState();
+        if ($catalogEventEntity !== null && !$catalogEvent->hasData('display_state')) {
+            $pageEvent = $catalogEventEntity->getDisplayState();
+            $this->checkEvent($pageEvent);
+        } elseif (
+            ($catalogEventEntity !== null && $catalogEvent->hasData('display_state'))
+            || $catalogEvent->hasData('display_state')
+        ) {
+            $pageEvent = $catalogEvent->getDisplayState();
+            $this->checkEvent($pageEvent);
+        } else {
+            $this->checkEventBlockOnCategoryPageAbsent();
+            $this->checkEventBlockOnProductPageAbsent();
+        }
+    }
+
+    /**
+     * Check pageEvent
+     *
+     * @param $pageEvent
+     */
+    protected function checkEvent($pageEvent)
+    {
         if ($pageEvent['category_page'] == "Yes") {
             $this->checkEventBlockOnCategoryPagePresent();
         } else {
