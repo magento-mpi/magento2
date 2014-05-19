@@ -14,7 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogCategoryIndex;
 
 /**
  * Test Creation for Create CatalogEventEntity from Category page
