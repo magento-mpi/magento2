@@ -62,7 +62,7 @@ class DatepickerElement extends Element
     /**
      * Set the date from datePicker
      *
-     * @param array|string $value
+     * @param string $value
      */
     public function setValue($value)
     {
@@ -99,16 +99,6 @@ class DatepickerElement extends Element
             './/*[contains(@class,"' . $this->datePickerButtonClose . '")]',
             ElementInterface\Locator::SELECTOR_XPATH
         )->click();
-    }
-
-    /**
-     * Get value
-     *
-     * @return string|void
-     */
-    public function getValue()
-    {
-        $this->getValue();
     }
 
     /**

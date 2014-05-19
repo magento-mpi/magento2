@@ -116,9 +116,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
     {
         if ($this->catalogEventEntity !== null && !$this->catalogEvent->hasData('display_state')) {
             $pageEvents = $this->catalogEventEntity->getDisplayState();
-        } elseif (
-            ($this->catalogEventEntity !== null && $this->catalogEvent->hasData('display_state'))
-            || $this->catalogEvent->hasData('display_state')
+        } elseif ($this->catalogEvent->hasData('display_state')
         ) {
             $pageEvents = $this->catalogEvent->getDisplayState();
         } else {

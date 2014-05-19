@@ -27,7 +27,7 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
  * 6. Perform all assertions.
  *
  * @group Catalog_Events_(MX)
- * @ZephyrId MAGETWO-23418////////
+ * @ZephyrId  MAGETWO-24576
  */
 class UpdateCatalogEventEntityTest extends Injectable
 {

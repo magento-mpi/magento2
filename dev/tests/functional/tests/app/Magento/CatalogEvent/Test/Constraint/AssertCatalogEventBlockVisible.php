@@ -93,10 +93,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         if ($catalogEventEntity !== null && !$catalogEvent->hasData('display_state')) {
             $pageEvent = $catalogEventEntity->getDisplayState();
             $this->checkEvent($pageEvent);
-        } elseif (
-            ($catalogEventEntity !== null && $catalogEvent->hasData('display_state'))
-            || $catalogEvent->hasData('display_state')
-        ) {
+        } elseif ($catalogEvent->hasData('display_state')) {
             $pageEvent = $catalogEvent->getDisplayState();
             $this->checkEvent($pageEvent);
         } else {
