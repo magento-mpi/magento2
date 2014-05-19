@@ -31,6 +31,12 @@ class CatalogEventIndex extends BackendPage
             'locator' => '#catalogEventGrid',
             'strategy' => 'css selector',
         ],
+        'pageActionsBlock' => [
+            'name' => 'blockPageActionsEvent',
+            'class' => 'Magento\Backend\Test\Block\GridPageActions',
+            'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ]
     ];
 
     /**
@@ -47,5 +53,13 @@ class CatalogEventIndex extends BackendPage
     public function getBlockEventGrid()
     {
         return $this->getBlockInstance('Grid');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\GridPageActions
+     */
+    public function getBlockPageActionsEvent()
+    {
+        return $this->getBlockInstance('pageActionsBlock');
     }
 }

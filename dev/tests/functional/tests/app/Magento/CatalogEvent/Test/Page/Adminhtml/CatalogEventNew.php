@@ -31,6 +31,12 @@ class CatalogEventNew extends BackendPage
             'locator' => '#edit_form',
             'strategy' => 'css selector',
         ],
+        'treeCategories' => [
+            'name' => 'treeCategories',
+            'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock',
+            'locator' => '.fieldset',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
@@ -47,5 +53,13 @@ class CatalogEventNew extends BackendPage
     public function getEventForm()
     {
         return $this->getBlockInstance('eventForm');
+    }
+
+    /**
+     * @return \Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock
+     */
+    public function getTreeCategories()
+    {
+        return $this->getBlockInstance('treeCategories');
     }
 }
