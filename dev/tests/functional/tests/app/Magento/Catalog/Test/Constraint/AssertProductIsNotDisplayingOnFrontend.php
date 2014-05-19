@@ -94,6 +94,6 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return '';
+        return 'Assertion that the product is not available on the pages of the frontend.';
     }
 }
