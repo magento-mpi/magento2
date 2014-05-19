@@ -14,8 +14,6 @@ namespace Magento\CatalogEvent\Model;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
-use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
-use Magento\Framework\Registry;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Tree\Node;
@@ -25,68 +23,41 @@ use Magento\Sales\Model\Quote;
 class Observer
 {
     /**
-     * Store categories events
-     *
-     * @var array
-     */
-    protected $_eventsToCategories = null;
-
-    /**
-     * Core registry
-     *
-     * @var Registry
-     */
-    protected $_coreRegistry;
-
-    /**
      * Catalog event data
      *
      * @var Data
      */
-    protected $_catalogEventData;
+    protected $catalogEventData;
 
     /**
      * Store manager model
      *
      * @var StoreManagerInterface
      */
-    protected $_storeManager;
-
-    /**
-     * Event collection factory
-     *
-     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
-     */
-    protected $_eventCollectionFactory;
+    protected $storeManager;
 
     /**
      * Event model factory
      *
-     * @var \Magento\CatalogEvent\Model\Resource\EventFactory
+     * @var \Magento\CatalogEvent\Model\Category\EventList
      */
-    protected $_eventFactory;
+    protected $categoryEventList;
 
     /**
      * Construct
      *
      * @param Data $catalogEventData
-     * @param Registry $coreRegistry
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
-     * @param \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
+     * @param \Magento\CatalogEvent\Model\Category\EventList $eventList
      */
     public function __construct(
         Data $catalogEventData,
-        Registry $coreRegistry,
         StoreManagerInterface $storeManager,
-        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
-        \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
+        \Magento\CatalogEvent\Model\Category\EventList $eventList
     ) {
-        $this->_catalogEventData = $catalogEventData;
-        $this->_coreRegistry = $coreRegistry;
-        $this->_storeManager = $storeManager;
-        $this->_eventFactory = $eventFactory;
-        $this->_eventCollectionFactory = $eventCollectionFactory;
+        $this->catalogEventData = $catalogEventData;
+        $this->storeManager = $storeManager;
+        $this->categoryEventList = $eventList;
     }
 
     /**
@@ -97,14 +68,14 @@ class Observer
      */
     public function applyEventToCategory(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
         $category = $observer->getEvent()->getCategory();
         $categoryIds = $this->_parseCategoryPath($category->getPath());
         if (!empty($categoryIds)) {
-            $eventCollection = $this->_getEventCollection($categoryIds);
+            $eventCollection = $this->categoryEventList->getEventCollection($categoryIds);
             $this->_applyEventToCategory($category, $eventCollection);
         }
     }
@@ -117,7 +88,7 @@ class Observer
      */
     public function applyEventToCategoryCollection(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -131,7 +102,7 @@ class Observer
         }
 
         if (!empty($categoryIds)) {
-            $eventCollection = $this->_getEventCollection($categoryIds);
+            $eventCollection = $this->categoryEventList->getEventCollection($categoryIds);
             foreach ($categoryCollection as $category) {
                 $this->_applyEventToCategory($category, $eventCollection);
             }
@@ -146,7 +117,7 @@ class Observer
      */
     public function applyEventToProduct(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -194,7 +165,7 @@ class Observer
      */
     public function applyEventOnQuoteItemSetProduct(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -221,7 +192,7 @@ class Observer
      */
     public function applyEventOnQuoteItemSetQty(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -261,7 +232,7 @@ class Observer
      */
     public function applyEventToProductCollection(EventObserver $observer)
     {
-        if (!$this->_catalogEventData->isEnabled()) {
+        if (!$this->catalogEventData->isEnabled()) {
             return $this;
         }
 
@@ -290,7 +261,7 @@ class Observer
         $noOpenEvent = false;
         $eventCount = 0;
         foreach ($categoryIds as $categoryId) {
-            $categoryEvent = $this->_getEventInStore($categoryId);
+            $categoryEvent = $this->categoryEventList->getEventInStore($categoryId);
             if ($categoryEvent === false) {
                 continue;
             } elseif ($categoryEvent === null) {
@@ -312,62 +283,6 @@ class Observer
     }
 
     /**
-     * Get event in store
-     *
-     * @param int $categoryId
-     * @return Event|false
-     */
-    protected function _getEventInStore($categoryId)
-    {
-        if ($this->_coreRegistry->registry(
-            'current_category'
-        ) && $this->_coreRegistry->registry(
-            'current_category'
-        )->getId() == $categoryId
-        ) {
-            // If category already loaded for page, we don't need to load categories tree
-            return $this->_coreRegistry->registry('current_category')->getEvent();
-        }
-
-        if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = $this->_eventFactory->create()->getCategoryIdsWithEvent(
-                $this->_storeManager->getStore()->getId()
-            );
-
-            $eventCollection = $this->_getEventCollection(array_keys($this->_eventsToCategories));
-
-            foreach ($this->_eventsToCategories as $catId => $eventId) {
-                if ($eventId !== null) {
-                    $this->_eventsToCategories[$catId] = $eventCollection->getItemById($eventId);
-                }
-            }
-        }
-
-        if (isset($this->_eventsToCategories[$categoryId])) {
-            return $this->_eventsToCategories[$categoryId];
-        }
-
-        return false;
-    }
-
-    /**
-     * Return event collection
-     *
-     * @param string[] $categoryIds
-     * @return EventCollection
-     */
-    protected function _getEventCollection(array $categoryIds = null)
-    {
-        /** @var EventCollection $collection */
-        $collection = $this->_eventCollectionFactory->create();
-        if ($categoryIds !== null) {
-            $collection->addFieldToFilter('category_id', array('in' => $categoryIds));
-        }
-
-        return $collection;
-    }
-
-    /**
      * Initialize events for quote items
      *
      * @param Quote $quote
@@ -380,7 +295,7 @@ class Observer
             $eventIds = array_diff($quote->getItemsCollection()->getColumnValues('event_id'), array(0));
 
             if (!empty($eventIds)) {
-                $collection = $this->_getEventCollection();
+                $collection = $this->categoryEventList->getEventCollection();
                 $collection->addFieldToFilter('event_id', array('in' => $eventIds));
                 foreach ($collection as $event) {
                     foreach ($quote->getItemsCollection()->getItemsByColumnValue(
