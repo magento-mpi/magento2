@@ -199,13 +199,10 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->with('sales/minimum_order/amount', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, false)
             ->will($this->returnValue(150));
-        $this->quoteAddressCollectionMock->expects(
-            $this->any()
-        )->method(
-                'setQuoteFilter'
-            )->will(
-                $this->returnValue(array($this->quoteAddressCollectionMock))
-            );
+        $this->quoteAddressCollectionMock
+            ->expects($this->any())
+            ->method('setQuoteFilter')
+            ->will($this->returnValue(array($this->quoteAddressCollectionMock)));
         $this->quoteAddressCollectionMock->expects($this->never())->method('validateMinimumAmount');
         $this->assertEquals(true, $this->quote->validateMinimumAmount(true));
     }
