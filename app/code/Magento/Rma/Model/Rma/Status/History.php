@@ -231,7 +231,7 @@ class History extends \Magento\Framework\Model\AbstractModel
 
             $transport->sendMessage();
         }
-        $rma->setEmailSent(true);
+        $this->setEmailSent(true);
 
         $this->inlineTranslation->resume();
 
@@ -245,12 +245,6 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function saveSystemComment()
     {
-        $rma = $this->getRma();
-
-        if ($rma->getStatus() === $rma->getOrigData('status') && !isset($systemComments[$rma->getStatus()])) {
-            return;
-        }
-
         $systemComments = array(
             \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING => __('We placed your Return request.'),
             \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED => __('We have authorized your Return request.'),
@@ -273,7 +267,13 @@ class History extends \Magento\Framework\Model\AbstractModel
             )
         );
 
-        $this->saveComment($systemComments[$rma->getStatus()], true, true);
+        $status = $this->getRma()->getStatus();
+
+        if ($status === $this->getRma()->getOrigData('status') && !isset($systemComments[$status])) {
+            return;
+        }
+
+        $this->saveComment($systemComments[$status], true, true);
     }
 
     /**
@@ -289,7 +289,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             ->setIsVisibleOnFront($visibleOnFrontend)
             ->setStatus($rma->getStatus())
             ->setCreatedAt($this->_date->gmtDate())
-            ->setIsCustomerNotified($rma->getEmailSent())
+            ->setIsCustomerNotified($this->getEmailSent())
             ->setIsAdmin($isAdmin)
             ->save();
     }
@@ -390,7 +390,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             $transport->sendMessage();
         }
 
-        $rma->setEmailSent(true);
+        $this->setEmailSent(true);
 
         $this->inlineTranslation->resume();
 
