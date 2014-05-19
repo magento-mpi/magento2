@@ -55,8 +55,7 @@ class Store extends \Magento\Backend\Block\Template implements \Magento\Framewor
             'express' => 'payment/paypal_express/active',
             'wps' => 'payment/paypal_standard/active',
             'wpp' => 'payment/paypal_direct/active',
-            'wpppe' => 'payment/payflow_direct/active',
-            'payflowpro' => 'payment/payflowpro/active',
+            'payflowpro'  => 'payment/payflowpro/active',
             'expresspe' => 'payment/payflow_express/active'
         );
         // Retrieve a code of the current website

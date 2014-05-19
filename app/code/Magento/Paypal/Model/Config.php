@@ -29,11 +29,6 @@ class Config
     const METHOD_WPP_DIRECT = 'paypal_direct';
 
     /**
-     * Direct Payments (Payflow Edition)
-     */
-    const METHOD_WPP_PE_DIRECT = 'payflow_direct';
-
-    /**
      * Express Checkout (Payflow Edition)
      */
     const METHOD_WPP_PE_EXPRESS = 'payflow_express';
@@ -187,8 +182,7 @@ class Config
         'paypal_standard' => 'WPS',
         'paypal_express' => 'EC',
         'paypal_direct' => 'DP',
-        'payflow_express' => 'EC',
-        'payflow_direct' => 'DP'
+        'payflow_express' => 'EC'
     );
 
     /**
