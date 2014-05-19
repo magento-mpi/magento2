@@ -29,6 +29,7 @@
   * Fixed: Page layout minor errors (MAGETWO-24038)
   * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
   * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
+  * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
 
 2.0.0.0-dev77
 =============
