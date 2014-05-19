@@ -29,12 +29,25 @@ class Product extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * Review model factory
+     *
+     * @var \Magento\Review\Model\ReviewFactory
+     */
+    protected $_reviewFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry)
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Review\Model\ReviewFactory $reviewFactory
+    )
     {
         $this->_coreRegistry = $coreRegistry;
+        $this->_reviewFactory = $reviewFactory;
         parent::__construct($context);
     }
 
@@ -355,7 +368,7 @@ class Product extends \Magento\Backend\App\Action
                 $data['stores'] = $data['select_stores'];
             }
 
-            $review = $this->_objectManager->create('Magento\Review\Model\Review')->setData($data);
+            $review = $this->_reviewFactory->create()->setData($data);
 
             try {
                 $review->setEntityId(1) // product
