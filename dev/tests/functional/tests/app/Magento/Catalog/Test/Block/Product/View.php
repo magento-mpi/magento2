@@ -12,14 +12,12 @@ use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
-use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class View
- * Product View block
+ * Product view block on the product page
  */
 class View extends Block
 {
@@ -56,7 +54,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $productSku = '.product.attibute.sku div[itemprop="sku"]';
+    protected $productSku = '[itemprop="sku"]';
 
     /**
      * Product description element
@@ -242,21 +240,27 @@ class View extends Block
     /**
      * Return product short description on page
      *
-     * @return string
+     * @return string|null
      */
     public function getProductShortDescription()
     {
-        return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        if ($this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productShortDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**
      * Return product description on page
      *
-     * @return string
+     * @return string|null
      */
     public function getProductDescription()
     {
-        return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        if ($this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->isVisible()) {
+            return $this->_rootElement->find($this->productDescription, Locator::SELECTOR_CSS)->getText();
+        }
+        return null;
     }
 
     /**
@@ -303,10 +307,10 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param BundleFixture|Product $product
+     * @param FixtureInterface $product
      * @return void
      */
-    public function fillOptions($product)
+    public function fillOptions(FixtureInterface $product)
     {
         $configureButton = $this->_rootElement->find($this->customizeButton);
         $configureSection = $this->_rootElement->find('.product.options.wrapper');
@@ -332,8 +336,7 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH
-        )->getText();
+            Locator::SELECTOR_XPATH)->getText();
     }
 
     /**

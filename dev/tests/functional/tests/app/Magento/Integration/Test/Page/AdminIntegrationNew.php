@@ -34,7 +34,7 @@ class AdminIntegrationNew extends Page
      *
      * @var string
      */
-    protected $messageBlock = 'messages';
+    protected $messagesBlock = 'messages';
 
     /**
      * Api tab of integration edit page.
@@ -68,10 +68,10 @@ class AdminIntegrationNew extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_ID)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_ID)
         );
     }
 

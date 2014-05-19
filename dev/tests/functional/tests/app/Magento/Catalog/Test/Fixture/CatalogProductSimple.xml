@@ -336,6 +336,7 @@
             <is_required>0</is_required>
             <default_value>Taxable Goods</default_value>
             <input>select</input>
+            <group>product-details</group>
         </tax_class_id>
         <thumbnail>
             <attribute_code>thumbnail</attribute_code>
@@ -438,6 +439,5 @@
         <input_prefix>product</input_prefix>
     </data_config>
     <repository_class>Magento\Catalog\Test\Repository\CatalogProductSimple</repository_class>
-    <handler_interface>Magento\Catalog\Test\Handler\CatalogProductSimple\CatalogProductSimpleInterface
-    </handler_interface>
+    <handler_interface>Magento\Catalog\Test\Handler\CatalogProductSimple\CatalogProductSimpleInterface</handler_interface>
 </fixture>
