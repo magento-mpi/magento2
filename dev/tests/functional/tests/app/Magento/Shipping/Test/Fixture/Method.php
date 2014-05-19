@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Factory\Factory;
  * Class Method
  * Shipping methods
  *
- * @package Magento\Shipping\Test\Fixture
  */
 class Method extends DataFixture
 {

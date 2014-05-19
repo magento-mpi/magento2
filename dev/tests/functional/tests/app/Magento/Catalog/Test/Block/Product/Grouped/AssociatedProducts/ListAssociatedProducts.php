@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,12 +16,13 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class ListAssociatedProducts
- *
- * @package Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts
+ * List associated products on the page
  */
 class ListAssociatedProducts extends Block
 {
     /**
+     * Getting block products
+     *
      * @param string $productId
      * @param Element $context
      * @return ListAssociatedProducts\Product
@@ -42,6 +40,8 @@ class ListAssociatedProducts extends Block
     }
 
     /**
+     * Filling options products
+     *
      * @param array $data
      * @param Element $element
      */

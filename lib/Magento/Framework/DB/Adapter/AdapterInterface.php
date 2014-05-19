@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DB
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\DB\Ddl\Table;
 /**
  * Magento Database Adapter Interface
  *
- * @category    Magento
- * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 interface AdapterInterface

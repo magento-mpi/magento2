@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\Fixture\DataFixture;
  * Class Cc
  * Credit cards for checkout
  *
- * @package Magento\Payment\Test\Fixture
  */
 class Cc extends DataFixture
 {

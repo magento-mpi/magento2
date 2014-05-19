@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Indexer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 

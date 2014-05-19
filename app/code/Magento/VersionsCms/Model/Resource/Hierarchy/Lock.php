@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 /**
  * Hierarchy Lock Resource Model
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

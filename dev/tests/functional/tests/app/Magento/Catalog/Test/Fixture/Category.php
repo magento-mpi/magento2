@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Mtf\System\Config;
 /**
  * Class Category
  *
- * @package Magento\Catalog\Test\Fixture
  */
 class Category extends DataFixture
 {
@@ -41,7 +37,7 @@ class Category extends DataFixture
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders =  array())
+    public function __construct(Config $configuration, $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
 

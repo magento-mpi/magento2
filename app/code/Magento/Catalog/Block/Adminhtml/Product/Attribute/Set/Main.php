@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set;
 /**
  * Adminhtml Catalog Attribute Set Main Block
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 use Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface;

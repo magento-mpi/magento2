@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Paypal\Block\Adminhtml\Settlement;
 /**
  * Adminhtml paypal settlement reports grid block
  *
- * @category    Magento
- * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Report extends \Magento\Backend\Block\Widget\Grid\Container

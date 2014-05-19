@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Controllers AdminGws validator
  *
- * @category    Magento
- * @package     Magento_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\AdminGws\Model;

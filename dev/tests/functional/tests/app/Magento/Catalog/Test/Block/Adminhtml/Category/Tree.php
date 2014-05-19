@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class Tree
  * Categories tree block
  *
- * @package Magento\Catalog\Test\Block\Adminhtml\Category
  */
 class Tree extends Block
 {
@@ -44,6 +40,13 @@ class Tree extends Block
      * @var string
      */
     protected $templateBlock = './ancestor::body';
+
+    /**
+     * Category tree
+     *
+     * @var string
+     */
+    protected $treeElement = '.tree-holder';
 
     /**
      * Get backend abstract block
@@ -74,7 +77,7 @@ class Tree extends Block
     public function selectCategory($path)
     {
         $this->expandAllCategories();
-        $this->_rootElement->setValue($path);
+        $this->_rootElement->find($this->treeElement, Locator::SELECTOR_CSS, 'tree')->setValue($path);
         $this->getTemplateBlock()->waitLoader();
     }
 

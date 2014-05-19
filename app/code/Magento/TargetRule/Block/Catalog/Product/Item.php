@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_TargetRule
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * TargetRule Products Item Block
  *
- * @category   Magento
- * @package    Magento_TargetRule
  *
  * @method \Magento\TargetRule\Block\Catalog\Product\Item setItem(\Magento\Catalog\Model\Product $item)
  * @method \Magento\Catalog\Model\Product getItem()

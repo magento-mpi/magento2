@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Handler\Sitemap; 
+namespace Magento\Sitemap\Test\Handler\Sitemap;
 
 use Magento\Sitemap\Test\Handler\Sitemap;
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +19,6 @@ use Mtf\System\Config;
 /**
  * Class Curl
  *
- * @package Magento\Sitemap\Test\Handler\Sitemap
  */
 class Curl extends AbstractCurl implements SitemapInterface
 {

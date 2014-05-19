@@ -23,7 +23,11 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->engineProviderMock = $this->getMock(
-            '\Magento\CatalogSearch\Model\Resource\EngineProvider', array(), array(), '', false
+            '\Magento\CatalogSearch\Model\Resource\EngineProvider',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->model = new ItemCollectionProvider($this->engineProviderMock);
@@ -41,7 +45,9 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
         $collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
             array('setStoreId',  'addCategoryFilter', 'setGeneralDefaultQuery'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
 
         $engineMock = $this->getMock('\Magento\CatalogSearch\Model\Resource\EngineInterface');
@@ -54,6 +60,8 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($collectionMock));
 
         $this->assertInstanceOf(
-            '\Magento\Catalog\Model\Resource\Product\Collection', $this->model->getCollection($categoryMock));
+            '\Magento\Catalog\Model\Resource\Product\Collection',
+            $this->model->getCollection($categoryMock)
+        );
     }
 }

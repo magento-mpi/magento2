@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,8 +10,6 @@
 /**
  * Paybox dummy payment method model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;

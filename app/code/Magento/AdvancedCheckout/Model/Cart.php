@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,8 +17,6 @@ use Magento\Framework\Message\MessageInterface;
  * @method string getErrorMessage()
  * @method setErrorMessage(string $message)
  *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
@@ -638,7 +634,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = $this->_wishlistFactory->create()->loadByCustomerId($this->getCustomer()->getId(), true);
+                    $wishlist = $this->_wishlistFactory->create()
+                        ->loadByCustomerId($this->getCustomer()->getId(), true);
                 } else {
                     $wishlist = $this->_wishlistFactory->create()->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {
@@ -1074,8 +1071,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
             if ($this->_isCheckout() && $product->isDisabled()) {
                 $item['is_configure_disabled'] = true;
-                $failCode = $this->_context ==
-                    self::CONTEXT_FRONTEND ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_DISABLED;
+                $failCode = $this->_context == self::CONTEXT_FRONTEND
+                    ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU
+                    : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_DISABLED;
                 return $this->_updateItem($item, $failCode);
             }
 
@@ -1102,8 +1100,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
             if ($this->_shouldBeConfigured($product)) {
                 if (!$this->productConfiguration->isProductConfigured($product, $config)) {
-                    $failCode = !$this->_isFrontend() ||
-                        $product->isVisibleInSiteVisibility() ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+                    $failCode = !$this->_isFrontend() || $product->isVisibleInSiteVisibility()
+                        ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
+                        : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
                     return $this->_updateItem($item, $failCode);
                 } else {
                     $item['code'] = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS;
@@ -1159,7 +1158,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _getValidatedItem($sku, $qty)
     {
         $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_SUCCESS;
-        if ($sku == '') {
+        if ($sku === '') {
             $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
             if (!\Zend_Validate::is($qty, 'Float')) {
@@ -1251,7 +1250,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     public function setAffectedItemConfig($sku, $config)
     {
-        if (!empty($sku) && !empty($config) && is_array($config)) {
+        if ($sku !== "" && !empty($config) && is_array($config)) {
             $this->_affectedItemsConfig[$sku] = $config;
         }
         return $this;

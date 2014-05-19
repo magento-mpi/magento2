@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Log
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,8 +23,6 @@ namespace Magento\Log\Model;
  * @method int getStoreId()
  * @method \Magento\Log\Model\Log setStoreId(int $value)
  *
- * @category    Magento
- * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Log extends \Magento\Framework\Model\AbstractModel

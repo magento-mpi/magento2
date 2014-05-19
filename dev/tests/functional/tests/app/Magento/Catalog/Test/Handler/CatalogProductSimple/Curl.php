@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,6 +19,7 @@ use Mtf\System\Config;
 
 /**
  * Class CreateProduct
+ * Create new simple product via curl
  */
 class Curl extends AbstractCurl implements CatalogProductSimpleInterface
 {

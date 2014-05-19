@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Catalog\Test\Fixture\Product;
 /**
  * Class AssignProducts
  *
- * @package Magento\Catalog\Test\TestCase\Category
  */
 class AssignProductTest extends Functional
 {
@@ -47,7 +43,7 @@ class AssignProductTest extends Functional
         $catalogCategoryEditPage = Factory::getPageFactory()->getCatalogCategoryEditId();
         $treeBlock = $catalogCategoryPage->getTreeBlock();
         $formBlock = $catalogCategoryPage->getFormBlock();
-        $messageBlock = $catalogCategoryPage->getMessageBlock();
+        $messagesBlock = $catalogCategoryPage->getMessagesBlock();
         $actionsBlock = $catalogCategoryEditPage->getPageActionsBlock();
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
@@ -61,7 +57,7 @@ class AssignProductTest extends Functional
             $categoryProductsGrid->searchAndSelect(['sku' => $product->getProductSku()]);
         }
         $actionsBlock->save();
-        $messageBlock->assertSuccessMessage();
+        $messagesBlock->assertSuccessMessage();
         //Clean Cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    catalog product gallery image
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

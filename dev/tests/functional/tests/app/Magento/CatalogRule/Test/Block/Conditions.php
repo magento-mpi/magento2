@@ -17,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class Conditions
  * Catalog price rule conditions
  *
- * @package Magento\Rule\Block
  */
 class Conditions extends Block
 {

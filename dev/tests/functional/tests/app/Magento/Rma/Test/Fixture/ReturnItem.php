@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use \Magento\Sales\Test\Fixture\PaypalExpressOrder;
 /**
  * Fixture with all necessary data for creating a return item on the frontend
  *
- * @package Magento\Rma\Test\Fixture
  */
 class ReturnItem extends DataFixture
 {

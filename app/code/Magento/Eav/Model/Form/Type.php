@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +22,6 @@ namespace Magento\Eav\Model\Form;
  * @method int getStoreId()
  * @method \Magento\Eav\Model\Form\Type setStoreId(int $value)
  *
- * @category    Magento
- * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Type extends \Magento\Framework\Model\AbstractModel

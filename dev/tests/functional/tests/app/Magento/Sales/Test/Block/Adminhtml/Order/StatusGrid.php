@@ -9,11 +9,10 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+
 /**
  * Class StatusGrid
  * Adminhtml sales order's status managment grid
- *
- * @package Magento\Sales\Test\Block\Adminhtml\Order
  */
 class StatusGrid extends GridInterface
 {

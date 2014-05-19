@@ -17,7 +17,6 @@ use Mtf\Repository\RepositoryFactory;
 /**
  * Class CatalogRule
  *
- * @package Magento\CatalogRule\Test\Fixture
  */
 class CatalogRule extends InjectableFixture
 {
@@ -123,7 +122,7 @@ class CatalogRule extends InjectableFixture
         'backend_type' => 'virtual',
         'is_required' => '0',
         'group' => 'conditions',
-        'fixture' => 'Magento\CatalogRule\Test\Fixture\Conditions'
+        'source' => 'Magento\CatalogRule\Test\Fixture\Conditions'
     ];
 
     public function getName()

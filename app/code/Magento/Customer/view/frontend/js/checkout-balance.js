@@ -1,7 +1,6 @@
 /**
  * {license_notice}
  *
- * @package     EE_Checkout_Balance
  * @copyright   {copyright}
  * @license     {license_link}
  */
