@@ -48,8 +48,8 @@ class Compare
         ) {
             return false;
         }
-        foreach ($target as $name => $value) {
-            if ($compared[$name] != $value) {
+        foreach ($targetOptions as $name => $value) {
+            if ($comparedOptions[$name] != $value) {
                 return false;
             }
         }
