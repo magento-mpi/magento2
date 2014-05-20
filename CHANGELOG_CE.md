@@ -17,6 +17,27 @@
   * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
   * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
   * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
+  * Fixed: Shipping price for flat rate set to 0 in the side block during checkout product with configured recurring profile (MAGETWO-3596)
+  * Fixed ability to create more Shipping Labels than products in the shipment (in case with invalid data) (MAGETWO-17266)
+  * Fixed missed data about "SHA-IN Pass Phrase" after change "Payment Action" in the Ogone Configuration (MAGETWO-18940)
+  * Fixed: [Refactored Indexers] Low Performance on attempt to reindex Price Indexer (MAGETWO-24074)
+  * Fixed: CLONE - When importing tax rates with postal code = *, the column in the DB is set to NULL, leading to issues (MAGETWO-20916)
+  * Fixed: Incorrect link on Reset password email sent by admin if use secure url on frontend (MAGETWO-24308)
+  * Fixed: Links section is absent while editing downloadable product from wishlist (MAGETWO-11470)
+  * Fixed: Specified details for composite product are lost after adding to wishlist (Gift Card, Downloadable) (MAGETWO-19632)
+  * Fixed: Date widget in Create New Customer->DOB has incorrect dates (MAGETWO-7723)
+  * Fixed: Customer redirected to Dashboard ("Redirect user to dashboard after login"="No") (MAGETWO-17437)
+  * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
+  * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
+  * Retest and fix benchmarking script (MAGETWO-23662)
+  * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+* Functional tests:
+  * Tax Rule Creation
+  * Admin User Roe Creation
+  * Simple Product Creation
+  * Customer Group Creation
+  * Update Backend Customer
+  * Newsletter Creation
 
 2.0.0.0-dev78
 =============

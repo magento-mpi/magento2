@@ -17,8 +17,8 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/Constraint
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest
 ~dev/tests/functional/tests/app/Magento/Bundle/Test/TestCase/CreateBundleEntityTest.php
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleEntityTest
-~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleEntityTest.php
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest
+~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CreateSimpleProductEntityTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapConfigurableTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/ApplyMapTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/OutOfStockTest.php
@@ -26,6 +26,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/CrosssellTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/RelatedProductTest.php
 ~dev/tests/functional/tests/app/Magento/Catalog/Test/TestCase/Product/UpsellTest.php
+~dev/tests/functional/tests/app/Magento/CatalogEvent
 ~dev/tests/functional/tests/app/Magento/CatalogRule
 ~dev/tests/functional/tests/app/Magento/CatalogSearch/Test/TestCase/SearchTest.php
 ~dev/tests/functional/tests/app/Magento/Centinel
@@ -56,6 +57,7 @@ dev/tests/integration/testsuite/Magento/ToolkitFramework/ApplicationTest.php
 ~dev/tests/functional/tests/app/Magento/CustomerSegment
 ~dev/tests/functional/tests/app/Magento/Directory
 ~dev/tests/functional/tests/app/Magento/GiftCard
+~dev/tests/functional/tests/app/Magento/GiftCardAccount
 ~dev/tests/functional/tests/app/Magento/Logging
 ~dev/tests/functional/tests/app/Magento/Integration
 ~dev/tests/functional/tests/app/Magento/Multishipping

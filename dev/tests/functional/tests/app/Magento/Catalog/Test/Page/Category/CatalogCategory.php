@@ -43,7 +43,7 @@ class CatalogCategory extends Page
      *
      * @var string
      */
-    protected $messageBlock = '#messages .messages';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Backend abstract block
@@ -102,10 +102,10 @@ class CatalogCategory extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 

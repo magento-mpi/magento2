@@ -69,7 +69,7 @@ class CheckoutCart extends Page
      *
      * @return Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('.messages .messages', Locator::SELECTOR_CSS)
