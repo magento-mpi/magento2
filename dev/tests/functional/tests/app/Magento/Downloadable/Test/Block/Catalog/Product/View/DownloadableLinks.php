@@ -13,77 +13,106 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class DownloadableLinks
- * for get links blocks on frontend
+ *
+ * Downloadable links blocks on frontend
  */
 class DownloadableLinks extends Block
 {
     /**
-     * Title for for links
+     * Selector title for for links
      *
      * @var string
      */
-    protected $downloadLinksDataTitleForForLink = '//div[contains(@class,"field downloads")]/label[@class="label"]/span';
+    protected $titleForLink = '//div[contains(@class,"field downloads")]/label[@class="label"]/span';
 
     /**
-     * Title item links
+     * Format for downloadable links list selector
      *
      * @var string
      */
-    protected $downloadLinksDataTitleForList = "//*[@id='downloadable-links-list']/div[%d]/label[@class='label']/span[1]";
+    protected $linksListSelector = '//*[@id="downloadable-links-list"]/div[%d]/';
 
     /**
-     * Price item links
+     * Title selector item links
      *
      * @var string
      */
-    protected $downloadLinksDataPriceForList = '//*[@id="downloadable-links-list"]/div[%d]/label/span[contains(@class,"price-container")]//span[@class="price"]';
+    protected $titleForList = "label[@class='label']/span[1]";
 
     /**
-     * Checkbox item links
+     * Price selector item links
      *
      * @var string
      */
-    protected $downloadLinksDataCheckboxForList = "//*[@id='downloadable-links-list']/div[%d]/input[@type='checkbox']";
+    protected $priceForList = 'label/span[contains(@class,"price-container")]//span[@class="price"]';
 
     /**
-     * Text for for links data
+     * Checkbox selector item links
+     *
+     * @var string
+     */
+    protected $separatelyForList = "input[@type='checkbox']";
+
+    /**
+     * Change format downloadable links list
+     *
+     * @param $index
      * @return string
      */
-    public function getDownloadableLinksDataTitleForForLink()
+    protected function formatIndex($index)
     {
-        return $this->_rootElement->find($this->downloadLinksDataTitleForForLink, Locator::SELECTOR_XPATH)->getText();
+        return sprintf($this->linksListSelector, $index);
     }
 
     /**
-     * @param $index
-     * Text for link on data list
+     * Get title for links block
+     *
      * @return string
      */
-    public function getDownloadableLinksDataTitleForList($index)
+    public function getTitleForLinkBlock()
     {
-        $formatTitle = sprintf($this->downloadLinksDataTitleForList, $index);
-        return $this->_rootElement->find($formatTitle, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->titleForLink, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
+     * Get title for item link on data list
+     *
      * @param $index
-     * Checkbox for link on data list
+     * @return string
+     */
+    public function getItemTitle($index)
+    {
+        return $this->_rootElement->find(
+            $this->formatIndex($index) . $this->titleForList,
+            Locator::SELECTOR_XPATH
+        )->getText();
+    }
+
+    /**
+     * Visible checkbox for item link on data list
+     *
+     * @param $index
      * @return bool
      */
-    public function getDownloadableLinksDataCheckboxForList($index)
+    public function isVisibleItemCheckbox($index)
     {
-        $formatCheckbox = sprintf($this->downloadLinksDataCheckboxForList, $index);
-        return $this->_rootElement->find($formatCheckbox, Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(
+            $this->formatIndex($index) . $this->separatelyForList,
+            Locator::SELECTOR_XPATH
+        )->isVisible();
     }
 
     /**
+     * Get price for item link on data list
+     *
      * @param $index
-     * Price for link on data list
      * @return string
      */
-    public function getDownloadableLinksDataPriceForList($index)
+    public function getItemPrice($index)
     {
-        $formatPrice = sprintf($this->downloadLinksDataPriceForList, $index);
-        return $this->_rootElement->find($formatPrice, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(
+            $this->formatIndex($index) . $this->priceForList,
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 }

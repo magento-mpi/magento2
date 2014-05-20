@@ -45,10 +45,10 @@ class LinksPurchasedSeparatelyTest extends Functional
         $createProductPage->getProductBlock()->addProduct('downloadable');
 
         $createProductPageNew = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPageNew->getProductForm();
+        $productBlockForm = $createProductPageNew->getForm();
 
-        $productBlockForm->fill($this->product);
-        $createProductPageNew->getFormPageActions()->save($this->product);
+        $productBlockForm->fillProduct($this->product);
+        $createProductPageNew->getFormAction()->save();
 
         $createProductPageNew->getMessagesBlock()->assertSuccessMessage();
 
@@ -84,7 +84,7 @@ class LinksPurchasedSeparatelyTest extends Functional
         $product = $this->product;
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage = Factory::getPageFactory()->getDownloadableCatalogProductView();
 
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
@@ -93,16 +93,26 @@ class LinksPurchasedSeparatelyTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
 
-        $productViewBlock = $productPage->getViewBlock();
+        $productViewBlock = $productPage->getDownloadableViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals(sprintf('%1.2f',$product->getProductPrice()), $productViewBlock->getProductPrice()['price_regular_price']);
-
-        $productPage->getDownloadableLinksSelector()
-            ->check([['title' => $product->getData('fields/downloadable/link/0/title/value')]]);
+        $this->assertEquals(
+            sprintf('%1.2f', $product->getProductPrice()),
+            $productViewBlock->getProductPrice()['price_regular_price']
+        );
 
         $this->assertEquals(
-            sprintf('%1.2f',(int)$product->getProductPrice() + $product->getData('fields/downloadable/link/0/price/value')),
-            $productViewBlock->getProductPrice()['price_regular_price']
+            $productPage->getDownloadableViewBlock()->getDownloadableLinksBlock()->getItemTitle(1),
+            $product->getData('fields/downloadable_links/value/downloadable/link/0/title')
+        );
+
+        $this->assertEquals(
+            sprintf(
+                '$%1.2f',
+                $product->getData(
+                    'fields/downloadable_links/value/downloadable/link/0/price'
+                )
+            ),
+            $productPage->getDownloadableViewBlock()->getDownloadableLinksBlock()->getItemPrice(1)
         );
     }
 }

@@ -13,6 +13,7 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CatalogProductView
+ *
  * Frontend product view page
  */
 class CatalogProductView extends FrontendPage
@@ -77,19 +78,13 @@ class CatalogProductView extends FrontendPage
             'locator' => '#customer-reviews',
             'strategy' => 'css selector',
         ],
-        'downloadableLinksBlock' => [
-            'name' => 'downloadableLinksBlock',
-            'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\Links',
-            'locator' => '[data-container-for=downloadable-links]',
-            'strategy' => 'css selector',
-        ],
         'mapBlock' => [
             'name' => 'mapBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Price',
             'locator' => '#map-popup',
             'strategy' => 'css selector',
         ]
-    ];    
+    ];
 
     /**
      * Custom constructor
@@ -123,7 +118,7 @@ class CatalogProductView extends FrontendPage
     /**
      * Get product options block
      *
-     * @return \Magento\Catalog\Test\Block\Product\View\Options
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
      */
     public function getCustomOptionsBlock()
     {
@@ -184,14 +179,6 @@ class CatalogProductView extends FrontendPage
     public function getCrosssellBlock()
     {
         return $this->getBlockInstance('crosssellBlock');
-    }
-
-    /**
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
-     */
-    public function getDownloadableLinksBlock()
-    {
-        return $this->getBlockInstance('downloadableLinksBlock');
     }
 
     /**

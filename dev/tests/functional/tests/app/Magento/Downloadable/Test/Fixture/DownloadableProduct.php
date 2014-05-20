@@ -65,14 +65,7 @@ class DownloadableProduct extends Product
             'price' => [
                 'value' => '1',
                 'group' => static::GROUP_PRODUCT_DETAILS
-            ],
-            'downloadable_link_purchase_type' => [
-                'value' => 'Yes',
-                'input_value' => '1',
-                'group' => static::GROUP,
-                'input' => 'select',
-                'input_name' => 'links_purchased_separately'
-            ],
+            ]
         );
 
         $this->_data['fields'] = $data + $this->_data['fields'];

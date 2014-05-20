@@ -12,7 +12,8 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Samples
- * Get preset from block samples
+ *
+ * Preset for sample block
  */
 class Samples implements FixtureInterface
 {
@@ -76,13 +77,13 @@ class Samples implements FixtureInterface
                     'sample' => [
                         [
                             'title' => 'row1%isolation%',
-                            'sample_type' => 'url',
+                            'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
                             'title' => 'row2%isolation%',
-                            'sample_type' => 'url',
+                            'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
                         ]
@@ -95,19 +96,19 @@ class Samples implements FixtureInterface
                     'sample' => [
                         [
                             'title' => 'row1%isolation%',
-                            'sample_type' => 'url',
+                            'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
                             'sort_order' => 0
                         ],
                         [
                             'title' => 'row2%isolation%',
-                            'sample_type' => 'url',
+                            'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
                         ],
                         [
                             'title' => 'row3%isolation%',
-                            'sample_type' => 'url',
+                            'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example3.com',
                             'sort_order' => 2
                         ]

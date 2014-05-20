@@ -11,24 +11,10 @@ use Mtf\Block\Form;
 
 /**
  * Class SampleRow
- * Fill and get item sample data
+ * Form item samples
  */
 class SampleRow extends Form
 {
-    /**
-     * Update array for mapping
-     *
-     * @param array $fields
-     * @return array
-     */
-    public function _dataMapping(array $fields)
-    {
-        $fields[$fields['sample_type'] == 'url' ? 'sample_type_url' : 'sample_type_file'] = 'Yes';
-        unset($fields['sample_type']);
-        $mapping = $this->dataMapping($fields);
-        return $mapping;
-    }
-
     /**
      * Fill item sample
      *
@@ -37,7 +23,7 @@ class SampleRow extends Form
      */
     public function fillSampleRow(array $fields)
     {
-        $mapping = $this->_dataMapping($fields);
+        $mapping = $this->dataMapping($fields);
         $this->_fill($mapping);
     }
 
@@ -49,7 +35,7 @@ class SampleRow extends Form
      */
     public function getDataSampleRow(array $fields)
     {
-        $mapping = $this->_dataMapping($fields);
+        $mapping = $this->dataMapping($fields);
         return $this->_getData($mapping);
     }
 }

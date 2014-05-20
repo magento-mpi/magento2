@@ -9,11 +9,12 @@
 namespace Magento\Downloadable\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Downloadable\Test\Page\Product\CatalogProductView;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
 /**
  * Class AssertDownloadableSamplesData
+ *
  * Assert that Sample block for downloadable product on front-end
  */
 class AssertDownloadableSamplesData extends AbstractConstraint
@@ -28,33 +29,54 @@ class AssertDownloadableSamplesData extends AbstractConstraint
     /**
      * Assert Sample block for downloadable product on front-end
      *
-     * @param CatalogProductView $catalogProductView
+     * @param CatalogProductView $downloadableProductView
      * @param CatalogProductDownloadable $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductDownloadable $product)
+    public function processAssert(CatalogProductView $downloadableProductView, CatalogProductDownloadable $product)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $dBlock = $catalogProductView->getViewBlock()->getDownloadableSamplesBlock();
+        $downloadableProductView->init($product);
+        $downloadableProductView->open();
+        $sampleBlock = $downloadableProductView->getDownloadableViewBlock()->getDownloadableSamplesBlock();
         $fields = $product->getData();
-        //Steps:
-        //1. Title for for sample block
+
+        // Title for for sample block
         \PHPUnit_Framework_Assert::assertEquals(
-            $dBlock->getDownloadableSamplesDataTitleForForLink(),
+            $sampleBlock->getTitleForSampleBlock(),
             $fields['downloadable_sample']['title'],
             'Title for for Samples block for downloadable product on front-end is not visible.'
         );
+
+        $this->sortDownloadableArray($fields['downloadable_sample']['downloadable']['sample']);
+
         foreach ($fields['downloadable_sample']['downloadable']['sample'] as $index => $sample) {
-            $index++;
-            //2. Titles for each sample
-            //3. Samples are displaying according to Sort Order
+            // Titles for each sample
+            // Samples are displaying according to Sort Order
             \PHPUnit_Framework_Assert::assertEquals(
-                $dBlock->getDownloadableSamplesDataTitleForList($index),
+                $sampleBlock->getItemTitle(++$index),
                 $sample['title'],
-                'Title for Samples item block for downloadable product on front-end is not visible.'
+                'Sample item ' . $index . ' with title "' . $sample['title'] . '" is not visible.'
             );
         }
+    }
+
+    /**
+     * Sort downloadable sample array
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function sortDownloadableArray(&$fields)
+    {
+        usort(
+            $fields,
+            function ($a, $b) {
+                if ($a['sort_order'] == $b['sort_order']) {
+                    return 0;
+                }
+                return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
+            }
+        );
     }
 
     /**

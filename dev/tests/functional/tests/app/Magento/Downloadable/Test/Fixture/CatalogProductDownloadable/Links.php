@@ -12,7 +12,8 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Links
- * Get preset from block links
+ *
+ * Preset for link block
  */
 class Links implements FixtureInterface
 {
@@ -80,26 +81,26 @@ class Links implements FixtureInterface
                             'price' => 2.43,
                             'number_of_downloads' => 2,
                             'sample' => [
-                                'sample_type' => 'url',
+                                'sample_type_url' => 'Yes',
                                 'sample_url' => 'http://example.com'
                             ],
-                            'file_type' => 'url',
+                            'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.com',
                             'is_shareable' => 'No',
-                            'sort_order' => 0
+                            'sort_order' => 1
                         ],
                         [
                             'title' => 'row2%isolation%',
                             'price' => 3,
                             'number_of_downloads' => 3,
                             'sample' => [
-                                'sample_type' => 'url',
+                                'sample_type_url' => 'Yes',
                                 'sample_url' => 'http://example3.com'
                             ],
-                            'file_type' => 'url',
+                            'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example3.com',
                             'is_shareable' => 'Yes',
-                            'sort_order' => 1
+                            'sort_order' => 0
                         ],
                     ]
                 ]
@@ -114,10 +115,10 @@ class Links implements FixtureInterface
                             'price' => 2.43,
                             'number_of_downloads' => 2,
                             'sample' => [
-                                'sample_type' => 'url',
+                                'sample_type_url' => 'Yes',
                                 'sample_url' => 'http://example.com'
                             ],
-                            'file_type' => 'url',
+                            'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example.com',
                             'is_shareable' => 'No',
                             'sort_order' => 0
@@ -127,10 +128,10 @@ class Links implements FixtureInterface
                             'price' => 3,
                             'number_of_downloads' => 3,
                             'sample' => [
-                                'sample_type' => 'url',
+                                'sample_type_url' => 'Yes',
                                 'sample_url' => 'http://example3.com'
                             ],
-                            'file_type' => 'url',
+                            'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example3.com',
                             'is_shareable' => 'Yes',
                             'sort_order' => 1
@@ -140,10 +141,10 @@ class Links implements FixtureInterface
                             'price' => 5.43,
                             'number_of_downloads' => 5,
                             'sample' => [
-                                'sample_type' => 'url',
+                                'sample_type_url' => 'Yes',
                                 'sample_url' => 'http://example3.com'
                             ],
-                            'file_type' => 'url',
+                            'file_type_url' => 'Yes',
                             'file_link_url' => 'http://example3.com',
                             'is_shareable' => 'Yes',
                             'sort_order' => 2

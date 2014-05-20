@@ -417,18 +417,18 @@
             <attribute_code>id</attribute_code>
             <backend_type>virtual</backend_type>
         </id>
-        <manage_stock>
-            <attribute_code>manage_stock</attribute_code>
+        <inventory_manage_stock>
+            <attribute_code>inventory_manage_stock</attribute_code>
             <input>select</input>
-        </manage_stock>
+        </inventory_manage_stock>
         <quantity_and_stock_status>
             <attribute_code>quantity_and_stock_status</attribute_code>
             <input>select</input>
         </quantity_and_stock_status>
-        <stock_data_qty>
-            <attribute_code>stock_data_qty</attribute_code>
+        <inventory_qty>
+            <attribute_code>inventory_qty</attribute_code>
             <input>text</input>
-        </stock_data_qty>
+        </inventory_qty>
         <stock_data_use_config_min_qty>
             <attribute_code>stock_data_use_config_min_qty</attribute_code>
             <input>checkbox</input>

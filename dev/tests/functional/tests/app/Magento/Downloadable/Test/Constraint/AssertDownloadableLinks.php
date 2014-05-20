@@ -9,11 +9,12 @@
 namespace Magento\Downloadable\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Downloadable\Test\Page\Product\CatalogProductView;
 use Magento\Downloadable\Test\Fixture\CatalogProductDownloadable;
 
 /**
  * Class AssertDownloadableLinks
+ *
  * Assert that Link block for downloadable product on front-end
  */
 class AssertDownloadableLinks extends AbstractConstraint
@@ -28,57 +29,75 @@ class AssertDownloadableLinks extends AbstractConstraint
     /**
      * Assert Link block for downloadable product on front-end
      *
-     * @param CatalogProductView $catalogProductView
+     * @param CatalogProductView $downloadableProductView
      * @param CatalogProductDownloadable $product
      * @return void
      */
-    public function processAssert(CatalogProductView $catalogProductView, CatalogProductDownloadable $product)
+    public function processAssert(CatalogProductView $downloadableProductView, CatalogProductDownloadable $product)
     {
-        $catalogProductView->init($product);
-        $catalogProductView->open();
-        $dBlock = $catalogProductView->getViewBlock()->getDownloadableLinksBlock();
+        $downloadableProductView->init($product);
+        $downloadableProductView->open();
+        $linksBlock = $downloadableProductView->getDownloadableViewBlock()->getDownloadableLinksBlock();
         $fields = $product->getData();
-        //Steps:
-        //1. Title for for Link block
+        // Title for for Link block
         \PHPUnit_Framework_Assert::assertEquals(
-            $dBlock->getDownloadableLinksDataTitleForForLink(),
+            $linksBlock->getTitleForLinkBlock(),
             $fields['downloadable_links']['title'],
             'Title for for Link block for downloadable product on front-end is not visible.'
         );
 
-        if (isset($fields['downloadable_links'])) {
-            foreach ($fields['downloadable_links']['downloadable']['link'] as $index => $link) {
-                $index++;
-                //2. Titles for each links
-                //6. Links are displaying according to Sort Order
-                \PHPUnit_Framework_Assert::assertEquals(
-                    $dBlock->getDownloadableLinksDataTitleForList($index),
-                    $link['title'],
-                    'Link item title for downloadable product on front-end is not visible.'
-                );
+        $this->sortDownloadableArray($fields['downloadable_links']['downloadable']['link']);
 
-                //3. If Links can be Purchase Separately, check-nob is presented near each link
-                //4. If Links CANNOT be Purchase Separately, check-nob is not presented near each link
-                if ($fields['downloadable_links']['links_purchased_separately'] == "Yes") {
-                    \PHPUnit_Framework_Assert::assertTrue(
-                        $dBlock->getDownloadableLinksDataCheckboxForList($index),
-                        'Checkbox item link block for downloadable product on front-end is not visible.'
-                    );
-                    //5. Price is equals passed according to fixture
-                    $link['price'] = sprintf('$%1.2f', $link['price']);
-                    \PHPUnit_Framework_Assert::assertEquals(
-                        $dBlock->getDownloadableLinksDataPriceForList($index),
-                        $link['price'],
-                        'Link item title for downloadable product on front-end is not visible.'
-                    );
-                } elseif ($fields['downloadable_links']['links_purchased_separately'] == "No") {
-                    \PHPUnit_Framework_Assert::assertFalse(
-                        $dBlock->getDownloadableLinksDataCheckboxForList($index),
-                        'Checkbox item link block for downloadable product on front-end is visible.'
-                    );
-                }
+        foreach ($fields['downloadable_links']['downloadable']['link'] as $index => $link) {
+            $index++;
+            // Titles for each links
+            // Links are displaying according to Sort Order
+            \PHPUnit_Framework_Assert::assertEquals(
+                $linksBlock->getItemTitle($index),
+                $link['title'],
+                'Link item ' . $index . ' with title "' . $link['title'] . '" is not visible.'
+            );
+
+            // If Links can be Purchase Separately, check-nob is presented near each link
+            // If Links CANNOT be Purchase Separately, check-nob is not presented near each link
+            if ($fields['downloadable_links']['links_purchased_separately'] == "Yes") {
+                \PHPUnit_Framework_Assert::assertTrue(
+                    $linksBlock->isVisibleItemCheckbox($index),
+                    'Item ' . $index . ' link block CANNOT be Purchase Separately.'
+                );
+                // Price is equals passed according to fixture
+                $link['price'] = sprintf('$%1.2f', $link['price']);
+                \PHPUnit_Framework_Assert::assertEquals(
+                    $linksBlock->getItemPrice($index),
+                    $link['price'],
+                    'Link item ' . $index . ' price is not visible.'
+                );
+            } elseif ($fields['downloadable_links']['links_purchased_separately'] == "No") {
+                \PHPUnit_Framework_Assert::assertFalse(
+                    $linksBlock->isVisibleItemCheckbox($index),
+                    'Item ' . $index . ' link block can be Purchase Separately.'
+                );
             }
         }
+    }
+
+    /**
+     * Sort downloadable links array
+     *
+     * @param array $fields
+     * @return array
+     */
+    protected function sortDownloadableArray(&$fields)
+    {
+        usort(
+            $fields,
+            function ($a, $b) {
+                if ($a['sort_order'] == $b['sort_order']) {
+                    return 0;
+                }
+                return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
+            }
+        );
     }
 
     /**

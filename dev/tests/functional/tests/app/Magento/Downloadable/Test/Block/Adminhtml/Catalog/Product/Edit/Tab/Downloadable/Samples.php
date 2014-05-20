@@ -12,8 +12,9 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class SampleRow *
- * Fill sample item data
+ * Class SampleRow
+ *
+ * Sample Form of downloadable product
  */
 class Samples extends Form
 {
@@ -36,14 +37,14 @@ class Samples extends Form
      *
      * @var string
      */
-    protected $downloadableSamplesTitle = '//input[@name="product[samples_title]"]';
+    protected $samplesTitle = '//input[@name="product[samples_title]"]';
 
     /**
      * Downloadable sample item block
      *
      * @var string
      */
-    protected $downloadableSampleRowBlock = '//*[@id="sample_items_body"]/tr[%d]';
+    protected $rowBlock = '//*[@id="sample_items_body"]/tr[%d]';
 
     /**
      * Get Downloadable sample item block
@@ -52,36 +53,18 @@ class Samples extends Form
      * @param Element $element
      * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\SampleRow
      */
-    public function getDownloadableSampleRowBlock($index, Element $element = null)
+    public function getRowBlock($index, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\SampleRow',
-            array(
+            [
                 'element' => $element->find(
-                        sprintf($this->downloadableSampleRowBlock, ($index + 1)),
+                        sprintf($this->rowBlock, ++$index),
                         Locator::SELECTOR_XPATH
                     )
-            )
+            ]
         );
-    }
-
-    /**
-     * Update array for mapping
-     *
-     * @param array|null $fields
-     * @param string $parent
-     * @return array
-     */
-    public function dataMapping(array $fields = null, $parent = '')
-    {
-        foreach ($fields as $key => $field) {
-            if (is_array($field)) {
-                unset($fields[$key]);
-            }
-        }
-        $mapping = parent::dataMapping($fields);
-        return $mapping;
     }
 
     /**
@@ -94,14 +77,14 @@ class Samples extends Form
     public function fillSamples(array $fields = null, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
-        if (!$element->find($this->downloadableSamplesTitle, Locator::SELECTOR_XPATH)->isVisible()) {
+        if (!$element->find($this->samplesTitle, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showSample, Locator::SELECTOR_XPATH)->click();
         }
-        $mapping = $this->dataMapping($fields);
+        $mapping = $this->dataMapping(['title' => $fields['title']]);
         $this->_fill($mapping);
         foreach ($fields['downloadable']['sample'] as $index => $sample) {
             $element->find($this->addNewSampleRow, Locator::SELECTOR_XPATH)->click();
-            $this->getDownloadableSampleRowBlock($index, $element)->fillSampleRow($sample);
+            $this->getRowBlock($index, $element)->fillSampleRow($sample);
         }
     }
 
@@ -115,14 +98,17 @@ class Samples extends Form
     public function getDataSamples(array $fields = null, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
-        if (!$element->find($this->downloadableSamplesTitle, Locator::SELECTOR_XPATH)->isVisible()) {
+        if (!$element->find($this->samplesTitle, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showSample, Locator::SELECTOR_XPATH)->click();
         }
-        $mapping = $this->dataMapping($fields);
-        $_fields = $this->_getData($mapping);
+        $mapping = $this->dataMapping(['title' => $fields['title']]);
+        $newFields = $this->_getData($mapping);
         foreach ($fields['downloadable']['sample'] as $index => $sample) {
-            $_fields['downloadable']['sample'][$index] = $this->getDownloadableSampleRowBlock($index, $element)->getDataSampleRow($sample);
+            $newFields['downloadable']['sample'][$index] = $this->getRowBlock(
+                $index,
+                $element
+            )->getDataSampleRow($sample);
         }
-        return $_fields;
+        return $newFields;
     }
 }

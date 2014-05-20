@@ -13,7 +13,8 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Links
- * Fill links data
+ *
+ * Link Form of downloadable product
  */
 class Links extends Form
 {
@@ -36,14 +37,14 @@ class Links extends Form
      *
      * @var string
      */
-    protected $downloadableLinkRowBlock = '//*[@id="link_items_body"]/tr[%d]';
+    protected $rowBlock = '//*[@id="link_items_body"]/tr[%d]';
 
     /**
      * Downloadable link title block
      *
      * @var string
      */
-    protected $downloadableLinksTitle = "//*[@id='downloadable_links_title']";
+    protected $title = "//*[@id='downloadable_links_title']";
 
     /**
      * Get Downloadable link item block
@@ -52,36 +53,18 @@ class Links extends Form
      * @param Element $element
      * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow
      */
-    public function getDownloadableLinkRowBlock($index, Element $element = null)
+    public function getRowBlock($index, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow',
-            array(
+            [
                 'element' => $element->find(
-                        sprintf($this->downloadableLinkRowBlock, ($index + 1)),
+                        sprintf($this->rowBlock, ++$index),
                         Locator::SELECTOR_XPATH
                     )
-            )
+            ]
         );
-    }
-
-    /**
-     * Update array for mapping
-     *
-     * @param array|null $fields
-     * @param string $parent
-     * @return array
-     */
-    public function dataMapping(array $fields = null, $parent = '')
-    {
-        foreach ($fields as $key => $field) {
-            if (is_array($field)) {
-                unset($fields[$key]);
-            }
-        }
-        $mapping = parent::dataMapping($fields);
-        return $mapping;
     }
 
     /**
@@ -94,14 +77,16 @@ class Links extends Form
     public function fillLinks(array $fields, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
-        if (!$element->find($this->downloadableLinksTitle, Locator::SELECTOR_XPATH)->isVisible()) {
+        if (!$element->find($this->title, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showLinks, Locator::SELECTOR_XPATH)->click();
         }
-        $mapping = $this->dataMapping($fields);
+        $mapping = $this->dataMapping(
+            ['title' => $fields['title'], 'links_purchased_separately' => $fields['links_purchased_separately']]
+        );
         $this->_fill($mapping);
         foreach ($fields['downloadable']['link'] as $index => $link) {
             $element->find($this->addNewLinkRow, Locator::SELECTOR_XPATH)->click();
-            $this->getDownloadableLinkRowBlock($index, $element)->fillLinkRow($link);
+            $this->getRowBlock($index, $element)->fillLinkRow($link);
         }
     }
 
@@ -115,14 +100,19 @@ class Links extends Form
     public function getDataLinks(array $fields = null, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
-        if (!$element->find($this->downloadableLinksTitle, Locator::SELECTOR_XPATH)->isVisible()) {
+        if (!$element->find($this->title, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showLinks, Locator::SELECTOR_XPATH)->click();
         }
-        $mapping = $this->dataMapping($fields);
-        $_fields = $this->_getData($mapping);
+        $mapping = $this->dataMapping(
+            ['title' => $fields['title'], 'links_purchased_separately' => $fields['links_purchased_separately']]
+        );
+        $newFields = $this->_getData($mapping);
         foreach ($fields['downloadable']['link'] as $index => $link) {
-            $_fields['downloadable']['link'][$index] = $this->getDownloadableLinkRowBlock($index, $element)->getDataLinkRow($link);
+            $newFields['downloadable']['link'][$index] = $this->getRowBlock(
+                $index,
+                $element
+            )->getDataLinkRow($link);
         }
-        return $_fields;
+        return $newFields;
     }
 }

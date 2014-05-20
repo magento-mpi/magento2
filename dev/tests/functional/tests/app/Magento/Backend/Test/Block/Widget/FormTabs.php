@@ -271,8 +271,8 @@ class FormTabs extends Form
     protected function getTabElement($tabName)
     {
         $tabClass = $this->tabs[$tabName]['class'];
-        /** @var $tabElement Tab */
-        $tabElement = new $tabClass($this->_rootElement, $this->mapper);
+        /** @var Tab $tabElement */
+        $tabElement = new $tabClass($this->_rootElement, $this->blockFactory, $this->mapper);
         if (!$tabElement instanceof Tab) {
             throw new \Exception('Wrong Tab Class.');
         }

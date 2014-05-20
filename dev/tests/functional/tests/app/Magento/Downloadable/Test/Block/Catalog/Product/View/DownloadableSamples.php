@@ -13,44 +13,47 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class DownloadableSamples
- * for get samples blocks on frontend
+ *
+ * Downloadable samples blocks on frontend
  */
 class DownloadableSamples extends Block
 {
     /**
-     * Title for for samples
+     * Title selector for samples block
      *
      * @var string
      */
-    protected $downloadableSamplesDataTitleForForSample = '//dl[contains(@class,"downloadable samples")]/dt[contains(@class,"samples title")]';
+    protected $titleForSampleBlock = '//dt[contains(@class,"samples title")]';
 
     /**
-     * Title item sample
+     * Title selector item sample
      *
      * @var string
      */
-    protected $downloadableSampleDataTitleForList = '//dl[contains(@class,"downloadable samples")]/dd[contains(@class,"sample item")][%d]/a';
+    protected $titleForList = '//dd[contains(@class,"sample item")][%d]/a';
 
     /**
-     * Text for for samples data
+     * Get title for Samples block
+     *
      * @return string
      */
-    public function getDownloadableSamplesDataTitleForForLink()
+    public function getTitleForSampleBlock()
     {
         return $this->_rootElement->find(
-            $this->downloadableSamplesDataTitleForForSample,
+            $this->titleForSampleBlock,
             Locator::SELECTOR_XPATH
         )->getText();
     }
 
     /**
+     * Get title for item sample on data list
+     *
      * @param $index
-     * Text for sample on data list
      * @return string
      */
-    public function getDownloadableSamplesDataTitleForList($index)
+    public function getItemTitle($index)
     {
-        $formatTitle = sprintf($this->downloadableSampleDataTitleForList, $index);
+        $formatTitle = sprintf($this->titleForList, $index);
         return $this->_rootElement->find($formatTitle, Locator::SELECTOR_XPATH)->getText();
     }
 }

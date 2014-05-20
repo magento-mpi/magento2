@@ -11,11 +11,11 @@ namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
 
 /**
  * Class Downloadable
- * Fill and get data downloadable tab
+ *
+ * Product downloadable tab
  */
 class Downloadable extends Tab
 {
@@ -38,14 +38,17 @@ class Downloadable extends Tab
      *
      * @param string $type
      * @param Element $element
-     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples | \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links
+     * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples |
+     *         \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links     *
      */
     public function getDownloadableBlock($type, Element $element = null)
     {
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\\' . $type,
-            array('element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH))
+            [
+                'element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH)
+            ]
         );
     }
 
@@ -58,19 +61,19 @@ class Downloadable extends Tab
      */
     public function getDataFormTab($fields = null, Element $element = null)
     {
-        $_fields = [];
+        $newFields = [];
         if (isset($fields['downloadable_sample']['value'])) {
-            $_fields['downloadable_sample'] = $this->getDownloadableBlock('Samples')->getDataSamples(
+            $newFields['downloadable_sample'] = $this->getDownloadableBlock('Samples')->getDataSamples(
                 $fields['downloadable_sample']['value']
             );
         }
         if (isset($fields['downloadable_links']['value'])) {
-            $_fields['downloadable_links'] = $this->getDownloadableBlock('Links')->getDataLinks(
+            $newFields['downloadable_links'] = $this->getDownloadableBlock('Links')->getDataLinks(
                 $fields['downloadable_links']['value']
             );
         }
 
-        return $_fields;
+        return $newFields;
     }
 
     /**
@@ -85,18 +88,9 @@ class Downloadable extends Tab
         if (isset($fields['downloadable_sample']['value'])) {
             $this->getDownloadableBlock('Samples')->fillSamples($fields['downloadable_sample']['value']);
         }
+
         if (isset($fields['downloadable_links']['value'])) {
             $this->getDownloadableBlock('Links')->fillLinks($fields['downloadable_links']['value']);
-        }
-
-        /* for old test */
-        if (isset($fields['downloadable'])) {
-            foreach ($fields['downloadable']['link'] as $index => $link) {
-                $element->find($this->addNewRow)->click();
-                $linkRowBlock = Factory::getBlockFactory()
-                    ->getMagentoDownloadableAdminhtmlCatalogProductEditTabDownloadableLinksRow($element);
-                $linkRowBlock->fill($index, $link);
-            }
         }
 
         return $this;

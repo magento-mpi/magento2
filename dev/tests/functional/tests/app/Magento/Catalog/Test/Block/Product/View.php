@@ -134,20 +134,6 @@ class View extends Block
     protected $stockAvailability = '.stock span';
 
     /**
-     * Block Downloadable links
-     *
-     * @var string
-     */
-    protected $blockDownloadableLinks = '//div[contains(@class,"field downloads")]';
-
-    /**
-     * Block Downloadable samples
-     *
-     * @var string
-     */
-    protected $blockDownloadableSamples = '//dl[contains(@class,"downloadable samples")]';
-
-    /**
      * Customize and add to cart button selector
      *
      * @var string
@@ -160,45 +146,6 @@ class View extends Block
      * @var string
      */
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
-
-    /**
-     * This member holds the class name of the tier price block.
-     *
-     * @var string
-     */
-    protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
-
-    /**
-     * Get downloadable link block
-     *
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks
-     */
-    public function getDownloadableLinksBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks',
-            array(
-                'element' =>
-                    $this->_rootElement->find($this->blockDownloadableLinks, Locator::SELECTOR_XPATH)
-            )
-        );
-    }
-
-    /**
-     * Get downloadable samples block
-     *
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples
-     */
-    public function getDownloadableSamplesBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples',
-            array(
-                'element' =>
-                    $this->_rootElement->find($this->blockDownloadableSamples, Locator::SELECTOR_XPATH)
-            )
-        );
-    }
 
     /**
      * Get bundle options block
@@ -422,7 +369,8 @@ class View extends Block
     {
         return $this->_rootElement->find(
             str_replace('%line-number%', $lineNumber, $this->tierPricesSelector),
-            Locator::SELECTOR_XPATH)->getText();
+            Locator::SELECTOR_XPATH
+        )->getText();
     }
 
     /**

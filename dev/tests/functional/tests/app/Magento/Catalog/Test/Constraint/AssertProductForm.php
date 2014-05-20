@@ -11,10 +11,11 @@ namespace Magento\Catalog\Test\Constraint;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 
 /**
  * Class AssertProductForm
+ *
  * Assert that displayed product data on edit page equals passed from fixture
  */
 class AssertProductForm extends AbstractConstraint
@@ -31,18 +32,18 @@ class AssertProductForm extends AbstractConstraint
      *
      * @param InjectableFixture $product
      * @param CatalogProductIndex $productGrid
-     * @param CatalogProductEdit $productPage
+     * @param CatalogProductNew $productPage
      * @return void
      */
     public function processAssert(
         InjectableFixture $product,
         CatalogProductIndex $productGrid,
-        CatalogProductEdit $productPage
+        CatalogProductNew $productPage
     ) {
         $filter = ['sku' => $product->getData('sku')];
         $productGrid->open()->getProductGrid()->searchAndOpen($filter);
         $fields = $this->convertArray($product->getData());
-        $fieldsForm = $productPage->getProductBlockForm()->getData($product);
+        $fieldsForm = $productPage->getForm()->getData($product);
         \PHPUnit_Framework_Assert::assertEquals($fields, $fieldsForm, 'Form data not equals fixture data');
     }
 
@@ -67,7 +68,9 @@ class AssertProductForm extends AbstractConstraint
                 } elseif ($key == "stock_data_qty") {
                     $fields[$key] = sprintf('%1.4f', $fields[$key]);
                 } elseif ($key == "stock_data_use_config_min_qty" && $value == "No") {
-                    $fields[$key] = false;
+                    $fields[$key] = ($value == "No") ? false : true;
+                } elseif ($key == "is_require") {
+                    $fields[$key] = ($value == "Yes" || $value == "1" || $value == true) ? 1 : 0;
                 }
             }
         }

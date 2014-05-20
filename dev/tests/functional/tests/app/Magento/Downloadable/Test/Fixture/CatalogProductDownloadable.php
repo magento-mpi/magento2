@@ -356,8 +356,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'product-details'
     ];
 
-    protected $manage_stock = [
-        'attribute_code' => 'manage_stock',
+    protected $inventory_manage_stock = [
+        'attribute_code' => 'inventory_manage_stock',
         'input' => 'select',
         'group' => 'advanced-inventory',
     ];
@@ -374,8 +374,8 @@ class CatalogProductDownloadable extends InjectableFixture
         'group' => 'advanced-inventory'
     ];
 
-    protected $stock_data_qty = [
-        'attribute_code' => 'stock_data_qty',
+    protected $inventory_qty = [
+        'attribute_code' => 'inventory_qty',
         'input' => 'text',
         'group' => 'advanced-inventory',
     ];
