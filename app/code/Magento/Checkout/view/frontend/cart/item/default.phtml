@@ -50,7 +50,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
             <?php endif;?>
             <?php if ($messages = $this->getMessages()): ?>
             <?php foreach ($messages as $message): ?>
-                <div class="cart item message <?php echo $message['type'] ?>"><div>* <?php echo $this->escapeHtml($message['text']) ?></div></div>
+                <div class="cart item message <?php echo $message['type'] ?>"><div><?php echo $this->escapeHtml($message['text']) ?></div></div>
             <?php endforeach; ?>
             <?php endif; ?>
             <?php $addInfoBlock = $this->getProductAdditionalInformationBlock(); ?>

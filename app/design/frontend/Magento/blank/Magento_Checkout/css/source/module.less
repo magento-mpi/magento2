@@ -106,6 +106,7 @@
     .checkout.methods {
         &:extend(.reset-list all);
         text-align: center;
+        margin-top: @indent-s-base;
         .action.primary {
             .button-l();
             margin-bottom: 20px;
@@ -207,8 +208,10 @@
         //  Product options
         .item.options {
             font-size: @font-size-s;
-            margin-top: 10px;
+            margin-top: @indent-s-base;
+            margin-bottom: @indent-s-base;
             &:extend(.product-options-list all);
+            &:extend(.add-clearfix all);
         }
     }
     &.container {
@@ -520,6 +523,9 @@
         padding-top: 10px;
         .amount {
             font-size: @font-size-xl;
+            span {
+                display: block;
+            }
         }
     }
     .subtitle {

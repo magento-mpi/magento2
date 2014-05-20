@@ -9,10 +9,7 @@
 
 .wishlist {
     &.split.button {
-        .dropdown-split(
-            @_options-selector : ~".items",
-            @_dropdown-split-button-border-radius-fix: true
-        );
+        &:extend(.multiple-wishlist-split-button all);
         .product.info.main &,
         .item.product & {
             .split,
@@ -23,7 +20,6 @@
                 padding: 0;
             }
         }
-        vertical-align: middle;
     }
     &.window.popup {
         .popup();
@@ -42,7 +38,7 @@
 }
 
 .cart.table.wrapper .cart.items .split.button {
-    &:extend(.wishlist.split.button all);
+    &:extend(.multiple-wishlist-split-button all);
     .items {
         text-align: left;
     }
