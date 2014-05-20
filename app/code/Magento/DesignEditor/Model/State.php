@@ -32,7 +32,7 @@ class State
     /**#@-*/
 
     /**
-     * @var \Magento\Backend\Model\Session\Proxy
+     * @var \Magento\Backend\Model\Session
      */
     protected $_backendSession;
 
@@ -76,7 +76,7 @@ class State
     protected $_mutableConfig;
 
     /**
-     * @param \Magento\Backend\Model\Session\Proxy $backendSession
+     * @param \Magento\Backend\Model\Session $backendSession
      * @param AreaEmulator $areaEmulator
      * @param Url\Factory $urlModelFactory
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
@@ -87,7 +87,7 @@ class State
      * @param \Magento\Framework\App\Config\MutableScopeConfigInterface $mutableConfig
      */
     public function __construct(
-        \Magento\Backend\Model\Session\Proxy $backendSession,
+        \Magento\Backend\Model\Session $backendSession,
         AreaEmulator $areaEmulator,
         \Magento\DesignEditor\Model\Url\Factory $urlModelFactory,
         \Magento\Framework\App\Cache\StateInterface $cacheState,

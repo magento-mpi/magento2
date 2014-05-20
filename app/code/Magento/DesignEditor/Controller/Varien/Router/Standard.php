@@ -69,7 +69,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param \Magento\DesignEditor\Model\State $designEditorState
-     * @param \Magento\Backend\Model\Auth\Session\Proxy $session
+     * @param \Magento\Backend\Model\Auth\Session $session
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -90,7 +90,7 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\UrlRewrite\App\Request\RewriteService $urlRewriteService,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         \Magento\DesignEditor\Model\State $designEditorState,
-        \Magento\Backend\Model\Auth\Session\Proxy $session
+        \Magento\Backend\Model\Auth\Session $session
     ) {
         parent::__construct(
             $actionFactory,
