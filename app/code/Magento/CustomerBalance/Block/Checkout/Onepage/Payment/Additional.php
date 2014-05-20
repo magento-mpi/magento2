@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomerBalance
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 /**
  * Customer balance as an additional payment option during checkout
  *
- * @category   Magento
- * @package    Magento_CustomerBalance
  */
 class Additional extends \Magento\Framework\View\Element\Template
 {

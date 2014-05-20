@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,10 +16,16 @@ use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
  * Class Shipping
  * Mustishipping checkout shipping
  *
- * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Shipping extends Block
 {
+    /**
+     * 'Continue' button
+     *
+     * @var string
+     */
+    protected $continueButton = '.action.continue';
+
     /**
      * Select shipping methods
      *
@@ -40,6 +43,6 @@ class Shipping extends Block
                 . $method['shipping_method'] . '")]';
             $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         }
-        $this->_rootElement->find('//button[@class="action continue"]', Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->continueButton)->click();
     }
 }

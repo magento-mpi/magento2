@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ namespace Mtf\Util\Generate\Factory;
  *
  * Abstract Factory Generator
  *
- * @package Mtf\Util\Generate
  */
 abstract class AbstractFactory
 {
@@ -169,7 +165,8 @@ abstract class AbstractFactory
                     $dirIterator =  new \RegexIterator(
                         new \RecursiveIteratorIterator(
                             new \RecursiveDirectoryIterator($filePath, \FilesystemIterator::SKIP_DOTS)
-                        ), '/.php$/i'
+                        ),
+                        '/.php$/i'
                     );
                     foreach ($dirIterator as $info) {
                         /** @var $info \SplFileInfo */

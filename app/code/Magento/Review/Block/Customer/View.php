@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +14,6 @@ use Magento\Review\Model\Review;
 /**
  * Customer Review detailed view block
  *
- * @category   Magento
- * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class View extends \Magento\Catalog\Block\Product\AbstractProduct

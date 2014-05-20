@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,8 +13,6 @@ use Magento\Catalog\Pricing\Price\ConfiguredPriceInterface;
 /**
  * Shopping cart item render block
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
@@ -321,12 +317,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         if ($this->hasDeleteUrl()) {
             return $this->getData('delete_url');
         }
-
-        $encodedUrl = $this->_urlHelper->getEncodedUrl();
-        return $this->getUrl(
-            'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
-        );
+        $params = ['id' => $this->getItem()->getId()];
+        if (!$this->_request->isAjax()) {
+            $encodedUrl = $this->_urlHelper->getEncodedUrl();
+            $params[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $encodedUrl;
+        }
+        return $this->getUrl('checkout/cart/delete', $params);
     }
 
     /**
@@ -470,10 +466,11 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getIdentities()
     {
+        $identities = array();
         if ($this->getItem()) {
-            return $this->getProduct()->getIdentities();
+            $identities = $this->getProduct()->getIdentities();
         }
-        return array();
+        return $identities;
     }
 
     /**

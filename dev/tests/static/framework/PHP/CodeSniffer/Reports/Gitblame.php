@@ -4,8 +4,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Ben Selby <benmatselby@gmail.com>
  * @copyright 2009 SQLI <www.sqli.com>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -18,8 +16,6 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
  * @author    Ben Selby <benmatselby@gmail.com>
  * @copyright 2009 SQLI <www.sqli.com>
  * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)

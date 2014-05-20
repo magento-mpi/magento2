@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage checkout
- * @package     accordion
  * @copyright   {copyright}
  * @license     {license_link}
  */

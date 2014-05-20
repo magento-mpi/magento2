@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Custom Store Repository
  *
- * @package namespace Magento\User\Test\Repository
  */
 class CustomStore extends AbstractRepository
 {
@@ -47,4 +46,3 @@ class CustomStore extends AbstractRepository
         );
     }
 }
-

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 /**
  * Customer Show Address Model
  *
- * @category   Magento
- * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Address extends Customer

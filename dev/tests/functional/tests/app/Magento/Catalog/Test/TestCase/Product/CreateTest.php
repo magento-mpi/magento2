@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,14 +13,15 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
+ * Class CreateTest
  * Create simple product for BAT
- *
- * @package Magento\Catalog\Test\TestCase\Product
  */
 class CreateTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -34,6 +32,7 @@ class CreateTest extends Functional
      * Creating simple product and assigning it to category
      *
      * @ZephyrId MAGETWO-12514
+     * @return void
      */
     public function testCreateProduct()
     {
@@ -42,11 +41,11 @@ class CreateTest extends Functional
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
-        $productBlockForm = $createProductPage->getProductBlockForm();
+        $productForm = $createProductPage->getProductForm();
         //Steps
         $createProductPage->open();
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
+        $productForm->fill($product);
+        $createProductPage->getFormAction()->save();
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         //Flush cache
@@ -63,12 +62,13 @@ class CreateTest extends Functional
      * Assert existing product on admin product grid
      *
      * @param SimpleProduct $product
+     * @return void
      */
-    protected function assertOnGrid($product)
+    protected function assertOnGrid(SimpleProduct $product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
+        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Grid $gridBlock */
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -77,8 +77,9 @@ class CreateTest extends Functional
      * Assert product data on category and product pages
      *
      * @param SimpleProduct $product
+     * @return void
      */
-    protected function assertOnCategory($product)
+    protected function assertOnCategory(SimpleProduct $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -94,6 +95,7 @@ class CreateTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $price = $productViewBlock->getProductPrice();
+        $this->assertEquals(number_format($product->getProductPrice(), 2), $price['price_regular_price']);
     }
 }

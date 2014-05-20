@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\Catalog\Helper\Product\Flat;
 /**
  * Catalog Product Flat Indexer Helper
  *
- * @category   Magento
- * @package    Magento_Catalog
  */
 class Indexer extends \Magento\Framework\App\Helper\AbstractHelper
 {

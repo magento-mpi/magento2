@@ -15,7 +15,6 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
 /**
  * Class AssertCustomerInvalidEmail
  *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerInvalidEmail extends AbstractConstraint
 {

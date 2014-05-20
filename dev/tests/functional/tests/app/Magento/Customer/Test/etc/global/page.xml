@@ -12,6 +12,10 @@
         <mca>customer/account/create</mca>
         <class>Magento\Customer\Test\Page\CustomerAccountCreate</class>
     </customerAccountCreate>
+    <customerAccountIndex>
+        <mca>customer/account/index</mca>
+        <class>Magento\Customer\Test\Page\CustomerAccountIndex</class>
+    </customerAccountIndex>
     <customerIndex>
         <mca>customer/index</mca>
         <area>adminhtml</area>

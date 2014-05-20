@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftMessage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\GiftMessage\Model\Message;
 /**
  * Gift message inline edit form
  *
- * @category   Magento
- * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Inline extends \Magento\Framework\View\Element\Template

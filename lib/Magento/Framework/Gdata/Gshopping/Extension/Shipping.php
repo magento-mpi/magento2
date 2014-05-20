@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Gdata
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Extension for <scp:shipping> element
  *
- * @category    Magento
- * @package     Magento_Gdata
  */
 namespace Magento\Framework\Gdata\Gshopping\Extension;
 

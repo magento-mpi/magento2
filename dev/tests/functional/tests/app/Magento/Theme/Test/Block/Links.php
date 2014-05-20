@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Page Top Links block
  *
- * @package Magento\Theme\Test\Block
  */
 class Links extends Block
 {
@@ -34,5 +30,18 @@ class Links extends Block
         $this->_rootElement
             ->find('//a[contains(text(), "' . $linkTitle . '")]', Locator::SELECTOR_XPATH)
             ->click();
+    }
+
+    /**
+     * Is visible Link by title
+     *
+     * @param string $linkTitle
+     * @return bool
+     */
+    public function isLinkVisible($linkTitle)
+    {
+        return $this->_rootElement
+            ->find('//a[contains(text(), "' . $linkTitle . '")]', Locator::SELECTOR_XPATH)
+            ->isVisible();
     }
 }

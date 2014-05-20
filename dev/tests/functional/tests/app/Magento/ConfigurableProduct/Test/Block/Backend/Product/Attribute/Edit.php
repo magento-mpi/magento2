@@ -2,25 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\ConfigurableProduct\Test\Block\Backend\Product\Attribute;
 
-use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Form;
-use Mtf\Factory\Factory;
+use Magento\ConfigurableProduct\Test\Fixture\CatalogProductConfigurable;
 
 /**
+ * Class Edit
  * Product attribute edit page
- *
- * @package Magento\ConfigurableProduct\Test\Block
  */
 class Edit extends Form
 {
@@ -54,6 +48,8 @@ class Edit extends Form
 
     /**
      * Open frontend properties
+     *
+     * @return void
      */
     public function openFrontendProperties()
     {
@@ -62,6 +58,8 @@ class Edit extends Form
 
     /**
      * Save attribute
+     *
+     * @return void
      */
     public function saveAttribute()
     {
@@ -71,9 +69,10 @@ class Edit extends Form
     /**
      * Fill attribute options
      *
-     * @param $data
+     * @param array $data
+     * @return void
      */
-    public function fillAttributeOption($data)
+    public function fillAttributeOption(array $data)
     {
         $this->_rootElement->find('#attribute_label')
             ->setValue($data['attribute_options']['attribute_label']);

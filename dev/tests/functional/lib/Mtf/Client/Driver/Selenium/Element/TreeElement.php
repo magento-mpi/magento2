@@ -12,7 +12,6 @@ namespace Mtf\Client\Driver\Selenium\Element;
  * Class TreeElement
  * Typified element class for Tree elements
  *
- * @package Mtf\Client\Element
  */
 class TreeElement extends Tree
 {

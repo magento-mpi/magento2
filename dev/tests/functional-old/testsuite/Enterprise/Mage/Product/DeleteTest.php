@@ -2,17 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Mage_Product
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /**
  * Gift Cards deletion tests
  *
- * @package     Mage_Product
- * @subpackage  functional_tests
  */
 class Enterprise_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
 {

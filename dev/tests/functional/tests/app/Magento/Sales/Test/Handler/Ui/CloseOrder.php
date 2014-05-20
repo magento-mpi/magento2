@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @spi
- * @category    Magento
- * @package     Magento_Sales
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class CloseOrder
  * Closes a sales order
  *
- * @package Magento\Sales\Test\Handler\Ui
  */
 class CloseOrder extends Ui
 {

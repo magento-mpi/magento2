@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category   build
- * @package    sanity
  * @copyright  {copyright}
  * @license    {license_link}
  */

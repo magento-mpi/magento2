@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Page\Adminhtml; 
+namespace Magento\Sitemap\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class SitemapNew
  *
- * @package Magento\Sitemap\Test\Page\Adminhtml
  */
 class SitemapNew extends BackendPage
 {

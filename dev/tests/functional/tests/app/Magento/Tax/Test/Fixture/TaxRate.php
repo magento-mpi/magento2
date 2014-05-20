@@ -12,8 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class TaxRate
- *
- * @package Magento\Tax\Test\Fixture
  */
 class TaxRate extends InjectableFixture
 {
@@ -28,6 +26,11 @@ class TaxRate extends InjectableFixture
     protected $handlerInterface = 'Magento\Tax\Test\Handler\TaxRate\TaxRateInterface';
 
     protected $defaultDataSet = [
+        'code' => 'Tax Rate %isolation%',
+        'rate' => '10',
+        'tax_country_id' => 'United States',
+        'tax_postcode' => '*',
+        'tax_region_id' => '0',
     ];
 
     protected $tax_calculation_rate_id = [
@@ -102,6 +105,11 @@ class TaxRate extends InjectableFixture
         'input' => '',
     ];
 
+    protected $id = [
+        'attribute_code' => 'id',
+        'backend_type' => 'virtual',
+    ];
+
     public function getTaxCalculationRateId()
     {
         return $this->getData('tax_calculation_rate_id');
@@ -145,5 +153,10 @@ class TaxRate extends InjectableFixture
     public function getZipTo()
     {
         return $this->getData('zip_to');
+    }
+
+    public function getId()
+    {
+        return $this->getData('id');
     }
 }

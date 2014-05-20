@@ -1668,4 +1668,7 @@ return array(
     ['getTierPrices', 'Magento\Catalog\Block\Product\AbstractProduct'],
     ['getTierPrices', 'Magento\Catalog\Block\Product\Price'],
     ['processTierPrices', 'Magento\Weee\Helper\Data'],
+    ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
+    ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
+    ['_isDataChanged', 'Magento\Catalog\Model\Product'],
 );

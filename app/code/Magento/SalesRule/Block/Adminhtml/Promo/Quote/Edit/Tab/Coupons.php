@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 /**
  * "Manage Coupons Codes" Tab
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Coupons extends \Magento\Backend\Block\Text\ListText implements \Magento\Backend\Block\Widget\Tab\TabInterface

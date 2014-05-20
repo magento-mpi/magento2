@@ -17,7 +17,6 @@ use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 /**
  * Class Downloadable
  *
- * @package Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab
  */
 class Downloadable extends Tab
 {
@@ -32,10 +31,10 @@ class Downloadable extends Tab
      * Fill downloadable information
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (isset($fields['downloadable'])) {
             foreach ($fields['downloadable']['link'] as $index => $link) {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,7 +12,6 @@ use Magento\Framework\App\State;
 /**
  * StrategyPool Test
  *
- * @package Magento\Framework\View
  */
 class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 {

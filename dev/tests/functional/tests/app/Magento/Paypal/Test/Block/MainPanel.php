@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Form;
  * Class MainPanel
  * MainPanel block on the PayPal page
  *
- * @package Magento\Paypal\Test\Block
  */
 class MainPanel extends Form
 {

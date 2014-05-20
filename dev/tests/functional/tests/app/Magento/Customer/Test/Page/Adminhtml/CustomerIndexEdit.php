@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Test\Page\Adminhtml; 
+namespace Magento\Customer\Test\Page\Adminhtml;
 
-use Mtf\Page\BackendPage; 
+use Mtf\Page\BackendPage;
 
 /**
  * Class CustomerIndexEdit
  *
- * @package Magento\Customer\Test\Page\Adminhtml
  */
 class CustomerIndexEdit extends BackendPage
 {

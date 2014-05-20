@@ -13,7 +13,6 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Class AdminUserInjectable
  *
- * @package Magento\User\Test\Fixture
  */
 class AdminUserInjectable extends InjectableFixture
 {

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Constraint; 
+namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Fixture\Sitemap;
@@ -15,7 +15,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 /**
  * Class AssertSitemapNotInGrid
  *
- * @package Magento\Sitemap\Test\Constraint
  */
 class AssertSitemapNotInGrid extends AbstractConstraint
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\Fixture\FixtureInterface;
  * Class Register
  * Register new customer on Frontend
  *
- * @package Magento\Customer\Test\Block\Form
  */
 class Register extends Form
 {

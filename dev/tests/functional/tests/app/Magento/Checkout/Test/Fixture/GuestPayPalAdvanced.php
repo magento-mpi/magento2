@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Factory\Factory;
 /**
  * Guest checkout with taxes, PayPal Payflow Edition payment method and offline shipping method
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class GuestPayPalAdvanced extends Checkout
 {
@@ -50,8 +46,8 @@ class GuestPayPalAdvanced extends Checkout
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'custom_rule']);
         $taxRule->persist();
 
         //Products

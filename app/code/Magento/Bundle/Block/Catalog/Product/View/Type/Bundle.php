@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -250,8 +248,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'bundleId' => $currentProduct->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'basePrice' => $this->priceCurrency->convert($baseProductAmount->getValue()),
-            'finalBasePriceInclTax' => $this->priceCurrency->convert($productAmount->getValue()),
-            'finalBasePriceExclTax' => $this->priceCurrency->convert($productAmount->getBaseAmount()),
+            'finalBasePriceInclTax' => $isFixedPrice
+                ? $this->priceCurrency->convert($productAmount->getValue())
+                : 0,
+            'finalBasePriceExclTax' => $isFixedPrice
+                ? $this->priceCurrency->convert($productAmount->getBaseAmount())
+                : 0,
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct
                 ->getPriceInfo()

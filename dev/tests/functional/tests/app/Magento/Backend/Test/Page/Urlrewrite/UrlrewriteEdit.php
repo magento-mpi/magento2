@@ -8,14 +8,13 @@
 
 namespace Magento\Backend\Test\Page\Urlrewrite;
 
-use Mtf\Page\Page,
-    Mtf\Factory\Factory;
+use Mtf\Page\Page;
+use Mtf\Factory\Factory;
 
 /**
  * Class UrlrewriteEdit
  * Backend URL rewrite edit/new page
  *
- * @package Magento\Backend\Test\Page\Urlrewrite
  */
 class UrlrewriteEdit extends Page
 {

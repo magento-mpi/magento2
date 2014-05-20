@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     mage.translate
  * @copyright   {copyright}
  * @license     {license_link}
  */

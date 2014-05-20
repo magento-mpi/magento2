@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_File
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Framework\File;
  * ATTENTION! This class must be used like abstract class and must added
  * validation by protected file extension list to extended class
  *
- * @category   Magento
- * @package    Magento_File
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Uploader

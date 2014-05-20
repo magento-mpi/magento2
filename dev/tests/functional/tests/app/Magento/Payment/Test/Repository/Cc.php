@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Repository\AbstractRepository;
  * Class Cc Repository
  * Credit cards for checkout
  *
- * @package Magento\Payment\Test\Repository
  */
 class Cc extends AbstractRepository
 {

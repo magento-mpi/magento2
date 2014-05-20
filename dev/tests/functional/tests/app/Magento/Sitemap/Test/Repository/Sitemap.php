@@ -13,7 +13,6 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Sitemap
  *
- * @package Magento\Sitemap\Test\Repository
  */
 class Sitemap extends AbstractRepository
 {

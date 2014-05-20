@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Firstdata Payment Action Dropdown source
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento
  */
 namespace Magento\Pbridge\Model\Source\Firstdata;

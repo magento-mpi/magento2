@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Mtf\Factory\Factory;
 /**
  * Backend product review page
  *
- * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductReview extends Page
 {
@@ -81,7 +77,7 @@ class CatalogProductReview extends Page
      *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageWrapperSelector));
     }

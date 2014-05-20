@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Factory\Factory;
  * Class PaypalPaymentsAdvancedOrder
  * Guest checkout using PayPal Payments Advanced method
  *
- * @package Magento\Sales\Test\Fixture
  */
 class PaypalPaymentsAdvancedOrder extends OrderCheckout
 {

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Magento\Catalog\Test\Fixture;
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrder extends Checkout
 {
@@ -63,8 +59,8 @@ class CheckMoneyOrder extends Checkout
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('\Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'custom_rule']);
         $taxRule->persist();
 
         //Products
