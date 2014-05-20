@@ -9,6 +9,7 @@
 namespace Magento\CustomerBalance\Test\Block\Adminhtml\Edit;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class BalanceHistoryGrid
@@ -17,17 +18,29 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class BalanceHistoryGrid extends Grid
 {
     /**
-     * Filters array mapping
+     * More information description template
      *
-     * @var array
+     * @var string
      */
-    protected $filters = [
-        'balance_action' => [
-            'selector' => '[name="balance_action"]',
-            'input' => 'select',
-        ],
-        'info' => [
-            'selector' => '[name="additional_info"]',
-        ],
-    ];
+    private $moreInformation = "By admin: admin. (%s)";
+
+    /**
+     * Search in balance history grid
+     *
+     * @param $balance
+     * @param $notified
+     * @param $moreInformation
+     * @return bool
+     */
+    public function isInCustomerBalanceGrid($balance, $notified, $moreInformation)
+    {
+        $gridRowValue = './/tr[td[contains(.,"' . abs($balance) . '")]';
+        $gridRowValue .= ' and td[contains(.,"' . $notified . '")]';
+        if ($moreInformation) {
+            $gridRowValue .= ' and td["' . sprintf($this->moreInformation, $moreInformation) . '"]';
+        }
+        $gridRowValue .= ']';
+        $this->waitForElementVisible('.headings');
+        return $this->_rootElement->find($gridRowValue, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }

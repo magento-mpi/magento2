@@ -15,12 +15,10 @@ use Magento\CustomerBalance\Test\Page\Adminhtml\CustomerIndexEdit;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertCustomerBalanceIsUpdated
+ * Class AssertCustomerBalanceAmount
  */
-class AssertCustomerBalanceIsUpdated extends AbstractConstraint
+class AssertCustomerBalanceAmount extends AbstractConstraint
 {
-    const COMMENT = "By admin: admin. (%s)";
-
     /**
      * Constraint severeness
      *
@@ -29,7 +27,7 @@ class AssertCustomerBalanceIsUpdated extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that customer balance is updated
+     * Assert that customer balance amount is changed
      *
      * @param CustomerIndex $customerIndex
      * @param CustomerInjectable $customer
@@ -54,21 +52,15 @@ class AssertCustomerBalanceIsUpdated extends AbstractConstraint
             '"Store Credit Balance" grid not displays total amount of store credit balance.'
         );
 
-        $filter = ['info' => sprintf(self::COMMENT, $customerBalance->getAdditionalInfo())];
-        \PHPUnit_Framework_Assert::assertTrue(
-            $customerIndexEdit->getBalanceHistoryGrid()->isRowVisible($filter),
-            '"Balance History" grid not contains correct information.'
-        );
-        sleep(15);
     }
 
     /**
-     * Customer balance is updated
+     * Customer balance amount is changed
      *
      * @return string
      */
     public function toString()
     {
-        return 'Customer balance is updated.';
+        return 'Customer balance amount is changed.';
     }
 }

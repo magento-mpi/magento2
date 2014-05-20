@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CustomerBalance
+ * Customer balance fixture
  */
 class CustomerBalance extends InjectableFixture
 {

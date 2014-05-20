@@ -12,7 +12,7 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit as ParentCustomerInde
 
 /**
  * Class CustomerIndexEdit
- *
+ * Customer index page
  */
 class CustomerIndexEdit extends ParentCustomerIndexEdit
 {

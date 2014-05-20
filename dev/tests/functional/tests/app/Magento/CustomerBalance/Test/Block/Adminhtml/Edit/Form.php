@@ -13,7 +13,6 @@ use Magento\Customer\Test\Block\Adminhtml\Edit\Form as Tabs;
 /**
  * Class Form
  * Form for creation of the customer
- *
  */
 class Form extends Tabs
 {

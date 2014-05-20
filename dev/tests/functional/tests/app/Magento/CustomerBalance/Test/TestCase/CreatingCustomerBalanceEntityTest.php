@@ -17,6 +17,9 @@ use Mtf\Fixture\FixtureFactory;
 /**
  * Cover creating CustomerBalanceEntity with fucntional tests designed for automation
  *
+ * *Precondition:*
+ * Default customer is created
+ *
  * Test Flow:
  * 1. Login to backend as admin
  * 2. Navigate to CUSTOMERS->All Customers

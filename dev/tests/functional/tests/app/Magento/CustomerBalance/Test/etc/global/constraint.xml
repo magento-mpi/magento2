@@ -8,7 +8,10 @@
  */
 -->
 <constraint>
-    <assertCustomerBalanceIsUpdated module="Magento_CustomerBalance">
+    <assertCustomerBalanceAmount module="Magento_CustomerBalance">
+    <severeness>low</severeness>
+    </assertCustomerBalanceAmount>
+    <assertCustomerBalanceHistory module="Magento_CustomerBalance">
         <severeness>low</severeness>
-    </assertCustomerBalanceIsUpdated>
+    </assertCustomerBalanceHistory>
 </constraint>
