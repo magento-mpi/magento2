@@ -220,7 +220,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
             return $this->_jsonEncoder->encode($config);
         }
 
-        $_request = $this->_taxCalculation->getRateRequest(false, false, false);
+        $_request = $this->_taxCalculation->getDefaultRateRequest();
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());

@@ -64,6 +64,11 @@
                     <label>Apply Tax On</label>
                     <source_model>Magento\Tax\Model\Config\Source\Apply\On</source_model>
                 </field>
+                <field id="cross_border_trade_enabled" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Cross Border Trade</label>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <comment>When catalog price includes tax, enable this setting will fix the price no matter what the customer's tax rate is.</comment>
+                </field>
             </group>
             <group id="defaults" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Default Tax Destination Calculation</label>
