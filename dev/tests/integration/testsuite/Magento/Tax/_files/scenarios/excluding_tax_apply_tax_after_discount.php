@@ -77,6 +77,32 @@ $taxCalculationData['excluding_tax_apply_tax_after_discount'] = [
             'base_shipping_hidden_tax_amount' => 0,
             'grand_total' => 22.75,
             'base_grand_total' => 22.75,
+            'applied_taxes' => [
+                SetupUtil::TAX_RATE_TX => [
+                    'percent' => 20,
+                    'amount' => 2,
+                    'base_amount' => 2,
+                    'rates' => [
+                        [
+                            'code' => SetupUtil::TAX_RATE_TX,
+                            'title' => SetupUtil::TAX_RATE_TX,
+                            'percent' => 20,
+                        ],
+                    ],
+                ],
+                SetupUtil::TAX_RATE_SHIPPING => [
+                    'percent' => 7.5,
+                    'amount' => 0.75,
+                    'base_amount' => 0.75,
+                    'rates' => [
+                        [
+                            'code' => SetupUtil::TAX_RATE_SHIPPING,
+                            'title' => SetupUtil::TAX_RATE_SHIPPING,
+                            'percent' => 7.5,
+                        ],
+                    ],
+                ],
+            ],
         ],
         'items_data' => [
             'simple1' => [

@@ -1017,14 +1017,6 @@ class Tax extends AbstractTotal
             }
         }
 
-        if (isset($rowTaxBeforeDiscount) && isset($baseRowTaxBeforeDiscount)) {
-            $taxBeforeDiscount = max(0, $this->_deltaRound($rowTaxBeforeDiscount, $rateKey, $inclTax));
-            $baseTaxBeforeDiscount = max(0, $this->_deltaRound($baseRowTaxBeforeDiscount, $rateKey, $inclTax, 'base'));
-
-            $item->setDiscountTaxCompensation($taxBeforeDiscount - max(0, $rowTax));
-            $item->setBaseDiscountTaxCompensation($baseTaxBeforeDiscount - max(0, $baseRowTax));
-        }
-
         $taxGroups[$rateKey]['totals'][] = max(0, $taxSubtotal);
         $taxGroups[$rateKey]['base_totals'][] = max(0, $baseTaxSubtotal);
         $taxGroups[$rateKey]['tax'][] = max(0, $rowTax);

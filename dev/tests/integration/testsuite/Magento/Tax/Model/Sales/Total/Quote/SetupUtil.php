@@ -244,8 +244,6 @@ class SetupUtil
                 $customerTaxClassIds[] = $this->customerTaxClasses[$customerClassCode];
             }
             $taxRuleOverrideData['tax_customer_class'] = $customerTaxClassIds;
-        } else {
-            $taxRuleOverrideData['tax_customer_class'] = array_values($this->customerTaxClasses);
         }
         if (!empty($taxRuleOverrideData['tax_product_class'])) {
             $productTaxClassIds = [];
@@ -253,8 +251,6 @@ class SetupUtil
                 $productTaxClassIds[] = $this->productTaxClasses[$productClassCode];
             }
             $taxRuleOverrideData['tax_product_class'] = $productTaxClassIds;
-        } else {
-            $taxRuleOverrideData['tax_product_class'] = array_values($this->productTaxClasses);
         }
         if (!empty($taxRuleOverrideData['tax_rate'])) {
             $taxRateIdsForRule = [];
@@ -262,11 +258,56 @@ class SetupUtil
                 $taxRateIdsForRule[] = $taxRateIds[$taxRateCode];
             }
             $taxRuleOverrideData['tax_rate'] = $taxRateIdsForRule;
-        } else {
-            $taxRuleOverrideData['tax_rate'] = array_values($taxRateIds);
         }
 
         return $taxRuleOverrideData;
+    }
+
+    /**
+     * Return a list of product tax class ids NOT including shipping product tax class
+     *
+     * @return array
+     */
+    protected function getProductTaxClassIds()
+    {
+        $productTaxClassIds = [];
+        foreach ($this->productTaxClasses as $productTaxClassName => $productTaxClassId) {
+            if ($productTaxClassName != self::SHIPPING_TAX_CLASS) {
+                $productTaxClassIds[] = $productTaxClassId;
+            }
+        }
+
+        return $productTaxClassIds;
+    }
+
+    /**
+     * Return a list of tax rate ids NOT including shipping tax rate
+     *
+     * @return array
+     */
+    protected function getTaxRateIds()
+    {
+        $taxRateIds = [];
+        foreach ($this->taxRates as $taxRateName => $taxRate) {
+            if ($taxRateName != self::TAX_RATE_SHIPPING) {
+                $taxRateIds[] = $taxRate['id'];
+            }
+        }
+
+        return $taxRateIds;
+    }
+
+    /**
+     * Return the default customer group tax class id
+     *
+     * @return int
+     */
+    public function getDefaultCustomerTaxClassId()
+    {
+        /** @var  \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        $groupService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $defaultGroup = $groupService->getDefaultGroup();
+        return $defaultGroup->getTaxClassId();
     }
 
     /**
@@ -282,17 +323,40 @@ class SetupUtil
             $taxRateIds[$taxRateCode] = $taxRate['id'];
         }
 
+        //The default customer tax class id is used to calculate store tax rate
+        $customerClassIds = [
+            $this->customerTaxClasses[self::CUSTOMER_TAX_CLASS_1],
+            $this->getDefaultCustomerTaxClassId()
+        ];
+
+        //By default create tax rule that covers all product tax classes except SHIPPING_TAX_CLASS
+        //The tax rule will cover all tax rates except TAX_RATE_SHIPPING
         $taxRuleDefaultData = [
             'code' => 'Test Rule',
             'priority' => '0',
             'position' => '0',
-            'tax_customer_class' => array_values($this->customerTaxClasses),
-            'tax_product_class' => array_values($this->productTaxClasses),
-            'tax_rate' => array_values($taxRateIds),
+            'tax_customer_class' => $customerClassIds,
+            'tax_product_class' => $this->getProductTaxClassIds(),
+            'tax_rate' => $this->getTaxRateIds(),
         ];
 
         //Create tax rules
         if (empty($overrides[self::TAX_RULE_OVERRIDES])) {
+            //Create separate shipping tax rule
+            $shippingTaxRuleData = [
+                'code' => 'Shipping Tax Rule',
+                'priority' => '0',
+                'position' => '0',
+                'tax_customer_class' => $customerClassIds,
+                'tax_product_class' => [$this->productTaxClasses[self::SHIPPING_TAX_CLASS]],
+                'tax_rate' => [$this->taxRates[self::TAX_RATE_SHIPPING]['id']],
+            ];
+            $this->taxRules[$shippingTaxRuleData['code']] = $this->objectManager
+                ->create('Magento\Tax\Model\Calculation\Rule')
+                ->setData($shippingTaxRuleData)
+                ->save()
+                ->getId();
+
             //Create a default tax rule
             $this->taxRules[$taxRuleDefaultData['code']] = $this->objectManager
                 ->create('Magento\Tax\Model\Calculation\Rule')
@@ -483,6 +547,7 @@ class SetupUtil
      */
     protected function createCartRule($ruleDataOverride)
     {
+        /** @var \Magento\SalesRule\Model\Rule $salesRule */
         $salesRule = $this->objectManager->create('Magento\SalesRule\Model\Rule');
         $ruleData = array_merge($this->defaultShoppingCartPriceRule, $ruleDataOverride);
         $salesRule->setData($ruleData);

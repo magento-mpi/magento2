@@ -137,6 +137,58 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Verify one tax rate in a tax row
+     *
+     * @param array $appliedTaxRate
+     * @param array $expectedAppliedTaxRate
+     * @return $this
+     */
+    protected function verifyAppliedTaxRate($appliedTaxRate, $expectedAppliedTaxRate)
+    {
+        foreach ($expectedAppliedTaxRate as $key => $value) {
+            $this->assertEquals($value, $appliedTaxRate[$key], 'Applied tax rate ' . $key . ' is incorrect');
+        }
+        return $this;
+    }
+
+    /**
+     * Verify one row in the applied taxes
+     *
+     * @param array $appliedTax
+     * @param array $expectedAppliedTax
+     * @return $this
+     */
+    protected function verifyAppliedTax($appliedTax, $expectedAppliedTax)
+    {
+        foreach ($expectedAppliedTax as $key => $value) {
+            if ($key == 'rates') {
+                foreach ($value as $index => $taxRate) {
+                    $this->verifyAppliedTaxRate($appliedTax['rates'][$index], $taxRate);
+                }
+            } else {
+                $this->assertEquals($value, $appliedTax[$key], 'Applied tax ' . $key . ' is incorrect');
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Verify that applied taxes are correct
+     *
+     * @param array $appliedTaxes
+     * @param array $expectedAppliedTaxes
+     * @return $this
+     */
+    protected function verifyAppliedTaxes($appliedTaxes, $expectedAppliedTaxes)
+    {
+        foreach ($expectedAppliedTaxes as $taxRateKey => $expectedTaxRate) {
+            $this->assertTrue(isset($appliedTaxes[$taxRateKey]), 'Missing tax rate ' . $taxRateKey );
+            $this->verifyAppliedTax($appliedTaxes[$taxRateKey], $expectedTaxRate);
+        }
+        return $this;
+    }
+
+    /**
      * Verify fields in quote address
      *
      * @param \Magento\Sales\Model\Quote\Address $quoteAddress
@@ -145,8 +197,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     protected function verifyQuoteAddress($quoteAddress, $expectedAddressData)
     {
+
         foreach ($expectedAddressData as $key => $value) {
-            $this->assertEquals($value, $quoteAddress->getData($key), 'Quote address ' . $key . ' is incorrect');
+            if ($key == 'applied_taxes') {
+                $this->verifyAppliedTaxes($quoteAddress->getAppliedTaxes(), $value);
+            } else {
+                $this->assertEquals($value, $quoteAddress->getData($key), 'Quote address ' . $key . ' is incorrect');
+            }
         }
 
         return $this;
@@ -189,6 +246,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testTaxCalculation($configData, $quoteData, $expectedResults)
     {
+        Bootstrap::getInstance()->reinitialize();
         /** @var  \Magento\Framework\ObjectManager $objectManager */
         $objectManager = Bootstrap::getObjectManager();
 
