@@ -57,39 +57,44 @@ class AssertTaxRuleIsNotApplied extends AbstractConstraint
         $shipping,
         TaxRule $initialTaxRule = null
     ) {
-        $customerAccountLogin->open();
-        $customerAccountLogin->getLoginBlock()->login($customer);
-        $checkoutCart->open()->getCartBlock()->clearShoppingCart();
-        $catalogProductView->init($productSimple);
-        $catalogProductView->open();
-        $catalogProductView->getViewBlock()->clickAddToCart();
-        $checkoutCart->getShippingBlock()->openEstimateShippingAndTax();
-        $checkoutCart->getShippingBlock()->fill($address);
-        $checkoutCart->getShippingBlock()->getQuote();
-        $checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
-
-        $isTaxVisible = $checkoutCart->getTotalsBlock()->isTaxVisible();
+        $errorMessages = [];
         if ($initialTaxRule !== null) {
             $taxRuleCode = ($taxRule->hasData('code')) ? $taxRule->getCode() : $initialTaxRule->getCode();
         } else {
             $taxRuleCode = $taxRule->getCode();
         }
-        \PHPUnit_Framework_Assert::assertFalse(
-            $isTaxVisible,
-            'Tax Rule \'' . $taxRuleCode . '\' present in shopping cart.'
-        );
-
+        // Customer login
+        $customerAccountLogout->open();
+        $customerAccountLogin->open();
+        $customerAccountLogin->getLoginBlock()->login($customer);
+        // Clearing shopping cart and adding product to shopping cart
+        $checkoutCart->open()->getCartBlock()->clearShoppingCart();
+        $catalogProductView->init($productSimple);
+        $catalogProductView->open();
+        $catalogProductView->getViewBlock()->clickAddToCart();
+        // Estimate Shipping and Tax
+        $checkoutCart->getShippingBlock()->openEstimateShippingAndTax();
+        $checkoutCart->getShippingBlock()->fill($address);
+        $checkoutCart->getShippingBlock()->clickGetQuote();
+        $checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
+        // Preparing data to compare
         $expectedGrandTotal = $productSimple->getPrice() + $shipping['price'];
         $expectedGrandTotal = '$' . number_format($expectedGrandTotal, 2);
         $actualGrandTotal = $checkoutCart->getTotalsBlock()->getGrandTotal();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $expectedGrandTotal,
-            $actualGrandTotal,
-            'Grand Total is not correct.'
-            . "\nExpected: " . $expectedGrandTotal
-            . "\nActual: " . $actualGrandTotal
+
+        if ($checkoutCart->getTotalsBlock()->isTaxVisible()) {
+            $errorMessages[] = 'Tax Rule \'' . $taxRuleCode . '\' present in shopping cart.';
+        }
+        if ($expectedGrandTotal !== $actualGrandTotal) {
+            $errorMessages[] = 'Grand Total is not correct.'
+                . "\nExpected: " . $expectedGrandTotal
+                . "\nActual: " . $actualGrandTotal;
+        }
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($errorMessages),
+            implode(";\n", $errorMessages)
         );
-        $customerAccountLogout->open();
     }
 
     /**

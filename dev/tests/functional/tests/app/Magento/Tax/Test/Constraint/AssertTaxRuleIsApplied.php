@@ -55,44 +55,46 @@ class AssertTaxRuleIsApplied extends AbstractConstraint
         AddressInjectable $address,
         $shipping
     ) {
+        $errorMessages = [];
+        // Customer login
+        $customerAccountLogout->open();
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->login($customer);
+        // Clearing shopping cart and adding product to shopping cart
         $checkoutCart->open()->getCartBlock()->clearShoppingCart();
         $catalogProductView->init($productSimple);
         $catalogProductView->open();
         $catalogProductView->getViewBlock()->clickAddToCart();
+        // Estimate Shipping and Tax
         $checkoutCart->getShippingBlock()->openEstimateShippingAndTax();
         $checkoutCart->getShippingBlock()->fill($address);
-        $checkoutCart->getShippingBlock()->getQuote();
+        $checkoutCart->getShippingBlock()->clickGetQuote();
         $checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
-
-        $taxRate = $taxRule->getDataFieldConfig('tax_rate')['source']->getFixture()[0];
-        $taxRate = $taxRate->getRate();
-
-        $isTaxVisible = $checkoutCart->getTotalsBlock()->isTaxVisible();
-        if ($isTaxVisible) {
-            $expectedTax = '$' . number_format($taxRate, 2);
-            $actualTax = $checkoutCart->getTotalsBlock()->getTax();
-            \PHPUnit_Framework_Assert::assertEquals(
-                $expectedTax,
-                $actualTax,
-                'Tax is not correct.'
-                . "\nExpected: " . $expectedTax
-                . "\nActual: " . $actualTax
-            );
-        }
-
+        // Preparing data to compare
+        $taxRate = $taxRule->getDataFieldConfig('tax_rate')['source']->getFixture()[0]->getRate();
         $expectedGrandTotal = $productSimple->getPrice() + $taxRate + $shipping['price'];
         $expectedGrandTotal = '$' . number_format($expectedGrandTotal, 2);
         $actualGrandTotal = $checkoutCart->getTotalsBlock()->getGrandTotal();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $expectedGrandTotal,
-            $actualGrandTotal,
-            'Grand Total is not correct.'
-            . "\nExpected: " . $expectedGrandTotal
-            . "\nActual: " . $actualGrandTotal
+
+        if ($checkoutCart->getTotalsBlock()->isTaxVisible()) {
+            $expectedTax = '$' . number_format($taxRate, 2);
+            $actualTax = $checkoutCart->getTotalsBlock()->getTax();
+            if ($expectedTax !== $actualTax) {
+                $errorMessages[] = 'Tax is not correct.'
+                    . "\nExpected: " . $expectedTax
+                    . "\nActual: " . $actualTax;
+            }
+        }
+        if ($expectedGrandTotal !== $actualGrandTotal) {
+            $errorMessages[] = 'Grand Total is not correct.'
+                . "\nExpected: " . $expectedGrandTotal
+                . "\nActual: " . $actualGrandTotal;
+        }
+
+        \PHPUnit_Framework_Assert::assertTrue(
+            empty($errorMessages),
+            implode(";\n", $errorMessages)
         );
-        $customerAccountLogout->open();
     }
 
     /**
