@@ -7,7 +7,7 @@
  */
 namespace Magento\ImportExport\Model\Export\Entity;
 
-class StubProduct extends \Magento\ImportExport\Model\Export\Entity\Product
+class StubProduct extends \Magento\Catalog\Model\ImportExport\Export\Product
 {
     /**
      * Disable parent constructor

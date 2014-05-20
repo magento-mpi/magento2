@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Export\Product\Type;
 
 /**
  * Export entity product type simple model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Simple extends \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType
+class Simple extends \Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType
 {
     /**
      * Overridden attributes parameters.

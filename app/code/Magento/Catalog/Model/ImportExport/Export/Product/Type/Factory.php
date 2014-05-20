@@ -9,7 +9,7 @@
 /**
  * Export product type factory
  */
-namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Export\Product\Type;
 
 class Factory
 {
@@ -30,7 +30,7 @@ class Factory
 
     /**
      * @param string $className
-     * @return \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType
+     * @return \Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType
      * @throws \InvalidArgumentException
      */
     public function create($className)

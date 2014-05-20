@@ -136,8 +136,8 @@ return array(
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_parseXmlTrackingResponse', 'Magento\Fedex\Model\Carrier'),
     array('_prepareCondition', 'Magento\CatalogSearch\Model\Advanced'),
-    array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
-    array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),
+    array('_prepareConfigurableProductData', 'Magento\Catalog\Model\ImportExport\Export\Product'),
+    array('_prepareConfigurableProductPrice', 'Magento\Catalog\Model\ImportExport\Export\Product'),
     array(
         '_prepareLastRecurringProfiles()',
         'Magento\Checkout\Block\Onepage\Success',

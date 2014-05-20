@@ -9,7 +9,7 @@
  */
 namespace Magento\GroupedProduct\Model\Export\Entity\Product\Type;
 
-use Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType;
+use Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType;
 
 class Grouped extends AbstractType
 {

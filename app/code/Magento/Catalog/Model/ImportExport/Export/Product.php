@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity;
+namespace Magento\Catalog\Model\ImportExport\Export;
 
 /**
  * Export entity product model
@@ -180,7 +180,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_attributeColFactory;
 
     /**
-     * @var \Magento\ImportExport\Model\Export\Entity\Product\Type\Factory
+     * @var \Magento\Catalog\Model\ImportExport\Export\Product\Type\Factory
      */
     protected $_typeFactory;
 
@@ -228,7 +228,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $itemFactory,
         \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory,
-        \Magento\ImportExport\Model\Export\Entity\Product\Type\Factory $_typeFactory,
+        \Magento\Catalog\Model\ImportExport\Export\Product\Type\Factory $_typeFactory,
         \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider,
         \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
     ) {
@@ -309,11 +309,11 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             if (!($model = $this->_typeFactory->create($productTypeConfig['model']))) {
                 throw new \Magento\Framework\Model\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
             }
-            if (!$model instanceof \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType) {
+            if (!$model instanceof \Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType) {
                 throw new \Magento\Framework\Model\Exception(
                     __(
                         'Entity type model must be an instance of'
-                        . ' \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType'
+                        . ' \Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType'
                     )
                 );
             }

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Export\Product\Type;
 
 use Magento\Catalog\Model\Resource\Eav\Attribute;
 

@@ -2516,4 +2516,20 @@ return array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Simple',
         'Magento\Catalog\Model\ImportExport\Import\Product\Type\Simple'
     ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product',
+        'Magento\Catalog\Model\ImportExport\Export\Product'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType',
+        'Magento\Catalog\Model\ImportExport\Export\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Factory',
+        'Magento\Catalog\Model\ImportExport\Export\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Simple',
+        'Magento\Catalog\Model\ImportExport\Export\Product\Type\Simple'
+    ],
 );

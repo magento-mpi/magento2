@@ -51,7 +51,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         return array(
             'product' => array(
                 '$entity' => 'catalog_product',
-                '$expectedEntityType' => 'Magento\ImportExport\Model\Export\Entity\Product'
+                '$expectedEntityType' => 'Magento\Catalog\Model\ImportExport\Export\Product'
             ),
             'customer main data' => array(
                 '$entity' => 'customer',
