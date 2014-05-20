@@ -1,5 +1,7 @@
 <?php
 /**
+ * Stock item data object
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,9 +9,6 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-/**
- * Stock item data object
- */
 class StockItem
 {
 }
