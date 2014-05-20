@@ -17,7 +17,7 @@ class Compare
     /**
      * Returns option values adopted to compare
      *
-     * @param $value
+     * @param mixed $value
      * @return mixed
      */
     protected function getOptionValues($value)
