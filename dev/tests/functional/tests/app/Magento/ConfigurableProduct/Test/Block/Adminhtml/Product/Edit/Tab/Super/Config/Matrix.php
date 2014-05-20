@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Matrix
  * Product variations matrix block
- *
  */
 class Matrix extends Form
 {
@@ -23,6 +22,7 @@ class Matrix extends Form
      * Fill qty to current variations
      *
      * @param array $variations
+     * @return void
      */
     public function fillVariation(array $variations)
     {
@@ -44,7 +44,7 @@ class Matrix extends Form
      * Define row that clarifies which line in Current Variations grid will be used
      *
      * @param array $variationData
-     * @return Element
+     * @return string
      */
     private function getVariationRow(array $variationData)
     {
