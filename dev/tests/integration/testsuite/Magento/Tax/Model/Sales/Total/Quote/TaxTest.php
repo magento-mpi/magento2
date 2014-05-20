@@ -38,6 +38,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollect()
     {
+        Bootstrap::getInstance()->reinitialize();
         /** Preconditions */
         $objectManager = Bootstrap::getObjectManager();
         /** @var \Magento\Tax\Model\ClassModel $customerTaxClass */
@@ -246,6 +247,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testTaxCalculation($configData, $quoteData, $expectedResults)
     {
+        //To remove cached data. e.g., store tax rate in Calculation
         Bootstrap::getInstance()->reinitialize();
         /** @var  \Magento\Framework\ObjectManager $objectManager */
         $objectManager = Bootstrap::getObjectManager();
