@@ -13,8 +13,8 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
+ * Class Shipping
  * Cart shipping block
- *
  */
 class Shipping extends Form
 {
@@ -63,6 +63,8 @@ class Shipping extends Form
 
     /**
      * Open estimate shipping and tax form
+     *
+     * @return void
      */
     public function openEstimateShippingAndTax()
     {
@@ -72,9 +74,11 @@ class Shipping extends Form
     }
 
     /**
-     * Get quote
+     * Click Get quote button
+     *
+     * @return void
      */
-    public function getQuote()
+    public function clickGetQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
     }
@@ -83,11 +87,14 @@ class Shipping extends Form
      * Select shipping method
      *
      * @param $shipping
+     * @return void
      */
     public function selectShippingMethod($shipping)
     {
-        $selector = sprintf($this->shippingCarrierMethodSelector, $shipping['carrier'], $shipping['method']);
-        $shippingMethod = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
+        $shippingMethod = $this->_rootElement->find(
+            sprintf($this->shippingCarrierMethodSelector, $shipping['carrier'], $shipping['method']),
+            Locator::SELECTOR_XPATH
+        );
         if ($shippingMethod->isVisible()) {
             $shippingMethod->click();
             $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();

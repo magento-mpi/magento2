@@ -37,16 +37,22 @@ use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
 class UpdateTaxRuleEntityTest extends Injectable
 {
     /**
+     * Tax Rule grid page
+     *
      * @var TaxRuleIndex
      */
     protected $taxRuleIndexPage;
 
     /**
+     * Tax Rule new and edit page
+     *
      * @var TaxRuleNew
      */
     protected $taxRuleNewPage;
 
     /**
+     * Prepare data
+     *
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
@@ -64,8 +70,11 @@ class UpdateTaxRuleEntityTest extends Injectable
     }
 
     /**
+     * Injection data
+     *
      * @param TaxRuleIndex $taxRuleIndexPage
      * @param TaxRuleNew $taxRuleNewPage
+     * @return void
      */
     public function __inject(
         TaxRuleIndex $taxRuleIndexPage,
@@ -75,6 +84,15 @@ class UpdateTaxRuleEntityTest extends Injectable
         $this->taxRuleNewPage = $taxRuleNewPage;
     }
 
+    /**
+     * Update Tax Rule Entity test
+     *
+     * @param TaxRule $initialTaxRule
+     * @param TaxRule $taxRule
+     * @param AddressInjectable $address
+     * @param $shipping
+     * @return void
+     */
     public function testUpdateTaxRule(
         TaxRule $initialTaxRule,
         TaxRule $taxRule,

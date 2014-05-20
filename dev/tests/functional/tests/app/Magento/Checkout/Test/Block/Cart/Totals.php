@@ -62,7 +62,7 @@ class Totals extends Block
     /**
      * Check that Tax is visible
      *
-     * @return array|string
+     * @return bool
      */
     public function isTaxVisible()
     {
