@@ -51,7 +51,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
     /**
      * Rma refundable list
-     * 
+     *
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $refundableList;
@@ -161,7 +161,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         if ($instance instanceof AbstractBackend && ($method == 'beforeSave' || ($method = 'afterSave'))) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Framework\Object && $args[0]->getData($attributeCode) === false
+            if (isset($args[0]) && $args[0] instanceof \Magento\Framework\Object && $args[0]->getData(
+                    $attributeCode
+                ) === false
             ) {
                 return false;
             }
@@ -234,28 +236,35 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->_getReadAdapter();
 
         $subSelect = $adapter->select()->from(
-            array('main' => $this->getTable('magento_rma')),
-            array()
+            ['main' => $this->getTable('magento_rma')],
+            []
         )->where(
             'main.order_id = ?',
             $orderId
         )->where(
             'main.status NOT IN (?)',
-            array(
+            [
                 \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
                 \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
-            )
+            ]
+        );
+
+        $expression = new \Zend_Db_Expr(
+            '(' . $adapter->quoteIdentifier('qty_shipped') . ' - ' . $adapter->quoteIdentifier('qty_requested') . ')'
         );
 
         $select = $adapter->select()->from(
-            array('item_entity' => $this->getTable('magento_rma_item_entity')),
-            array('item_entity.order_item_id', 'item_entity.order_item_id')
+            ['item_entity' => $this->getTable('magento_rma_item_entity')],
+            ['item_entity.order_item_id', 'item_entity.order_item_id', 'can_return' => $expression]
         )->exists(
             $subSelect,
             'main.entity_id = item_entity.rma_entity_id'
+        )->joinInner(
+            ['flat_item' => $this->getTable('sales_flat_order_item')],
+            'flat_item.item_id = item_entity.order_item_id'
         );
 
-        return array_values($adapter->fetchPairs($select));
+        return $adapter->fetchAll($select);
     }
 
     /**
@@ -297,22 +306,12 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getOrderItems($orderId, $parentId = false)
     {
-        $getItemsIdsByOrder = $this->getItemsIdsByOrder($orderId);
-
         /** @var $orderItemsCollection \Magento\Sales\Model\Resource\Order\Item\Collection */
         $orderItemsCollection = $this->getOrderItemsCollection($orderId);
-
 
         if (!$orderItemsCollection->count()) {
             return $orderItemsCollection;
         }
-
-        /**
-         * contains data that defines possibility of return for an order item
-         * array value ['self'] refers to item's own rules
-         * array value ['child'] refers to rules defined from item's sub-items
-         */
-        $parent = array();
 
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
@@ -323,72 +322,36 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
-
-            $allowed = true;
-            /* checks item in active rma */
-            if (in_array($item->getId(), $getItemsIdsByOrder)) {
-                $allowed = false;
-            }
-
-
-            /* checks enable on product level */
-            $product->reset();
-            $product->setStoreId($item->getStoreId());
-            $product->load($this->adminOrderItem->getProductId($item));
-
-            if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
-                $allowed = false;
-            }
-
-            if ($item->getParentItemId()) {
-                if (!isset($parent[$item->getParentItemId()]['child'])) {
-                    $parent[$item->getParentItemId()]['child'] = false;
-                }
-                if (!$allowed) {
-                    $item->setIsOrdered(1);
-                    $item->setAvailableQty($item->getQtyShipped() - $item->getQtyRefunded() - $item->getQtyCanceled());
-                }
-                $parent[$item->getParentItemId()]['child'] = $parent[$item->getParentItemId()]['child'] || $allowed;
-                $parent[$item->getItemId()]['self'] = false;
-            } else {
-                $parent[$item->getItemId()]['self'] = $allowed;
-            }
-        }
-
-        $bundle = false;
-        /** @var \Magento\Sales\Model\Order\Item $item */
-        foreach ($orderItemsCollection as $item) {
-            if (isset(
-                $parent[$item->getId()]['child']
-            ) && ($parent[$item->getId()]['child'] === false || $parent[$item->getId()]['self'] == false)
-            ) {
-                $orderItemsCollection->removeItemByKey($item->getId());
-                $bundle = $item->getId();
-                continue;
-            }
-
-            if ($bundle && $item->getParentItemId() && $bundle == $item->getParentItemId()) {
-                $orderItemsCollection->removeItemByKey($item->getId());
-            } elseif (isset($parent[$item->getId()]['self']) && $parent[$item->getId()]['self'] === false) {
-                if ($item->getParentItemId() && $bundle != $item->getParentItemId()) {
-                } else {
-                    $orderItemsCollection->removeItemByKey($item->getId());
-                    continue;
-                }
-            }
-
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE && !isset(
-                $parent[$item->getId()]['child']
-            )
-            ) {
+            $canReturn = $this->canReturn($orderId, $item->getId());
+            $canReturnProduct = $this->_rmaData->canReturnProduct($product, $item->getStoreId());
+            if (!$canReturn || !$canReturnProduct) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
             }
-
             $item->setName($this->getProductName($item));
         }
-
         return $orderItemsCollection;
+    }
+
+    /**
+     * @param int $orderId
+     * @param int $orderItemId
+     * @return bool
+     */
+    protected function canReturn($orderId, $orderItemId)
+    {
+        $data = $this->getItemsIdsByOrder($orderId);
+        if (empty($data)) {
+            return true;
+        }
+        $canReturn = false;
+        foreach ($data as $item) {
+            if ($item['order_item_id'] == $orderItemId) {
+                $canReturn = floatval($item['can_return']) ? : $canReturn;
+                break;
+            }
+        }
+        return (bool)$canReturn;
     }
 
     /**
