@@ -30,7 +30,6 @@ class AssertCatalogEventSuccessDeleteMessage extends AbstractConstraint
      * Assert that message "You deleted the event." is present on Event page
      *
      * @param CatalogEventIndex $catalogEventIndex
-     *
      * @return void
      */
     public function processAssert(CatalogEventIndex $catalogEventIndex)
