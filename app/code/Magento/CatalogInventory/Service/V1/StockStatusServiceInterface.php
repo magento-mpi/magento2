@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
+use Magento\CatalogInventory\Model\Stock;
+
 /**
  * Interface StockStatusServiceInterface
  */
@@ -20,5 +22,5 @@ interface StockStatusServiceInterface
      * @param int $stockId
      * @return array
      */
-    public function getProductStockStatus($productIds, $websiteId, $stockId = 1);
+    public function getProductStockStatus($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID);
 }

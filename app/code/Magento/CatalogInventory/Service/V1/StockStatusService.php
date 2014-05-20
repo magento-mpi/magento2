@@ -7,6 +7,8 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
+
+use Magento\CatalogInventory\Model\Stock;
 use Magento\CatalogInventory\Model\Stock\Status;
 
 /**
@@ -30,7 +32,7 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getProductStockStatus($productIds, $websiteId, $stockId = 1)
+    public function getProductStockStatus($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID)
     {
         return $this->stockStatus->getProductStockStatus($productIds, $websiteId, $stockId);
     }
