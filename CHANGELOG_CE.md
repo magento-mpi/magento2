@@ -15,8 +15,8 @@
   * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
   * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
   * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
-+ * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
-+ * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
+  * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
 
 2.0.0.0-dev78
 =============
@@ -178,7 +178,7 @@
       * `lib/Magento/Framework/Data/Form/Element/Submit.php`
       * `lib/Magento/Framework/Data/Form/Element/Text.php`
       * `lib/Magento/Framework/Data/Form/Element/Textarea.php`
-  
+
 2.0.0.0-dev75
 =============
 * Modularity improvements:
@@ -2698,4 +2698,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-
