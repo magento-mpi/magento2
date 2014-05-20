@@ -14,7 +14,6 @@ use Magento\Customer\Test\Page\CustomerAccountCreate;
 /**
  * Class AssertCustomerSuccessRegisterMessage
  *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
 {
@@ -35,7 +34,7 @@ class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
      */
     public function processAssert(CustomerAccountCreate $registerPage)
     {
-        $actualMessage = $registerPage->getMessageBlock()->getSuccessMessages();
+        $actualMessage = $registerPage->getMessagesBlock()->getSuccessMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

@@ -11,7 +11,6 @@ namespace Magento\Tax\Pricing\Price\Plugin;
 /**
  * Class AttributePrice
  *
- * @package Magento\Tax\Pricing\Price\Plugin
  */
 class AttributePriceTest extends \PHPUnit_Framework_TestCase
 {

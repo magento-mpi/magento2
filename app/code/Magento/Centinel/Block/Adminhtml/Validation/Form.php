@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Centinel
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,8 +9,6 @@
 /**
  * Adminhtml sales order create validation card block
  *
- * @category   Magento
- * @package    Magento_Centinel
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Centinel\Block\Adminhtml\Validation;

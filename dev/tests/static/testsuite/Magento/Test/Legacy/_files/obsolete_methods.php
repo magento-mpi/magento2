@@ -989,6 +989,9 @@ return array(
     array('getMigrationInstance', 'Magento\Customer\Model\Resource\Setup', '$this->_migrationFactory->create()'),
     array('turnOnReadCommittedMode', 'Magento\Backup\Model\Resource\Db'),
     array('turnOnSerializableMode', 'Magento\Backup\Model\Resource\Db', 'prepareTransactionIsolationLevel'),
+    array('turnOnMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\State::turnOnMaintenanceMode'),
+    array('turnOffMaintenanceMode', 'Magento\Backup\Helper\Data', 'Magento\Framework\App\State::turnOffMaintenanceMode'),
+    array('getMaintenanceFlagFilePath', 'Magento\Backup\Helper\Data',),
     array('_getResourceModel', '\Magento\Webapi\Model\Source\Acl\Role', '$this->_resource'),
     array('_getSession', '\Magento\GiftMessage\Model\Save', '$this->_session'),
     array('run', '\Magento\Framework\AppInterface'),
@@ -1668,4 +1671,7 @@ return array(
     ['getTierPrices', 'Magento\Catalog\Block\Product\AbstractProduct'],
     ['getTierPrices', 'Magento\Catalog\Block\Product\Price'],
     ['processTierPrices', 'Magento\Weee\Helper\Data'],
+    ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
+    ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
+    ['_isDataChanged', 'Magento\Catalog\Model\Product'],
 );

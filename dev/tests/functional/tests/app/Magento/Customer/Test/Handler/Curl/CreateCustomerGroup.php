@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,7 +18,6 @@ use Mtf\System\Config;
 /**
  * Curl handler for creating customer group in admin
  *
- * @package Magento\Customer\Test\Handler\Curl
  */
 class CreateCustomerGroup extends Curl
 {
@@ -99,7 +95,7 @@ class CreateCustomerGroup extends Curl
         preg_match_all($regExp, $response, $matches);
         $result = '';
         if (!empty($matches[1])) {
-            $result =  array_pop($matches[1]);;
+            $result = array_pop($matches[1]);
         }
         return $result;
     }

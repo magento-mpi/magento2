@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Express Method
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class PaypalExpress extends Checkout
 {
@@ -87,8 +83,8 @@ class PaypalExpress extends Checkout
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'custom_rule']);
         $taxRule->persist();
 
         //Products

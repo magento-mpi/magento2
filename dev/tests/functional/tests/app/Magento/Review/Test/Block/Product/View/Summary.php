@@ -3,9 +3,6 @@
  * {license_notice}
  *
  * @api
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Block;
 /**
  * Reviews frontend block
  *
- * @package Magento\Review\Test\Block
  */
 class Summary extends Block
 {

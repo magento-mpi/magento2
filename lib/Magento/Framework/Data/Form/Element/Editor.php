@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -14,8 +12,6 @@ use Magento\Framework\Escaper;
 /**
  * Form editor element
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Editor extends Textarea

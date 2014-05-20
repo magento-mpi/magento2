@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Fixture\DataFixture;
 /**
  * Fixture with all necessary data for order creation on backend
  *
- * @package Magento\Sales\Test\Fixture
  */
 class Order extends DataFixture
 {
@@ -93,8 +89,8 @@ class Order extends DataFixture
         ));
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'custom_rule']);
         $taxRule->persist();
         //Products
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,8 +27,6 @@ namespace Magento\Sales\Model\Order\Payment;
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Payment\Transaction setCreatedAt(string $value)
  *
- * @category    Magento
- * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Transaction extends \Magento\Framework\Model\AbstractModel

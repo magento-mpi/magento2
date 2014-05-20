@@ -2,7 +2,6 @@
  * {license_notice}
  *
  * @category    frontend Checkout region-updater
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -57,6 +56,10 @@
          */
         _renderSelectOption: function(selectElement, key, value) {
             selectElement.append($.proxy(function() {
+                if (value.code &&  $(value.name).is('span')) {
+                    key = value.code;
+                    value.name = $(value.name).text();
+                }
                 $.template('regionTemplate', this.options.regionTemplate);
                 if (this.options.defaultRegion === key) {
                     return $.tmpl('regionTemplate', {value: key, title: value.name, isSelected: true});

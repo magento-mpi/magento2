@@ -2,9 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<?php echo $this->getPriceHtml($this->getItem()->getProduct());?>
+<?php /** @var $this \Magento\Wishlist\Block\Customer\Wishlist\Item\Column */ ?>
+<?php echo $this->getItemPriceHtml($this->getItem()); ?>

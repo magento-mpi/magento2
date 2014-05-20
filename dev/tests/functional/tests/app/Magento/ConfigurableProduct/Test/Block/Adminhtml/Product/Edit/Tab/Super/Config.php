@@ -15,8 +15,6 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Class Variations
  * Adminhtml catalog super product configurable tab
- *
- * @package Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super
  */
 class Config extends Tab
 {
@@ -46,7 +44,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $loader = '[data-role=loader]';
+    protected $loader = './ancestor::body//*[contains(@data-role,"loader")]';
 
     /**
      * Attribute Opened
@@ -60,7 +58,7 @@ class Config extends Tab
      *
      * @var string
      */
-    protected $attributeTab = '//*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
+    protected $attributeTab = './/*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
 
     /**
      * Get attribute block
@@ -96,19 +94,18 @@ class Config extends Tab
      */
     public function generateVariations()
     {
-        $browser = $this->_rootElement;
-        $browser->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementVisible($this->matrixBlock);
+        $this->_rootElement->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible($this->matrixBlock, Locator::SELECTOR_CSS);
     }
 
     /**
      * Fill variations fieldset
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return $this
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         if (!isset($fields['configurable_attributes_data'])) {
             return $this;
@@ -169,8 +166,10 @@ class Config extends Tab
             $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
             $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
             $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
-            $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
-                Locator::SELECTOR_XPATH);
+            $attribute = $this->_rootElement->find(
+                "//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
+                Locator::SELECTOR_XPATH
+            );
             if ($attribute->isVisible()) {
                 $attribute->click();
             }

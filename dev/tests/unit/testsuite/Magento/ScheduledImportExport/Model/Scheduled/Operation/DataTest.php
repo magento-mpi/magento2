@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ScheduledImportExport
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +10,6 @@ namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
 /**
  * Class DataTest
  *
- * @package Magento\ScheduledImportExport\Model\Scheduled\Operation
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {

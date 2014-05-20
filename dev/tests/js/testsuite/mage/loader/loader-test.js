@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage.js
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -56,7 +54,7 @@ LoaderTest.prototype.testLoaderOptions = function() {
     div.loader('show');
     assertEquals('icon.gif', loaderInstance.spinner.find('img').attr('src'));
     assertEquals('Image Alt Text', loaderInstance.spinner.find('img').attr('alt'));
-    assertEquals('Loader Text', loaderInstance.spinner.find('p').text());
+    assertEquals('Loader Text', loaderInstance.spinner.find('div.popup-inner').text());
     div.loader('destroy');
     div.loader({
         template:'<div id="test-template"></div>'

@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    one page checkout first step
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -121,6 +119,10 @@
                 } else {
                     alert($.mage.__('Please choose to register or to checkout as a guest.'));
                     return false;
+                }
+            } else {
+                if (json.registrationUrl) {
+                    window.location.href = json.registrationUrl;
                 }
             }
             this.element.trigger('login');
@@ -440,7 +442,9 @@
             parentsDl.find(this.options.methodOn).prop('checked', false);
             _this.prop('checked', true);
             parentsDl.find(this.options.methodDescription).hide().find('[name^="payment["]').prop('disabled', true);
-            _this.parent().nextUntil(this.options.methodContainer).find(this.options.methodDescription).show().find('[name^="payment["]').prop('disabled', false);
+            _this.closest(this.options.methodContainer)
+                .nextUntil(this.options.methodContainer)
+                .find(this.options.methodDescription).show().find('[name^="payment["]').prop('disabled', false);
         },
 
         /**

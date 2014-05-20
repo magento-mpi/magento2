@@ -13,7 +13,6 @@ use Mtf\Page\BackendPage;
 /**
  * Class CatalogRuleIndex
  *
- * @package Magento\CatalogRule\Test\Page\Adminhtml
  */
 class CatalogRuleIndex extends BackendPage
 {

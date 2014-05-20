@@ -17,7 +17,6 @@ use Magento\User\Test\Fixture\AdminUserInjectable;
  * Class LoginUserTest
  * Tests login to backend
  *
- * @package Magento\User\Test\TestCase
  */
 class LoginUserTest extends Injectable
 {

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +12,6 @@ namespace Magento\Payment\Model\Info;
  *
  * Allows dispatching before and after events for each controller action
  *
- * @category   Magento
- * @package    Magento_Payment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Exception extends \Magento\Framework\Model\Exception

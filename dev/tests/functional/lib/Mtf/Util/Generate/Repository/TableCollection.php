@@ -13,7 +13,6 @@ use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 /**
  * Class CollectionProvider
  *
- * @package Mtf\Util\Generate\Repository
  */
 class TableCollection extends AbstractCollection
 {

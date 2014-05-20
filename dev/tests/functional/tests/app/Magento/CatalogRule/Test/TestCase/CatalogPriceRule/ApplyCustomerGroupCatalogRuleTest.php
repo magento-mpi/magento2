@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,7 +16,6 @@ use Mtf\TestCase\Functional;
 /**
  * Class ApplyCustomerGroupCatalogRule
  *
- * @package Magento\CatalogRule\Test\TestCase\CatalogPriceRule
  */
 class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
@@ -142,7 +138,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $this->assertContains(
@@ -201,7 +197,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         );
         $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
-        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getCheckoutCart()->getMessagesBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
             (string)($product->getProductPrice() * $this->_discountDecimal),

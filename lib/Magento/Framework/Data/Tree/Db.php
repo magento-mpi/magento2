@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Data
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,8 +13,6 @@ namespace Magento\Framework\Data\Tree;
  * Data model:
  * id  |  pid  |  level | order
  *
- * @category   Magento
- * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Db extends \Magento\Framework\Data\Tree

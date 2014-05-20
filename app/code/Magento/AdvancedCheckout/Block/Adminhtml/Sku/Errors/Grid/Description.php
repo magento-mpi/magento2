@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,8 +15,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid;
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setItem()
  * @method \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description setProduct()
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Description extends \Magento\Backend\Block\Template

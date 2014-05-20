@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Factory\Factory;
  * Class SpecialPriceCheckMoneyOrder
  * Registered shoppers checkout using check or money order
  *
- * @package Magento\Checkout\Test\Fixture
  */
 class SpecialPriceCheckMoneyOrder extends Checkout
 {
@@ -81,8 +77,8 @@ class SpecialPriceCheckMoneyOrder extends Checkout
 
         // Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('custom_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'custom_rule']);
         $taxRule->persist();
 
         // Products with advanced pricing

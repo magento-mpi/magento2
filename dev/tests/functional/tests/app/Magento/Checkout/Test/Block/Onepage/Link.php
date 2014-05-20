@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +14,6 @@ use Mtf\Block\Block;
  * Class Link
  * One page checkout cart link
  *
- * @package Magento\Checkout\Test\Block\Onepage
  */
 class Link extends Block
 {

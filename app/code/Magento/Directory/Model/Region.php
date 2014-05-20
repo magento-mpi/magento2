@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Directory
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,8 +19,6 @@
  * @method string getDefaultName()
  * @method \Magento\Directory\Model\Region setDefaultName(string $value)
  *
- * @category    Magento
- * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Directory\Model;

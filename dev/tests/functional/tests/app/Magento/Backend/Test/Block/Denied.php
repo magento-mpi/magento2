@@ -15,7 +15,6 @@ use Mtf\Client\Element\Locator;
  * Class Denied
  * Access Denied Block
  *
- * @package Magento\Backend\Test\Block
  */
 class Denied extends Block
 {
@@ -36,4 +35,3 @@ class Denied extends Block
         return $this->_rootElement->find($this->accessDeniedText, Locator::SELECTOR_CSS)->getText();
     }
 }
-

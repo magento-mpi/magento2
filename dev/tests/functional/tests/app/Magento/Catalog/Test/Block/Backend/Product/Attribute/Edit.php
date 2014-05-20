@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +15,6 @@ use Magento\Backend\Test\Block\Widget\Form;
 /**
  * Product attribute edit page
  *
- * @package Magento\Catalog\Test\Block
  */
 class Edit extends Form
 {
@@ -70,7 +66,7 @@ class Edit extends Form
      * Fill form with attribute options
      *
      * @param FixtureInterface $fixture
-     * @param null|Element $element
+     * @param Element|null $element
      * @return $this
      */
     public function fill(FixtureInterface $fixture, Element $element = null)

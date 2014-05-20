@@ -11,14 +11,12 @@ namespace Magento\Customer\Test\Constraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Fixture\CustomerGroup;
+use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
 use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertCustomerGroupOnCustomerForm
- *
- * @package Magento\Customer\Test\Constraint
  */
 class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
 {
@@ -33,14 +31,14 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
      * Assert that customer group find on account information page
      *
      * @param FixtureFactory $fixtureFactory
-     * @param CustomerGroup $customerGroup
+     * @param CustomerGroupInjectable $customerGroup
      * @param CustomerIndexNew $customerIndexNew
      * @param CustomerIndex $customerIndex
      * @return void
      */
     public function processAssert(
         FixtureFactory $fixtureFactory,
-        CustomerGroup $customerGroup,
+        CustomerGroupInjectable $customerGroup,
         CustomerIndexNew $customerIndexNew,
         CustomerIndex $customerIndex
     ) {
@@ -48,7 +46,7 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
         $customer = $fixtureFactory->createByCode(
             'customerInjectable',
             [
-                'dataSet' => 'default',
+                'dataSet' => 'defaultBackend',
                 'data' => ['group_id' => $customerGroup->getCustomerGroupCode()]
             ]
         );
@@ -58,9 +56,12 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
         $customerIndexNew->getCustomerForm()->fillCustomer($customer);
         $customerIndexNew->getPageActionsBlock()->save();
         $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
+        $customerFormData = $customerIndexNew->getCustomerForm()->getData($customer);
+        $customerFixtureData = $customer->getData();
+        $diff = array_diff($customerFixtureData, $customerFormData);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $customerIndexNew->getCustomerForm()->verify($customer),
+            empty($diff),
             "Customer group {$customerGroup->getCustomerGroupCode()} not in customer form."
         );
     }

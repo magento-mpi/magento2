@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Tools
- * @package    view
  * @copyright  {copyright}
  * @license    {license_link}
  */

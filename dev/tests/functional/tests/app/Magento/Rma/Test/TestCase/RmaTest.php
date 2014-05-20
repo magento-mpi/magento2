@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -75,19 +72,19 @@ class RmaTest extends Functional
         // Step 13: Authorize Simple and Configurable Product
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'AUTHORIZE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessageBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->assertSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'RETURN_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessageBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->assertSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('return_items');
         $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'APPROVE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
-        $rmaPage->getMessageBlock()->assertSuccessMessage();
+        $rmaPage->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**
@@ -157,10 +154,10 @@ class RmaTest extends Functional
 
         // Validate that the success message is displayed on the 'returns' page.
         $completedReturn = Factory::getPageFactory()->getSalesGuestReturns();
-        $completedReturn->getMessageBlock()->assertSuccessMessage();
+        $completedReturn->getMessagesBlock()->assertSuccessMessage();
 
         // Get the return id in order to validate on the grid.
-        $successMessage = $completedReturn->getMessageBlock()->getSuccessMessages();
+        $successMessage = $completedReturn->getMessagesBlock()->getSuccessMessages();
         $returnId = array();
         preg_match('/#(.*?)\./s', $successMessage, $returnId);
         $returnId = $returnId[1];

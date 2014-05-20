@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CustomAttributeManagement
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\CustomAttributeManagement\Helper;
 /**
  * Enterprise EAV Data Helper
  *
- * @category   Magento
- * @package    Magento_CustomAttributeManagement
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {

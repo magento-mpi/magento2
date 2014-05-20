@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +13,6 @@ use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
 /**
  * Advanced search result page
  *
- * @package Magento\CatalogSearch\Test\Page\Advanced
  */
 class Result extends CatalogsearchResult
 {

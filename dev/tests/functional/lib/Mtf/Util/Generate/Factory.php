@@ -15,7 +15,6 @@ use Magento\Framework\ObjectManager;
  * Factory classes generator
  *
  * @deprecated
- * @package Mtf\Util\Generate
  */
 class Factory extends AbstractGenerate
 {

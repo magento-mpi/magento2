@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Constraint; 
+namespace Magento\Sitemap\Test\Constraint;
 
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
@@ -14,7 +14,6 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 /**
  * Class AssertSitemapSuccessDeleteMessage
  *
- * @package Magento\Sitemap\Test\Constraint
  */
 class AssertSitemapSuccessDeleteMessage extends AbstractConstraint
 {

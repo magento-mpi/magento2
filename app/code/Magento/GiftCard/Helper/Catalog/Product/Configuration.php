@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,8 +10,6 @@ namespace Magento\GiftCard\Helper\Catalog\Product;
 /**
  * Helper for fetching properties by product configurational item
  *
- * @category   Magento
- * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Configuration extends \Magento\Framework\App\Helper\AbstractHelper implements

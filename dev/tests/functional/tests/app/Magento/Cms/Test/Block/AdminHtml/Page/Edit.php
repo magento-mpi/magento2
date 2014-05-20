@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +17,6 @@ use Mtf\Client\Element\Locator;
  * Class Edit
  * Backend Cms Page edit page
  *
- * @package Magento\Cms\Test\Block\AdminHtml\Page
  */
 class Edit extends FormTabs
 {
@@ -37,8 +33,8 @@ class Edit extends FormTabs
      * Fill the page form
      *
      * @param FixtureInterface $fixture
-     * @param Element $element
-     * @return FormTabs|void
+     * @param Element|null $element
+     * @return FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
@@ -55,6 +51,9 @@ class Edit extends FormTabs
     protected function toggleEditor()
     {
         parent::openTab(self::CONTENT_TAB);
-        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
+        $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
+        if ($toggleButton->isVisible()) {
+            $toggleButton->click();
+        }
     }
 }

@@ -14,7 +14,6 @@ use Magento\Backend\Test\Block\GridPageActions as AbstractPageActions;
  * Class GridPageActions
  * Grid page actions block for 'Catalog Price Rules'
  *
- * @package Magento\CatalogRule\Test\Block\Adminhtml\Promo
  */
 class GridPageActions extends AbstractPageActions
 {

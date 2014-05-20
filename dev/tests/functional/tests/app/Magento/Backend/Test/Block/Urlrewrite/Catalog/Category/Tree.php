@@ -8,14 +8,13 @@
 
 namespace Magento\Backend\Test\Block\Urlrewrite\Catalog\Category;
 
-use Mtf\Block\Block,
-    Mtf\Client\Element\Locator;
+use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Tree
  * Categories tree block
  *
- * @package Magento\Backend\Test\Block\Urlrewrite\Catalog\Category
  */
 class Tree extends Block
 {

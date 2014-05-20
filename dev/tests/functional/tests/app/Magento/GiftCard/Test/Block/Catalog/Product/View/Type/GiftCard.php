@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,18 +10,13 @@ namespace Magento\GiftCard\Test\Block\Catalog\Product\View\Type;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-
 
 /**
  * Class GiftCard
  * Catalog gift card product info block
- *
- * @package Magento\GiftCard\Test\Block\Catalog\Product\View\Type
  */
 class GiftCard extends Block
 {
-
     /**
      * Gift Card Amount field
      *
