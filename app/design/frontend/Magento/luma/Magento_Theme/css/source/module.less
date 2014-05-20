@@ -132,7 +132,6 @@ body {
 @footer-links-color-hover: #333;
 
 .footer {
-    background: @footer-bg-color;
     &.page {
         margin-top: 25px;
     }
@@ -146,6 +145,7 @@ body {
             li {
                 border-top: 1px solid @footer-links-separator-border-color;
                 font-size: 16px;
+                background: @footer-bg-color;
                 margin: 0 -@layout-indent;
                 padding: 0 @layout-indent;
             }
@@ -300,6 +300,7 @@ body {
     }
 
     .footer {
+        background: @footer-bg-color;
         padding-bottom: 25px;
         &.content {
             border-top: none;
