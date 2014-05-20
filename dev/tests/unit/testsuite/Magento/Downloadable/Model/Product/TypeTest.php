@@ -57,13 +57,39 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $linkFactory = $this->getMock('Magento\Downloadable\Model\LinkFactory', array(), array(), '', false);
 
         $entityTypeMock = $this->getMock('Magento\Eav\Model\Entity\Type', array(), array(), '', false);
-        $resourceProductMock = $this->getMock('Magento\Catalog\Model\Resource\Product', array('getEntityType'), array(), '', false);
+        $resourceProductMock = $this->getMock(
+            'Magento\Catalog\Model\Resource\Product',
+            array('getEntityType'),
+            array(),
+            '',
+            false
+        );
         $resourceProductMock->expects($this->any())->method('getEntityType')->will($this->returnValue($entityTypeMock));
 
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array('getResource', 'canAffectOptions', 'getLinksPurchasedSeparately', 'setTypeHasRequiredOptions', 'setRequiredOptions', 'getDownloadableData', 'setTypeHasOptions', 'setLinksExist', '__wakeup'), array(), '', false);
+        $productMock = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array(
+                'getResource',
+                'canAffectOptions',
+                'getLinksPurchasedSeparately',
+                'setTypeHasRequiredOptions',
+                'setRequiredOptions',
+                'getDownloadableData',
+                'setTypeHasOptions',
+                'setLinksExist',
+                '__wakeup'
+            ),
+            array(),
+            '',
+            false
+        );
         $productMock->expects($this->any())->method('getResource')->will($this->returnValue($resourceProductMock));
-        $productMock->expects($this->any())->method('setTypeHasRequiredOptions')->with($this->equalTo(true))->will($this->returnSelf());
-        $productMock->expects($this->any())->method('setRequiredOptions')->with($this->equalTo(true))->will($this->returnSelf());
+        $productMock->expects($this->any())->method('setTypeHasRequiredOptions')->with($this->equalTo(true))->will(
+            $this->returnSelf()
+        );
+        $productMock->expects($this->any())->method('setRequiredOptions')->with($this->equalTo(true))->will(
+            $this->returnSelf()
+        );
         $productMock->expects($this->any())->method('getDownloadableData')->will($this->returnValue(array()));
         $productMock->expects($this->any())->method('setTypeHasOptions')->with($this->equalTo(false));
         $productMock->expects($this->any())->method('setLinksExist')->with($this->equalTo(false));
@@ -72,7 +98,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->any())->method('getLinksPurchasedSeparately')->will($this->returnValue(true));
         $this->_productMock = $productMock;
 
-        $eavConfigMock = $this->getMock('\Magento\Eav\Model\Config', array('getEntityAttributeCodes'), array(), '', false);
+        $eavConfigMock = $this->getMock(
+            '\Magento\Eav\Model\Config',
+            array('getEntityAttributeCodes'),
+            array(),
+            '',
+            false
+        );
         $eavConfigMock->expects($this->any())
             ->method('getEntityAttributeCodes')
             ->with($this->equalTo($entityTypeMock), $this->equalTo($productMock))

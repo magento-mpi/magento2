@@ -659,7 +659,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setLimit(
-                    $this->getLimit()
+                $this->getLimit()
             )->setCollection(
                 $this->getCollection()
             );

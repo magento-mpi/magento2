@@ -94,7 +94,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     /**
      * Raw rate request data
      *
-     * @var \Magento\Object|null
+     * @var \Magento\Framework\Object|null
      */
     protected $_rawRequest = null;
 
@@ -561,7 +561,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     }
 
     /**
-     * @param \Magento\Object|null $request
+     * @param \Magento\Framework\Object|null $request
      * @return $this
      */
     public function setRawRequest($request)
