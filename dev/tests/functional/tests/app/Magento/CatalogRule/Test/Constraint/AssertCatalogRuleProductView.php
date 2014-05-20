@@ -14,6 +14,7 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity as Category;
 
 /**
  * Class AssertCatalogRuleProductView
@@ -40,9 +41,9 @@ class AssertCatalogRuleProductView extends AbstractConstraint
         CatalogRule $catalogRule
     ) {
         /** @var CatalogProductSimple $product */
-        $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        $product = $catalogRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
-        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory()[0];
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
         //Open product view page
@@ -62,7 +63,7 @@ class AssertCatalogRuleProductView extends AbstractConstraint
     protected function assertOnProductView(CatalogProductSimple $product, CatalogProductView $catalogProductView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         if (isset($pricePresetData['product_special_price'])) {

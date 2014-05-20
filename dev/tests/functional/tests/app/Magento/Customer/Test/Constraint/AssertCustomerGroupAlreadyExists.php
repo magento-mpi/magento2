@@ -35,7 +35,7 @@ class AssertCustomerGroupAlreadyExists extends AbstractConstraint
      */
     public function processAssert(CustomerGroupNew $customerGroupNew)
     {
-        $actualMessage = $customerGroupNew->getMessageBlock()->getErrorMessages();
+        $actualMessage = $customerGroupNew->getMessagesBlock()->getErrorMessages();
         \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $actualMessage,

@@ -74,10 +74,10 @@ class Bundle extends Tab
      * Update bundle options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return void
      */
-    public function updateFormTab(array $fields, Element $element)
+    public function updateFormTab(array $fields, Element $element = null)
     {
         if (!isset($fields['bundle_selections'])) {
             return;

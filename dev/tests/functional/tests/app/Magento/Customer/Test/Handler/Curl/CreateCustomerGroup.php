@@ -95,7 +95,7 @@ class CreateCustomerGroup extends Curl
         preg_match_all($regExp, $response, $matches);
         $result = '';
         if (!empty($matches[1])) {
-            $result =  array_pop($matches[1]);;
+            $result = array_pop($matches[1]);
         }
         return $result;
     }

@@ -69,7 +69,11 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_filterPriceMock = $this->getMock(
-            'Magento\Search\Model\Layer\Category\Filter\Price', array(), array(), '', false
+            'Magento\Search\Model\Layer\Category\Filter\Price',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->subjectMock = $this->getMock('Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false);

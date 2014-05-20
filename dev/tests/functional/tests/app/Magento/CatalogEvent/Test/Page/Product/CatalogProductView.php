@@ -106,7 +106,7 @@ class CatalogProductView extends AbstractCatalogProductView
     }
 
     /**
-     * @return \Magento\Catalog\Test\Block\Product\View\Options
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
      */
     public function getOptionsBlock()
     {

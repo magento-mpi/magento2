@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Handler\Sitemap; 
+namespace Magento\Sitemap\Test\Handler\Sitemap;
 
 use Magento\Sitemap\Test\Handler\Sitemap;
 use Mtf\Fixture\FixtureInterface;

@@ -58,7 +58,7 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'fixture' => 'Magento\Backend\Test\Fixture\Date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $date_end = [
@@ -67,7 +67,7 @@ class CatalogEventEntity extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'fixture' => 'Magento\Backend\Test\Fixture\Date',
+        'source' => 'Magento\Backend\Test\Fixture\Date',
     ];
 
     protected $display_state = [

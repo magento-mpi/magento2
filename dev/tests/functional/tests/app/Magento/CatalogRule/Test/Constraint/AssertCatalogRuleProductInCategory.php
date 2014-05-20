@@ -38,9 +38,9 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
         CatalogRule $catalogRule
     ) {
         /** @var CatalogProductSimple $product */
-        $product = $catalogRule->getDataFieldConfig('condition_value')['fixture']->getProduct();
+        $product = $catalogRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
-        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory()[0];
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
         //Open category view page
         $cmsIndex->open();
         $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
@@ -58,7 +58,7 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
     protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification
