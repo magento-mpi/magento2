@@ -11,22 +11,6 @@ namespace Magento\Framework\Oauth;
 /**
  * oAuth \Exception
  */
-class Exception extends \Magento\Webapi\Exception
+class Exception extends \RuntimeException
 {
-    /**
-     * @param string $message
-     * @param int $code
-     * @param int $httpCode
-     * @param array $details
-     * @param string $name
-     */
-    public function __construct(
-        $message,
-        $code = 0,
-        $httpCode = self::HTTP_UNAUTHORIZED,
-        array $details = array(),
-        $name = 'oauth'
-    ) {
-        parent::__construct($message, $code, $httpCode, $details, $name);
-    }
 }
