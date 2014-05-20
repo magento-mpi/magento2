@@ -102,4 +102,22 @@
       <step>Perform asserts</step>
     </steps>
   </testcase>
+  <testcase>
+    <id>MTA-16</id>
+    <ticketId>MTA-16</ticketId>
+    <name>CreateVirtualProductEntityTest</name>
+    <description>Test Creation for CreateVirtualProductEntity</description>
+    <module>Catalog</module>
+    <components>
+      <component>Virtual Product (CS)</component>
+    </components>
+    <steps>
+      <step>Login as admin.</step>
+      <step>Navigate to the Products &gt; Inventory &gt; Catalog.</step>
+      <step>Click on "+" dropdown and select Virtual Product type.</step>
+      <step>Fill in all data according to data set.</step>
+      <step>Save product.</step>
+      <step>Verify created product.</step>
+    </steps>
+  </testcase>
 </testcases>

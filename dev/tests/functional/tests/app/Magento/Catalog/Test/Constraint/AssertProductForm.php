@@ -62,9 +62,17 @@ class AssertProductForm extends AbstractConstraint
         $compareData = $product->getData();
         $compareData = array_filter($compareData);
 
-        $compareData['price'] = $this->priceFormat($compareData['price']);
-        $compareData['qty'] = number_format($compareData['qty'], 4, '.', '');
-        $compareData['weight'] = number_format($compareData['weight'], 4, '.', '');
+        if (isset($compareData['price'])) {
+            $compareData['price'] = $this->priceFormat($compareData['price']);
+        }
+
+        if (isset($compareData['qty'])) {
+            $compareData['qty'] = number_format($compareData['qty'], 4, '.', '');
+        }
+
+        if (isset($compareData['weight'])) {
+            $compareData['weight'] = number_format($compareData['weight'], 4, '.', '');
+        }
         unset($compareData['url_key']);
 
         if (!empty($compareData['tier_price'])) {
