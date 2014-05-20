@@ -23,8 +23,6 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProductStockStatus($productIds, $websiteId, $stockId, $expectedResult)
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         // 1 Create mocks
         $stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
             ->disableOriginalConstructor()
