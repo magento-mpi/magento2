@@ -98,5 +98,21 @@ class TaxRate extends AbstractRepository
             'tax_region_id' => 'California',
             'rate' => '15.5'
         ];
+
+        $this->_data['withFixedZip'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_postcode' => '*',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'Texas',
+            'rate' => '20'
+        ];
+
+        $this->_data['us_ut_fixed_zip_rate_20'] = [
+            'code' => 'TaxIdentifier%isolation%',
+            'tax_postcode' => '84001',
+            'tax_country_id' => 'United States',
+            'tax_region_id' => 'Utah',
+            'rate' => '20'
+        ];
     }
 }

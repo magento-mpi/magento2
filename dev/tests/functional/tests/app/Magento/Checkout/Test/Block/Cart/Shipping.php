@@ -40,6 +40,13 @@ class Shipping extends Form
     protected $getQuote = '.action.quote';
 
     /**
+     * Update total selector
+     *
+     * @var string
+     */
+    protected $updateTotalSelector = '.action.update';
+
+    /**
      * Selector to access the shipping carrier method
      *
      * @var string
@@ -70,6 +77,21 @@ class Shipping extends Form
     public function getQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
+    }
+
+    /**
+     * Select shipping method
+     *
+     * @param $shipping
+     */
+    public function selectShippingMethod($shipping)
+    {
+        $selector = sprintf($this->shippingCarrierMethodSelector, $shipping['carrier'], $shipping['method']);
+        $shippingMethod = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
+        if ($shippingMethod->isVisible()) {
+            $shippingMethod->click();
+            $this->_rootElement->find($this->updateTotalSelector, Locator::SELECTOR_CSS)->click();
+        }
     }
 
     /**

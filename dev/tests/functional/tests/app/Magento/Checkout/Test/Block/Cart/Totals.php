@@ -60,6 +60,16 @@ class Totals extends Block
     }
 
     /**
+     * Check that Tax is visible
+     *
+     * @return array|string
+     */
+    public function isTaxVisible()
+    {
+        return $this->_rootElement->find($this->tax, Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
      * Get Subtotal text
      *
      * @return array|string
