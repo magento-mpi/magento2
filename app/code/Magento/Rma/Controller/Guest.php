@@ -136,12 +136,8 @@ class Guest extends \Magento\Framework\App\Action\Action
      */
     public function createAction()
     {
-        if (!$this->_objectManager->get(
-            'Magento\Sales\Helper\Guest'
-        )->loadValidOrder(
-            $this->_request,
-            $this->_response
-        )
+        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')
+            ->loadValidOrder($this->_request, $this->_response)
         ) {
             return;
         }
@@ -156,8 +152,6 @@ class Guest extends \Magento\Framework\App\Action\Action
         $coreDate = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
         if ($post && !empty($post['items'])) {
             try {
-                /** @var $urlModel \Magento\Framework\UrlInterface */
-                $urlModel = $this->_objectManager->get('Magento\Framework\UrlInterface');
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
@@ -174,7 +168,7 @@ class Guest extends \Magento\Framework\App\Action\Action
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
 
                 if (!$result) {
-                    $url = $urlModel->getUrl('*/*/create', array('order_id' => $orderId));
+                    $url = $this->_url->getUrl('*/*/create', array('order_id' => $orderId));
                     $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }
@@ -190,7 +184,7 @@ class Guest extends \Magento\Framework\App\Action\Action
                     $comment->saveComment($post['rma_comment'], true, false);
                 }
                 $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
-                $url = $urlModel->getUrl('*/*/returns');
+                $url = $this->_url->getUrl('*/*/returns');
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             } catch (\Exception $e) {
