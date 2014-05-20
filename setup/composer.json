@@ -1,0 +1,6 @@
+{
+    "name": "Magento Setup Tool",
+    "require": {
+        "zendframework/zendframework": "2.3.1"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "name": "magento-setup",
+    "dependencies": {
+        "angular": "1.2.x",
+        "bootstrap": "3.0.0"
+    }
+}
