@@ -1,7 +1,5 @@
 <?php
 /**
- * Stock item interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\CatalogInventory\Service;
 
+/**
+ * Stock item interface
+ */
 interface StockItemInterface
 {
     /**
