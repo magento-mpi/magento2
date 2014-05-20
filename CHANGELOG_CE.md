@@ -31,6 +31,11 @@
   * Fixed: Bundle Product Price isn't displayed as calculated in floating block (MAGETWO-23919)
   * Fixed: It's impossible to disable debug mode (MAGETWO-22991)
   * Fixed: Page layout minor errors (MAGETWO-24038)
+  * Fixed: Mini Shopping Cart loaded from cache (MAGETWO-24325)
+  * Fixed: Incorrect value in the "Grand Total (Base)" column in the Orders grid if Catalog Price Scope" = "Website" (MAGETWO-19335)
+  * Fixed: Entity Generator Tool Doesn't Accept "class" Parameter (MAGETWO-19618)
+  * Fixed: When an email template that is in use is deleted, default email template is not used (MAGETWO-22820)
+  * Fixed: Cron job 'magento_logging_rotate_logs' is not processed(processing with error) (MAGETWO-21714)
   * Fixed: Shipping price for flat rate set to 0 in the side block during checkout product with configured recurring profile (MAGETWO-3596)
   * Fixed ability to create more Shipping Labels than products in the shipment (in case with invalid data) (MAGETWO-17266)
   * Fixed missed data about "SHA-IN Pass Phrase" after change "Payment Action" in the Ogone Configuration (MAGETWO-18940)
@@ -2733,4 +2738,3 @@ Deprecated code & minor fixes update:
 2.0.0.0-dev01
 =============
 * Added initial version of Magento 2.x CE to public repository
-
