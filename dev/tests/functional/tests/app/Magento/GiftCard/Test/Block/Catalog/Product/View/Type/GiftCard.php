@@ -10,17 +10,13 @@ namespace Magento\GiftCard\Test\Block\Catalog\Product\View\Type;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-
 
 /**
  * Class GiftCard
  * Catalog gift card product info block
- *
  */
 class GiftCard extends Block
 {
-
     /**
      * Gift Card Amount field
      *

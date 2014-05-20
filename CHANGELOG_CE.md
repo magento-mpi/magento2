@@ -26,6 +26,13 @@
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+* Functional tests:
+  * Tax Rule Creation
+  * Admin User Roe Creation
+  * Simple Product Creation
+  * Customer Group Creation
+  * Update Backend Customer
+  * Newsletter Creation
 
 2.0.0.0-dev78
 =============
