@@ -40,10 +40,10 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
         /** @var CatalogProductSimple $product */
         $product = $catalogRule->getDataFieldConfig('condition_value')['source']->getProduct();
         /** @var Category $category */
-        $category = $product->getDataFieldConfig('category_ids')['fixture']->getCategory();
+        $category = $product->getDataFieldConfig('category_ids')['source']->getCategory()[0];
         //Open category view page
         $cmsIndex->open();
-        $cmsIndex->getTopmenu()->selectCategoryByName($category->getCategoryName());
+        $cmsIndex->getTopmenu()->selectCategoryByName($category->getData('name'));
 
         //process asserts
         $this->assertPrice($product, $catalogCategoryView);
@@ -58,20 +58,20 @@ class AssertCatalogRuleProductInCategory extends AbstractConstraint
     protected function assertPrice(CatalogProductSimple $product, CatalogCategoryView $catalogCategoryView)
     {
         /** @var \Magento\Catalog\Test\Fixture\CatalogProductSimple\Price $priceFixture */
-        $priceFixture = $product->getDataFieldConfig('price')['fixture'];
+        $priceFixture = $product->getDataFieldConfig('price')['source'];
         $pricePresetData = $priceFixture->getPreset();
 
         //Regular price verification
         if (isset($pricePresetData['category_special_price'])) {
-        $regularPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
-            $product->getName()
-        )->getRegularPrice();
-        \PHPUnit_Framework_Assert::assertEquals(
-            $pricePresetData['category_price'],
-            $regularPrice,
-            'Product regular price on category page is not correct.'
-        );
-        //Special price verification
+            $regularPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
+                $product->getName()
+            )->getRegularPrice();
+            \PHPUnit_Framework_Assert::assertEquals(
+                $pricePresetData['category_price'],
+                $regularPrice,
+                'Product regular price on category page is not correct.'
+            );
+            //Special price verification
             $specialPrice = $catalogCategoryView->getListProductBlock()->getProductPriceBlock(
                 $product->getName()
             )->getSpecialPrice();

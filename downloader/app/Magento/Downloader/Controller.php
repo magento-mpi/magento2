@@ -860,13 +860,14 @@ final class Controller
 
     /**
      * Retrieve Maintenance Flag file path
+     * Path for maintenance flag: web_root/var/maintenance.flag
      *
      * @return string
      */
     protected function _getMaintenanceFilePath()
     {
         if (is_null($this->_maintenanceFile)) {
-            $path = dirname(dirname(__DIR__)) . '/';
+            $path = dirname(dirname(__DIR__)) . '/var/';
             $this->_maintenanceFile = $path . 'maintenance.flag';
         }
         return $this->_maintenanceFile;
@@ -881,7 +882,7 @@ final class Controller
     public function startInstall()
     {
         if ($this->_getMaintenanceFlag()) {
-            $maintenance_filename = 'maintenance.flag';
+            $maintenance_filename = 'var/maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() || strlen($config->__get('remote_config')) > 0) {
                 $ftpObj = new \Magento\Framework\Connect\Ftp();
@@ -971,7 +972,7 @@ final class Controller
         }
 
         if ($result && $this->_getMaintenanceFlag()) {
-            $maintenance_filename = 'maintenance.flag';
+            $maintenance_filename = 'var/maintenance.flag';
             $config = $this->config();
             if (!$this->isWritable() && strlen($config->__get('remote_config')) > 0) {
                 $ftpObj = new \Magento\Framework\Connect\Ftp();
@@ -1099,7 +1100,7 @@ final class Controller
         return array(
             '.git',
             '.svn',
-            'maintenance.flag',
+            'var/maintenance.flag',
             \Mage::getBaseDir('var') . '/session',
             \Mage::getBaseDir('var') . '/cache',
             \Mage::getBaseDir('var') . '/full_page_cache',
