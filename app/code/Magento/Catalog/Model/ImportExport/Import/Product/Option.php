@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product;
+namespace Magento\Catalog\Model\ImportExport\Import\Product;
 
 /**
  * Entity class which provide possibility to import product custom options
@@ -171,7 +171,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Parent import product entity
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Product
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product
      */
     protected $_productEntity;
 

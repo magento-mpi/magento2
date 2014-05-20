@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Import\Product\Type;
 
 /**
  * Import entity abstract product type model
@@ -62,7 +62,7 @@ abstract class AbstractType
     /**
      * Product entity object.
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Product
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product
      */
     protected $_entityModel;
 
@@ -104,7 +104,7 @@ abstract class AbstractType
                 $params[1]
             ) || !is_object(
                 $params[0]
-            ) || !$params[0] instanceof \Magento\ImportExport\Model\Import\Entity\Product
+            ) || !$params[0] instanceof \Magento\Catalog\Model\ImportExport\Import\Product
             ) {
                 throw new \Magento\Framework\Model\Exception(__('Please correct the parameters.'));
             }
@@ -124,7 +124,7 @@ abstract class AbstractType
      * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
      * @param mixed $attribute
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
      */
     protected function _addAttributeParams($attrSetName, array $attrParams, $attribute)
     {
@@ -143,7 +143,7 @@ abstract class AbstractType
     protected function _getProductAttributes($attrSetData)
     {
         if (is_array($attrSetData)) {
-            return $this->_attributes[$attrSetData[\Magento\ImportExport\Model\Import\Entity\Product::COL_ATTR_SET]];
+            return $this->_attributes[$attrSetData[\Magento\Catalog\Model\ImportExport\Import\Product::COL_ATTR_SET]];
         } else {
             return $this->_attributes[$attrSetData];
         }
@@ -256,7 +256,7 @@ abstract class AbstractType
         $error = false;
         $rowScope = $this->_entityModel->getRowScope($rowData);
 
-        if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_NULL != $rowScope) {
+        if (\Magento\Catalog\Model\ImportExport\Import\Product::SCOPE_NULL != $rowScope) {
             foreach ($this->_getProductAttributes($rowData) as $attrCode => $attrParams) {
                 // check value for non-empty in the case of required attribute?
                 if (isset($rowData[$attrCode]) && strlen($rowData[$attrCode])) {
@@ -264,7 +264,7 @@ abstract class AbstractType
                 } elseif ($this->_isAttributeRequiredCheckNeeded($attrCode) && $attrParams['is_required']) {
                     // For the default scope - if this is a new product or
                     // for an old product, if the imported doc has the column present for the attrCode
-                    if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $rowScope &&
+                    if (\Magento\Catalog\Model\ImportExport\Import\Product::SCOPE_DEFAULT == $rowScope &&
                         ($isNewProduct ||
                         array_key_exists(
                             $attrCode,
@@ -272,7 +272,7 @@ abstract class AbstractType
                         ))
                     ) {
                         $this->_entityModel->addRowError(
-                            \Magento\ImportExport\Model\Import\Entity\Product::ERROR_VALUE_IS_REQUIRED,
+                            \Magento\Catalog\Model\ImportExport\Import\Product::ERROR_VALUE_IS_REQUIRED,
                             $rowNum,
                             $attrCode
                         );

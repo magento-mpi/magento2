@@ -2045,11 +2045,11 @@ return array(
         'Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable'
     ),
     array(
-        'Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable',
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Export\Entity\Product\Type\Configurable'
     ),
     array(
-        'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
+        'Magento\Catalog\Model\ImportExport\Import\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
     ),
     array('Magento\Sales\Block\Adminhtml\Items\Renderer\Configurable'),
@@ -2495,5 +2495,25 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
-    ]
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product',
+        'Magento\Catalog\Model\ImportExport\Import\Product'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Option',
+        'Magento\Catalog\Model\ImportExport\Import\Product\Option'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
+        'Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Factory',
+        'Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory'
+    ],
+    [
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Simple',
+        'Magento\Catalog\Model\ImportExport\Import\Product\Type\Simple'
+    ],
 );

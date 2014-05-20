@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity;
+namespace Magento\Catalog\Model\ImportExport\Import;
 
 /**
  * Import entity product model
@@ -332,7 +332,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Import entity which provide import of product custom options
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\Option
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\Option
      */
     protected $_optionEntity;
 
@@ -393,7 +393,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_storeManager;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory
      */
     protected $_productTypeFactory;
 
@@ -455,13 +455,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
      * @param \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory
-     * @param \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory
+     * @param \Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory
+     * @param \Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
@@ -486,13 +486,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
         \Magento\ImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,
-        \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory $optionFactory,
+        \Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory $optionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\ImportExport\Model\Import\Entity\Product\Type\Factory $productTypeFactory,
+        \Magento\Catalog\Model\ImportExport\Import\Product\Type\Factory $productTypeFactory,
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
@@ -543,7 +543,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Retrieve instance of product custom options import entity
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
+     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Option
      */
     public function getOptionEntity()
     {
@@ -726,11 +726,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     sprintf("Entity type model '%s' is not found", $productTypeConfig['model'])
                 );
             }
-            if (!$model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
+            if (!$model instanceof \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType) {
                 throw new \Magento\Framework\Model\Exception(
                     __(
                         'Entity type model must be an instance of ' .
-                        'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType'
+                        'Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType'
                     )
                 );
             }

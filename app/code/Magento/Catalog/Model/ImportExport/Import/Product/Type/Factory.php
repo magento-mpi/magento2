@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Import\Product\Type;
 
 /**
  * Import product type factory
@@ -30,7 +30,7 @@ class Factory
     /**
      * @param string $className
      * @param array $arguments
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
      * @throws \InvalidArgumentException
      */
     public function create($className, array $arguments = array())

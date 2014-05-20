@@ -269,6 +269,7 @@
 "Enable Quantity Increments","Activer quantité"
 "Enable WYSIWYG","Permettre WYSIWYG"
 "Enabled","Activé"
+"Entity type model must be an instance of \Magento\Catalog\Model\ImportExport\Import\Product\Type\Abstract","Le type de modèle de l'entité doit être une instance de \Magento\ImportExport\Model\Import\Entity\Abstract"
 "Error during retrieval of option value: %s","Erreur lors de la récupération de la valeur de l'option:% s"
 "Exclude","Exclure"
 "Expand All","Tout développer"

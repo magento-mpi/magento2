@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Import\Product\Type;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
      */
     protected $_model;
 
@@ -21,9 +21,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $params = array($objectManager->create('Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
+        $params = array($objectManager->create('Magento\Catalog\Model\ImportExport\Import\Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
+            'Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType',
             array(
                 $objectManager->get('Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory'),
                 $objectManager->get('Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory'),

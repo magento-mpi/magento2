@@ -715,7 +715,7 @@ return array(
     array('postDispatchMyAccountSave'),
     array('postDispatchSystemImportExportRun'),
     array('prepareAddressInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
-    array('prepareAttributesForSave', 'Magento\ImportExport\Model\Import\Entity\Product'),
+    array('prepareAttributesForSave', 'Magento\Catalog\Model\ImportExport\Import\Product'),
     array('prepareFeesInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareGoogleOptimizerScripts'),
     array('prepareRedirect', 'Magento\Core\Controller\Varien\Exception'),

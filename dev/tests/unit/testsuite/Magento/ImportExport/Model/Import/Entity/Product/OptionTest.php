@@ -9,7 +9,7 @@
 /**
  * Test class for import product options module
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product;
+namespace Magento\Catalog\Model\ImportExport\Import\Product;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,14 +48,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test entity
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\Option
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\Option
      */
     protected $_model;
 
     /**
      * Parent product entity
      *
-     * @var \Magento\ImportExport\Model\Import\Entity\Product
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product
      */
     protected $_productEntity;
 
@@ -223,7 +223,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
-        $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
+        $this->_model = new \Magento\Catalog\Model\ImportExport\Import\Product\Option(
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
             $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
@@ -355,14 +355,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                     'id' => $elementIndex,
                     'entity_id' => $elementIndex,
                     'product_id' => $elementIndex,
-                    'type' => $csvDataRow[\Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_TYPE],
-                    'title' => $csvDataRow[\Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_TITLE]
+                    'type' => $csvDataRow[\Magento\Catalog\Model\ImportExport\Import\Product\Option::COLUMN_TYPE],
+                    'title' => $csvDataRow[\Magento\Catalog\Model\ImportExport\Import\Product\Option::COLUMN_TITLE]
                 );
             }
         }
 
         $this->_productEntity = $this->getMock(
-            'Magento\ImportExport\Model\Import\Entity\Product',
+            'Magento\Catalog\Model\ImportExport\Import\Product',
             null,
             array(),
             '',
@@ -558,7 +558,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::getEntityTypeCode
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::getEntityTypeCode
      */
     public function testGetEntityTypeCode()
     {
@@ -566,15 +566,15 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::importData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_importData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveOptions
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveTitles
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_savePrices
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypeValues
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypePrices
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypeTitles
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_updateProducts
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::importData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_importData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveOptions
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveTitles
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_savePrices
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveSpecificTypeValues
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveSpecificTypePrices
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveSpecificTypeTitles
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_updateProducts
      */
     public function testImportDataAppendBehavior()
     {
@@ -582,8 +582,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_importData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_deleteEntities
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_importData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_deleteEntities
      */
     public function testImportDataDeleteBehavior()
     {
@@ -632,7 +632,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for validation of row without custom option
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isRowWithCustomOption
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_isRowWithCustomOption
      */
     public function testValidateRowNoCustomOption()
     {
@@ -646,15 +646,15 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      * @param array $rowData
      * @param array $errors
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::validateRow
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isRowWithCustomOption
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isMainOptionRow
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isSecondaryOptionRow
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateMainRow
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateMainRowAdditionalData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSecondaryRow
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSpecificTypeParameters
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSpecificParameterData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::validateRow
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_isRowWithCustomOption
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_isMainOptionRow
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_isSecondaryOptionRow
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_validateMainRow
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_validateMainRowAdditionalData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_validateSecondaryRow
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_validateSpecificTypeParameters
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_validateSpecificParameterData
      * @dataProvider validateRowDataProvider
      */
     public function testValidateRow(array $rowData, array $errors)
@@ -675,11 +675,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      * @param string|null $behavior
      * @param int $numberOfValidations
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::validateAmbiguousData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findNewOptionsWithTheSameTitles
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findOldOptionsWithTheSameTitles
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findNewOldOptionsTypeMismatch
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveNewOptionData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::validateAmbiguousData
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_findNewOptionsWithTheSameTitles
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_findOldOptionsWithTheSameTitles
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_findNewOldOptionsTypeMismatch
+     * @covers \Magento\Catalog\Model\ImportExport\Import\Product\Option::_saveNewOptionData
      * @dataProvider validateAmbiguousDataDataProvider
      */
     public function testValidateAmbiguousData(
@@ -719,7 +719,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_STORE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_STORE => array(
                         array(1, null)
                     )
                 )
@@ -727,7 +727,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_incorrect_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_TYPE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_TYPE => array(
                         array(1, null)
                     )
                 )
@@ -735,7 +735,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_no_title' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_no_title.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_EMPTY_TITLE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_EMPTY_TITLE => array(
                         array(1, null)
                     )
                 )
@@ -743,7 +743,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_empty_title' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_empty_title.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_EMPTY_TITLE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_EMPTY_TITLE => array(
                         array(1, null)
                     )
                 )
@@ -751,7 +751,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_invalid_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_PRICE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_PRICE => array(
                         array(1, null)
                     )
                 )
@@ -759,7 +759,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_invalid_max_characters' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_max_characters.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
                         array(1, null)
                     )
                 )
@@ -767,7 +767,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_max_characters_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_max_characters_less_zero.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
                         array(1, null)
                     )
                 )
@@ -775,7 +775,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_invalid_sort_order' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_sort_order.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_SORT_ORDER => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_SORT_ORDER => array(
                         array(1, null)
                     )
                 )
@@ -783,7 +783,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'main_sort_order_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_sort_order_less_zero.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_SORT_ORDER => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_SORT_ORDER => array(
                         array(1, null)
                     )
                 )
@@ -795,7 +795,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'secondary_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_invalid_store.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_STORE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_STORE => array(
                         array(1, null)
                     )
                 )
@@ -803,7 +803,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'secondary_incorrect_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_price.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_PRICE => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_ROW_PRICE => array(
                         array(1, null)
                     )
                 )
@@ -811,7 +811,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'secondary_incorrect_row_sort' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_row_sort.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_SORT => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_ROW_SORT => array(
                         array(1, null)
                     )
                 )
@@ -819,7 +819,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'secondary_row_sort_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_row_sort_less_zero.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_SORT => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_INVALID_ROW_SORT => array(
                         array(1, null)
                     )
                 )
@@ -838,7 +838,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'ambiguity_several_input_rows' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
                         array(1, null),
                         array(2, null)
                     )
@@ -849,7 +849,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'ambiguity_different_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_different_type.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_TYPES => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_AMBIGUOUS_TYPES => array(
                         array(1, null)
                     )
                 ),
@@ -858,7 +858,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'ambiguity_several_db_rows' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php',
                 '$errors' => array(
-                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_OLD_NAMES => array(
+                    \Magento\Catalog\Model\ImportExport\Import\Product\Option::ERROR_AMBIGUOUS_OLD_NAMES => array(
                         array(1, null)
                     )
                 ),
@@ -885,7 +885,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->any())->method('getProductEntitiesInfo')->will($this->returnValue(array()));
 
         $productEntity = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Product',
+            '\Magento\Catalog\Model\ImportExport\Import\Product',
             array(),
             array(),
             '',
@@ -893,7 +893,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         );
 
         $model = $this->_helper->getObject(
-            'Magento\ImportExport\Model\Import\Entity\Product\Option',
+            'Magento\Catalog\Model\ImportExport\Import\Product\Option',
             array(
                 'data' => array(
                     'data_source_model' => $modelData,

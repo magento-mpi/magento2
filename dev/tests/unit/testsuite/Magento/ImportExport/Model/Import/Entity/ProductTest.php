@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\ImportExport\Model\Import\Entity\Product
+ * Test class for \Magento\Catalog\Model\ImportExport\Import\Product
  *
  * {license_notice}
  *
@@ -27,12 +27,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_eavConfig;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\OptionFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_optionFactory;
 
     /**
-     * @var \Magento\ImportExport\Model\Import\Entity\Product\Option|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\ImportExport\Import\Product\Option|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_optionModel;
 
@@ -107,14 +107,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_eavConfig->expects($this->atLeastOnce())->method('getEntityTypeId')->will($this->returnValue('1'));
 
         $this->_optionModel = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Product\Option',
+            '\Magento\Catalog\Model\ImportExport\Import\Product\Option',
             array(),
             array(),
             '',
             false
         );
         $this->_optionFactory = $this->getMock(
-            '\Magento\ImportExport\Model\Import\Entity\Product\OptionFactory',
+            '\Magento\Catalog\Model\ImportExport\Import\Product\OptionFactory',
             array('create'),
             array(),
             '',
@@ -262,7 +262,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_model = $objectManager->getObject(
-            '\Magento\ImportExport\Model\Import\Entity\Product',
+            '\Magento\Catalog\Model\ImportExport\Import\Product',
             array(
                 'config' => $this->_eavConfig,
                 'optionFactory' => $this->_optionFactory,
@@ -288,20 +288,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsMediaValid($data, $expected)
     {
-        $method = new \ReflectionMethod('\Magento\ImportExport\Model\Import\Entity\Product', '_isMediaValid');
+        $method = new \ReflectionMethod('\Magento\Catalog\Model\ImportExport\Import\Product', '_isMediaValid');
         $method->setAccessible(true);
 
         $this->assertEquals($expected['method_return'], $method->invoke($this->_model, $data, 1));
 
-        $errors = new \ReflectionProperty('\Magento\ImportExport\Model\Import\Entity\Product', '_errors');
+        $errors = new \ReflectionProperty('\Magento\Catalog\Model\ImportExport\Import\Product', '_errors');
         $errors->setAccessible(true);
         $this->assertEquals($expected['_errors'], $errors->getValue($this->_model));
 
-        $invalidRows = new \ReflectionProperty('\Magento\ImportExport\Model\Import\Entity\Product', '_invalidRows');
+        $invalidRows = new \ReflectionProperty('\Magento\Catalog\Model\ImportExport\Import\Product', '_invalidRows');
         $invalidRows->setAccessible(true);
         $this->assertEquals($expected['_invalidRows'], $invalidRows->getValue($this->_model));
 
-        $errorsCount = new \ReflectionProperty('\Magento\ImportExport\Model\Import\Entity\Product', '_errorsCount');
+        $errorsCount = new \ReflectionProperty('\Magento\Catalog\Model\ImportExport\Import\Product', '_errorsCount');
         $errorsCount->setAccessible(true);
         $this->assertEquals($expected['_errorsCount'], $errorsCount->getValue($this->_model));
     }

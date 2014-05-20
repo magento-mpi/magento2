@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\Catalog\Model\ImportExport\Import\Product\Type;
 
 /**
  * Import entity simple product type
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Simple extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+class Simple extends \Magento\Catalog\Model\ImportExport\Import\Product\Type\AbstractType
 {
     /**
      * Attributes' codes which will be allowed anyway, independently from its visibility property.

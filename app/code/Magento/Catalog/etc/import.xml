@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ImportExport/etc/import.xsd">
+    <entity name="catalog_product" label="Products" model="Magento\Catalog\Model\ImportExport\Import\Product" behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Basic" />
+    <productType name="simple" model="Magento\Catalog\Model\ImportExport\Import\Product\Type\Simple" />
+    <productType name="virtual" model="Magento\Catalog\Model\ImportExport\Import\Product\Type\Simple" />
+</config>

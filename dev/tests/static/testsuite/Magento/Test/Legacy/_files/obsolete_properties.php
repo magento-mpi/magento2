@@ -210,7 +210,7 @@ return array(
     array('_dir', 'Magento\CatalogEvent\ModelEvent', '_filesystem'),
     array('_dir', 'Magento\Cms\Helper\Wyiswig\Images'),
     array('_dir', 'Magento\Email\Model\Template'),
-    array('_dir', 'Magento\ImportExport\Model\Import\Entity\Product', '_mediaDirectory'),
+    array('_dir', 'Magento\Catalog\Model\ImportExport\Import\Product', '_mediaDirectory'),
     array('_dir', 'Magento\ImportExport\Model\AbstractModel', '_varDirectory'),
     array('_coreDir', 'Magento\Install\Model\Installer\Console'),
     array('_dir', 'Magento\Install\Model\Installer\Filesystem'),
