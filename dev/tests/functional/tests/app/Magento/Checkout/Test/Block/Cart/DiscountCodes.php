@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class DiscountCodes
- *
  * Discount codes block
  */
 class DiscountCodes extends Form

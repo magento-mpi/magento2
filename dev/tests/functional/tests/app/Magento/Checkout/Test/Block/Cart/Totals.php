@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Totals
- *
  * Cart totals block
  */
 class Totals extends Block

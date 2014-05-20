@@ -6,16 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Checkout\Test\Page; 
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
+use Mtf\Page\FrontendPage; 
 
 /**
  * Class CheckoutCart
- * Checkout cart page
- *
  */
 class CheckoutCart extends FrontendPage
 {
@@ -32,7 +28,7 @@ class CheckoutCart extends FrontendPage
             'strategy' => 'xpath',
         ],
         'messageBlock' => [
-            'name' => 'messageBlock',
+            'name' => 'messagesBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '.messages .messages',
             'strategy' => 'css selector',
@@ -64,23 +60,6 @@ class CheckoutCart extends FrontendPage
     ];
 
     /**
-     * Cart totals block
-     *
-     * @var string
-     */
-    protected $totalsBlock = '#shopping-cart-totals-table';
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-    }
-
-    /**
-     * Get shopping cart block
-     *
      * @return \Magento\Checkout\Test\Block\Cart
      */
     public function getCartBlock()
@@ -89,13 +68,11 @@ class CheckoutCart extends FrontendPage
     }
 
     /**
-     * Get messages block
-     *
      * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**
@@ -107,8 +84,6 @@ class CheckoutCart extends FrontendPage
     }
 
     /**
-     * Get cart totals block
-     *
      * @return \Magento\Checkout\Test\Block\Cart\Totals
      */
     public function getTotalsBlock()

@@ -15,7 +15,7 @@
         <strategy>xpath</strategy>
     </block>
     <block>
-        <name>messageBlock</name>
+        <name>messagesBlock</name>
         <class>Magento\Core\Test\Block\Messages</class>
         <locator>.messages .messages</locator>
         <strategy>css selector</strategy>

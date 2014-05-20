@@ -156,6 +156,8 @@ class CreateSalesRuleEntityTest extends Injectable
     protected $isLoggedIn;
 
     /**
+     * Inject data
+     *
      * @param PromoQuoteNew $promoQuoteNew
      * @param PromoQuoteIndex $promoQuoteIndex
      * @param PromoQuoteEdit $promoQuoteEdit
@@ -165,7 +167,6 @@ class CreateSalesRuleEntityTest extends Injectable
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
-     *
      * @return void
      */
     public function __inject(
@@ -275,7 +276,7 @@ class CreateSalesRuleEntityTest extends Injectable
     {
         foreach($productQuantity as $product => $quantity){
             if($quantity > 0){
-                $categoryName = $this->$product->getDataFieldConfig('category_ids')['fixture']->getCategory()->getData('fields/name/value');
+                $categoryName = $this->$product->getDataFieldConfig('category_ids')['source']->getCategory()['0']->getData('name');
                 $productName = $this->$product->getName();
                 $this->cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
                 $this->catalogCategoryView->getListProductBlock()->openProductViewPage($productName);

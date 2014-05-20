@@ -73,7 +73,7 @@ class CatalogProductSimple extends AbstractRepository
             'type_id' => 'simple',
             'attribute_set_id' => '4',
             'price' => ['value' => 100, 'preset' => ''],
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_ids' => ['presets' => 'default_subcategory'],
             'mtf_dataset_name' => 'simple_with_category',
         ];
 

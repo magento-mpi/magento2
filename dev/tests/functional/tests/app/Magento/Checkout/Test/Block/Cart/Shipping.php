@@ -14,7 +14,6 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Shipping
- *
  * Cart shipping block
  */
 class Shipping extends Form
