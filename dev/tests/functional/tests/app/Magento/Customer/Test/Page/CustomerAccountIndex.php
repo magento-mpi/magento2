@@ -28,13 +28,13 @@ class CustomerAccountIndex extends FrontendPage
         ],
         'dashboardAddress' => [
             'name' => 'dashboardAddress',
-            'class' => 'Magento\Customer\Block\Account\Dashboard\Address',
+            'class' => 'Magento\Customer\Test\Block\Account\Dashboard\Address',
             'locator' => '.block.dashboard.addresses',
             'strategy' => 'css selector',
         ],
         'titleBlock' => [
             'name' => 'titleBlock',
-            'class' => 'Magento\Theme\Block\Html\Title',
+            'class' => 'Magento\Theme\Test\Block\Html\Title',
             'locator' => '.page.title',
             'strategy' => 'css selector',
         ],
@@ -55,7 +55,7 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * @return \Magento\Customer\Block\Account\Dashboard\Address
+     * @return \Magento\Customer\Test\Block\Account\Dashboard\Address
      */
     public function getDashboardAddress()
     {
@@ -63,7 +63,7 @@ class CustomerAccountIndex extends FrontendPage
     }
 
     /**
-     * @return \Magento\Theme\Block\Html\Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
@@ -73,7 +73,7 @@ class CustomerAccountIndex extends FrontendPage
     /**
      * Get Account Menu Block
      *
-     * @return \Magento\Customer\Test\Block\Account\Menu
+     * @return \Magento\Customer\Test\Block\Account\Links
      */
     public function getAccountMenuBlock()
     {

@@ -20,6 +20,13 @@ use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 class Shipping extends Block
 {
     /**
+     * 'Continue' button
+     *
+     * @var string
+     */
+    protected $continueButton = '.action.continue';
+
+    /**
      * Select shipping methods
      *
      * @param GuestPaypalDirect $fixture
@@ -36,6 +43,6 @@ class Shipping extends Block
                 . $method['shipping_method'] . '")]';
             $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         }
-        $this->_rootElement->find('//button[@class="action continue"]', Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->continueButton)->click();
     }
 }

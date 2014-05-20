@@ -11,14 +11,15 @@ namespace Magento\CatalogEvent\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogEventEntity
- * Data for creation Event
+ * @constructor
+ * @param array $defaultConfig
+ * @param array $defaultData
  */
 class CatalogEventEntity extends AbstractRepository
 {
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['new_event'] = [
+        $this->_data['default_event'] = [
             'date_start' => ['pattern' => 'm-d-Y 12:00 a-3 days'],
             'date_end' => ['pattern' => 'm-d-Y 12:00 a+3 days'],
             'sort_order' => '1',
