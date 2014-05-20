@@ -64,7 +64,7 @@ class History extends \Magento\Framework\View\Element\Template
             '*'
         )->addFieldToFilter(
             'customer_id',
-            $this->_customerSession->getCustomer()->getId()
+            $this->_customerSession->getCustomerId()
         )->addFieldToFilter(
             'state',
             array('in' => $this->_orderConfig->getVisibleOnFrontStates())

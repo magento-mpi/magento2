@@ -72,7 +72,7 @@ class Recent extends \Magento\Framework\View\Element\Template
             'left'
         )->addAttributeToFilter(
             'customer_id',
-            $this->_customerSession->getCustomer()->getId()
+            $this->_customerSession->getCustomerId()
         )->addAttributeToFilter(
             'state',
             array('in' => $this->_orderConfig->getVisibleOnFrontStates())
