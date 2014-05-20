@@ -1,0 +1,46 @@
+<?php
+
+namespace Magento\Catalog\Service\V1;
+
+/**
+ * Interface ProductServiceInterface
+ */
+interface ProductServiceInterface
+{
+    /**
+     * Get product info
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
+     * @return \Magento\Catalog\Service\V1\Data\Product $product
+     */
+    public function get(int $id);
+
+    /**
+     * Delete product
+     *
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If ID is not found
+     * @throws \Magento\Framework\Exception\StateException Thrown if cannot delete
+     * @throws \Exception If something goes wrong during delete
+     * @return bool True if the entity was deleted (always true)
+     */
+    public function delete(int $id);
+
+    /**
+     * Save product process
+     *
+     * @param \Magento\Catalog\Service\V1\Data\Product $product
+     * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
+     * @throws \Magento\Framework\Exception\NoSuchEntityException If a ID is sent but the entity does not exist
+     * @throws \Magento\Framework\Model\Exception If something goes wrong during save
+     * @return int ID
+     */
+    public function save(\Magento\Catalog\Service\V1\Data\Product $product);
+
+    /**
+     * get product list product
+     *
+     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @return \Magento\Catalog\Service\V1\Data\Product[]
+     */
+    public function getAll(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+}
