@@ -357,6 +357,6 @@ class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
                 });
             });
         ';
-        return $this->toHtml() . $this->_jsHelper->getScript($js);
+        return parent::render($element) . $this->_jsHelper->getScript($js);
     }
 }

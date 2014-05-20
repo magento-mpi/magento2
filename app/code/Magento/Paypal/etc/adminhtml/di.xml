@@ -35,4 +35,7 @@
             <argument name="sessionName" xsi:type="string">adminhtml</argument>
         </arguments>
     </type>
+    <type name="Magento\Backend\Model\Config\Structure">
+        <plugin name="paypal_system_configuration" type="Magento\Paypal\Model\Config\StructurePlugin"/>
+    </type>
 </config>
