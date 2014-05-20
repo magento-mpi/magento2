@@ -68,7 +68,7 @@ class TaxRate extends \Magento\Framework\Service\Data\AbstractObject
     /**
      * Get zip range
      *
-     * @return ZipRange|null
+     * @return \Magento\Tax\Service\V1\Data\ZipRange|null
      */
     public function getZipRange()
     {
