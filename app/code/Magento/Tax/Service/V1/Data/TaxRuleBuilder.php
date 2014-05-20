@@ -7,12 +7,14 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
+use Magento\Framework\Service\Data\AbstractObjectBuilder;
+
 /**
  * Builder for the TaxRule Service Data Object
  *
  *  * @method TaxRule create()
  */
-class TaxRuleBuilder extends \Magento\Framework\Service\Data\AbstractObjectBuilder
+class TaxRuleBuilder extends AbstractObjectBuilder
 {
     /**
      * Set id
