@@ -6,6 +6,16 @@
 //  * @license     {license_link}
 //  */
 
+@navigation-background: #f0f0f0;
+@navigation-desktop-background: @navigation-background;
+@navigation-active-marker-color: #ff5501;
+@navigation-level0-item-color-active: #333;
+@submenu-item-color-active: @navigation-level0-item-color-active;
+@submenu-desktop-item-color-active: @navigation-level0-item-color-active;
+@submenu-font-weight: @font-weight-base;
+@navigation-desktop-level0-item-line-height: 47px;
+@submenu-desktop-font-weight: @font-weight-base;
+
 html.opened {
     overflow: hidden;
 }
@@ -134,6 +144,7 @@ body {
         }
     }
     .nav {
+        border-bottom: @navigation-level0-item-border;
         .parent {
             > a {
                 position: relative;
@@ -142,6 +153,18 @@ body {
                     content: @icon-prev;
                 }
             }
+        }
+        .level-top  {
+            > a {
+                border-left: 3px solid transparent;
+            }
+            &.active > a {
+                border-left-color: @navigation-active-marker-color;
+            }
+        }
+        .action.all,
+        .submenu .active > a{
+            font-weight: @font-weight-bold;
         }
     }
 }
@@ -175,9 +198,78 @@ body {
         padding-left: 20px;
         padding-right: 20px;
         > ul > .level0 {
+            border-bottom: 3px solid transparent;
+            border-top: 3px solid transparent;
+            &.active {
+                border-bottom-color: @navigation-active-marker-color;
+            }
             > a,
             .action.back > a {
                 text-transform: uppercase;
+            }
+            a {
+                border-left: 3px solid transparent;
+            }
+            .parent.active > a {
+                // border-left-color (specify here different marker color for active parent menu items)
+            }
+            .active > a {
+                border-left-color: @navigation-active-marker-color;
+            }
+            .parent {
+                .icon-font(
+                    @_icon-font-content: @icon-next,
+                    @_icon-font-size: 28px,
+                    @_icon-font-color: #393939,
+                    @_icon-font-position: after
+                );
+                position: relative;
+                display: block;
+                &:after {
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -20px;
+                    right: 0;
+                }
+
+                .submenu {
+                    display: none;
+                    > ul {
+                        padding: 0;
+                    }
+
+                }
+                &:hover {
+                    > .submenu {
+                        display: block;
+                        padding: 0;
+                        position: absolute;
+                        left: 100%;
+                        top: 0;
+                        overflow: visible;
+                        .css(background, @submenu-desktop-background);
+                        .css(border, @submenu-desktop-border-width @submenu-desktop-border-style @submenu-desktop-border-color);
+                        .css(box-shadow, @submenu-desktop-box-shadow);
+                        padding: 0;
+                    }
+                }
+
+            }
+            &.more {
+                .parent:hover {
+                    > .submenu {
+                        left: auto;
+                        right: 100%;
+                        ul {
+                            border: none;
+                            margin: 0;
+                            &:after,
+                            &:before {
+                                display: none;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
