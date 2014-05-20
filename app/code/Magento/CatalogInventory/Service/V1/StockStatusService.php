@@ -9,11 +9,8 @@ namespace Magento\CatalogInventory\Service\V1;
 
 use Magento\CatalogInventory\Model\Stock\Status;
 
-
 /**
  * Service related to Product Stock Status
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class StockStatusService implements StockStatusServiceInterface
 {
