@@ -63,7 +63,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $methods = array('getQtyToAdd', '__wakeup', 'getId', 'updateQtyOption', 'setData');
+        $methods = array('getQtyToAdd', '__wakeup', 'getId', 'updateQtyOption', 'setData', 'getQuoteId');
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote\Item', $methods, array(), '', false);
         $stockItemMethods = array(
             'setIsChildItem',
@@ -122,7 +122,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->stockItemMock->expects($this->once())->method('setIsChildItem')->with(true);
         $this->stockItemMock->expects($this->once())->method('setSuppressCheckQtyIncrements')->with(true);
         $this->productMock->expects($this->once())->method('getId')->will($this->returnValue('product_id'));
-        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue('quote_id'));
+        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue('quote_item_id'));
+        $this->quoteMock->expects($this->once())->method('getQuoteId')->will($this->returnValue('quote_id'));
         $this->qtyItemListMock->expects(
             $this->once()
         )->method(
@@ -193,7 +194,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->stockItemMock->expects($this->once())->method('setIsChildItem')->with(true);
         $this->stockItemMock->expects($this->once())->method('setSuppressCheckQtyIncrements')->with(true);
         $this->productMock->expects($this->once())->method('getId')->will($this->returnValue('product_id'));
-        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue('quote_id'));
+        $this->quoteMock->expects($this->once())->method('getId')->will($this->returnValue('quote_item_id'));
+        $this->quoteMock->expects($this->once())->method('getQuoteId')->will($this->returnValue('quote_id'));
         $this->qtyItemListMock->expects(
             $this->once()
         )->method(
