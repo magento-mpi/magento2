@@ -1671,4 +1671,8 @@ return array(
     ['_getCategoryProductIdentities', 'Magento\Catalog\Model\Product'],
     ['_getCategoryIdentities', 'Magento\Catalog\Model\Product'],
     ['_isDataChanged', 'Magento\Catalog\Model\Product'],
+    ['_shouldBeConverted', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_beforeSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterSave', 'Magento\Sales\Model\Resource\AbstractResource'],
+    ['_afterLoad', 'Magento\Sales\Model\Resource\AbstractResource'],
 );

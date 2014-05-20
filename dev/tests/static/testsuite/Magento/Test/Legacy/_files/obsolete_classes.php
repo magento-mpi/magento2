@@ -2495,5 +2495,9 @@ return array(
     [
         'Magento\Customer\Service\V1\CustomerAddressCurrentServiceInterface',
         'Magento\Customer\Helper\Session\CurrentCustomerAddress'
-    ]
+    ],
+    ['Magento\OfflinePayments\Block\Form\Ccsave'],
+    ['Magento\OfflinePayments\Block\Info\Ccsave'],
+    ['Magento\OfflinePayments\Model\Ccsave'],
+    ['Magento\Sales\Model\Payment\Method\Converter']
 );
