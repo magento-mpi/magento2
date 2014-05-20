@@ -182,7 +182,7 @@ class Account extends GenericMetadata
      * @param $elementName
      * @param $fieldset
      */
-    public function _checkElementType($elementName, $fieldset)
+    protected function _checkElementType($elementName, $fieldset)
     {
         $possibleElements = ['prefix', 'suffix'];
         if (!in_array($elementName, $possibleElements)) {
