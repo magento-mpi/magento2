@@ -6,15 +6,21 @@
  * @license     {license_link}
  */
 
-/**
- * Catalo
- */
 namespace Magento\CatalogInventory\Helper;
 
+/**
+ * Catalog Inventory default helper
+ */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * Show out of stock config path
+     */
     const XML_PATH_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
 
+    /**
+     * Auto return config path
+     */
     const XML_PATH_ITEM_AUTO_RETURN = 'cataloginventory/item_options/auto_return';
 
     /**
@@ -27,6 +33,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     const ERROR_QTY = 1;
 
+    /**
+     * Error qty increments
+     */
     const ERROR_QTY_INCREMENTS = 2;
 
     /**
@@ -132,7 +141,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isShowOutOfStock()
     {
-        return $this->_scopeConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_SHOW_OUT_OF_STOCK,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -142,7 +154,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAutoReturnEnabled()
     {
-        return $this->_scopeConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_ITEM_AUTO_RETURN,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -153,6 +168,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isDisplayProductStockStatus()
     {
-        return $this->_scopeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_scopeConfig->isSetFlag(
+            self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

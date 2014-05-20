@@ -12,8 +12,6 @@ use Magento\CatalogInventory\Model\Stock\Item;
 /**
  * Stock model
  *
- * @method \Magento\CatalogInventory\Model\Resource\Stock _getResource()
- * @method \Magento\CatalogInventory\Model\Resource\Stock getResource()
  * @method string getStockName()
  * @method \Magento\CatalogInventory\Model\Stock setStockName(string $value)
  */
@@ -218,20 +216,21 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     public function registerItemSale(\Magento\Framework\Object $item)
     {
         $productId = $item->getProductId();
-        if ($productId) {
-            /** @var Item $stockItem */
-            $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
-            if ($this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
-                if ($item->getStoreId()) {
-                    $stockItem->setStoreId($item->getStoreId());
-                }
-                if ($stockItem->checkQty($item->getQtyOrdered())) {
-                    $stockItem->subtractQty($item->getQtyOrdered());
-                    $stockItem->save();
-                }
+        if (!$productId) {
+            throw new \Magento\Framework\Model\Exception(
+                __('We cannot specify a product identifier for the order item.')
+            );
+        }
+        /** @var Item $stockItem */
+        $stockItem = $this->_stockItemFactory->create()->loadByProduct($productId);
+        if ($this->_catalogInventoryData->isQty($stockItem->getTypeId())) {
+            if ($item->getStoreId()) {
+                $stockItem->setStoreId($item->getStoreId());
             }
-        } else {
-            throw new \Magento\Framework\Model\Exception(__('We cannot specify a product identifier for the order item.'));
+            if ($stockItem->checkQty($item->getQtyOrdered())) {
+                $stockItem->subtractQty($item->getQtyOrdered());
+                $stockItem->save();
+            }
         }
         return $this;
     }

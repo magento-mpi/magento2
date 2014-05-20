@@ -6,12 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogInventory\Model\Resource;
 
 /**
  * Stock resource model
  */
-namespace Magento\CatalogInventory\Model\Resource;
-
 class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
@@ -132,17 +131,10 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function lockProductItems($stock, $productIds)
     {
         $itemTable = $this->getTable('cataloginventory_stock_item');
-        $select = $this->_getWriteAdapter()->select()->from(
-            $itemTable
-        )->where(
-            'stock_id=?',
-            $stock->getId()
-        )->where(
-            'product_id IN(?)',
-            $productIds
-        )->forUpdate(
-            true
-        );
+        $select = $this->_getWriteAdapter()->select()->from($itemTable)
+            ->where('stock_id=?', $stock->getId())
+            ->where('product_id IN(?)', $productIds)
+            ->forUpdate(true);
         /**
          * We use write adapter for resolving problems with replication
          */
@@ -165,21 +157,11 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
         $itemTable = $this->getTable('cataloginventory_stock_item');
         $productTable = $this->getTable('catalog_product_entity');
-        $select = $this->_getWriteAdapter()->select()->from(
-            array('si' => $itemTable)
-        )->join(
-            array('p' => $productTable),
-            'p.entity_id=si.product_id',
-            array('type_id')
-        )->where(
-            'stock_id=?',
-            $stock->getId()
-        )->where(
-            'product_id IN(?)',
-            $productIds
-        )->forUpdate(
-            $lockRows
-        );
+        $select = $this->_getWriteAdapter()->select()->from(array('si' => $itemTable))
+            ->join(array('p' => $productTable), 'p.entity_id=si.product_id', array('type_id'))
+            ->where('stock_id=?', $stock->getId())
+            ->where('product_id IN(?)', $productIds)
+            ->forUpdate($lockRows);
         return $this->_getWriteAdapter()->fetchAll($select);
     }
 
@@ -206,7 +188,6 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $value = $adapter->getCaseSql('product_id', $conditions, 'qty');
-
         $where = array('product_id IN (?)' => array_keys($productQtys), 'stock_id = ?' => $stock->getId());
 
         $adapter->beginTransaction();
@@ -265,7 +246,7 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
 
             foreach ($configMap as $field => $const) {
-                $this->{$field} = (int)$this->_scopeConfig->getValue(
+                $this->{$field} = (int) $this->_scopeConfig->getValue(
                     $const,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 );
@@ -288,13 +269,8 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $values = array('is_in_stock' => 0, 'stock_status_changed_auto' => 1);
 
-        $select = $adapter->select()->from(
-            $this->getTable('catalog_product_entity'),
-            'entity_id'
-        )->where(
-            'type_id IN(?)',
-            $this->_configTypeIds
-        );
+        $select = $adapter->select()->from($this->getTable('catalog_product_entity'), 'entity_id')
+            ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf(
             'stock_id = %1$d' .
@@ -325,13 +301,8 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $values = array('is_in_stock' => 1);
 
-        $select = $adapter->select()->from(
-            $this->getTable('catalog_product_entity'),
-            'entity_id'
-        )->where(
-            'type_id IN(?)',
-            $this->_configTypeIds
-        );
+        $select = $adapter->select()->from($this->getTable('catalog_product_entity'), 'entity_id')
+            ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf(
             'stock_id = %1$d' .
@@ -368,13 +339,8 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $value = array('low_stock_date' => new \Zend_Db_Expr($conditionalDate));
 
-        $select = $adapter->select()->from(
-            $this->getTable('catalog_product_entity'),
-            'entity_id'
-        )->where(
-            'type_id IN(?)',
-            $this->_configTypeIds
-        );
+        $select = $adapter->select()->from($this->getTable('catalog_product_entity'), 'entity_id')
+            ->where('type_id IN(?)', $this->_configTypeIds);
 
         $where = sprintf(
             'stock_id = %1$d' .
