@@ -1703,4 +1703,6 @@ return array(
     ['getWebsiteDefaultStoreId', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getProductData', 'Magento\CatalogInventory\Model\Stock\Status'],
     ['getProductData', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
+    ['getProduct', 'Magento\CatalogInventory\Model\Stock\Item'],
+    ['reset', 'Magento\CatalogInventory\Model\Stock\Item'],
 );
