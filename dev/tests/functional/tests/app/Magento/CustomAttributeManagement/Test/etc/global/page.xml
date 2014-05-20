@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <catalogProductAttributeIndex>
+        <mca>catalog/product_attribute/index</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomAttributeManagement\Test\Page\Adminhtml\CatalogProductAttributeIndex</class>
+    </catalogProductAttributeIndex>
+
+    <catalogProductAttributeNew>
+        <mca>catalog/product_attribute/new</mca>
+        <area>adminhtml</area>
+        <class>Magento\CustomAttributeManagement\Test\Page\Adminhtml\CatalogProductAttributeNew</class>
+    </catalogProductAttributeNew>
+</page>
