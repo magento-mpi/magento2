@@ -15,10 +15,10 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Class Pagination
+ * Class Extractor
  * Used to omit possible issue, when searched Id is not on the same page in cURL response
  */
-class Pagination
+class Extractor
 {
     /**
      * Pattern for searching grid table in cURL response
@@ -38,8 +38,8 @@ class Pagination
      * Setting all Pagination params for Pagination object.
      * Required url for cURL request and regexp pattern for searching in cURL response.
      *
-     * @param $url
-     * @param $regExpPattern
+     * @param string $url
+     * @param string $regExpPattern
      */
     public function __construct($url, $regExpPattern)
     {
@@ -48,12 +48,12 @@ class Pagination
     }
 
     /**
-     * Retrieves id from cURL response
+     * Retrieves data from cURL response
      *
      * @throws \Exception
-     * @return mixed
+     * @return array
      */
-    public function getId()
+    public function getData()
     {
         $url = $_ENV['app_backend_url'] . $this->url;
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -62,9 +62,10 @@ class Pagination
         $response = $curl->read();
         $curl->close();
         preg_match($this->regExpPattern, $response, $matches);
-        if (empty($matches)) {
-            throw new \Exception('Cannot find id');
+
+        if (count($matches) == 0) {
+            throw new \Exception('Matches array can\'t be empty.');
         }
-        return $matches[1];
+        return $matches;
     }
 }

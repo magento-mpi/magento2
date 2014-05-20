@@ -59,22 +59,22 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
-        $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
-        $editForm = $editUser->getEditFormBlock();
+        $editUser = Factory::getPageFactory()->getAdminUserEdit();
+        $editForm = $editUser->getUserFormTabs();
         $salesPage = Factory::getPageFactory()->getSalesOrder();
         $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
+        $dashboard = Factory::getPageFactory()->getAdminDashboard();
 
         //Steps
         $userPage->open();
-        $userPage->getUserGridBlock()->searchAndOpen(array('email' => $userFixture->getEmail()));
-        $editForm->openRoleTab();
-        $editUser->getRoleGridBlock()->searchAndSelect(array('role_name' => $data['rolename']));
-        $editUser->getPageActionsBlock()->save();
+        $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
+        $editForm->fillUserRole($data['rolename']);
+        $editUser->getPageActions()->save();
 
         //Verification
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
-        $userPage->getAdminPanelHeaderBlock()->logOut();
+        $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
 //        Factory::getApp()->magentoBackendLoginUser($userFixture);
@@ -129,23 +129,23 @@ class UserWithRestrictedRoleTest extends Functional
 
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
-        $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
-        $editForm = $editUser->getEditFormBlock();
+        $editUser = Factory::getPageFactory()->getAdminUserEdit();
+        $editForm = $editUser->getUserFormTabs();
         $salesPage = Factory::getPageFactory()->getSalesOrder();
         $salesGrid = $salesPage->getOrderGridBlock();
         $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
+        $dashboard = Factory::getPageFactory()->getAdminDashboard();
 
         //Steps
         $userPage->open();
-        $userPage->getUserGridBlock()->searchAndOpen(array('email' => $userFixture->getEmail()));
-        $editForm->openRoleTab();
-        $editUser->getRoleGridBlock()->searchAndSelect(array('role_name' => $data['rolename']));
-        $editUser->getPageActionsBlock()->save();
+        $userPage->getUserGrid()->searchAndOpen(['email' => $userFixture->getEmail()]);
+        $editForm->fillUserRole($data['rolename']);
+        $editUser->getPageActions()->save();
 
         //Verification
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
-        $userPage->getAdminPanelHeaderBlock()->logOut();
+        $dashboard->getAdminPanelHeader()->logOut();
 
         //Login with newly created admin user
 //        Factory::getApp()->magentoBackendLoginUser($userFixture);

@@ -44,7 +44,7 @@ class AssertUserNotInGrid extends AbstractConstraint
     }
 
     /**
-     * Returns message if assert false.
+     * Returns message if user not in grid.
      *
      * @return string
      */

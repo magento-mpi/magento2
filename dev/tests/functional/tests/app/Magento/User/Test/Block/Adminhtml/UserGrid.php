@@ -10,6 +10,10 @@ namespace Magento\User\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
+/**
+ * Class UserGrid
+ * User grid on User index page.
+ */
 class UserGrid extends Grid
 {
     /**
@@ -20,13 +24,17 @@ class UserGrid extends Grid
     protected $filters = [
         'username' => [
             'selector' => '#permissionsUserGrid_filter_username'
+        ],
+        'email' => [
+            'selector' => '#permissionsUserGrid_filter_email'
         ]
     ];
 
     /**
-     * Locator value for link in action column
+     * Locator value of td with username
      *
      * @var string
      */
     protected $editLink = '[data-column="username"]';
-} 
+}
+

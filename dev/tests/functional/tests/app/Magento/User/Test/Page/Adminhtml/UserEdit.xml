@@ -20,4 +20,10 @@
         <locator>#messages</locator>
         <strategy>css selector</strategy>
     </block>
+    <block>
+        <name>userFormTabs</name>
+        <class>Magento\User\Test\Block\Adminhtml\User\Edit</class>
+        <locator>[id="page:main-container"]</locator>
+        <strategy>css selector</strategy>
+    </block>
 </page>
