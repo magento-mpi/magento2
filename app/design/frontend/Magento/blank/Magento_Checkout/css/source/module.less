@@ -48,7 +48,10 @@
                     );
                 }
                 strong {
-                    font-weight: @font-weight-base;
+                    .column.main & {
+                        font-weight: @font-weight-bold;
+                        font-size: @font-size-base;
+                    }
                 }
             }
             .content {
@@ -174,8 +177,7 @@
                     top: 0;
                     padding-top: 20px;
                     .input-text {
-                        width: 3.3em;
-                        text-align: center;
+                        &:extend(.input-qty all);
                     }
                 }
             }
@@ -203,6 +205,9 @@
                 display: table-cell;
                 vertical-align: top;
                 width: 99%;
+                .product.name {
+                    font-weight: @font-weight-base;
+                }
             }
         }
         //  Product options
@@ -523,7 +528,7 @@
         padding-top: 10px;
         .amount {
             font-size: @font-size-xl;
-            span {
+            .incl.tax {
                 display: block;
             }
         }
