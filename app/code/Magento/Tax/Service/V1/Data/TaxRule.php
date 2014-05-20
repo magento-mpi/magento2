@@ -7,10 +7,13 @@
  */
 
 namespace Magento\Tax\Service\V1\Data;
+
+use Magento\Framework\Service\Data\AbstractObject;
+
 /**
  * Class TaxRule
  */
-class TaxRule extends \Magento\Framework\Service\Data\AbstractObject
+class TaxRule extends AbstractObject
 {
     /**#@+
      * Constants for Data Object keys
