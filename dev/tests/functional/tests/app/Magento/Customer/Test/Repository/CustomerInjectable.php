@@ -30,5 +30,11 @@ class CustomerInjectable extends AbstractRepository
             'password' => '123123q',
             'password_confirmation' => '123123q',
         ];
+
+        $this->_data['defaultBackend'] = [
+            'firstname' => 'John',
+            'lastname' => 'Doe',
+            'email' => 'JohnDoe_%isolation%@example.com',
+        ];
     }
 }

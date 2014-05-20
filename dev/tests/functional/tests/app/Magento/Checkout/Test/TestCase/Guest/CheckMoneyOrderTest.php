@@ -60,7 +60,7 @@ class CheckMoneyOrderTest extends Functional
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
             $cartPage = Factory::getPageFactory()->getCheckoutCart();
-            $cartPage->getMessageBlock()->assertSuccessMessage();
+            $cartPage->getMessagesBlock()->assertSuccessMessage();
             $this->checkProductPrice($fixture, $product, $cartPage->getCartBlock());
         }
     }

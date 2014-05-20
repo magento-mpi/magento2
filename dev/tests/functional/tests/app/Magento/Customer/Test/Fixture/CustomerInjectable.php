@@ -12,6 +12,7 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CustomerInjectable
+ * Customer fixture
  */
 class CustomerInjectable extends InjectableFixture
 {
@@ -30,7 +31,7 @@ class CustomerInjectable extends InjectableFixture
         'lastname' => 'Doe',
         'email' => 'John.Doe%isolation%@example.com',
         'password' => '123123q',
-        'confirmation' => '123123q'
+        'password_confirmation' => '123123q',
     ];
 
     protected $confirmation = [

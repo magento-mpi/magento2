@@ -10,19 +10,19 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class RelatedProductTest
  * Test promoting products as related
- *
  */
 class RelatedProductTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -33,6 +33,7 @@ class RelatedProductTest extends Functional
      * Promoting products as related
      *
      * @ZephyrId MAGETWO-12392
+     * @return void
      */
     public function testRelatedProduct()
     {
@@ -49,8 +50,9 @@ class RelatedProductTest extends Functional
         //Steps
         $productGridPage->open();
         $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $productGridPage->open();
@@ -58,8 +60,9 @@ class RelatedProductTest extends Functional
             array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
         );
         $assignToSimple1->switchData('add_related_product');
-        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
-        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $productForm = $editProductPage->getProductForm();
+        $productForm->fill($assignToSimple1);
+        $editProductPage->getFormAction()->save();
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnTheFrontend($simple1, $verify);
@@ -70,8 +73,9 @@ class RelatedProductTest extends Functional
      *
      * @param Product $product
      * @param Product[] $assigned
+     * @return void
      */
-    protected function assertOnTheFrontEnd(Product $product, $assigned)
+    protected function assertOnTheFrontEnd(Product $product, array $assigned)
     {
         /** @var Product $simple2 */
         /** @var Product $configurable */
@@ -102,7 +106,7 @@ class RelatedProductTest extends Functional
         //Verify that both configurable product and simple product 2 are added to shopping cart
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $this->assertTrue(
             $checkoutCartBlock->isProductInShoppingCart($configurable),
             'Configurable product was not found in the shopping cart.'

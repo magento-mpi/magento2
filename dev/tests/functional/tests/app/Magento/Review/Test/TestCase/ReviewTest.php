@@ -76,7 +76,7 @@ class ReviewTest extends Functional
         $reviewBackendForm->approveReview();
         $this->assertContains(
             'You saved the review.',
-            $backendReviewPage->getMessageBlock()->getSuccessMessages(),
+            $backendReviewPage->getMessagesBlock()->getSuccessMessages(),
             'Review is not saved'
         );
 

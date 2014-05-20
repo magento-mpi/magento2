@@ -6,16 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page; 
+namespace Magento\Checkout\Test\Page;
 
-use Mtf\Page\FrontendPage; 
+use Mtf\Page\Page;
+use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class CheckoutCart
+ * Checkout cart page
  *
  */
 class CheckoutCart extends FrontendPage
 {
+    /**
+     * URL for checkout cart page
+     */
     const MCA = 'checkout/cart';
 
     protected $_blocks = [
@@ -58,6 +64,23 @@ class CheckoutCart extends FrontendPage
     ];
 
     /**
+     * Cart totals block
+     *
+     * @var string
+     */
+    protected $totalsBlock = '#shopping-cart-totals-table';
+
+    /**
+     * Custom constructor
+     */
+    protected function _init()
+    {
+        $this->_url = $_ENV['app_frontend_url'] . self::MCA;
+    }
+
+    /**
+     * Get shopping cart block
+     *
      * @return \Magento\Checkout\Test\Block\Cart
      */
     public function getCartBlock()
@@ -66,9 +89,11 @@ class CheckoutCart extends FrontendPage
     }
 
     /**
+     * Get messages block
+     *
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
         return $this->getBlockInstance('messageBlock');
     }
@@ -82,6 +107,8 @@ class CheckoutCart extends FrontendPage
     }
 
     /**
+     * Get cart totals block
+     *
      * @return \Magento\Checkout\Test\Block\Cart\Totals
      */
     public function getTotalsBlock()

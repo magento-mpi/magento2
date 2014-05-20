@@ -46,7 +46,7 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
         $customer = $fixtureFactory->createByCode(
             'customerInjectable',
             [
-                'dataSet' => 'default',
+                'dataSet' => 'defaultBackend',
                 'data' => ['group_id' => $customerGroup->getCustomerGroupCode()]
             ]
         );
@@ -58,9 +58,10 @@ class AssertCustomerGroupOnCustomerForm extends AbstractConstraint
         $customerIndex->getCustomerGridBlock()->searchAndOpen($filter);
         $customerFormData = $customerIndexNew->getCustomerForm()->getData($customer);
         $customerFixtureData = $customer->getData();
+        $diff = array_diff($customerFixtureData, $customerFormData);
 
         \PHPUnit_Framework_Assert::assertTrue(
-            empty(array_diff($customerFixtureData, $customerFormData)),
+            empty($diff),
             "Customer group {$customerGroup->getCustomerGroupCode()} not in customer form."
         );
     }
