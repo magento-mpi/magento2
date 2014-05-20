@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
+        <severeness>middle</severeness>
+        <require>
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
+    </assertTargetRuleSuccessSaveMessage>
+    <assertTargetRuleInGrid module="Magento_TargetRule">
+        <severeness>high</severeness>
+        <require>
+            <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+        </require>
+    </assertTargetRuleInGrid>
+    <assertTargetRuleForm module="Magento_TargetRule">
+        <severeness>high</severeness>
+        <require>
+            <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
+            <targetRuleEdit class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit" />
+            <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
+            <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
+        </require>
+    </assertTargetRuleForm>
+    <assertUpSellsProductsSection module="Magento_TargetRule">
+        <severeness>middle</severeness>
+        <require>
+            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        </require>
+    </assertUpSellsProductsSection>
+    <assertRelatedProductsSection module="Magento_TargetRule">
+        <severeness>middle</severeness>
+        <require>
+            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+        </require>
+    </assertRelatedProductsSection>
+    <assertCrossSellsProductsSection module="Magento_TargetRule">
+        <severeness>middle</severeness>
+        <require>
+            <product1 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <product2 class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
+            <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
+            <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
+            <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
+            <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
+        </require>
+    </assertCrossSellsProductsSection>
+</constraint>

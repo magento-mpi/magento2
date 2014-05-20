@@ -75,5 +75,15 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100, 'preset' => ''],
             'category_ids' => ['presets' => 'default_subcategory']
         ];
+
+        $this->_data['product_with_special_price_and_category'] = [
+            'sku' => 'simple_product_with_special_price_and_category%isolation%',
+            'name' => 'Simple product with special price and category %isolation%',
+            'type_id' => 'simple',
+            'attribute_set_id' => '4',
+            'price' => ['value' => 100, 'preset' => ''],
+            'special_price' => 90,
+            'category_ids' => ['presets' => 'default_subcategory']
+        ];
     }
 }
