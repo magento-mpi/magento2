@@ -1,3 +1,5 @@
+* Tax calculation updates:
+  * Ported tax calculation changes from Magento 1
 * Fixed bugs:
   * Fixed: "Please specify at least one search term." error message is missed in regular search (MAGETWO-23716)
   * Fixed: [GC] Layout is broken during updating status for review (MAGETWO-24071)
