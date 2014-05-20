@@ -534,13 +534,15 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             foreach ($data as $attributeData) {
                 /** @var $configurableAttribute \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute */
                 $configurableAttribute = $this->_configurableAttributeFactory->create();
-                if (!empty($attributeData['id'])) {
-                    $configurableAttribute->load($attributeData['id']);
-                } else {
-                    $configurableAttribute->loadByProductAndAttribute(
-                        $product,
-                        $this->getAttributeById($attributeData['attribute_id'], $product)
-                    );
+                if (!$product->getIsDuplicate()) {
+                    if (!empty($attributeData['id'])) {
+                        $configurableAttribute->load($attributeData['id']);
+                    } else {
+                        $configurableAttribute->loadByProductAndAttribute(
+                            $product,
+                            $this->getAttributeById($attributeData['attribute_id'], $product)
+                        );
+                    }
                 }
                 unset($attributeData['id']);
                 $configurableAttribute->addData(
