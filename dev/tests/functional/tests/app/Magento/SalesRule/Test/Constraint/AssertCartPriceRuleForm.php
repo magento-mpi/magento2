@@ -87,6 +87,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
     }
 
     /**
+     * Recursively compare two arrays by difference
      *
      * @param array $array1
      * @param array $array2

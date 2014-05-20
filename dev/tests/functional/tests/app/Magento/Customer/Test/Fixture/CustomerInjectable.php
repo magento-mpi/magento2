@@ -12,7 +12,6 @@ use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class CustomerInjectable
- *
  */
 class CustomerInjectable extends InjectableFixture
 {

@@ -12,8 +12,6 @@ use Mtf\Page\BackendPage;
 
 /**
  * Class PromoQuoteNew
- *
- * @package Magento\SalesRule\Test\Page\Adminhtml
  */
 class PromoQuoteNew extends BackendPage
 {

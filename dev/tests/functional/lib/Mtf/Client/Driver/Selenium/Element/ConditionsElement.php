@@ -34,8 +34,6 @@ use Mtf\Client\Driver\Selenium\Element as AbstractElement;
  * {Conditions combination:[
  *     [Subtotal|is|100]
  *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}]}
- *
- * @package Mtf\Client\Driver\Selenium\Element
  */
 class ConditionsElement extends AbstractElement
 {
@@ -328,6 +326,8 @@ class ConditionsElement extends AbstractElement
 
     /**
      * Get value from conditions
+     *
+     * @return null
      */
     public function getValue()
     {

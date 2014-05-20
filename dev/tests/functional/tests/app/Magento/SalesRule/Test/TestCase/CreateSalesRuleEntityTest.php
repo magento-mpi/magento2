@@ -9,7 +9,9 @@
 namespace Magento\SalesRule\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteNew;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
@@ -19,8 +21,6 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Test Creation for Create SalesRuleEntity
@@ -58,61 +58,85 @@ use Magento\Customer\Test\Fixture\AddressInjectable;
 class CreateSalesRuleEntityTest extends Injectable
 {
     /**
+     * Page PromoQuoteNew
+     *
      * @var PromoQuoteNew
      */
     protected $promoQuoteNew;
 
     /**
+     * Page PromoQuoteEdit
+     *
      * @var PromoQuoteEdit
      */
     protected $promoQuoteEdit;
 
     /**
+     * Page CmsIndex
+     *
      * @var CmsIndex
      */
     protected $cmsIndex;
 
     /**
+     * Page CustomerAccountLogin
+     *
      * @var CustomerAccountLogin
      */
     protected $customerAccountLogin;
 
     /**
+     * Page CustomerAccountLogout
+     *
      * @var CustomerAccountLogout
      */
     protected $customerAccountLogout;
 
     /**
+     * Page CatalogCategoryView
+     *
      * @var CatalogCategoryView
      */
     protected $catalogCategoryView;
 
     /**
+     * Page CatalogProductView
+     *
      * @var CatalogProductView
      */
     protected $catalogProductView;
 
     /**
+     * Page CheckoutCart
+     *
      * @var CheckoutCart
      */
     protected $checkoutCart;
 
     /**
+     * Page PromoQuoteIndex
+     *
      * @var PromoQuoteIndex
      */
     protected $promoQuoteIndex;
 
     /**
+     * Customer from precondition
+     *
      * @var \Magento\Customer\Test\Fixture\CustomerInjectable
      */
     protected $customer;
 
     /**
+     * First product from precondition
+     *
      * @var \Magento\Catalog\Test\Fixture\CatalogProductSimple
      */
     protected $productForSalesRule1;
 
     /**
+     * Second product from precondition
+     *
      * @var \Magento\Catalog\Test\Fixture\CatalogProductSimple
      */
     protected $productForSalesRule2;
@@ -141,6 +165,8 @@ class CreateSalesRuleEntityTest extends Injectable
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductView $catalogProductView
      * @param CheckoutCart $checkoutCart
+     *
+     * @return void
      */
     public function __inject(
         PromoQuoteNew $promoQuoteNew,
@@ -165,6 +191,8 @@ class CreateSalesRuleEntityTest extends Injectable
     }
 
     /**
+     * Create customer and 2 simple products with categories before run test
+     *
      * @param FixtureFactory $fixtureFactory
      */
     public function __prepare(FixtureFactory $fixtureFactory)
@@ -184,11 +212,15 @@ class CreateSalesRuleEntityTest extends Injectable
     }
 
     /**
+     * Create Sales Rule Entity
+     *
      * @param SalesRuleInjectable $salesRule
      * @param AddressInjectable $address
      * @param array $productQuantity
      * @param array $shipping
      * @param int $isLoggedIn
+     *
+     * @return void
      */
     public function testCreateSalesRule(
         SalesRuleInjectable $salesRule,
@@ -212,10 +244,10 @@ class CreateSalesRuleEntityTest extends Injectable
         }
         $this->addProductsToCart($productQuantity);
 
-        if($salesRule->getData('coupon_code')){
-            $this->checkoutCart->getDiscountCodesBlock()->enterCodeAndClickApply($salesRule->getData('coupon_code'));
+        if($salesRule->getCouponCode()){
+            $this->checkoutCart->getDiscountCodesBlock()->enterCodeAndClickApply($salesRule->getCouponCode());
         }
-        if($address->getData('country_id')){
+        if($address->hasData('country_id')){
             $this->checkoutCart->getShippingBlock()->fillShippingAddress($address);
             $this->checkoutCart->getShippingBlock()->selectShippingMethod($shipping);
         }
@@ -223,6 +255,8 @@ class CreateSalesRuleEntityTest extends Injectable
 
     /**
      * LogIn customer
+     *
+     * @return void
      */
     protected function login()
     {
@@ -234,6 +268,8 @@ class CreateSalesRuleEntityTest extends Injectable
      * Add products to cart
      *
      * @param array $productQuantity
+     *
+     * @return void
      */
     protected function addProductsToCart($productQuantity)
     {
@@ -251,7 +287,7 @@ class CreateSalesRuleEntityTest extends Injectable
     /**
      * Delete current sales rule and logout customer from frontend account
      *
-     * return void
+     * @return void
      */
     public function tearDown()
     {

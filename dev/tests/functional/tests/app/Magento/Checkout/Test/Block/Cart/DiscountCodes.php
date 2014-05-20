@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,8 +13,9 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Cart shipping block
+ * Class DiscountCodes
  *
+ * Discount codes block
  */
 class DiscountCodes extends Form
 {
@@ -54,7 +52,8 @@ class DiscountCodes extends Form
      *
      * @param $code
      */
-    public function enterCodeAndClickApply($code){
+    public function enterCodeAndClickApply($code)
+    {
         if (!$this->_rootElement->find($this->formWrapper)->isVisible()) {
             $this->_rootElement->find($this->openForm, Locator::SELECTOR_CSS)->click();
             $this->_rootElement->find($this->couponCode, Locator::SELECTOR_CSS, 'input')->setValue($code);

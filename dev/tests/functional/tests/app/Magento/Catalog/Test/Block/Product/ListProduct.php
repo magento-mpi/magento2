@@ -46,7 +46,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $productTitle = '.product.name';
+    protected $productTitle = '.product.name [title="%s"]';
 
     /**
      * Click for Price link on category page
@@ -128,7 +128,7 @@ class ListProduct extends Block
      */
     protected function getProductNameElement($productName)
     {
-        return $this->_rootElement->find($this->productTitle)->find('[title="' . $productName . '"]');
+        return $this->_rootElement->find(sprintf($this->productTitle, $productName));
     }
 
     /**

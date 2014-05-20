@@ -13,8 +13,9 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Cart totals block
+ * Class Totals
  *
+ * Cart totals block
  */
 class Totals extends Block
 {
@@ -76,7 +77,7 @@ class Totals extends Block
     /**
      * Get Subtotal text
      *
-     * @return array|string
+     * @return string
      */
     public function getSubtotal()
     {

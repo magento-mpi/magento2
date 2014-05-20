@@ -13,24 +13,17 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Class AssertCartPriceRuleFreeShippingIsApplied
- *
- * @package Magento\SalesRule\Test\Constraint
  */
 class AssertCartPriceRuleFreeShippingIsApplied extends AbstractConstraint
 {
+    const FREE_CHIPPING_PRICE = '$0.00';
+
     /**
      * Constraint severeness
      *
      * @var string
      */
     protected $severeness = 'low';
-
-    /**
-     * Free shipping price
-     *
-     * @var string
-     */
-    protected $freeChippingPrice = '$0.00';
 
     /**
      * Assert that free shipping is applied in shopping cart
@@ -43,9 +36,9 @@ class AssertCartPriceRuleFreeShippingIsApplied extends AbstractConstraint
         $currentChippingPrice = $checkoutCart->open()->getTotalsBlock()->getChippingPrice();
         \PHPUnit_Framework_Assert::assertEquals(
             $currentChippingPrice,
-            $this->freeChippingPrice,
+            self::FREE_CHIPPING_PRICE,
             'Current shipping price: \'' .$checkoutCart->getTotalsBlock()->getChippingPrice()
-            . '\' not equals with free shipping price: \''. $this->freeChippingPrice . '\''
+            . '\' not equals with free shipping price: \''. self::FREE_CHIPPING_PRICE . '\''
         );
     }
 

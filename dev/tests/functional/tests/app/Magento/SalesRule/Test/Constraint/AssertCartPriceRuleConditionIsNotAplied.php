@@ -13,7 +13,6 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Class AssertCartPriceRuleConditionIsNotAplied
- *
  */
 class AssertCartPriceRuleConditionIsNotAplied extends AbstractConstraint
 {
