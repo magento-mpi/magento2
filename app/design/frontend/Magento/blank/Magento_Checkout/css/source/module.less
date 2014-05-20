@@ -718,7 +718,7 @@
         .block {
             &:extend(.blocks-2columns all);
         }
-        .field.choice {
+        .field.choice:not(.persistent) {
             &:before {
                 display: none;
             }
@@ -770,6 +770,9 @@
                         margin-right: 10px;
                     }
                 }
+            }
+            .widget {
+                float: left;
             }
         }
         &.summary {

@@ -428,9 +428,11 @@
         &.available,
         &.unavailable {
             display: inline-block;
-            vertical-align: top;
+            font-weight: @font-weight-bold;
             margin-bottom: @indent-xs-base;
             margin-right: @indent-base;
+            text-transform: uppercase;
+            vertical-align: top;
         }
     }
     .product {
@@ -494,6 +496,9 @@
     .action.tocompare {
         &:extend(.action-link-button all);
         .button-s();
+    }
+    .product.reviews.summary .reviews.actions {
+        .font-size(@font-size-base);
     }
 }
 
