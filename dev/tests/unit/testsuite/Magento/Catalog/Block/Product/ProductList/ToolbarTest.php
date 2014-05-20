@@ -69,10 +69,10 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->layout = $this->getMock('Magento\Framework\View\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $this->layout = $this->getMock('Magento\Framework\View\Layout', ['getChildName', 'getBlock'], [], '', false);
         $this->pagerBlock = $this->getMock(
             'Magento\Theme\Block\Html\Pager',
-            array(
+            [
                 'setUseContainer',
                 'setShowPerPage',
                 'setShowAmounts',
@@ -81,11 +81,11 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
                 'setLimit',
                 'setCollection',
                 'toHtml'
-            ),
-            array(),
+            ],
+            [],
             '',
             false);
-        $this->urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
+        $this->urlBuilder = $this->getMock('Magento\Framework\Url', ['getUrl'], [], '', false);
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $scopeConfig = array(
