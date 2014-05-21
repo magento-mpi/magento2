@@ -110,8 +110,7 @@ class Onepage extends Action
     protected function _expireAjax()
     {
         $quote = $this->getOnepage()->getQuote();
-        if (!$quote->hasItems() || $quote->getHasError() || !$quote->validateMinimumAmount()
-            || $quote->getIsMultiShipping()) {
+        if (!$quote->hasItems() || $quote->getHasError() || !$quote->validateMinimumAmount()) {
             $this->_ajaxRedirectResponse();
             return true;
         }
