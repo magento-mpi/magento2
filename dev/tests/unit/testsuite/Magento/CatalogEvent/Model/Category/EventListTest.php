@@ -21,9 +21,6 @@ class EventListTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registry;
 
-    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $storeManagerInterface;
-
     /** @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $collectionFactory;
 
@@ -39,7 +36,6 @@ class EventListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->registry = $this->getMock('Magento\Framework\Registry');
-        $this->storeManagerInterface = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->collectionFactory = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\CollectionFactory',
             ['create'],
@@ -74,8 +70,7 @@ class EventListTest extends \PHPUnit_Framework_TestCase
         $this->eventList = $this->objectManagerHelper->getObject(
             'Magento\CatalogEvent\Model\Category\EventList',
             [
-                'coreRegistry' => $this->registry,
-                'storeManager' => $this->storeManagerInterface,
+                'registry' => $this->registry,
                 'eventCollectionFactory' => $this->collectionFactory,
                 'eventFactory' => $this->eventFactory
             ]
@@ -136,13 +131,9 @@ class EventListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEventInStore($categoryList, $categoryId, $expectedResult)
     {
-        /** @var $store \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject */
-        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $this->storeManagerInterface->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->resourceEvent->expects($this->once())->method('getCategoryIdsWithEvent')->will(
             $this->returnValue($categoryList)
         );
-        $this->storeManagerInterface->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $eventCollectionReturnMap = array();
         foreach ($categoryList as $eventId) {
             if ($eventId) {
@@ -191,9 +182,6 @@ class EventListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEventToCategoriesList($categoryList, $getItemCallNumber)
     {
-        /** @var $store \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject */
-        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-        $this->storeManagerInterface->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $this->resourceEvent->expects($this->once())->method('getCategoryIdsWithEvent')->will(
             $this->returnValue($categoryList)
         );

@@ -14,17 +14,9 @@ namespace Magento\CatalogEvent\Model\Category;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
 use Magento\Framework\Registry;
-use Magento\Store\Model\StoreManagerInterface;
 
 class EventList
 {
-    /**
-     * Store manager model
-     *
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
     /**
      * Store categories events
      *
@@ -37,7 +29,7 @@ class EventList
      *
      * @var Registry
      */
-    protected $coreRegistry;
+    protected $registry;
 
     /**
      * Event collection factory
@@ -56,19 +48,16 @@ class EventList
     /**
      * Construct
      *
-     * @param Registry $coreRegistry
-     * @param StoreManagerInterface $storeManager
+     * @param Registry $registry
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
      */
     public function __construct(
-        Registry $coreRegistry,
-        StoreManagerInterface $storeManager,
+        Registry $registry,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
     ) {
-        $this->coreRegistry = $coreRegistry;
-        $this->storeManager = $storeManager;
+        $this->registry = $registry;
         $this->eventCollectionFactory = $eventCollectionFactory;
         $this->eventFactory = $eventFactory;
     }
@@ -81,14 +70,14 @@ class EventList
      */
     public function getEventInStore($categoryId)
     {
-        if ($this->coreRegistry->registry(
+        if ($this->registry->registry(
                 'current_category'
-            ) && $this->coreRegistry->registry(
+            ) && $this->registry->registry(
                 'current_category'
             )->getId() == $categoryId
         ) {
             // If category already loaded for page, we don't need to load categories tree
-            return $this->coreRegistry->registry('current_category')->getEvent();
+            return $this->registry->registry('current_category')->getEvent();
         }
         $eventsToCategories = $this->getEventToCategoriesList();
 
@@ -102,14 +91,12 @@ class EventList
     /**
      * Get array with category-event association
      *
-     * @return array
+     * @return \Magento\Catalog\Model\Category|null[]
      */
     public function getEventToCategoriesList()
     {
         if ($this->eventsToCategories === null) {
-            $this->eventsToCategories = $this->eventFactory->create()->getCategoryIdsWithEvent(
-                $this->storeManager->getStore()->getId()
-            );
+            $this->eventsToCategories = $this->eventFactory->create()->getCategoryIdsWithEvent();
 
             $eventCollection = $this->getEventCollection(array_keys($this->eventsToCategories));
             foreach ($this->eventsToCategories as $catId => $eventId) {

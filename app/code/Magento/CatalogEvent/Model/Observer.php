@@ -14,7 +14,7 @@ namespace Magento\CatalogEvent\Model;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\CatalogEvent\Model\Category\EventList;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as EventObserver;
@@ -30,13 +30,6 @@ class Observer
     protected $catalogEventData;
 
     /**
-     * Store manager model
-     *
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * Event model factory
      *
      * @var \Magento\CatalogEvent\Model\Category\EventList
@@ -47,16 +40,11 @@ class Observer
      * Construct
      *
      * @param Data $catalogEventData
-     * @param StoreManagerInterface $storeManager
-     * @param \Magento\CatalogEvent\Model\Category\EventList $eventList
+     * @param EventList $eventList
      */
-    public function __construct(
-        Data $catalogEventData,
-        StoreManagerInterface $storeManager,
-        \Magento\CatalogEvent\Model\Category\EventList $eventList
-    ) {
+    public function __construct(Data $catalogEventData, EventList $eventList)
+    {
         $this->catalogEventData = $catalogEventData;
-        $this->storeManager = $storeManager;
         $this->categoryEventList = $eventList;
     }
 
@@ -92,9 +80,8 @@ class Observer
             return $this;
         }
 
-        $categoryCollection = $observer->getEvent()->getCategoryCollection();
         /** @var $categoryCollection \Magento\Catalog\Model\Resource\Category\Collection */
-
+        $categoryCollection = $observer->getEvent()->getCategoryCollection();
         $categoryIds = array();
 
         foreach ($categoryCollection->getColumnValues('path') as $path) {
@@ -169,13 +156,12 @@ class Observer
             return $this;
         }
 
-        $product = $observer->getEvent()->getProduct();
         /* @var $product \Magento\Catalog\Model\Product */
-        $quoteItem = $observer->getEvent()->getQuoteItem();
+        $product = $observer->getEvent()->getProduct();
         /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
+        $quoteItem = $observer->getEvent()->getQuoteItem();
 
         $this->_applyEventToProduct($product);
-
         if ($product->getEvent()) {
             $quoteItem->setEventId($product->getEvent()->getId());
             if ($quoteItem->getParentItem()) {
