@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertSuggestSearchingResult module="Magento_Search">
+        <severeness>high</severeness>
+        <require></require>
+    </assertSuggestSearchingResult>
+</constraint>

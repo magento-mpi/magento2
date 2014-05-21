@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture class="Magento\Search\Test\Fixture\CatalogSearchQuery">
+    <module>Magento_Search</module>
+    <type>flat</type>
+    <entity_type>catalogsearch_query</entity_type>
+    <collection>Magento\Search\Model\Resource\Collection</collection>
+    <fields>
+        <query_id>
+            <attribute_code>query_id</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required>1</is_required>
+            <default_value></default_value>
+            <input></input>
+        </query_id>
+        <query_text>
+            <attribute_code>query_text</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+            <fixture>Magento\Search\Test\Fixture\CatalogSearchQuery\SearchData</fixture>
+        </query_text>
+        <num_results>
+            <attribute_code>num_results</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </num_results>
+        <popularity>
+            <attribute_code>popularity</attribute_code>
+            <backend_type>int</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </popularity>
+        <redirect>
+            <attribute_code>redirect</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </redirect>
+        <synonym_for>
+            <attribute_code>synonym_for</attribute_code>
+            <backend_type>varchar</backend_type>
+            <is_required></is_required>
+            <default_value></default_value>
+            <input></input>
+        </synonym_for>
+        <store_id>
+            <attribute_code>store_id</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </store_id>
+        <display_in_terms>
+            <attribute_code>display_in_terms</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>1</default_value>
+            <input></input>
+        </display_in_terms>
+        <is_active>
+            <attribute_code>is_active</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>1</default_value>
+            <input></input>
+        </is_active>
+        <is_processed>
+            <attribute_code>is_processed</attribute_code>
+            <backend_type>smallint</backend_type>
+            <is_required></is_required>
+            <default_value>0</default_value>
+            <input></input>
+        </is_processed>
+        <updated_at>
+            <attribute_code>updated_at</attribute_code>
+            <backend_type>timestamp</backend_type>
+            <is_required></is_required>
+            <default_value>CURRENT_TIMESTAMP</default_value>
+            <input></input>
+        </updated_at>
+    </fields>
+    <repository_class>Magento\Search\Test\Repository\CatalogSearchQuery</repository_class>
+    <handler_interface>Magento\Search\Test\Handler\CatalogSearchQuery\CatalogSearchQueryInterface</handler_interface>
+</fixture>
