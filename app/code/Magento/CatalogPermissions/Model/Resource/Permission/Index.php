@@ -345,7 +345,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             array('perm' => $this->getProductTable()),
-            array('grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
+            array('product_id', 'grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items')
         )->where(
             'product_id IN (?)',
             $productId

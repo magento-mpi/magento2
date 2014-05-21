@@ -6,6 +6,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\Cron\Model;
+
+use Magento\Cron\Exception;
+
 /**
  * Crontab schedule model
  *
@@ -25,13 +29,11 @@
  * @method \Magento\Cron\Model\Schedule setExecutedAt(string $value)
  * @method string getFinishedAt()
  * @method \Magento\Cron\Model\Schedule setFinishedAt(string $value)
+ * @method array getCronExprArr()
+ * @method \Magento\Cron\Model\Schedule setCronExprArr(array $value)
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cron\Model;
-
-use Magento\Cron\Exception;
-
 class Schedule extends \Magento\Framework\Model\AbstractModel
 {
     const STATUS_PENDING = 'pending';
@@ -98,12 +100,13 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
      *
      * Supports $this->setCronExpr('* 0-5,10-59/5 2-10,15-25 january-june/2 mon-fri')
      *
-     * @param int|string $time
      * @return bool
      */
-    public function trySchedule($time)
+    public function trySchedule()
     {
+        $time = $this->getScheduledAt();
         $e = $this->getCronExprArr();
+
         if (!$e || !$time) {
             return false;
         }
@@ -119,10 +122,6 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
             && $this->matchCronExpression($e[3], $d['mon'])
             && $this->matchCronExpression($e[4], $d['wday']);
 
-        if ($match) {
-            $this->setCreatedAt(strftime('%Y-%m-%d %H:%M:%S', time()));
-            $this->setScheduledAt(strftime('%Y-%m-%d %H:%M', $time));
-        }
         return $match;
     }
 

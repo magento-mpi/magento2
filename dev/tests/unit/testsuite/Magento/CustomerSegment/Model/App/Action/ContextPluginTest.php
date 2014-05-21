@@ -63,20 +63,23 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
+        $this->customerSessionMock = $this->getMock(
+            'Magento\Customer\Model\Session',
             array('getCustomerId', '__wakeup'),
             array(),
             '',
             false
         );
         $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $this->customerSegmentMock = $this->getMock('Magento\CustomerSegment\Model\Customer',
+        $this->customerSegmentMock = $this->getMock(
+            'Magento\CustomerSegment\Model\Customer',
             array('getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'),
             array(),
             '',
             false
         );
-        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface',
+        $this->storeManagerMock = $this->getMockForAbstractClass(
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             '',
             false
@@ -86,7 +89,8 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         };
         $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
-        $this->websiteMock = $this->getMock('Magento\Store\Model\Website',
+        $this->websiteMock = $this->getMock(
+            'Magento\Store\Model\Website',
             array('__wakeup', 'getId'),
             array(),
             '',

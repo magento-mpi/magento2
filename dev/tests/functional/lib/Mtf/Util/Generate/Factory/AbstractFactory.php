@@ -165,7 +165,8 @@ abstract class AbstractFactory
                     $dirIterator =  new \RegexIterator(
                         new \RecursiveIteratorIterator(
                             new \RecursiveDirectoryIterator($filePath, \FilesystemIterator::SKIP_DOTS)
-                        ), '/.php$/i'
+                        ),
+                        '/.php$/i'
                     );
                     foreach ($dirIterator as $info) {
                         /** @var $info \SplFileInfo */

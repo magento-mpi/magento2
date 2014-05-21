@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sitemap\Test\Handler\Sitemap; 
+namespace Magento\Sitemap\Test\Handler\Sitemap;
 
 use Mtf\Handler\HandlerInterface;
 
@@ -16,5 +16,5 @@ use Mtf\Handler\HandlerInterface;
  */
 interface SitemapInterface extends HandlerInterface
 {
-   //
+    //
 }

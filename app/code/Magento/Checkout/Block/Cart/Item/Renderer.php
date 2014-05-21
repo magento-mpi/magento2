@@ -317,12 +317,12 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         if ($this->hasDeleteUrl()) {
             return $this->getData('delete_url');
         }
-
-        $encodedUrl = $this->_urlHelper->getEncodedUrl();
-        return $this->getUrl(
-            'checkout/cart/delete',
-            array('id' => $this->getItem()->getId(), \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl)
-        );
+        $params = ['id' => $this->getItem()->getId()];
+        if (!$this->_request->isAjax()) {
+            $encodedUrl = $this->_urlHelper->getEncodedUrl();
+            $params[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $encodedUrl;
+        }
+        return $this->getUrl('checkout/cart/delete', $params);
     }
 
     /**
