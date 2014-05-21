@@ -18,6 +18,11 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 /**
  * Test Creation for Update CatalogEventEntity
  *
+ * Preconditions:
+ * 1. Subcategory is created.
+ * 2. Product is created and assigned to subcategory.
+ * 3. Catalog event is created and applied for existing category.
+ *
  * Test Flow:
  * 1. Log in to backend as admin user.
  * 2. Navigate to MARKETING>Private Sales>Events.
@@ -39,6 +44,13 @@ class UpdateCatalogEventEntityTest extends Injectable
     protected $catalogEventNew;
 
     /**
+     * Catalog Product fixture
+     *
+     * @var CatalogProductSimple
+     */
+    protected $product;
+
+    /**
      * Event Page
      *
      * @var CatalogEventIndex
@@ -46,10 +58,11 @@ class UpdateCatalogEventEntityTest extends Injectable
     protected $catalogEventIndex;
 
     /**
+     * Inject data
+     *
      * @param CatalogEventNew $catalogEventNew
      * @param CatalogEventIndex $catalogEventIndex
      * @param FixtureFactory $fixtureFactory
-     *
      * @return array
      */
     public function __inject(
@@ -60,45 +73,48 @@ class UpdateCatalogEventEntityTest extends Injectable
         $this->catalogEventNew = $catalogEventNew;
         $this->catalogEventIndex = $catalogEventIndex;
 
-        /** @var CatalogProductSimple $catalogProductSimple */
-        $catalogProductSimple = $fixtureFactory->createByCode(
+        /** @var CatalogProductSimple $product */
+        $product = $fixtureFactory->createByCode(
             'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $catalogProductSimple->persist();
+        $product->persist();
+        $this->product = $product;
 
-        $categoryId = $catalogProductSimple->getCategoryIds()[0]['id'];
-        $catalogEventEntity = $fixtureFactory->createByCode(
+        $categoryId = $product->getCategoryIds()[0]['id'];
+        $catalogEvent = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
-                'dataSet' => 'new_event',
+                'dataSet' => 'default_event',
                 'data' => ['category_id' => $categoryId],
             ]
         );
-        $catalogEventEntity->persist();
+        $catalogEvent->persist();
 
         return [
-            'catalogProductSimple' => $catalogProductSimple,
-            'catalogEventEntity' => $catalogEventEntity,
+            'catalogProductSimple' => $product,
+            'catalogEventOriginal' => $catalogEvent,
         ];
     }
 
     /**
+     * Update Catalog Event Entity
+     *
      * @param CatalogEventEntity $catalogEvent
-     * @param CatalogProductSimple $catalogProductSimple
+     * @param  CatalogProductSimple $product
+     * @return void
      */
     public function testUpdateCatalogEvent(
         CatalogEventEntity $catalogEvent,
-        CatalogProductSimple $catalogProductSimple
+        CatalogProductSimple $product
     ) {
         $filter = [
-            'category_name' => $catalogProductSimple->getCategoryIds()[0]['name'],
+            'category_name' => $this->product->getCategoryIds()[0]['name'],
         ];
 
         //Steps
         $this->catalogEventIndex->open();
         $this->catalogEventIndex->getBlockEventGrid()->searchAndOpen($filter);
-
         $this->catalogEventNew->getEventForm()->fill($catalogEvent);
         $this->catalogEventNew->getPageActions()->save();
     }

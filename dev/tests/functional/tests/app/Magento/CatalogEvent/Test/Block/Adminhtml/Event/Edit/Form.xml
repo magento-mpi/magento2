@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<mapper strict="0">
+<mapping strict="0">
     <wrapper>catalogevent</wrapper>
     <fields>
         <date_start>
@@ -32,4 +32,4 @@
             </product_page>
         </display_state>
     </fields>
-</mapper>
+</mapping>

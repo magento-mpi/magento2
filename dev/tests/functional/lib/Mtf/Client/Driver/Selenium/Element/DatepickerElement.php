@@ -10,6 +10,7 @@ namespace Mtf\Client\Driver\Selenium\Element;
 
 use Mtf\Client\Driver\Selenium\Element;
 use Mtf\Client\Element as ElementInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class DatepickerElement
@@ -22,89 +23,65 @@ class DatepickerElement extends Element
      *
      * @var string
      */
-    protected $datePickerButton = 'ui-datepicker-trigger';
+    protected $datePickerButton = './/following-sibling::img[contains(@class,"ui-datepicker-trigger")]';
 
     /**
      * DatePicker block
      *
      * @var string
      */
-    protected $datePickerBlock = 'ui-datepicker-div';
+    protected $datePickerBlock = './/ancestor::body//*[contains(@id,"ui-datepicker-div")]';
 
     /**
      * Field Month on the DatePicker
      *
      * @var string
      */
-    protected $datePickerMonth = 'ui-datepicker-month';
+    protected $datePickerMonth = './/*[contains(@class,"ui-datepicker-month")]';
 
     /**
      * Field Year on the DatePicker
      *
      * @var string
      */
-    protected $datePickerYear = 'ui-datepicker-year';
+    protected $datePickerYear = './/*[contains(@class,"ui-datepicker-year")]';
 
     /**
      * Calendar on the DatePicker
      *
      * @var string
      */
-    protected $datePickerCalendar = 'ui-datepicker-calendar';
+    protected $datePickerCalendar = './/*[contains(@class,"ui-datepicker-calendar")]//*/td/a[text()="%s"]';
 
     /**
      * DatePicker button 'Close'
      *
      * @var string
      */
-    protected $datePickerButtonClose = 'ui-datepicker-close';
+    protected $datePickerButtonClose = './/*[contains(@class,"ui-datepicker-close")]';
 
     /**
      * Set the date from datePicker
      *
      * @param string $value
+     * @return void.
      */
     public function setValue($value)
     {
         $date = $this->parseDate($value);
 
-        $this->find(
-            './/following-sibling::img[contains(@class,"' . $this->datePickerButton . '")]',
-            ElementInterface\Locator::SELECTOR_XPATH
-        )->click();
-
-        $datapicker = $this->find(
-            './/ancestor::body//*[contains(@id,"' . $this->datePickerBlock . '")]',
-            ElementInterface\Locator::SELECTOR_XPATH
-        );
-
-        $datapicker->find(
-            './/*[contains(@class,"' . $this->datePickerMonth . '")]',
-            ElementInterface\Locator::SELECTOR_XPATH,
-            'select'
-        )->setValue($date[0]);
-
-        $datapicker->find(
-            './/*[contains(@class,"' . $this->datePickerYear . '")]',
-            ElementInterface\Locator::SELECTOR_XPATH,
-            'select'
-        )->setValue($date[2]);
-
-        $datapicker->find(
-            './/*[contains(@class,"' . $this->datePickerCalendar . '")]//*/td/a[text()=' . $date[1] . ']',
-            ElementInterface\Locator::SELECTOR_XPATH
-        )->click();
-
-        $datapicker->find(
-            './/*[contains(@class,"' . $this->datePickerButtonClose . '")]',
-            ElementInterface\Locator::SELECTOR_XPATH
-        )->click();
+        $this->find($this->datePickerButton, Locator::SELECTOR_XPATH)->click();
+        $datapicker = $this->find($this->datePickerBlock, Locator::SELECTOR_XPATH);
+        $datapicker->find($this->datePickerMonth, Locator::SELECTOR_XPATH, 'select')->setValue($date[0]);
+        $datapicker->find($this->datePickerYear, Locator::SELECTOR_XPATH, 'select')->setValue($date[2]);
+        $datapicker->find(sprintf($this->datePickerCalendar, $date[1]), Locator::SELECTOR_XPATH)->click();
+        $datapicker->find($this->datePickerButtonClose, Locator::SELECTOR_XPATH)->click();
     }
 
     /**
      * Parse date from string to array
-     * @param $value
      *
+     * @param string $value
      * @return array
      */
     protected function parseDate($value)

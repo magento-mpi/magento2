@@ -60,11 +60,10 @@ class Grid extends AbstractGrid
     }
 
     /**
-     * find row on grid
+     * Find row on grid
      *
      * @param array $filter
      * @param bool $isSearchable
-     *
      * @return Element
      */
     protected function getRow(array $filter, $isSearchable = true)
@@ -76,7 +75,8 @@ class Grid extends AbstractGrid
         $rows = [];
         foreach ($filter as $value) {
             if (strripos($value, 'PM') || strripos($value, 'AM')) {
-                $value = substr($value, 0, strlen($value) - 11);
+                preg_match('#([^:]+)\s.*#', $value, $matches);
+                $value = $matches[1];
             }
             $rows[] = 'td[contains(text(),normalize-space("' . $value . '"))]';
         }
