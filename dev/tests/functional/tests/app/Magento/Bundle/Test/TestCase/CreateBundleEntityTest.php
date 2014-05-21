@@ -11,16 +11,18 @@ namespace Magento\Bundle\Test\TestCase;
 use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\Category;
 use Magento\Bundle\Test\Fixture\CatalogProductBundle;
-use Magento\Catalog\Test\Page\Product\CatalogProductNew;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Class CreateBundleEntityTest
- *
+ * Create bundle product entity test
  */
 class CreateBundleEntityTest extends Injectable
 {
     /**
+     * Category fixture
+     *
      * @var Category
      */
     protected $category;
@@ -49,6 +51,10 @@ class CreateBundleEntityTest extends Injectable
      * Creating bundle product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12702, MAGETWO-12622
+     * @param CatalogProductBundle $bundle
+     * @param CatalogProductIndex $manageProductsGrid
+     * @param CatalogProductNew $createProductPage
+     * @return void
      */
     public function testCreate(
         CatalogProductBundle $bundle,
@@ -59,10 +65,9 @@ class CreateBundleEntityTest extends Injectable
         $manageProductsGrid->open();
         $manageProductsGrid->getProductBlock()->addProduct('bundle');
         // Step 2
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        $productBlockForm->setCategory($this->category);
-        $productBlockForm->fill($bundle);
+        $productForm = $createProductPage->getForm();
+        $productForm->fillProduct($bundle, $this->category);
         // Step 3
-        $productBlockForm->save($bundle);
+        $createProductPage->getFormAction()->save();
     }
 }
