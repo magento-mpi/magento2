@@ -92,7 +92,8 @@ class CatalogCategory extends Page
     public function getTreeBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryTree(
-            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS, 'tree'), $this->getTemplateBlock()
+            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS, 'tree'),
+            $this->getTemplateBlock()
         );
     }
 

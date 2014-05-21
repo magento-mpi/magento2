@@ -177,12 +177,14 @@ class CreateWithAttributeTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals(
-            $product->getProductName(), $productViewBlock->getProductName(),
+            $product->getProductName(),
+            $productViewBlock->getProductName(),
             'Product name does not correspond to specified.'
         );
         $price = $productViewBlock->getProductPrice();
         $this->assertEquals(
-            number_format($product->getProductPrice(), 2), $price['price_regular_price'],
+            number_format($product->getProductPrice(), 2),
+            $price['price_regular_price'],
             'Product price does not correspond to specified.'
         );
         $this->assertTrue(

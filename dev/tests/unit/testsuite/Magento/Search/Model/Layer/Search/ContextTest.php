@@ -44,19 +44,40 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->searchProviderMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Search\ItemCollectionProvider', array(), array(), '', false);
+            '\Magento\Search\Model\Layer\Search\ItemCollectionProvider',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->catalogProviderMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search\ItemCollectionProvider', array(), array(), '', false);
+            '\Magento\Catalog\Model\Layer\Search\ItemCollectionProvider',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
         $this->stateKeyMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search\StateKey', array(), array(), '', false
+            '\Magento\Catalog\Model\Layer\Search\StateKey',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->collectionFilterMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search\CollectionFilter', array(), array(), '', false
+            '\Magento\Catalog\Model\Layer\Search\CollectionFilter',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->model = new Context(
-            $this->catalogProviderMock, $this->stateKeyMock, $this->collectionFilterMock, $this->searchProviderMock,
+            $this->catalogProviderMock,
+            $this->stateKeyMock,
+            $this->collectionFilterMock,
+            $this->searchProviderMock,
             $this->helperMock
         );
     }
