@@ -5,6 +5,7 @@
 //  * @copyright   {copyright}
 //  * @license     {license_link}
 //  */
+
 //
 //    Typography
 //--------------------------------------
@@ -23,7 +24,7 @@
 @color-secondary: #e8e8e8;
 @color-secondary-light: lighten(@color-secondary, 5%);
 @page-bg-color: #fff;
-@panel-bg: darken(@page-bg-color, 6%);
+@panel-bg: #f6f6f6;
 @color-active: #ff5501;
 @color-error: #e02b27;
 
@@ -63,7 +64,7 @@
 @indent-s-base: @indent-base / 2; // 10px
 @indent-xs-base: @indent-base / 4; // 5px
 
-@border-color-base: darken(@page-bg-color, 18%);
+@border-color-base: #ccc;
 @border-width-base: 1px;
 
 
@@ -406,10 +407,12 @@
 //  Tabs
 
 //  Tabs controls
+@tab-control-height-base: @line-height-computed;
+@tab-control-height: @indent-base*2;
 @tab-control-font-size: @font-size-base;
-@tab-control-font-family: @font-family-base;
+@tab-control-font-family: false;
 @tab-control-font-weight: @font-weight-semibold;
-@tab-control-font-style: @font-style-base;
+@tab-control-font-style: false;
 @tab-control-line-height: @tab-control-height;
 
 // Current tab
@@ -427,15 +430,13 @@
 @tab-control-color-active: @text-color;
 @tab-control-text-decoration-active: @tab-control-text-decoration;
 
-@tab-control-height-base: @line-height-computed;
-@tab-control-height: @indent-base;
-@tab-control-margin-right: @indent-xs-base;
+@tab-control-margin-right: -1px;
 @tab-control-padding: @indent-xs-base @indent-xl-base;
 
-@tab-control-padding-top: @indent-xs-base;
-@tab-control-padding-right: @indent-base;
-@tab-control-padding-left: @tab-control-padding-right;
+@tab-control-padding-top: 1px;
+@tab-control-padding-right: 35px;
 @tab-control-padding-bottom: @tab-control-padding-top;
+@tab-control-padding-left: @tab-control-padding-right;
 
 // Tabs content
 @tab-content-bg: @tab-control-bg-active;
@@ -448,52 +449,52 @@
 
 @tab-content-margin-top: @tab-control-height + @tab-control-border-width + @tab-control-padding-top + @tab-control-padding-bottom;
 
-@tab-content-padding-top: @indent-base;
-@tab-content-padding-right: @indent-base;
-@tab-content-padding-left: @tab-content-padding-right;
+@tab-content-padding-top: 35px;
+@tab-content-padding-right: @tab-control-padding-right;
 @tab-content-padding-bottom: @tab-content-padding-top;
+@tab-content-padding-left: @tab-content-padding-right;
 
 // Accordions  variables
-@accordion-control-font-family: @tab-control-font-family;
-@accordion-control-font-size: @font-size-l;
-@accordion-control-font-style: @tab-control-font-style;
-@accordion-control-font-weight: @tab-control-font-weight;
+@accordion-control-font-family: false;
+@accordion-control-font-size: @font-size-base;
+@accordion-control-font-style: false;
+@accordion-control-font-weight: @font-weight-semibold;
 @accordion-control-line-height: @accordion-control-height;
 
 @accordion-control-border-top: @tab-control-border-width solid @tab-control-border-color;
-@accordion-control-border-right: @tab-control-border-width solid @tab-control-border-color;
-@accordion-control-border-bottom: @tab-control-border-width solid @tab-control-border-color;
-@accordion-control-border-left: @tab-control-border-width solid @tab-control-border-color;
+@accordion-control-border-right: false;
+@accordion-control-border-bottom: false;
+@accordion-control-border-left: false;
 
-@accordion-control-bg: @tab-control-bg;
-@accordion-control-color: @tab-control-color;
+@accordion-control-bg: false;
+@accordion-control-color: @color-primary;
 @accordion-control-text-decoration: @tab-control-text-decoration;
 
 @accordion-control-color-visited: @accordion-control-color;
 @accordion-control-text-decoration-visited: @accordion-control-text-decoration;
 
-@accordion-control-bg-hover: @tab-control-bg-hover;
-@accordion-control-color-hover: @tab-control-color-hover;
+@accordion-control-bg-hover: false;
+@accordion-control-color-hover: @accordion-control-color;
 @accordion-control-text-decoration-hover: @tab-control-text-decoration-hover;
 
-@accordion-control-bg-active: @tab-control-bg-active;
-@accordion-control-color-active: @tab-control-color-active;
+@accordion-control-bg-active: false;
+@accordion-control-color-active: @accordion-control-color;
 @accordion-control-text-decoration-active: @tab-control-text-decoration-active;
 
 @accordion-control-height: @indent-xl-base;
-@accordion-control-margin-bottom: @indent-xs-base;
+@accordion-control-margin-bottom: 0;
 
 @accordion-control-padding-top: @tab-control-padding-top;
-@accordion-control-padding-right: @indent-base;
+@accordion-control-padding-right: 10px;
 @accordion-control-padding-bottom: @tab-control-padding-bottom;
-@accordion-control-padding-left: @accordion-control-padding-right;
+@accordion-control-padding-left: 10px;
 
 @accordion-content-bg: @tab-control-bg-active;
-@accordion-content-border: @tab-content-border;
+@accordion-content-border: false;
 
-@accordion-content-margin: 0 0 5px;
+@accordion-content-margin: 0;
 
-@accordion-content-padding: @tab-content-padding-top @tab-content-padding-right @tab-content-padding-bottom @tab-content-padding-left;
+@accordion-content-padding: 10px 10px 30px;
 
 //
 //    Buttons variables
