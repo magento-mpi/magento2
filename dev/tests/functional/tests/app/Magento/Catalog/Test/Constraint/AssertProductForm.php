@@ -106,7 +106,7 @@ class AssertProductForm extends AbstractConstraint
         $errors = [];
         $keysDiff = array_diff(array_keys($fixtureData), array_keys($formData));
         if (!empty($keysDiff)) {
-            return ['arrays do not correspond to each other in composition'];
+            return ['fixture data do not correspond to form data in composition'];
         }
 
         foreach ($fixtureData as $key => $value) {

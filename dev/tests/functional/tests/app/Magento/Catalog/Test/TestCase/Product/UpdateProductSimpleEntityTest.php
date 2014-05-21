@@ -10,22 +10,21 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Cover UpdateProductSimpleEntity with functional tests designed for automation
+ * Test Creation for UpdateProductSimpleEntity
  *
  * Test Flow:
  *
- * +Precondition:+
+ * Precondition:
  * Category is created.
  * Product is created.
  *
- * +Steps:+
+ * Steps:
  * 1. Login to backend.
  * 2. Navigate to PRODUCTS -> Catalog.
  * 3. Select a product in the grid.
@@ -34,7 +33,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  * 6. Perform asserts
  *
  * @group Products_(CS)
- * @ZephyrId MTA-25
+ * @ZephyrId MAGETWO-23544
  */
 class UpdateProductSimpleEntityTest extends Injectable
 {

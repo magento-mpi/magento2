@@ -44,16 +44,15 @@ class CategoryIds implements FixtureInterface
     ) {
         $this->params = $params;
 
-        if (!empty($data['category']) && empty($data['presets'])
+        if (!empty($data['category'])
+            && empty($data['presets'])
             && $data['category'] instanceof CatalogCategoryEntity
         ) {
             /** @var CatalogCategoryEntity $category */
             $category = $data['category'];
-            $this->data = [
-                [
-                    'id' => $category->getId(),
-                    'name' => $category->getName(),
-                ],
+            $this->data[] = [
+                'id' => $category->getId(),
+                'name' => $category->getName(),
             ];
             $this->category[] = $category;
         } elseif (isset($data['presets']) && $data['presets'] !== '-') {
@@ -63,11 +62,9 @@ class CategoryIds implements FixtureInterface
                 $category->persist();
 
                 /** @var CatalogCategoryEntity $category */
-                $this->data = [
-                    [
-                        'id' => $category->getId(),
-                        'name' => $category->getName(),
-                    ],
+                $this->data[] = [
+                    'id' => $category->getId(),
+                    'name' => $category->getName(),
                 ];
                 $this->category[] = $category;
             }
