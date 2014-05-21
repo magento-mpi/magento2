@@ -63,11 +63,9 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_stock;
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
+     * @var \Magento\CatalogInventory\Service\StockItem
      */
-    protected $_catalogInventoryData;
+    protected $stockItemService;
 
     /**
      * Core store config
@@ -89,23 +87,21 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * Construct
-     * 
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Service\StockItem $stockItemService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Service\StockItem $stockItemService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->stockItemService = $stockItemService;
         $this->_scopeConfig = $scopeConfig;
         $this->_stockFactory = $stockFactory;
         $this->dateTime = $dateTime;
@@ -254,7 +250,7 @@ class Stock extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             $this->_isConfig = true;
             $this->_stock = $this->_stockFactory->create();
-            $this->_configTypeIds = array_keys($this->_catalogInventoryData->getIsQtyTypeIds(true));
+            $this->_configTypeIds = array_keys($this->stockItemService->getIsQtyTypeIds(true));
         }
     }
 

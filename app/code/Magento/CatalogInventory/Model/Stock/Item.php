@@ -163,11 +163,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_catalogInventoryMinsaleqty;
 
     /**
-     * Catalog inventory data
-     *
-     * @var \Magento\CatalogInventory\Helper\Data
+     * @var \Magento\CatalogInventory\Service\StockItem
      */
-    protected $_catalogInventoryData;
+    protected $stockItemService;
 
     /**
      * Core store config
@@ -224,7 +222,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Index\Model\Indexer $indexer
      * @param Status $stockStatus
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Service\StockItem $stockItemService
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -242,7 +240,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Index\Model\Indexer $indexer,
         Status $stockStatus,
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Service\StockItem $stockItemService,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -259,7 +257,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $this->_customerSession = $customerSession;
         $this->_indexer = $indexer;
         $this->_stockStatus = $stockStatus;
-        $this->_catalogInventoryData = $catalogInventoryData;
+        $this->stockItemService = $stockItemService;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -894,7 +892,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
             $typeId = $productTypeId;
         }
 
-        $isQty = $this->_catalogInventoryData->isQty($typeId);
+        $isQty = $this->stockItemService->isQty($typeId);
 
         if ($isQty) {
             if ($this->getManageStock() && !$this->verifyStock()) {

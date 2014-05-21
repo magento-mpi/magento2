@@ -149,15 +149,16 @@ interface StockItemInterface
 
     /**
      * @param int $productId
-     * @param int $qty
      * @return int
      */
-    public function getStockQty($productId, $qty);
+    public function getStockQty($productId);
 
     /**
+     * @param int $productId
+     * @param int $qty
      * @return bool
      */
-    public function checkQtyIncrements();
+    public function checkQtyIncrements($productId, $qty);
 
     /**
      * @param int $productTypeId
