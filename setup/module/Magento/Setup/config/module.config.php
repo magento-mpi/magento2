@@ -21,7 +21,7 @@ return [
             'setup' => [
                 'type'    => 'segment',
                 'options' => [
-                    'route'    => '/[:controller[/:action]]',
+                    'route'    => '/setup/[:controller[/:action]]',
                     'constraints' => array(
                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',

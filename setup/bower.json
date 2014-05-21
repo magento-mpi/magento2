@@ -2,6 +2,7 @@
     "name": "magento-setup",
     "dependencies": {
         "angular": "1.2.x",
-        "bootstrap": "3.0.0"
+        "angular-route": "master",
+        "requirejs": "master"
     }
 }
