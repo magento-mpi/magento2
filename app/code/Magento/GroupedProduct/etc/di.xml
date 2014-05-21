@@ -75,4 +75,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Service\V1\Data\Entity\CollectionProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="grouped" xsi:type="array">
+                    <item name="code" xsi:type="const">Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED</item>
+                    <item name="provider" xsi:type="object">Magento\GroupedProduct\Service\V1\Data\Entity\CollectionProvider\Grouped</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

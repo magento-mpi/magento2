@@ -29,6 +29,8 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
         $this->providerMock = $this->getMock('Magento\Catalog\Model\Product\LinkTypeProvider', [], [], '', false);
         $this->builderMock = $this->getMock(
             'Magento\Catalog\Service\V1\Data\CatalogProductLinkBuilder',
@@ -37,7 +39,13 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->service = new CatalogProductLinkService($this->providerMock, $this->builderMock);
+        $this->service = $helper->getObject(
+            'Magento\Catalog\Service\V1\CatalogProductLinkService',
+            [
+                'linkTypeProvider' => $this->providerMock,
+                'builder' => $this->builderMock,
+            ]
+        );
     }
 
     public function testGetProductLinkTypes()
@@ -60,5 +68,10 @@ class CatalogProductLinkServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->assertCount(2, $this->service->getProductLinkTypes());
+    }
+
+    public function testGetLinkedProducts()
+    {
+        $this->markTestIncomplete('need to be implemented');
     }
 } 
