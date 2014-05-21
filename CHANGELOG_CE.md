@@ -50,6 +50,8 @@
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
+  * Fixed: File permissions change after system backup (MAGETWO-20995)
+  * Fixed: REST request and response format is inconsistent
 * Functional tests:
   * Tax Rule Creation
   * Admin User Roe Creation
@@ -57,6 +59,8 @@
   * Customer Group Creation
   * Update Backend Customer
   * Newsletter Creation
+* GitHub requests:
+  * [#542] (https://github.com/magento/magento2/issues/542) Fix ImportExport bug which occurs while importing multiple rows per entity
 
 2.0.0.0-dev78
 =============
