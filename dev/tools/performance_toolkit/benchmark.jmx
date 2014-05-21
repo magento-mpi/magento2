@@ -62,11 +62,6 @@
             <stringProp name="Argument.value">${__P(loops,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="customer_email" elementType="Argument">
-            <stringProp name="Argument.name">customer_email</stringProp>
-            <stringProp name="Argument.value">user_1@example.com</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="customer_password" elementType="Argument">
             <stringProp name="Argument.name">customer_password</stringProp>
             <stringProp name="Argument.value">123123q</stringProp>
@@ -75,6 +70,26 @@
           <elementProp name="url_suffix" elementType="Argument">
             <stringProp name="Argument.name">url_suffix</stringProp>
             <stringProp name="Argument.value">.html</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="admin_path" elementType="Argument">
+            <stringProp name="Argument.name">admin_path</stringProp>
+            <stringProp name="Argument.value">${__P(admin_path,backend)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="admin_user" elementType="Argument">
+            <stringProp name="Argument.name">admin_user</stringProp>
+            <stringProp name="Argument.value">${__P(admin_user,admin)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="admin_password" elementType="Argument">
+            <stringProp name="Argument.name">admin_password</stringProp>
+            <stringProp name="Argument.value">${__P(admin_password,123123q)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="website_id" elementType="Argument">
+            <stringProp name="Argument.name">website_id</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -117,6 +132,21 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+        <collectionProp name="CookieManager.cookies">
+          <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
+            <stringProp name="Cookie.value">30</stringProp>
+            <stringProp name="Cookie.domain">${host}</stringProp>
+            <stringProp name="Cookie.path">/</stringProp>
+            <boolProp name="Cookie.secure">false</boolProp>
+            <longProp name="Cookie.expires">0</longProp>
+            <boolProp name="Cookie.path_specified">true</boolProp>
+            <boolProp name="Cookie.domain_specified">true</boolProp>
+          </elementProp>
+        </collectionProp>
+        <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+      </CookieManager>
+      <hashTree/>
       <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="setUp Thread Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">stoptest</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
@@ -132,27 +162,13 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </SetupThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies">
-            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-              <stringProp name="Cookie.value">30</stringProp>
-              <stringProp name="Cookie.domain">${host}</stringProp>
-              <stringProp name="Cookie.path">/</stringProp>
-              <boolProp name="Cookie.secure">false</boolProp>
-              <longProp name="Cookie.expires">0</longProp>
-              <boolProp name="Cookie.path_specified">true</boolProp>
-              <boolProp name="Cookie.domain_specified">true</boolProp>
-            </elementProp>
-          </collectionProp>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-        </CookieManager>
-        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Clear properties" enabled="true">
           <stringProp name="BeanShellSampler.query">props.remove(&quot;category_url_key&quot;);
 props.remove(&quot;category_name&quot;);
 props.remove(&quot;simple_products_list&quot;);
 props.remove(&quot;configurable_products_list&quot;);
-props.remove(&quot;users&quot;);</stringProp>
+props.remove(&quot;users&quot;);
+props.remove(&quot;customer_emails_list&quot;);</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -250,7 +266,7 @@ if (!slash.equals(path.substring(path.length() -1)) || !slash.equals(path.substr
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: BeanShell Sampler: Collect category" enabled="true">
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Collect category" enabled="true">
           <stringProp name="BeanShellSampler.query">props.put(&quot;category_url_key&quot;, vars.get(&quot;category_url_key&quot;));
 props.put(&quot;category_name&quot;, vars.get(&quot;category_name&quot;));</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
@@ -394,7 +410,7 @@ import java.util.HashMap;
 // If it is first iteration of cycle then recreate productList
 if (1 == Integer.parseInt(vars.get(&quot;simple_products_counter&quot;))) {
     productList = new ArrayList();
-props.put(&quot;simple_products_list&quot;, productList);
+    props.put(&quot;simple_products_list&quot;, productList);
 } else {
     productList = props.get(&quot;simple_products_list&quot;);
 }
@@ -589,7 +605,7 @@ import java.util.HashMap;
 // If it is first iteration of cycle then recreate productList
 if (1 == Integer.parseInt(vars.get(&quot;configurable_products_counter&quot;))) {
     productList = new ArrayList();
-props.put(&quot;configurable_products_list&quot;, productList);
+    props.put(&quot;configurable_products_list&quot;, productList);
 } else {
     productList = props.get(&quot;configurable_products_list&quot;);
 }
@@ -610,6 +626,273 @@ productList.add(productMap);                 </stringProp>
           </BeanShellSampler>
           <hashTree/>
         </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Login" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}${admin_path}</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert login form shown" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1397214398">Welcome</stringProp>
+              <stringProp name="-1309286748">&lt;title&gt;Log into Magento Admin Page&lt;/title&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract form key" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">admin_form_key</stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;input name=&quot;form_key&quot; type=&quot;hidden&quot; value=&quot;([^&apos;&quot;]+)&quot; /&gt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert form_key extracted" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="2845929">^.+$</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">1</intProp>
+            <stringProp name="Assertion.scope">variable</stringProp>
+            <stringProp name="Scope.variable">admin_form_key</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Login Submit Form" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="dummy" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">dummy</stringProp>
+              </elementProp>
+              <elementProp name="form_key" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${admin_form_key}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">form_key</stringProp>
+              </elementProp>
+              <elementProp name="login[password]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">${admin_password}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">login[password]</stringProp>
+              </elementProp>
+              <elementProp name="login[username]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">${admin_user}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">login[username]</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}${admin_path}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert logged-in" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="1847038912">&lt;title&gt;Dashboard / Magento Admin&lt;/title&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Open Customer Grid" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}${admin_path}/customer/index/</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Customer Grid" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-679437259">Customers</stringProp>
+              <stringProp name="495525733">&lt;title&gt;Customers / Customers / Magento Admin&lt;/title&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Admin - Prepare Customers search Data" enabled="true">
+          <stringProp name="BeanShellSampler.query">import org.apache.jmeter.protocol.http.util.Base64Encoder;
+String searchData = &quot;customer_since[locale]=en_US&amp;website_id=1&quot;; 
+vars.put(&quot;searchData&quot;, new String(Base64Encoder.encode(searchData)));</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Admin - Search Customers" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="ajax" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">ajax</stringProp>
+              </elementProp>
+              <elementProp name="isAjax" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">true</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">isAjax</stringProp>
+              </elementProp>
+              <elementProp name="form_key" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${admin_form_key}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">form_key</stringProp>
+              </elementProp>
+              <elementProp name="internal_customer" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">internal_customer</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}${admin_path}/customer/index/grid/limit/50/filter/${searchData}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-1083053965">We couldn&apos;t find any records.</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">//table[@id=&apos;customerGrid_table&apos;]//tr[@data-role=&apos;row&apos;]</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
+          <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="XPath Extractor" enabled="true">
+            <stringProp name="XPathExtractor.default"></stringProp>
+            <stringProp name="XPathExtractor.refname">customer_emails</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//*[@id=&apos;customerGrid_table&apos;]//td[@data-column=&apos;email&apos;]/text()</stringProp>
+            <boolProp name="XPathExtractor.validate">false</boolProp>
+            <boolProp name="XPathExtractor.tolerant">true</boolProp>
+            <boolProp name="XPathExtractor.namespace">false</boolProp>
+            <boolProp name="XPathExtractor.show_warnings">true</boolProp>
+            <boolProp name="XPathExtractor.report_errors">true</boolProp>
+          </XPathExtractor>
+          <hashTree/>
+        </hashTree>
+        <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller: customer emails loop (search result)" enabled="true">
+          <stringProp name="ForeachController.inputVal">customer_emails</stringProp>
+          <stringProp name="ForeachController.returnVal">customer_email</stringProp>
+          <boolProp name="ForeachController.useSeparator">true</boolProp>
+        </ForeachController>
+        <hashTree>
+          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.end"></stringProp>
+            <stringProp name="CounterConfig.incr">1</stringProp>
+            <stringProp name="CounterConfig.name">email_counter</stringProp>
+            <stringProp name="CounterConfig.format"></stringProp>
+            <boolProp name="CounterConfig.per_user">false</boolProp>
+          </CounterConfig>
+          <hashTree/>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Collect customer emails" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.util.ArrayList;
+
+// If it is first iteration of cycle then recreate emailsList
+if (1 == Integer.parseInt(vars.get(&quot;email_counter&quot;))) {
+    emailsList = new ArrayList();
+    props.put(&quot;customer_emails_list&quot;, emailsList);
+} else {
+    emailsList = props.get(&quot;customer_emails_list&quot;);
+}
+emailsList.add(vars.get(&quot;customer_email&quot;));</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+        </hashTree>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler: Validate properties and count users" enabled="true">
           <stringProp name="BeanShellSampler.query">Boolean stopTestOnError (String error) {
     log.error(error);
@@ -624,7 +907,9 @@ if (props.get(&quot;simple_products_list&quot;) == null) {
 if (props.get(&quot;configurable_products_list&quot;) == null) {
     return stopTestOnError(&quot;Cannot find configurable products. Test stopped.&quot;);
 }
-
+if (props.get(&quot;customer_emails_list&quot;) == null) {
+    return stopTestOnError(&quot;Cannot find customer emails. Test stopped.&quot;);
+}
 int orders = Integer.parseInt(vars.get(&quot;orders&quot;));
 
 if (orders &gt; 0) {
@@ -689,21 +974,6 @@ if (orders &gt; 0) {
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies">
-            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-              <stringProp name="Cookie.value">30</stringProp>
-              <stringProp name="Cookie.domain">${host}</stringProp>
-              <stringProp name="Cookie.path">/</stringProp>
-              <boolProp name="Cookie.secure">false</boolProp>
-              <longProp name="Cookie.expires">0</longProp>
-              <boolProp name="Cookie.path_specified">true</boolProp>
-              <boolProp name="Cookie.domain_specified">true</boolProp>
-            </elementProp>
-          </collectionProp>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-        </CookieManager>
-        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(CatProdBrows)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -711,8 +981,10 @@ simpleList = props.get(&quot;simple_products_list&quot;).get(number);
 vars.put(&quot;simple_product_1_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, simpleList.get(&quot;title&quot;));
 
-number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
-simpleList = props.get(&quot;simple_products_list&quot;).get(number);
+do {
+    number1 = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
+} while(number == number1);
+simpleList = props.get(&quot;simple_products_list&quot;).get(number1);
 vars.put(&quot;simple_product_2_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_2_name&quot;, simpleList.get(&quot;title&quot;));
 
@@ -755,7 +1027,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -814,6 +1086,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1254853024">&lt;title&gt;${simple_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -845,6 +1118,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2142356705">&lt;title&gt;${simple_product_2_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -876,6 +1150,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="199922279">&lt;title&gt;${configurable_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -931,21 +1206,6 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies">
-            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-              <stringProp name="Cookie.value">30</stringProp>
-              <stringProp name="Cookie.domain">${host}</stringProp>
-              <stringProp name="Cookie.path">/</stringProp>
-              <boolProp name="Cookie.secure">false</boolProp>
-              <longProp name="Cookie.expires">0</longProp>
-              <boolProp name="Cookie.path_specified">true</boolProp>
-              <boolProp name="Cookie.domain_specified">true</boolProp>
-            </elementProp>
-          </collectionProp>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-        </CookieManager>
-        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(BrowsAddToCart)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -954,8 +1214,10 @@ vars.put(&quot;simple_product_1_url_key&quot;, simpleList.get(&quot;url_key&quot
 vars.put(&quot;simple_product_1_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_1_id&quot;, simpleList.get(&quot;id&quot;));
 
-number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
-simpleList = props.get(&quot;simple_products_list&quot;).get(number);
+do {
+    number1 = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
+} while(number == number1);
+simpleList = props.get(&quot;simple_products_list&quot;).get(number1);
 vars.put(&quot;simple_product_2_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_2_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_2_id&quot;, simpleList.get(&quot;id&quot;));
@@ -1002,7 +1264,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -1061,6 +1323,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1254853024">&lt;title&gt;${simple_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1070,7 +1333,29 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Product 1 Add To Cart(BrowsAddToCart)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="product" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${simple_product_1_id}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">product</stringProp>
+              </elementProp>
+              <elementProp name="related_product" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">related_product</stringProp>
+              </elementProp>
+              <elementProp name="qty" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">qty</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain"></stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
@@ -1078,7 +1363,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${base_path}checkout/cart/add?product=${simple_product_1_id}&amp;qty=3&amp;related_product=</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}checkout/cart/add</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1097,6 +1382,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=1</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Product 2 View(BrowsAddToCart)" enabled="true">
@@ -1123,6 +1428,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2142356705">&lt;title&gt;${simple_product_2_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1132,7 +1438,29 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Product 2 Add To Cart(BrowsAddToCart)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="product" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${simple_product_2_id}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">product</stringProp>
+              </elementProp>
+              <elementProp name="related_product" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">related_product</stringProp>
+              </elementProp>
+              <elementProp name="qty" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">qty</stringProp>
+              </elementProp>
+            </collectionProp>
           </elementProp>
           <stringProp name="HTTPSampler.domain"></stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
@@ -1140,7 +1468,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol">http</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${base_path}checkout/cart/add?product=${simple_product_2_id}&amp;qty=3&amp;related_product=</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}checkout/cart/add</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1159,6 +1487,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=2</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Configurable Product 1 View(BrowsAddToCart)" enabled="true">
@@ -1185,6 +1533,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="199922279">&lt;title&gt;${configurable_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1251,6 +1600,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-815931116">&lt;div&gt;* We don&apos;t have as many &amp;quot;${configurable_product_1_name}&amp;quot; as you requested.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=3</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
@@ -1300,21 +1669,6 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies">
-            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-              <stringProp name="Cookie.value">30</stringProp>
-              <stringProp name="Cookie.domain">${host}</stringProp>
-              <stringProp name="Cookie.path">/</stringProp>
-              <boolProp name="Cookie.secure">false</boolProp>
-              <longProp name="Cookie.expires">0</longProp>
-              <boolProp name="Cookie.path_specified">true</boolProp>
-              <boolProp name="Cookie.domain_specified">true</boolProp>
-            </elementProp>
-          </collectionProp>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-        </CookieManager>
-        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(GuestChkt)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
           <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
@@ -1323,8 +1677,10 @@ vars.put(&quot;simple_product_1_url_key&quot;, simpleList.get(&quot;url_key&quot
 vars.put(&quot;simple_product_1_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_1_id&quot;, simpleList.get(&quot;id&quot;));
 
-number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
-simpleList = props.get(&quot;simple_products_list&quot;).get(number);
+do {
+    number1 = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
+} while(number == number1);
+simpleList = props.get(&quot;simple_products_list&quot;).get(number1);
 vars.put(&quot;simple_product_2_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_2_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_2_id&quot;, simpleList.get(&quot;id&quot;));
@@ -1371,7 +1727,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -1430,6 +1786,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1254853024">&lt;title&gt;${simple_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1456,7 +1813,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">5</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -1489,6 +1846,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=1</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Product 2 View(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -1514,6 +1891,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2142356705">&lt;title&gt;${simple_product_2_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1540,7 +1918,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">3</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -1573,6 +1951,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=2</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Configurable Product 1 View(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -1598,6 +1996,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="199922279">&lt;title&gt;${configurable_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -1664,6 +2063,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-815931116">&lt;div&gt;* We don&apos;t have as many &amp;quot;${configurable_product_1_name}&amp;quot; as you requested.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=3</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout start(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -1692,7 +2111,16 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-179817969">&lt;title&gt;Shopping Cart&lt;/title&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
           </ResponseAssertion>
           <hashTree/>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract form key" enabled="true">
@@ -1755,7 +2183,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(GuestChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to billing(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -1942,7 +2370,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(GuestChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to shipping method(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -2010,7 +2438,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(GuestChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progressto payment(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -2085,7 +2513,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(GuestChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to review(GuestChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -2241,31 +2669,20 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
-          <collectionProp name="CookieManager.cookies">
-            <elementProp name="product_list_limit" elementType="Cookie" testname="product_list_limit">
-              <stringProp name="Cookie.value">30</stringProp>
-              <stringProp name="Cookie.domain">${host}</stringProp>
-              <stringProp name="Cookie.path">/</stringProp>
-              <boolProp name="Cookie.secure">false</boolProp>
-              <longProp name="Cookie.expires">0</longProp>
-              <boolProp name="Cookie.path_specified">true</boolProp>
-              <boolProp name="Cookie.domain_specified">true</boolProp>
-            </elementProp>
-          </collectionProp>
-          <boolProp name="CookieManager.clearEachIteration">true</boolProp>
-        </CookieManager>
-        <hashTree/>
         <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Get arguments(CustomerChkt)" enabled="true">
           <stringProp name="TestPlan.comments">Passing arguments between threads</stringProp>
-          <stringProp name="BeanShellSampler.query">number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
+          <stringProp name="BeanShellSampler.query">import org.apache.jmeter.samplers.SampleResult;
+
+number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
 simpleList = props.get(&quot;simple_products_list&quot;).get(number);
 vars.put(&quot;simple_product_1_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_1_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_1_id&quot;, simpleList.get(&quot;id&quot;));
 
-number = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
-simpleList = props.get(&quot;simple_products_list&quot;).get(number);
+do {
+    number1 = (int)(Math.random() * props.get(&quot;simple_products_list&quot;).size());
+} while(number == number1);
+simpleList = props.get(&quot;simple_products_list&quot;).get(number1);
 vars.put(&quot;simple_product_2_url_key&quot;, simpleList.get(&quot;url_key&quot;));
 vars.put(&quot;simple_product_2_name&quot;, simpleList.get(&quot;title&quot;));
 vars.put(&quot;simple_product_2_id&quot;, simpleList.get(&quot;id&quot;));
@@ -2279,7 +2696,21 @@ vars.put(&quot;configurable_attribute_id&quot;, configurableList.get(&quot;attri
 vars.put(&quot;configurable_option_id&quot;, configurableList.get(&quot;attribute_option_id&quot;));
 
 vars.put(&quot;category_url_key&quot;, props.get(&quot;category_url_key&quot;));
-vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stringProp>
+vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));
+
+emailsCount = props.get(&quot;customer_emails_list&quot;).size();
+print(emailsCount);
+if (emailsCount &lt; 1) {
+    log.error(&quot;You have to increase customers qty for running &apos;Customer Checkout&apos; thread.&quot;);
+    System.out.println(&quot;You have to increase customers qty for running &apos;Customer Checkout&apos; thread.&quot;);
+    SampleResult.setStopTest(true);    
+} else {
+    emails = props.get(&quot;customer_emails_list&quot;);
+    email = emails.get(emailsCount - 1);
+    emails.remove(email);
+    props.put(&quot;customer_emails_list&quot;, emails);
+    vars.put(&quot;customer_email&quot;, email);
+}</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">true</boolProp>
@@ -2312,7 +2743,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
@@ -2371,6 +2802,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="1254853024">&lt;title&gt;${simple_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -2397,7 +2829,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">5</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -2430,6 +2862,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=1</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Simple Product 2 View(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -2455,6 +2907,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="2142356705">&lt;title&gt;${simple_product_2_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -2481,7 +2934,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="qty" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">3</stringProp>
+                <stringProp name="Argument.value">1</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">qty</stringProp>
@@ -2514,6 +2967,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="518066445">&lt;div&gt;* This product is out of stock.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=2</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Configurable Product 1 View(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -2539,6 +3012,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="199922279">&lt;title&gt;${configurable_product_1_name}</stringProp>
+              <stringProp name="-1787050162">&lt;span&gt;In stock&lt;/span&gt;</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -2605,6 +3079,26 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
           <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-815931116">&lt;div&gt;* We don&apos;t have as many &amp;quot;${configurable_product_1_name}&amp;quot; as you requested.&lt;/div&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="XPath Assertion" enabled="true">
+            <boolProp name="XPath.negate">false</boolProp>
+            <stringProp name="XPath.xpath">count(//*[@class=&apos;cart item&apos;])=3</stringProp>
+            <boolProp name="XPath.validate">false</boolProp>
+            <boolProp name="XPath.whitespace">false</boolProp>
+            <boolProp name="XPath.tolerant">true</boolProp>
+            <boolProp name="XPath.namespace">false</boolProp>
+            <boolProp name="XPath.show_warnings">true</boolProp>
+            <boolProp name="XPath.report_errors">true</boolProp>
+          </XPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout start(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -2633,7 +3127,16 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">16</intProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-179817969">&lt;title&gt;Shopping Cart&lt;/title&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">6</intProp>
           </ResponseAssertion>
           <hashTree/>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract form key" enabled="true">
@@ -2724,14 +3227,14 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
             <collectionProp name="Arguments.arguments">
               <elementProp name="billing[address_id]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">7</stringProp>
+                <stringProp name="Argument.value">37</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[address_id]</stringProp>
               </elementProp>
               <elementProp name="billing[city]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">Culver City</stringProp>
+                <stringProp name="Argument.value">Fayetteville</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[city]</stringProp>
@@ -2759,49 +3262,42 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="billing[firstname]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">firstname</stringProp>
+                <stringProp name="Argument.value">Anthony</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[firstname]</stringProp>
               </elementProp>
               <elementProp name="billing[lastname]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">lastname</stringProp>
+                <stringProp name="Argument.value">Nealy</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[lastname]</stringProp>
               </elementProp>
               <elementProp name="billing[postcode]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">90232</stringProp>
+                <stringProp name="Argument.value">123123</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[postcode]</stringProp>
               </elementProp>
               <elementProp name="billing[region]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">California</stringProp>
+                <stringProp name="Argument.value">Arkansas</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[region]</stringProp>
               </elementProp>
               <elementProp name="billing[region_id]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">12</stringProp>
+                <stringProp name="Argument.value">5</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[region_id]</stringProp>
               </elementProp>
-              <elementProp name="billing[save_in_address_book]" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">1</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">billing[save_in_address_book]</stringProp>
-              </elementProp>
               <elementProp name="billing[street][]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">10441 Jefferson Blvd</stringProp>
+                <stringProp name="Argument.value">123 Freedom Blvd. #123</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[street][]</stringProp>
@@ -2815,7 +3311,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
               </elementProp>
               <elementProp name="billing[telephone]" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                <stringProp name="Argument.value">530-918-3581</stringProp>
+                <stringProp name="Argument.value">022-333-4455</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[telephone]</stringProp>
@@ -2826,6 +3322,13 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">billing[use_for_shipping]</stringProp>
+              </elementProp>
+              <elementProp name="billing[save_in_address_book]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">billing[save_in_address_book]</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -2856,7 +3359,38 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(CustomerChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout shipping method additional (CustomerChkt)" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">${base_path}checkout/onepage/getAdditional/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.implementation">Java</stringProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert success" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-336696320">&lt;!-- BLOCK shipping_method_additional --&gt;</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to shipping method(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -2888,6 +3422,20 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout shipping method(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
+              <elementProp name="giftoptions[1496][type]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">quote_item</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">giftoptions[1496][type]</stringProp>
+              </elementProp>
+              <elementProp name="giftoptions[451][type]" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">quote</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">giftoptions[451][type]</stringProp>
+              </elementProp>
               <elementProp name="shipping_method" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.name">shipping_method</stringProp>
@@ -2924,7 +3472,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(CustomerChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to payment(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -2999,7 +3547,7 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress(CustomerChkt)" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Checkout progress to review(CustomerChkt)" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="toStep" elementType="HTTPArgument">
@@ -3160,7 +3708,8 @@ vars.put(&quot;category_name&quot;, props.get(&quot;category_name&quot;));</stri
 props.remove(&quot;category_name&quot;);
 props.remove(&quot;simple_products_list&quot;);
 props.remove(&quot;configurable_products_list&quot;);
-props.remove(&quot;users&quot;);</stringProp>
+props.remove(&quot;users&quot;);
+props.remove(&quot;customer_emails_list&quot;);</stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
           <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
@@ -3231,7 +3780,7 @@ props.remove(&quot;users&quot;);</stringProp>
         <stringProp name="filename">${report_save_path}/detailed-urls-report.log</stringProp>
       </ResultCollector>
       <hashTree/>
-      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>

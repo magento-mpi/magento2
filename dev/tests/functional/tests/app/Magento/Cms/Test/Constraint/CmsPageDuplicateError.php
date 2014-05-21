@@ -30,7 +30,7 @@ class CmsPageDuplicateError extends AbstractConstraint
      */
     public function processAssert(CmsPageGrid $cmsPageGrid)
     {
-        $message = $cmsPageGrid->getMessageBlock();
+        $message = $cmsPageGrid->getMessagesBlock();
         $this->result = $message->assertErrorMessage();
     }
 
