@@ -12,7 +12,7 @@ class StructurePlugin
     /**
      * Request parameter name
      */
-    const REQUEST_PARAM_COUNTRY = 'country';
+    const REQUEST_PARAM_COUNTRY = 'paypal_country';
 
     /**
      * @var \Magento\Paypal\Helper\Data
@@ -51,7 +51,7 @@ class StructurePlugin
         array $pathParts
     ) {
         $isSectionChanged = false;
-        if ($pathParts == ['payment']) {
+        if ($pathParts[0] == 'payment') {
             $requestedCountrySection = 'payment_' . strtolower($this->_helper->getConfigurationCountryCode());
             if (in_array(
                 $requestedCountrySection,
@@ -69,9 +69,9 @@ class StructurePlugin
                     'payment_de'
                 ]
             )) {
-                $pathParts = [$requestedCountrySection];
+                $pathParts[0] = $requestedCountrySection;
             } else {
-                $pathParts = ['payment_other'];
+                $pathParts[0] = 'payment_other';
             }
             $isSectionChanged = true;
         }
