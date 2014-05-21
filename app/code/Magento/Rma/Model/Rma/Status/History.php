@@ -182,7 +182,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param bool $isGuestAvailable
      * @return $this
      */
-    public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
+    protected function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
         $rma = $this->getRma();
 
@@ -326,7 +326,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param string $rootConfig
      * @return $this
      */
-    public function _sendRmaEmailWithItems(Rma $rma, $rootConfig)
+    protected function _sendRmaEmailWithItems(Rma $rma, $rootConfig)
     {
         $storeId = $rma->getStoreId();
         $order = $rma->getOrder();
