@@ -24,6 +24,7 @@
   * Fixed: Customer redirected to Dashboard ("Redirect user to dashboard after login"="No") (MAGETWO-17437)
   * Fixed: Customer cannot register during Checkout if Guest Checkout is disallowed. (MAGETWO-24301)
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
+  * Fixed: RMA does not allow multiple returns of different quantities of an order (MAGETWO-6686)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
 * Functional tests:
