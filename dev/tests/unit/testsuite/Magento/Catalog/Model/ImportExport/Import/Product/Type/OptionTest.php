@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\ImportExport\Import\Product\Type;
 
 /**
  * Test class for import product options module
  */
-namespace Magento\Catalog\Model\ImportExport\Import\Product;
-
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
