@@ -25,4 +25,4 @@ interface CatalogProductLinkServiceInterface
      * @return \Magento\Catalog\Service\V1\Data\CatalogProductLinkEntity[]
      */
     public function getLinkedProducts($productId, $type);
-} 
+}

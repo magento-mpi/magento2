@@ -20,4 +20,4 @@ class Upsell implements \Magento\Catalog\Service\V1\Data\Entity\CollectionProvid
     {
         return $product->getUpSellProducts();
     }
-} 
+}

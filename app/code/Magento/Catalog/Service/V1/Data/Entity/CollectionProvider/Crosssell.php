@@ -20,4 +20,4 @@ class Crosssell implements \Magento\Catalog\Service\V1\Data\Entity\CollectionPro
     {
         return $product->getCrossSellProducts();
     }
-} 
+}

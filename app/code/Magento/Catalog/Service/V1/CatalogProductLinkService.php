@@ -90,7 +90,7 @@ class CatalogProductLinkService implements CatalogProductLinkServiceInterface
         $output = [];
         $product = $this->productFactory->create();
         $product->load($productId);
-        foreach($this->entityCollectionProvider->getCollection($product, $type) as $item) {
+        foreach ($this->entityCollectionProvider->getCollection($product, $type) as $item) {
             /** @var \Magento\Catalog\Model\Product $item */
             $data = [
                 CatalogProductLinkEntity::ID => $item->getId(),

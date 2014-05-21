@@ -40,4 +40,4 @@ class CollectionProvider
         }
         return $this->providers[$type]->getLinkedProducts($product);
     }
-} 
+}

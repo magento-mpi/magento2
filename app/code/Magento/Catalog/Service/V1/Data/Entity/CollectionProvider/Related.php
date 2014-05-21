@@ -20,4 +20,4 @@ class Related implements \Magento\Catalog\Service\V1\Data\Entity\CollectionProvi
     {
         return $product->getRelatedProducts();
     }
-} 
+}

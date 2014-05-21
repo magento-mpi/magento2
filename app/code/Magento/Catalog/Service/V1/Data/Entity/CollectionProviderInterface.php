@@ -17,4 +17,4 @@ interface CollectionProviderInterface
      * @return \Magento\Catalog\Model\Product[]
      */
     public function getLinkedProducts(\Magento\Catalog\Model\Product $product);
-} 
+}
