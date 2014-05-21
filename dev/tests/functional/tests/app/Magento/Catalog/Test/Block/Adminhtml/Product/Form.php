@@ -135,14 +135,13 @@ class Form extends FormTabs
         if (!empty($this->category)) {
             $categoryName = $this->category->getName();
         }
-        if (empty($categoryName)) {
-            if (!($fixture instanceof InjectableFixture)) {
+        if (empty($categoryName) && !($fixture instanceof InjectableFixture)) {
                 $categoryName = $fixture->getCategoryName();
-            }
-            if (empty($categoryName)) {
-                return;
-            }
         }
+        if (empty($categoryName)) {
+            return;
+        }
+
         $category = $this->_rootElement->find(
             str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
         );
