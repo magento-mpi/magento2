@@ -85,7 +85,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return \DataTime|null
+     * @return string|null
      */
     public function getCreatedAt()
     {
@@ -93,7 +93,7 @@ class Product extends \Magento\Framework\Service\Data\Eav\AbstractObject
     }
 
     /**
-     * @return \DataTime|null
+     * @return string|null
      */
     public function getUpdatedAt()
     {
