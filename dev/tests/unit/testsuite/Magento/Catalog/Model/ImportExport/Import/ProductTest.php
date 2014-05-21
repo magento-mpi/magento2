@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ImportExport\Model\Import\Entity;
+namespace Magento\Catalog\Model\ImportExport\Import;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
