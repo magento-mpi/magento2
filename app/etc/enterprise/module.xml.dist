@@ -17,6 +17,7 @@
     <module name="Magento_VersionsCms" active="true" />
     <module name="Magento_CustomerCustomAttributes" active="true" />
     <module name="Magento_CustomerBalance" active="true" />
+    <module name="Magento_CustomerFinance" active="true" />
     <module name="Magento_CustomerSegment" active="true" />
     <module name="Magento_CustomAttributeManagement" active="true" />
     <module name="Magento_Enterprise" active="true" />
