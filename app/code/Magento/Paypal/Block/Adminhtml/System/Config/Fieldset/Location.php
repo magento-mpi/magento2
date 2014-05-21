@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
-class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
+class Location extends \Magento\Paypal\Block\Adminhtml\System\Config\Fieldset\Expanded
 {
     /**
      * Render fieldset html

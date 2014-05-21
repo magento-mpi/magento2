@@ -16,6 +16,11 @@ use Magento\Paypal\Model\Config\StructurePlugin;
 class Country extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
+     * Config path for merchant country selector
+     */
+    const FIELD_CONFIG_PATH = 'paypal/general/merchant_country';
+
+    /**
      * Country of default scope
      *
      * @var string
@@ -87,7 +92,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
         }
 
         if ($element->getCanUseDefaultValue()) {
-            $this->_defaultCountry = $this->_appConfig->getValue('paypal/general/merchant_country');
+            $this->_defaultCountry = $this->_appConfig->getValue(self::FIELD_CONFIG_PATH);
             if (!$this->_defaultCountry) {
                 $this->_defaultCountry = $this->_coreHelper->getDefaultCountry();
             }

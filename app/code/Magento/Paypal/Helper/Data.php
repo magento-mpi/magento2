@@ -127,7 +127,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getConfigurationCountryCode() {
         $countryCode  = $this->_request->getParam(\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY);
         if (is_null($countryCode) || preg_match('/^[a-zA-Z]{2}$/', $countryCode) == 0) {
-            $countryCode = $this->_backendConfig->getConfigDataValue('paypal/general/merchant_country');
+            $countryCode = $this->_backendConfig->getConfigDataValue(
+                \Magento\Paypal\Block\Adminhtml\System\Config\Field\Country::FIELD_CONFIG_PATH
+            );
         }
         if (empty($countryCode)) {
             $countryCode = $this->_coreHelper->getDefaultCountry();

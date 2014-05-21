@@ -55,11 +55,25 @@ class StructurePlugin
             $requestedCountrySection = 'payment_' . strtolower($this->_helper->getConfigurationCountryCode());
             if (in_array(
                 $requestedCountrySection,
-                ['payment_us']
+                [
+                    'payment_us',
+                    'payment_ca',
+                    'payment_au',
+                    'payment_gb',
+                    'payment_jp',
+                    'payment_fr',
+                    'payment_it',
+                    'payment_es',
+                    'payment_hk',
+                    'payment_nz',
+                    'payment_de'
+                ]
             )) {
                 $pathParts = [$requestedCountrySection];
-                $isSectionChanged = true;
+            } else {
+                $pathParts = ['payment_other'];
             }
+            $isSectionChanged = true;
         }
         /** @var \Magento\Backend\Model\Config\Structure\ElementInterface $result */
         $result = $proceed($pathParts);
