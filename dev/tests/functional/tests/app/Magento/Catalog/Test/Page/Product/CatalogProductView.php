@@ -83,7 +83,7 @@ class CatalogProductView extends FrontendPage
         'mapBlock' => [
             'name' => 'mapBlock',
             'class' => 'Magento\Catalog\Test\Block\Product\Price',
-            'locator' => '#map-popup',
+            'locator' => '#map-popup-click-for-price',
             'strategy' => 'css selector',
         ]
     ];
