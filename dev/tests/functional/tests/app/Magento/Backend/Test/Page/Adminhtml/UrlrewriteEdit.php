@@ -11,11 +11,11 @@ namespace Magento\Backend\Test\Page\Adminhtml;
 use Mtf\Page\BackendPage;
 
 /**
- * Class UrlRewriteEditCategory
+ * Class UrlrewriteEdit
  */
-class UrlRewriteEditCategory extends BackendPage
+class UrlrewriteEdit extends BackendPage
 {
-    const MCA = 'admin/urlrewrite/edit/category';
+    const MCA = 'admin/urlrewrite/edit';
 
     protected $_blocks = [
         'treeBlock' => [
@@ -46,6 +46,18 @@ class UrlRewriteEditCategory extends BackendPage
             'name' => 'pageMainActions',
             'class' => 'Magento\Backend\Test\Block\FormPageActions',
             'locator' => '.page-main-actions',
+            'strategy' => 'css selector',
+        ],
+        'productGridBlock' => [
+            'name' => 'productGridBlock',
+            'class' => 'Magento\Backend\Test\Block\Urlrewrite\Catalog\Product\Grid',
+            'locator' => '[id="productGrid"]',
+            'strategy' => 'css selector',
+        ],
+        'urlRewriteTypeSelectorBlock' => [
+            'name' => 'urlRewriteTypeSelectorBlock',
+            'class' => 'Magento\Backend\Test\Block\Urlrewrite\Selector',
+            'locator' => '[data-ui-id="urlrewrite-type-selector"]',
             'strategy' => 'css selector',
         ],
     ];
@@ -88,5 +100,21 @@ class UrlRewriteEditCategory extends BackendPage
     public function getPageMainActions()
     {
         return $this->getBlockInstance('pageMainActions');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Catalog\Product\Grid
+     */
+    public function getProductGridBlock()
+    {
+        return $this->getBlockInstance('productGridBlock');
+    }
+
+    /**
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Selector
+     */
+    public function getUrlRewriteTypeSelectorBlock()
+    {
+        return $this->getBlockInstance('urlRewriteTypeSelectorBlock');
     }
 }

@@ -9,11 +9,12 @@
 namespace Magento\Backend\Test\Constraint;
 
 use Magento\Backend\Test\Fixture\UrlRewriteCategory;
-use Magento\Backend\Test\Page\Adminhtml\UrlRewriteIndex;
+use Magento\Backend\Test\Page\Adminhtml\UrlrewriteIndex;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertUrlRewriteInGrid
+ * Assert that url rewrite category in grid
  */
 class AssertUrlRewriteInGrid extends AbstractConstraint
 {
@@ -27,11 +28,11 @@ class AssertUrlRewriteInGrid extends AbstractConstraint
     /**
      * Assert that url rewrite category in grid
      *
-     * @param UrlRewriteIndex $urlRewriteIndex
+     * @param UrlrewriteIndex $urlRewriteIndex
      * @param UrlRewriteCategory $urlRewriteCategory
      * @return void
      */
-    public function processAssert(UrlRewriteIndex $urlRewriteIndex, UrlRewriteCategory $urlRewriteCategory)
+    public function processAssert(UrlrewriteIndex $urlRewriteIndex, UrlRewriteCategory $urlRewriteCategory)
     {
         $urlRewriteIndex->open();
         $filter = ['request_path' => $urlRewriteCategory->getRequestPath()];

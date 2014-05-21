@@ -9,7 +9,7 @@
 -->
 <page mca="admin/urlrewrite/index">
     <block>
-        <name>gridPageActions</name>
+        <name>pageActionsBlock</name>
         <class>Magento\Backend\Test\Block\GridPageActions</class>
         <locator>.page-main-actions</locator>
         <strategy>css selector</strategy>
@@ -18,6 +18,12 @@
         <name>urlRedirectGrid</name>
         <class>Magento\Backend\Test\Block\Urlrewrite\Catalog\Category\Grid</class>
         <locator>#urlrewriteGrid</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>messagesBlock</name>
+        <class>Magento\Core\Test\Block\Messages</class>
+        <locator>.messages .messages</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

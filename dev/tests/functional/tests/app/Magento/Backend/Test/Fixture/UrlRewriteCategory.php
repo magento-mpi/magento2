@@ -16,8 +16,8 @@ use Mtf\Fixture\InjectableFixture;
 class UrlRewriteCategory extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'store_id' => null,
-        'request_path' => null,
+        'store_id' => 'Default Store View',
+        'request_path' => 'test_request%isolation%',
     ];
 
     protected $id = [

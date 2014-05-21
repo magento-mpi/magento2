@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 class Grid extends GridInterface
 {
     /**
-     * Initialize block elements
+     * Filters array mapping
      *
      * @var array $filters
      */
@@ -26,14 +26,4 @@ class Grid extends GridInterface
             'selector' => '#urlrewriteGrid_filter_request_path'
         ]
     ];
-
-    /**
-     * Update attributes for selected items
-     *
-     * @param array $items
-     */
-    public function updateAttributes(array $items = [])
-    {
-        $this->massaction('Update Attributes', $items);
-    }
 }

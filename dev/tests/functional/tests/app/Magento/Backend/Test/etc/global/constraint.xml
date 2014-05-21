@@ -10,5 +10,15 @@
 <constraint>
     <assertUrlRewriteInGrid module="Magento_Backend">
         <severeness>low</severeness>
+        <require>
+            <urlRewriteIndex class="Magento\Backend\Test\Fixture\UrlRewriteCategory"/>
+            <urlRewriteCategory class="Magento\Backend\Test\Page\Adminhtml\UrlRewriteIndex"/>
+        </require>
     </assertUrlRewriteInGrid>
+    <assertUrlRewriteSaveMessage module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertUrlRewriteSaveMessage>
+    <assertUrlRewriteCategoryRedirect module="Magento_Backend">
+        <severeness>low</severeness>
+    </assertUrlRewriteCategoryRedirect>
 </constraint>

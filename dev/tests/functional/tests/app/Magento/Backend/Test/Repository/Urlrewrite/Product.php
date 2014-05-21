@@ -38,7 +38,7 @@ class Product extends AbstractRepository
             ),
         );
         $this->_data['product_with_temporary_redirect'] = $this->_data['default'];
-        $this->_data['product_with_temporary_redirect']['data']['fields']['redirect'] = array(
+        $this->_data['product_with_temporary_redirect']['data']['fields']['options'] = array(
             'value' => 'Temporary (302)',
         );
     }

@@ -13,13 +13,13 @@ use Mtf\Page\BackendPage;
 /**
  * Class UrlRewriteIndex
  */
-class UrlRewriteIndex extends BackendPage
+class UrlrewriteIndex extends BackendPage
 {
     const MCA = 'admin/urlrewrite/index';
 
     protected $_blocks = [
-        'gridPageActions' => [
-            'name' => 'gridPageActions',
+        'pageActionsBlock' => [
+            'name' => 'pageActionsBlock',
             'class' => 'Magento\Backend\Test\Block\GridPageActions',
             'locator' => '.page-main-actions',
             'strategy' => 'css selector',
@@ -30,14 +30,20 @@ class UrlRewriteIndex extends BackendPage
             'locator' => '#urlrewriteGrid',
             'strategy' => 'css selector',
         ],
+        'messagesBlock' => [
+            'name' => 'messagesBlock',
+            'class' => 'Magento\Core\Test\Block\Messages',
+            'locator' => '.messages .messages',
+            'strategy' => 'css selector',
+        ],
     ];
 
     /**
      * @return \Magento\Backend\Test\Block\GridPageActions
      */
-    public function getGridPageActions()
+    public function getPageActionsBlock()
     {
-        return $this->getBlockInstance('gridPageActions');
+        return $this->getBlockInstance('pageActionsBlock');
     }
 
     /**
@@ -46,5 +52,13 @@ class UrlRewriteIndex extends BackendPage
     public function getUrlRedirectGrid()
     {
         return $this->getBlockInstance('urlRedirectGrid');
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return $this->getBlockInstance('messagesBlock');
     }
 }

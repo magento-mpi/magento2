@@ -15,7 +15,7 @@
         <id_path/>
         <store_id>
             <selector>[name='store_id']</selector>
-            <input>selectObject</input>
+            <input>Selectstore</input>
         </store_id>
         <options>
             <selector>[name='options']</selector>
@@ -29,5 +29,6 @@
             <selector>[name='description']</selector>
             <input>text</input>
         </description>
+        <redirect/>
     </fields>
 </mapping>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page mca="admin/urlrewrite/edit/category">
+<page mca="admin/urlrewrite/edit">
     <block>
         <name>treeBlock</name>
         <class>Magento\Backend\Test\Block\Urlrewrite\Catalog\Category\Tree</class>
@@ -36,6 +36,24 @@
         <name>pageMainActions</name>
         <class>Magento\Backend\Test\Block\FormPageActions</class>
         <locator>.page-main-actions</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>productGridBlock</name>
+        <class>Magento\Backend\Test\Block\Urlrewrite\Catalog\Product\Grid</class>
+        <locator>[id="productGrid"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>urlRewriteTypeSelectorBlock</name>
+        <class>Magento\Backend\Test\Block\Urlrewrite\Selector</class>
+        <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
+        <strategy>css selector</strategy>
+    </block>
+    <block>
+        <name>urlRewriteTypeSelectorBlock</name>
+        <class>Magento\Backend\Test\Block\Urlrewrite\Selector</class>
+        <locator>[data-ui-id="urlrewrite-type-selector"]</locator>
         <strategy>css selector</strategy>
     </block>
 </page>

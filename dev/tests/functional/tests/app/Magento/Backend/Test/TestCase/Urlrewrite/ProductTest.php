@@ -34,20 +34,20 @@ class ProductTest extends Functional
         $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlrewriteIndex();
         $pageActionsBlock = $urlRewriteGridPage->getPageActionsBlock();
         $urlRewriteEditPage = Factory::getPageFactory()->getAdminUrlrewriteEdit();
-        $categoryTreeBlock = $urlRewriteEditPage->getCategoryTreeBlock();
+        $categoryTreeBlock = $urlRewriteEditPage->getTreeBlock();
         $productGridBlock = $urlRewriteEditPage->getProductGridBlock();
         $typeSelectorBlock = $urlRewriteEditPage->getUrlRewriteTypeSelectorBlock();
-        $urlRewriteInfoForm = $urlRewriteEditPage->getUrlRewriteInformationForm();
+        $urlRewriteInfoForm = $urlRewriteEditPage->getFormBlock();
 
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $urlRewriteGridPage->open();
-        $pageActionsBlock->addNewUrlRewrite();
+        $pageActionsBlock->addNew();
         $typeSelectorBlock->selectType($urlRewriteProduct->getUrlRewriteType());
         $productGridBlock->searchAndSelect(array('sku' => $urlRewriteProduct->getProductSku()));
         $categoryTreeBlock->selectCategory($urlRewriteProduct->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteProduct);
-        $urlRewriteEditPage->getActionsBlock()->save();
+        $urlRewriteEditPage->getPageMainActions()->save();
         $this->assertContains(
             'The URL Rewrite has been saved.',
             $urlRewriteGridPage->getMessagesBlock()->getSuccessMessages()

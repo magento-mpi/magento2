@@ -9,13 +9,17 @@
 namespace Magento\Backend\Test\TestCase;
 
 use Magento\Backend\Test\Fixture\UrlRewriteCategory;
-use Magento\Backend\Test\Page\Adminhtml\UrlRewriteEditCategory;
-use Magento\Backend\Test\Page\Adminhtml\UrlRewriteIndex;
+use Magento\Backend\Test\Page\Adminhtml\UrlrewriteEdit;
+use Magento\Backend\Test\Page\Adminhtml\UrlrewriteIndex;
 use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Fixture\CatalogCategoryEntity;
 use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Create Category Rewrites Entity
+ *
+ * *Precondition:*
+ * Create Sub-category
  *
  * Test Flow:
  * 1. Login to backend as Admin
@@ -35,51 +39,55 @@ class CreateCategoryRewritesEntityTest extends Injectable
     /**
      * Page of url rewrite edit category
      *
-     * @var UrlRewriteEditCategory
+     * @var UrlrewriteEdit
      */
-    private $urlRewriteEditCategory;
+    protected $urlRewriteEdit;
 
     /**
      * Main page of url rewrite
      *
-     * @var UrlRewriteIndex
+     * @var UrlrewriteIndex
      */
-    private $urlRewriteIndex;
+    protected $urlRewriteIndex;
 
     /**
      * Inject page
      *
-     * @param UrlRewriteEditCategory $urlRewriteEditCategory
-     * @param UrlRewriteIndex $urlRewriteIndex
+     * @param UrlrewriteEdit $urlRewriteEdit
+     * @param UrlrewriteIndex $urlRewriteIndex
+     * @param FixtureFactory $fixtureFactory
+     * @return array
      */
     public function __inject(
-        UrlRewriteEditCategory $urlRewriteEditCategory,
-        UrlRewriteIndex $urlRewriteIndex
+        UrlrewriteEdit $urlRewriteEdit,
+        UrlRewriteIndex $urlRewriteIndex,
+        FixtureFactory $fixtureFactory
     ) {
-        $this->urlRewriteEditCategory = $urlRewriteEditCategory;
+        $this->urlRewriteEdit = $urlRewriteEdit;
         $this->urlRewriteIndex = $urlRewriteIndex;
+        $category = $fixtureFactory->createByCode(
+            'catalogCategoryEntity',
+            ['dataSet' => 'default_subcategory']
+        );
+        $category->persist();
+        return ['category' => $category];
     }
 
     /**
      * Test check create category rewrites
      *
      * @param UrlRewriteCategory $urlRewriteCategory
-     * @param FixtureFactory $fixtureFactory
+     * @param CatalogCategoryEntity $category
      * @return void
      */
-    public function testCreateCategoryRewrites(UrlRewriteCategory $urlRewriteCategory, FixtureFactory $fixtureFactory)
+    public function testCreateCategoryRewrites(UrlRewriteCategory $urlRewriteCategory, CatalogCategoryEntity $category)
     {
-        /** @var \Magento\Catalog\Test\Fixture\CatalogCategoryEntity $catalogCategoryEntity */
-        $catalogCategoryEntity = $fixtureFactory->createByCode(
-            'catalogCategoryEntity',
-            ['dataSet' => 'default_subcategory']
-        );
-        $catalogCategoryEntity->persist();
+        //Steps
         $this->urlRewriteIndex->open();
-        $this->urlRewriteIndex->getGridPageActions()->addNew();
-        $categoryName = $catalogCategoryEntity->getName();
-        $this->urlRewriteEditCategory->getTreeBlock()->selectCategory($categoryName);
-        $this->urlRewriteEditCategory->getFormBlock()->fill($urlRewriteCategory);
-        $this->urlRewriteEditCategory->getPageMainActions()->save();
+        $this->urlRewriteIndex->getPageActionsBlock()->addNew();
+        $categoryName = $category->getName();
+        $this->urlRewriteEdit->getTreeBlock()->selectCategory($categoryName);
+        $this->urlRewriteEdit->getFormBlock()->fill($urlRewriteCategory);
+        $this->urlRewriteEdit->getPageMainActions()->save();
     }
 }

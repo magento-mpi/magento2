@@ -37,7 +37,7 @@ class Category extends AbstractRepository
             ),
         );
         $this->_data['category_with_permanent_redirect'] = $this->_data['default'];
-        $this->_data['category_with_permanent_redirect']['data']['fields']['redirect'] = array(
+        $this->_data['category_with_permanent_redirect']['data']['fields']['options'] = array(
             'value' => 'Permanent (301)',
         );
     }
