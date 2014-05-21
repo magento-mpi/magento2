@@ -39,7 +39,7 @@ class Downloadable extends Tab
      * @param string $type
      * @param Element $element
      * @return \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples |
-     *         \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links     *
+     *         \Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links
      */
     public function getDownloadableBlock($type, Element $element = null)
     {

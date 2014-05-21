@@ -19,14 +19,21 @@ class CatalogProductView extends ParentCatalogProductView
 {
     const MCA = 'downloadable/catalog/product/view';
 
-    protected $_blocks = [
-        'downloadableViewBlock' => [
+    /**
+     * Custom constructor
+     *
+     * @return void
+     */
+    protected function _init()
+    {
+        $this->_blocks['downloadableViewBlock'] = [
             'name' => 'downloadableViewBlock',
             'class' => 'Magento\Downloadable\Test\Block\Catalog\Product\View',
             'locator' => '.product.info.main',
             'strategy' => 'css selector',
-        ]
-    ];
+        ];
+        parent::_init();
+    }
 
     /**
      * @return \Magento\Downloadable\Test\Block\Catalog\Product\View

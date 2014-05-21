@@ -43,7 +43,7 @@ class AssertDownloadableLinks extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $linksBlock->getTitleForLinkBlock(),
             $fields['downloadable_links']['title'],
-            'Title for for Link block for downloadable product on front-end is not visible.'
+            'Title for for Link block for downloadable product on front-end is not correct.'
         );
 
         $this->sortDownloadableArray($fields['downloadable_links']['downloadable']['link']);

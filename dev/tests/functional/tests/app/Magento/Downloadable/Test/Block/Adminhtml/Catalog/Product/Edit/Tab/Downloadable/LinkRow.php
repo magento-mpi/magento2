@@ -39,5 +39,4 @@ class LinkRow extends Form
         $mapping = $this->dataMapping($fields);
         return $this->_getData($mapping);
     }
-
 }

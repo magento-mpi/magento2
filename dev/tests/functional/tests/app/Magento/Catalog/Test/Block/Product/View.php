@@ -78,41 +78,6 @@ class View extends Block
     protected $productPrice = '.price-box .price';
 
     /**
-     * Bundle options block
-     *
-     * @var string
-     */
-    protected $bundleBlock = './/*[@id="product-options-wrapper"]//fieldset[contains(@class,"bundle")]';
-
-    /**
-     * Label item option
-     *
-     * @var string
-     */
-    protected $labelOptions = '/label/span[text() = "';
-
-    /**
-     * Label item option
-     *
-     * @var string
-     */
-    protected $requiredOptions = '/div[%d][%s(contains(@class,"required"))]';
-
-    /**
-     * Label item option
-     *
-     * @var string
-     */
-    protected $selectForSelectOptions = '//select/option[%d][contains(text(), "%s")][contains(text(), "$%d")]';
-
-    /**
-     * Label item option
-     *
-     * @var string
-     */
-    protected $selectForLabelOptions = '//div[%d][contains(@class, "field")]/label[contains(text(), "%s")][contains(text(), "$%d")]';
-
-    /**
      * Click for Price link on Product page
      *
      * @var string
@@ -146,22 +111,6 @@ class View extends Block
      * @var string
      */
     protected $tierPricesSelector = "//ul[contains(@class,'tier')]//*[@class='item'][%line-number%]";
-
-    /**
-     * Get bundle options block
-     *
-     * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
-     */
-    public function getBundleBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle',
-            array(
-                'element' =>
-                    $this->_rootElement->find($this->bundleBlock, Locator::SELECTOR_XPATH)
-            )
-        );
-    }
 
     /**
      * Get block price

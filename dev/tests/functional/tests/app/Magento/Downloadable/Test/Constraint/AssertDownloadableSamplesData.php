@@ -29,22 +29,22 @@ class AssertDownloadableSamplesData extends AbstractConstraint
     /**
      * Assert Sample block for downloadable product on front-end
      *
-     * @param CatalogProductView $downloadableProductView
+     * @param CatalogProductView $productView
      * @param CatalogProductDownloadable $product
      * @return void
      */
-    public function processAssert(CatalogProductView $downloadableProductView, CatalogProductDownloadable $product)
+    public function processAssert(CatalogProductView $productView, CatalogProductDownloadable $product)
     {
-        $downloadableProductView->init($product);
-        $downloadableProductView->open();
-        $sampleBlock = $downloadableProductView->getDownloadableViewBlock()->getDownloadableSamplesBlock();
+        $productView->init($product);
+        $productView->open();
+        $sampleBlock = $productView->getDownloadableViewBlock()->getDownloadableSamplesBlock();
         $fields = $product->getData();
 
         // Title for for sample block
         \PHPUnit_Framework_Assert::assertEquals(
             $sampleBlock->getTitleForSampleBlock(),
             $fields['downloadable_sample']['title'],
-            'Title for for Samples block for downloadable product on front-end is not visible.'
+            'Title for for Samples block for downloadable product on front-end is not correct.'
         );
 
         $this->sortDownloadableArray($fields['downloadable_sample']['downloadable']['sample']);

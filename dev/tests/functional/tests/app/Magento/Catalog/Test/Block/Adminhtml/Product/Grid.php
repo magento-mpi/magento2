@@ -8,13 +8,13 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Magento\Backend\Test\Block\Widget\Grid as gridBlock;
+use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
 
 /**
  * Class Grid
  * Backend catalog product grid
  */
-class Grid extends gridBlock
+class Grid extends ParentGrid
 {
     /**
      * Initialize block elements

@@ -81,7 +81,6 @@ class CatalogProductNew extends BackendPage
 
     /**
      * @return \Magento\Catalog\Test\Block\Backend\ProductForm
->>>>>>> origin/develop
      */
     public function getProductForm()
     {

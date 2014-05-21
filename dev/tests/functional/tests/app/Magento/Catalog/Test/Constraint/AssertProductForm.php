@@ -65,9 +65,7 @@ class AssertProductForm extends AbstractConstraint
                     $fields[$key] = sprintf('%1.2f', $fields[$key]);
                 } elseif ($key == "qty" || $key == "stock_data_qty") {
                     $fields[$key] = sprintf('%1.4f', $fields[$key]);
-                } elseif ($key == "stock_data_qty") {
-                    $fields[$key] = sprintf('%1.4f', $fields[$key]);
-                } elseif ($key == "stock_data_use_config_min_qty" && $value == "No") {
+                } elseif ($key == "stock_data_use_config_min_qty") {
                     $fields[$key] = ($value == "No") ? false : true;
                 } elseif ($key == "is_require") {
                     $fields[$key] = ($value == "Yes" || $value == "1" || $value == true) ? 1 : 0;

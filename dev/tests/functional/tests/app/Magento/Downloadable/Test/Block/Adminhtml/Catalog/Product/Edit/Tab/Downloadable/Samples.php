@@ -58,12 +58,7 @@ class Samples extends Form
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\SampleRow',
-            [
-                'element' => $element->find(
-                        sprintf($this->rowBlock, ++$index),
-                        Locator::SELECTOR_XPATH
-                    )
-            ]
+            ['element' => $element->find(sprintf($this->rowBlock, ++$index), Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -104,10 +99,8 @@ class Samples extends Form
         $mapping = $this->dataMapping(['title' => $fields['title']]);
         $newFields = $this->_getData($mapping);
         foreach ($fields['downloadable']['sample'] as $index => $sample) {
-            $newFields['downloadable']['sample'][$index] = $this->getRowBlock(
-                $index,
-                $element
-            )->getDataSampleRow($sample);
+            $newFields['downloadable']['sample'][$index] = $this->getRowBlock($index, $element)
+                ->getDataSampleRow($sample);
         }
         return $newFields;
     }

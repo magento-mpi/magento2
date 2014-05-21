@@ -58,12 +58,7 @@ class Links extends Form
         $element = $element ? : $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow',
-            [
-                'element' => $element->find(
-                        sprintf($this->rowBlock, ++$index),
-                        Locator::SELECTOR_XPATH
-                    )
-            ]
+            ['element' => $element->find(sprintf($this->rowBlock, ++$index), Locator::SELECTOR_XPATH)]
         );
     }
 
@@ -108,10 +103,8 @@ class Links extends Form
         );
         $newFields = $this->_getData($mapping);
         foreach ($fields['downloadable']['link'] as $index => $link) {
-            $newFields['downloadable']['link'][$index] = $this->getRowBlock(
-                $index,
-                $element
-            )->getDataLinkRow($link);
+            $newFields['downloadable']['link'][$index] = $this->getRowBlock($index, $element)
+                ->getDataLinkRow($link);
         }
         return $newFields;
     }

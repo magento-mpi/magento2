@@ -34,12 +34,12 @@ class View extends ParentView
     /**
      * Get downloadable link block
      *
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\Links
      */
     public function getDownloadableLinksBlock()
     {
         return $this->blockFactory->create(
-            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableLinks',
+            'Magento\Downloadable\Test\Block\Catalog\Product\View\Links',
             [
                 'element' => $this->_rootElement->find($this->blockDownloadableLinks, Locator::SELECTOR_XPATH)
             ]
@@ -49,12 +49,12 @@ class View extends ParentView
     /**
      * Get downloadable samples block
      *
-     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\View\Samples
      */
     public function getDownloadableSamplesBlock()
     {
         return $this->blockFactory->create(
-            'Magento\Downloadable\Test\Block\Catalog\Product\View\DownloadableSamples',
+            'Magento\Downloadable\Test\Block\Catalog\Product\View\Samples',
             [
                 'element' => $this->_rootElement->find($this->blockDownloadableSamples, Locator::SELECTOR_XPATH)
             ]

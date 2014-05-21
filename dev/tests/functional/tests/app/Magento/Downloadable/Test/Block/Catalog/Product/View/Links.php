@@ -12,11 +12,11 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class DownloadableLinks
+ * Class Links
  *
  * Downloadable links blocks on frontend
  */
-class DownloadableLinks extends Block
+class Links extends Block
 {
     /**
      * Selector title for for links
@@ -105,7 +105,7 @@ class DownloadableLinks extends Block
     /**
      * Get price for item link on data list
      *
-     * @param $index
+     * @param int $index
      * @return string
      */
     public function getItemPrice($index)

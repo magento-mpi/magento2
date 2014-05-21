@@ -82,6 +82,7 @@ class CatalogCategoryView extends FrontendPage
     {
         return $this->getBlockInstance('toolbar');
     }
+
     /**
      * @return \Magento\Catalog\Test\Block\Category\ProductPagination
      */

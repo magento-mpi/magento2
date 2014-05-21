@@ -12,11 +12,11 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class DownloadableSamples
+ * Class Samples
  *
  * Downloadable samples blocks on frontend
  */
-class DownloadableSamples extends Block
+class Samples extends Block
 {
     /**
      * Title selector for samples block
@@ -48,7 +48,7 @@ class DownloadableSamples extends Block
     /**
      * Get title for item sample on data list
      *
-     * @param $index
+     * @param int $index
      * @return string
      */
     public function getItemTitle($index)

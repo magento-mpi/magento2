@@ -76,14 +76,25 @@ class CatalogProductDownloadable extends InjectableFixture
     ];
 
     protected $defaultDataSet = [
-        'is_returnable' => null,
-        'msrp_display_actual_price_type' => null,
-        'msrp_enabled' => null,
-        'options_container' => null,
-        'quantity_and_stock_status' => null,
-        'status' => null,
-        'tax_class_id' => null,
-        'visibility' => null,
+        'name' => 'DownloadableProduct_%isolation%',
+        'sku' => 'DownloadableProduct_%isolation%',
+        'price' => '100',
+        'tax_class' => 'Taxable Goods',
+        'description' => 'This is description for downloadable product',
+        'short_description' => 'This is short description for downloadable product',
+        'quantity_and_stock_status_qty' => '1',
+        'quantity_and_stock_status' => 'In Stock',
+        'is_virtual' => 'Yes',
+        'manage_stock' => '-',
+        'stock_data_qty' => '-',
+        'stock_data_use_config_min_qty' => '-',
+        'stock_data_min_qty' => '-',
+        'downloadable_sample' => '-',
+        'downloadable_links' => 'default',
+        'custom_options' => '-',
+        'special_price' => '-',
+        'group_price' => '-',
+        'tier_price' => '-'
     ];
 
     protected $category_ids = [

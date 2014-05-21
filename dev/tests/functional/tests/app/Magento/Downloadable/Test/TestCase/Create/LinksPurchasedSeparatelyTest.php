@@ -106,12 +106,7 @@ class LinksPurchasedSeparatelyTest extends Functional
         );
 
         $this->assertEquals(
-            sprintf(
-                '$%1.2f',
-                $product->getData(
-                    'fields/downloadable_links/value/downloadable/link/0/price'
-                )
-            ),
+            sprintf('$%1.2f', $product->getData('fields/downloadable_links/value/downloadable/link/0/price')),
             $productPage->getDownloadableViewBlock()->getDownloadableLinksBlock()->getItemPrice(1)
         );
     }
