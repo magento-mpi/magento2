@@ -5,16 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Converts a StockItem Model to a Data Object
- */
 namespace Magento\CatalogInventory\Model;
 
 use Magento\CatalogInventory\Service\V1\Data\StockItemBuilder;
 use Magento\CatalogInventory\Service\V1\Data\StockItem;
 use Magento\CatalogInventory\Model\Stock\Item as StockItemModel;
 
+/**
+ * Converts a StockItem Model to a Data Object
+ */
 class Converter
 {
     /**
