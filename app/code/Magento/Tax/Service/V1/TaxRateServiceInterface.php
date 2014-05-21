@@ -13,10 +13,10 @@ use Magento\Tax\Service\V1\Data\TaxRate;
 interface TaxRateServiceInterface
 {
     /**
-     * @param TaxRate $rate
+     * @param TaxRate $taxRate
      * @return TaxRate
      */
-    public function createTaxRate(TaxRate $rate);
+    public function createTaxRate(TaxRate $taxRate);
 
     /**
      * @return TaxRate[]
@@ -24,10 +24,10 @@ interface TaxRateServiceInterface
     public function getTaxRates();
 
     /**
-     * @param TaxRate $rate
+     * @param TaxRate $taxRate
      * @return TaxRate
      */
-    public function updateTaxRate(TaxRate $rate);
+    public function updateTaxRate(TaxRate $taxRate);
 
     /**
      * @param int $rateId
