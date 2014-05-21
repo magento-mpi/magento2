@@ -32,10 +32,10 @@ class Conditions extends Tab
      * Fill condition options
      *
      * @param array $fields
-     * @param Element $element
+     * @param Element|null $element
      * @return void
      */
-    public function fillFormTab(array $fields, Element $element)
+    public function fillFormTab(array $fields, Element $element = null)
     {
         $data = $this->dataMapping($fields);
 

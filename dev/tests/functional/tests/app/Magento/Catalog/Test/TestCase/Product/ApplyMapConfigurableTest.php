@@ -5,20 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 
 /**
  * Apply minimum advertised price to Configurable product
- *
  */
 class ApplyMapConfigurableTest extends Functional
 {
     /**
      * Login into backend area before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -33,6 +35,7 @@ class ApplyMapConfigurableTest extends Functional
      * Apply minimum advertised price to configurable product
      *
      * @ZephyrId MAGETWO-12847
+     * @return void
      */
     public function testApplyMapToConfigurable()
     {
@@ -55,6 +58,7 @@ class ApplyMapConfigurableTest extends Functional
      * Assert product MAP related data on category list
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapOnCategory($product)
     {
@@ -93,6 +97,7 @@ class ApplyMapConfigurableTest extends Functional
      * Assert product MAP related data on product view
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapOnProductView($product)
     {
@@ -114,19 +119,25 @@ class ApplyMapConfigurableTest extends Functional
             'Displayed on Product page price is incorrect'
         );
         $mapBlock->closeMapBlock();
-        $productViewBlock->fillOptions($product);
-        $productViewBlock->addToCart($product);
+
+        $optionsBlock = $productPage->getCustomOptionsBlock();
+        $productOptions = $product->getProductOptions();
+        if (!empty($productOptions)) {
+            $optionsBlock->fillProductOptions($productOptions);
+        }
+        $productViewBlock->clickAddToCart();
     }
 
     /**
      * Assert product MAP related data on cart
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @return void
      */
     protected function verifyMapInShoppingCart($product)
     {
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->getMessagesBlock()->assertSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $optionPrice = $product->getProductOptionsPrice() + floatval($product->getProductPrice());
         $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());
@@ -134,6 +145,8 @@ class ApplyMapConfigurableTest extends Functional
 
     /**
      * Disable MAP on Config level
+     *
+     * @return void
      */
     public static function tearDownAfterClass()
     {

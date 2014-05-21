@@ -79,8 +79,8 @@ class AutomaticTaxApplying extends Checkout
 
         // Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
-        $taxRule = Factory::getFixtureFactory()->getMagentoTaxTaxRule();
-        $taxRule->switchData('uk_full_tax_rule');
+        $objectManager = Factory::getObjectManager();
+        $taxRule = $objectManager->create('\Magento\Tax\Test\Fixture\TaxRule', ['dataSet' => 'uk_full_tax_rule']);
         $taxRule->persist();
 
         // Simple Products

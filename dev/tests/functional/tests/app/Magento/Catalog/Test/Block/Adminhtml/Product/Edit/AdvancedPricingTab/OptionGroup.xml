@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <price>
+            <selector>[id$="_price"]</selector>
+        </price>
+        <website>
+            <selector>[id$="_website"]</selector>
+            <input>select</input>
+        </website>
+        <customer_group>
+            <selector>[id$="_cust_group"]</selector>
+            <input>select</input>
+        </customer_group>
+    </fields>
+</mapping>

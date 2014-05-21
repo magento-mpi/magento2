@@ -33,8 +33,8 @@ class Edit extends FormTabs
      * Fill the page form
      *
      * @param FixtureInterface $fixture
-     * @param Element $element
-     * @return FormTabs|void
+     * @param Element|null $element
+     * @return FormTabs
      */
     public function fill(FixtureInterface $fixture, Element $element = null)
     {
@@ -51,6 +51,9 @@ class Edit extends FormTabs
     protected function toggleEditor()
     {
         parent::openTab(self::CONTENT_TAB);
-        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
+        $toggleButton = $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS);
+        if ($toggleButton->isVisible()) {
+            $toggleButton->click();
+        }
     }
 }
