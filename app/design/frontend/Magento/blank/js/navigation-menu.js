@@ -460,36 +460,15 @@
 
         _insertExtraItems: function() {
             if ($('.header.panel .switcher').length) {
-                var settings = $('.header.panel')
+                var settings = $('.header.panel .switcher')
                     .clone()
                     .addClass('settings');
 
                 this.mobileNav.prepend(settings);
-
-                settings.wrapInner('<div class="content"></div>');
-                settings.prepend('<div class="title">Settings</div>');
-
-                settings.find('> .title')
-                    .dropdown({
-                        autoclose: false,
-                        menu: '> .content'
-                    });
-
-                settings.find('.switcher.language .options > strong')
-                    .dropdown({
-                        autoclose: false,
-                        menu: '.switcher.language .options > ul'
-                    });
-
-                settings.find('.switcher.currency .options > strong')
-                    .dropdown({
-                        autoclose: false,
-                        menu: '.switcher.currency .options > ul'
-                    });
             }
 
-            if ($('.header.links li').length) {
-                var account = $('.page.header .header.links')
+            if ($('.header.panel .header.links li').length) {
+                var account = $('.header.panel .header.links')
                     .clone()
                     .addClass('account');
 
@@ -530,7 +509,8 @@
                 navigationItemWrapper.eq(1).append(settings);
             }
 
-            $('[data-sections]', this.mobileNav).terms();
+            navigationSectionsWrapper.addClass("navigation-tabs-" + navigationSectionsWrapper.find('[data-section="title"]').length);
+            navigationSectionsWrapper.terms();
         },
 
         _fixedBackLink: function() {
