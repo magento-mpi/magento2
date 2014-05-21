@@ -68,7 +68,6 @@ class CreateCatalogEventEntityFromCatalogEventPage extends Injectable
      * @param CatalogCategoryEntity $catalogCategoryEntity
      * @param CatalogEventIndex $catalogEventIndex
      * @param CatalogEventNew $catalogEventNew
-     *
      * @return void
      */
     public function testCreateCatalogEventFromEventPage(

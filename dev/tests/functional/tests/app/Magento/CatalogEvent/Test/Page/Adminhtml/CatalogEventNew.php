@@ -34,7 +34,7 @@ class CatalogEventNew extends BackendPage
         'treeCategories' => [
             'name' => 'treeCategories',
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Category\TreeBlock',
-            'locator' => '.fieldset',
+            'locator' => '#tree-div',
             'strategy' => 'css selector',
         ],
     ];

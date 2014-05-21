@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,12 +14,11 @@ use Mtf\Client\Element\Locator;
 /**
  * Class TreeTreeBlock
  * Categories tree block
- *
  */
 class TreeBlock extends Block
 {
     /**
-     * Category tree
+     * Category tree locator
      *
      * @var string
      */
@@ -30,6 +28,7 @@ class TreeBlock extends Block
      * Select Category
      *
      * @param string $path
+     * @return void
      */
     public function selectCategory($path)
     {

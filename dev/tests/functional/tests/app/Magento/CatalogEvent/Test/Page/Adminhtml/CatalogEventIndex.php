@@ -19,13 +19,13 @@ class CatalogEventIndex extends BackendPage
     const MCA = 'admin/catalog_event/index';
 
     protected $_blocks = [
-        'messageBlock' => [
+        'messagesBlock' => [
             'name' => 'messageBlock',
             'class' => 'Magento\Core\Test\Block\Messages',
             'locator' => '#messages',
             'strategy' => 'css selector',
         ],
-        'Grid' => [
+        'grid' => [
             'name' => 'blockEventGrid',
             'class' => 'Magento\CatalogEvent\Test\Block\Adminhtml\Event\Grid',
             'locator' => '#catalogEventGrid',
@@ -42,9 +42,9 @@ class CatalogEventIndex extends BackendPage
     /**
      * @return \Magento\Core\Test\Block\Messages
      */
-    public function getMessageBlock()
+    public function getMessagesBlock()
     {
-        return $this->getBlockInstance('messageBlock');
+        return $this->getBlockInstance('messagesBlock');
     }
 
     /**
@@ -52,7 +52,7 @@ class CatalogEventIndex extends BackendPage
      */
     public function getBlockEventGrid()
     {
-        return $this->getBlockInstance('Grid');
+        return $this->getBlockInstance('grid');
     }
 
     /**
