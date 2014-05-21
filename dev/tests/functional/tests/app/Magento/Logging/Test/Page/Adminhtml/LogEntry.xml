@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page>
+    <block>
+        <name>details</name>
+        <class>Magento\Logging\Test\Block\Adminhtml\Details</class>
+        <locator>#page:main-container</locator>
+        <strategy>css selector</strategy>
+    </block>
+</page>

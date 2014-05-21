@@ -10,11 +10,11 @@
 namespace Magento\Logging\Test\Block;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class ProductGrid
  * Backend catalog product grid
- *
  */
 class LogGrid extends Grid
 {
@@ -23,37 +23,52 @@ class LogGrid extends Grid
      *
      * @var array
      */
-    protected $filters = array(
-        'timeFrom' => array(
+    protected $filters = [
+        'timeFrom' => [
             'selector' => ''
-        ),
-        'timeTo' => array(
+        ],
+        'timeTo' => [
             'selector' => ''
-        ),
-        'actionGroup' => array(
+        ],
+        'actionGroup' => [
             'selector' => '#loggingLogGrid_filter_event',
             'input' => 'select'
-        ),
-        'action' => array(
+        ],
+        'action' => [
             'selector' => '#loggingLogGrid_filter_action',
             'input' => 'select'
-        ),
-        'ipAddress' => array(
+        ],
+        'ipAddress' => [
             'selector' => '#loggingLogGrid_filter_ip'
-        ),
-        'username' => array(
+        ],
+        'username' => [
             'selector' => '#loggingLogGrid_filter_user',
             'input' => 'select'
-        ),
-        'result' => array(
+        ],
+        'result' => [
             'selector' => '#loggingLogGrid_filter_status',
             'input' => 'select'
-        ),
-        'fullActionName' => array(
+        ],
+        'fullActionName' => [
             'selector' => '#loggingLogGrid_filter_fullaction'
-        ),
-        'shortDetails' => array(
+        ],
+        'shortDetails' => [
             'selector' => '#loggingLogGrid_filter_info',
-        ),
-    );
+        ],
+    ];
+
+    /**
+     * Element locator to select first entity in grid
+     *
+     * @var string
+     */
+    protected $viewLink = '#loggingLogGrid_table > tbody > tr:first-child > td.col-view.last:last-child > a';
+
+    /**
+     * Click first View link in grid
+     */
+    public function clickViewLink()
+    {
+        $this->_rootElement->find($this->viewLink, Locator::SELECTOR_CSS)->click();
+    }
 }

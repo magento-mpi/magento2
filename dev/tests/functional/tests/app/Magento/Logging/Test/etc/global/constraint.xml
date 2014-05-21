@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertAdminUserDataBlock module="Magento_Logging">
+        <severeness>low</severeness>
+        <require>
+            <pageLogEntry class="Magento\Logging\Test\Page\Adminhtml\LogEntry" />
+        </require>
+    </assertAdminUserDataBlock>
+</constraint>
