@@ -301,8 +301,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function sendNewRmaEmail()
     {
-        $rma = $this->getRma();
-        return $this->_sendRmaEmailWithItems($rma, $this->_rmaConfig->getRootRmaEmail());
+        return $this->_sendRmaEmailWithItems($this->getRma(), $this->_rmaConfig->getRootRmaEmail());
     }
 
     /**
