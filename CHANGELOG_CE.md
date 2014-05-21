@@ -26,7 +26,6 @@
   * Fixed: System logs are not generated properly in integration tests (MAGETWO-24419)
   * Retest and fix benchmarking script (MAGETWO-23662)
   * Impossible to put store on the maintenance mode during backup (MAGETWO-3678)
-  * Fixed: 'Scheduled Import/Export History Cleaning' functionality does not work (MAGETWO-22589)
   * Fixed: Insecure use of mt_rand() (MAGETWO-22824)
   * Fixed: Quoted price is displaying incorrectly from cart within the admin panel (MAGETWO-20236)
 * Functional tests:
