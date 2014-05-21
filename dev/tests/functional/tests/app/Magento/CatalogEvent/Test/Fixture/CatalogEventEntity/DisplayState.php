@@ -26,6 +26,13 @@ class DisplayState implements FixtureInterface
     protected $data;
 
     /**
+     * Configuration of data
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data

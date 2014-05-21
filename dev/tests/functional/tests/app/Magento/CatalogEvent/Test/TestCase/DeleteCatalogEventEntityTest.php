@@ -59,24 +59,24 @@ class DeleteCatalogEventEntityTest extends Injectable
         $this->catalogEventIndex = $catalogEventIndex;
 
         /** @var CatalogProductSimple $catalogProductSimple */
-        $catalogProductSimple = $fixtureFactory->createByCode(
-            'catalogProductSimple',
+        $product = $fixtureFactory->createByCode(
+        'catalogProductSimple',
             ['dataSet' => 'product_with_category']
         );
-        $catalogProductSimple->persist();
+        $product->persist();
 
-        $categoryId = $catalogProductSimple->getCategoryIds()[0]['id'];
+        $categoryId = $product->getCategoryIds()[0]['id'];
         $catalogEventEntity = $fixtureFactory->createByCode(
             'catalogEventEntity',
             [
-                'dataSet' => 'new_event',
+                'dataSet' => 'default_event',
                 'data' => ['category_id' => $categoryId],
             ]
         );
         $catalogEventEntity->persist();
 
         return [
-            'catalogProductSimple' => $catalogProductSimple,
+            'catalogProductSimple' => $product,
             'catalogEventEntity' => $catalogEventEntity,
         ];
     }
@@ -84,15 +84,14 @@ class DeleteCatalogEventEntityTest extends Injectable
     /**
      * Delete Catalog Event Entity
      *
-     * @param CatalogProductSimple $catalogProductSimple
-     *
+     * @param CatalogProductSimple $product
      * @return void
      */
     public function testDeleteCatalogEvent(
-        CatalogProductSimple $catalogProductSimple
+        CatalogProductSimple $product
     ) {
         $filter = [
-            'category_name' => $catalogProductSimple->getCategoryIds()[0]['name'],
+            'category_name' => $product->getCategoryIds()[0]['name'],
         ];
 
         //Steps

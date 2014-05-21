@@ -21,6 +21,12 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
  */
 class Curl extends AbstractCurl implements CatalogEventEntityInterface
 {
+    /**
+     * Post request for creating Event
+     *
+     * @param FixtureInterface $fixture
+     * @return array
+     */
     public function persist(FixtureInterface $fixture = null)
     {
         $data = ['catalogevent' => $fixture->getData()];

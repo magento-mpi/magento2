@@ -45,7 +45,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      *
      * @var CatalogEventEntity
      */
-    protected $catalogEventEntity;
+    protected $catalogEventOriginal;
 
     /**
      * Assert that catalog event is presented in the "Events" grid
@@ -53,7 +53,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      * @param CatalogEventEntity $catalogEvent
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogEventIndex $catalogEventIndex
-     * @param CatalogEventEntity $catalogEventEntity
+     * @param CatalogEventEntity $catalogEventOriginal
      *
      * @return void
      */
@@ -61,10 +61,10 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         CatalogEventEntity $catalogEvent,
         CatalogProductSimple $catalogProductSimple,
         CatalogEventIndex $catalogEventIndex,
-        CatalogEventEntity $catalogEventEntity = null
+        CatalogEventEntity $catalogEventOriginal = null
     ) {
         $this->catalogEvent = $catalogEvent;
-        $this->catalogEventEntity = $catalogEventEntity;
+        $this->catalogEventOriginal = $catalogEventOriginal;
         $categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $dateStart = strtotime($catalogEvent->getDateStart());
         $dateEnd = strtotime($catalogEvent->getDateEnd());
@@ -81,8 +81,8 @@ class AssertCatalogEventInGrid extends AbstractConstraint
         $sortOrder = $catalogEvent->getSortOrder();
         if ($sortOrder !== null) {
             $sortOrder = ($sortOrder < 0) ? 0 : $sortOrder;
-        } elseif ($catalogEventEntity !== null) {
-            $sortOrder = $catalogEventEntity->getSortOrder();
+        } elseif ($catalogEventOriginal !== null) {
+            $sortOrder = $catalogEventOriginal->getSortOrder();
         } else {
             $sortOrder = "";
         }
@@ -114,15 +114,12 @@ class AssertCatalogEventInGrid extends AbstractConstraint
      */
     protected function prepareDisplayStateForFilter()
     {
-        if ($this->catalogEventEntity !== null && !$this->catalogEvent->hasData('display_state')) {
-            $pageEvents = $this->catalogEventEntity->getDisplayState();
-        } elseif (
-            ($this->catalogEventEntity !== null && $this->catalogEvent->hasData('display_state'))
-            || $this->catalogEvent->hasData('display_state')
-        ) {
-            $pageEvents = $this->catalogEvent->getDisplayState();
+        $event = 'Lister Block';
+
+        if ($this->catalogEventOriginal !== null) {
+            $catalogEventData = array_merge($this->catalogEventOriginal->getData(), $this->catalogEvent->getData());
         } else {
-            return $event = 'Lister Block';
+            $catalogEventData = $this->catalogEvent->getData();
         }
 
         $displayStates = [
@@ -130,7 +127,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             'product_page' => 'Product Page',
         ];
 
-        $event = 'Lister Block';
+        $pageEvents = $catalogEventData['display_state'];
         foreach ($pageEvents as $key => $pageEvent) {
             if ($pageEvent === 'Yes') {
                 $event .= ', ' . $displayStates[$key];

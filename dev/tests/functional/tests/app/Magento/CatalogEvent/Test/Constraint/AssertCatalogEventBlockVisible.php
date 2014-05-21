@@ -71,7 +71,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param CatalogProductSimple $catalogProductSimple
      * @param CatalogProductView $catalogProductView
-     * @param CatalogEventEntity $catalogEventEntity
+     * @param CatalogEventEntity $catalogEventOriginal
      *
      * @return void
      */
@@ -81,7 +81,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CatalogProductSimple $catalogProductSimple,
         CatalogProductView $catalogProductView,
-        CatalogEventEntity $catalogEventEntity = null
+        CatalogEventEntity $catalogEventOriginal = null
     ) {
         $this->catalogCategoryView = $catalogCategoryView;
         $this->cmsIndex = $cmsIndex;
@@ -90,18 +90,14 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
         $this->categoryName = $catalogProductSimple->getCategoryIds()[0]['name'];
         $this->productName = $catalogProductSimple->getName();
 
-        if ($catalogEventEntity !== null && !$catalogEvent->hasData('display_state')) {
-            $pageEvent = $catalogEventEntity->getDisplayState();
-            $this->checkEvent($pageEvent);
-        } elseif (
-            ($catalogEventEntity !== null && $catalogEvent->hasData('display_state'))
-            || $catalogEvent->hasData('display_state')
-        ) {
-            $pageEvent = $catalogEvent->getDisplayState();
+        if ($catalogEventOriginal !== null) {
+            $catalogEventData = array_merge($catalogEventOriginal->getData(), $catalogEvent->getData());
+            $pageEvent = $catalogEventData['display_state'];
             $this->checkEvent($pageEvent);
         } else {
-            $this->checkEventBlockOnCategoryPageAbsent();
-            $this->checkEventBlockOnProductPageAbsent();
+            $catalogEventData = $catalogEvent->getData();
+            $pageEvent = $catalogEventData['display_state'];
+            $this->checkEvent($pageEvent);
         }
     }
 
